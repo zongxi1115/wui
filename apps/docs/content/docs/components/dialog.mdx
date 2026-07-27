@@ -1,0 +1,69 @@
+---
+title: Dialog
+description: A window overlaid on the primary window, built on Radix UI.
+component: dialog
+---
+
+## 基础示例 · Basic example
+
+<ComponentPreview name="dialog-demo" />
+
+<CodeTabs command="wui@latest add @wui/dialog" />
+
+<ComponentSource name="dialog" title="components/ui/dialog.tsx" />
+
+## 组件作用 · What it's for
+
+`Dialog` interrupts the user to show focused content or ask for confirmation.
+It traps focus, is fully keyboard accessible, and closes on `Esc` or overlay
+click — all provided by Radix. Reach for it for modal flows; for a lightweight
+non-modal message, prefer a toast.
+
+The component is a set of composable parts: `Dialog`, `DialogTrigger`,
+`DialogContent`, `DialogHeader`, `DialogTitle`, `DialogDescription`,
+`DialogFooter` and `DialogClose`.
+
+## 组件属性 · Props
+
+<PropsTable
+  data={[
+    {
+      prop: "open",
+      type: "boolean",
+      description: "Controlled open state. Pair with onOpenChange.",
+    },
+    {
+      prop: "defaultOpen",
+      type: "boolean",
+      default: "false",
+      description: "Uncontrolled initial open state.",
+    },
+    {
+      prop: "modal",
+      type: "boolean",
+      default: "true",
+      description: "Whether interaction outside the dialog is blocked.",
+    },
+  ]}
+/>
+
+`DialogContent`, `DialogTitle`, etc. accept all props of their underlying Radix
+part plus `className`.
+
+## 事件 · Events
+
+<PropsTable
+  data={[
+    {
+      prop: "onOpenChange",
+      type: "(open: boolean) => void",
+      description: "Called whenever the open state changes (trigger, Esc, overlay click, DialogClose).",
+    },
+  ]}
+/>
+
+## 拓展使用 · Extended usage
+
+For a batteries-included confirmation flow, see the
+[Confirm Dialog](/docs/components/confirm-dialog) component, which composes
+`Dialog` and `Button`.

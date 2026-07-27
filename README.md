@@ -1,0 +1,62 @@
+# wui
+
+A **shadcn-style React component library you own** — components are copied into
+your project on demand (not installed as a black-box dependency), documented on
+a live Fumadocs site, and distributed through a shadcn-compatible registry that
+a branded `wui` CLI (or the official `shadcn` CLI) can pull from.
+
+## Monorepo layout
+
+```
+wui/
+├─ apps/docs/            # Next.js + Fumadocs docs & demo site (also hosts the registry JSON)
+│  ├─ registry/          # component SOURCE OF TRUTH (ui/, components/, lib/, examples/)
+│  ├─ content/docs/      # MDX documentation (parsed to pages)
+│  ├─ components/        # ComponentPreview / ComponentSource / CodeTabs / PropsTable
+│  ├─ scripts/           # build-registry.mts, new-component.mts
+│  ├─ public/r/          # GENERATED: distributable {name}.json (served to the CLI)
+│  └─ registry.json      # registry manifest
+├─ packages/cli/         # the `wui` CLI (@wui/cli): init / add / build / list / view
+└─ docs/COMPONENT-SPEC.md # 《组件新增规范》 — how to add a component
+```
+
+## Tech stack
+
+React 19 · TypeScript · Tailwind CSS v4 (oklch, CSS-first) · Radix (`radix-ui`) ·
+`class-variance-authority` · Next.js 15 (App Router) · Fumadocs · Shiki ·
+pnpm workspaces + Turborepo.
+
+## Develop
+
+```bash
+pnpm install
+pnpm --filter docs registry:build   # generate public/r/*.json + preview indexes
+pnpm --filter docs dev               # docs site at http://localhost:3000
+```
+
+Other gates: `pnpm typecheck`, `pnpm build`, `pnpm --filter @wui/cli test`.
+
+## Add a new component
+
+```bash
+pnpm --filter docs gen:component <name>     # scaffold source + demo + MDX + registry entry
+# …implement it, fill in the docs…
+pnpm --filter docs registry:build
+```
+
+See [`docs/COMPONENT-SPEC.md`](./docs/COMPONENT-SPEC.md) for the full spec (code
+conventions, the 5 required doc sections, and the checklist).
+
+## Pull components into a project
+
+```bash
+wui init                       # writes wui.json + the cn() helper
+wui add @wui/button            # copies button (+ its registry deps) into your project
+```
+
+Because the registry follows the shadcn `registry-item.json` schema, the
+official CLI works too: `npx shadcn@latest add @wui/button`.
+
+> The CLI defaults `@wui` to `http://localhost:3000/r/{name}.json`. Point it at
+> your deployed docs site (which serves `public/r/`) for real use:
+> `wui init --registry https://your-site/r/{name}.json`.

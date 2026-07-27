@@ -1,0 +1,41 @@
+{
+  "name": "wui",
+  "homepage": "http://localhost:3000",
+  "items": [
+    {
+      "name": "utils",
+      "type": "registry:lib",
+      "title": "cn utility",
+      "description": "Tailwind class merge helper used by every component.",
+      "registryDependencies": []
+    },
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button",
+      "description": "Displays a button or a component that looks like a button.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "dialog",
+      "type": "registry:ui",
+      "title": "Dialog",
+      "description": "A window overlaid on the primary window, built on Radix UI.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "confirm-dialog",
+      "type": "registry:component",
+      "title": "Confirm Dialog",
+      "description": "A ready-made confirmation dialog composed from Dialog and Button.",
+      "registryDependencies": [
+        "dialog",
+        "button"
+      ]
+    }
+  ]
+}

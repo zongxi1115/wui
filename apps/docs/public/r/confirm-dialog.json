@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "confirm-dialog",
+  "type": "registry:component",
+  "title": "Confirm Dialog",
+  "description": "A ready-made confirmation dialog composed from Dialog and Button.",
+  "registryDependencies": [
+    "dialog",
+    "button"
+  ],
+  "files": [
+    {
+      "path": "registry/components/confirm-dialog.tsx",
+      "type": "registry:component",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { Button } from \"@/registry/ui/button\"\nimport {\n  Dialog,\n  DialogClose,\n  DialogContent,\n  DialogDescription,\n  DialogFooter,\n  DialogHeader,\n  DialogTitle,\n  DialogTrigger,\n} from \"@/registry/ui/dialog\"\n\nexport interface ConfirmDialogProps {\n  /** The element that opens the dialog. Rendered inside the trigger via `asChild`. */\n  trigger: React.ReactNode\n  /** Heading shown at the top of the dialog. */\n  title: string\n  /** Optional supporting text under the title. */\n  description?: string\n  /** Label for the confirm button. @default \"Confirm\" */\n  confirmLabel?: string\n  /** Label for the cancel button. @default \"Cancel\" */\n  cancelLabel?: string\n  /** Visual style of the confirm button. @default \"default\" */\n  variant?: \"default\" | \"destructive\"\n  /** Called when the user clicks the confirm button. */\n  onConfirm?: () => void\n}\n\n/**\n * A ready-made confirmation dialog composed from `Dialog` and `Button`.\n * Demonstrates a component that depends on other registry items.\n */\nfunction ConfirmDialog({\n  trigger,\n  title,\n  description,\n  confirmLabel = \"Confirm\",\n  cancelLabel = \"Cancel\",\n  variant = \"default\",\n  onConfirm,\n}: ConfirmDialogProps) {\n  return (\n    <Dialog>\n      <DialogTrigger asChild>{trigger}</DialogTrigger>\n      <DialogContent>\n        <DialogHeader>\n          <DialogTitle>{title}</DialogTitle>\n          {description ? (\n            <DialogDescription>{description}</DialogDescription>\n          ) : null}\n        </DialogHeader>\n        <DialogFooter>\n          <DialogClose asChild>\n            <Button variant=\"outline\">{cancelLabel}</Button>\n          </DialogClose>\n          <DialogClose asChild>\n            <Button variant={variant} onClick={onConfirm}>\n              {confirmLabel}\n            </Button>\n          </DialogClose>\n        </DialogFooter>\n      </DialogContent>\n    </Dialog>\n  )\n}\n\nexport { ConfirmDialog }\n"
+    }
+  ]
+}

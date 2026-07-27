@@ -1,0 +1,83 @@
+---
+title: Confirm Dialog
+description: A ready-made confirmation dialog composed from Dialog and Button.
+component: confirm-dialog
+---
+
+## 基础示例 · Basic example
+
+<ComponentPreview name="confirm-dialog-demo" />
+
+<CodeTabs command="wui@latest add @wui/confirm-dialog" />
+
+<Callout title="Registry dependencies">
+  `confirm-dialog` declares `dialog` and `button` as registry dependencies, so
+  the CLI resolves and installs all three (and the shared `cn` helper) in one
+  command.
+</Callout>
+
+<ComponentSource name="confirm-dialog" title="components/confirm-dialog.tsx" />
+
+## 组件作用 · What it's for
+
+`ConfirmDialog` wraps the common "are you sure?" pattern into a single
+declarative component, so you don't re-wire `Dialog` + `Button` every time you
+need a confirmation. Use it for destructive or irreversible actions.
+
+## 组件属性 · Props
+
+<PropsTable
+  data={[
+    {
+      prop: "trigger",
+      type: "React.ReactNode",
+      description: "Element that opens the dialog (rendered inside the trigger via asChild).",
+    },
+    {
+      prop: "title",
+      type: "string",
+      description: "Heading shown at the top of the dialog.",
+    },
+    {
+      prop: "description",
+      type: "string",
+      description: "Optional supporting text under the title.",
+    },
+    {
+      prop: "confirmLabel",
+      type: "string",
+      default: '"Confirm"',
+      description: "Label for the confirm button.",
+    },
+    {
+      prop: "cancelLabel",
+      type: "string",
+      default: '"Cancel"',
+      description: "Label for the cancel button.",
+    },
+    {
+      prop: "variant",
+      type: '"default" | "destructive"',
+      default: '"default"',
+      description: "Visual style of the confirm button.",
+    },
+  ]}
+/>
+
+## 事件 · Events
+
+<PropsTable
+  data={[
+    {
+      prop: "onConfirm",
+      type: "() => void",
+      description: "Called when the user clicks the confirm button.",
+    },
+  ]}
+/>
+
+## 拓展使用 · Extended usage
+
+Because it is plain source in your project, extend it freely — add an async
+loading state to the confirm button, forward `onOpenChange`, or swap the footer
+layout.

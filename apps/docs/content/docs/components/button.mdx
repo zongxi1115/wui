@@ -1,0 +1,134 @@
+---
+title: Button
+description: Displays a button or a component that looks like a button.
+component: button
+---
+
+## 基础示例 · Basic example
+
+<ComponentPreview name="button-demo" />
+
+Install the component:
+
+<CodeTabs command="wui@latest add @wui/button" />
+
+<Steps>
+
+<Step>Install dependencies</Step>
+
+```bash
+npm install radix-ui class-variance-authority clsx tailwind-merge
+```
+
+<Step>Add the `cn` helper and copy the source into `components/ui/button.tsx`</Step>
+
+<ComponentSource name="button" title="components/ui/button.tsx" />
+
+</Steps>
+
+## 组件作用 · What it's for
+
+`Button` is the primary way to trigger an action — submitting a form, opening a
+dialog, confirming a choice. Use it for anything that _does_ something.
+
+- Reach for the **`link` variant** (or `asChild` with an `<a>`) when the control
+  navigates instead of acting.
+- Use **`variant="destructive"`** for irreversible actions like delete.
+- Use **`size="icon"`** for icon-only buttons, and always include an
+  `aria-label` or visually-hidden text for accessibility.
+
+## 组件属性 · Props
+
+`Button` extends every native `<button>` attribute, plus:
+
+<PropsTable
+  data={[
+    {
+      prop: "variant",
+      type: '"default" | "secondary" | "destructive" | "outline" | "ghost" | "link"',
+      default: '"default"',
+      description: "Visual style of the button.",
+    },
+    {
+      prop: "size",
+      type: '"default" | "sm" | "lg" | "icon"',
+      default: '"default"',
+      description: "Height and padding preset. Use \"icon\" for square icon-only buttons.",
+    },
+    {
+      prop: "asChild",
+      type: "boolean",
+      default: "false",
+      description:
+        "Merge Button's props/styles onto the single child element (via Radix Slot) instead of rendering a <button>. Useful for links.",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description:
+        "Extra classes, merged with the variant classes via cn() — your classes win on conflicts.",
+    },
+    {
+      prop: "disabled",
+      type: "boolean",
+      default: "false",
+      description: "Native disabled state. Also removes pointer events and dims the button.",
+    },
+  ]}
+/>
+
+## 事件 · Events
+
+`Button` forwards all native button events because it spreads `{...props}` onto
+the underlying element.
+
+<PropsTable
+  data={[
+    {
+      prop: "onClick",
+      type: "(event: React.MouseEvent<HTMLButtonElement>) => void",
+      description: "Fired when the button is activated by mouse, keyboard or touch.",
+    },
+    {
+      prop: "onFocus / onBlur",
+      type: "(event: React.FocusEvent<HTMLButtonElement>) => void",
+      description: "Focus lifecycle events.",
+    },
+    {
+      prop: "type",
+      type: '"button" | "submit" | "reset"',
+      default: '"button"',
+      description: "Behaviour inside a <form>. Set \"submit\" to submit the form.",
+    },
+  ]}
+/>
+
+<Callout title="asChild changes the element">
+  When `asChild` is set, events are attached to the child element you render
+  (for example an `<a>`), not to a `<button>`.
+</Callout>
+
+## 拓展使用 · Extended usage
+
+### Variants
+
+<ComponentPreview name="button-variants" />
+
+### Sizes
+
+<ComponentPreview name="button-sizes" />
+
+### With icon
+
+<ComponentPreview name="button-with-icon" />
+
+### Loading state
+
+<ComponentPreview name="button-loading" />
+
+### As a link (`asChild`)
+
+Render a semantic `<a>` that looks like a button by combining `asChild` with a
+link element:
+
+<ComponentPreview name="button-as-child" />

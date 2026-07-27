@@ -1,0 +1,207 @@
+/**
+ * build-registry.mts
+ * ------------------------------------------------------------------
+ * Turns the `registry.json` manifest + `registry/` source folder into:
+ *   1. public/r/<name>.json  — flattened, shadcn-compatible registry items
+ *                              with the source files inlined as strings.
+ *                              This is what the `wui` CLI (and `npx shadcn`)
+ *                              fetch over HTTP.
+ *   2. public/r/index.json   — a lightweight list of items for discovery
+ *                              (`wui list`).
+ *   3. registry/__index__.tsx     — metadata index (name -> files/meta),
+ *                                    consumed by <ComponentSource />.
+ *   4. registry/__components__.tsx — name -> React.lazy(() => import(...))
+ *                                    for every example, consumed by
+ *                                    <ComponentPreview />.
+ *
+ * Run with: pnpm --filter docs registry:build   (tsx scripts/build-registry.mts)
+ */
+import { promises as fs } from "node:fs"
+import path from "node:path"
+import { z } from "zod"
+
+const ROOT = process.cwd() // apps/docs
+const REGISTRY_JSON = path.join(ROOT, "registry.json")
+const EXAMPLES_DIR = path.join(ROOT, "registry", "examples")
+const OUT_DIR = path.join(ROOT, "public", "r")
+const INDEX_FILE = path.join(ROOT, "registry", "__index__.tsx")
+const COMPONENTS_FILE = path.join(ROOT, "registry", "__components__.tsx")
+
+// ---------------------------------------------------------------------------
+// Schema (a shadcn-compatible subset of registry-item.json)
+// ---------------------------------------------------------------------------
+const registryItemFileSchema = z.object({
+  path: z.string(),
+  type: z.string(),
+  target: z.string().optional(),
+})
+
+const registryItemSchema = z.object({
+  name: z.string(),
+  type: z.string(),
+  title: z.string().optional(),
+  description: z.string().optional(),
+  author: z.string().optional(),
+  dependencies: z.array(z.string()).optional(),
+  devDependencies: z.array(z.string()).optional(),
+  registryDependencies: z.array(z.string()).optional(),
+  files: z.array(registryItemFileSchema),
+  cssVars: z.record(z.string(), z.record(z.string(), z.string())).optional(),
+  css: z.record(z.string(), z.unknown()).optional(),
+  docs: z.string().optional(),
+  categories: z.array(z.string()).optional(),
+  meta: z.record(z.string(), z.unknown()).optional(),
+})
+
+const registrySchema = z.object({
+  name: z.string(),
+  homepage: z.string().optional(),
+  items: z.array(registryItemSchema),
+})
+
+type RegistryItem = z.infer<typeof registryItemSchema>
+
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
+async function readSource(relPath: string): Promise<string> {
+  const abs = path.join(ROOT, relPath)
+  return fs.readFile(abs, "utf8")
+}
+
+function toPosix(p: string): string {
+  return p.split(path.sep).join("/")
+}
+
+// ---------------------------------------------------------------------------
+// Main
+// ---------------------------------------------------------------------------
+async function main() {
+  const raw = JSON.parse(await fs.readFile(REGISTRY_JSON, "utf8"))
+  const registry = registrySchema.parse(raw)
+
+  // Start clean so removed items don't linger in the output.
+  await fs.rm(OUT_DIR, { recursive: true, force: true })
+  await fs.mkdir(OUT_DIR, { recursive: true })
+
+  // --- 1 + 2. Build public/r/<name>.json and the discovery index. ---------
+  const indexEntries: Record<string, unknown> = {}
+  const discovery: Array<Record<string, unknown>> = []
+
+  for (const item of registry.items) {
+    const files = await Promise.all(
+      item.files.map(async (f) => ({
+        path: toPosix(f.path),
+        type: f.type,
+        ...(f.target ? { target: toPosix(f.target) } : {}),
+        content: await readSource(f.path),
+      }))
+    )
+
+    const output: RegistryItem & { $schema: string; files: unknown[] } = {
+      $schema: "https://ui.shadcn.com/schema/registry-item.json",
+      ...item,
+      files,
+    }
+
+    await fs.writeFile(
+      path.join(OUT_DIR, `${item.name}.json`),
+      JSON.stringify(output, null, 2) + "\n",
+      "utf8"
+    )
+
+    discovery.push({
+      name: item.name,
+      type: item.type,
+      title: item.title ?? item.name,
+      description: item.description ?? "",
+      registryDependencies: item.registryDependencies ?? [],
+    })
+
+    indexEntries[item.name] = {
+      name: item.name,
+      type: item.type,
+      title: item.title,
+      description: item.description,
+      registryDependencies: item.registryDependencies ?? [],
+      files: item.files.map((f) => ({
+        path: toPosix(f.path),
+        type: f.type,
+        ...(f.target ? { target: toPosix(f.target) } : {}),
+      })),
+    }
+  }
+
+  await fs.writeFile(
+    path.join(OUT_DIR, "index.json"),
+    JSON.stringify(
+      { name: registry.name, homepage: registry.homepage, items: discovery },
+      null,
+      2
+    ) + "\n",
+    "utf8"
+  )
+
+  // --- 3 + 4. Scan examples and emit the __index__ / __components__ pair. --
+  const exampleFiles = (await fs.readdir(EXAMPLES_DIR))
+    .filter((f) => f.endsWith(".tsx"))
+    .sort()
+
+  const lazyLines: string[] = []
+  for (const file of exampleFiles) {
+    const name = file.replace(/\.tsx$/, "")
+    const relPath = `registry/examples/${file}`
+    indexEntries[name] = {
+      name,
+      type: "registry:example",
+      files: [{ path: relPath, type: "registry:example" }],
+    }
+    lazyLines.push(
+      `  "${name}": React.lazy(() => import("@/registry/examples/${name}")),`
+    )
+  }
+
+  const banner = `// AUTO-GENERATED by scripts/build-registry.mts — do not edit by hand.\n`
+
+  const indexContent =
+    banner +
+    `export type RegistryIndexFile = { path: string; type: string; target?: string }\n` +
+    `export type RegistryIndexEntry = {\n` +
+    `  name: string\n` +
+    `  type: string\n` +
+    `  title?: string\n` +
+    `  description?: string\n` +
+    `  registryDependencies?: string[]\n` +
+    `  files: RegistryIndexFile[]\n` +
+    `}\n\n` +
+    `export const Index: Record<string, RegistryIndexEntry> = ${JSON.stringify(
+      indexEntries,
+      null,
+      2
+    )}\n`
+
+  await fs.writeFile(INDEX_FILE, indexContent, "utf8")
+
+  const componentsContent =
+    banner +
+    `import * as React from "react"\n\n` +
+    `type LazyComponent = React.LazyExoticComponent<React.ComponentType>\n\n` +
+    `export const Components: Record<string, LazyComponent> = {\n` +
+    lazyLines.join("\n") +
+    `\n}\n`
+
+  await fs.writeFile(COMPONENTS_FILE, componentsContent, "utf8")
+
+  // --- Report -------------------------------------------------------------
+  console.log(
+    `✓ registry built: ${registry.items.length} items, ${exampleFiles.length} examples`
+  )
+  console.log(`  → ${toPosix(path.relative(ROOT, OUT_DIR))}/*.json`)
+  console.log(`  → ${toPosix(path.relative(ROOT, INDEX_FILE))}`)
+  console.log(`  → ${toPosix(path.relative(ROOT, COMPONENTS_FILE))}`)
+}
+
+main().catch((err) => {
+  console.error("✗ registry build failed:\n", err)
+  process.exit(1)
+})
