@@ -160,7 +160,7 @@ function DialogOverlay({
   return (
     <DialogPrimitive.Overlay
       data-slot="dialog-overlay"
-      className={cn("fixed inset-0 z-50 bg-black/50", className)}
+      className={cn("fixed inset-0 z-50 bg-overlay", className)}
       {...props}
     />
   )
@@ -246,7 +246,7 @@ function DialogContent({
           <MotionOverlay
             data-slot="dialog-overlay"
             forceMount
-            className="fixed inset-0 z-50 bg-black/50"
+            className="fixed inset-0 z-50 bg-overlay"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}

@@ -10,7 +10,8 @@ description: 在你的项目中配置 wui。
 <CodeTabs command="wui@latest init" />
 
 该命令会创建 `wui.json` 配置文件，在 `lib/utils.ts` 中添加 `cn` 工具函数，
-并将主题令牌写入全局样式表。
+并准备组件与主题的安装位置。第一次执行 `wui add` 时，组件依赖的 WUI 主题令牌会幂等写入
+`wui.json` 指向的全局样式表；也可以先单独执行 `wui add @wui/theme` 安装主题。
 
 ## 2. 添加组件
 

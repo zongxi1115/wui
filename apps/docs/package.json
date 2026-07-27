@@ -9,6 +9,7 @@
     "start": "next start",
     "typecheck": "tsc --noEmit",
     "registry:build": "tsx scripts/build-registry.mts && tsx scripts/build-docgen.mts",
+    "tokens:audit": "tsx scripts/audit-design-tokens.mts",
     "docgen": "tsx scripts/build-docgen.mts",
     "gen:component": "tsx scripts/new-component.mts",
     "fumadocs:gen": "fumadocs-mdx"

@@ -9,6 +9,7 @@
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "typecheck": "turbo run typecheck",
+    "tokens:audit": "turbo run tokens:audit",
     "registry:build": "turbo run registry:build",
     "format": "prettier --write \"**/*.{ts,tsx,md,mjs,json}\" --ignore-path .gitignore"
   },

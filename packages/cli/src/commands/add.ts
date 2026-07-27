@@ -3,6 +3,7 @@ import path from "node:path"
 
 import { resolveTree } from "../registry/resolver"
 import { applyTransforms } from "../registry/transform"
+import { applyRegistryCssVars } from "../registry/css-vars"
 import type { Config, RegistryItem, RegistryItemFile } from "../registry/schema"
 import { aliasToPath, readConfig, resolveBaseDir } from "../utils/config"
 import { detectPackageManager, runInstall } from "../utils/pm"
@@ -60,6 +61,12 @@ export async function addCommand(
       await runInstall(pm, devDeps, true, cwd)
     }
   }
+
+  await applyRegistryCssVars(cwd, config, items, {
+    dryRun: opts.dryRun,
+    onLog: (message) =>
+      opts.dryRun ? logger.dim(message) : logger.success(message),
+  })
 
   let written = 0
   for (const item of items) {

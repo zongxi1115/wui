@@ -35,9 +35,9 @@ const messageVariants = cva(
     variants: {
       variant: {
         default: "border-border bg-background text-foreground",
-        info: "border-primary/25 bg-background text-foreground",
-        success: "border-primary/25 bg-background text-foreground",
-        warning: "border-border bg-background text-foreground",
+        info: "border-info/30 bg-background text-foreground",
+        success: "border-success/30 bg-background text-foreground",
+        warning: "border-warning/30 bg-background text-foreground",
         destructive: "border-destructive/30 bg-background text-foreground",
       },
       size: {
@@ -144,8 +144,9 @@ function Message({
               className={cn(
                 "mt-0.5 flex shrink-0 text-muted-foreground [&_svg]:size-4",
                 variant === "destructive" && "text-destructive",
-                variant === "info" && "text-primary",
-                variant === "success" && "text-primary"
+                variant === "info" && "text-info",
+                variant === "success" && "text-success",
+                variant === "warning" && "text-warning"
               )}
             >
               {icon ?? <DefaultIcon />}

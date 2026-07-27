@@ -28,9 +28,9 @@ const progressVariants = cva("relative", {
 
 const progressColor = {
   primary: "text-primary",
-  blue: "text-blue-500 dark:text-blue-400",
-  success: "text-emerald-500 dark:text-emerald-400",
-  warning: "text-orange-500 dark:text-orange-400",
+  blue: "text-info",
+  success: "text-success",
+  warning: "text-warning",
   destructive: "text-destructive",
 } as const
 

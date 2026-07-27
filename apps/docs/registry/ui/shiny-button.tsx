@@ -49,7 +49,7 @@ function ShinyButton({
           className="pointer-events-none absolute inset-y-0 w-1/2"
           style={{
             background:
-              "linear-gradient(120deg, transparent 20%, rgba(255,255,255,0.5) 50%, transparent 80%)",
+              "linear-gradient(120deg, transparent 20%, var(--shine) 50%, transparent 80%)",
           }}
           initial={{ x: "-150%" }}
           animate={{ x: "300%" }}

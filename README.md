@@ -16,8 +16,9 @@ wui/
 │  ├─ scripts/           # build-registry.mts, new-component.mts
 │  ├─ public/r/          # GENERATED: distributable {name}.json (served to the CLI)
 │  └─ registry.json      # registry manifest
-├─ packages/cli/         # the `wui` CLI (@wui/cli): init / add / build / list / view
-└─ docs/COMPONENT-SPEC.md # 《组件新增规范》 — how to add a component
+├─ packages/cli/          # the `wui` CLI (@wui/cli): init / add / build / list / view
+├─ docs/COMPONENT-SPEC.md # 《组件新增规范》 — how to add a component
+└─ docs/DESIGN-TOKENS.md  # component-library token contract and governance
 ```
 
 ## Tech stack
@@ -34,7 +35,8 @@ pnpm --filter docs registry:build   # generate public/r/*.json + preview indexes
 pnpm --filter docs dev               # docs site at http://localhost:3000
 ```
 
-Other gates: `pnpm typecheck`, `pnpm build`, `pnpm --filter @wui/cli test`.
+Other gates: `pnpm typecheck`, `pnpm --filter docs tokens:audit`, `pnpm build`,
+`pnpm --filter @wui/cli test`.
 
 ## Add a new component
 

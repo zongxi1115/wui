@@ -70,7 +70,7 @@ export { Badge, badgeVariants }
 5. **交互/带状态的组件**基于 Radix（统一包 `radix-ui`）：`import { Dialog as DialogPrimitive } from "radix-ui"`，无障碍交给 Radix。这类文件顶部加 `"use client"`。
 6. **`asChild`**：需要“渲染成子元素”的组件用 Radix `Slot`：`const Comp = asChild ? Slot.Root : "button"`。
 7. **受控/非受控**：透传 Radix 的 `open`/`defaultOpen`/`onOpenChange` 等，不要自造状态覆盖。
-8. **主题变量**：只用语义 token（`bg-primary`、`text-muted-foreground`、`border` 等），不要硬编码颜色；token 定义见 `apps/docs/app/global.css`。
+8. **主题变量**：只用语义 token（`bg-primary`、`text-muted-foreground`、`border` 等），不要硬编码颜色；发布源、命名、变更与废弃规则见 [`docs/DESIGN-TOKENS.md`](./DESIGN-TOKENS.md)。
 9. 静态图标统一用 `lucide-react`；需要图标内部路径运动时使用 `@animateicons/react/lucide`，并通过 `AnimatedIcon` 统一无障碍语义和播放控制。
 
 ---
@@ -135,10 +135,11 @@ export { Badge, badgeVariants }
 □ 4. 完善文档 5 小节（填 §4 的 TODO）
 □ 5. 核对 registry.json：type / dependencies / registryDependencies
 □ 6. pnpm --filter docs registry:build      # 生成 public/r/*.json + __index__/__components__
-□ 7. pnpm --filter docs dev                  # 本地预览：实时渲染 + 源码 + 属性表
-□ 8. 用 CLI 验证拉取：
+□ 7. pnpm --filter docs tokens:audit         # token 对称性、镜像、依赖和硬编码审计
+□ 8. pnpm --filter docs dev                  # 本地预览：实时渲染 + 源码 + 属性表
+□ 9. 用 CLI 验证拉取：
       node packages/cli/dist/index.js add @wui/<name> --cwd <某测试项目> --dry-run
-□ 9. pnpm --filter @wui/cli typecheck / test（若改动了 CLI）
+□ 10. pnpm --filter @wui/cli typecheck / test（若改动了 CLI）
 ```
 
 ---
