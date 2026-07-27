@@ -1,8 +1,12 @@
 {
-  "title": "Components",
+  "title": "组件",
   "pages": [
     "button",
     "dialog",
-    "confirm-dialog"
+    "watermark",
+    "confirm-dialog",
+    "motion",
+    "---Fancy · 效果组件---",
+    "shiny-button"
   ]
 }

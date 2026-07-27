@@ -1,83 +1,44 @@
 ---
-title: Confirm Dialog
-description: A ready-made confirmation dialog composed from Dialog and Button.
+title: 确认对话框
+description: 由 Dialog 和 Button 组合而成的开箱即用确认对话框。
 component: confirm-dialog
 ---
 
-## 基础示例 · Basic example
+## 基础示例
 
 <ComponentPreview name="confirm-dialog-demo" />
 
 <CodeTabs command="wui@latest add @wui/confirm-dialog" />
 
-<Callout title="Registry dependencies">
-  `confirm-dialog` declares `dialog` and `button` as registry dependencies, so
-  the CLI resolves and installs all three (and the shared `cn` helper) in one
-  command.
+<Callout title="Registry 依赖">
+  `confirm-dialog` 将 `dialog` 和 `button` 声明为 registry 依赖，因此 CLI
+  会通过一条命令解析并安装这三个组件（以及共享的 `cn` 工具函数）。
 </Callout>
 
 <ComponentSource name="confirm-dialog" title="components/confirm-dialog.tsx" />
 
-## 组件作用 · What it's for
+## 组件作用
 
-`ConfirmDialog` wraps the common "are you sure?" pattern into a single
-declarative component, so you don't re-wire `Dialog` + `Button` every time you
-need a confirmation. Use it for destructive or irreversible actions.
+`ConfirmDialog` 将常见的“确定要继续吗？”交互封装成一个声明式组件，免去每次需要确认操作时
+重复组合 `Dialog` 和 `Button`。它适合用于删除等具有破坏性或不可逆的操作。
 
-## 组件属性 · Props
+## 组件属性
 
-<PropsTable
-  data={[
-    {
-      prop: "trigger",
-      type: "React.ReactNode",
-      description: "Element that opens the dialog (rendered inside the trigger via asChild).",
-    },
-    {
-      prop: "title",
-      type: "string",
-      description: "Heading shown at the top of the dialog.",
-    },
-    {
-      prop: "description",
-      type: "string",
-      description: "Optional supporting text under the title.",
-    },
-    {
-      prop: "confirmLabel",
-      type: "string",
-      default: '"Confirm"',
-      description: "Label for the confirm button.",
-    },
-    {
-      prop: "cancelLabel",
-      type: "string",
-      default: '"Cancel"',
-      description: "Label for the cancel button.",
-    },
-    {
-      prop: "variant",
-      type: '"default" | "destructive"',
-      default: '"default"',
-      description: "Visual style of the confirm button.",
-    },
-  ]}
-/>
+<PropsTable name="confirm-dialog" />
 
-## 事件 · Events
+## 事件
 
 <PropsTable
   data={[
     {
       prop: "onConfirm",
       type: "() => void",
-      description: "Called when the user clicks the confirm button.",
+      description: "用户点击确认按钮时调用。",
     },
   ]}
 />
 
-## 拓展使用 · Extended usage
+## 扩展使用
 
-Because it is plain source in your project, extend it freely — add an async
-loading state to the confirm button, forward `onOpenChange`, or swap the footer
-layout.
+组件源码会直接保存在你的项目中，你可以自由扩展，例如为确认按钮添加异步加载状态、
+透传 `onOpenChange`，或调整底部操作区域的布局。

@@ -26,7 +26,8 @@
       "description": "Displays a button or a component that looks like a button.",
       "dependencies": [
         "radix-ui",
-        "class-variance-authority"
+        "class-variance-authority",
+        "motion"
       ],
       "registryDependencies": [
         "utils"
@@ -45,7 +46,8 @@
       "description": "A window overlaid on the primary window, built on Radix UI.",
       "dependencies": [
         "radix-ui",
-        "lucide-react"
+        "lucide-react",
+        "motion"
       ],
       "registryDependencies": [
         "utils"
@@ -53,6 +55,21 @@
       "files": [
         {
           "path": "registry/ui/dialog.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "watermark",
+      "type": "registry:ui",
+      "title": "Watermark",
+      "description": "Adds a repeated text watermark over a section of content.",
+      "registryDependencies": [
+        "utils"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/watermark.tsx",
           "type": "registry:ui"
         }
       ]
@@ -70,6 +87,43 @@
         {
           "path": "registry/components/confirm-dialog.tsx",
           "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "motion",
+      "type": "registry:ui",
+      "title": "Motion",
+      "description": "Optional animation primitive and presets built on motion.",
+      "dependencies": [
+        "motion",
+        "radix-ui"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/motion.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "shiny-button",
+      "type": "registry:ui",
+      "title": "Shiny Button",
+      "description": "A filled button with a light sweep that glides across it.",
+      "categories": [
+        "fancy"
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "utils"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/shiny-button.tsx",
+          "type": "registry:ui"
         }
       ]
     }

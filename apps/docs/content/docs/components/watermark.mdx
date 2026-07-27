@@ -1,0 +1,84 @@
+---
+title: 水印
+description: 在内容区域上方添加重复的文字水印。
+component: watermark
+---
+
+## 基础示例
+
+<ComponentPreview name="watermark-demo" />
+
+安装组件：
+
+<CodeTabs command="wui@latest add @wui/watermark" />
+
+<Steps>
+
+<Step>如果项目中尚未提供共享的 `cn` 工具函数，请先安装其依赖</Step>
+
+```bash
+pnpm add clsx tailwind-merge
+```
+
+<Step>将源码复制到 `components/ui/watermark.tsx`</Step>
+
+<ComponentSource name="watermark" title="components/ui/watermark.tsx" />
+
+</Steps>
+
+## 组件作用
+
+`Watermark` 在内容区域上叠加重复文字，用于表达所有权、保密级别或文档状态。水印层会忽略
+指针事件，因此其下方的控件和可选择文本仍可正常使用。
+
+- 适合用于报告、预览、导出文档页面和受限内容。
+- 需要同时展示查看者身份或时间戳时，可以传入多行文本。
+- 水印只是一种视觉提示，不能代替权限控制。
+
+<Callout title="特意不使用动画">
+  `Watermark` 默认不包含任何动画。它是一个被动的环境层，应该安静地位于内容之上；动画既会
+  抢夺注意力、影响受保护内容的可读性，也会导致大面积平铺区域反复重绘。并非每个组件都需要
+  动效，取舍原则见 `docs/COMPONENT-SPEC.md` 第 9 节。
+</Callout>
+
+## 组件属性
+
+`Watermark` 继承原生 `<div>` 的全部属性，并额外提供：
+
+<PropsTable
+  data={[
+    { prop: "content", type: "string | string[]", default: '"WUI"', description: "重复显示的一行或多行水印文字。" },
+    { prop: "rotate", type: "number", default: "-22", description: "顺时针旋转角度（度）。" },
+    { prop: "gap", type: "[number, number]", default: "[80, 80]", description: "水印单元格之间的水平和垂直间距（像素）。" },
+    { prop: "offset", type: "[number, number]", default: "[0, 0]", description: "重复图案的水平和垂直偏移（像素）。" },
+    { prop: "width", type: "number", default: "160", description: "单个水印标记预留的宽度（像素）。" },
+    { prop: "height", type: "number", default: "64", description: "单个水印标记预留的高度（像素）。" },
+    { prop: "font", type: "WatermarkFont", description: "文字颜色、字体、字号、样式和字重选项。" },
+    { prop: "opacity", type: "number", default: "0.15", description: "整个水印层的透明度。" },
+    { prop: "zIndex", type: "number", default: "10", description: "水印层在隔离容器内的堆叠顺序。" },
+    { prop: "className", type: "string", description: "应用到根内容容器的额外类名。" },
+  ]}
+/>
+
+`WatermarkFont` 接受 `color`、`fontFamily`、`fontSize`、`fontStyle` 和
+`fontWeight`。默认颜色跟随当前主题的前景色。
+
+## 事件
+
+根元素会透传原生 `<div>` 事件和属性。水印视觉层使用 `pointer-events: none`，因此不会成为事件目标。
+
+<PropsTable
+  data={[
+    { prop: "onClick", type: "(event: React.MouseEvent<HTMLDivElement>) => void", description: "点击根内容区域时触发。" },
+    { prop: "onFocus / onBlur", type: "(event: React.FocusEvent<HTMLDivElement>) => void", description: "透传到根元素的原生焦点生命周期事件。" },
+  ]}
+/>
+
+## 扩展使用
+
+### 多行文字与自定义间距
+
+<ComponentPreview name="watermark-custom" />
+
+向 `content` 传入数组即可展示多行文字。较长标签需要更多空间时，可同时调整 `width`、
+`height` 和 `gap`，再微调 `rotate` 与 `opacity`，确保受保护内容仍清晰可读。

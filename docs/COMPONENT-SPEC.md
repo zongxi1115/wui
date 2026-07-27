@@ -113,9 +113,11 @@ export { Badge, badgeVariants }
 
 1. **基础示例** —— `<ComponentPreview name="<name>-demo" />` + 安装命令 `<CodeTabs command="wui@latest add @wui/<name>" />` + 源码 `<ComponentSource name="<name>" />`。
 2. **组件作用** —— 用途、适用/不适用场景。
-3. **组件属性** —— `<PropsTable>` 列出每个 prop 的 名称/类型/默认值/说明。
+3. **组件属性** —— 优先用 **`<PropsTable name="<name>" />`**：属性从组件 TS 类型 + TSDoc **自动解析**（见 §8），每个 prop 的类型/默认值/说明都来自代码。也可用 `<PropsTable data={[...]}/>` 手写。
 4. **事件** —— 回调与透传的原生事件（`onClick`、`onOpenChange`…）。
 5. **拓展使用** —— 变体、组合、`asChild` 等进阶示例，各配 `<ComponentPreview>`。
+
+> 交互演示（可选但推荐）：`<Playground name="<name>" />` 会根据解析出的属性生成可调控件（联合类型→下拉、布尔→开关、字符串→输入框），docstring 作为每个控件的描述实时展示。用 `exclude={["asChild"]}` 隐藏不适合交互的属性。前提：该组件已在 `scripts/build-docgen.mts` 的 `PLAYGROUND` 列表中登记。
 
 范本见 `content/docs/components/button.mdx`。生成器会产出带 5 小节 + TODO 的骨架。
 
@@ -160,4 +162,68 @@ pnpm --filter docs gen:component confirm-banner --type component
 - `registry:build` 读取 `registry.json`，把每个组件的源码 **inline 成字符串** 写入 `apps/docs/public/r/<name>.json`（遵循 shadcn `registry-item.json` schema），同时生成文档站预览用的 `registry/__index__.tsx`（元数据）与 `registry/__components__.tsx`（`name → React.lazy` 懒加载映射）。
 - 使用者侧 `wui add @wui/<name>`：CLI 拉取该 JSON → 递归解析 `registryDependencies` 并去重 → 安装 npm 依赖 → 改写 `@/registry/...` import 为使用者 alias → 写入目标目录。
 - 因为遵循 shadcn schema，官方 `npx shadcn@latest add @wui/<name>` 也能拉取（前提：使用者已在 `components.json` 配好 `@wui` 命名空间）。
+
+---
+
+## 8. 属性自动解析与交互演示（docgen）
+
+- `scripts/build-docgen.mts` 用 `react-docgen-typescript` 解析每个组件源码，提取**自有属性**（过滤掉继承的 DOM/aria 噪声）的 名称/类型/默认值/**docstring 描述**，并推导控件类型（联合字符串→`select`、布尔→`boolean`、数字→`number`、其余→`text`），产出 `registry/__props__.ts` 与 `registry/__playground__.tsx`。
+- 因此**写好属性的 TSDoc 注释**即可自动获得属性表与演示控件的描述。属性最好声明在组件自有的 `interface XxxProps` 上（`ConfirmDialogProps` 是范本）；即便 `extends` 了 DOM 类型（如 Button / Motion），解析器也会保留自有属性并过滤噪声。
+- `<PropsTable name="<name>" />` 读取解析结果渲染属性表；`<Playground name="<name>" />` 读取它生成可调控件（下拉 / 开关 / 输入框）并实时渲染真实组件，docstring 即控件描述。
+- 让组件进入 Playground：在 `scripts/build-docgen.mts` 的 `PLAYGROUND` 数组登记 `{ name, file, export }`（组件需能独立渲染、接受文本 children）。
+- `registry:build` 已串联 docgen（`build-registry && build-docgen`），一条命令全部生成。
+
+---
+
+## 9. 动效与交互规范（Motion & interaction）
+
+组件不该「太过平淡」——恰当的过渡/微交互能让界面更有生命力；但动效要**有节制、分场合、可降级**。本节定义 wui 的动效原则与每类组件的取舍。
+
+### 9.1 三条硬性原则
+
+1. **必须尊重 `prefers-reduced-motion`。** 任何动效都要能优雅降级为「静态终态」。
+   - JS 动效：用 `const reduceMotion = useReducedMotion()`（来自 `motion/react`），为真时渲染静态版本。范本见 `registry/ui/button.tsx`、`registry/ui/dialog.tsx`、`registry/ui/motion.tsx`、`registry/ui/shiny-button.tsx`。
+   - 纯 CSS 动效：交给浏览器/`tw-animate-css` 自行响应减弱偏好即可（如各组件 hover/focus 的 `transition` 过渡）。
+2. **基础组件默认走 CSS，效果超纲才引 `motion`。** 能用 CSS `transition` / `tw-animate-css` 表达的动效（颜色/阴影过渡、hover/focus 反馈），优先纯 CSS、不引入 `motion` 运行时。只有「弹簧手感」「涟漪」「持续动画」「从某元素位移/形变 morph 出来」这类 CSS 难以胜任的效果，才 opt-in 引入 `motion`，并在 `registry.json` 的 `dependencies` 里声明 `"motion"`（如 `dialog`、`button` 的 `motion`/`ripple`）。
+3. **动效是 opt-in，不是默认强灌。** 除「进出场」这类组件本身语义需要的动画外，花哨微交互（涟漪、弹簧）用 `prop` 显式开启（如 Button 的 `motion` / `ripple`），让使用者按需取舍，且彼此**可组合**。
+
+### 9.2 「加/不加」判断
+
+| 该加 | 不该加 |
+|---|---|
+| 交互反馈：hover/press/focus 的颜色、位移、缩放 | 纯被动、需「隐入背景」的图层（水印、分隔线、骨架底纹） |
+| 进出场：浮层/弹层的 fade + 位移 + 缩放 | 大面积重绘、持续动画会拖累性能或分散注意力的场景 |
+| 引导视线：单个 CTA、空状态的点睛效果 | 一屏内多处同时持续动，互相打架、令人疲劳 |
+| 链接/按钮：下划线滑入、渐变过渡 | 会伤害可读性或让核心内容「抖动」的地方 |
+
+一句话：**动效服务于「反馈」「引导」「层级」，而不是为动而动。** 拿不准就先不加，或做成 opt-in prop。
+
+### 9.3 各组件基线（现状 + 要求）
+
+- **Button**（`registry/ui/button.tsx`）
+  - 基础：`transition-[color,background-color,border-color,box-shadow]` 平滑过渡（不含 transform，避免与弹簧打架）。
+  - `link` 变体：**下划线滑入动画 + 文字颜色渐变过渡**（hover 时下划线从右向左展开，紧贴文字、与 `size` 无关）。`asChild` 渲染真实 `<a>` 时降级为原生 `hover:underline`。
+  - `motion`（opt-in，需 `motion`）：按压/悬浮弹簧微交互。
+  - `ripple`（opt-in，需 `motion`）：Material 式点击涟漪，从指针处扩散；与 `motion` 可组合；`asChild` 时忽略。
+- **Dialog**（`registry/ui/dialog.tsx`）
+  - **从触发按钮「布局变换」出来**：打开时面板从触发按钮所在位置（缩小 + 透明）弹簧展开到居中静止态，关闭时缩回按钮——不是简单淡入。用 `motion`（`AnimatePresence` + Radix `forceMount`）实现，故 dialog 的 `dependencies` 含 `"motion"`。
+  - 实现要点：① `Dialog` 根镜像一份 open 状态（不夺走受控调用方的所有权）以驱动 `AnimatePresence` 的进出场；② `DialogTrigger` 把 DOM `ref` 存进 context，`DialogContent` 打开时读取其 `getBoundingClientRect` 换算成相对视口中心的偏移作为动画起点；③ 居中改用外层 `flex` 容器承担（而非 content 上的 `translate-x/y-[-50%]`），把 transform 让给 morph 动画；content 需 `relative` 以锚定关闭按钮；④ `useReducedMotion` 为真时退化为纯淡入、无位移。
+  - 这是「基础组件也可以引入 `motion`」的正例：当效果（此处的位移/形变 morph）超出 CSS `transition` 能力时，opt-in 引入 `motion` 并在 `registry.json` 声明依赖是允许的；能用 CSS 表达的仍优先 CSS。
+- **Motion**（`registry/ui/motion.tsx`）：共享动画原语与 `presets`/`transitions`，是「需要 `motion` 运行时」的统一入口，供其他组件 `asChild` 复用。
+- **Watermark**（`registry/ui/watermark.tsx`）：**刻意不加任何动效**。它是被动环境图层，动它会喧宾夺主、伤可读性、且大面积重绘无收益——典型的「不该加」。
+
+### 9.4 Fancy · 效果组件栏目
+
+面向「从 CodePen 搬来的炫酷效果」这类**展示型/花哨**组件，单独归入 **Fancy** 栏目。它们与核心组件共用同一套 registry + `wui add` 按需拉取流程，只是**允许更张扬、更有主见**，但仍受 §9.1 三条硬性原则约束（尤其必须能在减弱动效下降级）。范本：`registry/ui/shiny-button.tsx`（掠光按钮）。
+
+新增一个 Fancy 组件，在 §5 常规流程之上只多两步：
+
+```text
+□ registry.json 该条目加 "categories": ["fancy"]
+□ content/docs/components/meta.json 的 pages 里，在分隔符
+  "---Fancy · 效果组件---" 之后加入该组件页
 ```
+
+- **归类靠 `categories`，不新增 `type`。** 效果组件仍按落地目录选 `type`（通常 `registry:ui` → 使用者 `components/ui/`）；`"categories": ["fancy"]` 只是元数据分组，`registry:build` 会原样写入 `public/r/<name>.json`，供后续按分类筛选。
+- **侧边栏分组靠 Fumadocs 分隔符。** `meta.json` 的 `pages` 支持 `"---标题---"` 分隔符（可选图标 `"---[icon]标题---"`），效果组件页放在该分隔符之后即自成一组。
+- 其余（源码规范、demo、5 小节文档、docgen 属性表、`registry:build`）与普通组件完全一致——效果组件同样「支持按需拉取下载」。

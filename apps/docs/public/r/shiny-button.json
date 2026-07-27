@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "shiny-button",
+  "type": "registry:ui",
+  "title": "Shiny Button",
+  "description": "A filled button with a light sweep that glides across it.",
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/shiny-button.tsx",
+      "type": "registry:ui",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { motion, useReducedMotion, type HTMLMotionProps } from \"motion/react\"\n\nimport { cn } from \"@/registry/lib/utils\"\n\nexport interface ShinyButtonProps extends HTMLMotionProps<\"button\"> {\n  /** Seconds for one full light sweep across the button. @default 3 */\n  speed?: number\n  /** Pause between sweeps, in seconds. @default 1.2 */\n  gap?: number\n  // Narrows motion's children type (which allows MotionValue) back to ReactNode.\n  children?: React.ReactNode\n}\n\n/**\n * A \"fancy\" template component: a filled button with a light sweep that\n * continuously glides across it. Effect components like this are opt-in and are\n * allowed to be more opinionated than the core UI — but they still gate motion\n * on `prefers-reduced-motion`. Copy it as a starting point for your own effects.\n */\nfunction ShinyButton({\n  className,\n  speed = 3,\n  gap = 1.2,\n  children,\n  ...props\n}: ShinyButtonProps) {\n  const reduceMotion = useReducedMotion()\n\n  return (\n    <motion.button\n      data-slot=\"shiny-button\"\n      whileTap={reduceMotion ? undefined : { scale: 0.97 }}\n      className={cn(\n        \"relative inline-flex h-10 shrink-0 items-center justify-center gap-2 overflow-hidden whitespace-nowrap rounded-lg border border-primary/20 bg-primary px-6 text-sm font-medium text-primary-foreground shadow-sm outline-none transition-colors focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0\",\n        className\n      )}\n      {...props}\n    >\n      <span className=\"relative z-10 inline-flex items-center gap-2\">\n        {children}\n      </span>\n      {reduceMotion ? null : (\n        <motion.span\n          aria-hidden\n          data-slot=\"shiny-button-sheen\"\n          className=\"pointer-events-none absolute inset-y-0 w-1/2\"\n          style={{\n            background:\n              \"linear-gradient(120deg, transparent 20%, rgba(255,255,255,0.5) 50%, transparent 80%)\",\n          }}\n          initial={{ x: \"-150%\" }}\n          animate={{ x: \"300%\" }}\n          transition={{\n            duration: speed,\n            ease: \"linear\",\n            repeat: Infinity,\n            repeatDelay: gap,\n          }}\n        />\n      )}\n    </motion.button>\n  )\n}\n\nexport { ShinyButton }\n"
+    }
+  ],
+  "categories": [
+    "fancy"
+  ]
+}

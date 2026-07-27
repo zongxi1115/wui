@@ -28,6 +28,15 @@
       ]
     },
     {
+      "name": "watermark",
+      "type": "registry:ui",
+      "title": "Watermark",
+      "description": "Adds a repeated text watermark over a section of content.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
       "name": "confirm-dialog",
       "type": "registry:component",
       "title": "Confirm Dialog",
@@ -35,6 +44,22 @@
       "registryDependencies": [
         "dialog",
         "button"
+      ]
+    },
+    {
+      "name": "motion",
+      "type": "registry:ui",
+      "title": "Motion",
+      "description": "Optional animation primitive and presets built on motion.",
+      "registryDependencies": []
+    },
+    {
+      "name": "shiny-button",
+      "type": "registry:ui",
+      "title": "Shiny Button",
+      "description": "A filled button with a light sweep that glides across it.",
+      "registryDependencies": [
+        "utils"
       ]
     }
   ]

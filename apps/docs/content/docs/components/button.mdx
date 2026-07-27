@@ -1,134 +1,115 @@
 ---
-title: Button
-description: Displays a button or a component that looks like a button.
+title: 按钮
+description: 显示一个按钮，或显示一个外观类似按钮的组件。
 component: button
 ---
 
-## 基础示例 · Basic example
+## 基础示例
 
 <ComponentPreview name="button-demo" />
 
-Install the component:
+安装组件：
 
 <CodeTabs command="wui@latest add @wui/button" />
 
 <Steps>
 
-<Step>Install dependencies</Step>
+<Step>安装依赖</Step>
 
 ```bash
-npm install radix-ui class-variance-authority clsx tailwind-merge
+pnpm add radix-ui class-variance-authority clsx tailwind-merge
 ```
 
-<Step>Add the `cn` helper and copy the source into `components/ui/button.tsx`</Step>
+<Step>添加 `cn` 工具函数，并将源码复制到 `components/ui/button.tsx`</Step>
 
 <ComponentSource name="button" title="components/ui/button.tsx" />
 
 </Steps>
 
-## 组件作用 · What it's for
+## 组件作用
 
-`Button` is the primary way to trigger an action — submitting a form, opening a
-dialog, confirming a choice. Use it for anything that _does_ something.
+`Button` 是触发操作的主要方式，例如提交表单、打开对话框或确认选择。任何需要“执行某个动作”
+的场景都可以使用它。
 
-- Reach for the **`link` variant** (or `asChild` with an `<a>`) when the control
-  navigates instead of acting.
-- Use **`variant="destructive"`** for irreversible actions like delete.
-- Use **`size="icon"`** for icon-only buttons, and always include an
-  `aria-label` or visually-hidden text for accessibility.
+- 当控件用于页面跳转而非执行操作时，使用 **`link` 变体**，或通过 `asChild` 配合 `<a>`。
+- 删除等不可逆操作使用 **`variant="destructive"`**。
+- 仅显示图标时使用 **`size="icon"`**，并始终提供 `aria-label` 或视觉隐藏文字以保证无障碍体验。
 
-## 组件属性 · Props
+## 交互演示
 
-`Button` extends every native `<button>` attribute, plus:
+调整属性即可实时查看按钮变化。下方控件和属性表均根据组件的 TypeScript 类型与文档注释自动生成。
 
-<PropsTable
-  data={[
-    {
-      prop: "variant",
-      type: '"default" | "secondary" | "destructive" | "outline" | "ghost" | "link"',
-      default: '"default"',
-      description: "Visual style of the button.",
-    },
-    {
-      prop: "size",
-      type: '"default" | "sm" | "lg" | "icon"',
-      default: '"default"',
-      description: "Height and padding preset. Use \"icon\" for square icon-only buttons.",
-    },
-    {
-      prop: "asChild",
-      type: "boolean",
-      default: "false",
-      description:
-        "Merge Button's props/styles onto the single child element (via Radix Slot) instead of rendering a <button>. Useful for links.",
-    },
-    {
-      prop: "className",
-      type: "string",
-      description:
-        "Extra classes, merged with the variant classes via cn() — your classes win on conflicts.",
-    },
-    {
-      prop: "disabled",
-      type: "boolean",
-      default: "false",
-      description: "Native disabled state. Also removes pointer events and dims the button.",
-    },
-  ]}
-/>
+<Playground name="button" exclude={["asChild"]} />
 
-## 事件 · Events
+## 组件属性
 
-`Button` forwards all native button events because it spreads `{...props}` onto
-the underlying element.
+`Button` 继承原生 `<button>` 的全部属性，并额外提供：
+
+<PropsTable name="button" />
+
+## 事件
+
+`Button` 会将 `{...props}` 展开到底层元素，因此支持所有原生按钮事件。
 
 <PropsTable
   data={[
-    {
-      prop: "onClick",
-      type: "(event: React.MouseEvent<HTMLButtonElement>) => void",
-      description: "Fired when the button is activated by mouse, keyboard or touch.",
-    },
-    {
-      prop: "onFocus / onBlur",
-      type: "(event: React.FocusEvent<HTMLButtonElement>) => void",
-      description: "Focus lifecycle events.",
-    },
-    {
-      prop: "type",
-      type: '"button" | "submit" | "reset"',
-      default: '"button"',
-      description: "Behaviour inside a <form>. Set \"submit\" to submit the form.",
-    },
+    { prop: "onClick", type: "(event: React.MouseEvent<HTMLButtonElement>) => void", description: "通过鼠标、键盘或触摸激活按钮时触发。" },
+    { prop: "onFocus / onBlur", type: "(event: React.FocusEvent<HTMLButtonElement>) => void", description: "焦点进入和离开事件。" },
+    { prop: "type", type: '"button" | "submit" | "reset"', default: '"button"', description: "按钮在表单中的行为；设为 submit 可提交表单。" },
   ]}
 />
 
-<Callout title="asChild changes the element">
-  When `asChild` is set, events are attached to the child element you render
-  (for example an `<a>`), not to a `<button>`.
+<Callout title="asChild 会改变底层元素">
+  启用 `asChild` 后，事件会绑定到你渲染的子元素（例如 `<a>`），而不是 `<button>`。
 </Callout>
 
-## 拓展使用 · Extended usage
+## 扩展使用
 
-### Variants
+### 变体
 
 <ComponentPreview name="button-variants" />
 
-### Sizes
+### 尺寸
 
 <ComponentPreview name="button-sizes" />
 
-### With icon
+### 搭配图标
 
 <ComponentPreview name="button-with-icon" />
 
-### Loading state
+### 加载状态
 
 <ComponentPreview name="button-loading" />
 
-### As a link (`asChild`)
+### 链接变体（动态下划线）
 
-Render a semantic `<a>` that looks like a button by combining `asChild` with a
-link element:
+`link` 变体会在悬停时让下划线滑入，并同步平滑改变文字颜色，无需额外配置。下划线紧贴文字标签
+而不是按钮的内边距边界，因此在任何 `size` 下都能保持合适的视觉效果。
+
+<ComponentPreview name="button-link" />
+
+<Callout title="通过 asChild 渲染链接">
+  使用 `asChild` 渲染真实链接时，按钮会将元素控制权交给子元素，包裹标签的下划线动画无法应用，
+  因此 `link` 变体会回退为普通的 `hover:underline`。如有需要，请直接在 `<a>` 上添加动画样式。
+</Callout>
+
+### 作为链接（`asChild`）
+
+将 `asChild` 与链接元素组合，可渲染一个外观像按钮、语义仍为 `<a>` 的元素：
 
 <ComponentPreview name="button-as-child" />
+
+### 动效（可选）
+
+设置 `motion` 属性可启用轻微的弹性按压与悬停微交互。该功能依赖
+[`motion`](/docs/components/motion)，并会在用户偏好减少动态效果时自动禁用。
+
+<ComponentPreview name="button-motion" />
+
+### 涟漪（可选）
+
+设置 `ripple` 属性可启用从指针位置向外扩散的 Material 风格点击涟漪。它可以与 `motion`
+组合使用；与其他 wui 动画一样，启用 `prefers-reduced-motion` 时不会播放。使用 `asChild`
+时会忽略 `ripple`。
+
+<ComponentPreview name="button-ripple" />

@@ -1,29 +1,28 @@
 ---
-title: Installation
-description: Set up wui in your project.
+title: 安装
+description: 在你的项目中配置 wui。
 ---
 
-## 1. Initialize
+## 1. 初始化
 
-Run `init` in the root of your React project:
+在 React 项目根目录运行 `init`：
 
 <CodeTabs command="wui@latest init" />
 
-This creates a `wui.json` config, adds the `cn` helper at `lib/utils.ts`, and
-writes the theme tokens into your global stylesheet.
+该命令会创建 `wui.json` 配置文件，在 `lib/utils.ts` 中添加 `cn` 工具函数，
+并将主题令牌写入全局样式表。
 
-## 2. Add components
+## 2. 添加组件
 
 <CodeTabs command="wui@latest add @wui/button @wui/dialog" />
 
-Each component is written into your project (for example
-`components/ui/button.tsx`) together with any registry dependencies it needs.
-Because the code lives in your repo, you can edit it however you like.
+每个组件及其所需的 registry 依赖都会写入你的项目中（例如
+`components/ui/button.tsx`）。由于源码位于你的仓库中，你可以按需自由修改。
 
-## shadcn compatibility
+## 兼容 shadcn
 
-The wui registry follows the shadcn `registry-item.json` schema, so the
-official shadcn CLI works too:
+wui registry 遵循 shadcn 的 `registry-item.json` 规范，因此也可以使用
+shadcn 官方 CLI：
 
 ```bash
 npx shadcn@latest add @wui/button

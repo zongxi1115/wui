@@ -6,6 +6,7 @@ import type { MDXComponents } from "mdx/types"
 import { CodeTabs } from "@/components/code-tabs"
 import { ComponentPreview } from "@/components/component-preview"
 import { ComponentSource } from "@/components/component-source"
+import { Playground } from "@/components/playground"
 import { PropsTable } from "@/components/props-table"
 
 export function getMDXComponents(components?: MDXComponents): MDXComponents {
@@ -14,6 +15,7 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
     ComponentPreview,
     ComponentSource,
     CodeTabs,
+    Playground,
     PropsTable,
     Steps,
     Step,
