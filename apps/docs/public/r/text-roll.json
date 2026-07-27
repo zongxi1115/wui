@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "text-roll",
+  "type": "registry:ui",
+  "title": "Text Roll",
+  "description": "Rolls a second copy of each character into view.",
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/text-roll.tsx",
+      "type": "registry:ui",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport {\n  motion,\n  useReducedMotion,\n  type Transition,\n  type Variants,\n} from \"motion/react\"\n\nimport { cn } from \"@/registry/lib/utils\"\n\nconst defaultVariants: Variants = {\n  rest: { y: \"0%\" },\n  hover: { y: \"-50%\" },\n}\n\nexport interface TextRollProps extends React.ComponentProps<\"span\"> {\n  /** Text rolled character by character. */\n  children: string\n  /** Duration of each character roll in seconds. @default 0.45 */\n  duration?: number\n  /** Delay for each character entering the roll. */\n  getEnterDelay?: (index: number) => number\n  /** Delay for each character returning to rest. */\n  getExitDelay?: (index: number) => number\n  /** Motion transition merged into every character. */\n  transition?: Transition\n  /** Rest and hover states for each character track. */\n  variants?: Variants\n  /** Play on hover or immediately on mount. @default \"hover\" */\n  trigger?: \"hover\" | \"mount\"\n}\n\n/** Rolls a second copy of each character into view. */\nfunction TextRoll({\n  children,\n  className,\n  duration = 0.45,\n  getEnterDelay = (index) => index * 0.025,\n  getExitDelay = (index) => index * 0.02,\n  transition,\n  variants = defaultVariants,\n  trigger = \"hover\",\n  onMouseEnter,\n  onMouseLeave,\n  ...props\n}: TextRollProps) {\n  const reduceMotion = useReducedMotion()\n  const [hovered, setHovered] = React.useState(false)\n  const active = trigger === \"mount\" || hovered\n\n  return (\n    <span\n      aria-label={children}\n      data-slot=\"text-roll\"\n      className={cn(\"inline-flex\", className)}\n      onMouseEnter={(event) => {\n        setHovered(true)\n        onMouseEnter?.(event)\n      }}\n      onMouseLeave={(event) => {\n        setHovered(false)\n        onMouseLeave?.(event)\n      }}\n      {...props}\n    >\n      {Array.from(children).map((character, index) => (\n        <span\n          aria-hidden=\"true\"\n          data-slot=\"text-roll-character\"\n          className=\"inline-block h-[1em] overflow-hidden leading-none\"\n          key={`${character}-${index}`}\n        >\n          <motion.span\n            className=\"flex flex-col\"\n            variants={variants}\n            initial=\"rest\"\n            animate={reduceMotion ? \"rest\" : active ? \"hover\" : \"rest\"}\n            transition={{\n              duration,\n              ease: [0.22, 1, 0.36, 1],\n              delay: active ? getEnterDelay(index) : getExitDelay(index),\n              ...transition,\n            }}\n          >\n            <span className=\"block h-[1em] whitespace-pre\">\n              {character === \" \" ? \"\\u00a0\" : character}\n            </span>\n            <span className=\"block h-[1em] whitespace-pre\">\n              {character === \" \" ? \"\\u00a0\" : character}\n            </span>\n          </motion.span>\n        </span>\n      ))}\n    </span>\n  )\n}\n\nexport { TextRoll }\n"
+    }
+  ],
+  "categories": [
+    "motion",
+    "text-effect"
+  ]
+}

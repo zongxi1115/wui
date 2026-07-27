@@ -1,0 +1,38 @@
+---
+title: 下载 Download
+description: 同时表达文件信息、下载进度与完成反馈的下载操作组件。
+component: download
+---
+
+## 基础示例
+
+<ComponentPreview name="download-demo" />
+
+<CodeTabs command="wui@latest add @wui/download" />
+
+<ComponentSource name="download" title="components/ui/download.tsx" />
+
+## 组件作用
+
+`Download` 将文件身份、体积、进度和操作反馈收拢到一个明确的下载入口。它适合资源包、报告、媒体与导出文件；只有一个简单小文件时，普通 Button 搭配下载图标通常更合适。
+
+传入 `href` 可直接触发浏览器下载；需要请求接口或生成文件时使用 `onDownload`。业务方可通过 `status` 与 `progress` 精确控制下载生命周期。
+
+组件默认根据 `filename` 的后缀显示对应的 Lucide 文件图标。通过 `fileIcon` 可传入自定义图标，或传入 `false` 隐藏图标。
+
+## 组件属性
+
+<PropsTable name="download" />
+
+## 事件
+
+- `onDownload()`：用户激活下载时调用，可返回 Promise。
+- 原生 `onFocus`、`onBlur` 等按钮事件会继续透传。
+
+## 拓展使用
+
+### 紧凑尺寸与状态
+
+<ComponentPreview name="download-states" />
+
+`status` 支持 `idle`、`downloading`、`complete` 与 `error`；`progress` 接受 0–100 的数值。

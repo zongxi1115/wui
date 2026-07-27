@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "infinite-slider",
+  "type": "registry:ui",
+  "title": "Infinite Slider",
+  "description": "A continuously looping horizontal or vertical content track.",
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/infinite-slider.tsx",
+      "type": "registry:ui",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport {\n  motion,\n  useAnimationFrame,\n  useInView,\n  useReducedMotion,\n  type HTMLMotionProps,\n} from \"motion/react\"\n\nimport { cn } from \"@/registry/lib/utils\"\n\nexport interface InfiniteSliderProps extends Omit<\n  HTMLMotionProps<\"div\">,\n  \"children\" | \"direction\"\n> {\n  /** Items displayed in the continuously looping track. */\n  children: React.ReactNode\n  /** Space between items in pixels. @default 16 */\n  gap?: number\n  /** Track speed in pixels per second. @default 64 */\n  speed?: number\n  /** Track speed while hovered. Set to `0` to pause on hover. */\n  speedOnHover?: number\n  /** Slider axis. @default \"horizontal\" */\n  direction?: \"horizontal\" | \"vertical\"\n  /** Move in the opposite direction. @default false */\n  reverse?: boolean\n}\n\n/** A continuously looping horizontal or vertical content track. */\nfunction InfiniteSlider({\n  children,\n  className,\n  gap = 16,\n  speed = 64,\n  speedOnHover,\n  direction = \"horizontal\",\n  reverse = false,\n  onMouseEnter,\n  onMouseLeave,\n  ...props\n}: InfiniteSliderProps) {\n  const containerRef = React.useRef<HTMLDivElement>(null)\n  const groupRef = React.useRef<HTMLDivElement>(null)\n  const progressRef = React.useRef(0)\n  const [groupSize, setGroupSize] = React.useState(0)\n  const [hovered, setHovered] = React.useState(false)\n  const reduceMotion = useReducedMotion()\n  const inView = useInView(containerRef)\n\n  React.useEffect(() => {\n    const group = groupRef.current\n    if (!group) return\n\n    const measure = () => {\n      const rect = group.getBoundingClientRect()\n      setGroupSize(direction === \"horizontal\" ? rect.width : rect.height)\n    }\n    measure()\n\n    const observer = new ResizeObserver(measure)\n    observer.observe(group)\n    return () => observer.disconnect()\n  }, [direction, gap, children])\n\n  useAnimationFrame((_, delta) => {\n    if (reduceMotion || !inView || groupSize === 0) return\n    const currentSpeed =\n      hovered && speedOnHover !== undefined ? speedOnHover : speed\n    progressRef.current =\n      (progressRef.current + (currentSpeed * delta) / 1000) % groupSize\n\n    const track = groupRef.current?.parentElement\n    if (!track) return\n    const progress = progressRef.current\n    const offset = reverse ? progress - groupSize : -progress\n    track.style.transform =\n      direction === \"horizontal\"\n        ? `translate3d(${offset}px, 0, 0)`\n        : `translate3d(0, ${offset}px, 0)`\n  })\n\n  const groupClassName = cn(\n    \"flex shrink-0\",\n    direction === \"horizontal\" ? \"flex-row\" : \"flex-col\"\n  )\n  const groupStyle =\n    direction === \"horizontal\"\n      ? { gap, paddingRight: gap }\n      : { gap, paddingBottom: gap }\n\n  return (\n    <motion.div\n      ref={containerRef}\n      data-slot=\"infinite-slider\"\n      className={cn(\n        reduceMotion\n          ? direction === \"horizontal\"\n            ? \"overflow-x-auto\"\n            : \"overflow-y-auto\"\n          : \"overflow-hidden\",\n        className\n      )}\n      onMouseEnter={(event) => {\n        setHovered(true)\n        onMouseEnter?.(event)\n      }}\n      onMouseLeave={(event) => {\n        setHovered(false)\n        onMouseLeave?.(event)\n      }}\n      {...props}\n    >\n      <div\n        data-slot=\"infinite-slider-track\"\n        className={cn(\n          \"flex w-max will-change-transform\",\n          direction === \"vertical\" && \"flex-col\"\n        )}\n      >\n        <div\n          ref={groupRef}\n          data-slot=\"infinite-slider-group\"\n          className={groupClassName}\n          style={groupStyle}\n        >\n          {children}\n        </div>\n        {reduceMotion ? null : (\n          <div\n            aria-hidden=\"true\"\n            inert\n            data-slot=\"infinite-slider-group\"\n            className={groupClassName}\n            style={groupStyle}\n          >\n            {children}\n          </div>\n        )}\n      </div>\n    </motion.div>\n  )\n}\n\nexport { InfiniteSlider }\n"
+    }
+  ],
+  "categories": [
+    "motion"
+  ]
+}

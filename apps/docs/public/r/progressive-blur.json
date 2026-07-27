@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "progressive-blur",
+  "type": "registry:ui",
+  "title": "渐进模糊",
+  "description": "使用渐变遮罩构建的方向可控分层背景模糊。",
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/progressive-blur.tsx",
+      "type": "registry:ui",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { motion, type HTMLMotionProps } from \"motion/react\"\n\nimport { cn } from \"@/registry/lib/utils\"\n\nconst gradientAngles = {\n  top: 0,\n  right: 90,\n  bottom: 180,\n  left: 270,\n} as const\n\nexport interface ProgressiveBlurProps extends HTMLMotionProps<\"div\"> {\n  /** Edge that receives the strongest blur. @default \"bottom\" */\n  direction?: keyof typeof gradientAngles\n  /** Number of overlapping mask bands. Values below 2 are clamped. @default 8 */\n  blurLayers?: number\n  /** Blur added by each successive layer in pixels. @default 0.25 */\n  blurIntensity?: number\n}\n\nfunction ProgressiveBlur({\n  direction = \"bottom\",\n  blurLayers = 8,\n  blurIntensity = 0.25,\n  className,\n  ...props\n}: ProgressiveBlurProps) {\n  const layers = Math.max(Math.round(blurLayers), 2)\n  const segmentSize = 1 / (layers + 1)\n  const angle = gradientAngles[direction]\n\n  return (\n    <div\n      aria-hidden=\"true\"\n      data-slot=\"progressive-blur\"\n      className={cn(\"pointer-events-none relative\", className)}\n    >\n      {Array.from({ length: layers }, (_, index) => {\n        const stops = [index, index + 1, index + 2, index + 3].map(\n          (position, stopIndex) =>\n            `rgba(0, 0, 0, ${stopIndex === 1 || stopIndex === 2 ? 1 : 0}) ${position * segmentSize * 100}%`\n        )\n        const maskImage = `linear-gradient(${angle}deg, ${stops.join(\", \")})`\n        const blur = Math.max(0, index * blurIntensity)\n\n        return (\n          <motion.div\n            key={index}\n            data-slot=\"progressive-blur-layer\"\n            className=\"absolute inset-0 rounded-[inherit]\"\n            style={{\n              maskImage,\n              WebkitMaskImage: maskImage,\n              backdropFilter: `blur(${blur}px)`,\n              WebkitBackdropFilter: `blur(${blur}px)`,\n            }}\n            {...props}\n          />\n        )\n      })}\n    </div>\n  )\n}\n\nexport { ProgressiveBlur, gradientAngles }\n"
+    }
+  ],
+  "categories": [
+    "motion",
+    "advanced"
+  ]
+}

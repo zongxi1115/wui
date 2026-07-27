@@ -1,0 +1,69 @@
+---
+title: 图标
+description: 基于 Lucide 的可搜索图标集合与无障碍渲染组件。
+component: icon
+---
+
+## 基础示例
+
+<ComponentPreview name="icon-demo" />
+
+安装组件：
+
+<CodeTabs command="wui@latest add @wui/icon" />
+
+<Steps>
+
+<Step>安装图标依赖</Step>
+
+```bash
+pnpm add lucide-react
+```
+
+<Step>将组件源码复制到 `components/ui/icon.tsx`</Step>
+
+<ComponentSource name="icon" title="components/ui/icon.tsx" />
+
+</Steps>
+
+## 图标库
+
+这里收录当前 `lucide-react` 版本提供的全部图标。输入英文名称筛选，点击任意图标即可复制按需导入语句。图标按页加载，避免一次渲染整个集合。
+
+<IconLibrary />
+
+Lucide 采用 ISC 许可，可用于个人和商业项目。它不收录品牌标志；品牌图标建议单独选择并逐项核对商标与许可，不要混入基础产品图标集合。
+
+## 收集来源
+
+- [Lucide](https://lucide.dev/)：当前主库，线性风格统一，React 支持和按需导入完善。
+- [Simple Icons](https://simpleicons.org/)：只在需要品牌标志时参考；图形许可不等于获得品牌商标授权。
+- [Iconify](https://icon-sets.iconify.design/)：适合跨图标集检索和发现候选，但每个集合的许可不同，收录前需要单独核对。
+- [AnimateIcons](https://animateicons.in/icons/lucide)：当前动态主库，提供独立编排的逐路径动画和 npm 按需导入。
+- [ItsHover](https://www.itshover.com/icons)：动态补充来源，适合寻找主库未覆盖的品牌、技术或动作图标。
+
+## 使用方式
+
+```tsx
+import { SearchIcon } from "lucide-react"
+
+import { Icon } from "@/components/ui/icon"
+
+<Icon icon={SearchIcon} />
+<Icon icon={SearchIcon} size="lg" strokeWidth={1.75} />
+<Icon icon={SearchIcon} label="搜索" />
+```
+
+`label` 为空时，图标会被视为装饰并对辅助技术隐藏。如果图标单独传达含义，请提供 `label`；如果图标位于已有文字或 `aria-label` 的按钮内，保持装饰状态即可。
+
+## 尺寸
+
+`xs`、`sm`、`md`、`lg`、`xl` 分别对应 12、16、20、24、32px，也可以直接传入像素数值。统一尺寸令图标在按钮、输入框和菜单中的密度保持一致。
+
+## 动态图标
+
+需要图标内部路径随交互运动时，使用 [`AnimatedIcon`](/docs/components/animated-icon)。动态图标采用独立组件，因为铃铛、复制、菜单等图形需要不同的路径编排，无法由一个通用 SVG 包装器生成。
+
+## 组件属性
+
+<PropsTable name="icon" />

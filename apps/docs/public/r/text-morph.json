@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "text-morph",
+  "type": "registry:ui",
+  "title": "Text Morph",
+  "description": "Morphs shared characters into their new positions when text changes.",
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/text-morph.tsx",
+      "type": "registry:ui",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { LayoutGroup, motion, useReducedMotion } from \"motion/react\"\n\nimport { cn } from \"@/registry/lib/utils\"\n\nexport interface TextMorphProps extends React.ComponentProps<\"p\"> {\n  /** Text whose shared characters morph between positions. */\n  children: string\n  /** HTML element rendered by the component. @default \"p\" */\n  as?: React.ElementType\n}\n\nfunction characterKeys(text: string) {\n  const seen = new Map<string, number>()\n  return Array.from(text).map((character) => {\n    const count = seen.get(character) ?? 0\n    seen.set(character, count + 1)\n    return `${character}-${count}`\n  })\n}\n\n/** Morphs shared characters into their new positions when the text changes. */\nfunction TextMorph({\n  children,\n  as = \"p\",\n  className,\n  ...props\n}: TextMorphProps) {\n  const reduceMotion = useReducedMotion()\n  const Component = as\n  const keys = React.useMemo(() => characterKeys(children), [children])\n\n  if (reduceMotion) {\n    return (\n      <Component data-slot=\"text-morph\" className={className} {...props}>\n        {children}\n      </Component>\n    )\n  }\n\n  return (\n    <LayoutGroup>\n      <Component\n        aria-label={children}\n        data-slot=\"text-morph\"\n        className={cn(\"inline-flex\", className)}\n        {...props}\n      >\n        {Array.from(children).map((character, index) => (\n          <motion.span\n            aria-hidden=\"true\"\n            data-slot=\"text-morph-character\"\n            className=\"inline-block whitespace-pre\"\n            layout\n            layoutId={keys[index]}\n            transition={{ type: \"spring\", stiffness: 420, damping: 35 }}\n            key={keys[index]}\n          >\n            {character === \" \" ? \"\\u00a0\" : character}\n          </motion.span>\n        ))}\n      </Component>\n    </LayoutGroup>\n  )\n}\n\nexport { TextMorph }\n"
+    }
+  ],
+  "categories": [
+    "motion",
+    "text-effect"
+  ]
+}

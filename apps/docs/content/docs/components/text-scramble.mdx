@@ -1,0 +1,29 @@
+---
+title: 文本扰码
+description: 随机字符逐步解析为目标文本的扰码效果。
+component: text-scramble
+---
+
+## 基础示例
+
+<ComponentPreview name="text-scramble-demo" />
+
+<CodeTabs command="wui@latest add @wui/text-scramble" />
+
+<ComponentSource name="text-scramble" title="components/ui/text-scramble.tsx" />
+
+## 组件作用
+
+`TextScramble` 适合生成、解码或终端语义的短状态。随机字符只作为视觉层，读屏始终获得最终文本。避免对正文和重要错误信息使用。
+
+## 组件属性
+
+<PropsTable name="text-scramble" />
+
+## 事件
+
+`onScrambleComplete` 在最终文本完全解析后触发。将 `trigger` 从 `false` 切换为 `true` 可以重播。
+
+## 扩展使用
+
+通过 `characterSet` 限制随机字符风格，例如仅用 `01` 营造二进制效果。`duration` 控制总时长，`speed` 控制随机字符刷新间隔。

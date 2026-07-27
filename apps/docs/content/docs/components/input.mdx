@@ -1,0 +1,45 @@
+---
+title: 输入框 Input
+description: 支持前后内容、浮动标签、下划线和错误态的输入框。
+component: input
+---
+
+## 基础示例
+
+<ComponentPreview name="input-demo" />
+
+<CodeTabs command="wui@latest add @wui/input" />
+
+<ComponentSource name="input" title="components/ui/input.tsx" />
+
+## 组件作用
+
+`Input` 用于录入单行文本、邮箱、密码或搜索内容。它保留原生 input 的全部语义，并用 `startContent`、`endContent` 承载图标、快捷键提示或清除按钮。聚焦反馈只改变边框与焦点环，不移动组件本身，避免页面产生跳动。
+
+## 组件属性
+
+<PropsTable name="input" />
+
+## 事件
+
+所有原生输入事件均会透传，包括 `onChange`、`onInput`、`onFocus`、`onBlur` 与键盘事件。传入 `aria-invalid="true"` 会同步显示错误边框与光晕。
+
+## 拓展使用
+
+### 图标、错误与禁用态
+
+<ComponentPreview name="input-states" />
+
+### 浮动标签
+
+传入 `label` 后，标签初始位于输入区域中部；聚焦或输入内容时会缩小并移动到左上角。
+
+<ComponentPreview name="input-floating-label" />
+
+### 下划线样式
+
+`variant="underline"` 适合密度更高、容器边界已经明确的表单区域。
+
+<ComponentPreview name="input-underline" />
+
+使用 `visualSize="sm | default | lg"` 调整视觉尺寸，原生 `size` 属性仍保留其 HTML 含义。

@@ -1,0 +1,29 @@
+---
+title: 文本变形
+description: 在文字变化时让共享字符流畅地移动到新位置。
+component: text-morph
+---
+
+## 基础示例
+
+<ComponentPreview name="text-morph-demo" />
+
+<CodeTabs command="wui@latest add @wui/text-morph" />
+
+<ComponentSource name="text-morph" title="components/ui/text-morph.tsx" />
+
+## 组件作用
+
+`TextMorph` 为新旧文本中相同的字符建立布局关联，适合按钮标签、短状态和简短标题。字符越相近，形变越自然；完全不同的长文本更适合 `TextEffect`。
+
+## 组件属性
+
+<PropsTable name="text-morph" />
+
+## 事件
+
+组件没有自有回调，更新 `children` 即会触发布局动画，并透传底层元素的原生事件。
+
+## 扩展使用
+
+通过 `as="span"` 放入按钮或句子中。视觉字符对辅助技术隐藏，完整的新文本会作为元素标签读取；减少动态效果时直接替换文字。

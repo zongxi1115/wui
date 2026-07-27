@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "in-view",
+  "type": "registry:ui",
+  "title": "In View",
+  "description": "Animates content when it enters the viewport.",
+  "dependencies": [
+    "motion"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/in-view.tsx",
+      "type": "registry:ui",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport {\n  motion,\n  useInView as useMotionInView,\n  useReducedMotion,\n  type HTMLMotionProps,\n  type Transition,\n  type UseInViewOptions,\n  type Variants,\n} from \"motion/react\"\n\nconst defaultVariants: Variants = {\n  hidden: { opacity: 0, y: 16 },\n  visible: { opacity: 1, y: 0 },\n}\n\nexport interface InViewProps extends Omit<\n  HTMLMotionProps<\"div\">,\n  \"children\" | \"variants\"\n> {\n  /** Content animated when it enters the viewport. */\n  children: React.ReactNode\n  /** Hidden and visible animation states. */\n  variants?: Variants\n  /** Motion transition used between states. */\n  transition?: Transition\n  /** Intersection observer options such as `margin` and `amount`. */\n  viewOptions?: UseInViewOptions\n  /** Only play the entrance animation once. @default true */\n  once?: boolean\n  /** HTML element rendered by the component. @default \"div\" */\n  as?: React.ElementType\n}\n\n/** Animates content when it enters the viewport. */\nfunction InView({\n  children,\n  variants = defaultVariants,\n  transition = { duration: 0.45, ease: \"easeOut\" },\n  viewOptions,\n  once = true,\n  as = \"div\",\n  ...props\n}: InViewProps) {\n  const ref = React.useRef<HTMLElement>(null)\n  const reduceMotion = useReducedMotion()\n  const isInView = useMotionInView(ref, { ...viewOptions, once })\n  const MotionComponent = React.useMemo(() => motion.create(as), [as])\n\n  return (\n    <MotionComponent\n      ref={ref}\n      data-slot=\"in-view\"\n      initial={reduceMotion ? false : \"hidden\"}\n      animate={reduceMotion || isInView ? \"visible\" : \"hidden\"}\n      variants={variants}\n      transition={reduceMotion ? { duration: 0 } : transition}\n      {...props}\n    >\n      {children}\n    </MotionComponent>\n  )\n}\n\nexport { InView }\n"
+    }
+  ],
+  "categories": [
+    "motion"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "tooltip",
+  "type": "registry:ui",
+  "title": "Tooltip",
+  "description": "An accessible contextual label shown on hover or keyboard focus.",
+  "dependencies": [
+    "radix-ui",
+    "class-variance-authority"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/tooltip.tsx",
+      "type": "registry:ui",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { cva } from \"class-variance-authority\"\nimport { Tooltip as TooltipPrimitive } from \"radix-ui\"\n\nimport { cn } from \"@/registry/lib/utils\"\n\nconst tooltipContentVariants = cva(\n  \"z-50 max-w-72 rounded-md bg-foreground font-medium text-background shadow-md outline-none will-change-[transform,opacity] data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=delayed-open]:animate-in data-[state=delayed-open]:fade-in-0 data-[state=delayed-open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-1 data-[side=left]:slide-in-from-right-1 data-[side=right]:slide-in-from-left-1 data-[side=top]:slide-in-from-bottom-1 motion-reduce:animate-none\",\n  {\n    variants: {\n      size: {\n        sm: \"px-2 py-1 text-[11px] leading-4\",\n        default: \"px-2.5 py-1.5 text-xs leading-4\",\n      },\n    },\n    defaultVariants: {\n      size: \"default\",\n    },\n  }\n)\n\nexport interface TooltipProviderProps\n  extends React.ComponentProps<typeof TooltipPrimitive.Provider> {}\n\n/** Coordinates open delays between multiple tooltips. */\nfunction TooltipProvider({\n  delayDuration = 350,\n  skipDelayDuration = 200,\n  ...props\n}: TooltipProviderProps) {\n  return (\n    <TooltipPrimitive.Provider\n      delayDuration={delayDuration}\n      skipDelayDuration={skipDelayDuration}\n      {...props}\n    />\n  )\n}\n\nexport interface TooltipProps\n  extends Omit<\n    React.ComponentProps<typeof TooltipPrimitive.Root>,\n    | \"open\"\n    | \"defaultOpen\"\n    | \"onOpenChange\"\n    | \"delayDuration\"\n    | \"disableHoverableContent\"\n  > {\n  /** Controlled open state. */\n  open?: boolean\n  /** Initial open state when uncontrolled. @default false */\n  defaultOpen?: boolean\n  /** Called whenever the open state changes. */\n  onOpenChange?: (open: boolean) => void\n  /** Hover delay in milliseconds for this tooltip. */\n  delayDuration?: number\n  /** Close when the pointer leaves the trigger instead of allowing content hover. @default false */\n  disableHoverableContent?: boolean\n}\n\n/** Controls the open state of one tooltip. */\nfunction Tooltip(props: TooltipProps) {\n  return <TooltipPrimitive.Root {...props} />\n}\n\nfunction TooltipTrigger(\n  props: React.ComponentProps<typeof TooltipPrimitive.Trigger>\n) {\n  return <TooltipPrimitive.Trigger data-slot=\"tooltip-trigger\" {...props} />\n}\n\nexport interface TooltipContentProps\n  extends Omit<\n    React.ComponentProps<typeof TooltipPrimitive.Content>,\n    \"sideOffset\"\n  > {\n  /** Physical size of the tooltip panel. @default \"default\" */\n  size?: \"sm\" | \"default\"\n  /** Gap in pixels between the trigger and panel. @default 6 */\n  sideOffset?: number\n  /** Whether to render the directional arrow. @default true */\n  showArrow?: boolean\n}\n\n/** A portal-rendered label or short description for the trigger. */\nfunction TooltipContent({\n  className,\n  sideOffset = 6,\n  size = \"default\",\n  showArrow = true,\n  children,\n  ...props\n}: TooltipContentProps) {\n  return (\n    <TooltipPrimitive.Portal>\n      <TooltipPrimitive.Content\n        data-slot=\"tooltip-content\"\n        data-size={size}\n        sideOffset={sideOffset}\n        className={cn(tooltipContentVariants({ size }), className)}\n        {...props}\n      >\n        {children}\n        {showArrow ? (\n          <TooltipPrimitive.Arrow\n            data-slot=\"tooltip-arrow\"\n            className=\"fill-foreground\"\n            width={8}\n            height={4}\n          />\n        ) : null}\n      </TooltipPrimitive.Content>\n    </TooltipPrimitive.Portal>\n  )\n}\n\nexport {\n  Tooltip,\n  TooltipContent,\n  TooltipProvider,\n  TooltipTrigger,\n  tooltipContentVariants,\n}\n"
+    }
+  ]
+}

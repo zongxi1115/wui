@@ -1,0 +1,35 @@
+---
+title: 滑动输入 Slider
+description: 悬浮时展开轨道、数值标签实时跟随的可调输入控件。
+component: slider
+---
+
+## 基础示例
+
+<ComponentPreview name="slider-demo" />
+
+<CodeTabs command="wui@latest add @wui/slider" />
+
+<ComponentSource name="slider" title="components/ui/slider.tsx" />
+
+## 组件作用
+
+`Slider` 用于音量、亮度、缩放和数值范围等连续调整。轨道在悬浮或键盘聚焦时平滑变粗，滑块上方的标签跟随位置并实时显示当前值。
+
+## 组件属性
+
+<PropsTable name="slider" />
+
+## 事件
+
+`onValueChange(values)` 在拖动或键盘调整期间连续触发；需要只在操作完成后提交时使用 `onValueCommit(values)`。组件支持受控与非受控用法。
+
+## 拓展使用
+
+使用 `showValue="hover | always | never"` 控制浮动标签，通过 `formatValue` 添加百分号、单位或自定义内容。传入两个值即可得到范围选择器，方向键会按照 `step` 调整数值。
+
+### 满尺寸展开
+
+<ComponentPreview name="slider-expand" />
+
+`variant="expand"` 会在鼠标浮入或键盘聚焦时将轨道扩展到 `20px`，与滑块圆点保持相同高度；离开交互区域后平滑收回细轨道。

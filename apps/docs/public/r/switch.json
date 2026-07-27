@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "switch",
+  "type": "registry:ui",
+  "title": "Switch",
+  "description": "A tactile binary control with a spring-driven thumb.",
+  "dependencies": [
+    "radix-ui",
+    "class-variance-authority",
+    "motion"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/switch.tsx",
+      "type": "registry:ui",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { Switch as SwitchPrimitive } from \"radix-ui\"\nimport { motion, useReducedMotion } from \"motion/react\"\nimport { cva } from \"class-variance-authority\"\n\nimport { cn } from \"@/registry/lib/utils\"\n\nconst switchVariants = cva(\n  \"relative inline-flex shrink-0 cursor-pointer items-center rounded-full border border-transparent bg-input/80 shadow-inner outline-none transition-[background-color,box-shadow,opacity] duration-300 ease-out focus-visible:ring-[3px] focus-visible:ring-ring/40 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary\",\n  {\n    variants: {\n      size: {\n        sm: \"h-5 w-9 p-0.5\",\n        default: \"h-7 w-12 p-0.5\",\n        lg: \"h-8 w-14 p-0.5\",\n      },\n    },\n    defaultVariants: { size: \"default\" },\n  }\n)\n\nconst thumbSize = {\n  sm: { size: 16, travel: 16 },\n  default: { size: 24, travel: 20 },\n  lg: { size: 28, travel: 24 },\n} as const\n\nexport interface SwitchProps\n  extends Omit<React.ComponentProps<typeof SwitchPrimitive.Root>, \"children\"> {\n  /** Physical size of the switch. @default \"default\" */\n  size?: \"sm\" | \"default\" | \"lg\"\n}\n\n/** A tactile, accessible binary control with a spring-driven thumb. */\nfunction Switch({\n  className,\n  size = \"default\",\n  checked,\n  defaultChecked = false,\n  onCheckedChange,\n  ...props\n}: SwitchProps) {\n  const reduceMotion = useReducedMotion()\n  const [internalChecked, setInternalChecked] = React.useState(defaultChecked)\n  const isChecked = checked ?? internalChecked\n  const metrics = thumbSize[size]\n\n  function handleCheckedChange(next: boolean) {\n    if (checked === undefined) setInternalChecked(next)\n    onCheckedChange?.(next)\n  }\n\n  return (\n    <SwitchPrimitive.Root\n      data-slot=\"switch\"\n      data-size={size}\n      className={cn(switchVariants({ size }), className)}\n      checked={checked}\n      defaultChecked={defaultChecked}\n      onCheckedChange={handleCheckedChange}\n      {...props}\n    >\n      <SwitchPrimitive.Thumb asChild>\n        <motion.span\n          data-slot=\"switch-thumb\"\n          className=\"pointer-events-none block rounded-full bg-background shadow-sm\"\n          style={{ width: metrics.size, height: metrics.size }}\n          animate={{ x: isChecked ? metrics.travel : 0 }}\n          transition={\n            reduceMotion\n              ? { duration: 0 }\n              : { type: \"spring\", stiffness: 520, damping: 32, mass: 0.65 }\n          }\n        />\n      </SwitchPrimitive.Thumb>\n    </SwitchPrimitive.Root>\n  )\n}\n\nexport { Switch, switchVariants }\n"
+    }
+  ]
+}

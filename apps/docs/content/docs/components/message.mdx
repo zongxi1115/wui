@@ -1,0 +1,75 @@
+---
+title: 消息 Message
+description: 用于传达成功、提示、警告和错误状态的轻量反馈消息。
+component: message
+---
+
+## 基础示例
+
+<ComponentPreview name="message-demo" />
+
+<CodeTabs command="wui@latest add @wui/message" />
+
+<ComponentSource name="message" title="components/ui/message.tsx" />
+
+## 组件作用
+
+`MessageProvider` 与 `useMessage()` 用于由按钮或业务事件触发全局轻提示。消息通过 Portal 渲染，
+可以出现在左上、顶部、右上、左下、底部或右下，并在指定时间后自动消失。它适合保存成功、
+复制完成和可恢复错误等短反馈；需要承载复杂操作或长时间保留时，应使用 Notification 或 Dialog。
+
+底层 `Message` 也可以单独使用，作为表单附近或页面内容中的内联反馈条。
+
+不同变体通过图标、语义角色和克制的色彩变化表达含义，不依赖大面积高饱和背景。消息进入和
+退出时使用短距离弹簧过渡，并在 `prefers-reduced-motion` 下关闭位移和缩放。
+
+## 组件属性
+
+<PropsTable name="message" />
+
+在应用根部安装 Provider：
+
+```tsx
+<MessageProvider position="top" duration={3000}>
+  <App />
+</MessageProvider>
+```
+
+在任意子组件中触发：
+
+```tsx
+const message = useMessage()
+
+message.success("Changes saved", { position: "top-right" })
+message.error("Connection failed", { duration: 5000 })
+```
+
+## 事件
+
+- `onVisibleChange(visible)`：关闭按钮或受控状态改变可见性时触发。
+- `useMessage().open(options)`：创建消息并返回消息 id。
+- `dismiss(id)` / `clear()`：关闭单条消息或清空当前消息队列。
+- 原生指针、焦点与动画事件会继续透传到底层 Motion `div`。
+- `warning` 与 `destructive` 默认使用 `role="alert"`；其他变体默认使用 `role="status"`。
+
+## 拓展使用
+
+### 内联状态变体
+
+<ComponentPreview name="message-variants" />
+
+### 尾部操作
+
+<ComponentPreview name="message-action" />
+
+### 可关闭与受控显示
+
+<ComponentPreview name="message-dismissible" />
+
+### 紧凑尺寸
+
+<ComponentPreview name="message-compact" />
+
+<Callout title="避免消息堆叠">
+  同一区域尽量只显示一条当前消息。连续发生的全局反馈更适合交给 Toast 队列处理。
+</Callout>

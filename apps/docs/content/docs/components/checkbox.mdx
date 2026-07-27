@@ -1,0 +1,29 @@
+---
+title: 多选框 Checkbox
+description: 支持选中、未选中与不确定状态的多选控件。
+component: checkbox
+---
+
+## 基础示例
+
+<ComponentPreview name="checkbox-demo" />
+
+<CodeTabs command="wui@latest add @wui/checkbox" />
+
+<ComponentSource name="checkbox" title="components/ui/checkbox.tsx" />
+
+## 组件作用
+
+`Checkbox` 用于在一组互不排斥的选项中选择零项或多项，也适用于同意条款等需要明确提交的布尔选择。全局主色填充、紧凑圆角与路径绘制勾号提供清晰且丝滑的反馈。
+
+## 组件属性
+
+<PropsTable name="checkbox" />
+
+## 事件
+
+`onCheckedChange(checked)` 在状态变化后触发，值可能是 `true`、`false` 或 `"indeterminate"`。其余键盘、焦点与表单属性会透传到底层 Radix Root。
+
+## 拓展使用
+
+使用 `checked="indeterminate"` 表示一组子选项仅部分选中，横线和勾号都会使用路径动画进入；取消选择时则轻柔缩回。使用 `size="sm | default | lg"` 调整控件尺寸，文字标签应通过原生 `label` 与控件关联。

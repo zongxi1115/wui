@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "text-scramble",
+  "type": "registry:ui",
+  "title": "Text Scramble",
+  "description": "Resolves randomized characters into the supplied text.",
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/text-scramble.tsx",
+      "type": "registry:ui",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { useReducedMotion } from \"motion/react\"\n\nimport { cn } from \"@/registry/lib/utils\"\n\nconst defaultCharacterSet =\n  \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&*\"\n\nexport interface TextScrambleProps extends React.ComponentProps<\"p\"> {\n  /** Final text revealed by the scramble. */\n  children: string\n  /** HTML element rendered by the component. @default \"p\" */\n  as?: React.ElementType\n  /** Total reveal duration in seconds. @default 0.8 */\n  duration?: number\n  /** Seconds between scramble frames. @default 0.04 */\n  speed?: number\n  /** Characters sampled while scrambling. */\n  characterSet?: string\n  /** Start the effect. Toggling false then true replays it. @default true */\n  trigger?: boolean\n  /** Called after every character reaches its final value. */\n  onScrambleComplete?: () => void\n}\n\n/** Resolves randomized characters into the supplied text. */\nfunction TextScramble({\n  children,\n  as = \"p\",\n  duration = 0.8,\n  speed = 0.04,\n  characterSet = defaultCharacterSet,\n  trigger = true,\n  onScrambleComplete,\n  className,\n  ...props\n}: TextScrambleProps) {\n  const Component = as\n  const reduceMotion = useReducedMotion()\n  const [display, setDisplay] = React.useState(children)\n\n  React.useEffect(() => {\n    if (!trigger || reduceMotion) {\n      setDisplay(children)\n      return\n    }\n\n    const startedAt = performance.now()\n    const frameDuration = Math.max(speed * 1000, 16)\n    const totalDuration = Math.max(duration * 1000, frameDuration)\n    const timer = window.setInterval(() => {\n      const progress = Math.min(\n        (performance.now() - startedAt) / totalDuration,\n        1\n      )\n      const resolved = Math.floor(progress * children.length)\n      setDisplay(\n        Array.from(children)\n          .map((character, index) => {\n            if (/\\s/.test(character) || index < resolved) return character\n            return (\n              characterSet[Math.floor(Math.random() * characterSet.length)] ??\n              character\n            )\n          })\n          .join(\"\")\n      )\n      if (progress >= 1) {\n        window.clearInterval(timer)\n        setDisplay(children)\n        onScrambleComplete?.()\n      }\n    }, frameDuration)\n\n    return () => window.clearInterval(timer)\n  }, [\n    characterSet,\n    children,\n    duration,\n    onScrambleComplete,\n    reduceMotion,\n    speed,\n    trigger,\n  ])\n\n  return (\n    <Component\n      aria-label={children}\n      data-slot=\"text-scramble\"\n      className={cn(\"font-mono\", className)}\n      {...props}\n    >\n      <span aria-hidden=\"true\">{display}</span>\n    </Component>\n  )\n}\n\nexport { TextScramble }\n"
+    }
+  ],
+  "categories": [
+    "motion",
+    "text-effect"
+  ]
+}

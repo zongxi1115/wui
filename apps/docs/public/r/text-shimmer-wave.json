@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "text-shimmer-wave",
+  "type": "registry:ui",
+  "title": "Text Shimmer Wave",
+  "description": "Sends a shimmer-like 3D wave through text one character at a time.",
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/text-shimmer-wave.tsx",
+      "type": "registry:ui",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { motion, useReducedMotion, type Transition } from \"motion/react\"\n\nimport { cn } from \"@/registry/lib/utils\"\n\nexport interface TextShimmerWaveProps extends React.ComponentProps<\"span\"> {\n  /** Text animated as a traveling character wave. */\n  children: string\n  /** HTML element rendered by the component. @default \"span\" */\n  as?: React.ElementType\n  /** Seconds for one full wave. @default 1.5 */\n  duration?: number\n  /** Z-axis travel in pixels. @default 10 */\n  zDistance?: number\n  /** Horizontal travel in pixels. @default 2 */\n  xDistance?: number\n  /** Vertical travel in pixels. @default -2 */\n  yDistance?: number\n  /** Distance between character wave phases. @default 1 */\n  spread?: number\n  /** Peak character scale. @default 1.1 */\n  scaleDistance?: number\n  /** Peak Y-axis rotation in degrees. @default 10 */\n  rotateYDistance?: number\n  /** Motion transition merged into every character. */\n  transition?: Transition\n}\n\n/** Sends a shimmer-like 3D wave through text, one character at a time. */\nfunction TextShimmerWave({\n  children,\n  as = \"span\",\n  duration = 1.5,\n  zDistance = 10,\n  xDistance = 2,\n  yDistance = -2,\n  spread = 1,\n  scaleDistance = 1.1,\n  rotateYDistance = 10,\n  transition,\n  className,\n  ...props\n}: TextShimmerWaveProps) {\n  const Component = as\n  const reduceMotion = useReducedMotion()\n\n  return (\n    <Component\n      aria-label={children}\n      data-slot=\"text-shimmer-wave\"\n      className={cn(\"inline-flex [perspective:400px]\", className)}\n      {...props}\n    >\n      {Array.from(children).map((character, index) => (\n        <motion.span\n          aria-hidden=\"true\"\n          data-slot=\"text-shimmer-wave-character\"\n          className=\"text-muted-foreground inline-block whitespace-pre\"\n          key={`${character}-${index}`}\n          animate={\n            reduceMotion\n              ? undefined\n              : {\n                  color: [\n                    \"var(--muted-foreground)\",\n                    \"var(--foreground)\",\n                    \"var(--muted-foreground)\",\n                  ],\n                  x: [0, xDistance, 0],\n                  y: [0, yDistance, 0],\n                  z: [0, zDistance, 0],\n                  scale: [1, scaleDistance, 1],\n                  rotateY: [0, rotateYDistance, 0],\n                }\n          }\n          transition={{\n            duration,\n            ease: \"easeInOut\",\n            repeat: Infinity,\n            delay: (index * duration * 0.08) / Math.max(spread, 0.1),\n            ...transition,\n          }}\n        >\n          {character === \" \" ? \"\\u00a0\" : character}\n        </motion.span>\n      ))}\n    </Component>\n  )\n}\n\nexport { TextShimmerWave }\n"
+    }
+  ],
+  "categories": [
+    "motion",
+    "text-effect"
+  ]
+}

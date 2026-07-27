@@ -35,6 +35,7 @@ component: dialog
     { prop: "open", type: "boolean", description: "受控的打开状态，需与 onOpenChange 配合使用。" },
     { prop: "defaultOpen", type: "boolean", default: "false", description: "非受控模式下的初始打开状态。" },
     { prop: "modal", type: "boolean", default: "true", description: "是否阻止与对话框外部内容交互。" },
+    { prop: "variant", type: '"modal" | "inline"', default: '"modal"', description: "居中弹出，或在文档流原位置进行 shared layout 变换。" },
   ]}
 />
 
@@ -53,6 +54,20 @@ component: dialog
 />
 
 ## 扩展使用
+
+### 原地布局变换（非模态）
+
+设置 `variant="inline"` 后，Trigger 与 Content 各自包含一个没有文字的共享背景表面。Motion 只在
+这两个背景表面之间进行 `layoutId` 形变，因此面板可以从按钮轮廓自然长大，而按钮文字、表单和
+操作区只进行淡入淡出，不会参与缩放或被压扁。面板不会 Portal 到页面中央，也不会显示遮罩；
+`DialogHeader`、`DialogClose` 等其余组合 API 保持不变。
+
+<ComponentPreview name="dialog-layout" />
+
+<Callout title="它不是无障碍模态框">
+  这种模式适合轻量设置、详情和编辑面板，不会锁定焦点或阻止页面其他区域交互。需要用户必须先
+  完成或取消的流程时，仍应使用上面的 Radix `Dialog`。
+</Callout>
 
 如需开箱即用的确认流程，请查看由 `Dialog` 和 `Button` 组合而成的
 [确认对话框](/docs/components/confirm-dialog)。

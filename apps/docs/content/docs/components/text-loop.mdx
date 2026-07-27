@@ -1,0 +1,29 @@
+---
+title: 文本循环
+description: 在多段文本或行内内容之间自动循环切换。
+component: text-loop
+---
+
+## 基础示例
+
+<ComponentPreview name="text-loop-demo" />
+
+<CodeTabs command="wui@latest add @wui/text-loop" />
+
+<ComponentSource name="text-loop" title="components/ui/text-loop.tsx" />
+
+## 组件作用
+
+`TextLoop` 用于一句话中轮换关键词、功能标签或短状态。子项可以是任意 React 节点，但应保持相近尺寸，避免页面布局不断跳动。
+
+## 组件属性
+
+<PropsTable name="text-loop" />
+
+## 事件
+
+`onIndexChange` 在索引切换后返回新索引。`trigger={false}` 会暂停自动轮换，原生 `<span>` 事件照常透传。
+
+## 扩展使用
+
+可通过 `variants` 自定义切换方向，通过 `mode` 调整新旧内容的排序策略。持续循环的文字不应承载必须被读屏即时获知的重要状态。

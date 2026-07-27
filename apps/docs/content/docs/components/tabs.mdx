@@ -1,0 +1,36 @@
+---
+title: 标签栏 Tabs
+description: 使用共享布局动效平滑切换内容分区。
+component: tabs
+---
+
+## 基础示例
+
+<ComponentPreview name="tabs-demo" />
+
+<CodeTabs command="wui@latest add @wui/tabs" />
+
+<ComponentSource name="tabs" title="components/ui/tabs.tsx" />
+
+## 组件作用
+
+`Tabs` 在同一页面区域切换同等级内容。选中指示器使用 Motion shared layout 在触发器之间自然滑动，内容则以短促的淡入和位移建立方向感。不要用 Tabs 隐藏必须同时比较的信息。
+
+## 组件属性
+
+`Tabs` 透传 Radix Root 的 `value`、`defaultValue`、`orientation`、`activationMode` 等属性；`TabsList` 提供 `variant="pill | underline"`。
+
+<PropsTable name="tabs" />
+
+## 事件
+
+- `onValueChange(value)`：当前标签变化后触发。
+- 键盘方向键、Home、End 与焦点管理由 Radix 处理。
+
+## 拓展使用
+
+### 下划线样式
+
+<ComponentPreview name="tabs-underline" />
+
+使用 `value` 可创建受控标签栏，使用 `defaultValue` 则保持组件内部状态。

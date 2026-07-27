@@ -1,0 +1,29 @@
+---
+title: 文本扫光
+description: 在文字表面循环扫过的主题感知高光。
+component: text-shimmer
+---
+
+## 基础示例
+
+<ComponentPreview name="text-shimmer-demo" />
+
+<CodeTabs command="wui@latest add @wui/text-shimmer" />
+
+<ComponentSource name="text-shimmer" title="components/ui/text-shimmer.tsx" />
+
+## 组件作用
+
+`TextShimmer` 适合生成中、加载中等短暂状态。默认颜色来自 `foreground` 与 `muted-foreground`，因此自动适配明暗主题。
+
+## 组件属性
+
+<PropsTable name="text-shimmer" />
+
+## 事件
+
+组件没有自有事件并透传底层元素事件。动画会持续循环，减少动态效果时停留在静态渐变状态。
+
+## 扩展使用
+
+通过 `duration` 控制扫过速度，通过 `spread` 调整高光宽度。可以在 `className` 中覆盖 `--shimmer-base` 与 `--shimmer-highlight` 两个 CSS 变量。

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "checkbox",
+  "type": "registry:ui",
+  "title": "Checkbox",
+  "description": "An accessible checkbox with checked and indeterminate states.",
+  "dependencies": [
+    "radix-ui",
+    "class-variance-authority",
+    "motion"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/checkbox.tsx",
+      "type": "registry:ui",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { Checkbox as CheckboxPrimitive } from \"radix-ui\"\nimport { AnimatePresence, motion, useReducedMotion } from \"motion/react\"\nimport { cva } from \"class-variance-authority\"\n\nimport { cn } from \"@/registry/lib/utils\"\n\nconst checkboxVariants = cva(\n  \"peer inline-flex shrink-0 cursor-pointer items-center justify-center rounded-[5px] border border-input bg-background text-primary-foreground shadow-xs outline-none transition-[background-color,border-color,box-shadow,transform] duration-200 ease-out hover:border-ring/70 active:scale-[0.92] focus-visible:ring-[3px] focus-visible:ring-ring/35 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:border-primary data-[state=checked]:bg-primary data-[state=indeterminate]:border-primary data-[state=indeterminate]:bg-primary\",\n  {\n    variants: {\n      size: {\n        sm: \"size-4 rounded-[4px]\",\n        default: \"size-5\",\n        lg: \"size-6 rounded-md\",\n      },\n    },\n    defaultVariants: { size: \"default\" },\n  }\n)\n\nexport interface CheckboxProps\n  extends React.ComponentProps<typeof CheckboxPrimitive.Root> {\n  /** Physical size of the checkbox. @default \"default\" */\n  size?: \"sm\" | \"default\" | \"lg\"\n}\n\n/** An accessible checkbox with a smoothly drawn checkmark. */\nfunction Checkbox({\n  className,\n  size = \"default\",\n  checked,\n  defaultChecked = false,\n  onCheckedChange,\n  ...props\n}: CheckboxProps) {\n  const reduceMotion = useReducedMotion()\n  const [internalChecked, setInternalChecked] = React.useState(defaultChecked)\n  const currentChecked = checked ?? internalChecked\n\n  function handleCheckedChange(next: boolean | \"indeterminate\") {\n    if (checked === undefined) setInternalChecked(next)\n    onCheckedChange?.(next)\n  }\n\n  return (\n    <CheckboxPrimitive.Root\n      data-slot=\"checkbox\"\n      data-size={size}\n      className={cn(checkboxVariants({ size }), className)}\n      checked={checked}\n      defaultChecked={defaultChecked}\n      onCheckedChange={handleCheckedChange}\n      {...props}\n    >\n      <CheckboxPrimitive.Indicator\n        forceMount\n        data-slot=\"checkbox-indicator\"\n        className=\"flex size-full items-center justify-center\"\n      >\n        <AnimatePresence initial={false} mode=\"wait\">\n          {currentChecked ? (\n            <motion.svg\n              key={String(currentChecked)}\n              className=\"size-[78%]\"\n              viewBox=\"0 0 16 16\"\n              fill=\"none\"\n              initial={reduceMotion ? false : { opacity: 0, scale: 0.55 }}\n              animate={{ opacity: 1, scale: 1 }}\n              exit={reduceMotion ? undefined : { opacity: 0, scale: 0.7 }}\n              transition={reduceMotion ? { duration: 0 } : { type: \"spring\", stiffness: 560, damping: 30, mass: 0.55 }}\n              aria-hidden=\"true\"\n            >\n              <motion.path\n                d={currentChecked === \"indeterminate\" ? \"M3.5 8h9\" : \"M3.25 8.25 6.5 11.25 12.75 4.75\"}\n                stroke=\"currentColor\"\n                strokeWidth=\"2.25\"\n                strokeLinecap=\"round\"\n                strokeLinejoin=\"round\"\n                initial={reduceMotion ? false : { pathLength: 0 }}\n                animate={{ pathLength: 1 }}\n                transition={reduceMotion ? { duration: 0 } : { duration: 0.24, ease: [0.22, 1, 0.36, 1] }}\n              />\n            </motion.svg>\n          ) : null}\n        </AnimatePresence>\n      </CheckboxPrimitive.Indicator>\n    </CheckboxPrimitive.Root>\n  )\n}\n\nexport { Checkbox, checkboxVariants }\n"
+    }
+  ]
+}

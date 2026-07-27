@@ -1,0 +1,36 @@
+---
+title: 无限滑动
+description: 平滑循环内容的水平或垂直滑动轨道。
+component: infinite-slider
+---
+
+## 基础示例
+
+<ComponentPreview name="infinite-slider-demo" />
+
+<CodeTabs command="wui@latest add @wui/infinite-slider" />
+
+<ComponentSource
+  name="infinite-slider"
+  title="components/ui/infinite-slider.tsx"
+/>
+
+## 组件作用
+
+`InfiniteSlider` 用于品牌列表、合作伙伴、标签或轻量媒体带。它按像素速度持续移动，并复制一组内容形成无缝循环；减少动态效果时会停止并只保留一组内容。
+
+## 组件属性
+
+<PropsTable name="infinite-slider" />
+
+## 事件
+
+组件透传容器的鼠标、指针与焦点事件。`speedOnHover` 用来改变悬停速度，设为 `0` 即可暂停。
+
+## 扩展使用
+
+### 垂直与反向
+
+<ComponentPreview name="infinite-slider-vertical" />
+
+使用纵向模式时必须给外层设置明确高度。内容应保持简短，且不要把需要键盘操作的控件放入会持续移动的轨道。

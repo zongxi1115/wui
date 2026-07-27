@@ -1,0 +1,33 @@
+---
+title: 自定义光标
+description: 可全局使用或附着到局部区域的弹簧跟随光标。
+component: cursor
+---
+
+## 基础示例
+
+<ComponentPreview name="cursor-demo" />
+
+<CodeTabs command="wui@latest add @wui/cursor" />
+
+<ComponentSource name="cursor" title="components/ui/cursor.tsx" />
+
+## 组件作用
+
+`Cursor` 用视觉反馈补充作品展示、图片探索等指针交互。`attachToParent` 会把活动范围限制在直接父元素；触摸设备和非精确指针不会显示自定义光标。
+
+<Callout title="不要依赖光标传达必要信息">
+  自定义光标会被辅助技术忽略。操作含义、状态和文本仍应在页面内容中完整表达。
+</Callout>
+
+## 组件属性
+
+<PropsTable name="cursor" />
+
+## 事件
+
+`onPositionChange` 返回目标坐标系内的 `{ x, y }`。容器事件仍由父元素自行处理，光标视觉设置了 `pointer-events: none`，不会阻断点击。
+
+## 扩展使用
+
+不设置 `attachToParent` 时，组件会跟随整个页面；可以通过 `springConfig` 调整跟手或拖尾感，并用 `variants` 自定义出现与退出状态。

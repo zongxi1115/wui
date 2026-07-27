@@ -71,7 +71,7 @@ export { Badge, badgeVariants }
 6. **`asChild`**：需要“渲染成子元素”的组件用 Radix `Slot`：`const Comp = asChild ? Slot.Root : "button"`。
 7. **受控/非受控**：透传 Radix 的 `open`/`defaultOpen`/`onOpenChange` 等，不要自造状态覆盖。
 8. **主题变量**：只用语义 token（`bg-primary`、`text-muted-foreground`、`border` 等），不要硬编码颜色；token 定义见 `apps/docs/app/global.css`。
-9. 图标统一用 `lucide-react`。
+9. 静态图标统一用 `lucide-react`；需要图标内部路径运动时使用 `@animateicons/react/lucide`，并通过 `AnimatedIcon` 统一无障碍语义和播放控制。
 
 ---
 

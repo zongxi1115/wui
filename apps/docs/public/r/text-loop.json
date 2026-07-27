@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "text-loop",
+  "type": "registry:ui",
+  "title": "Text Loop",
+  "description": "Cycles through an array of text or inline content.",
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/text-loop.tsx",
+      "type": "registry:ui",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport {\n  AnimatePresence,\n  motion,\n  useReducedMotion,\n  type AnimatePresenceProps,\n  type Transition,\n  type Variants,\n} from \"motion/react\"\n\nimport { cn } from \"@/registry/lib/utils\"\n\nconst defaultVariants: Variants = {\n  initial: { y: 12, opacity: 0, filter: \"blur(4px)\" },\n  animate: { y: 0, opacity: 1, filter: \"blur(0px)\" },\n  exit: { y: -12, opacity: 0, filter: \"blur(4px)\" },\n}\n\nexport interface TextLoopProps extends React.ComponentProps<\"span\"> {\n  /** Content items displayed one after another. */\n  children: React.ReactNode[]\n  /** Seconds between item changes. @default 2.5 */\n  interval?: number\n  /** Motion transition for each item. */\n  transition?: Transition\n  /** Initial, animate and exit states. */\n  variants?: Variants\n  /** Called after the active index changes. */\n  onIndexChange?: (index: number) => void\n  /** Start or pause automatic changes. @default true */\n  trigger?: boolean\n  /** AnimatePresence sequencing mode. @default \"popLayout\" */\n  mode?: AnimatePresenceProps[\"mode\"]\n}\n\n/** Cycles through an array of text or inline content. */\nfunction TextLoop({\n  children,\n  className,\n  interval = 2.5,\n  transition = { duration: 0.35, ease: \"easeOut\" },\n  variants = defaultVariants,\n  onIndexChange,\n  trigger = true,\n  mode = \"popLayout\",\n  ...props\n}: TextLoopProps) {\n  const [index, setIndex] = React.useState(0)\n  const reduceMotion = useReducedMotion()\n\n  React.useEffect(() => {\n    if (!trigger || children.length < 2) return\n    const timer = window.setInterval(() => {\n      setIndex((current) => {\n        const next = (current + 1) % children.length\n        onIndexChange?.(next)\n        return next\n      })\n    }, interval * 1000)\n    return () => window.clearInterval(timer)\n  }, [children.length, interval, onIndexChange, trigger])\n\n  React.useEffect(() => {\n    if (index >= children.length) setIndex(0)\n  }, [children.length, index])\n\n  return (\n    <span\n      data-slot=\"text-loop\"\n      className={cn(\n        \"relative inline-grid overflow-hidden align-bottom\",\n        className\n      )}\n      {...props}\n    >\n      <AnimatePresence initial={false} mode={mode}>\n        <motion.span\n          data-slot=\"text-loop-item\"\n          className=\"col-start-1 row-start-1 inline-block\"\n          key={index}\n          variants={variants}\n          initial={reduceMotion ? false : \"initial\"}\n          animate=\"animate\"\n          exit=\"exit\"\n          transition={reduceMotion ? { duration: 0 } : transition}\n        >\n          {children[index]}\n        </motion.span>\n      </AnimatePresence>\n    </span>\n  )\n}\n\nexport { TextLoop }\n"
+    }
+  ],
+  "categories": [
+    "motion",
+    "text-effect"
+  ]
+}

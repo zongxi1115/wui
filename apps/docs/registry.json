@@ -4,14 +4,114 @@
   "homepage": "http://localhost:3000",
   "items": [
     {
+      "name": "theme",
+      "type": "registry:theme",
+      "title": "WUI Theme",
+      "description": "Semantic design tokens shared by every WUI component.",
+      "cssVars": {
+        "light": {
+          "radius": "0.625rem",
+          "background": "oklch(1 0 0)",
+          "foreground": "oklch(0.145 0 0)",
+          "card": "oklch(1 0 0)",
+          "card-foreground": "oklch(0.145 0 0)",
+          "popover": "oklch(1 0 0)",
+          "popover-foreground": "oklch(0.145 0 0)",
+          "primary": "oklch(0.205 0 0)",
+          "primary-foreground": "oklch(0.985 0 0)",
+          "secondary": "oklch(0.97 0 0)",
+          "secondary-foreground": "oklch(0.205 0 0)",
+          "muted": "oklch(0.97 0 0)",
+          "muted-foreground": "oklch(0.556 0 0)",
+          "accent": "oklch(0.97 0 0)",
+          "accent-foreground": "oklch(0.205 0 0)",
+          "destructive": "oklch(0.577 0.245 27.325)",
+          "destructive-foreground": "oklch(0.985 0 0)",
+          "info": "oklch(0.488 0.243 264.376)",
+          "info-foreground": "oklch(0.985 0 0)",
+          "success": "oklch(0.448 0.119 151.328)",
+          "success-foreground": "oklch(0.985 0 0)",
+          "warning": "oklch(0.473 0.137 46.201)",
+          "warning-foreground": "oklch(0.985 0 0)",
+          "border": "oklch(0.922 0 0)",
+          "input": "oklch(0.922 0 0)",
+          "ring": "oklch(0.708 0 0)",
+          "overlay": "oklch(0 0 0 / 50%)",
+          "shine": "oklch(1 0 0 / 50%)"
+        },
+        "dark": {
+          "radius": "0.625rem",
+          "background": "oklch(0.145 0 0)",
+          "foreground": "oklch(0.985 0 0)",
+          "card": "oklch(0.205 0 0)",
+          "card-foreground": "oklch(0.985 0 0)",
+          "popover": "oklch(0.205 0 0)",
+          "popover-foreground": "oklch(0.985 0 0)",
+          "primary": "oklch(0.922 0 0)",
+          "primary-foreground": "oklch(0.205 0 0)",
+          "secondary": "oklch(0.269 0 0)",
+          "secondary-foreground": "oklch(0.985 0 0)",
+          "muted": "oklch(0.269 0 0)",
+          "muted-foreground": "oklch(0.708 0 0)",
+          "accent": "oklch(0.269 0 0)",
+          "accent-foreground": "oklch(0.985 0 0)",
+          "destructive": "oklch(0.577 0.245 27.325)",
+          "destructive-foreground": "oklch(0.985 0 0)",
+          "info": "oklch(0.707 0.165 254.624)",
+          "info-foreground": "oklch(0.145 0 0)",
+          "success": "oklch(0.765 0.177 163.223)",
+          "success-foreground": "oklch(0.145 0 0)",
+          "warning": "oklch(0.795 0.184 86.047)",
+          "warning-foreground": "oklch(0.205 0 0)",
+          "border": "oklch(1 0 0 / 10%)",
+          "input": "oklch(1 0 0 / 15%)",
+          "ring": "oklch(0.556 0 0)",
+          "overlay": "oklch(0 0 0 / 50%)",
+          "shine": "oklch(1 0 0 / 50%)"
+        },
+        "theme": {
+          "radius-sm": "calc(var(--radius) - 4px)",
+          "radius-md": "calc(var(--radius) - 2px)",
+          "radius-lg": "var(--radius)",
+          "radius-xl": "calc(var(--radius) + 4px)",
+          "color-background": "var(--background)",
+          "color-foreground": "var(--foreground)",
+          "color-card": "var(--card)",
+          "color-card-foreground": "var(--card-foreground)",
+          "color-popover": "var(--popover)",
+          "color-popover-foreground": "var(--popover-foreground)",
+          "color-primary": "var(--primary)",
+          "color-primary-foreground": "var(--primary-foreground)",
+          "color-secondary": "var(--secondary)",
+          "color-secondary-foreground": "var(--secondary-foreground)",
+          "color-muted": "var(--muted)",
+          "color-muted-foreground": "var(--muted-foreground)",
+          "color-accent": "var(--accent)",
+          "color-accent-foreground": "var(--accent-foreground)",
+          "color-destructive": "var(--destructive)",
+          "color-destructive-foreground": "var(--destructive-foreground)",
+          "color-info": "var(--info)",
+          "color-info-foreground": "var(--info-foreground)",
+          "color-success": "var(--success)",
+          "color-success-foreground": "var(--success-foreground)",
+          "color-warning": "var(--warning)",
+          "color-warning-foreground": "var(--warning-foreground)",
+          "color-border": "var(--border)",
+          "color-input": "var(--input)",
+          "color-ring": "var(--ring)",
+          "color-overlay": "var(--overlay)",
+          "color-shine": "var(--shine)"
+        }
+      },
+      "files": []
+    },
+    {
       "name": "utils",
       "type": "registry:lib",
       "title": "cn utility",
       "description": "Tailwind class merge helper used by every component.",
-      "dependencies": [
-        "clsx",
-        "tailwind-merge"
-      ],
+      "dependencies": ["clsx", "tailwind-merge"],
+      "registryDependencies": ["theme"],
       "files": [
         {
           "path": "registry/lib/utils.ts",
@@ -24,14 +124,8 @@
       "type": "registry:ui",
       "title": "Button",
       "description": "Displays a button or a component that looks like a button.",
-      "dependencies": [
-        "radix-ui",
-        "class-variance-authority",
-        "motion"
-      ],
-      "registryDependencies": [
-        "utils"
-      ],
+      "dependencies": ["radix-ui", "class-variance-authority", "motion"],
+      "registryDependencies": ["utils"],
       "files": [
         {
           "path": "registry/ui/button.tsx",
@@ -44,17 +138,56 @@
       "type": "registry:ui",
       "title": "Dialog",
       "description": "A window overlaid on the primary window, built on Radix UI.",
-      "dependencies": [
-        "radix-ui",
-        "lucide-react",
-        "motion"
-      ],
-      "registryDependencies": [
-        "utils"
-      ],
+      "dependencies": ["radix-ui", "lucide-react", "motion"],
+      "registryDependencies": ["utils"],
       "files": [
         {
           "path": "registry/ui/dialog.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "morphing-dialog",
+      "type": "registry:ui",
+      "title": "形变对话框",
+      "description": "从触发元素连续形变展开的模态对话框。",
+      "categories": ["motion", "advanced"],
+      "dependencies": ["radix-ui", "lucide-react", "motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/morphing-dialog.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "morphing-popover",
+      "type": "registry:ui",
+      "title": "形变弹出框",
+      "description": "使用共享布局动画从触发元素展开的锚定弹出层。",
+      "categories": ["motion", "advanced"],
+      "dependencies": ["radix-ui", "motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/morphing-popover.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "progressive-blur",
+      "type": "registry:ui",
+      "title": "渐进模糊",
+      "description": "使用渐变遮罩构建的方向可控分层背景模糊。",
+      "categories": ["motion", "advanced"],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/progressive-blur.tsx",
           "type": "registry:ui"
         }
       ]
@@ -64,9 +197,7 @@
       "type": "registry:ui",
       "title": "Watermark",
       "description": "Adds a repeated text watermark over a section of content.",
-      "registryDependencies": [
-        "utils"
-      ],
+      "registryDependencies": ["utils"],
       "files": [
         {
           "path": "registry/ui/watermark.tsx",
@@ -79,10 +210,7 @@
       "type": "registry:component",
       "title": "Confirm Dialog",
       "description": "A ready-made confirmation dialog composed from Dialog and Button.",
-      "registryDependencies": [
-        "dialog",
-        "button"
-      ],
+      "registryDependencies": ["dialog", "button"],
       "files": [
         {
           "path": "registry/components/confirm-dialog.tsx",
@@ -95,13 +223,36 @@
       "type": "registry:ui",
       "title": "Motion",
       "description": "Optional animation primitive and presets built on motion.",
-      "dependencies": [
-        "motion",
-        "radix-ui"
-      ],
+      "dependencies": ["motion", "radix-ui"],
       "files": [
         {
           "path": "registry/ui/motion.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "icon",
+      "type": "registry:ui",
+      "title": "Icon",
+      "description": "An accessible, consistently sized adapter for Lucide icons.",
+      "dependencies": ["lucide-react"],
+      "files": [
+        {
+          "path": "registry/ui/icon.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "animated-icon",
+      "type": "registry:ui",
+      "title": "Animated Icon",
+      "description": "Accessible path-animated Lucide icons with hover and imperative playback.",
+      "dependencies": ["@animateicons/react"],
+      "files": [
+        {
+          "path": "registry/ui/animated-icon.tsx",
           "type": "registry:ui"
         }
       ]
@@ -111,18 +262,368 @@
       "type": "registry:ui",
       "title": "Shiny Button",
       "description": "A filled button with a light sweep that glides across it.",
-      "categories": [
-        "fancy"
-      ],
-      "dependencies": [
-        "motion"
-      ],
-      "registryDependencies": [
-        "utils"
-      ],
+      "categories": ["fancy"],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
       "files": [
         {
           "path": "registry/ui/shiny-button.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "switch",
+      "type": "registry:ui",
+      "title": "Switch",
+      "description": "A tactile binary control with a spring-driven thumb.",
+      "dependencies": ["radix-ui", "class-variance-authority", "motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/switch.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "progress",
+      "type": "registry:ui",
+      "title": "Progress",
+      "description": "A quiet determinate or indeterminate progress indicator.",
+      "dependencies": ["radix-ui", "class-variance-authority"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/progress.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "slider",
+      "type": "registry:ui",
+      "title": "Slider",
+      "description": "An adjustable range input with an expanding track and live value label.",
+      "dependencies": ["radix-ui", "class-variance-authority"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/slider.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "radio-group",
+      "type": "registry:ui",
+      "title": "Radio Group",
+      "description": "An accessible option group for mutually exclusive choices.",
+      "dependencies": ["radix-ui", "class-variance-authority"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/radio-group.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "checkbox",
+      "type": "registry:ui",
+      "title": "Checkbox",
+      "description": "An accessible checkbox with checked and indeterminate states.",
+      "dependencies": ["radix-ui", "class-variance-authority", "motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/checkbox.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "select",
+      "type": "registry:ui",
+      "title": "Select",
+      "description": "An accessible option picker with a polished floating panel.",
+      "dependencies": [
+        "radix-ui",
+        "lucide-react",
+        "class-variance-authority",
+        "motion"
+      ],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/select.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "tabs",
+      "type": "registry:ui",
+      "title": "Tabs",
+      "description": "A tabbed interface with a fluid shared-layout indicator.",
+      "dependencies": ["radix-ui", "class-variance-authority", "motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/tabs.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "input",
+      "type": "registry:ui",
+      "title": "Input",
+      "description": "A text input with inline content, floating labels, and underline styling.",
+      "dependencies": ["class-variance-authority"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/input.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "download",
+      "type": "registry:ui",
+      "title": "Download",
+      "description": "A file download action with progress and completion states.",
+      "dependencies": ["lucide-react", "class-variance-authority", "motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/download.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "upload",
+      "type": "registry:ui",
+      "title": "Upload",
+      "description": "A click and drag-and-drop file picker with upload lifecycle feedback.",
+      "dependencies": ["lucide-react", "class-variance-authority", "motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/upload.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "kbd",
+      "type": "registry:ui",
+      "title": "Kbd",
+      "description": "A compact visual hint for keyboard shortcuts and key presses.",
+      "dependencies": ["class-variance-authority"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/kbd.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "tooltip",
+      "type": "registry:ui",
+      "title": "Tooltip",
+      "description": "An accessible contextual label shown on hover or keyboard focus.",
+      "dependencies": ["radix-ui", "class-variance-authority"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/tooltip.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "message",
+      "type": "registry:ui",
+      "title": "Message",
+      "description": "Portal-based global messages plus an inline feedback primitive.",
+      "dependencies": [
+        "radix-ui",
+        "lucide-react",
+        "class-variance-authority",
+        "motion"
+      ],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/message.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "in-view",
+      "type": "registry:ui",
+      "title": "In View",
+      "description": "Animates content when it enters the viewport.",
+      "categories": ["motion"],
+      "dependencies": ["motion"],
+      "files": [
+        {
+          "path": "registry/ui/in-view.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "infinite-slider",
+      "type": "registry:ui",
+      "title": "Infinite Slider",
+      "description": "A continuously looping horizontal or vertical content track.",
+      "categories": ["motion"],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/infinite-slider.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "cursor",
+      "type": "registry:ui",
+      "title": "Cursor",
+      "description": "A spring-following custom cursor for the page or a parent region.",
+      "categories": ["motion"],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/cursor.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "text-effect",
+      "type": "registry:ui",
+      "title": "Text Effect",
+      "description": "Reveals text by line, word or character with configurable presets.",
+      "categories": ["motion", "text-effect"],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/text-effect.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "text-loop",
+      "type": "registry:ui",
+      "title": "Text Loop",
+      "description": "Cycles through an array of text or inline content.",
+      "categories": ["motion", "text-effect"],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/text-loop.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "text-morph",
+      "type": "registry:ui",
+      "title": "Text Morph",
+      "description": "Morphs shared characters into their new positions when text changes.",
+      "categories": ["motion", "text-effect"],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/text-morph.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "text-roll",
+      "type": "registry:ui",
+      "title": "Text Roll",
+      "description": "Rolls a second copy of each character into view.",
+      "categories": ["motion", "text-effect"],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/text-roll.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "text-scramble",
+      "type": "registry:ui",
+      "title": "Text Scramble",
+      "description": "Resolves randomized characters into the supplied text.",
+      "categories": ["motion", "text-effect"],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/text-scramble.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "text-shimmer",
+      "type": "registry:ui",
+      "title": "Text Shimmer",
+      "description": "Sweeps a theme-aware highlight across text.",
+      "categories": ["motion", "text-effect"],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/text-shimmer.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "text-shimmer-wave",
+      "type": "registry:ui",
+      "title": "Text Shimmer Wave",
+      "description": "Sends a shimmer-like 3D wave through text one character at a time.",
+      "categories": ["motion", "text-effect"],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/text-shimmer-wave.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "sliding-number",
+      "type": "registry:ui",
+      "title": "Sliding Number",
+      "description": "Displays each numeric digit on an independently sliding reel.",
+      "categories": ["motion", "number-effect"],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/sliding-number.tsx",
           "type": "registry:ui"
         }
       ]

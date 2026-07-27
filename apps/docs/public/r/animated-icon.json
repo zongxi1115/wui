@@ -1,0 +1,17 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "animated-icon",
+  "type": "registry:ui",
+  "title": "Animated Icon",
+  "description": "Accessible path-animated Lucide icons with hover and imperative playback.",
+  "dependencies": [
+    "@animateicons/react"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/animated-icon.tsx",
+      "type": "registry:ui",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\n\nexport interface AnimatedIconHandle {\n  startAnimation: () => void\n  stopAnimation: () => void\n}\n\nexport interface AnimatedIconGlyphProps extends Omit<\n  React.HTMLAttributes<HTMLDivElement>,\n  | \"color\"\n  | \"onAnimationEnd\"\n  | \"onAnimationIteration\"\n  | \"onAnimationStart\"\n  | \"onDrag\"\n  | \"onDragEnd\"\n  | \"onDragStart\"\n> {\n  size?: number\n  duration?: number\n  isAnimated?: boolean\n  color?: string\n}\n\nexport type AnimatedIconGlyph = React.ForwardRefExoticComponent<\n  AnimatedIconGlyphProps & React.RefAttributes<AnimatedIconHandle>\n>\n\nexport interface AnimatedIconProps extends AnimatedIconGlyphProps {\n  /** Path-animated icon imported from `@animateicons/react/lucide`. */\n  icon: AnimatedIconGlyph\n  /** Accessible name. Omit it when the icon is purely decorative. */\n  label?: string\n  /** Imperative playback handle exposed by the animated glyph. */\n  ref?: React.Ref<AnimatedIconHandle>\n}\n\n/**\n * A common accessible adapter for path-animated icons from AnimateIcons.\n * Every glyph keeps its own semantic motion and imperative playback handle.\n */\nfunction AnimatedIcon({\n  icon: Glyph,\n  label,\n  ref,\n  ...props\n}: AnimatedIconProps) {\n  return (\n    <Glyph\n      ref={ref}\n      data-slot=\"animated-icon\"\n      aria-hidden={label ? undefined : true}\n      aria-label={label}\n      role={label ? \"img\" : undefined}\n      {...props}\n    />\n  )\n}\n\nexport { AnimatedIcon }\n"
+    }
+  ]
+}

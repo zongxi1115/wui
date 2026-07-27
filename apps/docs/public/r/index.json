@@ -28,6 +28,33 @@
       ]
     },
     {
+      "name": "morphing-dialog",
+      "type": "registry:ui",
+      "title": "形变对话框",
+      "description": "从触发元素连续形变展开的模态对话框。",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "morphing-popover",
+      "type": "registry:ui",
+      "title": "形变弹出框",
+      "description": "使用共享布局动画从触发元素展开的锚定弹出层。",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "progressive-blur",
+      "type": "registry:ui",
+      "title": "渐进模糊",
+      "description": "使用渐变遮罩构建的方向可控分层背景模糊。",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
       "name": "watermark",
       "type": "registry:ui",
       "title": "Watermark",
@@ -54,10 +81,238 @@
       "registryDependencies": []
     },
     {
+      "name": "icon",
+      "type": "registry:ui",
+      "title": "Icon",
+      "description": "An accessible, consistently sized adapter for Lucide icons.",
+      "registryDependencies": []
+    },
+    {
+      "name": "animated-icon",
+      "type": "registry:ui",
+      "title": "Animated Icon",
+      "description": "Accessible path-animated Lucide icons with hover and imperative playback.",
+      "registryDependencies": []
+    },
+    {
       "name": "shiny-button",
       "type": "registry:ui",
       "title": "Shiny Button",
       "description": "A filled button with a light sweep that glides across it.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "switch",
+      "type": "registry:ui",
+      "title": "Switch",
+      "description": "A tactile binary control with a spring-driven thumb.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "progress",
+      "type": "registry:ui",
+      "title": "Progress",
+      "description": "A quiet determinate or indeterminate progress indicator.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "slider",
+      "type": "registry:ui",
+      "title": "Slider",
+      "description": "An adjustable range input with an expanding track and live value label.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "radio-group",
+      "type": "registry:ui",
+      "title": "Radio Group",
+      "description": "An accessible option group for mutually exclusive choices.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "checkbox",
+      "type": "registry:ui",
+      "title": "Checkbox",
+      "description": "An accessible checkbox with checked and indeterminate states.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "select",
+      "type": "registry:ui",
+      "title": "Select",
+      "description": "An accessible option picker with a polished floating panel.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "tabs",
+      "type": "registry:ui",
+      "title": "Tabs",
+      "description": "A tabbed interface with a fluid shared-layout indicator.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "input",
+      "type": "registry:ui",
+      "title": "Input",
+      "description": "A text input with inline content, floating labels, and underline styling.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "download",
+      "type": "registry:ui",
+      "title": "Download",
+      "description": "A file download action with progress and completion states.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "upload",
+      "type": "registry:ui",
+      "title": "Upload",
+      "description": "A click and drag-and-drop file picker with upload lifecycle feedback.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "kbd",
+      "type": "registry:ui",
+      "title": "Kbd",
+      "description": "A compact visual hint for keyboard shortcuts and key presses.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "tooltip",
+      "type": "registry:ui",
+      "title": "Tooltip",
+      "description": "An accessible contextual label shown on hover or keyboard focus.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "message",
+      "type": "registry:ui",
+      "title": "Message",
+      "description": "Portal-based global messages plus an inline feedback primitive.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "in-view",
+      "type": "registry:ui",
+      "title": "In View",
+      "description": "Animates content when it enters the viewport.",
+      "registryDependencies": []
+    },
+    {
+      "name": "infinite-slider",
+      "type": "registry:ui",
+      "title": "Infinite Slider",
+      "description": "A continuously looping horizontal or vertical content track.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "cursor",
+      "type": "registry:ui",
+      "title": "Cursor",
+      "description": "A spring-following custom cursor for the page or a parent region.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "text-effect",
+      "type": "registry:ui",
+      "title": "Text Effect",
+      "description": "Reveals text by line, word or character with configurable presets.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "text-loop",
+      "type": "registry:ui",
+      "title": "Text Loop",
+      "description": "Cycles through an array of text or inline content.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "text-morph",
+      "type": "registry:ui",
+      "title": "Text Morph",
+      "description": "Morphs shared characters into their new positions when text changes.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "text-roll",
+      "type": "registry:ui",
+      "title": "Text Roll",
+      "description": "Rolls a second copy of each character into view.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "text-scramble",
+      "type": "registry:ui",
+      "title": "Text Scramble",
+      "description": "Resolves randomized characters into the supplied text.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "text-shimmer",
+      "type": "registry:ui",
+      "title": "Text Shimmer",
+      "description": "Sweeps a theme-aware highlight across text.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "text-shimmer-wave",
+      "type": "registry:ui",
+      "title": "Text Shimmer Wave",
+      "description": "Sends a shimmer-like 3D wave through text one character at a time.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "sliding-number",
+      "type": "registry:ui",
+      "title": "Sliding Number",
+      "description": "Displays each numeric digit on an independently sliding reel.",
       "registryDependencies": [
         "utils"
       ]

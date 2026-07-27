@@ -1,0 +1,36 @@
+---
+title: 开关 Switch
+description: 带弹簧滑块与完整无障碍语义的二元状态控件。
+component: switch
+---
+
+## 基础示例
+
+<ComponentPreview name="switch-demo" />
+
+<CodeTabs command="wui@latest add @wui/switch" />
+
+<ComponentSource name="switch" title="components/ui/switch.tsx" />
+
+## 组件作用
+
+`Switch` 用于让设置立即在开启与关闭之间切换，例如通知、隐私或显示偏好。它基于 Radix Switch，支持鼠标、触摸、键盘以及表单语义；滑块通过 Motion 弹簧运动，并在 `prefers-reduced-motion` 下自动静止降级。
+
+不要用 Switch 代替需要“提交/取消”的操作；这类场景应使用 Checkbox 或 Button。
+
+## 组件属性
+
+<PropsTable name="switch" />
+
+## 事件
+
+- `onCheckedChange(checked)`：状态变化后触发。
+- 原生焦点、键盘与表单属性会继续透传到底层 Radix Root。
+
+## 拓展使用
+
+### 尺寸
+
+<ComponentPreview name="switch-sizes" />
+
+受控用法通过 `checked` 与 `onCheckedChange` 管理；非受控用法使用 `defaultChecked`。
