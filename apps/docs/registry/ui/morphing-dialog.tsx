@@ -153,7 +153,7 @@ function MorphingDialogContent({
           <DialogPrimitive.Overlay asChild forceMount>
             <motion.div
               data-slot="morphing-dialog-overlay"
-              className={cn("fixed inset-0 z-50 bg-black/45", overlayClassName)}
+              className={cn("fixed inset-0 z-50 bg-overlay/90", overlayClassName)}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}

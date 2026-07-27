@@ -1,0 +1,25 @@
+---
+title: 颜色选择器 Color Picker
+description: 面向设计 Token 的 OKLCH 颜色选择器，支持感知色彩通道、透明度和精确 CSS 值。
+component: color-picker
+---
+
+## 基础示例
+
+<ComponentPreview name="color-picker-demo" />
+
+<CodeTabs command="wui@latest add @wui/color-picker" />
+
+<ComponentSource name="color-picker" title="components/ui/color-picker.tsx" />
+
+## 组件作用
+
+`ColorPicker` 默认提供面向普通用户的基础 RGB 模式，可直接打开系统色板或输入 R、G、B 数值。专业 OKLCH 模式将明度、色度和色相拆开控制，更适合精细配置设计 Token。
+
+## 组件属性
+
+<PropsTable name="color-picker" />
+
+## 使用说明
+
+组件接受受控的 `value` 与 `onValueChange`，RGB 与 OKLCH 会在切换模式时自动转换。通过 `showAlpha` 控制透明度通道，通过 `swatches` 提供产品自己的常用色板；弹层底部始终保留 CSS 原始值输入。

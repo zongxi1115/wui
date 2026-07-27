@@ -15,5 +15,10 @@ export const baseOptions: BaseLayoutProps = {
       url: "/docs/components/button",
       active: "nested-url",
     },
+    {
+      text: "Theme",
+      url: "/docs/theme",
+      active: "url",
+    },
   ],
 }

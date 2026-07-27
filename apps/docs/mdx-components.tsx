@@ -10,6 +10,7 @@ import { ComponentSource } from "@/components/component-source"
 import { IconLibrary } from "@/components/icon-library"
 import { Playground } from "@/components/playground"
 import { PropsTable } from "@/components/props-table"
+import { TokenConfigurator } from "@/components/token-configurator"
 
 export function getMDXComponents(components?: MDXComponents): MDXComponents {
   return {
@@ -21,6 +22,7 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
     CodeTabs,
     Playground,
     PropsTable,
+    TokenConfigurator,
     Steps,
     Step,
     Tabs,

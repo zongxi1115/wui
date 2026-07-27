@@ -4,6 +4,8 @@ import type { Metadata } from "next"
 import { Google_Sans_Code } from "next/font/google"
 import type { ReactNode } from "react"
 
+import { TokenThemeRuntime } from "@/components/token-configurator"
+
 const googleSansCode = Google_Sans_Code({
   subsets: ["latin"],
   variable: "--font-google-sans-code",
@@ -22,7 +24,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${googleSansCode.variable} flex min-h-screen flex-col`}>
-        <RootProvider>{children}</RootProvider>
+        <RootProvider>
+          <TokenThemeRuntime />
+          {children}
+        </RootProvider>
       </body>
     </html>
   )

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "table",
+  "type": "registry:ui",
+  "title": "Table",
+  "description": "A responsive semantic table for structured data.",
+  "dependencies": [
+    "class-variance-authority"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/table.tsx",
+      "type": "registry:ui",
+      "content": "import * as React from \"react\"\nimport { cva } from \"class-variance-authority\"\n\nimport { cn } from \"@/registry/lib/utils\"\n\nconst tableVariants = cva(\"w-full caption-bottom text-sm\", {\n  variants: {\n    density: {\n      default: \"\",\n      compact:\n        \"[&_[data-slot=table-cell]]:px-3 [&_[data-slot=table-cell]]:py-2 [&_[data-slot=table-head]]:h-9 [&_[data-slot=table-head]]:px-3\",\n    },\n    striped: {\n      true: \"[&_[data-slot=table-body]_[data-slot=table-row]:nth-child(even)]:bg-muted/35\",\n      false: \"\",\n    },\n  },\n  defaultVariants: {\n    density: \"default\",\n    striped: false,\n  },\n})\n\nexport interface TableProps\n  extends React.ComponentProps<\"table\"> {\n  /** Extra classes applied to the horizontal overflow container. */\n  containerClassName?: string\n  /** Controls cell padding and row height. @default \"default\" */\n  density?: \"default\" | \"compact\"\n  /** Adds a subtle background to alternating body rows. @default false */\n  striped?: boolean\n}\n\n/** A responsive native table with composable semantic sections. */\nfunction Table({\n  className,\n  containerClassName,\n  density = \"default\",\n  striped = false,\n  ...props\n}: TableProps) {\n  return (\n    <div\n      data-slot=\"table-container\"\n      className={cn(\"relative w-full overflow-x-auto\", containerClassName)}\n    >\n      <table\n        data-slot=\"table\"\n        data-density={density}\n        className={cn(tableVariants({ density, striped, className }))}\n        {...props}\n      />\n    </div>\n  )\n}\n\nfunction TableHeader({\n  className,\n  ...props\n}: React.ComponentProps<\"thead\">) {\n  return (\n    <thead\n      data-slot=\"table-header\"\n      className={cn(\"[&_tr]:border-b\", className)}\n      {...props}\n    />\n  )\n}\n\nfunction TableBody({\n  className,\n  ...props\n}: React.ComponentProps<\"tbody\">) {\n  return (\n    <tbody\n      data-slot=\"table-body\"\n      className={cn(\"[&_tr:last-child]:border-0\", className)}\n      {...props}\n    />\n  )\n}\n\nfunction TableFooter({\n  className,\n  ...props\n}: React.ComponentProps<\"tfoot\">) {\n  return (\n    <tfoot\n      data-slot=\"table-footer\"\n      className={cn(\n        \"border-t bg-muted/50 font-medium [&>tr]:last:border-b-0\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nfunction TableRow({\n  className,\n  ...props\n}: React.ComponentProps<\"tr\">) {\n  return (\n    <tr\n      data-slot=\"table-row\"\n      className={cn(\n        \"border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nfunction TableHead({\n  className,\n  ...props\n}: React.ComponentProps<\"th\">) {\n  return (\n    <th\n      data-slot=\"table-head\"\n      className={cn(\n        \"h-10 whitespace-nowrap px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nfunction TableCell({\n  className,\n  ...props\n}: React.ComponentProps<\"td\">) {\n  return (\n    <td\n      data-slot=\"table-cell\"\n      className={cn(\n        \"whitespace-nowrap p-4 align-middle [&:has([role=checkbox])]:pr-0\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nfunction TableCaption({\n  className,\n  ...props\n}: React.ComponentProps<\"caption\">) {\n  return (\n    <caption\n      data-slot=\"table-caption\"\n      className={cn(\"mt-4 text-sm text-muted-foreground\", className)}\n      {...props}\n    />\n  )\n}\n\nexport {\n  Table,\n  TableHeader,\n  TableBody,\n  TableFooter,\n  TableHead,\n  TableRow,\n  TableCell,\n  TableCaption,\n  tableVariants,\n}\n"
+    }
+  ]
+}

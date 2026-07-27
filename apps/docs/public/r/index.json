@@ -3,11 +3,20 @@
   "homepage": "http://localhost:3000",
   "items": [
     {
+      "name": "theme",
+      "type": "registry:theme",
+      "title": "WUI Theme",
+      "description": "Semantic design tokens shared by every WUI component.",
+      "registryDependencies": []
+    },
+    {
       "name": "utils",
       "type": "registry:lib",
       "title": "cn utility",
       "description": "Tailwind class merge helper used by every component.",
-      "registryDependencies": []
+      "registryDependencies": [
+        "theme"
+      ]
     },
     {
       "name": "button",
@@ -126,6 +135,15 @@
       "type": "registry:ui",
       "title": "Slider",
       "description": "An adjustable range input with an expanding track and live value label.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "color-picker",
+      "type": "registry:ui",
+      "title": "Color Picker",
+      "description": "An OKLCH color picker with perceptual channels, alpha and exact CSS input.",
       "registryDependencies": [
         "utils"
       ]
@@ -313,6 +331,15 @@
       "type": "registry:ui",
       "title": "Sliding Number",
       "description": "Displays each numeric digit on an independently sliding reel.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "table",
+      "type": "registry:ui",
+      "title": "Table",
+      "description": "A responsive semantic table for structured data.",
       "registryDependencies": [
         "utils"
       ]
