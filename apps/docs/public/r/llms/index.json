@@ -898,6 +898,14 @@
         "size: sm|default"
       ],
       "exampleCount": 1
+    },
+    {
+      "name": "card",
+      "type": "registry:ui",
+      "title": "卡片 Card",
+      "description": "将同一主题的内容、状态与操作组织在一个清晰的表面中。",
+      "keyProps": [],
+      "exampleCount": 2
     }
   ]
 }

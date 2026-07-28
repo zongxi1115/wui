@@ -577,6 +577,15 @@
       "registryDependencies": [
         "utils"
       ]
+    },
+    {
+      "name": "card",
+      "type": "registry:ui",
+      "title": "Card",
+      "description": "A composable surface for grouping related content, context, and actions.",
+      "registryDependencies": [
+        "utils"
+      ]
     }
   ]
 }

@@ -1,0 +1,50 @@
+---
+title: 卡片 Card
+description: 将同一主题的内容、状态与操作组织在一个清晰的表面中。
+component: card
+---
+
+## 基础示例
+
+<ComponentPreview name="card-demo" />
+
+<CodeTabs command="wui@latest add @wui/card" />
+
+<ComponentSource name="card" title="components/ui/card.tsx" />
+
+## 组件作用
+
+`Card` 用于组合属于同一对象或任务的信息与操作，例如项目摘要、资源概览和设置入口。卡片应具有独立的阅读意义；如果内容只是页面布局的一部分，优先使用普通容器与分隔线，避免把每个区块都包成卡片。
+
+组件只负责表面、层级与间距，不内置点击行为。整张卡片需要可点击时，应在业务层使用语义正确的链接或按钮，并保留清晰的焦点样式。
+
+## 组件属性
+
+<PropsTable
+  data={[
+    {
+      prop: "className",
+      type: "string",
+      description: "附加到对应结构节点的样式类。",
+    },
+    {
+      prop: "children",
+      type: "React.ReactNode",
+      description: "卡片结构或各区域的内容。",
+    },
+  ]}
+/>
+
+`Card`、`CardHeader`、`CardTitle`、`CardDescription`、`CardAction`、`CardContent` 与 `CardFooter` 均透传对应 `div` 的原生属性。
+
+## 事件
+
+卡片本身不产生业务事件，原生鼠标、键盘与焦点事件会继续透传。操作应放在 `CardAction` 或 `CardFooter` 内的 Button、链接等交互元素上，避免在一张卡片中嵌套相互冲突的点击区域。
+
+## 拓展使用
+
+### 紧凑组合
+
+<ComponentPreview name="card-composition" />
+
+通过覆盖 `gap`、内边距和边框类，可以让卡片适应不同的信息密度。`CardAction` 适合标题旁的单个轻量操作；一组主要与次要操作应放在 `CardFooter` 中。

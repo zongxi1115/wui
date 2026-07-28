@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "card",
+  "type": "registry:ui",
+  "title": "Card",
+  "description": "A composable surface for grouping related content, context, and actions.",
+  "dependencies": [],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/card.tsx",
+      "type": "registry:ui",
+      "content": "import * as React from \"react\"\n\nimport { cn } from \"@/registry/lib/utils\"\n\n/** A composable surface that groups related content and actions. */\nfunction Card({ className, ...props }: React.ComponentProps<\"div\">) {\n  return (\n    <div\n      data-slot=\"card\"\n      className={cn(\n        \"bg-card text-card-foreground flex flex-col gap-5 rounded-lg border py-5\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\n/** Aligns the card heading, description, and optional action. */\nfunction CardHeader({ className, ...props }: React.ComponentProps<\"div\">) {\n  return (\n    <div\n      data-slot=\"card-header\"\n      className={cn(\n        \"has-data-[slot=card-action]:grid-cols-[minmax(0,1fr)_auto] grid gap-1 px-5\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\n/** The primary heading of a card. */\nfunction CardTitle({ className, ...props }: React.ComponentProps<\"div\">) {\n  return (\n    <div\n      data-slot=\"card-title\"\n      className={cn(\"font-semibold leading-none tracking-tight\", className)}\n      {...props}\n    />\n  )\n}\n\n/** Supporting text displayed below the card title. */\nfunction CardDescription({ className, ...props }: React.ComponentProps<\"div\">) {\n  return (\n    <div\n      data-slot=\"card-description\"\n      className={cn(\"text-muted-foreground text-sm leading-relaxed\", className)}\n      {...props}\n    />\n  )\n}\n\n/** Places a compact action opposite the card heading. */\nfunction CardAction({ className, ...props }: React.ComponentProps<\"div\">) {\n  return (\n    <div\n      data-slot=\"card-action\"\n      className={cn(\"col-start-2 row-span-2 row-start-1 self-start\", className)}\n      {...props}\n    />\n  )\n}\n\n/** Contains the card's main content. */\nfunction CardContent({ className, ...props }: React.ComponentProps<\"div\">) {\n  return (\n    <div\n      data-slot=\"card-content\"\n      className={cn(\"px-5\", className)}\n      {...props}\n    />\n  )\n}\n\n/** Aligns secondary information and actions at the end of a card. */\nfunction CardFooter({ className, ...props }: React.ComponentProps<\"div\">) {\n  return (\n    <div\n      data-slot=\"card-footer\"\n      className={cn(\"flex items-center gap-3 px-5\", className)}\n      {...props}\n    />\n  )\n}\n\nexport {\n  Card,\n  CardAction,\n  CardContent,\n  CardDescription,\n  CardFooter,\n  CardHeader,\n  CardTitle,\n}\n"
+    }
+  ]
+}

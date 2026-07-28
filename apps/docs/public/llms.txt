@@ -67,6 +67,7 @@
 - [加载中 Spin](http://localhost:3000/docs/components/spin): 用轻量、可降级的动态指示器表达等待状态。
 - [抽屉 Drawer](http://localhost:3000/docs/components/drawer): 从视口边缘平滑进入、用于承载补充任务的焦点面板。
 - [描述列表 Descriptions](http://localhost:3000/docs/components/descriptions): 以清晰的键值结构展示对象、记录与档案信息。
+- [卡片 Card](http://localhost:3000/docs/components/card): 将同一主题的内容、状态与操作组织在一个清晰的表面中。
 
 ## 说明
 
