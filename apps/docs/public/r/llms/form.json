@@ -2,7 +2,7 @@
   "name": "form",
   "type": "registry:ui",
   "title": "Form",
-  "description": "Composable form fields with coordinated labels, validation messages, and motion.",
+  "description": "可组合的表单字段，协调标签、校验提示与动效反馈。",
   "import": "import { Form, FormActions, FormControl, FormDescription, FormField, FormLabel, FormLegend, FormMessage, FormSection } from \"@/components/ui/form\"",
   "exports": [
     "Form",
@@ -37,7 +37,7 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "true",
-      "description": "Animate the form into place when it mounts."
+      "description": "挂载时是否播放表单入场动效。@default true"
     },
     {
       "name": "acceptCharset",
@@ -82,10 +82,11 @@
       "control": "text"
     }
   ],
+  "events": "- `Form` 会透传 `onSubmit`、`onReset` 和 `onInvalid` 等原生表单事件。\n- `FormControl` 保留子控件自身事件，同时补充字段 ID 和 ARIA 关联。\n- 修改 `FormField` 的 `invalid` 会显示紧邻控件的 `FormMessage`，并触发适配减少动态效果偏好的轻微纠正提示。",
   "examples": [
     {
       "name": "form-demo",
-      "title": "Basic example"
+      "title": "基础示例"
     }
   ],
   "files": [

@@ -8,13 +8,13 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react"
 import { cn } from "@/registry/lib/utils"
 
 export interface CascaderOption {
-  /** Stable value stored in the selected path. */
+  /** 选中路径中保存的稳定值。 */
   value: string
-  /** Text displayed to the user. */
+  /** 展示给用户的文本。 */
   label: React.ReactNode
-  /** Nested options shown in the next column. */
+  /** 在下一列展示的子选项。 */
   children?: CascaderOption[]
-  /** Prevent this option from being selected. */
+  /** 禁止选择此选项。 */
   disabled?: boolean
 }
 
@@ -22,24 +22,26 @@ export interface CascaderProps extends Omit<
   React.ComponentProps<"button">,
   "value" | "defaultValue" | "onChange"
 > {
-  /** Hierarchical option tree. */
+  /** 层级选项树。 */
   options: CascaderOption[]
-  /** Selected value path in controlled mode. */
+  /** 受控模式下的选中值路径。 */
   value?: string[]
-  /** Initial value path in uncontrolled mode. */
+  /** 非受控模式下的初始值路径。 */
   defaultValue?: string[]
-  /** Called whenever the active path changes. */
+  /** 当前路径发生变化时调用。 */
   onValueChange?: (value: string[], options: CascaderOption[]) => void
-  /** Placeholder shown before a complete path is selected. @default "Select a location" */
+  /** 未选中完整路径时展示的占位文本。@default "请选择地区" */
   placeholder?: string
-  /** Separator placed between selected labels. @default " / " */
+  /** 选中标签之间的分隔符。@default " / " */
   separator?: React.ReactNode
-  /** Close the panel after choosing a leaf option. @default true */
+  /** 选中叶子节点后是否关闭面板。@default true */
   closeOnSelect?: boolean
-  /** Accessible label for the option panel. @default "Cascader options" */
+  /** 选项面板的无障碍标签。@default "级联选项" */
   panelLabel?: string
-  /** Extra classes applied to the floating panel. */
+  /** 应用于浮层面板的额外类名。 */
   contentClassName?: string
+  /** 自定义触发器的选中值渲染。 */
+  renderValue?: (options: CascaderOption[]) => React.ReactNode
 }
 
 function resolvePath(options: CascaderOption[], values: string[]) {
@@ -56,18 +58,19 @@ function resolvePath(options: CascaderOption[], values: string[]) {
   return resolved
 }
 
-/** A compact multi-column picker for hierarchical values. */
+/** 用于层级值的紧凑多列选择器。 */
 function Cascader({
   className,
   options,
   value,
   defaultValue = [],
   onValueChange,
-  placeholder = "Select a location",
+  placeholder = "请选择地区",
   separator = " / ",
   closeOnSelect = true,
-  panelLabel = "Cascader options",
+  panelLabel = "级联选项",
   contentClassName,
+  renderValue,
   disabled,
   ...props
 }: CascaderProps) {
@@ -116,7 +119,8 @@ function Cascader({
         >
           <span className="flex min-w-0 flex-1 items-center truncate">
             {selectedOptions.length
-              ? selectedOptions.map((option, index) => (
+              ? renderValue?.(selectedOptions) ??
+                selectedOptions.map((option, index) => (
                   <React.Fragment key={option.value}>
                     {index > 0 ? (
                       <span className="text-muted-foreground/60 mx-1.5">

@@ -3,6 +3,7 @@
   "pages": [
     "---General · 通用---",
     "button",
+    "avatar",
     "icon",
     "animated-icon",
     "kbd",
@@ -25,6 +26,7 @@
     "time-picker",
     "upload",
     "---Data Display · 数据展示---",
+    "bubble",
     "calendar",
     "descriptions",
     "empty-state",
@@ -43,6 +45,7 @@
     "message",
     "tooltip",
     "---AI · 智能组件---",
+    "ai-prompt",
     "ai-chat",
     "ai-conversation-timeline",
     "ai-tool",

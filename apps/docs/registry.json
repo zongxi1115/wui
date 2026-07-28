@@ -4,13 +4,34 @@
   "homepage": "http://localhost:3000",
   "items": [
     {
+      "name": "ai-prompt",
+      "type": "registry:ui",
+      "title": "AI Prompt",
+      "description": "Composable AI prompt input with mentions, models, attachments, quotes, and optional capabilities.",
+      "categories": ["ai"],
+      "dependencies": ["class-variance-authority", "lucide-react"],
+      "registryDependencies": [
+        "utils",
+        "button",
+        "select",
+        "cascader",
+        "animated-icon-collection"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/ai-prompt.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "ai-chat",
       "type": "registry:ui",
       "title": "AI Chat",
       "description": "Composable AI messages, follow-scroll behavior, and prompt input.",
       "categories": ["ai"],
       "dependencies": ["class-variance-authority", "lucide-react"],
-      "registryDependencies": ["utils", "button"],
+      "registryDependencies": ["utils", "button", "avatar", "ai-prompt"],
       "files": [
         {
           "path": "registry/ui/ai-chat.tsx",
@@ -94,6 +115,34 @@
       "files": [
         {
           "path": "registry/ui/ai-reasoning.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "avatar",
+      "type": "registry:ui",
+      "title": "Avatar",
+      "description": "Universal identity avatar with image fallback, presence status, sizes, and groups.",
+      "dependencies": ["radix-ui", "class-variance-authority"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/avatar.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "bubble",
+      "type": "registry:ui",
+      "title": "Bubble",
+      "description": "Composable message bubble with direction, metadata, avatars, and actions.",
+      "dependencies": ["class-variance-authority"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/bubble.tsx",
           "type": "registry:ui"
         }
       ]

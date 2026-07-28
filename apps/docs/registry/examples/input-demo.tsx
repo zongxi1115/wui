@@ -40,7 +40,7 @@ export default function InputDemo() {
             <KbdGroup aria-label="Shortcut: Command K">
               <Kbd
                 size="sm"
-                className="min-h-6 min-w-0 rounded-md border-foreground/10 bg-background/80 px-1.5 font-mono text-[11px] font-normal tracking-tight text-muted-foreground shadow-[0_1px_0_0_color-mix(in_oklab,var(--foreground)_12%,transparent)]"
+                className="min-h-6 min-w-0 rounded-md border-foreground/10 bg-muted/70 px-1.5 font-mono text-[11px] font-normal tracking-tight text-muted-foreground"
               >
                 ⌘ K
               </Kbd>

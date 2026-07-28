@@ -130,24 +130,23 @@ export default function AiChatDemo() {
           setPrompt("")
         }}
       >
-        <AiChatTextarea
-          value={prompt}
-          placeholder="输入消息，Enter 发送…"
-          onChange={(event) => setPrompt(event.target.value)}
-          onKeyDown={(event) => {
-            if (event.key === "Enter" && !event.shiftKey) {
-              event.preventDefault()
-              event.currentTarget.form?.requestSubmit()
-            }
-          }}
-        />
         <AiChatPromptFooter>
           <AiChatPromptTools>
             <Button type="button" variant="ghost" size="icon" aria-label="添加附件">
               <PaperclipIcon />
             </Button>
-            <span className="text-xs text-muted-foreground">GPT-5</span>
           </AiChatPromptTools>
+          <AiChatTextarea
+            value={prompt}
+            placeholder="输入消息…"
+            onChange={(event) => setPrompt(event.target.value)}
+            onKeyDown={(event) => {
+              if (event.key === "Enter" && !event.shiftKey) {
+                event.preventDefault()
+                event.currentTarget.form?.requestSubmit()
+              }
+            }}
+          />
           <AiChatSubmit disabled={!prompt.trim()} />
         </AiChatPromptFooter>
       </AiChatPrompt>

@@ -16,6 +16,8 @@ component: ai-chat
 
 `AiChat` 用于搭建 Agent 助手、客服和 Copilot 对话界面。它只处理消息布局、跟随滚动、回到底部和输入区组合，不持有模型请求与消息协议，因此既可以接 AI SDK，也可以接自有流式接口。
 
+默认头像复用通用 [`Avatar`](/docs/components/avatar)，输入区复用 [`AiPrompt`](/docs/components/ai-prompt) 的基础部件；需要提及、模型选择、附件或引用时，可以直接用完整的 `AiPrompt` 替换底部输入区。
+
 当界面只是普通评论列表或站内私信时，应继续使用业务列表组件，不要因为内容由 AI 生成就强行套用完整聊天外壳。
 
 ## 组件属性

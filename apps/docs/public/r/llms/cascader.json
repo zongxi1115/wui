@@ -2,7 +2,7 @@
   "name": "cascader",
   "type": "registry:ui",
   "title": "Cascader",
-  "description": "A multi-column picker for navigating and selecting hierarchical values.",
+  "description": "用于浏览和选择层级值的多列选择器。",
   "import": "import { Cascader } from \"@/components/ui/cascader\"",
   "exports": [
     "Cascader"
@@ -29,14 +29,14 @@
       "type": "CascaderOption[]",
       "required": true,
       "control": "text",
-      "description": "Hierarchical option tree."
+      "description": "层级选项树。"
     },
     {
       "name": "value",
       "type": "string[]",
       "required": false,
       "control": "text",
-      "description": "Selected value path in controlled mode."
+      "description": "受控模式下的选中值路径。"
     },
     {
       "name": "defaultValue",
@@ -44,22 +44,22 @@
       "required": false,
       "control": "text",
       "defaultValue": "[]",
-      "description": "Initial value path in uncontrolled mode."
+      "description": "非受控模式下的初始值路径。"
     },
     {
       "name": "onValueChange",
       "type": "((value: string[], options: CascaderOption[]) => void)",
       "required": false,
       "control": "text",
-      "description": "Called whenever the active path changes."
+      "description": "当前路径发生变化时调用。"
     },
     {
       "name": "placeholder",
       "type": "string",
       "required": false,
       "control": "text",
-      "defaultValue": "Select a location",
-      "description": "Placeholder shown before a complete path is selected."
+      "defaultValue": "请选择地区",
+      "description": "未选中完整路径时展示的占位文本。@default \"请选择地区\""
     },
     {
       "name": "separator",
@@ -67,7 +67,7 @@
       "required": false,
       "control": "text",
       "defaultValue": "/",
-      "description": "Separator placed between selected labels."
+      "description": "选中标签之间的分隔符。@default \" / \""
     },
     {
       "name": "closeOnSelect",
@@ -75,22 +75,29 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "true",
-      "description": "Close the panel after choosing a leaf option."
+      "description": "选中叶子节点后是否关闭面板。@default true"
     },
     {
       "name": "panelLabel",
       "type": "string",
       "required": false,
       "control": "text",
-      "defaultValue": "Cascader options",
-      "description": "Accessible label for the option panel."
+      "defaultValue": "级联选项",
+      "description": "选项面板的无障碍标签。@default \"级联选项\""
     },
     {
       "name": "contentClassName",
       "type": "string",
       "required": false,
       "control": "text",
-      "description": "Extra classes applied to the floating panel."
+      "description": "应用于浮层面板的额外类名。"
+    },
+    {
+      "name": "renderValue",
+      "type": "((options: CascaderOption[]) => ReactNode)",
+      "required": false,
+      "control": "text",
+      "description": "自定义触发器的选中值渲染。"
     },
     {
       "name": "disabled",
@@ -99,10 +106,11 @@
       "control": "boolean"
     }
   ],
+  "events": "- `onValueChange(value, options)` 会在任一级发生变化后触发，并返回稳定值路径与已解析的选项对象。\n- `onOpenChange` 由组件内部的触发器管理；默认选中叶子节点后关闭面板。\n- 标准按钮的聚焦和键盘激活事件会透传给触发器。",
   "examples": [
     {
       "name": "cascader-demo",
-      "title": "Basic example"
+      "title": "基础示例"
     }
   ],
   "files": [

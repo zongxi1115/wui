@@ -1,0 +1,106 @@
+{
+  "name": "ai-prompt",
+  "type": "registry:ui",
+  "title": "AI 输入框 AI Prompt",
+  "description": "支持提及、模型选择、附件、引用和可选能力的组合式 AI 输入框。",
+  "categories": [
+    "ai"
+  ],
+  "import": "import { AiModelProviderIcon, AiModelSelector, AiModelSelectorContent, AiModelSelectorGroup, AiModelSelectorItem, AiModelSelectorLabel, AiModelSelectorSeparator, AiModelSelectorTrigger, AiModelSelectorValue, AiPrompt, AiPromptAction, AiPromptAttachment, AiPromptAttachmentButton, AiPromptAttachments, AiPromptCapabilitySelector, AiPromptContent, AiPromptFooter, AiPromptHeader, AiPromptMention, AiPromptMentionMenu, AiPromptQuote, AiPromptSubmit, AiPromptTextarea, AiPromptTools, aiPromptVariants } from \"@/components/ui/ai-prompt\"",
+  "exports": [
+    "AiModelProviderIcon",
+    "AiModelSelector",
+    "AiModelSelectorContent",
+    "AiModelSelectorGroup",
+    "AiModelSelectorItem",
+    "AiModelSelectorLabel",
+    "AiModelSelectorSeparator",
+    "AiModelSelectorTrigger",
+    "AiModelSelectorValue",
+    "AiPrompt",
+    "AiPromptAction",
+    "AiPromptAttachment",
+    "AiPromptAttachmentButton",
+    "AiPromptAttachments",
+    "AiPromptCapabilitySelector",
+    "AiPromptContent",
+    "AiPromptFooter",
+    "AiPromptHeader",
+    "AiPromptMention",
+    "AiPromptMentionMenu",
+    "AiPromptQuote",
+    "AiPromptSubmit",
+    "AiPromptTextarea",
+    "AiPromptTools",
+    "aiPromptVariants"
+  ],
+  "typeExports": [
+    "AiModelProvider",
+    "AiModelProviderIconProps",
+    "AiModelSelectorItemProps",
+    "AiModelSelectorTriggerProps",
+    "AiPromptActionProps",
+    "AiPromptAttachmentButtonProps",
+    "AiPromptAttachmentProps",
+    "AiPromptCapabilitySelectorProps",
+    "AiPromptMentionItem",
+    "AiPromptMentionMenuProps",
+    "AiPromptMentionProps",
+    "AiPromptProps",
+    "AiPromptQuoteProps",
+    "AiPromptStatus",
+    "AiPromptSubmitProps",
+    "AiPromptTextareaProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/ai-prompt",
+    "shadcn": "npx shadcn@latest add http://localhost:3000/r/ai-prompt.json",
+    "npmDependencies": [
+      "class-variance-authority",
+      "lucide-react"
+    ],
+    "registryDependencies": [
+      "utils",
+      "button",
+      "select",
+      "cascader",
+      "animated-icon-collection"
+    ]
+  },
+  "props": [
+    {
+      "name": "size",
+      "type": "\"compact\" | \"default\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "compact",
+        "default"
+      ],
+      "defaultValue": "default",
+      "description": "Composer density."
+    }
+  ],
+  "usage": "`AiPrompt` 是可独立放在页面、侧栏或 [`AiChat`](/docs/components/ai-chat) 底部的提示输入框。它负责输入区结构、提及选择、模型入口、附件展示和发送状态，不绑定具体 AI SDK、上传接口或模型列表。\n\n普通搜索框、评论输入和传统表单不应使用 `AiPrompt`。只有输入会触发模型能力，且确实需要模型、上下文或工具选项时，才使用这些附加部件。",
+  "extended": "### 提及与引用上下文\n\n将输入框包在 `AiPromptMention` 中即可启用 `@` 检测、过滤、键盘导航与插入。引用内容放在 `AiPromptHeader`，与正文保持明确层级，不把引用拼进 placeholder。\n\n### 模型、附件与可选能力\n\n模型选择器复用通用 `Select`，通过 `provider` 自动显示 OpenAI、Anthropic 或 xAI 厂商标识，并以主模型名、当前模式和能力说明建立两级信息层次。已选文件使用 `AiPromptAttachment` 呈现；联网搜索等布尔能力使用 `AiPromptAction active`，深度思考则通过复用 `Cascader` 的 `AiPromptCapabilitySelector` 继续选择 effort。",
+  "events": "- `AiPrompt` 透传表单 `onSubmit`，业务层负责发送请求。\n- `AiPromptTextarea` 默认随内容自动增高，到达 `maxHeight` 后切换为内部滚动；放在 `AiPromptMention` 中时，Provider 通过 `onValueChange` 统一处理普通输入和提及插入。\n- `AiPromptMention onMentionSelect` 在候选项插入后触发；菜单支持方向键、Enter、Tab 与 Escape。\n- `AiPromptAttachmentButton onFilesChange` 返回本地 `File[]`，不预设上传请求。\n- `AiModelSelector onValueChange` 返回模型值；简单布尔能力使用 `AiPromptAction`，存在模式与强度层级的能力使用 `AiPromptCapabilitySelector`。",
+  "examples": [
+    {
+      "name": "ai-prompt-demo",
+      "title": "基础示例"
+    },
+    {
+      "name": "ai-prompt-mentions",
+      "title": "提及与引用上下文"
+    },
+    {
+      "name": "ai-prompt-advanced",
+      "title": "模型、附件与可选能力"
+    }
+  ],
+  "files": [
+    "registry/ui/ai-prompt.tsx"
+  ],
+  "docsUrl": "http://localhost:3000/docs/components/ai-prompt",
+  "sourceUrl": "http://localhost:3000/r/ai-prompt.json"
+}

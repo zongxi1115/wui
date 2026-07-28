@@ -8,45 +8,45 @@ import { Cascader, type CascaderOption } from "@/registry/ui/cascader"
 const locations: CascaderOption[] = [
   {
     value: "china",
-    label: "China",
+    label: "中国",
     children: [
       {
         value: "zhejiang",
-        label: "Zhejiang",
+        label: "浙江省",
         children: [
-          { value: "hangzhou", label: "Hangzhou" },
-          { value: "ningbo", label: "Ningbo" },
-          { value: "wenzhou", label: "Wenzhou" },
+          { value: "hangzhou", label: "杭州市" },
+          { value: "ningbo", label: "宁波市" },
+          { value: "wenzhou", label: "温州市" },
         ],
       },
       {
         value: "jiangsu",
-        label: "Jiangsu",
+        label: "江苏省",
         children: [
-          { value: "nanjing", label: "Nanjing" },
-          { value: "suzhou", label: "Suzhou" },
+          { value: "nanjing", label: "南京市" },
+          { value: "suzhou", label: "苏州市" },
         ],
       },
     ],
   },
   {
     value: "japan",
-    label: "Japan",
+    label: "日本",
     children: [
       {
         value: "kanto",
-        label: "Kanto",
+        label: "关东地区",
         children: [
-          { value: "tokyo", label: "Tokyo" },
-          { value: "yokohama", label: "Yokohama" },
+          { value: "tokyo", label: "东京" },
+          { value: "yokohama", label: "横滨" },
         ],
       },
       {
         value: "kansai",
-        label: "Kansai",
+        label: "关西地区",
         children: [
-          { value: "osaka", label: "Osaka" },
-          { value: "kyoto", label: "Kyoto" },
+          { value: "osaka", label: "大阪" },
+          { value: "kyoto", label: "京都" },
         ],
       },
     ],
@@ -63,9 +63,9 @@ export default function CascaderDemo() {
           <MapPinIcon className="size-4" />
         </span>
         <div>
-          <p className="text-sm font-semibold">Delivery region</p>
+          <p className="text-sm font-semibold">配送区域</p>
           <p className="text-muted-foreground text-xs">
-            Choose a country, region, and city
+            请选择国家、省份与城市
           </p>
         </div>
       </div>
@@ -73,7 +73,7 @@ export default function CascaderDemo() {
         options={locations}
         value={value}
         onValueChange={setValue}
-        placeholder="Choose a delivery region"
+        placeholder="请选择配送区域"
       />
     </div>
   )

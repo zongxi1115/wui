@@ -1,10 +1,10 @@
 ---
 title: Cascader
-description: A multi-column picker for navigating and selecting hierarchical values.
+description: 用于浏览和选择层级值的多列选择器。
 component: cascader
 ---
 
-## Basic example
+## 基础示例
 
 <ComponentPreview name="cascader-demo" />
 
@@ -12,20 +12,20 @@ component: cascader
 
 <ComponentSource name="cascader" title="components/ui/cascader.tsx" />
 
-## What it's for
+## 适用场景
 
-Use `Cascader` when a choice belongs to a clear hierarchy, such as region / city, department / team, or category / subcategory. Each selection reveals the next column so users keep their context while moving deeper. Use `Select` for a single flat list and a searchable command menu for large, unstructured datasets.
+当选项具有明确层级时使用 `Cascader`，例如省份 / 城市、部门 / 团队或分类 / 子分类。每次选择都会展开下一列，帮助用户在深入选择时保持上下文。单层选项使用 `Select`，大规模无结构数据则适合可搜索的命令菜单。
 
-## Props
+## 属性
 
 <PropsTable name="cascader" />
 
-## Events
+## 事件
 
-- `onValueChange(value, options)` fires after any level changes and returns both the stable value path and resolved option objects.
-- `onOpenChange` is managed internally through the trigger; a leaf closes the panel by default.
-- Standard button focus and keyboard activation events are forwarded to the trigger.
+- `onValueChange(value, options)` 会在任一级发生变化后触发，并返回稳定值路径与已解析的选项对象。
+- `onOpenChange` 由组件内部的触发器管理；默认选中叶子节点后关闭面板。
+- 标准按钮的聚焦和键盘激活事件会透传给触发器。
 
-## Extended usage
+## 扩展用法
 
-Set `closeOnSelect={false}` to keep the panel open after a leaf selection. Use `contentClassName` to adjust the panel width without changing the trigger, and pass a custom `separator` when the selected path needs different visual punctuation.
+设置 `closeOnSelect={false}` 可在选择叶子节点后保持面板打开。通过 `contentClassName` 调整面板宽度而不影响触发器；当选中路径需要不同分隔符时，传入自定义 `separator`。

@@ -3,6 +3,19 @@
   "homepage": "http://localhost:3000",
   "items": [
     {
+      "name": "ai-prompt",
+      "type": "registry:ui",
+      "title": "AI 输入框 AI Prompt",
+      "description": "支持提及、模型选择、附件、引用和可选能力的组合式 AI 输入框。",
+      "categories": [
+        "ai"
+      ],
+      "keyProps": [
+        "size: compact|default"
+      ],
+      "exampleCount": 3
+    },
+    {
       "name": "ai-chat",
       "type": "registry:ui",
       "title": "AI 对话 AI Chat",
@@ -87,6 +100,27 @@
         "asChild: boolean"
       ],
       "exampleCount": 3
+    },
+    {
+      "name": "avatar",
+      "type": "registry:ui",
+      "title": "头像 Avatar",
+      "description": "带图片回退、在线状态和头像组的通用身份组件。",
+      "keyProps": [
+        "size: sm|default|xs|lg",
+        "asChild: boolean"
+      ],
+      "exampleCount": 2
+    },
+    {
+      "name": "bubble",
+      "type": "registry:ui",
+      "title": "气泡 Bubble",
+      "description": "可组合头像、署名、正文、时间与操作区的通用消息气泡。",
+      "keyProps": [
+        "side: start|end"
+      ],
+      "exampleCount": 2
     },
     {
       "name": "utils",
@@ -357,7 +391,7 @@
       "name": "cascader",
       "type": "registry:ui",
       "title": "Cascader",
-      "description": "A multi-column picker for navigating and selecting hierarchical values.",
+      "description": "用于浏览和选择层级值的多列选择器。",
       "keyProps": [
         "options: CascaderOption[]",
         "value: string[]",
@@ -372,7 +406,7 @@
       "name": "form",
       "type": "registry:ui",
       "title": "Form",
-      "description": "Composable form fields with coordinated labels, validation messages, and motion.",
+      "description": "可组合的表单字段，协调标签、校验提示与动效反馈。",
       "keyProps": [
         "animated: boolean",
         "acceptCharset: string",

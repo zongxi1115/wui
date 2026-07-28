@@ -23,18 +23,18 @@ import { Input } from "@/registry/ui/input"
 const teams: CascaderOption[] = [
   {
     value: "design",
-    label: "Design",
+    label: "设计",
     children: [
-      { value: "product", label: "Product Design" },
-      { value: "brand", label: "Brand Design" },
+      { value: "product", label: "产品设计" },
+      { value: "brand", label: "品牌设计" },
     ],
   },
   {
     value: "engineering",
-    label: "Engineering",
+    label: "工程",
     children: [
-      { value: "web", label: "Web Platform" },
-      { value: "mobile", label: "Mobile" },
+      { value: "web", label: "Web 平台" },
+      { value: "mobile", label: "移动端" },
     ],
   },
 ]
@@ -49,7 +49,7 @@ export default function FormDemo() {
   const emailInvalid = touched && !/^\S+@\S+\.\S+$/.test(email)
 
   return (
-    <div className="bg-background w-full max-w-lg rounded-2xl border p-6 shadow-sm sm:p-8">
+    <div className="bg-background w-full max-w-lg rounded-2xl border p-6 shadow-sm sm:p-7">
       <Form
         onSubmit={(event) => {
           event.preventDefault()
@@ -59,40 +59,38 @@ export default function FormDemo() {
         }}
       >
         <FormSection>
-          <FormLegend>Create your workspace</FormLegend>
+          <FormLegend>创建你的工作区</FormLegend>
           <p className="text-muted-foreground -mt-2 text-sm">
-            A few details, then you are ready to invite your team.
+            填写以下信息后，即可邀请团队成员加入。
           </p>
 
           <FormField invalid={emailInvalid} required>
-            <FormLabel>Work email</FormLabel>
+            <FormLabel>工作邮箱</FormLabel>
             <FormControl>
               <Input
                 type="email"
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
                 onBlur={() => setTouched(true)}
-                placeholder="you@company.com"
+                placeholder="name@company.com"
                 startContent={<MailIcon />}
               />
             </FormControl>
-            <FormDescription>
-              We will only use this for workspace updates.
-            </FormDescription>
-            <FormMessage>Enter a valid work email.</FormMessage>
+            <FormMessage>请输入有效的工作邮箱。</FormMessage>
+            <FormDescription>仅用于向你发送工作区更新。</FormDescription>
           </FormField>
 
           <FormField invalid={touched && !team.length} required>
-            <FormLabel>Team</FormLabel>
+            <FormLabel>团队</FormLabel>
             <FormControl>
               <Cascader
                 options={teams}
                 value={team}
                 onValueChange={setTeam}
-                placeholder="Choose your team"
+                placeholder="请选择团队"
               />
             </FormControl>
-            <FormMessage>Choose a team to continue.</FormMessage>
+            <FormMessage>请选择团队后继续。</FormMessage>
           </FormField>
 
           <FormField invalid={touched && !agreed}>
@@ -103,10 +101,10 @@ export default function FormDemo() {
                 className="mt-0.5"
               />
               <span className="text-muted-foreground leading-relaxed">
-                I agree to the workspace terms and data policy.
+                我已阅读并同意工作区服务条款与数据政策。
               </span>
             </label>
-            <FormMessage>Please confirm before continuing.</FormMessage>
+            <FormMessage>请确认后继续。</FormMessage>
           </FormField>
         </FormSection>
 
@@ -119,12 +117,12 @@ export default function FormDemo() {
                 animate={{ opacity: 1, y: 0 }}
                 className="text-success mr-auto text-sm font-medium"
               >
-                Workspace created
+                工作区已创建
               </motion.span>
             ) : null}
           </AnimatePresence>
           <Button type="submit" motion>
-            Continue
+            继续
             <ArrowRightIcon />
           </Button>
         </FormActions>

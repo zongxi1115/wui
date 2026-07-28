@@ -3,13 +3,28 @@
   "homepage": "http://localhost:3000",
   "items": [
     {
+      "name": "ai-prompt",
+      "type": "registry:ui",
+      "title": "AI Prompt",
+      "description": "Composable AI prompt input with mentions, models, attachments, quotes, and optional capabilities.",
+      "registryDependencies": [
+        "utils",
+        "button",
+        "select",
+        "cascader",
+        "animated-icon-collection"
+      ]
+    },
+    {
       "name": "ai-chat",
       "type": "registry:ui",
       "title": "AI Chat",
       "description": "Composable AI messages, follow-scroll behavior, and prompt input.",
       "registryDependencies": [
         "utils",
-        "button"
+        "button",
+        "avatar",
+        "ai-prompt"
       ]
     },
     {
@@ -56,6 +71,24 @@
       "registryDependencies": [
         "utils",
         "ai-stream"
+      ]
+    },
+    {
+      "name": "avatar",
+      "type": "registry:ui",
+      "title": "Avatar",
+      "description": "Universal identity avatar with image fallback, presence status, sizes, and groups.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "bubble",
+      "type": "registry:ui",
+      "title": "Bubble",
+      "description": "Composable message bubble with direction, metadata, avatars, and actions.",
+      "registryDependencies": [
+        "utils"
       ]
     },
     {

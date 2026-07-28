@@ -5,13 +5,18 @@ import { cva } from "class-variance-authority"
 import {
   ArrowDownIcon,
   BotIcon,
-  LoaderCircleIcon,
-  SendIcon,
-  SquareIcon,
   UserIcon,
 } from "lucide-react"
 
 import { cn } from "@/registry/lib/utils"
+import {
+  AiPrompt,
+  AiPromptFooter,
+  AiPromptSubmit,
+  AiPromptTextarea,
+  AiPromptTools,
+} from "@/registry/ui/ai-prompt"
+import { Avatar, AvatarFallback } from "@/registry/ui/avatar"
 import { Button } from "@/registry/ui/button"
 
 type AiChatRole = "user" | "assistant" | "system"
@@ -181,18 +186,21 @@ function AiChatAvatar({
 }: AiChatAvatarProps) {
   const Icon = role === "user" ? UserIcon : BotIcon
   return (
-    <span
+    <Avatar
       data-slot="ai-chat-avatar"
       data-role={role}
+      size="sm"
       className={cn(
-        "mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-full border bg-muted text-muted-foreground",
+        "mt-0.5 size-7 border",
         role === "user" && "order-2",
         className
       )}
       {...props}
     >
-      {children ?? <Icon className="size-3.5" />}
-    </span>
+      <AvatarFallback>
+        {children ?? <Icon className="size-3.5" />}
+      </AvatarFallback>
+    </Avatar>
   )
 }
 
@@ -265,17 +273,15 @@ function AiChatScrollButton({
 
 function AiChatPrompt({
   className,
-  onSubmit,
   ...props
-}: React.ComponentProps<"form">) {
+}: React.ComponentProps<typeof AiPrompt>) {
   return (
-    <form
+    <AiPrompt
       data-slot="ai-chat-prompt"
-      className={cn("border-t bg-background p-3", className)}
-      onSubmit={(event) => {
-        if (!onSubmit) event.preventDefault()
-        onSubmit?.(event)
-      }}
+      className={cn(
+        "rounded-none border-x-0 border-b-0 bg-background p-2 focus-within:ring-0",
+        className
+      )}
       {...props}
     />
   )
@@ -284,13 +290,13 @@ function AiChatPrompt({
 function AiChatTextarea({
   className,
   ...props
-}: React.ComponentProps<"textarea">) {
+}: React.ComponentProps<typeof AiPromptTextarea>) {
   return (
-    <textarea
+    <AiPromptTextarea
       data-slot="ai-chat-textarea"
-      rows={2}
+      rows={1}
       className={cn(
-        "min-h-16 w-full resize-none bg-transparent px-1 py-1 text-sm leading-6 outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50",
+        "min-h-10 min-w-0 flex-1 px-2 py-2",
         className
       )}
       {...props}
@@ -301,11 +307,11 @@ function AiChatTextarea({
 function AiChatPromptFooter({
   className,
   ...props
-}: React.ComponentProps<"div">) {
+}: React.ComponentProps<typeof AiPromptFooter>) {
   return (
-    <div
+    <AiPromptFooter
       data-slot="ai-chat-prompt-footer"
-      className={cn("mt-2 flex items-center justify-between gap-2", className)}
+      className={cn("px-0 py-0", className)}
       {...props}
     />
   )
@@ -314,17 +320,18 @@ function AiChatPromptFooter({
 function AiChatPromptTools({
   className,
   ...props
-}: React.ComponentProps<"div">) {
+}: React.ComponentProps<typeof AiPromptTools>) {
   return (
-    <div
+    <AiPromptTools
       data-slot="ai-chat-prompt-tools"
-      className={cn("flex min-w-0 items-center gap-1", className)}
+      className={className}
       {...props}
     />
   )
 }
 
-export interface AiChatSubmitProps extends React.ComponentProps<typeof Button> {
+export interface AiChatSubmitProps
+  extends React.ComponentProps<typeof AiPromptSubmit> {
   /** Current generation state. @default "idle" */
   status?: AiChatStatus
 }
@@ -335,26 +342,15 @@ function AiChatSubmit({
   children,
   ...props
 }: AiChatSubmitProps) {
-  const busy = status === "submitted" || status === "streaming"
   return (
-    <Button
-      type="submit"
-      size="icon"
-      aria-label={busy ? "停止生成" : "发送消息"}
+    <AiPromptSubmit
       data-slot="ai-chat-submit"
-      data-status={status}
-      className={cn("size-8 rounded-full", className)}
+      status={status}
+      className={className}
       {...props}
     >
-      {children ??
-        (status === "submitted" ? (
-          <LoaderCircleIcon className="motion-safe:animate-spin" />
-        ) : status === "streaming" ? (
-          <SquareIcon className="size-3 fill-current" />
-        ) : (
-          <SendIcon />
-        ))}
-    </Button>
+      {children}
+    </AiPromptSubmit>
   )
 }
 

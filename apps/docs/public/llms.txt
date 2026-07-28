@@ -4,12 +4,15 @@
 
 ## 组件
 
+- [AI 输入框 AI Prompt](http://localhost:3000/docs/components/ai-prompt): 支持提及、模型选择、附件、引用和可选能力的组合式 AI 输入框。
 - [AI 对话 AI Chat](http://localhost:3000/docs/components/ai-chat): 可组合的 AI 消息、滚动容器与提示输入框。
 - [AI 对话时间线 AI Conversation Timeline](http://localhost:3000/docs/components/ai-conversation-timeline): 用紧凑刻度浏览长对话，悬停预览并快速定位到指定轮次。
 - [AI 工具调用 AI Tool](http://localhost:3000/docs/components/ai-tool): 展示 AI 工具的执行状态、参数、结果与错误。
 - [AI 任务清单 AI Todo](http://localhost:3000/docs/components/ai-todo): 展示 Agent 计划、执行进度与任务说明。
 - [AI 流式文本 AI Stream](http://localhost:3000/docs/components/ai-stream): 可用于普通回答与思考过程的通用流式文本动效。
 - [AI 推理过程 AI Reasoning](http://localhost:3000/docs/components/ai-reasoning): 流式展示模型返回的 reasoning 文本，并在生成期间自动展开。
+- [头像 Avatar](http://localhost:3000/docs/components/avatar): 带图片回退、在线状态和头像组的通用身份组件。
+- [气泡 Bubble](http://localhost:3000/docs/components/bubble): 可组合头像、署名、正文、时间与操作区的通用消息气泡。
 - [cn utility](http://localhost:3000/docs/components/utils): Tailwind class merge helper used by every component.
 - [按钮 Button](http://localhost:3000/docs/components/button): 显示一个按钮，或显示一个外观类似按钮的组件。
 - [对话框 Dialog](http://localhost:3000/docs/components/dialog): 基于 Radix UI 构建、覆盖在主窗口之上的浮层窗口。
@@ -30,8 +33,8 @@
 - [单选框 Radio Group](http://localhost:3000/docs/components/radio-group): 用于互斥选项的轻量单选控件组。
 - [多选框 Checkbox](http://localhost:3000/docs/components/checkbox): 支持选中、未选中与不确定状态的多选控件。
 - [下拉框 Select](http://localhost:3000/docs/components/select): 带景深入场、分组与键盘导航的选项选择器。
-- [Cascader](http://localhost:3000/docs/components/cascader): A multi-column picker for navigating and selecting hierarchical values.
-- [Form](http://localhost:3000/docs/components/form): Composable form fields with coordinated labels, validation messages, and motion.
+- [Cascader](http://localhost:3000/docs/components/cascader): 用于浏览和选择层级值的多列选择器。
+- [Form](http://localhost:3000/docs/components/form): 可组合的表单字段，协调标签、校验提示与动效反馈。
 - [标签栏 Tabs](http://localhost:3000/docs/components/tabs): 使用共享布局动效平滑切换内容分区。
 - [导航栏 Navbar](http://localhost:3000/docs/components/navbar): 适用于页面顶部与应用左侧的可组合导航栏。
 - [折叠面板 Collapsible](http://localhost:3000/docs/components/collapsible): 按需展开一段补充内容，并保留清晰的状态与键盘交互。

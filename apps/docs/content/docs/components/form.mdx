@@ -1,10 +1,10 @@
 ---
 title: Form
-description: Composable form fields with coordinated labels, validation messages, and motion.
+description: 可组合的表单字段，协调标签、校验提示与动效反馈。
 component: form
 ---
 
-## Basic example
+## 基础示例
 
 <ComponentPreview name="form-demo" />
 
@@ -12,20 +12,20 @@ component: form
 
 <ComponentSource name="form" title="components/ui/form.tsx" />
 
-## What it's for
+## 适用场景
 
-`Form` provides semantic layout and accessible relationships between labels, controls, descriptions, and validation messages. It works with native form state or any validation library because validity stays explicit on each `FormField`. Use it for product forms that need consistent spacing and feedback; a plain HTML form remains preferable when no shared field treatment is needed.
+`Form` 为标签、控件、说明与校验提示提供语义化布局和无障碍关联。每个 `FormField` 显式维护校验状态，因此可配合原生表单状态或任意校验库使用。它适合需要一致间距与反馈的产品表单；无需统一字段样式时，原生 HTML 表单即可。
 
-## Props
+## 属性
 
 <PropsTable name="form" />
 
-## Events
+## 事件
 
-- `Form` forwards native form events including `onSubmit`, `onReset`, and `onInvalid`.
-- `FormControl` preserves the child control's own events while attaching field IDs and ARIA relationships.
-- Changing `FormField invalid` reveals `FormMessage` and triggers a short, reduced-motion-aware correction cue.
+- `Form` 会透传 `onSubmit`、`onReset` 和 `onInvalid` 等原生表单事件。
+- `FormControl` 保留子控件自身事件，同时补充字段 ID 和 ARIA 关联。
+- 修改 `FormField` 的 `invalid` 会显示紧邻控件的 `FormMessage`，并触发适配减少动态效果偏好的轻微纠正提示。
 
-## Extended usage
+## 扩展用法
 
-Compose `FormSection` and `FormLegend` for grouped data, and place primary or secondary actions inside `FormActions`. Set `animated={false}` when the surrounding screen already owns the entrance transition.
+使用 `FormSection` 和 `FormLegend` 组织成组信息，并将主次操作放入 `FormActions`。若页面容器已经负责入场动效，可设置 `animated={false}`。

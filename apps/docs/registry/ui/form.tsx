@@ -23,16 +23,16 @@ const FormFieldContext = React.createContext<FormFieldContextValue | null>(null)
 function useFormField() {
   const context = React.useContext(FormFieldContext)
   if (!context)
-    throw new Error("Form field parts must be used inside <FormField>.")
+    throw new Error("表单字段子组件必须在 <FormField> 内使用。")
   return context
 }
 
 export interface FormProps extends HTMLMotionProps<"form"> {
-  /** Animate the form into place when it mounts. @default true */
+  /** 挂载时是否播放表单入场动效。@default true */
   animated?: boolean
 }
 
-/** A semantic form surface with coordinated field motion and validation states. */
+/** 协调字段动效与校验状态的语义化表单容器。 */
 function Form({ className, animated = true, children, ...props }: FormProps) {
   const reduceMotion = useReducedMotion()
 
@@ -45,7 +45,7 @@ function Form({ className, animated = true, children, ...props }: FormProps) {
         duration: reduceMotion ? 0 : 0.38,
         ease: [0.22, 1, 0.36, 1],
       }}
-      className={cn("grid gap-5", className)}
+      className={cn("grid gap-4", className)}
       {...props}
     >
       {children}
@@ -54,9 +54,9 @@ function Form({ className, animated = true, children, ...props }: FormProps) {
 }
 
 export interface FormFieldProps extends HTMLMotionProps<"div"> {
-  /** Marks the field as invalid and reveals its error treatment. */
+  /** 标记字段为无效并显示错误反馈。 */
   invalid?: boolean
-  /** Marks the field as required for labels and assistive technology. */
+  /** 为标签和辅助技术标记字段为必填。 */
   required?: boolean
 }
 
@@ -87,7 +87,7 @@ function FormField({
           invalid && !reduceMotion ? { x: [0, -4, 4, -2, 2, 0] } : { x: 0 }
         }
         transition={{ duration: reduceMotion ? 0 : 0.32, ease: "easeOut" }}
-        className={cn("grid gap-2", className)}
+        className={cn("grid gap-1.5", className)}
         {...props}
       >
         {children}
@@ -125,7 +125,7 @@ function FormLabel({
 }
 
 export interface FormControlProps extends React.ComponentProps<"div"> {
-  /** The single input-like element receiving form accessibility props. */
+  /** 接收表单无障碍属性的单个输入类元素。 */
   children: React.ReactElement<Record<string, unknown>>
 }
 
@@ -179,7 +179,7 @@ function FormMessage({ className, children, ...props }: HTMLMotionProps<"p">) {
             ease: [0.22, 1, 0.36, 1],
           }}
           className={cn(
-            "text-destructive overflow-hidden text-xs font-medium",
+            "text-destructive -mt-0.5 overflow-hidden text-xs font-medium",
             className
           )}
           {...props}
@@ -198,7 +198,7 @@ function FormSection({
   return (
     <fieldset
       data-slot="form-section"
-      className={cn("grid min-w-0 gap-4 border-0 p-0", className)}
+      className={cn("grid min-w-0 gap-3.5 border-0 p-0", className)}
       {...props}
     />
   )

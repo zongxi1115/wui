@@ -1,0 +1,35 @@
+---
+title: 头像 Avatar
+description: 带图片回退、在线状态和头像组的通用身份组件。
+component: avatar
+---
+
+## 基础示例
+
+<ComponentPreview name="avatar-demo" />
+
+<CodeTabs command="wui@latest add @wui/avatar" />
+
+<ComponentSource name="avatar" title="components/ui/avatar.tsx" />
+
+## 组件作用
+
+`Avatar` 用于显示用户、团队、机器人或其他可识别实体。它将图片加载、回退内容和尺寸规则统一在一个稳定的圆形容器中；不应把头像当作无语义的装饰图标使用。
+
+`AvatarBadge` 表示在线、离开、忙碌或离线状态，`AvatarGroup` 用于紧凑展示少量成员。
+
+## 组件属性
+
+<PropsTable name="avatar" />
+
+## 事件
+
+`AvatarImage` 透传图片的加载事件与 `ref`；`Avatar`、`AvatarFallback` 和分组部件透传对应原生元素属性。在线状态由业务层传给 `AvatarBadge status`，组件不会自行轮询用户状态。
+
+## 扩展使用
+
+### 头像组
+
+<ComponentPreview name="avatar-group" />
+
+头像组只显示需要被快速识别的少量成员，剩余数量使用 `AvatarGroupCount` 汇总，避免横向堆叠过长。
