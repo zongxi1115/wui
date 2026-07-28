@@ -4,6 +4,96 @@
   "homepage": "http://localhost:3000",
   "items": [
     {
+      "name": "ai-chat",
+      "type": "registry:ui",
+      "title": "AI Chat",
+      "description": "Composable AI messages, follow-scroll behavior, and prompt input.",
+      "categories": ["ai"],
+      "dependencies": ["class-variance-authority", "lucide-react"],
+      "registryDependencies": ["utils", "button"],
+      "files": [
+        {
+          "path": "registry/ui/ai-chat.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "ai-conversation-timeline",
+      "type": "registry:ui",
+      "title": "AI Conversation Timeline",
+      "description": "Compact hover-preview navigation for long AI conversations.",
+      "categories": ["ai"],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/ai-conversation-timeline.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "ai-tool",
+      "type": "registry:ui",
+      "title": "AI Tool",
+      "description": "Collapsible AI tool invocation states, inputs, outputs, and errors.",
+      "categories": ["ai"],
+      "dependencies": ["radix-ui", "class-variance-authority", "lucide-react"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/ai-tool.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "ai-todo",
+      "type": "registry:ui",
+      "title": "AI Todo",
+      "description": "Agent task plans with readable progress and optional status interaction.",
+      "categories": ["ai"],
+      "dependencies": ["class-variance-authority", "lucide-react"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/ai-todo.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "ai-stream",
+      "type": "registry:ui",
+      "title": "AI Stream",
+      "description": "Reusable streamed text for answers, reasoning, and other AI content.",
+      "categories": ["ai"],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/ai-stream.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "ai-reasoning",
+      "type": "registry:ui",
+      "title": "AI Reasoning",
+      "description": "Collapsible model-provided reasoning summaries and progress steps.",
+      "categories": ["ai"],
+      "dependencies": ["radix-ui", "class-variance-authority", "lucide-react", "motion"],
+      "registryDependencies": ["utils", "ai-stream"],
+      "files": [
+        {
+          "path": "registry/ui/ai-reasoning.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "theme",
       "type": "registry:theme",
       "title": "WUI Theme",
@@ -258,6 +348,19 @@
       ]
     },
     {
+      "name": "animated-icon-collection",
+      "type": "registry:ui",
+      "title": "Animated Icon Collection",
+      "description": "The complete deduplicated AnimateIcons and ItsHover path-animated icon collection.",
+      "dependencies": ["motion"],
+      "registryDependencies": ["animated-icon"],
+      "files": [],
+      "meta": {
+        "includeDirectory": "registry/icons/animated",
+        "targetDirectory": "components/ui/animated-icons"
+      }
+    },
+    {
       "name": "shiny-button",
       "type": "registry:ui",
       "title": "Shiny Button",
@@ -460,6 +563,34 @@
       ]
     },
     {
+      "name": "image-preview",
+      "type": "registry:ui",
+      "title": "Image Preview",
+      "description": "An accessible fullscreen image viewer with zoom and rotation controls.",
+      "dependencies": ["radix-ui", "lucide-react", "motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/image-preview.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "skeleton",
+      "type": "registry:ui",
+      "title": "Skeleton",
+      "description": "A neutral placeholder that preserves layout while content loads.",
+      "dependencies": ["class-variance-authority"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/skeleton.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "message",
       "type": "registry:ui",
       "title": "Message",
@@ -653,6 +784,840 @@
         {
           "path": "registry/ui/table.tsx",
           "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "calendar",
+      "type": "registry:ui",
+      "title": "Calendar",
+      "description": "An accessible single-month date grid with controlled selection.",
+      "dependencies": ["lucide-react", "motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/calendar.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "date-picker",
+      "type": "registry:ui",
+      "title": "Date Picker",
+      "description": "A compact popover for selecting and clearing a date.",
+      "dependencies": ["radix-ui", "lucide-react"],
+      "registryDependencies": ["utils", "calendar"],
+      "files": [
+        {
+          "path": "registry/ui/date-picker.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "time-picker",
+      "type": "registry:ui",
+      "title": "Time Picker",
+      "description": "A column-based time picker with 12 and 24 hour modes.",
+      "dependencies": ["radix-ui", "lucide-react", "motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/time-picker.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "kanban",
+      "type": "registry:ui",
+      "title": "Kanban",
+      "description": "A composable task board with native cross-column dragging.",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/kanban.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "timeline",
+      "type": "registry:ui",
+      "title": "Timeline",
+      "description": "Composable chronological events with semantic status markers.",
+      "dependencies": ["class-variance-authority", "motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/timeline.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "empty-state",
+      "type": "registry:ui",
+      "title": "Empty State",
+      "description": "A focused zero-data state with optional icon, actions, and 150 bundled illustrations.",
+      "dependencies": ["class-variance-authority"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/empty-state.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/nothing-here-no-image.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/nothing-here-no-image.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/under-construction-maintenance.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/under-construction-maintenance.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/no-files-found.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/no-files-found.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/empty-folder.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/empty-folder.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/add-files.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/add-files.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/search-folder.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/search-folder.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/add-media.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/add-media.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/xls-file.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/xls-file.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/zip-file.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/zip-file.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/file-not-found.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/file-not-found.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/search.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/search.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/file-broken-or-not-found.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/file-broken-or-not-found.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/general-files.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/general-files.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/search-general.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/search-general.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/content-unavailable.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/content-unavailable.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/add-photo.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/add-photo.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/add-photos.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/add-photos.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/search-photos-files.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/search-photos-files.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/task-done.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/task-done.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/no-content-general.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/no-content-general.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/no-reports.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/no-reports.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/add-dashboard.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/add-dashboard.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/no-files.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/no-files.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/upload-file.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/upload-file.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/upload-general.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/upload-general.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/messages-add-message.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/messages-add-message.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/no-messages.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/no-messages.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/cards.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/cards.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/add-card.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/add-card.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/card-expired.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/card-expired.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/card-rejected.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/card-rejected.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/no-credits.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/no-credits.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/no-tasks.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/no-tasks.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/add-task.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/add-task.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/no-appointments.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/no-appointments.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/no-location.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/no-location.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/no-address.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/no-address.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/empty-inbox.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/empty-inbox.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/add-to-inbox.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/add-to-inbox.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/email-sent.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/email-sent.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/empty-inbox-2.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/empty-inbox-2.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/check-your-inbox.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/check-your-inbox.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/no-emails.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/no-emails.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/add-to-group.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/add-to-group.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/add-user.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/add-user.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/search-user.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/search-user.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/add-user-2.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/add-user-2.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/users.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/users.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/something-went-wrong.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/something-went-wrong.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/404-page-not-found.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/404-page-not-found.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/nothing-here.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/nothing-here.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/nothing-here-2.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/nothing-here-2.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/no-products.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/no-products.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/no-friends.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/no-friends.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/trash-empty.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/trash-empty.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/empty-box.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/empty-box.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/add-product.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/add-product.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/no-notifications.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/no-notifications.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/launch-app.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/launch-app.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/add-alarm.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/add-alarm.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/no-alarms.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/no-alarms.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/youre-awesome.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/youre-awesome.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/no-vacation.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/no-vacation.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/empty-cart.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/empty-cart.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/gradient/connection-lost.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/gradient/connection-lost.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/nothing-here-no-image.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/nothing-here-no-image.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/under-construction-maintenance.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/under-construction-maintenance.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/no-files-found.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/no-files-found.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/empty-folder.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/empty-folder.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/add-files.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/add-files.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/search-folder.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/search-folder.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/add-media.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/add-media.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/xls-file.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/xls-file.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/zip-file.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/zip-file.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/file-not-found.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/file-not-found.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/search.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/search.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/file-broken-or-not-found.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/file-broken-or-not-found.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/general-files.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/general-files.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/search-general.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/search-general.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/content-unavailable.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/content-unavailable.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/add-photo.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/add-photo.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/add-photos.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/add-photos.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/search-photos-files.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/search-photos-files.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/task-done.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/task-done.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/no-content-general.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/no-content-general.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/no-reports.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/no-reports.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/add-dashboard.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/add-dashboard.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/no-files.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/no-files.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/upload-file.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/upload-file.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/upload-general.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/upload-general.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/messages-add-message.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/messages-add-message.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/no-messages.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/no-messages.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/cards.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/cards.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/add-card.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/add-card.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/card-expired.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/card-expired.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/card-rejected.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/card-rejected.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/no-credits.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/no-credits.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/no-tasks.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/no-tasks.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/add-task.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/add-task.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/no-appointments.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/no-appointments.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/no-location.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/no-location.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/no-address.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/no-address.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/empty-inbox.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/empty-inbox.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/add-to-inbox.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/add-to-inbox.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/email-sent.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/email-sent.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/empty-inbox-2.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/empty-inbox-2.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/check-your-inbox.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/check-your-inbox.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/no-emails.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/no-emails.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/add-to-group.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/add-to-group.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/add-user.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/add-user.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/search-user.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/search-user.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/add-user-2.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/add-user-2.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/users.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/users.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/something-went-wrong.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/something-went-wrong.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/404-page-not-found.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/404-page-not-found.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/nothing-here.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/nothing-here.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/nothing-here-2.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/nothing-here-2.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/no-products.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/no-products.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/no-friends.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/no-friends.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/trash-empty.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/trash-empty.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/empty-box.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/empty-box.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/add-product.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/add-product.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/no-notifications.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/no-notifications.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/launch-app.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/launch-app.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/add-alarm.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/add-alarm.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/no-alarms.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/no-alarms.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/youre-awesome.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/youre-awesome.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/no-vacation.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/no-vacation.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/empty-cart.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/empty-cart.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/flat/connection-lost.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/flat/connection-lost.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/color/add-email.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/color/add-email.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/color/allow-notifications.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/color/allow-notifications.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/color/app-locked.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/color/app-locked.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/color/camera-access.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/color/camera-access.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/color/email-sent.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/color/email-sent.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/color/expired-alt.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/color/expired-alt.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/color/expired.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/color/expired.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/color/microphone-access.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/color/microphone-access.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/color/no-plan-chosen.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/color/no-plan-chosen.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/color/payment.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/color/payment.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/color/phone-numbers.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/color/phone-numbers.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/color/search.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/color/search.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/color/send-email.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/color/send-email.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/color/settings.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/color/settings.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/color/resource-1.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/color/resource-1.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/color/resource-2.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/color/resource-2.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/color/resource-3.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/color/resource-3.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/color/resource-4.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/color/resource-4.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/color/resource-5.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/color/resource-5.svg"
+        },
+        {
+          "path": "registry/assets/empty-state/color/resource-6.svg",
+          "type": "registry:asset",
+          "target": "public/wui/empty-state/color/resource-6.svg"
         }
       ]
     }

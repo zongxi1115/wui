@@ -1,0 +1,22 @@
+{
+  "name": "animated-icon-collection",
+  "type": "registry:ui",
+  "title": "Animated Icon Collection",
+  "description": "The complete deduplicated AnimateIcons and ItsHover path-animated icon collection.",
+  "exports": [],
+  "install": {
+    "wui": "npx wui@latest add @wui/animated-icon-collection",
+    "shadcn": "npx shadcn@latest add http://localhost:3000/r/animated-icon-collection.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "animated-icon"
+    ]
+  },
+  "props": [],
+  "examples": [],
+  "files": [],
+  "docsUrl": "http://localhost:3000/docs/components/animated-icon-collection",
+  "sourceUrl": "http://localhost:3000/r/animated-icon-collection.json"
+}

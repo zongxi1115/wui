@@ -1,0 +1,91 @@
+{
+  "name": "ai-reasoning",
+  "type": "registry:ui",
+  "title": "AI 推理过程 AI Reasoning",
+  "description": "流式展示模型返回的 reasoning 文本，并在生成期间自动展开。",
+  "categories": [
+    "ai"
+  ],
+  "import": "import { AiReasoning, AiReasoningContent, AiReasoningDeltas, AiReasoningStep, AiReasoningStream, AiReasoningTrigger, aiReasoningStepVariants } from \"@/components/ui/ai-reasoning\"",
+  "exports": [
+    "AiReasoning",
+    "AiReasoningContent",
+    "AiReasoningDeltas",
+    "AiReasoningStep",
+    "AiReasoningStream",
+    "AiReasoningTrigger",
+    "aiReasoningStepVariants"
+  ],
+  "typeExports": [
+    "AiReasoningDeltasProps",
+    "AiReasoningProps",
+    "AiReasoningStepProps",
+    "AiReasoningStreamProps",
+    "AiReasoningTriggerProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/ai-reasoning",
+    "shadcn": "npx shadcn@latest add http://localhost:3000/r/ai-reasoning.json",
+    "npmDependencies": [
+      "radix-ui",
+      "class-variance-authority",
+      "lucide-react",
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils",
+      "ai-stream"
+    ]
+  },
+  "props": [
+    {
+      "name": "isStreaming",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "Whether reasoning is still arriving."
+    },
+    {
+      "name": "duration",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "description": "Completed reasoning time in seconds."
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean"
+    },
+    {
+      "name": "asChild",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean"
+    }
+  ],
+  "usage": "`AiReasoning` 用于呈现模型明确返回、允许展示的 reasoning 文本。业务层每收到一个流式文本片段，就把累计文本传给 `AiReasoningStream`；组件在 `isStreaming` 期间自动展开，文本最右侧以羽化边缘自然推进，结束后恢复完整文本并自动收起。\n\n展开与收起只使用短距离位移和透明度过渡，不缩放正文。状态图标、标题与展开箭头分别做轻量衔接；羽化只作用于最新的一小段字符，不附加 blur，也不会让整段正文持续闪烁。所有动效都会响应系统的“减少动态效果”设置。\n\n不要用它暴露系统提示词、隐藏思维链、密钥、内部策略或模型未明确返回的推理内容。面向用户时优先展示简洁的“正在搜索”“正在读取文件”“正在形成方案”等过程摘要。",
+  "extended": "### 接入流式响应\n\n将接口返回的 reasoning delta 累加到字符串状态，并把累计字符串放进 `AiReasoningStream`。`featherLength` 控制末尾羽化范围，文本增长速度直接反映真实响应。可以通过 `getLabel` 自定义“正在思考”和完成用时文案。\n\n### Delta 分段淡入\n\n如果业务保留了原始 delta 数组，可以将它传给 `AiReasoningDeltas`。组件只为新加入的片段执行一次轻微位移、模糊和淡入，既能看出内容正在到达，也不会重复动画已经稳定的文字。\n\n### 与工具状态配合\n\n搜索、读文件和数据库查询等离散动作应交给 [`AiTool`](/docs/components/ai-tool)，不要混进 reasoning 文本里伪装成模型思维。Reasoning 负责连续文本，Tool 负责结构化执行状态。",
+  "events": "组件透传 Radix Collapsible 的 `open` 与 `onOpenChange`。非受控模式下，`isStreaming` 变为 `true` 时自动展开，从 `true` 变为 `false` 时自动收起；受控模式由调用方决定展开策略。内容区域在流式阶段使用 `aria-live` 和 `aria-busy` 通知辅助技术。",
+  "examples": [
+    {
+      "name": "ai-reasoning-demo",
+      "title": "基础示例"
+    },
+    {
+      "name": "ai-stream-demo",
+      "title": "普通回答与思考过程复用"
+    },
+    {
+      "name": "ai-reasoning-deltas",
+      "title": "Delta 分段淡入"
+    }
+  ],
+  "files": [
+    "registry/ui/ai-reasoning.tsx"
+  ],
+  "docsUrl": "http://localhost:3000/docs/components/ai-reasoning",
+  "sourceUrl": "http://localhost:3000/r/ai-reasoning.json"
+}

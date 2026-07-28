@@ -88,8 +88,7 @@
 
 @theme inline {
   --font-mono:
-    var(--font-google-sans-code), "SFMono-Regular", Consolas, "Liberation Mono",
-    monospace;
+    "SFMono-Regular", Consolas, "Liberation Mono", monospace;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);

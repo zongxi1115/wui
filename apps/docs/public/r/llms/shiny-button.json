@@ -1,0 +1,64 @@
+{
+  "name": "shiny-button",
+  "type": "registry:ui",
+  "title": "闪光按钮 Shiny Button",
+  "description": "带有流动扫光效果的填充按钮。",
+  "categories": [
+    "fancy"
+  ],
+  "import": "import { ShinyButton } from \"@/components/ui/shiny-button\"",
+  "exports": [
+    "ShinyButton"
+  ],
+  "typeExports": [
+    "ShinyButtonProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/shiny-button",
+    "shadcn": "npx shadcn@latest add http://localhost:3000/r/shiny-button.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "speed",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "3",
+      "description": "Seconds for one full light sweep across the button."
+    },
+    {
+      "name": "gap",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "1.2",
+      "description": "Pause between sweeps, in seconds."
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean"
+    }
+  ],
+  "usage": "`ShinyButton` 是 **Fancy** 系列的首个组件。该系列包含偏展示性的效果组件，类似 CodePen\n中的创意效果；它们与核心 UI 共存，并通过相同的 `wui add` 流程按需拉取。\n\n效果组件比核心基础组件更有视觉倾向，也更醒目，因此应克制、有目的地使用：\n\n- 适合用于首屏行动按钮、定价页的“升级”按钮或空状态等需要单一视觉焦点的位置。\n- 不要在整个表单或工具栏中铺满闪光按钮；持续动画会与内容争夺注意力并造成视觉疲劳。\n- 与所有 wui 动画一样，当用户偏好减少动态效果时，扫光会自动禁用，按钮仍保持为普通的实色按钮。",
+  "extended": "组件源码位于你的项目中，可以自由调整外观：修改 `speed` 和 `gap` 控制扫光的速度与密度，\n将 `bg-primary` 表面替换为渐变，或修改 `linear-gradient` 实现彩色高光。\n\n  新效果组件遵循标准的[组件规范](/docs)，额外要求仅为在 `registry.json` 中添加\n  `\"categories\": [\"fancy\"]`，并将页面放到组件侧边栏的 **Fancy** 分组下。\n  完整清单见 `docs/COMPONENT-SPEC.md` 第 9 节。",
+  "events": "`ShinyButton` 会像 [`Button`](/docs/components/button) 一样，将 `onClick`、`onFocus`\n等原生按钮事件透传给底层元素。",
+  "examples": [
+    {
+      "name": "shiny-button-demo",
+      "title": "基础示例"
+    }
+  ],
+  "files": [
+    "registry/ui/shiny-button.tsx"
+  ],
+  "docsUrl": "http://localhost:3000/docs/components/shiny-button",
+  "sourceUrl": "http://localhost:3000/r/shiny-button.json"
+}

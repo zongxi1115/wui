@@ -1,0 +1,94 @@
+{
+  "name": "time-picker",
+  "type": "registry:ui",
+  "title": "时间选择器 Time Picker",
+  "description": "用小时、分钟与时制分栏快速设定时间。",
+  "import": "import { TimePicker, formatTime, parseTime } from \"@/components/ui/time-picker\"",
+  "exports": [
+    "TimePicker",
+    "formatTime",
+    "parseTime"
+  ],
+  "typeExports": [
+    "TimePickerProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/time-picker",
+    "shadcn": "npx shadcn@latest add http://localhost:3000/r/time-picker.json",
+    "npmDependencies": [
+      "radix-ui",
+      "lucide-react",
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "value",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "Time in 24-hour HH:mm format."
+    },
+    {
+      "name": "defaultValue",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "Initial time in uncontrolled mode."
+    },
+    {
+      "name": "onValueChange",
+      "type": "((value: string) => void)",
+      "required": false,
+      "control": "text",
+      "description": "Called with a 24-hour HH:mm value."
+    },
+    {
+      "name": "hourCycle",
+      "type": "enum",
+      "required": false,
+      "control": "text",
+      "defaultValue": "24",
+      "description": "Display 12-hour or 24-hour time."
+    },
+    {
+      "name": "minuteStep",
+      "type": "enum",
+      "required": false,
+      "control": "text",
+      "defaultValue": "5",
+      "description": "Minute interval."
+    },
+    {
+      "name": "placeholder",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "defaultValue": "选择时间",
+      "description": "Placeholder shown without a value."
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean"
+    }
+  ],
+  "usage": "`TimePicker` 适合会议、预约和提醒等需要精确时间点的表单。值始终使用稳定的 24 小时 `HH:mm` 格式，展示层可选择 12 或 24 小时制；只需要粗粒度时段时，Select 通常更直接。",
+  "extended": "使用 `minuteStep` 在 1、5、10、15、30 分钟步进间选择。`hourCycle={12}` 会增加 AM/PM 分栏，但回调值仍保持 24 小时格式，便于存储与提交。",
+  "events": "点击“确定”后触发 `onValueChange(value)` 并关闭弹层。受控模式由调用方更新 `value`，非受控模式使用 `defaultValue`。",
+  "examples": [
+    {
+      "name": "time-picker-demo",
+      "title": "基础示例"
+    }
+  ],
+  "files": [
+    "registry/ui/time-picker.tsx"
+  ],
+  "docsUrl": "http://localhost:3000/docs/components/time-picker",
+  "sourceUrl": "http://localhost:3000/r/time-picker.json"
+}

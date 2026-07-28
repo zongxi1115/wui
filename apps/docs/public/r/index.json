@@ -3,6 +3,62 @@
   "homepage": "http://localhost:3000",
   "items": [
     {
+      "name": "ai-chat",
+      "type": "registry:ui",
+      "title": "AI Chat",
+      "description": "Composable AI messages, follow-scroll behavior, and prompt input.",
+      "registryDependencies": [
+        "utils",
+        "button"
+      ]
+    },
+    {
+      "name": "ai-conversation-timeline",
+      "type": "registry:ui",
+      "title": "AI Conversation Timeline",
+      "description": "Compact hover-preview navigation for long AI conversations.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "ai-tool",
+      "type": "registry:ui",
+      "title": "AI Tool",
+      "description": "Collapsible AI tool invocation states, inputs, outputs, and errors.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "ai-todo",
+      "type": "registry:ui",
+      "title": "AI Todo",
+      "description": "Agent task plans with readable progress and optional status interaction.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "ai-stream",
+      "type": "registry:ui",
+      "title": "AI Stream",
+      "description": "Reusable streamed text for answers, reasoning, and other AI content.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "ai-reasoning",
+      "type": "registry:ui",
+      "title": "AI Reasoning",
+      "description": "Collapsible model-provided reasoning summaries and progress steps.",
+      "registryDependencies": [
+        "utils",
+        "ai-stream"
+      ]
+    },
+    {
       "name": "theme",
       "type": "registry:theme",
       "title": "WUI Theme",
@@ -102,6 +158,15 @@
       "title": "Animated Icon",
       "description": "Accessible path-animated Lucide icons with hover and imperative playback.",
       "registryDependencies": []
+    },
+    {
+      "name": "animated-icon-collection",
+      "type": "registry:ui",
+      "title": "Animated Icon Collection",
+      "description": "The complete deduplicated AnimateIcons and ItsHover path-animated icon collection.",
+      "registryDependencies": [
+        "animated-icon"
+      ]
     },
     {
       "name": "shiny-button",
@@ -230,6 +295,24 @@
       ]
     },
     {
+      "name": "image-preview",
+      "type": "registry:ui",
+      "title": "Image Preview",
+      "description": "An accessible fullscreen image viewer with zoom and rotation controls.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "skeleton",
+      "type": "registry:ui",
+      "title": "Skeleton",
+      "description": "A neutral placeholder that preserves layout while content loads.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
       "name": "message",
       "type": "registry:ui",
       "title": "Message",
@@ -340,6 +423,61 @@
       "type": "registry:ui",
       "title": "Table",
       "description": "A responsive semantic table for structured data.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "calendar",
+      "type": "registry:ui",
+      "title": "Calendar",
+      "description": "An accessible single-month date grid with controlled selection.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "date-picker",
+      "type": "registry:ui",
+      "title": "Date Picker",
+      "description": "A compact popover for selecting and clearing a date.",
+      "registryDependencies": [
+        "utils",
+        "calendar"
+      ]
+    },
+    {
+      "name": "time-picker",
+      "type": "registry:ui",
+      "title": "Time Picker",
+      "description": "A column-based time picker with 12 and 24 hour modes.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "kanban",
+      "type": "registry:ui",
+      "title": "Kanban",
+      "description": "A composable task board with native cross-column dragging.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "timeline",
+      "type": "registry:ui",
+      "title": "Timeline",
+      "description": "Composable chronological events with semantic status markers.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "empty-state",
+      "type": "registry:ui",
+      "title": "Empty State",
+      "description": "A focused zero-data state with optional icon, actions, and 150 bundled illustrations.",
       "registryDependencies": [
         "utils"
       ]

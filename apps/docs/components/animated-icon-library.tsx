@@ -4,25 +4,60 @@ import * as React from "react"
 import * as lucideAnimatedIcons from "@animateicons/react/lucide"
 import { CheckIcon, SearchIcon } from "lucide-react"
 
-import {
-  AnimatedIcon,
-  type AnimatedIconGlyph,
-  type AnimatedIconHandle,
-} from "@/registry/ui/animated-icon"
+import * as itsHoverAnimatedIcons from "@/registry/icons/animated"
 import { cn } from "@/registry/lib/utils"
+import type { AnimatedIconHandle } from "@/registry/ui/animated-icon"
 
 const PAGE_SIZE = 96
 
-const animatedIcons = Object.entries(lucideAnimatedIcons)
-  .filter(([name]) => name.endsWith("Icon"))
-  .sort(([a], [b]) => a.localeCompare(b)) as Array<[string, AnimatedIconGlyph]>
+type IconSource = "animateicons" | "itshover"
+type GalleryIcon = React.ForwardRefExoticComponent<
+  {
+    size?: number | string
+    color?: string
+    strokeWidth?: number
+    className?: string
+  } & React.RefAttributes<AnimatedIconHandle>
+>
+
+interface AnimatedIconEntry {
+  name: string
+  icon: GalleryIcon
+  source: IconSource
+}
 
 function toSearchName(name: string) {
   return name
-    .replace(/Icon$/, "")
+    .replace(/(?:Icon|Logo|Svg)$/, "")
     .replace(/([a-z0-9])([A-Z])/g, "$1-$2")
     .toLowerCase()
 }
+
+const animateIconsEntries = Object.entries(lucideAnimatedIcons)
+  .filter(([name]) => name.endsWith("Icon"))
+  .map(([name, icon]) => ({
+    name,
+    icon: icon as unknown as GalleryIcon,
+    source: "animateicons" as const,
+  }))
+
+const itsHoverEntries = Object.entries(itsHoverAnimatedIcons)
+  .filter(
+    ([name]) =>
+      name !== "DEFAULT_STROKE_WIDTH" &&
+      name !== "scaledStrokeWidth" &&
+      name !== "withReducedMotion"
+  )
+  .map(([name, icon]) => ({
+    name,
+    icon: icon as unknown as GalleryIcon,
+    source: "itshover" as const,
+  }))
+
+const animatedIcons: AnimatedIconEntry[] = [
+  ...animateIconsEntries,
+  ...itsHoverEntries,
+].sort((a, b) => toSearchName(a.name).localeCompare(toSearchName(b.name)))
 
 function AnimatedIconTile({
   name,
@@ -31,11 +66,12 @@ function AnimatedIconTile({
   onCopy,
 }: {
   name: string
-  icon: AnimatedIconGlyph
+  icon: GalleryIcon
   copied: boolean
   onCopy: () => void
 }) {
   const iconRef = React.useRef<AnimatedIconHandle>(null)
+  const Glyph = icon
 
   return (
     <button
@@ -54,7 +90,7 @@ function AnimatedIconTile({
       {copied ? (
         <CheckIcon aria-hidden className="size-6" />
       ) : (
-        <AnimatedIcon ref={iconRef} icon={icon} size={24} />
+        <Glyph ref={iconRef} size={24} />
       )}
       <span className="text-muted-foreground group-hover:text-foreground w-full truncate text-[11px]">
         {toSearchName(name)}
@@ -71,8 +107,10 @@ export function AnimatedIconLibrary() {
 
   const filtered = React.useMemo(
     () =>
-      animatedIcons.filter(([name]) =>
-        `${name.toLowerCase()} ${toSearchName(name)}`.includes(deferredQuery)
+      animatedIcons.filter((entry) =>
+        `${entry.name.toLowerCase()} ${toSearchName(entry.name)}`.includes(
+          deferredQuery
+        )
       ),
     [deferredQuery]
   )
@@ -80,44 +118,51 @@ export function AnimatedIconLibrary() {
 
   React.useEffect(() => setLimit(PAGE_SIZE), [deferredQuery])
 
-  async function copyImport(name: string) {
+  async function copyImport(entry: AnimatedIconEntry) {
+    const importPath =
+      entry.source === "animateicons"
+        ? "@animateicons/react/lucide"
+        : "@/components/ui/animated-icons"
+
     await navigator.clipboard.writeText(
-      `import { ${name} } from "@animateicons/react/lucide"`
+      `import { ${entry.name} } from "${importPath}"`
     )
-    setCopied(name)
+    setCopied(`${entry.source}:${entry.name}`)
     window.setTimeout(() => setCopied(null), 1400)
   }
 
   return (
     <section className="not-prose my-6 border-y">
-      <div className="flex flex-col gap-3 border-b py-4 sm:flex-row sm:items-center sm:justify-between">
-        <label className="relative block w-full sm:max-w-sm">
-          <SearchIcon
-            aria-hidden
-            className="text-muted-foreground pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2"
-          />
-          <input
-            type="search"
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
-            placeholder="搜索 bell、menu、settings…"
-            className="bg-background placeholder:text-muted-foreground focus-visible:ring-ring/40 h-10 w-full rounded-md border pl-9 pr-3 text-sm outline-none transition-shadow focus-visible:ring-[3px]"
-          />
-        </label>
-        <p className="text-muted-foreground text-sm tabular-nums">
-          {filtered.length} / {animatedIcons.length} 个逐路径动态图标
-        </p>
+      <div className="flex flex-col gap-3 border-b py-4">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <label className="relative block w-full sm:max-w-sm">
+            <SearchIcon
+              aria-hidden
+              className="text-muted-foreground pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2"
+            />
+            <input
+              type="search"
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              placeholder="搜索 bell、menu、brand…"
+              className="bg-background placeholder:text-muted-foreground focus-visible:ring-ring/40 h-10 w-full rounded-md border pl-9 pr-3 text-sm outline-none transition-shadow focus-visible:ring-[3px]"
+            />
+          </label>
+          <p className="text-muted-foreground text-sm tabular-nums">
+            {filtered.length} / {animatedIcons.length} 个逐路径动态图标
+          </p>
+        </div>
       </div>
 
       {visible.length ? (
         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8">
-          {visible.map(([name, icon]) => (
+          {visible.map((entry) => (
             <AnimatedIconTile
-              key={name}
-              name={name}
-              icon={icon}
-              copied={copied === name}
-              onCopy={() => copyImport(name)}
+              key={`${entry.source}:${entry.name}`}
+              name={entry.name}
+              icon={entry.icon}
+              copied={copied === `${entry.source}:${entry.name}`}
+              onCopy={() => copyImport(entry)}
             />
           ))}
         </div>

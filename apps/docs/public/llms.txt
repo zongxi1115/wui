@@ -1,0 +1,109 @@
+# wui
+
+> shadcn 风格的 React 组件库，组件源码按需复制进你的项目。React 19 · Tailwind CSS v4 · Radix · motion。
+
+## 组件
+
+- [AI 对话 AI Chat](http://localhost:3000/docs/components/ai-chat): 可组合的 AI 消息、滚动容器与提示输入框。
+- [AI 对话时间线 AI Conversation Timeline](http://localhost:3000/docs/components/ai-conversation-timeline): 用紧凑刻度浏览长对话，悬停预览并快速定位到指定轮次。
+- [AI 工具调用 AI Tool](http://localhost:3000/docs/components/ai-tool): 展示 AI 工具的执行状态、参数、结果与错误。
+- [AI 任务清单 AI Todo](http://localhost:3000/docs/components/ai-todo): 展示 Agent 计划、执行进度与任务说明。
+- [AI 流式文本 AI Stream](http://localhost:3000/docs/components/ai-stream): 可用于普通回答与思考过程的通用流式文本动效。
+- [AI 推理过程 AI Reasoning](http://localhost:3000/docs/components/ai-reasoning): 流式展示模型返回的 reasoning 文本，并在生成期间自动展开。
+- [cn utility](http://localhost:3000/docs/components/utils): Tailwind class merge helper used by every component.
+- [按钮 Button](http://localhost:3000/docs/components/button): 显示一个按钮，或显示一个外观类似按钮的组件。
+- [对话框 Dialog](http://localhost:3000/docs/components/dialog): 基于 Radix UI 构建、覆盖在主窗口之上的浮层窗口。
+- [形变对话框 Morphing Dialog](http://localhost:3000/docs/components/morphing-dialog): 从触发元素平滑变形成聚焦内容的模态对话框。
+- [形变弹出框 Morphing Popover](http://localhost:3000/docs/components/morphing-popover): 从触发器原位展开成轻量交互面板的弹出层。
+- [渐进模糊 Progressive Blur](http://localhost:3000/docs/components/progressive-blur): 使用多层渐变遮罩构建方向可控的渐进式背景模糊。
+- [水印 Watermark](http://localhost:3000/docs/components/watermark): 在内容区域上方添加重复的文字水印。
+- [确认对话框 Confirm Dialog](http://localhost:3000/docs/components/confirm-dialog): 由 Dialog 和 Button 组合而成的开箱即用确认对话框。
+- [动效 Motion](http://localhost:3000/docs/components/motion): 基于 motion 构建的可选动画基础组件和预设库。
+- [图标 Icon](http://localhost:3000/docs/components/icon): 基于 Lucide 的可搜索图标集合与无障碍渲染组件。
+- [动态图标 Animated Icon](http://localhost:3000/docs/components/animated-icon): 图标内部路径会随交互运动的 Lucide 动态图标集合。
+- [Animated Icon Collection](http://localhost:3000/docs/components/animated-icon-collection): The complete deduplicated AnimateIcons and ItsHover path-animated icon collection.
+- [闪光按钮 Shiny Button](http://localhost:3000/docs/components/shiny-button): 带有流动扫光效果的填充按钮。
+- [开关 Switch](http://localhost:3000/docs/components/switch): 带弹簧滑块与完整无障碍语义的二元状态控件。
+- [进度条 Progress](http://localhost:3000/docs/components/progress): 细腻、克制并支持确定与不确定状态的进度指示器。
+- [滑动输入 Slider](http://localhost:3000/docs/components/slider): 悬浮时展开轨道、数值标签实时跟随的可调输入控件。
+- [颜色选择器 Color Picker](http://localhost:3000/docs/components/color-picker): 面向设计 Token 的 OKLCH 颜色选择器，支持感知色彩通道、透明度和精确 CSS 值。
+- [单选框 Radio Group](http://localhost:3000/docs/components/radio-group): 用于互斥选项的轻量单选控件组。
+- [多选框 Checkbox](http://localhost:3000/docs/components/checkbox): 支持选中、未选中与不确定状态的多选控件。
+- [下拉框 Select](http://localhost:3000/docs/components/select): 带景深入场、分组与键盘导航的选项选择器。
+- [标签栏 Tabs](http://localhost:3000/docs/components/tabs): 使用共享布局动效平滑切换内容分区。
+- [输入框 Input](http://localhost:3000/docs/components/input): 支持前后内容、浮动标签、下划线和错误态的输入框。
+- [下载 Download](http://localhost:3000/docs/components/download): 同时表达文件信息、下载进度与完成反馈的下载操作组件。
+- [上传 Upload](http://localhost:3000/docs/components/upload): 支持点击选择、拖拽放置与上传状态反馈的文件上传组件。
+- [键盘提示 Kbd](http://localhost:3000/docs/components/kbd): 用紧凑、克制的按键样式展示快捷键与键盘操作。
+- [文字提示 Tooltip](http://localhost:3000/docs/components/tooltip): 在悬停或键盘聚焦时，为控件补充简短的上下文说明。
+- [图片预览 Image Preview](http://localhost:3000/docs/components/image-preview): 点击缩略图进入沉浸式大图预览，并提供缩放、旋转与下载操作。
+- [骨架屏 Skeleton](http://localhost:3000/docs/components/skeleton): 在内容加载期间维持页面结构，降低布局跳动与等待的不确定感。
+- [消息 Message](http://localhost:3000/docs/components/message): 用于传达成功、提示、警告和错误状态的轻量反馈消息。
+- [进入视口 In View](http://localhost:3000/docs/components/in-view): 当内容进入视口时播放可配置的入场动画。
+- [无限滑动 Infinite Slider](http://localhost:3000/docs/components/infinite-slider): 平滑循环内容的水平或垂直滑动轨道。
+- [自定义光标 Cursor](http://localhost:3000/docs/components/cursor): 可全局使用或附着到局部区域的弹簧跟随光标。
+- [文本入场 Text Effect](http://localhost:3000/docs/components/text-effect): 按行、单词或字符拆分并播放文本入场效果。
+- [文本循环 Text Loop](http://localhost:3000/docs/components/text-loop): 在多段文本或行内内容之间自动循环切换。
+- [文本变形 Text Morph](http://localhost:3000/docs/components/text-morph): 在文字变化时让共享字符流畅地移动到新位置。
+- [文本翻滚 Text Roll](http://localhost:3000/docs/components/text-roll): 悬停或挂载时逐字符翻滚的文字效果。
+- [文本扰码 Text Scramble](http://localhost:3000/docs/components/text-scramble): 随机字符逐步解析为目标文本的扰码效果。
+- [文本扫光 Text Shimmer](http://localhost:3000/docs/components/text-shimmer): 在文字表面循环扫过的主题感知高光。
+- [文本波光 Text Shimmer Wave](http://localhost:3000/docs/components/text-shimmer-wave): 逐字符传播的立体位移与高光波浪。
+- [滑动数字 Sliding Number](http://localhost:3000/docs/components/sliding-number): 用独立数字轮平滑过渡数值变化。
+- [表格 Table](http://localhost:3000/docs/components/table): 用原生表格语义组织和比较结构化数据。
+- [日历 Calendar](http://localhost:3000/docs/components/calendar): 用可访问的月视图浏览并选择单个日期。
+- [日期选择器 Date Picker](http://localhost:3000/docs/components/date-picker): 在紧凑弹层中选择、格式化和清除日期。
+- [时间选择器 Time Picker](http://localhost:3000/docs/components/time-picker): 用小时、分钟与时制分栏快速设定时间。
+- [看板 Kanban](http://localhost:3000/docs/components/kanban): 用可组合列和原生拖放组织任务流转。
+- [时间轴 Timeline](http://localhost:3000/docs/components/timeline): 以清晰的时间顺序展示事件、状态与说明。
+- [空状态 Empty State](http://localhost:3000/docs/components/empty-state): 在没有数据或结果时解释现状并引导下一步。
+
+## 说明
+
+wui 是 shadcn 风格的 React 组件库：组件源码会被**复制进使用者的项目**，而不是作为
+黑盒依赖安装。因此生成代码时，组件是本地文件，可以直接读改。
+
+## 技术栈
+
+React 19 · TypeScript · Tailwind CSS v4（oklch，CSS-first，无 tailwind.config.js） ·
+Radix（统一从 `radix-ui` 包导入） · `class-variance-authority` · `motion`（不是
+`framer-motion`）。
+
+## 安装组件
+
+```bash
+npx wui@latest add @wui/<name>     # 或者：npx shadcn@latest add <registry>/<name>.json
+```
+
+`add` 会递归解析 registry 依赖，并自动安装所需 npm 包。所有组件都依赖 `utils`
+（提供 `cn()`），`utils` 依赖 `theme`（提供设计 token）。
+
+## 导入路径
+
+组件落盘到使用者项目后的默认位置（由其 `wui.json` 的 aliases 决定，默认如下）：
+
+| registry 类型 | 落盘目录 | 导入写法 |
+| --- | --- | --- |
+| `registry:ui` | `components/ui/` | `import { Button } from "@/components/ui/button"` |
+| `registry:component` | `components/` | `import { ConfirmDialog } from "@/components/confirm-dialog"` |
+| `registry:lib` | `lib/` | `import { cn } from "@/lib/utils"` |
+
+## 硬性规则
+
+1. **不要臆造 prop。** 只使用 `wui_get_component` 返回的 props 表里存在的属性；
+   组件都会把剩余 props 展开到底层 DOM 元素，所以原生属性可以直接传。
+2. **用语义 token，不要用调色板色值。** 写 `bg-primary text-primary-foreground`、
+   `border-border`、`text-muted-foreground`，不要写 `bg-blue-500`、`text-gray-400`、
+   `#fff`。token 清单见 `wui_get_theme_tokens`。深色模式由 token 自动处理，
+   不需要成对写 `dark:` 变体。
+3. **复用组件的 variant/size，不要用 className 覆盖外观。** 需要新外观时优先扩展
+   组件内部的 `cva` 定义。
+4. **动效走组件自带开关**（如 Button 的 `motion` / `ripple`），并且必须尊重
+   `prefers-reduced-motion`；组件内部已处理。
+5. **不确定用法时先看示例**，用 `wui_get_example` 取真实示例代码，而不是凭印象生成。
+
+## 建议的调用顺序
+
+`wui_list_components`（找组件） → `wui_get_component`（拿 props 和用法约束）
+→ `wui_get_example`（拿可参考的写法） → 只有需要理解/修改实现时才调
+`wui_get_component_source`（源码较长）。

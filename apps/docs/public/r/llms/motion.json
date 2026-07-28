@@ -1,0 +1,110 @@
+{
+  "name": "motion",
+  "type": "registry:ui",
+  "title": "动效 Motion",
+  "description": "基于 motion 构建的可选动画基础组件和预设库。",
+  "import": "import { Motion, motionPresets, motionTransitions } from \"@/components/ui/motion\"",
+  "exports": [
+    "Motion",
+    "motionPresets",
+    "motionTransitions"
+  ],
+  "typeExports": [
+    "MotionPreset",
+    "MotionProps",
+    "MotionTransition"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/motion",
+    "shadcn": "npx shadcn@latest add http://localhost:3000/r/motion.json",
+    "npmDependencies": [
+      "motion",
+      "radix-ui"
+    ],
+    "registryDependencies": []
+  },
+  "props": [
+    {
+      "name": "preset",
+      "type": "\"fade\" | \"scale\" | \"slide-up\" | \"slide-down\" | \"slide-left\" | \"slide-right\" | \"pop\" | \"blur\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "fade",
+        "scale",
+        "slide-up",
+        "slide-down",
+        "slide-left",
+        "slide-right",
+        "pop",
+        "blur"
+      ],
+      "defaultValue": "fade",
+      "description": "Named enter animation."
+    },
+    {
+      "name": "transition",
+      "type": "Transition | \"smooth\" | \"spring\" | \"snappy\"",
+      "required": false,
+      "control": "text",
+      "defaultValue": "smooth",
+      "description": "A named transition preset or a custom motion Transition."
+    },
+    {
+      "name": "delay",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "description": "Delay before animating, in seconds."
+    },
+    {
+      "name": "inView",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "Animate when scrolled into view instead of on mount."
+    },
+    {
+      "name": "once",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "Only animate the first time it enters the viewport."
+    },
+    {
+      "name": "asChild",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "Merge motion onto the single child element instead of rendering a div."
+    }
+  ],
+  "usage": "`Motion` 是 wui 的可选动画层。你可以包裹任意内容，为其添加自然的入场动画；也可以使用\n`asChild` 为现有组件（如 `Button`）添加动画，而不增加额外的包装节点。组件内置一组命名\n`presets` 和 `transitions`，以确保应用中的动画风格一致。当用户偏好减少动态效果时，\n它会**自动禁用动画**。\n\n由于 Motion 是独立的 registry 条目，不使用动画的组件不会引入相关依赖；只有需要动画时\n才会拉取 `motion`。",
+  "extended": "### 动画预设\n\n### 滚动进入视口时播放（`inView`）\n\n### 为现有组件添加动画（`asChild`）\n\n  `Motion` 会读取 `prefers-reduced-motion`，当用户要求减少动态效果时静态渲染子元素，\n  无需额外处理。",
+  "examples": [
+    {
+      "name": "motion-demo",
+      "title": "基础示例"
+    },
+    {
+      "name": "motion-presets",
+      "title": "动画预设"
+    },
+    {
+      "name": "motion-in-view",
+      "title": "滚动进入视口时播放（`inView`）"
+    },
+    {
+      "name": "motion-as-child",
+      "title": "为现有组件添加动画（`asChild`）"
+    }
+  ],
+  "files": [
+    "registry/ui/motion.tsx"
+  ],
+  "docsUrl": "http://localhost:3000/docs/components/motion",
+  "sourceUrl": "http://localhost:3000/r/motion.json"
+}

@@ -1,0 +1,162 @@
+{
+  "name": "text-effect",
+  "type": "registry:ui",
+  "title": "文本入场 Text Effect",
+  "description": "按行、单词或字符拆分并播放文本入场效果。",
+  "categories": [
+    "motion",
+    "text-effect"
+  ],
+  "import": "import { TextEffect, textEffectPresets } from \"@/components/ui/text-effect\"",
+  "exports": [
+    "TextEffect",
+    "textEffectPresets"
+  ],
+  "typeExports": [
+    "TextEffectPreset",
+    "TextEffectProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/text-effect",
+    "shadcn": "npx shadcn@latest add http://localhost:3000/r/text-effect.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "string",
+      "required": true,
+      "control": "text",
+      "description": "Text split into animated segments."
+    },
+    {
+      "name": "per",
+      "type": "\"line\" | \"word\" | \"char\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "line",
+        "word",
+        "char"
+      ],
+      "defaultValue": "word",
+      "description": "Segment granularity."
+    },
+    {
+      "name": "as",
+      "type": "ElementType<any, keyof IntrinsicElements>",
+      "required": false,
+      "control": "text",
+      "defaultValue": "p",
+      "description": "HTML element rendered by the component."
+    },
+    {
+      "name": "preset",
+      "type": "\"fade\" | \"blur-sm\" | \"fade-in-blur\" | \"scale\" | \"slide\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "fade",
+        "blur-sm",
+        "fade-in-blur",
+        "scale",
+        "slide"
+      ],
+      "defaultValue": "fade",
+      "description": "Built-in segment animation."
+    },
+    {
+      "name": "variants",
+      "type": "{ container?: Variants; item?: Variants; } | undefined",
+      "required": false,
+      "control": "text",
+      "description": "Custom container and segment variants."
+    },
+    {
+      "name": "delay",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0",
+      "description": "Delay before the reveal begins, in seconds."
+    },
+    {
+      "name": "trigger",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "Reveal or hide the text."
+    },
+    {
+      "name": "speedReveal",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "1",
+      "description": "Multiplier for the container stagger speed."
+    },
+    {
+      "name": "speedSegment",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "1",
+      "description": "Multiplier for each segment's animation speed."
+    },
+    {
+      "name": "segmentWrapperClassName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "Extra class applied to every segment wrapper."
+    },
+    {
+      "name": "containerTransition",
+      "type": "Transition",
+      "required": false,
+      "control": "text",
+      "description": "Custom container transition."
+    },
+    {
+      "name": "segmentTransition",
+      "type": "Transition",
+      "required": false,
+      "control": "text",
+      "description": "Custom transition for each segment."
+    },
+    {
+      "name": "onAnimationStart",
+      "type": "(() => void)",
+      "required": false,
+      "control": "text",
+      "description": "Called when the reveal animation starts."
+    },
+    {
+      "name": "onAnimationComplete",
+      "type": "(() => void)",
+      "required": false,
+      "control": "text",
+      "description": "Called when the reveal animation completes."
+    }
+  ],
+  "usage": "`TextEffect` 提供 `fade`、`blur-sm`、`fade-in-blur`、`scale` 和 `slide` 五种预设，也可以传入容器与片段 `variants`。它适合标题、短说明和状态提示，不应对长篇正文逐字播放。",
+  "extended": "`per=\"line\"` 按换行符拆分，`per=\"word\"` 保留空格，`per=\"char\"` 适合短标题。`speedReveal` 控制片段间隔，`speedSegment` 控制单个片段速度。",
+  "events": "`onAnimationStart` 和 `onAnimationComplete` 分别在整段动画开始、完成时触发。用 `trigger` 控制进入和退出；底层元素的其他原生事件会继续透传。",
+  "examples": [
+    {
+      "name": "text-effect-demo",
+      "title": "基础示例"
+    }
+  ],
+  "files": [
+    "registry/ui/text-effect.tsx"
+  ],
+  "docsUrl": "http://localhost:3000/docs/components/text-effect",
+  "sourceUrl": "http://localhost:3000/r/text-effect.json"
+}

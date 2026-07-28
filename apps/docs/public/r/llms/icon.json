@@ -1,0 +1,59 @@
+{
+  "name": "icon",
+  "type": "registry:ui",
+  "title": "图标 Icon",
+  "description": "基于 Lucide 的可搜索图标集合与无障碍渲染组件。",
+  "import": "import { Icon, iconSizes } from \"@/components/ui/icon\"",
+  "exports": [
+    "Icon",
+    "iconSizes"
+  ],
+  "typeExports": [
+    "IconProps",
+    "IconSize"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/icon",
+    "shadcn": "npx shadcn@latest add http://localhost:3000/r/icon.json",
+    "npmDependencies": [
+      "lucide-react"
+    ],
+    "registryDependencies": []
+  },
+  "props": [
+    {
+      "name": "icon",
+      "type": "LucideIcon",
+      "required": true,
+      "control": "text",
+      "description": "Lucide icon component to render."
+    },
+    {
+      "name": "size",
+      "type": "number | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\"",
+      "required": false,
+      "control": "text",
+      "defaultValue": "md",
+      "description": "Named size token or an exact pixel size."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "Accessible name. Omit it when the icon is purely decorative."
+    }
+  ],
+  "usage": "```tsx\nimport { SearchIcon } from \"lucide-react\"\n\nimport { Icon } from \"@/components/ui/icon\"\n\n<Icon icon={SearchIcon} />\n<Icon icon={SearchIcon} size=\"lg\" strokeWidth={1.75} />\n<Icon icon={SearchIcon} label=\"搜索\" />\n```\n\n`label` 为空时，图标会被视为装饰并对辅助技术隐藏。如果图标单独传达含义，请提供 `label`；如果图标位于已有文字或 `aria-label` 的按钮内，保持装饰状态即可。",
+  "examples": [
+    {
+      "name": "icon-demo",
+      "title": "基础示例"
+    }
+  ],
+  "files": [
+    "registry/ui/icon.tsx"
+  ],
+  "docsUrl": "http://localhost:3000/docs/components/icon",
+  "sourceUrl": "http://localhost:3000/r/icon.json"
+}

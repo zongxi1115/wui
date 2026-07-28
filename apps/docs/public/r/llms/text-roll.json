@@ -1,0 +1,101 @@
+{
+  "name": "text-roll",
+  "type": "registry:ui",
+  "title": "文本翻滚 Text Roll",
+  "description": "悬停或挂载时逐字符翻滚的文字效果。",
+  "categories": [
+    "motion",
+    "text-effect"
+  ],
+  "import": "import { TextRoll } from \"@/components/ui/text-roll\"",
+  "exports": [
+    "TextRoll"
+  ],
+  "typeExports": [
+    "TextRollProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/text-roll",
+    "shadcn": "npx shadcn@latest add http://localhost:3000/r/text-roll.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "string",
+      "required": true,
+      "control": "text",
+      "description": "Text rolled character by character."
+    },
+    {
+      "name": "duration",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0.45",
+      "description": "Duration of each character roll in seconds."
+    },
+    {
+      "name": "getEnterDelay",
+      "type": "((index: number) => number)",
+      "required": false,
+      "control": "text",
+      "defaultValue": "(index) => index * 0.025",
+      "description": "Delay for each character entering the roll."
+    },
+    {
+      "name": "getExitDelay",
+      "type": "((index: number) => number)",
+      "required": false,
+      "control": "text",
+      "defaultValue": "(index) => index * 0.02",
+      "description": "Delay for each character returning to rest."
+    },
+    {
+      "name": "transition",
+      "type": "Transition",
+      "required": false,
+      "control": "text",
+      "description": "Motion transition merged into every character."
+    },
+    {
+      "name": "variants",
+      "type": "Variants",
+      "required": false,
+      "control": "text",
+      "defaultValue": "{\n  rest: { y: \"0%\" },\n  hover: { y: \"-50%\" },\n}",
+      "description": "Rest and hover states for each character track."
+    },
+    {
+      "name": "trigger",
+      "type": "\"hover\" | \"mount\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "hover",
+        "mount"
+      ],
+      "defaultValue": "hover",
+      "description": "Play on hover or immediately on mount."
+    }
+  ],
+  "usage": "`TextRoll` 复制每个字符并纵向滚动第二份内容，适合导航链接、简短按钮和展示标题。默认悬停触发，不会持续争夺注意力。",
+  "extended": "使用 `trigger=\"mount\"` 可在挂载时播放，`getEnterDelay` 和 `getExitDelay` 用来改变字符波次。自定义 `variants` 时保留 `rest` 与 `hover` 两个状态名。",
+  "events": "组件使用鼠标进入和离开控制默认效果，其余 `<span>` 事件继续透传。减少动态效果时保留静态文字。",
+  "examples": [
+    {
+      "name": "text-roll-demo",
+      "title": "基础示例"
+    }
+  ],
+  "files": [
+    "registry/ui/text-roll.tsx"
+  ],
+  "docsUrl": "http://localhost:3000/docs/components/text-roll",
+  "sourceUrl": "http://localhost:3000/r/text-roll.json"
+}

@@ -5,6 +5,8 @@
  *   registry/__props__.ts       — name -> PropMeta[] (type, default, description,
  *                                  and a derived control kind + enum options),
  *                                  consumed by <PropsTable> and <Playground>.
+ *   registry/__props__.json      — the same map as plain data, consumed by
+ *                                  scripts/build-llms.mts (no TS parsing needed).
  *   registry/__playground__.tsx  — name -> component, for the live playground.
  *
  * Uses react-docgen-typescript, filtering out inherited DOM props so only the
@@ -17,6 +19,7 @@ import * as docgen from "react-docgen-typescript"
 const ROOT = process.cwd() // apps/docs
 const REGISTRY_JSON = path.join(ROOT, "registry.json")
 const PROPS_FILE = path.join(ROOT, "registry", "__props__.ts")
+const PROPS_JSON_FILE = path.join(ROOT, "registry", "__props__.json")
 const PLAYGROUND_FILE = path.join(ROOT, "registry", "__playground__.tsx")
 
 // Components exposed in the interactive playground (must render standalone).
@@ -38,23 +41,78 @@ function pascalCase(name: string): string {
 // name (e.g. ConfirmDialog's documented `title`) is preserved.
 const DOMISH = /^(aria-|data-|on[A-Z])/
 const DOM_GLOBALS = new Set([
-  "color", "content", "translate", "slot", "title", "ref", "key", "style",
-  "children", "className", "id", "role", "tabIndex", "dir", "lang", "hidden",
-  "draggable", "spellCheck", "accessKey", "autoCapitalize", "autoCorrect",
-  "autoSave", "autoFocus", "contentEditable", "contextMenu", "enterKeyHint",
-  "nonce", "inputMode", "is", "itemProp", "itemScope", "itemType", "itemID",
-  "itemRef", "results", "security", "unselectable", "popover", "popoverTarget",
-  "popoverTargetAction", "inert", "exportparts", "part", "radioGroup", "about",
-  "datatype", "inlist", "prefix", "property", "rel", "resource", "rev",
-  "typeof", "vocab", "defaultChecked", "defaultValue",
-  "suppressContentEditableWarning", "suppressHydrationWarning",
+  "color",
+  "content",
+  "translate",
+  "slot",
+  "title",
+  "ref",
+  "key",
+  "style",
+  "children",
+  "className",
+  "id",
+  "role",
+  "tabIndex",
+  "dir",
+  "lang",
+  "hidden",
+  "draggable",
+  "spellCheck",
+  "accessKey",
+  "autoCapitalize",
+  "autoCorrect",
+  "autoSave",
+  "autoFocus",
+  "contentEditable",
+  "contextMenu",
+  "enterKeyHint",
+  "nonce",
+  "inputMode",
+  "is",
+  "itemProp",
+  "itemScope",
+  "itemType",
+  "itemID",
+  "itemRef",
+  "results",
+  "security",
+  "unselectable",
+  "popover",
+  "popoverTarget",
+  "popoverTargetAction",
+  "inert",
+  "exportparts",
+  "part",
+  "radioGroup",
+  "about",
+  "datatype",
+  "inlist",
+  "prefix",
+  "property",
+  "rel",
+  "resource",
+  "rev",
+  "typeof",
+  "vocab",
+  "defaultChecked",
+  "defaultValue",
+  "suppressContentEditableWarning",
+  "suppressHydrationWarning",
   "dangerouslySetInnerHTML",
   // Native <button>/<form> attributes. `motion.button` types (HTMLMotionProps)
   // re-declare these on the local interface, so react-docgen mis-attributes
   // them to our file instead of node_modules — filter by name (undocumented
   // only, so a real documented prop of the same name still surfaces).
-  "form", "formAction", "formEncType", "formMethod", "formNoValidate",
-  "formTarget", "name", "type", "value",
+  "form",
+  "formAction",
+  "formEncType",
+  "formMethod",
+  "formNoValidate",
+  "formTarget",
+  "name",
+  "type",
+  "value",
 ])
 
 const parser = docgen.withCustomConfig(path.join(ROOT, "tsconfig.json"), {
@@ -106,8 +164,16 @@ function deriveControl(prop: docgen.PropItem): {
 
 async function main() {
   const registry = JSON.parse(await fs.readFile(REGISTRY_JSON, "utf8"))
-  const items = (registry.items as Array<{ name: string; type: string; files: Array<{ path: string }> }>).filter(
-    (i) => i.type === "registry:ui" || i.type === "registry:component"
+  const items = (
+    registry.items as Array<{
+      name: string
+      type: string
+      files: Array<{ path: string }>
+    }>
+  ).filter(
+    (item) =>
+      item.files.length > 0 &&
+      (item.type === "registry:ui" || item.type === "registry:component")
   )
 
   const propsMap: Record<string, unknown[]> = {}
@@ -158,11 +224,18 @@ async function main() {
     `}\n\n` +
     `export const Props: Record<string, PropMeta[]> = ${JSON.stringify(propsMap, null, 2)}\n`
   await fs.writeFile(PROPS_FILE, propsContent, "utf8")
+  await fs.writeFile(
+    PROPS_JSON_FILE,
+    JSON.stringify(propsMap, null, 2) + "\n",
+    "utf8"
+  )
 
   const imports = PLAYGROUND.map(
     (p) => `import { ${p.export} } from "@/${p.file.replace(/\.tsx?$/, "")}"`
   ).join("\n")
-  const entries = PLAYGROUND.map((p) => `  "${p.name}": ${p.export},`).join("\n")
+  const entries = PLAYGROUND.map((p) => `  "${p.name}": ${p.export},`).join(
+    "\n"
+  )
   const playgroundContent =
     banner +
     `import type * as React from "react"\n${imports}\n\n` +

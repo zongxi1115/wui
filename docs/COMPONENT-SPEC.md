@@ -121,6 +121,11 @@ export { Badge, badgeVariants }
 
 范本见 `content/docs/components/button.mdx`。生成器会产出带 5 小节 + TODO 的骨架。
 
+> **这 5 小节同时喂给大模型。** `registry:build` 会把「组件作用」「事件」「拓展使用」
+> 三节的正文、props 的 TSDoc、以及全部 demo 代码汇总成 MCP digest（见
+> [`MCP.md`](./MCP.md)）。所以「组件作用」务必写清楚**什么时候用、什么时候不该用**——
+> 这是模型最容易搞错、也最依赖文档的部分；写得含糊，AI 生成的代码就会选错组件。
+
 > frontmatter 需含 `title`、`description`，建议加 `component: <name>`。新页会自动加入 `content/docs/components/meta.json` 的 `pages`（生成器已处理）；手写时记得补上以出现在侧边栏。
 
 ---
@@ -134,7 +139,7 @@ export { Badge, badgeVariants }
 □ 3. 补充/新增 demo（examples/<name>-*.tsx）
 □ 4. 完善文档 5 小节（填 §4 的 TODO）
 □ 5. 核对 registry.json：type / dependencies / registryDependencies
-□ 6. pnpm --filter docs registry:build      # 生成 public/r/*.json + __index__/__components__
+□ 6. pnpm --filter docs registry:build      # 生成 public/r/*.json + __index__/__components__ + MCP digest
 □ 7. pnpm --filter docs tokens:audit         # token 对称性、镜像、依赖和硬编码审计
 □ 8. pnpm --filter docs dev                  # 本地预览：实时渲染 + 源码 + 属性表
 □ 9. 用 CLI 验证拉取：

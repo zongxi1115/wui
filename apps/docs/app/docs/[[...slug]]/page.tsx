@@ -8,6 +8,7 @@ import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 
 import { getMDXComponents } from "@/mdx-components"
+import { LLMPageActions } from "@/components/llm-page-actions"
 import { source } from "@/lib/source"
 
 export default async function Page(props: {
@@ -23,6 +24,7 @@ export default async function Page(props: {
     <DocsPage toc={page.data.toc} full={page.data.full}>
       <DocsTitle>{page.data.title}</DocsTitle>
       <DocsDescription>{page.data.description}</DocsDescription>
+      <LLMPageActions markdownUrl={`/api/llm/${page.slugs.join("/")}`} />
       <DocsBody>
         <MDX components={getMDXComponents()} />
       </DocsBody>

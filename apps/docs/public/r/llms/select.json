@@ -1,0 +1,62 @@
+{
+  "name": "select",
+  "type": "registry:ui",
+  "title": "下拉框 Select",
+  "description": "带景深入场、分组与键盘导航的选项选择器。",
+  "import": "import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger, SelectValue, selectTriggerVariants } from \"@/components/ui/select\"",
+  "exports": [
+    "Select",
+    "SelectContent",
+    "SelectGroup",
+    "SelectItem",
+    "SelectLabel",
+    "SelectScrollDownButton",
+    "SelectScrollUpButton",
+    "SelectSeparator",
+    "SelectTrigger",
+    "SelectValue",
+    "selectTriggerVariants"
+  ],
+  "typeExports": [
+    "SelectTriggerProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/select",
+    "shadcn": "npx shadcn@latest add http://localhost:3000/r/select.json",
+    "npmDependencies": [
+      "radix-ui",
+      "lucide-react",
+      "class-variance-authority",
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean"
+    }
+  ],
+  "usage": "`Select` 从一组互斥选项中选择一个值。浮层使用克制的淡入与短距离弹簧位移建立层级，不额外堆叠玻璃材质或重阴影；搜索型或允许自由输入的场景应使用 Combobox，而不是 Select。",
+  "extended": "### 分组与分隔线\n\n通过 `disabled` 禁用整个 Select，或在单个 `SelectItem` 上禁用特定选项。",
+  "events": "- `onValueChange(value)`：选中项变化后触发。\n- `onOpenChange(open)`：浮层打开或关闭时触发。\n- `SelectItem` 支持 Radix 提供的选择、焦点与键盘事件。",
+  "examples": [
+    {
+      "name": "select-demo",
+      "title": "基础示例"
+    },
+    {
+      "name": "select-groups",
+      "title": "分组与分隔线"
+    }
+  ],
+  "files": [
+    "registry/ui/select.tsx"
+  ],
+  "docsUrl": "http://localhost:3000/docs/components/select",
+  "sourceUrl": "http://localhost:3000/r/select.json"
+}

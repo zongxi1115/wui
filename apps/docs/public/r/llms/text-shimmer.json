@@ -1,0 +1,77 @@
+{
+  "name": "text-shimmer",
+  "type": "registry:ui",
+  "title": "文本扫光 Text Shimmer",
+  "description": "在文字表面循环扫过的主题感知高光。",
+  "categories": [
+    "motion",
+    "text-effect"
+  ],
+  "import": "import { TextShimmer } from \"@/components/ui/text-shimmer\"",
+  "exports": [
+    "TextShimmer"
+  ],
+  "typeExports": [
+    "TextShimmerProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/text-shimmer",
+    "shadcn": "npx shadcn@latest add http://localhost:3000/r/text-shimmer.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "string",
+      "required": true,
+      "control": "text",
+      "description": "Text carrying the shimmer."
+    },
+    {
+      "name": "as",
+      "type": "ElementType<any, keyof IntrinsicElements>",
+      "required": false,
+      "control": "text",
+      "defaultValue": "span",
+      "description": "HTML element rendered by the component."
+    },
+    {
+      "name": "duration",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "2",
+      "description": "Seconds for one shimmer pass."
+    },
+    {
+      "name": "spread",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "2",
+      "description": "Gradient width relative to the text."
+    }
+  ],
+  "usage": "`TextShimmer` 适合生成中、加载中等短暂状态。默认颜色来自 `foreground` 与 `muted-foreground`，因此自动适配明暗主题。",
+  "extended": "通过 `duration` 控制扫过速度，通过 `spread` 调整高光宽度。可以在 `className` 中覆盖 `--shimmer-base` 与 `--shimmer-highlight` 两个 CSS 变量。",
+  "events": "组件没有自有事件并透传底层元素事件。动画会持续循环，减少动态效果时停留在静态渐变状态。",
+  "examples": [
+    {
+      "name": "text-shimmer-demo",
+      "title": "基础示例"
+    },
+    {
+      "name": "text-shimmer-wave-demo"
+    }
+  ],
+  "files": [
+    "registry/ui/text-shimmer.tsx"
+  ],
+  "docsUrl": "http://localhost:3000/docs/components/text-shimmer",
+  "sourceUrl": "http://localhost:3000/r/text-shimmer.json"
+}

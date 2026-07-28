@@ -1,0 +1,38 @@
+---
+title: 图片预览 Image Preview
+description: 点击缩略图进入沉浸式大图预览，并提供缩放、旋转与下载操作。
+component: image-preview
+---
+
+## 基础示例
+
+<ComponentPreview name="image-preview-demo" />
+
+<CodeTabs command="wui@latest add @wui/image-preview" />
+
+<ComponentSource name="image-preview" title="components/ui/image-preview.tsx" />
+
+## 组件作用
+
+`ImagePreview` 用于在不离开当前页面的情况下查看图片细节。缩略图本身是可聚焦按钮，全屏预览通过 Dialog 管理焦点、Escape 关闭和无障碍标题。它适合相册、附件、设计稿与商品图；需要编辑、裁剪或批注时，应使用专门的图片编辑器。
+
+## 组件属性
+
+<PropsTable name="image-preview" />
+
+`previewSrc` 可提供单独的高清图片地址；未指定时沿用 `src`。通过 `minZoom`、`maxZoom` 和 `zoomStep` 调整缩放行为，通过 `thumbnailClassName` 与 `previewClassName` 分别控制两种图片状态。
+
+## 事件
+
+- `onOpenChange(open)`：预览打开或关闭时触发，支持受控与非受控状态。
+- 缩放按钮也可使用 `+`、`-` 快捷键，按 `0` 重置缩放和旋转。
+- Escape、背景点击和焦点管理会关闭或约束预览；放大后可拖动图片查看边缘细节。
+- 其余按钮属性会透传给缩略图触发器。
+
+## 拓展使用
+
+### 简洁预览
+
+<ComponentPreview name="image-preview-minimal" />
+
+设置 `showToolbar={false}` 可隐藏变换操作，仅保留查看与关闭能力。传入 `downloadName` 时才会显示下载按钮，避免在不允许保存图片的场景中暴露无效操作。

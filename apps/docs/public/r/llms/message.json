@@ -1,0 +1,174 @@
+{
+  "name": "message",
+  "type": "registry:ui",
+  "title": "消息 Message",
+  "description": "用于传达成功、提示、警告和错误状态的轻量反馈消息。",
+  "import": "import { Message, MessageProvider, messageVariants, useMessage } from \"@/components/ui/message\"",
+  "exports": [
+    "Message",
+    "MessageProvider",
+    "messageVariants",
+    "useMessage"
+  ],
+  "typeExports": [
+    "MessageApi",
+    "MessageOptions",
+    "MessagePosition",
+    "MessageProps",
+    "MessageProviderProps",
+    "MessageVariant"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/message",
+    "shadcn": "npx shadcn@latest add http://localhost:3000/r/message.json",
+    "npmDependencies": [
+      "radix-ui",
+      "lucide-react",
+      "class-variance-authority",
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "variant",
+      "type": "\"default\" | \"info\" | \"success\" | \"warning\" | \"destructive\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "default",
+        "info",
+        "success",
+        "warning",
+        "destructive"
+      ],
+      "defaultValue": "default",
+      "description": "Semantic appearance and default icon."
+    },
+    {
+      "name": "size",
+      "type": "\"default\" | \"compact\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "default",
+        "compact"
+      ],
+      "defaultValue": "default",
+      "description": "Density preset."
+    },
+    {
+      "name": "position",
+      "type": "\"top-left\" | \"top\" | \"top-right\" | \"bottom-left\" | \"bottom\" | \"bottom-right\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "top-left",
+        "top",
+        "top-right",
+        "bottom-left",
+        "bottom",
+        "bottom-right"
+      ],
+      "defaultValue": "top",
+      "description": "Direction used by the enter and exit motion."
+    },
+    {
+      "name": "title",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "Optional heading displayed above the message body."
+    },
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "Message body."
+    },
+    {
+      "name": "icon",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "Custom leading icon. Pass `false` to hide the icon."
+    },
+    {
+      "name": "action",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "Optional action rendered at the end of the message."
+    },
+    {
+      "name": "closable",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "Show a close control."
+    },
+    {
+      "name": "visible",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "Controlled visibility."
+    },
+    {
+      "name": "defaultVisible",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "Initial visibility in uncontrolled mode."
+    },
+    {
+      "name": "onVisibleChange",
+      "type": "((visible: boolean) => void)",
+      "required": false,
+      "control": "text",
+      "description": "Called whenever visibility changes."
+    },
+    {
+      "name": "onExitComplete",
+      "type": "(() => void)",
+      "required": false,
+      "control": "text",
+      "description": "Called after the exit animation completes."
+    }
+  ],
+  "usage": "`MessageProvider` 与 `useMessage()` 用于由按钮或业务事件触发全局轻提示。消息通过 Portal 渲染，\n可以出现在左上、顶部、右上、左下、底部或右下，并在指定时间后自动消失。它适合保存成功、\n复制完成和可恢复错误等短反馈；需要承载复杂操作或长时间保留时，应使用 Notification 或 Dialog。\n\n底层 `Message` 也可以单独使用，作为表单附近或页面内容中的内联反馈条。\n\n不同变体通过图标、语义角色和克制的色彩变化表达含义，不依赖大面积高饱和背景。消息进入和\n退出时使用短距离弹簧过渡，并在 `prefers-reduced-motion` 下关闭位移和缩放。",
+  "extended": "### 内联状态变体\n\n### 尾部操作\n\n### 可关闭与受控显示\n\n### 紧凑尺寸\n\n  同一区域尽量只显示一条当前消息。连续发生的全局反馈更适合交给 Toast 队列处理。",
+  "events": "- `onVisibleChange(visible)`：关闭按钮或受控状态改变可见性时触发。\n- `useMessage().open(options)`：创建消息并返回消息 id。\n- `dismiss(id)` / `clear()`：关闭单条消息或清空当前消息队列。\n- 原生指针、焦点与动画事件会继续透传到底层 Motion `div`。\n- `warning` 与 `destructive` 默认使用 `role=\"alert\"`；其他变体默认使用 `role=\"status\"`。",
+  "examples": [
+    {
+      "name": "message-demo",
+      "title": "基础示例"
+    },
+    {
+      "name": "message-variants",
+      "title": "内联状态变体"
+    },
+    {
+      "name": "message-action",
+      "title": "尾部操作"
+    },
+    {
+      "name": "message-dismissible",
+      "title": "可关闭与受控显示"
+    },
+    {
+      "name": "message-compact",
+      "title": "紧凑尺寸"
+    }
+  ],
+  "files": [
+    "registry/ui/message.tsx"
+  ],
+  "docsUrl": "http://localhost:3000/docs/components/message",
+  "sourceUrl": "http://localhost:3000/r/message.json"
+}

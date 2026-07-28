@@ -1,0 +1,67 @@
+{
+  "name": "checkbox",
+  "type": "registry:ui",
+  "title": "多选框 Checkbox",
+  "description": "支持选中、未选中与不确定状态的多选控件。",
+  "import": "import { Checkbox, checkboxVariants } from \"@/components/ui/checkbox\"",
+  "exports": [
+    "Checkbox",
+    "checkboxVariants"
+  ],
+  "typeExports": [
+    "CheckboxProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/checkbox",
+    "shadcn": "npx shadcn@latest add http://localhost:3000/r/checkbox.json",
+    "npmDependencies": [
+      "radix-ui",
+      "class-variance-authority",
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "size",
+      "type": "\"sm\" | \"default\" | \"lg\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "sm",
+        "default",
+        "lg"
+      ],
+      "defaultValue": "default",
+      "description": "Physical size of the checkbox."
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean"
+    },
+    {
+      "name": "asChild",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean"
+    }
+  ],
+  "usage": "`Checkbox` 用于在一组互不排斥的选项中选择零项或多项，也适用于同意条款等需要明确提交的布尔选择。全局主色填充、紧凑圆角与路径绘制勾号提供清晰且丝滑的反馈。",
+  "extended": "使用 `checked=\"indeterminate\"` 表示一组子选项仅部分选中，横线和勾号都会使用路径动画进入；取消选择时则轻柔缩回。使用 `size=\"sm | default | lg\"` 调整控件尺寸，文字标签应通过原生 `label` 与控件关联。",
+  "events": "`onCheckedChange(checked)` 在状态变化后触发，值可能是 `true`、`false` 或 `\"indeterminate\"`。其余键盘、焦点与表单属性会透传到底层 Radix Root。",
+  "examples": [
+    {
+      "name": "checkbox-demo",
+      "title": "基础示例"
+    }
+  ],
+  "files": [
+    "registry/ui/checkbox.tsx"
+  ],
+  "docsUrl": "http://localhost:3000/docs/components/checkbox",
+  "sourceUrl": "http://localhost:3000/r/checkbox.json"
+}

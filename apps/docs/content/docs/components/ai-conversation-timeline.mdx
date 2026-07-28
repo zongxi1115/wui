@@ -1,0 +1,37 @@
+---
+title: AI 对话时间线 AI Conversation Timeline
+description: 用紧凑刻度浏览长对话，悬停预览并快速定位到指定轮次。
+component: ai-conversation-timeline
+---
+
+## 基础示例
+
+<ComponentPreview name="ai-conversation-timeline-demo" />
+
+<CodeTabs command="wui@latest add @wui/ai-conversation-timeline" />
+
+<ComponentSource name="ai-conversation-timeline" title="components/ui/ai-conversation-timeline.tsx" />
+
+## 组件作用
+
+`AiConversationTimeline` 用于内容较长的 AI 对话、Agent 执行记录和连续工作流。静止时全部轮次聚拢成一列等距、同色的灰刻度，只用 `level` 区分层级长度，不抢内容注意力；指针靠近时，光标所在刻度与相邻刻度按高斯衰减依次变长、变清晰（类似 Dock 放大），并在旁边浮出该轮对话摘要卡片。
+
+它是导航控件，不是用于展示审计日志的普通 [`Timeline`](/docs/components/timeline)。页面只有少量消息、不需要跨段定位时，不应额外加入时间线。
+
+## 组件属性
+
+<PropsTable name="ai-conversation-timeline" />
+
+## 事件
+
+使用 `activeId` 与 `onActiveChange` 同步当前阅读轮次。用户点击刻度时，`onNavigate` 会返回完整条目和序号，业务层可以调用 `scrollIntoView`、虚拟列表定位或路由跳转。
+
+组件不会接管滚动容器，也不假设消息 DOM 结构。这样既可以接入 `AiChatMessages`，也可以用于已有聊天页面或 Agent 运行记录。
+
+## 动效与无障碍
+
+放大量由指针在刻度列内的纵向位置**连续**计算：以指针为中心做高斯衰减（半径约 10px，略大于 9px 的刻度间距），所以峰值恒定落在指针所在的那一条，左右各约两条依次递减。长度与不透明度各走一条弹簧，全程走 motion value，不触发 React 重渲染。
+
+> 坐标取自刻度列（`<ol>`）的 border box，与刻度中心 `PAD + i × ROW + ROW / 2` 同源。若改用 `offsetTop` 测量会漏掉容器的 `padding`（`offsetTop` 相对的是 offsetParent 的 **padding 边**），峰值会整体偏移一行。摘要卡片只有一张：在刻度之间**滑动**到目标位置，内容做 120ms 交叉淡入，靠近顶部/底部时自动收边不出容器。
+
+当前轮次不用高亮色，只用略高的不透明度暗示，保持“静止即安静”。系统开启“减少动态效果”后弹簧全部退化为直接切换。每个刻度都是可聚焦按钮，键盘聚焦同样触发放大与摘要，当前项通过 `aria-current="step"` 暴露给辅助技术。

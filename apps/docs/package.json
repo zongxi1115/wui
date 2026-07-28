@@ -8,14 +8,16 @@
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
-    "registry:build": "tsx scripts/build-registry.mts && tsx scripts/build-docgen.mts",
+    "registry:build": "tsx scripts/build-registry.mts && tsx scripts/build-docgen.mts && tsx scripts/build-llms.mts",
     "tokens:audit": "tsx scripts/audit-design-tokens.mts",
     "docgen": "tsx scripts/build-docgen.mts",
+    "llms:build": "tsx scripts/build-llms.mts",
     "gen:component": "tsx scripts/new-component.mts",
     "fumadocs:gen": "fumadocs-mdx"
   },
   "dependencies": {
     "@animateicons/react": "^0.3.4",
+    "@wui/mcp": "workspace:*",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "fumadocs-core": "^15.0.0",

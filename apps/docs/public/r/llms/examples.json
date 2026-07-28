@@ -1,0 +1,548 @@
+{
+  "ai-chat-demo": {
+    "name": "ai-chat-demo",
+    "component": "ai-chat",
+    "title": "基础示例",
+    "code": "\"use client\"\n\nimport * as React from \"react\"\nimport { CopyIcon, PaperclipIcon, RotateCcwIcon } from \"lucide-react\"\n\nimport { Button } from \"@/components/ui/button\"\nimport {\n  AiChat,\n  AiChatAvatar,\n  AiChatMessage,\n  AiChatMessageActions,\n  AiChatMessageContent,\n  AiChatMessages,\n  AiChatPrompt,\n  AiChatPromptFooter,\n  AiChatPromptTools,\n  AiChatScrollButton,\n  AiChatSubmit,\n  AiChatTextarea,\n} from \"@/components/ui/ai-chat\"\nimport {\n  AiReasoning,\n  AiReasoningContent,\n  AiReasoningStream,\n  AiReasoningTrigger,\n} from \"@/components/ui/ai-reasoning\"\nimport {\n  AiTodo,\n  AiTodoHeader,\n  AiTodoItem,\n  AiTodoList,\n} from \"@/components/ui/ai-todo\"\nimport {\n  AiTool,\n  AiToolCode,\n  AiToolContent,\n  AiToolLabel,\n  AiToolSection,\n  AiToolTrigger,\n} from \"@/components/ui/ai-tool\"\n\nexport default function AiChatDemo() {\n  const [prompt, setPrompt] = React.useState(\"\")\n  const [messages, setMessages] = React.useState<string[]>([])\n\n  return (\n    <AiChat className=\"mx-auto h-[620px] max-w-3xl\">\n      <AiChatMessages>\n        <AiChatMessage role=\"user\">\n          <AiChatMessageContent role=\"user\">\n            帮我梳理登录页改版需要完成的工作。\n          </AiChatMessageContent>\n        </AiChatMessage>\n\n        <AiChatMessage role=\"assistant\">\n          <AiChatAvatar />\n          <div className=\"min-w-0 max-w-[88%] flex-1 space-y-3\">\n            <AiChatMessageContent>\n              我先检查现有页面结构与设计变量，再整理成可以直接执行的任务。\n            </AiChatMessageContent>\n\n            <AiReasoning duration={2.8} defaultOpen>\n              <AiReasoningTrigger />\n              <AiReasoningContent>\n                <AiReasoningStream>\n                  先读取登录流程，确认表单、第三方登录和错误反馈；再核对设计变量，沿用现有间距、边框与语义色。\n                </AiReasoningStream>\n              </AiReasoningContent>\n            </AiReasoning>\n\n            <AiTool status=\"success\" defaultOpen>\n              <AiToolTrigger name=\"read_project_files\" />\n              <AiToolContent>\n                <AiToolSection>\n                  <AiToolLabel>输入</AiToolLabel>\n                  <AiToolCode>{`{ \"path\": \"app/login\" }`}</AiToolCode>\n                </AiToolSection>\n                <AiToolSection>\n                  <AiToolLabel>结果</AiToolLabel>\n                  找到 6 个相关文件，已读取页面和表单组件。\n                </AiToolSection>\n              </AiToolContent>\n            </AiTool>\n\n            <AiTodo>\n              <AiTodoHeader>实施计划 · 1/3</AiTodoHeader>\n              <AiTodoList>\n                <AiTodoItem\n                  status=\"completed\"\n                  title=\"盘点现有登录状态\"\n                />\n                <AiTodoItem\n                  status=\"in-progress\"\n                  title=\"重组表单信息层级\"\n                  description=\"保留原有校验与提交逻辑。\"\n                />\n                <AiTodoItem status=\"pending\" title=\"补齐移动端布局\" />\n              </AiTodoList>\n            </AiTodo>\n\n            <AiChatMessageContent>\n              计划已经整理好。我会先改信息层级，再处理响应式布局，过程中不改登录接口。\n            </AiChatMessageContent>\n            <AiChatMessageActions>\n              <Button variant=\"ghost\" size=\"icon\" aria-label=\"复制回复\">\n                <CopyIcon />\n              </Button>\n              <Button variant=\"ghost\" size=\"icon\" aria-label=\"重新生成\">\n                <RotateCcwIcon />\n              </Button>\n            </AiChatMessageActions>\n          </div>\n        </AiChatMessage>\n\n        {messages.map((message, index) => (\n          <AiChatMessage key={`${message}-${index}`} role=\"user\">\n            <AiChatMessageContent role=\"user\">\n              {message}\n            </AiChatMessageContent>\n          </AiChatMessage>\n        ))}\n      </AiChatMessages>\n\n      <AiChatScrollButton />\n      <AiChatPrompt\n        onSubmit={(event) => {\n          event.preventDefault()\n          if (!prompt.trim()) return\n          setMessages((current) => [...current, prompt.trim()])\n          setPrompt(\"\")\n        }}\n      >\n        <AiChatTextarea\n          value={prompt}\n          placeholder=\"输入消息，Enter 发送…\"\n          onChange={(event) => setPrompt(event.target.value)}\n          onKeyDown={(event) => {\n            if (event.key === \"Enter\" && !event.shiftKey) {\n              event.preventDefault()\n              event.currentTarget.form?.requestSubmit()\n            }\n          }}\n        />\n        <AiChatPromptFooter>\n          <AiChatPromptTools>\n            <Button type=\"button\" variant=\"ghost\" size=\"icon\" aria-label=\"添加附件\">\n              <PaperclipIcon />\n            </Button>\n            <span className=\"text-xs text-muted-foreground\">GPT-5</span>\n          </AiChatPromptTools>\n          <AiChatSubmit disabled={!prompt.trim()} />\n        </AiChatPromptFooter>\n      </AiChatPrompt>\n    </AiChat>\n  )\n}\n"
+  },
+  "ai-conversation-timeline-demo": {
+    "name": "ai-conversation-timeline-demo",
+    "component": "ai-conversation-timeline",
+    "title": "基础示例",
+    "code": "\"use client\"\n\nimport * as React from \"react\"\n\nimport {\n  AiChat,\n  AiChatAvatar,\n  AiChatMessage,\n  AiChatMessageContent,\n  AiChatMessages,\n} from \"@/components/ui/ai-chat\"\nimport {\n  AiConversationTimeline,\n  type AiConversationTimelineItem,\n} from \"@/components/ui/ai-conversation-timeline\"\n\nconst turns: AiConversationTimelineItem[] = [\n  {\n    id: \"request\",\n    title: \"添加一个 AI 组件板块\",\n    description: \"先从聊天框、工具调用、任务和推理过程开始。\",\n    meta: \"09:41\",\n  },\n  {\n    id: \"scope\",\n    title: \"确认第一批组件范围\",\n    description: \"聊天壳层、消息气泡、输入区先落地，其余按需补。\",\n    meta: \"09:43\",\n    level: 2,\n  },\n  {\n    id: \"reasoning\",\n    title: \"调整推理过程的流式动效\",\n    description: \"只在文本右边缘保留自然羽化，收起时不要整体缩放。\",\n    meta: \"09:46\",\n  },\n  {\n    id: \"tokens\",\n    title: \"推理块改用语义 token\",\n    description: \"去掉硬编码灰阶，跟随主题变量走明暗两套。\",\n    meta: \"09:48\",\n    level: 3,\n  },\n  {\n    id: \"todo\",\n    title: \"任务列表支持嵌套子项\",\n    description: \"父任务收起时显示进度摘要，展开后逐条对齐。\",\n    meta: \"09:50\",\n    level: 2,\n  },\n  {\n    id: \"docs\",\n    title: \"补上每页的 LLM 文档入口\",\n    description: \"增加复制 Markdown、查看原文和在 ChatGPT 中打开。\",\n    meta: \"09:52\",\n  },\n  {\n    id: \"digest\",\n    title: \"把文档正文汇总进 MCP digest\",\n    description: \"组件作用、事件、拓展使用三节直接喂给模型。\",\n    meta: \"09:55\",\n    level: 3,\n  },\n  {\n    id: \"timeline\",\n    title: \"为长对话增加时间线导航\",\n    description: \"用短刻度压缩全部轮次，悬停预览，点击快速定位。\",\n    meta: \"09:58\",\n    level: 2,\n  },\n  {\n    id: \"polish\",\n    title: \"刻度改成聚拢 + 邻近放大\",\n    description: \"静止时是一组等距灰刻度，指针靠近才逐级变长。\",\n    meta: \"现在\",\n  },\n]\n\nconst responses: Record<string, string> = {\n  request:\n    \"组件会保持可组合：聊天负责消息与输入，工具、任务和推理作为独立内容插入助手回复。\",\n  scope: \"先交付聊天壳层与消息内容，工具调用和任务列表复用同一套间距与圆角。\",\n  reasoning:\n    \"累计文本仅对最右侧做羽化；分段 delta 单独淡入，收起使用轻微位移和透明度过渡。\",\n  tokens: \"全部替换为 muted / foreground 语义变量，深色主题不再出现死黑背景。\",\n  todo: \"子任务以缩进对齐，父任务在收起态显示「已完成 / 总数」，展开走高度过渡。\",\n  docs:\n    \"每个组件文档页现在都能复制原始 Markdown，也可以直接交给支持链接上下文的模型阅读。\",\n  digest: \"构建时抽取三节正文与全部 demo 源码，模型据此判断该用哪个组件。\",\n  timeline:\n    \"时间线会跟随当前阅读轮次高亮，悬停显示摘要，点击后平滑滚动到对应消息。\",\n  polish:\n    \"刻度静止时聚拢成一列等距灰线；指针靠近时以高斯衰减放大自身与相邻刻度。\",\n}\n\nexport default function AiConversationTimelineDemo() {\n  const viewportRef = React.useRef<HTMLDivElement>(null)\n  const messageRefs = React.useRef<Record<string, HTMLElement | null>>({})\n  const [activeId, setActiveId] = React.useState(turns[0].id)\n\n  function updateActiveItem() {\n    const viewport = viewportRef.current\n    if (!viewport) return\n\n    const viewportTop = viewport.getBoundingClientRect().top\n    let closest = turns[0].id\n    let closestDistance = Number.POSITIVE_INFINITY\n\n    for (const turn of turns) {\n      const element = messageRefs.current[turn.id]\n      if (!element) continue\n      const distance = Math.abs(element.getBoundingClientRect().top - viewportTop - 24)\n      if (distance < closestDistance) {\n        closest = turn.id\n        closestDistance = distance\n      }\n    }\n\n    setActiveId(closest)\n  }\n\n  return (\n    <div className=\"relative mx-auto w-full max-w-3xl\">\n      <AiChat className=\"h-[520px]\">\n        <AiChatMessages ref={viewportRef} className=\"pl-20\" onScroll={updateActiveItem}>\n          {turns.map((turn) => (\n            <div\n              key={turn.id}\n              ref={(element) => {\n                messageRefs.current[turn.id] = element\n              }}\n              className=\"space-y-4 py-3 first:pt-0\"\n            >\n              <AiChatMessage role=\"user\">\n                <AiChatMessageContent role=\"user\">\n                  {turn.title}\n                </AiChatMessageContent>\n              </AiChatMessage>\n              <AiChatMessage role=\"assistant\">\n                <AiChatAvatar />\n                <AiChatMessageContent>\n                  {responses[turn.id]}\n                </AiChatMessageContent>\n              </AiChatMessage>\n            </div>\n          ))}\n        </AiChatMessages>\n      </AiChat>\n\n      <AiConversationTimeline\n        items={turns}\n        activeId={activeId}\n        className=\"absolute left-2 top-1/2 z-10 -translate-y-1/2\"\n        onActiveChange={setActiveId}\n        onNavigate={(item) => {\n          messageRefs.current[item.id]?.scrollIntoView({\n            behavior: \"smooth\",\n            block: \"start\",\n          })\n        }}\n      />\n    </div>\n  )\n}\n"
+  },
+  "ai-tool-demo": {
+    "name": "ai-tool-demo",
+    "component": "ai-tool",
+    "title": "基础示例",
+    "code": "import {\n  AiTool,\n  AiToolCode,\n  AiToolContent,\n  AiToolError,\n  AiToolLabel,\n  AiToolSection,\n  AiToolTrigger,\n} from \"@/components/ui/ai-tool\"\n\nexport default function AiToolDemo() {\n  return (\n    <div className=\"mx-auto grid w-full max-w-2xl gap-3\">\n      <AiTool status=\"running\" defaultOpen>\n        <AiToolTrigger name=\"search_docs\" />\n        <AiToolContent>\n          <AiToolSection>\n            <AiToolLabel>输入</AiToolLabel>\n            <AiToolCode>{`{\n  \"query\": \"React Server Components\",\n  \"limit\": 5\n}`}</AiToolCode>\n          </AiToolSection>\n        </AiToolContent>\n      </AiTool>\n\n      <AiTool status=\"success\">\n        <AiToolTrigger name=\"read_file\" />\n        <AiToolContent>\n          <AiToolSection>\n            <AiToolLabel>结果</AiToolLabel>\n            已读取 app/dashboard/page.tsx，共 184 行。\n          </AiToolSection>\n        </AiToolContent>\n      </AiTool>\n\n      <AiTool status=\"error\" defaultOpen>\n        <AiToolTrigger name=\"database_query\" />\n        <AiToolContent>\n          <AiToolSection>\n            <AiToolLabel>错误</AiToolLabel>\n            <AiToolError>连接超时，请检查数据库网络策略。</AiToolError>\n          </AiToolSection>\n        </AiToolContent>\n      </AiTool>\n    </div>\n  )\n}\n"
+  },
+  "ai-todo-demo": {
+    "name": "ai-todo-demo",
+    "component": "ai-todo",
+    "title": "基础示例",
+    "code": "\"use client\"\n\nimport * as React from \"react\"\n\nimport {\n  AiTodo,\n  AiTodoHeader,\n  AiTodoItem,\n  AiTodoList,\n  type AiTodoStatus,\n} from \"@/components/ui/ai-todo\"\n\nconst initialItems: Array<{\n  title: string\n  description?: string\n  status: AiTodoStatus\n}> = [\n  { title: \"读取现有页面结构\", status: \"completed\" },\n  {\n    title: \"实现新的聊天布局\",\n    description: \"保留主题变量和键盘交互。\",\n    status: \"in-progress\",\n  },\n  { title: \"核对移动端密度\", status: \"pending\" },\n]\n\nexport default function AiTodoDemo() {\n  const [items, setItems] = React.useState(initialItems)\n  const completed = items.filter((item) => item.status === \"completed\").length\n\n  return (\n    <AiTodo className=\"mx-auto w-full max-w-xl\">\n      <AiTodoHeader>\n        实施计划\n        <span className=\"ml-auto text-xs font-normal text-muted-foreground\">\n          {completed}/{items.length}\n        </span>\n      </AiTodoHeader>\n      <AiTodoList>\n        {items.map((item, index) => (\n          <AiTodoItem\n            key={item.title}\n            {...item}\n            onStatusChange={(status) =>\n              setItems((current) =>\n                current.map((entry, itemIndex) =>\n                  itemIndex === index ? { ...entry, status } : entry\n                )\n              )\n            }\n          />\n        ))}\n      </AiTodoList>\n    </AiTodo>\n  )\n}\n"
+  },
+  "ai-stream-demo": {
+    "name": "ai-stream-demo",
+    "component": "ai-reasoning",
+    "title": "普通回答与思考过程复用",
+    "code": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { Button } from \"@/components/ui/button\"\nimport {\n  AiReasoning,\n  AiReasoningContent,\n  AiReasoningTrigger,\n} from \"@/components/ui/ai-reasoning\"\nimport { AiStream } from \"@/components/ui/ai-stream\"\n\nconst fullReasoning =\n  \"先确认问题指向的是流式文本能力，而不是某一种消息外观。接着把文字动画从推理容器中拆出来，让回答与推理共享同一套实现。\"\n\nconst fullAnswer =\n  \"可以。流式输出现在是独立能力：普通回答直接使用 AiStream，思考过程则把同一个 AiStream 放进 AiReasoning。两者接收的都是累计文本，并在仍有内容到达时只羽化最右侧边缘。\"\n\ntype Phase = \"idle\" | \"reasoning\" | \"answer\"\n\nexport default function AiStreamDemo() {\n  const [phase, setPhase] = React.useState<Phase>(\"idle\")\n  const [reasoning, setReasoning] = React.useState(fullReasoning)\n  const [answer, setAnswer] = React.useState(fullAnswer)\n\n  React.useEffect(() => {\n    if (phase === \"idle\") return\n\n    const source = phase === \"reasoning\" ? fullReasoning : fullAnswer\n    const update = phase === \"reasoning\" ? setReasoning : setAnswer\n    let cursor = 0\n\n    const timer = window.setInterval(() => {\n      cursor = Math.min(cursor + 2, source.length)\n      update(source.slice(0, cursor))\n\n      if (cursor === source.length) {\n        window.clearInterval(timer)\n        setPhase(phase === \"reasoning\" ? \"answer\" : \"idle\")\n      }\n    }, phase === \"reasoning\" ? 54 : 42)\n\n    return () => window.clearInterval(timer)\n  }, [phase])\n\n  function replay() {\n    setReasoning(\"\")\n    setAnswer(\"\")\n    setPhase(\"reasoning\")\n  }\n\n  const isReasoning = phase === \"reasoning\"\n  const isAnswering = phase === \"answer\"\n\n  return (\n    <div className=\"mx-auto w-full max-w-xl space-y-5\">\n      <div className=\"space-y-3\">\n        <AiReasoning\n          isStreaming={isReasoning}\n          duration={2.4}\n          defaultOpen\n        >\n          <AiReasoningTrigger />\n          <AiReasoningContent>\n            <AiStream isStreaming={isReasoning}>{reasoning}</AiStream>\n          </AiReasoningContent>\n        </AiReasoning>\n\n        <div className=\"text-sm leading-7 text-foreground\">\n          <AiStream isStreaming={isAnswering}>{answer}</AiStream>\n        </div>\n      </div>\n\n      <Button\n        type=\"button\"\n        variant=\"outline\"\n        size=\"sm\"\n        disabled={phase !== \"idle\"}\n        onClick={replay}\n      >\n        {isReasoning\n          ? \"正在流式输出思考过程…\"\n          : isAnswering\n            ? \"正在流式输出普通回答…\"\n            : \"重新播放完整响应\"}\n      </Button>\n    </div>\n  )\n}\n"
+  },
+  "ai-reasoning-demo": {
+    "name": "ai-reasoning-demo",
+    "component": "ai-reasoning",
+    "title": "基础示例",
+    "code": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { Button } from \"@/components/ui/button\"\nimport {\n  AiReasoning,\n  AiReasoningContent,\n  AiReasoningStream,\n  AiReasoningTrigger,\n} from \"@/components/ui/ai-reasoning\"\n\nconst fullReasoning =\n  \"我先确认请求的目标：需要重做登录页，但保留现有认证逻辑。\\n\\n接着检查项目里的表单、按钮和错误提示，避免引入另一套视觉规则。\\n\\n现有页面的问题主要是信息层级拥挤，移动端操作区也缺少稳定间距。\\n\\n因此实施顺序应该是：先整理结构，再复用现有组件，最后核对响应式状态。\"\n\nexport default function AiReasoningDemo() {\n  const [streaming, setStreaming] = React.useState(false)\n  const [reasoning, setReasoning] = React.useState(\n    \"我先确认请求目标，再检查现有组件与设计变量，最后形成实施顺序。\"\n  )\n\n  React.useEffect(() => {\n    if (!streaming) return\n\n    let cursor = 0\n    setReasoning(\"\")\n    const timer = window.setInterval(() => {\n      const deltaSize = cursor % 3 === 0 ? 3 : 2\n      cursor = Math.min(cursor + deltaSize, fullReasoning.length)\n      setReasoning(fullReasoning.slice(0, cursor))\n      if (cursor === fullReasoning.length) {\n        window.clearInterval(timer)\n        setStreaming(false)\n      }\n    }, 90)\n\n    return () => window.clearInterval(timer)\n  }, [streaming])\n\n  return (\n    <div className=\"mx-auto w-full max-w-xl space-y-4\">\n      <AiReasoning isStreaming={streaming} duration={2.6} defaultOpen>\n        <AiReasoningTrigger />\n        <AiReasoningContent>\n          <AiReasoningStream>{reasoning}</AiReasoningStream>\n        </AiReasoningContent>\n      </AiReasoning>\n\n      <Button\n        type=\"button\"\n        variant=\"outline\"\n        size=\"sm\"\n        disabled={streaming}\n        onClick={() => setStreaming(true)}\n      >\n        {streaming ? \"正在流式输出…\" : \"重新模拟流式推理\"}\n      </Button>\n    </div>\n  )\n}\n"
+  },
+  "ai-reasoning-deltas": {
+    "name": "ai-reasoning-deltas",
+    "component": "ai-reasoning",
+    "title": "Delta 分段淡入",
+    "code": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { Button } from \"@/components/ui/button\"\nimport {\n  AiReasoning,\n  AiReasoningContent,\n  AiReasoningDeltas,\n  AiReasoningTrigger,\n} from \"@/components/ui/ai-reasoning\"\n\nconst sourceDeltas = [\n  \"先确认需求边界，\",\n  \"保留现有认证逻辑。\",\n  \"\\n\\n然后读取登录表单，\",\n  \"核对输入、错误提示和提交状态。\",\n  \"\\n\\n最后整理页面层级，\",\n  \"并检查移动端操作区的间距。\",\n]\n\nexport default function AiReasoningDeltasDemo() {\n  const [deltas, setDeltas] = React.useState<string[]>(sourceDeltas)\n  const [streaming, setStreaming] = React.useState(false)\n\n  React.useEffect(() => {\n    if (!streaming) return\n\n    let index = 0\n    setDeltas([])\n    const timer = window.setInterval(() => {\n      const delta = sourceDeltas[index]\n      if (delta === undefined) {\n        window.clearInterval(timer)\n        setStreaming(false)\n        return\n      }\n      setDeltas((current) => [...current, delta])\n      index += 1\n      if (index === sourceDeltas.length) {\n        window.clearInterval(timer)\n        setStreaming(false)\n      }\n    }, 520)\n\n    return () => window.clearInterval(timer)\n  }, [streaming])\n\n  return (\n    <div className=\"mx-auto w-full max-w-xl space-y-4\">\n      <AiReasoning isStreaming={streaming} duration={3.1} defaultOpen>\n        <AiReasoningTrigger />\n        <AiReasoningContent>\n          <AiReasoningDeltas deltas={deltas} />\n        </AiReasoningContent>\n      </AiReasoning>\n      <Button\n        type=\"button\"\n        variant=\"outline\"\n        size=\"sm\"\n        disabled={streaming}\n        onClick={() => setStreaming(true)}\n      >\n        {streaming ? \"正在接收 delta…\" : \"重新播放分段淡入\"}\n      </Button>\n    </div>\n  )\n}\n"
+  },
+  "button-demo": {
+    "name": "button-demo",
+    "component": "button",
+    "title": "基础示例",
+    "code": "import { Button } from \"@/components/ui/button\"\n\nexport default function ButtonDemo() {\n  return <Button>Button</Button>\n}\n"
+  },
+  "button-variants": {
+    "name": "button-variants",
+    "component": "button",
+    "title": "变体",
+    "code": "import { Button } from \"@/components/ui/button\"\n\nexport default function ButtonVariants() {\n  return (\n    <div className=\"flex flex-wrap items-center gap-2\">\n      <Button>Default</Button>\n      <Button variant=\"secondary\">Secondary</Button>\n      <Button variant=\"destructive\">Destructive</Button>\n      <Button variant=\"outline\">Outline</Button>\n      <Button variant=\"ghost\">Ghost</Button>\n      <Button variant=\"link\">Link</Button>\n    </div>\n  )\n}\n"
+  },
+  "button-sizes": {
+    "name": "button-sizes",
+    "component": "button",
+    "title": "尺寸",
+    "code": "import { Button } from \"@/components/ui/button\"\n\nexport default function ButtonSizes() {\n  return (\n    <div className=\"flex flex-wrap items-center gap-2\">\n      <Button size=\"sm\">Small</Button>\n      <Button size=\"default\">Default</Button>\n      <Button size=\"lg\">Large</Button>\n    </div>\n  )\n}\n"
+  },
+  "button-with-icon": {
+    "name": "button-with-icon",
+    "component": "button",
+    "title": "搭配图标",
+    "code": "import { ArrowRightIcon } from \"lucide-react\"\n\nimport { Button } from \"@/components/ui/button\"\n\nexport default function ButtonWithIcon() {\n  return (\n    <Button>\n      Continue\n      <ArrowRightIcon />\n    </Button>\n  )\n}\n"
+  },
+  "button-loading": {
+    "name": "button-loading",
+    "component": "button",
+    "title": "加载状态",
+    "code": "import { Loader2Icon } from \"lucide-react\"\n\nimport { Button } from \"@/components/ui/button\"\n\nexport default function ButtonLoading() {\n  return (\n    <Button disabled>\n      <Loader2Icon className=\"animate-spin\" />\n      Please wait\n    </Button>\n  )\n}\n"
+  },
+  "button-link": {
+    "name": "button-link",
+    "component": "button",
+    "title": "链接变体（动态下划线）",
+    "code": "import { ArrowRightIcon } from \"lucide-react\"\n\nimport { Button } from \"@/components/ui/button\"\n\nexport default function ButtonLink() {\n  return (\n    <div className=\"flex flex-wrap items-center gap-4\">\n      <Button variant=\"link\">Hover me for the underline</Button>\n      <Button variant=\"link\">\n        Learn more\n        <ArrowRightIcon />\n      </Button>\n    </div>\n  )\n}\n"
+  },
+  "button-as-child": {
+    "name": "button-as-child",
+    "component": "button",
+    "title": "作为链接（`asChild`）",
+    "code": "import { Button } from \"@/components/ui/button\"\n\nexport default function ButtonAsChild() {\n  return (\n    <Button asChild>\n      <a href=\"#button\">Rendered as a link</a>\n    </Button>\n  )\n}\n"
+  },
+  "button-motion": {
+    "name": "button-motion",
+    "component": "button",
+    "title": "动效（可选）",
+    "code": "import { Button } from \"@/components/ui/button\"\n\nexport default function ButtonMotion() {\n  return (\n    <div className=\"flex flex-wrap items-center gap-2\">\n      <Button motion>Press me</Button>\n      <Button motion variant=\"secondary\">\n        Secondary\n      </Button>\n      <Button motion variant=\"outline\">\n        Outline\n      </Button>\n    </div>\n  )\n}\n"
+  },
+  "button-ripple": {
+    "name": "button-ripple",
+    "component": "button",
+    "title": "涟漪（可选）",
+    "code": "import { Button } from \"@/components/ui/button\"\n\nexport default function ButtonRipple() {\n  return (\n    <div className=\"flex flex-wrap items-center gap-2\">\n      <Button ripple>Click for ripple</Button>\n      <Button ripple variant=\"secondary\">\n        Secondary\n      </Button>\n      <Button ripple motion variant=\"outline\">\n        Ripple + motion\n      </Button>\n    </div>\n  )\n}\n"
+  },
+  "dialog-demo": {
+    "name": "dialog-demo",
+    "component": "dialog",
+    "title": "基础示例",
+    "code": "import { Button } from \"@/components/ui/button\"\nimport {\n  Dialog,\n  DialogClose,\n  DialogContent,\n  DialogDescription,\n  DialogFooter,\n  DialogHeader,\n  DialogTitle,\n  DialogTrigger,\n} from \"@/components/ui/dialog\"\n\nexport default function DialogDemo() {\n  return (\n    <Dialog>\n      <DialogTrigger asChild>\n        <Button variant=\"outline\">Open Dialog</Button>\n      </DialogTrigger>\n      <DialogContent>\n        <DialogHeader>\n          <DialogTitle>Are you absolutely sure?</DialogTitle>\n          <DialogDescription>\n            This action cannot be undone. This will permanently remove your\n            data from our servers.\n          </DialogDescription>\n        </DialogHeader>\n        <DialogFooter>\n          <DialogClose asChild>\n            <Button variant=\"outline\">Cancel</Button>\n          </DialogClose>\n          <Button>Continue</Button>\n        </DialogFooter>\n      </DialogContent>\n    </Dialog>\n  )\n}\n"
+  },
+  "dialog-layout": {
+    "name": "dialog-layout",
+    "component": "dialog",
+    "title": "原地布局变换（非模态）",
+    "code": "import { Settings2Icon } from \"lucide-react\"\n\nimport { Button } from \"@/components/ui/button\"\nimport {\n  Dialog,\n  DialogClose,\n  DialogContent,\n  DialogDescription,\n  DialogFooter,\n  DialogHeader,\n  DialogTitle,\n  DialogTrigger,\n} from \"@/components/ui/dialog\"\n\nexport default function DialogLayout() {\n  return (\n    <div className=\"w-full max-w-md\">\n      <Dialog variant=\"inline\">\n        <DialogTrigger asChild>\n          <Button variant=\"outline\">\n            <Settings2Icon />\n            Workspace access\n          </Button>\n        </DialogTrigger>\n        <DialogContent>\n          <DialogHeader>\n            <DialogTitle>Workspace access</DialogTitle>\n            <DialogDescription>\n              Update how members discover and request access to this workspace.\n            </DialogDescription>\n          </DialogHeader>\n          <div className=\"space-y-1\">\n            <label htmlFor=\"workspace-name\" className=\"text-xs font-medium\">\n              Workspace name\n            </label>\n            <input\n              id=\"workspace-name\"\n              defaultValue=\"Northstar Design\"\n              className=\"h-9 w-full rounded-md border bg-background px-3 text-sm outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/30\"\n            />\n          </div>\n          <label className=\"flex items-center gap-2 text-sm text-muted-foreground\">\n            <input type=\"checkbox\" defaultChecked className=\"size-4 accent-primary\" />\n            Allow members to request access\n          </label>\n          <DialogFooter>\n            <DialogClose asChild>\n              <Button variant=\"ghost\" size=\"sm\">\n                Cancel\n              </Button>\n            </DialogClose>\n            <DialogClose asChild>\n              <Button size=\"sm\">Save changes</Button>\n            </DialogClose>\n          </DialogFooter>\n        </DialogContent>\n      </Dialog>\n    </div>\n  )\n}\n"
+  },
+  "morphing-dialog-demo": {
+    "name": "morphing-dialog-demo",
+    "component": "morphing-dialog",
+    "title": "基础示例",
+    "code": "import { BellRingIcon } from \"lucide-react\"\n\nimport { Button } from \"@/components/ui/button\"\nimport {\n  MorphingDialog,\n  MorphingDialogClose,\n  MorphingDialogContent,\n  MorphingDialogDescription,\n  MorphingDialogSubtitle,\n  MorphingDialogTitle,\n  MorphingDialogTrigger,\n} from \"@/components/ui/morphing-dialog\"\n\nexport default function MorphingDialogDemo() {\n  return (\n    <MorphingDialog>\n      <MorphingDialogTrigger>\n        <BellRingIcon className=\"mr-2 size-4\" />\n        Notification settings\n      </MorphingDialogTrigger>\n      <MorphingDialogContent>\n        <MorphingDialogTitle>Notification settings</MorphingDialogTitle>\n        <MorphingDialogSubtitle>\n          Choose what deserves your attention.\n        </MorphingDialogSubtitle>\n        <MorphingDialogDescription>\n          Product updates and account activity are enabled. You can change these\n          preferences at any time.\n        </MorphingDialogDescription>\n        <div className=\"mt-5 space-y-3 border-y py-4 text-sm\">\n          {[\n            [\"Account activity\", \"Security and billing changes\"],\n            [\"Product updates\", \"A concise weekly digest\"],\n          ].map(([label, detail]) => (\n            <label\n              key={label}\n              className=\"flex items-center justify-between gap-6\"\n            >\n              <span>\n                <span className=\"block font-medium\">{label}</span>\n                <span className=\"text-muted-foreground\">{detail}</span>\n              </span>\n              <input\n                type=\"checkbox\"\n                defaultChecked\n                className=\"accent-primary size-4\"\n              />\n            </label>\n          ))}\n        </div>\n        <div className=\"mt-5 flex justify-end gap-2\">\n          <MorphingDialogClose asChild>\n            <Button variant=\"ghost\" size=\"sm\">\n              Cancel\n            </Button>\n          </MorphingDialogClose>\n          <MorphingDialogClose asChild>\n            <Button size=\"sm\">Save changes</Button>\n          </MorphingDialogClose>\n        </div>\n        <MorphingDialogClose />\n      </MorphingDialogContent>\n    </MorphingDialog>\n  )\n}\n"
+  },
+  "morphing-popover-demo": {
+    "name": "morphing-popover-demo",
+    "component": "morphing-popover",
+    "title": "基础示例",
+    "code": "import { PlusIcon } from \"lucide-react\"\n\nimport { Button } from \"@/components/ui/button\"\nimport {\n  MorphingPopover,\n  MorphingPopoverClose,\n  MorphingPopoverContent,\n  MorphingPopoverTrigger,\n} from \"@/components/ui/morphing-popover\"\n\nexport default function MorphingPopoverDemo() {\n  return (\n    <MorphingPopover>\n      <MorphingPopoverTrigger>\n        <PlusIcon className=\"mr-2 size-4\" />\n        Add note\n      </MorphingPopoverTrigger>\n      <MorphingPopoverContent>\n        <label htmlFor=\"quick-note\" className=\"text-sm font-medium\">\n          Quick note\n        </label>\n        <textarea\n          id=\"quick-note\"\n          rows={4}\n          placeholder=\"Capture a thought…\"\n          className=\"bg-background placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/30 mt-2 w-full resize-none rounded-md border px-3 py-2 text-sm outline-none focus-visible:ring-[3px]\"\n        />\n        <div className=\"mt-3 flex justify-end gap-2\">\n          <MorphingPopoverClose asChild>\n            <Button variant=\"ghost\" size=\"sm\">\n              Cancel\n            </Button>\n          </MorphingPopoverClose>\n          <MorphingPopoverClose asChild>\n            <Button size=\"sm\">Add note</Button>\n          </MorphingPopoverClose>\n        </div>\n      </MorphingPopoverContent>\n    </MorphingPopover>\n  )\n}\n"
+  },
+  "progressive-blur-demo": {
+    "name": "progressive-blur-demo",
+    "component": "progressive-blur",
+    "title": "基础示例",
+    "code": "import { ProgressiveBlur } from \"@/components/ui/progressive-blur\"\n\nconst activity = [\n  [\"09:42\", \"Design review completed\"],\n  [\"10:18\", \"Three comments resolved\"],\n  [\"11:06\", \"Prototype shared with team\"],\n  [\"12:24\", \"Release notes drafted\"],\n  [\"14:10\", \"Version 2.4 published\"],\n]\n\nexport default function ProgressiveBlurDemo() {\n  return (\n    <div className=\"bg-background relative h-72 w-full max-w-md overflow-hidden rounded-lg border\">\n      <div className=\"border-b px-5 py-4\">\n        <p className=\"font-medium\">Recent activity</p>\n        <p className=\"text-muted-foreground text-sm\">Monday, July 27</p>\n      </div>\n      <div className=\"divide-y px-5\">\n        {activity.map(([time, label]) => (\n          <div key={time} className=\"flex items-center gap-4 py-4 text-sm\">\n            <span className=\"text-muted-foreground w-10 shrink-0 font-mono text-xs\">\n              {time}\n            </span>\n            <span>{label}</span>\n          </div>\n        ))}\n      </div>\n      <ProgressiveBlur\n        direction=\"bottom\"\n        blurLayers={8}\n        blurIntensity={0.65}\n        className=\"absolute inset-x-0 bottom-0 h-28\"\n      />\n      <div className=\"text-muted-foreground pointer-events-none absolute inset-x-0 bottom-4 z-10 text-center text-xs font-medium\">\n        Scroll for earlier activity\n      </div>\n    </div>\n  )\n}\n"
+  },
+  "watermark-demo": {
+    "name": "watermark-demo",
+    "component": "watermark",
+    "title": "基础示例",
+    "code": "import { Watermark } from \"@/components/ui/watermark\"\n\nexport default function WatermarkDemo() {\n  return (\n    <Watermark content=\"WUI\" className=\"w-full max-w-xl\">\n      <div className=\"bg-card text-card-foreground rounded-lg border p-8 shadow-sm\">\n        <h3 className=\"text-lg font-semibold\">Quarterly report</h3>\n        <p className=\"text-muted-foreground mt-2 text-sm leading-6\">\n          Watermarks identify ownership without blocking selection, clicks, or\n          other interactions with the protected content.\n        </p>\n        <div className=\"mt-6 grid grid-cols-3 gap-3 text-center\">\n          {[\n            [\"Revenue\", \"$128K\"],\n            [\"Growth\", \"+18%\"],\n            [\"Customers\", \"2,406\"],\n          ].map(([label, value]) => (\n            <div key={label} className=\"bg-muted rounded-md p-3\">\n              <div className=\"text-muted-foreground text-xs\">{label}</div>\n              <div className=\"mt-1 font-semibold\">{value}</div>\n            </div>\n          ))}\n        </div>\n      </div>\n    </Watermark>\n  )\n}\n"
+  },
+  "watermark-custom": {
+    "name": "watermark-custom",
+    "component": "watermark",
+    "title": "多行文字与自定义间距",
+    "code": "import { Watermark } from \"@/components/ui/watermark\"\n\nexport default function WatermarkCustom() {\n  return (\n    <Watermark\n      content={[\"CONFIDENTIAL\", \"acme@example.com\"]}\n      rotate={-16}\n      gap={[48, 56]}\n      width={190}\n      height={72}\n      opacity={0.2}\n      font={{ fontSize: 13, fontWeight: 600 }}\n      className=\"w-full max-w-xl\"\n    >\n      <div className=\"bg-card text-card-foreground rounded-lg border p-8 shadow-sm\">\n        <h3 className=\"font-semibold\">Internal project brief</h3>\n        <p className=\"text-muted-foreground mt-3 text-sm leading-6\">\n          Use multiple lines to combine a document status with a viewer name,\n          email address, or other traceable identifier.\n        </p>\n      </div>\n    </Watermark>\n  )\n}\n"
+  },
+  "confirm-dialog-demo": {
+    "name": "confirm-dialog-demo",
+    "component": "confirm-dialog",
+    "title": "基础示例",
+    "code": "import { Button } from \"@/components/ui/button\"\nimport { ConfirmDialog } from \"@/components/confirm-dialog\"\n\nexport default function ConfirmDialogDemo() {\n  return (\n    <ConfirmDialog\n      trigger={<Button variant=\"destructive\">Delete account</Button>}\n      title=\"Delete account?\"\n      description=\"This will permanently delete your account and all of its data.\"\n      confirmLabel=\"Delete\"\n      variant=\"destructive\"\n      onConfirm={() => window.alert(\"Account deleted\")}\n    />\n  )\n}\n"
+  },
+  "motion-demo": {
+    "name": "motion-demo",
+    "component": "motion",
+    "title": "基础示例",
+    "code": "import { Motion } from \"@/components/ui/motion\"\n\nexport default function MotionDemo() {\n  return (\n    <Motion\n      preset=\"slide-up\"\n      className=\"rounded-lg border bg-card px-6 py-4 text-sm text-card-foreground shadow-sm\"\n    >\n      I slide up and fade in when I mount.\n    </Motion>\n  )\n}\n"
+  },
+  "motion-presets": {
+    "name": "motion-presets",
+    "component": "motion",
+    "title": "动画预设",
+    "code": "import { Motion, type MotionPreset } from \"@/components/ui/motion\"\n\nconst presets: MotionPreset[] = [\"fade\", \"scale\", \"slide-up\", \"pop\", \"blur\"]\n\nexport default function MotionPresets() {\n  return (\n    <div className=\"flex flex-wrap gap-3\">\n      {presets.map((preset, i) => (\n        <Motion\n          key={preset}\n          preset={preset}\n          delay={i * 0.08}\n          transition=\"spring\"\n          className=\"rounded-md border bg-muted px-4 py-3 text-sm font-medium\"\n        >\n          {preset}\n        </Motion>\n      ))}\n    </div>\n  )\n}\n"
+  },
+  "motion-in-view": {
+    "name": "motion-in-view",
+    "component": "motion",
+    "title": "滚动进入视口时播放（`inView`）",
+    "code": "import { Motion } from \"@/components/ui/motion\"\n\nexport default function MotionInView() {\n  return (\n    <div className=\"w-full space-y-3\">\n      {[\"First\", \"Second\", \"Third\"].map((label, i) => (\n        <Motion\n          key={label}\n          inView\n          preset=\"slide-up\"\n          delay={i * 0.1}\n          className=\"rounded-md border bg-card px-4 py-3 text-sm text-card-foreground shadow-sm\"\n        >\n          {label} — animates when scrolled into view\n        </Motion>\n      ))}\n    </div>\n  )\n}\n"
+  },
+  "motion-as-child": {
+    "name": "motion-as-child",
+    "component": "motion",
+    "title": "为现有组件添加动画（`asChild`）",
+    "code": "import { Button } from \"@/components/ui/button\"\nimport { Motion } from \"@/components/ui/motion\"\n\nexport default function MotionAsChild() {\n  return (\n    <Motion asChild preset=\"pop\" transition=\"spring\">\n      <Button>Popped in with asChild</Button>\n    </Motion>\n  )\n}\n"
+  },
+  "icon-demo": {
+    "name": "icon-demo",
+    "component": "icon",
+    "title": "基础示例",
+    "code": "import {\n  BellIcon,\n  CheckIcon,\n  SearchIcon,\n  SettingsIcon,\n  UserIcon,\n} from \"lucide-react\"\n\nimport { Icon } from \"@/components/ui/icon\"\n\nconst examples = [SearchIcon, UserIcon, BellIcon, SettingsIcon, CheckIcon]\n\nexport default function IconDemo() {\n  return (\n    <div className=\"text-foreground flex items-center gap-5\">\n      {examples.map((icon, index) => (\n        <Icon\n          key={index}\n          icon={icon}\n          size={index === 4 ? 28 : \"lg\"}\n          strokeWidth={1.8}\n        />\n      ))}\n    </div>\n  )\n}\n"
+  },
+  "animated-icon-demo": {
+    "name": "animated-icon-demo",
+    "component": "animated-icon",
+    "title": "基础示例",
+    "code": "import {\n  BellRingIcon,\n  CopyIcon,\n  HeartIcon,\n  MenuIcon,\n  SettingsIcon,\n} from \"@animateicons/react/lucide\"\n\nimport {\n  AnimatedIcon,\n  type AnimatedIconGlyph,\n} from \"@/components/ui/animated-icon\"\n\nconst examples: Array<{ icon: AnimatedIconGlyph; label: string }> = [\n  { icon: BellRingIcon, label: \"通知\" },\n  { icon: CopyIcon, label: \"复制\" },\n  { icon: HeartIcon, label: \"收藏\" },\n  { icon: MenuIcon, label: \"菜单\" },\n  { icon: SettingsIcon, label: \"设置\" },\n]\n\nexport default function AnimatedIconDemo() {\n  return (\n    <div className=\"flex flex-wrap items-start gap-3\">\n      {examples.map(({ icon, label }) => (\n        <div key={label} className=\"flex flex-col items-center gap-2\">\n          <AnimatedIcon\n            icon={icon}\n            label={label}\n            size={24}\n            className=\"bg-background hover:bg-muted focus-visible:ring-ring/40 flex size-12 items-center justify-center rounded-md border outline-none transition-colors focus-visible:ring-[3px]\"\n            tabIndex={0}\n          />\n          <span className=\"text-muted-foreground text-xs\">{label}</span>\n        </div>\n      ))}\n    </div>\n  )\n}\n"
+  },
+  "shiny-button-demo": {
+    "name": "shiny-button-demo",
+    "component": "shiny-button",
+    "title": "基础示例",
+    "code": "import { SparklesIcon } from \"lucide-react\"\n\nimport { ShinyButton } from \"@/components/ui/shiny-button\"\n\nexport default function ShinyButtonDemo() {\n  return (\n    <div className=\"flex flex-wrap items-center gap-3\">\n      <ShinyButton>\n        <SparklesIcon />\n        Get started\n      </ShinyButton>\n      <ShinyButton speed={2} gap={0.4}>\n        Faster sweep\n      </ShinyButton>\n    </div>\n  )\n}\n"
+  },
+  "switch-demo": {
+    "name": "switch-demo",
+    "component": "switch",
+    "title": "基础示例",
+    "code": "\"use client\"\n\nimport * as React from \"react\"\nimport { BellIcon, MoonIcon } from \"lucide-react\"\n\nimport { Switch } from \"@/components/ui/switch\"\n\nexport default function SwitchDemo() {\n  const [notifications, setNotifications] = React.useState(true)\n  const [darkMode, setDarkMode] = React.useState(false)\n\n  return (\n    <div className=\"w-full max-w-sm divide-y border-y\">\n      <Setting icon={<BellIcon />} title=\"Notifications\" description=\"Important updates and mentions\">\n        <Switch checked={notifications} onCheckedChange={setNotifications} aria-label=\"Toggle notifications\" />\n      </Setting>\n      <Setting icon={<MoonIcon />} title=\"Dark appearance\" description=\"Follow your evening focus\">\n        <Switch checked={darkMode} onCheckedChange={setDarkMode} aria-label=\"Toggle dark appearance\" />\n      </Setting>\n    </div>\n  )\n}\n\nfunction Setting({ icon, title, description, children }: { icon: React.ReactNode; title: string; description: string; children: React.ReactNode }) {\n  return (\n    <div className=\"flex items-center gap-3 px-1 py-3.5 transition-colors hover:bg-accent/40\">\n      <span className=\"flex size-8 items-center justify-center rounded-md bg-muted text-foreground [&_svg]:size-4\">{icon}</span>\n      <span className=\"min-w-0 flex-1\">\n        <span className=\"block text-sm font-medium\">{title}</span>\n        <span className=\"block truncate text-xs text-muted-foreground\">{description}</span>\n      </span>\n      {children}\n    </div>\n  )\n}\n"
+  },
+  "switch-sizes": {
+    "name": "switch-sizes",
+    "component": "switch",
+    "title": "尺寸",
+    "code": "import { Switch } from \"@/components/ui/switch\"\n\nexport default function SwitchSizes() {\n  return (\n    <div className=\"flex items-center gap-5\">\n      <Switch size=\"sm\" defaultChecked aria-label=\"Small switch\" />\n      <Switch defaultChecked aria-label=\"Default switch\" />\n      <Switch size=\"lg\" defaultChecked aria-label=\"Large switch\" />\n    </div>\n  )\n}\n"
+  },
+  "progress-demo": {
+    "name": "progress-demo",
+    "component": "progress",
+    "title": "基础示例",
+    "code": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { Progress } from \"@/components/ui/progress\"\n\nexport default function ProgressDemo() {\n  const [value, setValue] = React.useState(68)\n\n  React.useEffect(() => {\n    const timer = window.setInterval(() => {\n      setValue((current) => (current >= 100 ? 12 : current + 4))\n    }, 900)\n    return () => window.clearInterval(timer)\n  }, [])\n\n  return (\n    <div className=\"w-full max-w-sm space-y-2.5\">\n      <div className=\"flex items-baseline justify-between\">\n        <span className=\"text-sm font-medium\">Downloading update</span>\n        <span className=\"text-xs tabular-nums text-muted-foreground\">{value}%</span>\n      </div>\n      <Progress value={value} aria-label=\"Downloading update\" />\n      <p className=\"text-xs text-muted-foreground\">About one minute remaining</p>\n    </div>\n  )\n}\n"
+  },
+  "progress-variants": {
+    "name": "progress-variants",
+    "component": "progress",
+    "title": "颜色与环形进度",
+    "code": "import { Progress } from \"@/components/ui/progress\"\n\nexport default function ProgressVariants() {\n  return (\n    <div className=\"flex w-full max-w-md flex-col gap-8\">\n      <div className=\"grid grid-cols-[auto_1fr] items-center gap-x-4 gap-y-3\">\n        <span className=\"text-xs text-muted-foreground\">Storage</span>\n        <Progress value={76} color=\"blue\" />\n        <span className=\"text-xs text-muted-foreground\">Backup</span>\n        <Progress value={58} color=\"success\" />\n        <span className=\"text-xs text-muted-foreground\">Battery</span>\n        <Progress value={34} color=\"warning\" />\n      </div>\n\n      <div className=\"flex items-center justify-center gap-6\">\n        <Progress variant=\"circular\" size=\"sm\" value={24} color=\"blue\" aria-label=\"24 percent\" />\n        <Progress variant=\"circular\" value={68} color=\"success\" showValue aria-label=\"68 percent\" />\n        <Progress variant=\"circular\" size=\"lg\" value={86} color=\"warning\" showValue aria-label=\"86 percent\" />\n        <Progress variant=\"circular\" size=\"lg\" value={null} color=\"blue\" aria-label=\"Working\" />\n      </div>\n    </div>\n  )\n}\n"
+  },
+  "slider-demo": {
+    "name": "slider-demo",
+    "component": "slider",
+    "title": "基础示例",
+    "code": "\"use client\"\n\nimport * as React from \"react\"\nimport { Volume2Icon } from \"lucide-react\"\n\nimport { Slider } from \"@/components/ui/slider\"\n\nexport default function SliderDemo() {\n  const [volume, setVolume] = React.useState([62])\n\n  return (\n    <div className=\"w-full max-w-sm space-y-2\">\n      <div className=\"flex items-center justify-between text-sm\">\n        <span className=\"flex items-center gap-2 font-medium\">\n          <Volume2Icon className=\"size-4\" />\n          Output volume\n        </span>\n        <span className=\"tabular-nums text-muted-foreground\">{volume[0]}%</span>\n      </div>\n      <Slider\n        value={volume}\n        onValueChange={setVolume}\n        formatValue={(value) => `${value}%`}\n        aria-label=\"Output volume\"\n      />\n      <p className=\"text-xs text-muted-foreground\">Hover the track, then drag or use the arrow keys.</p>\n    </div>\n  )\n}\n"
+  },
+  "slider-expand": {
+    "name": "slider-expand",
+    "component": "slider",
+    "title": "满尺寸展开",
+    "code": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { Slider } from \"@/components/ui/slider\"\n\nexport default function SliderExpand() {\n  const [value, setValue] = React.useState([72])\n\n  return (\n    <div className=\"w-full max-w-sm space-y-2\">\n      <div className=\"flex items-center justify-between text-sm\">\n        <span className=\"font-medium\">Timeline</span>\n        <span className=\"tabular-nums text-muted-foreground\">{value[0]}%</span>\n      </div>\n      <Slider\n        variant=\"expand\"\n        value={value}\n        onValueChange={setValue}\n        formatValue={(current) => `${current}%`}\n        aria-label=\"Timeline position\"\n      />\n      <p className=\"text-xs text-muted-foreground\">Hover or focus to expand the track to the thumb height.</p>\n    </div>\n  )\n}\n"
+  },
+  "color-picker-demo": {
+    "name": "color-picker-demo",
+    "component": "color-picker",
+    "title": "基础示例",
+    "code": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { ColorPicker } from \"@/components/ui/color-picker\"\n\nexport default function ColorPickerDemo() {\n  const [value, setValue] = React.useState(\"oklch(0.546 0.245 262.881)\")\n\n  return (\n    <div className=\"flex items-center gap-3\">\n      <ColorPicker value={value} onValueChange={setValue} />\n      <code className=\"text-xs text-muted-foreground\">{value}</code>\n    </div>\n  )\n}\n"
+  },
+  "radio-group-demo": {
+    "name": "radio-group-demo",
+    "component": "radio-group",
+    "title": "基础示例",
+    "code": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { RadioGroup, RadioGroupItem } from \"@/components/ui/radio-group\"\n\nexport default function RadioGroupDemo() {\n  const [value, setValue] = React.useState(\"automatic\")\n  const options = [\n    [\"automatic\", \"Automatic\", \"Adjust to the system appearance\"],\n    [\"light\", \"Light\", \"Always use the light appearance\"],\n    [\"dark\", \"Dark\", \"Always use the dark appearance\"],\n  ]\n\n  return (\n    <RadioGroup value={value} onValueChange={setValue} className=\"w-full max-w-sm divide-y border-y\">\n      {options.map(([optionValue, label, description]) => (\n        <label key={optionValue} className=\"flex cursor-pointer items-center gap-3 py-3.5\">\n          <RadioGroupItem value={optionValue} />\n          <span className=\"min-w-0\">\n            <span className=\"block text-sm font-medium\">{label}</span>\n            <span className=\"block text-xs text-muted-foreground\">{description}</span>\n          </span>\n        </label>\n      ))}\n    </RadioGroup>\n  )\n}\n"
+  },
+  "checkbox-demo": {
+    "name": "checkbox-demo",
+    "component": "checkbox",
+    "title": "基础示例",
+    "code": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { Checkbox } from \"@/components/ui/checkbox\"\n\nexport default function CheckboxDemo() {\n  const [selected, setSelected] = React.useState([\"icloud\", \"handoff\"])\n  const options = [\n    [\"icloud\", \"Sync settings with iCloud\"],\n    [\"handoff\", \"Allow Handoff between devices\"],\n    [\"analytics\", \"Share device analytics\"],\n  ]\n\n  return (\n    <div className=\"w-full max-w-sm divide-y border-y\">\n      {options.map(([value, label]) => {\n        const checked = selected.includes(value)\n        return (\n          <label key={value} className=\"flex cursor-pointer items-center gap-3 py-3.5 text-sm\">\n            <Checkbox\n              checked={checked}\n              onCheckedChange={(next) =>\n                setSelected((current) =>\n                  next ? [...current, value] : current.filter((item) => item !== value)\n                )\n              }\n            />\n            <span>{label}</span>\n          </label>\n        )\n      })}\n    </div>\n  )\n}\n"
+  },
+  "select-demo": {
+    "name": "select-demo",
+    "component": "select",
+    "title": "基础示例",
+    "code": "\"use client\"\n\nimport * as React from \"react\"\nimport { Globe2Icon } from \"lucide-react\"\n\nimport { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from \"@/components/ui/select\"\n\nexport default function SelectDemo() {\n  const [value, setValue] = React.useState(\"shanghai\")\n\n  return (\n    <div className=\"grid w-full max-w-md gap-3\">\n      <div className=\"flex items-center gap-2\">\n        <Globe2Icon className=\"size-4 text-muted-foreground\" />\n        <div><p className=\"text-sm font-semibold\">Workspace region</p><p className=\"text-xs text-muted-foreground\">Choose the nearest data center</p></div>\n      </div>\n      <Select value={value} onValueChange={setValue}>\n        <SelectTrigger className=\"w-full\" aria-label=\"Workspace region\"><SelectValue placeholder=\"Select region\" /></SelectTrigger>\n        <SelectContent>\n          <SelectGroup>\n            <SelectLabel>Asia Pacific</SelectLabel>\n            <SelectItem value=\"shanghai\">Shanghai</SelectItem>\n            <SelectItem value=\"singapore\">Singapore</SelectItem>\n            <SelectItem value=\"tokyo\">Tokyo</SelectItem>\n          </SelectGroup>\n        </SelectContent>\n      </Select>\n    </div>\n  )\n}\n"
+  },
+  "select-groups": {
+    "name": "select-groups",
+    "component": "select",
+    "title": "分组与分隔线",
+    "code": "import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectSeparator, SelectTrigger, SelectValue } from \"@/components/ui/select\"\n\nexport default function SelectGroups() {\n  return (\n    <Select defaultValue=\"design\">\n      <SelectTrigger><SelectValue placeholder=\"Choose a team\" /></SelectTrigger>\n      <SelectContent>\n        <SelectGroup><SelectLabel>Creative</SelectLabel><SelectItem value=\"design\">Design</SelectItem><SelectItem value=\"brand\">Brand</SelectItem></SelectGroup>\n        <SelectSeparator />\n        <SelectGroup><SelectLabel>Engineering</SelectLabel><SelectItem value=\"web\">Web</SelectItem><SelectItem value=\"platform\">Platform</SelectItem></SelectGroup>\n      </SelectContent>\n    </Select>\n  )\n}\n"
+  },
+  "tabs-demo": {
+    "name": "tabs-demo",
+    "component": "tabs",
+    "title": "基础示例",
+    "code": "\"use client\"\n\nimport { ActivityIcon, Layers3Icon, SlidersHorizontalIcon } from \"lucide-react\"\n\nimport { Tabs, TabsContent, TabsList, TabsTrigger } from \"@/components/ui/tabs\"\n\nexport default function TabsDemo() {\n  return (\n    <Tabs defaultValue=\"overview\" className=\"w-full max-w-lg\">\n      <TabsList>\n        <TabsTrigger value=\"overview\"><Layers3Icon />Overview</TabsTrigger>\n        <TabsTrigger value=\"activity\"><ActivityIcon />Activity</TabsTrigger>\n        <TabsTrigger value=\"settings\"><SlidersHorizontalIcon />Settings</TabsTrigger>\n      </TabsList>\n      <TabsContent value=\"overview\"><Panel value=\"68%\" label=\"Weekly completion\" detail=\"12% higher than last week\" /></TabsContent>\n      <TabsContent value=\"activity\"><Panel value=\"1,284\" label=\"Events processed\" detail=\"Across 18 active workflows\" /></TabsContent>\n      <TabsContent value=\"settings\"><Panel value=\"3\" label=\"Active automations\" detail=\"All systems are healthy\" /></TabsContent>\n    </Tabs>\n  )\n}\n\nfunction Panel({ value, label, detail }: { value: string; label: string; detail: string }) {\n  return (\n    <div className=\"border-t px-1 py-5\">\n      <p className=\"text-4xl font-semibold tracking-[-0.05em]\">{value}</p>\n      <p className=\"mt-2 text-sm font-medium\">{label}</p>\n      <p className=\"mt-1 text-xs text-muted-foreground\">{detail}</p>\n    </div>\n  )\n}\n"
+  },
+  "tabs-underline": {
+    "name": "tabs-underline",
+    "component": "tabs",
+    "title": "下划线样式",
+    "code": "import { Tabs, TabsContent, TabsList, TabsTrigger } from \"@/components/ui/tabs\"\n\nexport default function TabsUnderline() {\n  return (\n    <Tabs defaultValue=\"details\" className=\"w-full max-w-md\">\n      <TabsList variant=\"underline\"><TabsTrigger value=\"details\">Details</TabsTrigger><TabsTrigger value=\"history\">History</TabsTrigger><TabsTrigger value=\"access\">Access</TabsTrigger></TabsList>\n      <TabsContent value=\"details\" className=\"text-sm text-muted-foreground\">Project details appear here.</TabsContent>\n      <TabsContent value=\"history\" className=\"text-sm text-muted-foreground\">Recent changes appear here.</TabsContent>\n      <TabsContent value=\"access\" className=\"text-sm text-muted-foreground\">Member permissions appear here.</TabsContent>\n    </Tabs>\n  )\n}\n"
+  },
+  "input-demo": {
+    "name": "input-demo",
+    "component": "input",
+    "title": "基础示例",
+    "code": "\"use client\"\n\nimport * as React from \"react\"\nimport { SearchIcon, XIcon } from \"lucide-react\"\n\nimport { Input } from \"@/components/ui/input\"\nimport { Kbd, KbdGroup } from \"@/components/ui/kbd\"\n\nexport default function InputDemo() {\n  const [value, setValue] = React.useState(\"\")\n\n  return (\n    <div className=\"w-full max-w-sm\">\n      <label\n        htmlFor=\"spotlight-search\"\n        className=\"mb-2 block text-[13px] font-medium text-foreground/80\"\n      >\n        Quick search\n      </label>\n      <Input\n        id=\"spotlight-search\"\n        value={value}\n        onChange={(event) => setValue(event.target.value)}\n        placeholder=\"Search projects, people, or files\"\n        visualSize=\"lg\"\n        wrapperClassName=\"h-11 rounded-xl border-border/60 bg-muted/45 shadow-none hover:bg-muted/60 focus-within:border-foreground/20 focus-within:bg-background focus-within:ring-[3px] focus-within:ring-foreground/8\"\n        className=\"text-[15px] placeholder:text-muted-foreground/65\"\n        startContent={<SearchIcon strokeWidth={1.75} />}\n        endContent={\n          value ? (\n            <button\n              type=\"button\"\n              className=\"rounded-full bg-muted-foreground/15 p-1 text-muted-foreground transition-colors hover:bg-muted-foreground/25 hover:text-foreground\"\n              onClick={() => setValue(\"\")}\n              aria-label=\"Clear search\"\n            >\n              <XIcon strokeWidth={2.25} />\n            </button>\n          ) : (\n            <KbdGroup aria-label=\"Shortcut: Command K\">\n              <Kbd\n                size=\"sm\"\n                className=\"min-h-6 min-w-0 rounded-md border-foreground/10 bg-background/80 px-1.5 font-mono text-[11px] font-normal tracking-tight text-muted-foreground shadow-[0_1px_0_0_color-mix(in_oklab,var(--foreground)_12%,transparent)]\"\n              >\n                ⌘ K\n              </Kbd>\n            </KbdGroup>\n          )\n        }\n      />\n      <p className=\"mt-2.5 text-xs text-muted-foreground/80\">\n        Results update instantly as you type.\n      </p>\n    </div>\n  )\n}\n"
+  },
+  "input-states": {
+    "name": "input-states",
+    "component": "input",
+    "title": "图标、错误与禁用态",
+    "code": "import { AlertCircleIcon, MailIcon } from \"lucide-react\"\n\nimport { Input } from \"@/components/ui/input\"\n\nexport default function InputStates() {\n  return (\n    <div className=\"grid w-full max-w-sm gap-3\">\n      <Input type=\"email\" placeholder=\"name@example.com\" startContent={<MailIcon />} />\n      <Input defaultValue=\"Not a valid address\" aria-invalid=\"true\" endContent={<AlertCircleIcon className=\"text-destructive\" />} />\n      <Input placeholder=\"Disabled\" disabled />\n    </div>\n  )\n}\n"
+  },
+  "input-floating-label": {
+    "name": "input-floating-label",
+    "component": "input",
+    "title": "浮动标签",
+    "code": "import { AtSignIcon, UserIcon } from \"lucide-react\"\n\nimport { Input } from \"@/components/ui/input\"\n\nexport default function InputFloatingLabel() {\n  return (\n    <div className=\"grid w-full max-w-sm gap-3\">\n      <Input label=\"Full name\" startContent={<UserIcon />} />\n      <Input label=\"Email address\" type=\"email\" startContent={<AtSignIcon />} />\n    </div>\n  )\n}\n"
+  },
+  "input-underline": {
+    "name": "input-underline",
+    "component": "input",
+    "title": "下划线样式",
+    "code": "import { Input } from \"@/components/ui/input\"\n\nexport default function InputUnderline() {\n  return (\n    <div className=\"grid w-full max-w-sm gap-5\">\n      <Input variant=\"underline\" placeholder=\"Project name\" />\n      <Input variant=\"underline\" label=\"Workspace URL\" />\n    </div>\n  )\n}\n"
+  },
+  "download-demo": {
+    "name": "download-demo",
+    "component": "download",
+    "title": "基础示例",
+    "code": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { Download, type DownloadStatus } from \"@/components/ui/download\"\n\nexport default function DownloadDemo() {\n  const [status, setStatus] = React.useState<DownloadStatus>(\"idle\")\n  const [progress, setProgress] = React.useState(0)\n  const timer = React.useRef<ReturnType<typeof setInterval> | null>(null)\n\n  React.useEffect(() => () => {\n    if (timer.current) clearInterval(timer.current)\n  }, [])\n\n  function beginDownload() {\n    if (timer.current) clearInterval(timer.current)\n    setProgress(8)\n    setStatus(\"downloading\")\n    timer.current = setInterval(() => {\n      setProgress((current) => {\n        const next = Math.min(100, current + 8)\n        if (next === 100) {\n          if (timer.current) clearInterval(timer.current)\n          setStatus(\"complete\")\n        }\n        return next\n      })\n    }, 140)\n  }\n\n  return (\n    <div className=\"w-full max-w-md\">\n      <Download filename=\"Aurora Brand Kit.zip\" meta={status === \"idle\" ? \"ZIP · 48.2 MB\" : undefined} status={status} progress={progress} onDownload={beginDownload} />\n    </div>\n  )\n}\n"
+  },
+  "download-states": {
+    "name": "download-states",
+    "component": "download",
+    "title": "紧凑尺寸与状态",
+    "code": "import { Download } from \"@/components/ui/download\"\nimport { LockKeyholeIcon } from \"lucide-react\"\n\nexport default function DownloadStates() {\n  return (\n    <div className=\"grid w-full max-w-md gap-3\">\n      <Download size=\"compact\" filename=\"Press photos.zip\" meta=\"ZIP · 18 MB\" />\n      <Download size=\"compact\" filename=\"Product walkthrough.mp4\" status=\"downloading\" progress={64} />\n      <Download size=\"compact\" filename=\"Q3 report.pdf\" status=\"complete\" />\n      <Download size=\"compact\" filename=\"Private.key\" fileIcon={<LockKeyholeIcon className=\"size-4\" />} />\n    </div>\n  )\n}\n"
+  },
+  "upload-demo": {
+    "name": "upload-demo",
+    "component": "upload",
+    "title": "基础示例",
+    "code": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { Download } from \"@/components/ui/download\"\nimport { Upload } from \"@/components/ui/upload\"\n\ntype UploadedFile = {\n  file: File\n  url: string\n}\n\nfunction formatBytes(bytes: number) {\n  if (bytes < 1024) return `${bytes} B`\n  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`\n  return `${(bytes / 1024 / 1024).toFixed(1)} MB`\n}\n\nexport default function UploadDemo() {\n  const [files, setFiles] = React.useState<UploadedFile[]>([])\n\n  React.useEffect(\n    () => () => files.forEach(({ url }) => URL.revokeObjectURL(url)),\n    [files]\n  )\n\n  async function uploadFiles(selectedFiles: File[]) {\n    await new Promise((resolve) => setTimeout(resolve, 800))\n    setFiles((current) => {\n      current.forEach(({ url }) => URL.revokeObjectURL(url))\n      return selectedFiles.map((file) => ({ file, url: URL.createObjectURL(file) }))\n    })\n  }\n\n  return (\n    <div className=\"grid w-full max-w-lg gap-3\">\n      <Upload\n        accept=\"image/*,.pdf,.zip\"\n        description=\"PNG, JPG, PDF or ZIP\"\n        multiple\n        onUpload={uploadFiles}\n      />\n\n      {files.length > 0 ? (\n        <div className=\"grid gap-2\" aria-label=\"Uploaded files\">\n          {files.map(({ file, url }) => (\n            <Download\n              key={`${file.name}-${file.lastModified}`}\n              size=\"compact\"\n              filename={file.name}\n              meta={formatBytes(file.size)}\n              href={url}\n            />\n          ))}\n        </div>\n      ) : null}\n    </div>\n  )\n}\n"
+  },
+  "upload-states": {
+    "name": "upload-states",
+    "component": "upload",
+    "title": "尺寸与状态",
+    "code": "import { Upload } from \"@/components/ui/upload\"\n\nexport default function UploadStates() {\n  return (\n    <div className=\"grid w-full max-w-lg gap-3 sm:grid-cols-2\">\n      <Upload size=\"compact\" label=\"Upload a document\" description=\"PDF or DOCX\" accept=\".pdf,.docx\" />\n      <Upload size=\"compact\" label=\"Uploading assets\" status=\"uploading\" progress={68} multiple />\n      <Upload size=\"compact\" label=\"Assets received\" status=\"complete\" />\n      <Upload size=\"compact\" label=\"Upload assets\" status=\"error\" />\n    </div>\n  )\n}\n"
+  },
+  "kbd-demo": {
+    "name": "kbd-demo",
+    "component": "kbd",
+    "title": "基础示例",
+    "code": "import type { ReactNode } from \"react\"\n\nimport { Kbd, KbdGroup } from \"@/components/ui/kbd\"\n\nexport default function KbdDemo() {\n  return (\n    <div className=\"w-full max-w-sm divide-y border-y text-sm\">\n      <Shortcut label=\"Open search\">\n        <Kbd>Ctrl</Kbd>\n        <Kbd>K</Kbd>\n      </Shortcut>\n      <Shortcut label=\"Save changes\">\n        <Kbd>Ctrl</Kbd>\n        <Kbd>S</Kbd>\n      </Shortcut>\n      <Shortcut label=\"Close panel\">\n        <Kbd>Esc</Kbd>\n      </Shortcut>\n    </div>\n  )\n}\n\nfunction Shortcut({\n  label,\n  children,\n}: {\n  label: string\n  children: ReactNode\n}) {\n  return (\n    <div className=\"flex items-center justify-between py-3\">\n      <span>{label}</span>\n      <KbdGroup>{children}</KbdGroup>\n    </div>\n  )\n}\n"
+  },
+  "tooltip-demo": {
+    "name": "tooltip-demo",
+    "component": "tooltip",
+    "title": "基础示例",
+    "code": "import { BellIcon, SearchIcon, SettingsIcon } from \"lucide-react\"\n\nimport {\n  Tooltip,\n  TooltipContent,\n  TooltipProvider,\n  TooltipTrigger,\n} from \"@/components/ui/tooltip\"\n\nconst actions = [\n  { label: \"Search\", shortcut: \"Ctrl K\", icon: SearchIcon },\n  { label: \"Notifications\", shortcut: \"N\", icon: BellIcon },\n  { label: \"Settings\", shortcut: \"S\", icon: SettingsIcon },\n]\n\nexport default function TooltipDemo() {\n  return (\n    <TooltipProvider>\n      <div className=\"flex items-center gap-1 border-y px-1 py-2\">\n        {actions.map(({ label, shortcut, icon: Icon }) => (\n          <Tooltip key={label}>\n            <TooltipTrigger asChild>\n              <button\n                type=\"button\"\n                aria-label={label}\n                className=\"inline-flex size-9 items-center justify-center rounded-md text-muted-foreground outline-none transition-colors hover:bg-accent hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/35\"\n              >\n                <Icon className=\"size-4\" />\n              </button>\n            </TooltipTrigger>\n            <TooltipContent>\n              <span>{label}</span>\n              <span className=\"ml-2 text-background/60\">{shortcut}</span>\n            </TooltipContent>\n          </Tooltip>\n        ))}\n      </div>\n    </TooltipProvider>\n  )\n}\n"
+  },
+  "tooltip-placement": {
+    "name": "tooltip-placement",
+    "component": "tooltip",
+    "title": "定位、尺寸与箭头",
+    "code": "import {\n  Tooltip,\n  TooltipContent,\n  TooltipProvider,\n  TooltipTrigger,\n} from \"@/components/ui/tooltip\"\n\nconst placements = [\"top\", \"right\", \"bottom\", \"left\"] as const\n\nexport default function TooltipPlacement() {\n  return (\n    <TooltipProvider delayDuration={100}>\n      <div className=\"grid grid-cols-2 gap-3\">\n        {placements.map((side) => (\n          <Tooltip key={side}>\n            <TooltipTrigger asChild>\n              <button\n                type=\"button\"\n                className=\"border px-4 py-2 text-sm capitalize outline-none transition-colors hover:bg-accent focus-visible:ring-[3px] focus-visible:ring-ring/35\"\n              >\n                {side}\n              </button>\n            </TooltipTrigger>\n            <TooltipContent side={side} size=\"sm\" showArrow={side !== \"bottom\"}>\n              Opens on the {side}\n            </TooltipContent>\n          </Tooltip>\n        ))}\n      </div>\n    </TooltipProvider>\n  )\n}\n"
+  },
+  "image-preview-demo": {
+    "name": "image-preview-demo",
+    "component": "image-preview",
+    "title": "基础示例",
+    "code": "import { ImagePreview } from \"@/components/ui/image-preview\"\n\nexport default function ImagePreviewDemo() {\n  return (\n    <ImagePreview\n      src=\"/images/image-preview-landscape.svg\"\n      alt=\"A quiet mountain lake at dusk\"\n      caption=\"North Cascades · Evening study\"\n      downloadName=\"north-cascades.svg\"\n      className=\"aspect-[4/3] w-full max-w-md\"\n      thumbnailClassName=\"border\"\n    />\n  )\n}\n"
+  },
+  "image-preview-minimal": {
+    "name": "image-preview-minimal",
+    "component": "image-preview",
+    "title": "简洁预览",
+    "code": "import { ImagePreview } from \"@/components/ui/image-preview\"\n\nexport default function ImagePreviewMinimal() {\n  return (\n    <ImagePreview\n      src=\"/images/image-preview-landscape.svg\"\n      alt=\"A quiet mountain lake at dusk\"\n      showToolbar={false}\n      className=\"aspect-video w-64\"\n    />\n  )\n}\n"
+  },
+  "skeleton-demo": {
+    "name": "skeleton-demo",
+    "component": "skeleton",
+    "title": "基础示例",
+    "code": "import { Skeleton, SkeletonText } from \"@/components/ui/skeleton\"\n\nexport default function SkeletonDemo() {\n  return (\n    <div\n      className=\"flex w-full max-w-md items-start gap-4 border-y py-4\"\n      aria-busy=\"true\"\n      aria-label=\"Loading profile\"\n    >\n      <Skeleton shape=\"circle\" className=\"size-12\" />\n      <div className=\"min-w-0 flex-1 space-y-3\">\n        <div className=\"space-y-2\">\n          <Skeleton shape=\"text\" className=\"w-32\" />\n          <Skeleton shape=\"text\" className=\"h-3 w-20\" />\n        </div>\n        <SkeletonText lines={2} lastLineWidth=\"82%\" />\n      </div>\n    </div>\n  )\n}\n"
+  },
+  "skeleton-layout": {
+    "name": "skeleton-layout",
+    "component": "skeleton",
+    "title": "内容布局",
+    "code": "import { Skeleton, SkeletonText } from \"@/components/ui/skeleton\"\n\nexport default function SkeletonLayout() {\n  return (\n    <div\n      className=\"grid w-full max-w-lg gap-4 sm:grid-cols-[11rem_1fr]\"\n      aria-busy=\"true\"\n      aria-label=\"Loading article\"\n    >\n      <Skeleton className=\"aspect-[4/3] w-full\" />\n      <div className=\"flex flex-col justify-center gap-3\">\n        <Skeleton shape=\"text\" className=\"h-5 w-3/4\" />\n        <SkeletonText lines={3} lastLineWidth=\"58%\" />\n      </div>\n    </div>\n  )\n}\n"
+  },
+  "message-demo": {
+    "name": "message-demo",
+    "component": "message",
+    "title": "基础示例",
+    "code": "\"use client\"\n\nimport { Button } from \"@/components/ui/button\"\nimport {\n  MessageProvider,\n  useMessage,\n  type MessagePosition,\n} from \"@/components/ui/message\"\n\nconst positions: Array<{ value: MessagePosition; label: string }> = [\n  { value: \"top-left\", label: \"Top left\" },\n  { value: \"top\", label: \"Top\" },\n  { value: \"top-right\", label: \"Top right\" },\n  { value: \"bottom-left\", label: \"Bottom left\" },\n  { value: \"bottom\", label: \"Bottom\" },\n  { value: \"bottom-right\", label: \"Bottom right\" },\n]\n\nexport default function MessageDemo() {\n  return (\n    <MessageProvider>\n      <MessagePositionButtons />\n    </MessageProvider>\n  )\n}\n\nfunction MessagePositionButtons() {\n  const message = useMessage()\n\n  return (\n    <div className=\"grid w-full max-w-md grid-cols-3 gap-2\">\n      {positions.map((position) => (\n        <Button\n          key={position.value}\n          variant=\"outline\"\n          size=\"sm\"\n          onClick={() =>\n            message.success(\"Your changes have been saved.\", {\n              title: position.label,\n              position: position.value,\n            })\n          }\n        >\n          {position.label}\n        </Button>\n      ))}\n    </div>\n  )\n}\n"
+  },
+  "message-variants": {
+    "name": "message-variants",
+    "component": "message",
+    "title": "内联状态变体",
+    "code": "import { Message } from \"@/components/ui/message\"\n\nexport default function MessageVariants() {\n  return (\n    <div className=\"grid w-full max-w-lg gap-3\">\n      <Message variant=\"info\" title=\"New version available\">\n        Refresh the page when you are ready to update.\n      </Message>\n      <Message variant=\"success\" title=\"Changes saved\">\n        Your workspace settings are now up to date.\n      </Message>\n      <Message variant=\"warning\" title=\"Storage is almost full\">\n        Remove unused files to keep uploads working.\n      </Message>\n      <Message variant=\"destructive\" title=\"Connection failed\">\n        Check your network and try again.\n      </Message>\n    </div>\n  )\n}\n"
+  },
+  "message-action": {
+    "name": "message-action",
+    "component": "message",
+    "title": "尾部操作",
+    "code": "import { Button } from \"@/components/ui/button\"\nimport { Message } from \"@/components/ui/message\"\n\nexport default function MessageAction() {\n  return (\n    <div className=\"w-full max-w-lg\">\n      <Message\n        title=\"Draft restored\"\n        action={\n          <Button variant=\"ghost\" size=\"sm\">\n            Review\n          </Button>\n        }\n      >\n        We recovered changes from your previous session.\n      </Message>\n    </div>\n  )\n}\n"
+  },
+  "message-dismissible": {
+    "name": "message-dismissible",
+    "component": "message",
+    "title": "可关闭与受控显示",
+    "code": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { Button } from \"@/components/ui/button\"\nimport { Message } from \"@/components/ui/message\"\n\nexport default function MessageDismissible() {\n  const [visible, setVisible] = React.useState(true)\n\n  return (\n    <div className=\"grid w-full max-w-lg gap-3\">\n      <Message\n        visible={visible}\n        onVisibleChange={setVisible}\n        closable\n        title=\"Notifications paused\"\n      >\n        You will not receive updates until tomorrow morning.\n      </Message>\n      {!visible ? (\n        <Button variant=\"outline\" size=\"sm\" className=\"w-fit\" onClick={() => setVisible(true)}>\n          Show message\n        </Button>\n      ) : null}\n    </div>\n  )\n}\n"
+  },
+  "message-compact": {
+    "name": "message-compact",
+    "component": "message",
+    "title": "紧凑尺寸",
+    "code": "import { Message } from \"@/components/ui/message\"\n\nexport default function MessageCompact() {\n  return (\n    <div className=\"w-full max-w-lg\">\n      <Message size=\"compact\" variant=\"success\">\n        Deployment completed successfully.\n      </Message>\n    </div>\n  )\n}\n"
+  },
+  "in-view-demo": {
+    "name": "in-view-demo",
+    "component": "in-view",
+    "title": "基础示例",
+    "code": "import { InView } from \"@/components/ui/in-view\"\n\nexport default function InViewDemo() {\n  return (\n    <div className=\"bg-muted/30 h-72 w-full max-w-xl overflow-y-auto rounded-lg border p-6 text-center\">\n      <p className=\"text-muted-foreground text-sm\">向下滚动</p>\n      <div className=\"h-56\" />\n      <InView\n        className=\"bg-background shadow-xs rounded-md border px-5 py-4 text-left\"\n        viewOptions={{ margin: \"-15% 0px\" }}\n      >\n        <p className=\"font-medium\">内容进入视口</p>\n        <p className=\"text-muted-foreground mt-1 text-sm\">\n          透明度与位移同时过渡，并且默认只播放一次。\n        </p>\n      </InView>\n      <div className=\"h-24\" />\n    </div>\n  )\n}\n"
+  },
+  "infinite-slider-demo": {
+    "name": "infinite-slider-demo",
+    "component": "infinite-slider",
+    "title": "基础示例",
+    "code": "import { InfiniteSlider } from \"@/components/ui/infinite-slider\"\n\nconst tools = [\"React\", \"Motion\", \"Tailwind\", \"Radix\", \"TypeScript\", \"Next.js\"]\n\nexport default function InfiniteSliderDemo() {\n  return (\n    <div className=\"w-full max-w-2xl [mask-image:linear-gradient(to_right,transparent,black_12%,black_88%,transparent)]\">\n      <InfiniteSlider speed={48} speedOnHover={12} gap={12}>\n        {tools.map((tool) => (\n          <div\n            className=\"bg-background shadow-xs shrink-0 rounded-md border px-5 py-3 text-sm font-medium\"\n            key={tool}\n          >\n            {tool}\n          </div>\n        ))}\n      </InfiniteSlider>\n    </div>\n  )\n}\n"
+  },
+  "infinite-slider-vertical": {
+    "name": "infinite-slider-vertical",
+    "component": "infinite-slider",
+    "title": "垂直与反向",
+    "code": "import { InfiniteSlider } from \"@/components/ui/infinite-slider\"\n\nexport default function InfiniteSliderVertical() {\n  return (\n    <div className=\"bg-muted/30 rounded-lg border p-3\">\n      <InfiniteSlider\n        direction=\"vertical\"\n        reverse\n        speed={32}\n        gap={8}\n        className=\"h-64 [mask-image:linear-gradient(to_bottom,transparent,black_15%,black_85%,transparent)]\"\n      >\n        {[\"Research\", \"Prototype\", \"Review\", \"Ship\"].map((label, index) => (\n          <div\n            className=\"bg-background shadow-xs flex w-64 items-center gap-4 rounded-md border px-4 py-3\"\n            key={label}\n          >\n            <span className=\"text-muted-foreground font-mono text-xs\">\n              0{index + 1}\n            </span>\n            <span className=\"font-medium\">{label}</span>\n          </div>\n        ))}\n      </InfiniteSlider>\n    </div>\n  )\n}\n"
+  },
+  "cursor-demo": {
+    "name": "cursor-demo",
+    "component": "cursor",
+    "title": "基础示例",
+    "code": "import { ArrowUpRightIcon } from \"lucide-react\"\n\nimport { Cursor } from \"@/components/ui/cursor\"\n\nexport default function CursorDemo() {\n  return (\n    <div className=\"bg-muted/30 relative flex h-64 w-full max-w-xl items-center justify-center overflow-hidden rounded-lg border\">\n      <Cursor attachToParent>\n        <span className=\"bg-primary text-primary-foreground flex size-12 items-center justify-center rounded-full shadow-sm\">\n          <ArrowUpRightIcon className=\"size-5\" />\n        </span>\n      </Cursor>\n      <div className=\"text-center\">\n        <p className=\"font-medium\">Move inside this area</p>\n        <p className=\"text-muted-foreground mt-1 text-sm\">\n          弹簧光标仅附着在当前区域\n        </p>\n      </div>\n    </div>\n  )\n}\n"
+  },
+  "text-effect-demo": {
+    "name": "text-effect-demo",
+    "component": "text-effect",
+    "title": "基础示例",
+    "code": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { Button } from \"@/components/ui/button\"\nimport { TextEffect } from \"@/components/ui/text-effect\"\n\nexport default function TextEffectDemo() {\n  const [trigger, setTrigger] = React.useState(true)\n\n  function replay() {\n    setTrigger(false)\n    window.setTimeout(() => setTrigger(true), 120)\n  }\n\n  return (\n    <div className=\"flex flex-col items-center gap-6 text-center\">\n      <TextEffect\n        as=\"h3\"\n        per=\"char\"\n        preset=\"fade-in-blur\"\n        trigger={trigger}\n        className=\"text-3xl font-semibold tracking-tight\"\n      >\n        Motion with purpose.\n      </TextEffect>\n      <Button type=\"button\" variant=\"outline\" size=\"sm\" onClick={replay}>\n        Replay\n      </Button>\n    </div>\n  )\n}\n"
+  },
+  "text-loop-demo": {
+    "name": "text-loop-demo",
+    "component": "text-loop",
+    "title": "基础示例",
+    "code": "import { TextLoop } from \"@/components/ui/text-loop\"\n\nexport default function TextLoopDemo() {\n  return (\n    <p className=\"text-2xl font-medium tracking-tight\">\n      Designed to be{\" \"}\n      <TextLoop className=\"text-muted-foreground\" interval={1.8}>\n        {[\n          <span key=\"clear\">clear.</span>,\n          <span key=\"useful\">useful.</span>,\n          <span key=\"yours\">yours.</span>,\n        ]}\n      </TextLoop>\n    </p>\n  )\n}\n"
+  },
+  "text-morph-demo": {
+    "name": "text-morph-demo",
+    "component": "text-morph",
+    "title": "基础示例",
+    "code": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { Button } from \"@/components/ui/button\"\nimport { TextMorph } from \"@/components/ui/text-morph\"\n\nconst labels = [\"Continue\", \"Confirm\", \"Complete\"]\n\nexport default function TextMorphDemo() {\n  const [index, setIndex] = React.useState(0)\n\n  return (\n    <Button\n      type=\"button\"\n      size=\"lg\"\n      className=\"w-32\"\n      onClick={() => setIndex((current) => (current + 1) % labels.length)}\n    >\n      <TextMorph as=\"span\">{labels[index]}</TextMorph>\n    </Button>\n  )\n}\n"
+  },
+  "text-roll-demo": {
+    "name": "text-roll-demo",
+    "component": "text-roll",
+    "title": "基础示例",
+    "code": "import { TextRoll } from \"@/components/ui/text-roll\"\n\nexport default function TextRollDemo() {\n  return (\n    <TextRoll className=\"cursor-default text-4xl font-semibold tracking-tight\">\n      Hover to roll\n    </TextRoll>\n  )\n}\n"
+  },
+  "text-scramble-demo": {
+    "name": "text-scramble-demo",
+    "component": "text-scramble",
+    "title": "基础示例",
+    "code": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { Button } from \"@/components/ui/button\"\nimport { TextScramble } from \"@/components/ui/text-scramble\"\n\nexport default function TextScrambleDemo() {\n  const [trigger, setTrigger] = React.useState(true)\n\n  function replay() {\n    setTrigger(false)\n    window.setTimeout(() => setTrigger(true), 50)\n  }\n\n  return (\n    <Button\n      type=\"button\"\n      variant=\"outline\"\n      className=\"h-auto flex-col items-start px-5 py-3 text-left\"\n      onClick={replay}\n    >\n      <span className=\"text-muted-foreground mb-2 block text-xs\">\n        Click to regenerate\n      </span>\n      <TextScramble as=\"span\" trigger={trigger} characterSet=\"01#{}[]&*\">\n        Generating the interface...\n      </TextScramble>\n    </Button>\n  )\n}\n"
+  },
+  "text-shimmer-demo": {
+    "name": "text-shimmer-demo",
+    "component": "text-shimmer",
+    "title": "基础示例",
+    "code": "import { TextShimmer } from \"@/components/ui/text-shimmer\"\n\nexport default function TextShimmerDemo() {\n  return (\n    <TextShimmer className=\"text-xl font-medium\" duration={1.8} spread={1.6}>\n      Generating code…\n    </TextShimmer>\n  )\n}\n"
+  },
+  "text-shimmer-wave-demo": {
+    "name": "text-shimmer-wave-demo",
+    "component": "text-shimmer-wave",
+    "title": "基础示例",
+    "code": "import { TextShimmerWave } from \"@/components/ui/text-shimmer-wave\"\n\nexport default function TextShimmerWaveDemo() {\n  return (\n    <TextShimmerWave\n      className=\"text-2xl font-medium tracking-tight\"\n      duration={1.6}\n    >\n      Creating the perfect interaction…\n    </TextShimmerWave>\n  )\n}\n"
+  },
+  "sliding-number-demo": {
+    "name": "sliding-number-demo",
+    "component": "sliding-number",
+    "title": "基础示例",
+    "code": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { SlidingNumber } from \"@/components/ui/sliding-number\"\n\nexport default function SlidingNumberDemo() {\n  const [value, setValue] = React.useState(64)\n\n  return (\n    <div className=\"bg-background shadow-xs w-full max-w-sm space-y-6 rounded-lg border p-5\">\n      <div className=\"flex items-baseline justify-between border-b pb-4\">\n        <span className=\"text-muted-foreground text-sm\">Current ARR</span>\n        <span className=\"text-4xl font-semibold tracking-tight\">\n          $<SlidingNumber value={value} />k\n        </span>\n      </div>\n      <input\n        aria-label=\"Current ARR\"\n        type=\"range\"\n        min=\"0\"\n        max=\"999\"\n        value={value}\n        className=\"accent-primary focus-visible:ring-ring/50 w-full rounded-full outline-none focus-visible:ring-[3px]\"\n        onChange={(event) => setValue(Number(event.target.value))}\n      />\n    </div>\n  )\n}\n"
+  },
+  "sliding-number-clock": {
+    "name": "sliding-number-clock",
+    "component": "sliding-number",
+    "title": "时钟",
+    "code": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { SlidingNumber } from \"@/components/ui/sliding-number\"\n\nexport default function SlidingNumberClock() {\n  const [now, setNow] = React.useState(() => new Date())\n\n  React.useEffect(() => {\n    const timer = window.setInterval(() => setNow(new Date()), 1000)\n    return () => window.clearInterval(timer)\n  }, [])\n\n  return (\n    <time\n      className=\"bg-background shadow-xs rounded-lg border px-5 py-4 font-mono text-4xl font-medium tabular-nums\"\n      dateTime={now.toISOString()}\n    >\n      <SlidingNumber value={now.getHours()} padStart />:\n      <SlidingNumber value={now.getMinutes()} padStart />:\n      <SlidingNumber value={now.getSeconds()} padStart />\n    </time>\n  )\n}\n"
+  },
+  "table-demo": {
+    "name": "table-demo",
+    "component": "table",
+    "title": "基础示例",
+    "code": "import {\n  Table,\n  TableBody,\n  TableCaption,\n  TableCell,\n  TableHead,\n  TableHeader,\n  TableRow,\n} from \"@/components/ui/table\"\n\nconst invoices = [\n  { invoice: \"INV-2048\", status: \"Paid\", method: \"Credit card\", total: \"$320.00\" },\n  { invoice: \"INV-2047\", status: \"Pending\", method: \"Bank transfer\", total: \"$145.00\" },\n  { invoice: \"INV-2046\", status: \"Paid\", method: \"PayPal\", total: \"$86.50\" },\n  { invoice: \"INV-2045\", status: \"Overdue\", method: \"Credit card\", total: \"$410.00\" },\n]\n\nexport default function TableDemo() {\n  return (\n    <Table className=\"min-w-[560px]\">\n      <TableCaption>Recent invoices from July 2026.</TableCaption>\n      <TableHeader>\n        <TableRow>\n          <TableHead>Invoice</TableHead>\n          <TableHead>Status</TableHead>\n          <TableHead>Method</TableHead>\n          <TableHead className=\"text-right\">Total</TableHead>\n        </TableRow>\n      </TableHeader>\n      <TableBody>\n        {invoices.map((invoice) => (\n          <TableRow key={invoice.invoice}>\n            <TableCell className=\"font-medium\">{invoice.invoice}</TableCell>\n            <TableCell>{invoice.status}</TableCell>\n            <TableCell className=\"text-muted-foreground\">\n              {invoice.method}\n            </TableCell>\n            <TableCell className=\"text-right tabular-nums\">\n              {invoice.total}\n            </TableCell>\n          </TableRow>\n        ))}\n      </TableBody>\n    </Table>\n  )\n}\n"
+  },
+  "table-compact": {
+    "name": "table-compact",
+    "component": "table",
+    "title": "紧凑密度与斑马纹",
+    "code": "import {\n  Table,\n  TableBody,\n  TableCell,\n  TableFooter,\n  TableHead,\n  TableHeader,\n  TableRow,\n} from \"@/components/ui/table\"\n\nconst usage = [\n  { endpoint: \"/v1/responses\", requests: \"18,420\", latency: \"186 ms\" },\n  { endpoint: \"/v1/files\", requests: \"6,830\", latency: \"94 ms\" },\n  { endpoint: \"/v1/embeddings\", requests: \"2,110\", latency: \"72 ms\" },\n]\n\nexport default function TableCompact() {\n  return (\n    <Table density=\"compact\" striped className=\"min-w-[480px]\">\n      <TableHeader>\n        <TableRow>\n          <TableHead>Endpoint</TableHead>\n          <TableHead className=\"text-right\">Requests</TableHead>\n          <TableHead className=\"text-right\">P95 latency</TableHead>\n        </TableRow>\n      </TableHeader>\n      <TableBody>\n        {usage.map((row) => (\n          <TableRow key={row.endpoint}>\n            <TableCell className=\"font-mono text-xs\">{row.endpoint}</TableCell>\n            <TableCell className=\"text-right tabular-nums\">{row.requests}</TableCell>\n            <TableCell className=\"text-right tabular-nums text-muted-foreground\">\n              {row.latency}\n            </TableCell>\n          </TableRow>\n        ))}\n      </TableBody>\n      <TableFooter>\n        <TableRow>\n          <TableCell>Total</TableCell>\n          <TableCell className=\"text-right tabular-nums\">27,360</TableCell>\n          <TableCell className=\"text-right\">—</TableCell>\n        </TableRow>\n      </TableFooter>\n    </Table>\n  )\n}\n"
+  },
+  "calendar-demo": {
+    "name": "calendar-demo",
+    "component": "calendar",
+    "title": "基础示例",
+    "code": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { Calendar } from \"@/components/ui/calendar\"\n\nexport default function CalendarDemo() {\n  const [date, setDate] = React.useState(new Date(2026, 6, 28))\n\n  return (\n    <div className=\"grid w-full max-w-md gap-4 sm:grid-cols-[auto_1fr] sm:items-start\">\n      <Calendar\n        value={date}\n        onValueChange={setDate}\n        className=\"bg-background shadow-xs rounded-lg border\"\n      />\n      <div className=\"border-primary border-l-2 pl-3\">\n        <p className=\"text-muted-foreground text-xs font-medium uppercase tracking-wider\">\n          已选择\n        </p>\n        <p className=\"mt-1 text-sm font-semibold\">\n          {new Intl.DateTimeFormat(\"zh-CN\", { dateStyle: \"full\" }).format(date)}\n        </p>\n        <p className=\"text-muted-foreground mt-1 text-xs leading-5\">\n          方向键移动焦点，回车键确认日期。\n        </p>\n      </div>\n    </div>\n  )\n}\n"
+  },
+  "date-picker-demo": {
+    "name": "date-picker-demo",
+    "component": "date-picker",
+    "title": "基础示例",
+    "code": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { DatePicker } from \"@/components/ui/date-picker\"\n\nexport default function DatePickerDemo() {\n  const [date, setDate] = React.useState<Date>()\n  return (\n    <div className=\"grid w-full max-w-sm gap-2\">\n      <label className=\"text-sm font-medium\">项目截止日期</label>\n      <DatePicker\n        value={date}\n        onValueChange={setDate}\n        placeholder=\"请选择截止日期\"\n        min={new Date(2026, 6, 1)}\n      />\n      <p className=\"text-muted-foreground text-xs\">\n        {date\n          ? `计划于 ${date.toLocaleDateString(\"zh-CN\")} 完成`\n          : \"选择日期后会同步到项目日程。\"}\n      </p>\n    </div>\n  )\n}\n"
+  },
+  "time-picker-demo": {
+    "name": "time-picker-demo",
+    "component": "time-picker",
+    "title": "基础示例",
+    "code": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { TimePicker } from \"@/components/ui/time-picker\"\n\nexport default function TimePickerDemo() {\n  const [time, setTime] = React.useState(\"09:30\")\n  return (\n    <div className=\"grid w-full max-w-sm gap-2\">\n      <label className=\"text-sm font-medium\">会议开始时间</label>\n      <TimePicker value={time} onValueChange={setTime} minuteStep={5} />\n      <p className=\"text-muted-foreground text-xs\">\n        当前设置为 {time}，每 5 分钟一个时间点。\n      </p>\n    </div>\n  )\n}\n"
+  },
+  "kanban-demo": {
+    "name": "kanban-demo",
+    "component": "kanban",
+    "title": "基础示例",
+    "code": "\"use client\"\n\nimport * as React from \"react\"\nimport { CircleDotIcon, PlusIcon } from \"lucide-react\"\n\nimport {\n  Kanban,\n  KanbanCard,\n  KanbanColumn,\n  KanbanColumnBody,\n  KanbanColumnCount,\n  KanbanColumnHeader,\n  KanbanColumnTitle,\n  type KanbanMove,\n} from \"@/components/ui/kanban\"\n\ntype Task = { id: string; title: string; meta: string }\ntype Board = Record<string, Task[]>\n\nconst labels: Record<string, string> = {\n  backlog: \"待规划\",\n  progress: \"进行中\",\n  done: \"已完成\",\n}\nconst initial: Board = {\n  backlog: [\n    { id: \"nav\", title: \"重构移动端导航\", meta: \"设计 · 中优先级\" },\n    { id: \"empty\", title: \"补齐空状态规范\", meta: \"文档 · 低优先级\" },\n  ],\n  progress: [\n    { id: \"calendar\", title: \"日历键盘交互\", meta: \"开发 · 高优先级\" },\n    { id: \"tokens\", title: \"检查深色主题 token\", meta: \"设计系统 · 中优先级\" },\n  ],\n  done: [{ id: \"api\", title: \"确认组件 API\", meta: \"开发 · 已完成\" }],\n}\n\nexport default function KanbanDemo() {\n  const [board, setBoard] = React.useState(initial)\n  function move({ itemId, from, to }: KanbanMove) {\n    setBoard((current) => {\n      const item = current[from].find((task) => task.id === itemId)\n      if (!item) return current\n      return {\n        ...current,\n        [from]: current[from].filter((task) => task.id !== itemId),\n        [to]: [...current[to], item],\n      }\n    })\n  }\n\n  return (\n    <Kanban onMove={move} className=\"w-full\">\n      {Object.entries(board).map(([column, tasks]) => (\n        <KanbanColumn key={column} value={column}>\n          <KanbanColumnHeader>\n            <div className=\"flex items-center gap-2\">\n              <CircleDotIcon className=\"text-muted-foreground size-3.5\" />\n              <KanbanColumnTitle>{labels[column]}</KanbanColumnTitle>\n              <KanbanColumnCount>{tasks.length}</KanbanColumnCount>\n            </div>\n            <button\n              type=\"button\"\n              aria-label={`添加到${labels[column]}`}\n              className=\"text-muted-foreground hover:bg-accent hover:text-foreground flex size-7 items-center justify-center rounded-md\"\n            >\n              <PlusIcon className=\"size-4\" />\n            </button>\n          </KanbanColumnHeader>\n          <KanbanColumnBody>\n            {tasks.map((task) => (\n              <KanbanCard key={task.id} value={task.id}>\n                <p className=\"pr-5 font-medium leading-5\">{task.title}</p>\n                <p className=\"text-muted-foreground mt-2 text-xs\">\n                  {task.meta}\n                </p>\n              </KanbanCard>\n            ))}\n          </KanbanColumnBody>\n        </KanbanColumn>\n      ))}\n    </Kanban>\n  )\n}\n"
+  },
+  "timeline-demo": {
+    "name": "timeline-demo",
+    "component": "timeline",
+    "title": "基础示例",
+    "code": "import {\n  Timeline,\n  TimelineContent,\n  TimelineDescription,\n  TimelineDot,\n  TimelineHeader,\n  TimelineItem,\n  TimelineTime,\n  TimelineTitle,\n} from \"@/components/ui/timeline\"\n\nconst events = [\n  {\n    title: \"版本已发布\",\n    time: \"今天 14:32\",\n    description: \"v2.4.0 已部署到生产环境。\",\n    variant: \"success\" as const,\n  },\n  {\n    title: \"审核已通过\",\n    time: \"今天 11:08\",\n    description: \"设计与无障碍检查均已完成。\",\n    variant: \"primary\" as const,\n  },\n  {\n    title: \"提交变更\",\n    time: \"昨天 18:46\",\n    description: \"林宁合并了 12 个组件更新。\",\n    variant: \"default\" as const,\n  },\n]\n\nexport default function TimelineDemo() {\n  return (\n    <Timeline className=\"w-full max-w-lg\">\n      {events.map((event) => (\n        <TimelineItem key={event.title}>\n          <TimelineDot variant={event.variant} />\n          <TimelineContent>\n            <TimelineHeader>\n              <TimelineTitle>{event.title}</TimelineTitle>\n              <TimelineTime>{event.time}</TimelineTime>\n            </TimelineHeader>\n            <TimelineDescription>{event.description}</TimelineDescription>\n          </TimelineContent>\n        </TimelineItem>\n      ))}\n    </Timeline>\n  )\n}\n"
+  },
+  "timeline-status": {
+    "name": "timeline-status",
+    "component": "timeline",
+    "title": "状态进度",
+    "code": "import { CheckIcon } from \"lucide-react\"\n\nimport {\n  Timeline,\n  TimelineContent,\n  TimelineDescription,\n  TimelineDot,\n  TimelineItem,\n  TimelineMeta,\n  TimelineTitle,\n} from \"@/components/ui/timeline\"\n\nconst steps = [\n  {\n    title: \"订单已确认\",\n    description: \"商家已接单并开始准备商品。\",\n    state: \"complete\" as const,\n  },\n  {\n    title: \"配送中\",\n    description: \"骑手距离收货地址约 1.8 公里。\",\n    state: \"current\" as const,\n  },\n  {\n    title: \"等待签收\",\n    description: \"预计今天 16:20 前送达。\",\n    state: \"upcoming\" as const,\n  },\n]\n\nexport default function TimelineStatus() {\n  return (\n    <Timeline density=\"compact\" connector=\"dashed\" className=\"w-full max-w-lg\">\n      {steps.map((step) => (\n        <TimelineItem key={step.title} state={step.state}>\n          <TimelineDot\n            size={step.state === \"complete\" ? \"icon\" : \"dot\"}\n            variant={\n              step.state === \"complete\"\n                ? \"success\"\n                : step.state === \"current\"\n                  ? \"primary\"\n                  : \"default\"\n            }\n            pulse={step.state === \"current\"}\n          >\n            {step.state === \"complete\" ? <CheckIcon /> : null}\n          </TimelineDot>\n          <TimelineContent>\n            <TimelineTitle>{step.title}</TimelineTitle>\n            <TimelineDescription>{step.description}</TimelineDescription>\n            {step.state === \"current\" ? (\n              <TimelineMeta>\n                <span className=\"text-primary font-medium\">实时更新</span>\n                <span>更新于 2 分钟前</span>\n              </TimelineMeta>\n            ) : null}\n          </TimelineContent>\n        </TimelineItem>\n      ))}\n    </Timeline>\n  )\n}\n"
+  },
+  "timeline-icons": {
+    "name": "timeline-icons",
+    "component": "timeline",
+    "title": "图标节点与富内容",
+    "code": "import {\n  GitCommitHorizontalIcon,\n  MessageSquareTextIcon,\n  RocketIcon,\n} from \"lucide-react\"\n\nimport {\n  Timeline,\n  TimelineCard,\n  TimelineContent,\n  TimelineDescription,\n  TimelineDot,\n  TimelineHeader,\n  TimelineItem,\n  TimelineMeta,\n  TimelineTime,\n  TimelineTitle,\n} from \"@/components/ui/timeline\"\n\nconst events = [\n  {\n    title: \"部署到生产环境\",\n    time: \"14:32\",\n    description: \"Release v2.4.0\",\n    icon: RocketIcon,\n    variant: \"success\" as const,\n  },\n  {\n    title: \"合并提交\",\n    time: \"13:48\",\n    description: \"feat: add timeline layouts\",\n    icon: GitCommitHorizontalIcon,\n    variant: \"primary\" as const,\n  },\n  {\n    title: \"新增评论\",\n    time: \"11:20\",\n    description: \"动效参数已经过设计评审，可以合并。\",\n    icon: MessageSquareTextIcon,\n    variant: \"default\" as const,\n  },\n]\n\nexport default function TimelineIcons() {\n  return (\n    <Timeline className=\"w-full max-w-xl\">\n      {events.map((event, index) => {\n        const Glyph = event.icon\n        return (\n          <TimelineItem key={event.title}>\n            <TimelineDot size=\"icon\" variant={event.variant}>\n              <Glyph />\n            </TimelineDot>\n            <TimelineContent>\n              <TimelineHeader>\n                <TimelineTitle>{event.title}</TimelineTitle>\n                <TimelineTime>{event.time}</TimelineTime>\n              </TimelineHeader>\n              {index === 1 ? (\n                <TimelineCard>\n                  <code className=\"text-xs\">8f2a9c1 · feat/timeline</code>\n                  <TimelineMeta>\n                    <span>林宁提交</span>\n                    <span>8 个文件变更</span>\n                  </TimelineMeta>\n                </TimelineCard>\n              ) : (\n                <TimelineDescription>{event.description}</TimelineDescription>\n              )}\n            </TimelineContent>\n          </TimelineItem>\n        )\n      })}\n    </Timeline>\n  )\n}\n"
+  },
+  "timeline-alternate": {
+    "name": "timeline-alternate",
+    "component": "timeline",
+    "title": "左右交错",
+    "code": "import {\n  Timeline,\n  TimelineContent,\n  TimelineDescription,\n  TimelineDot,\n  TimelineItem,\n  TimelineTime,\n  TimelineTitle,\n} from \"@/components/ui/timeline\"\n\nconst milestones = [\n  {\n    title: \"需求对齐\",\n    time: \"7 月 08 日\",\n    description: \"明确核心场景与非目标。\",\n  },\n  {\n    title: \"交互定稿\",\n    time: \"7 月 14 日\",\n    description: \"完成键盘路径与动态反馈。\",\n  },\n  {\n    title: \"组件开发\",\n    time: \"7 月 22 日\",\n    description: \"API、示例和文档同步完成。\",\n  },\n  {\n    title: \"准备发布\",\n    time: \"7 月 28 日\",\n    description: \"完成类型与设计 token 检查。\",\n  },\n]\n\nexport default function TimelineAlternate() {\n  return (\n    <Timeline align=\"alternate\" className=\"w-full max-w-2xl\">\n      {milestones.map((item, index) => {\n        const side = index % 2 === 0 ? \"left\" : \"right\"\n        return (\n          <TimelineItem key={item.title} side={side}>\n            <TimelineDot\n              variant={index === milestones.length - 1 ? \"primary\" : \"success\"}\n            />\n            <TimelineContent>\n              <TimelineTime>{item.time}</TimelineTime>\n              <TimelineTitle className=\"mt-1\">{item.title}</TimelineTitle>\n              <TimelineDescription>{item.description}</TimelineDescription>\n            </TimelineContent>\n          </TimelineItem>\n        )\n      })}\n    </Timeline>\n  )\n}\n"
+  },
+  "timeline-horizontal": {
+    "name": "timeline-horizontal",
+    "component": "timeline",
+    "title": "横向步骤",
+    "code": "import { CheckIcon } from \"lucide-react\"\n\nimport {\n  Timeline,\n  TimelineContent,\n  TimelineDescription,\n  TimelineDot,\n  TimelineItem,\n  TimelineTitle,\n} from \"@/components/ui/timeline\"\n\nconst steps = [\n  { title: \"创建项目\", state: \"complete\" },\n  { title: \"邀请成员\", state: \"complete\" },\n  { title: \"连接数据\", state: \"current\" },\n  { title: \"开始使用\", state: \"upcoming\" },\n] as const\n\nexport default function TimelineHorizontal() {\n  return (\n    <div className=\"w-full overflow-x-auto pb-2\">\n      <Timeline orientation=\"horizontal\" className=\"min-w-[42rem]\">\n        {steps.map((step) => (\n          <TimelineItem key={step.title} state={step.state}>\n            <TimelineDot\n              size={step.state === \"complete\" ? \"icon\" : \"dot\"}\n              variant={\n                step.state === \"complete\"\n                  ? \"success\"\n                  : step.state === \"current\"\n                    ? \"primary\"\n                    : \"default\"\n              }\n              pulse={step.state === \"current\"}\n            >\n              {step.state === \"complete\" ? <CheckIcon /> : null}\n            </TimelineDot>\n            <TimelineContent>\n              <TimelineTitle>{step.title}</TimelineTitle>\n              <TimelineDescription>\n                {step.state === \"complete\"\n                  ? \"已完成\"\n                  : step.state === \"current\"\n                    ? \"正在进行\"\n                    : \"尚未开始\"}\n              </TimelineDescription>\n            </TimelineContent>\n          </TimelineItem>\n        ))}\n      </Timeline>\n    </div>\n  )\n}\n"
+  },
+  "timeline-compact": {
+    "name": "timeline-compact",
+    "component": "timeline",
+    "title": "紧凑审计日志",
+    "code": "import {\n  Timeline,\n  TimelineContent,\n  TimelineDot,\n  TimelineHeader,\n  TimelineItem,\n  TimelineTime,\n  TimelineTitle,\n} from \"@/components/ui/timeline\"\n\nconst records = [\n  [\"你更新了项目名称\", \"15:42\"],\n  [\"林宁将王琪添加为管理员\", \"14:08\"],\n  [\"系统完成每日数据备份\", \"09:00\"],\n  [\"陈默导出了成员列表\", \"昨天\"],\n]\n\nexport default function TimelineCompact() {\n  return (\n    <Timeline density=\"compact\" className=\"w-full max-w-lg\">\n      {records.map(([title, time]) => (\n        <TimelineItem key={title}>\n          <TimelineDot />\n          <TimelineContent>\n            <TimelineHeader>\n              <TimelineTitle className=\"font-normal\">{title}</TimelineTitle>\n              <TimelineTime>{time}</TimelineTime>\n            </TimelineHeader>\n          </TimelineContent>\n        </TimelineItem>\n      ))}\n    </Timeline>\n  )\n}\n"
+  },
+  "empty-state-demo": {
+    "name": "empty-state-demo",
+    "component": "empty-state",
+    "title": "基础示例",
+    "code": "import { PlusIcon } from \"lucide-react\"\n\nimport { Button } from \"@/components/ui/button\"\nimport {\n  EmptyState,\n  EmptyStateActions,\n  EmptyStateDescription,\n  EmptyStateHint,\n  EmptyStateIllustration,\n  EmptyStateMedia,\n  EmptyStateTitle,\n} from \"@/components/ui/empty-state\"\n\nexport default function EmptyStateDemo() {\n  return (\n    <EmptyState className=\"rounded-lg border border-dashed\">\n      <EmptyStateMedia>\n        <EmptyStateIllustration name=\"empty-folder\" />\n      </EmptyStateMedia>\n      <EmptyStateTitle>还没有项目</EmptyStateTitle>\n      <EmptyStateDescription>\n        创建第一个项目，把任务、文件和讨论集中在一个清晰的工作空间里。\n      </EmptyStateDescription>\n      <EmptyStateActions>\n        <Button size=\"sm\">\n          <PlusIcon />\n          新建项目\n        </Button>\n        <Button size=\"sm\" variant=\"outline\">\n          导入模板\n        </Button>\n      </EmptyStateActions>\n      <EmptyStateHint>也可以直接拖入项目备份文件</EmptyStateHint>\n    </EmptyState>\n  )\n}\n"
+  },
+  "empty-state-illustrations": {
+    "name": "empty-state-illustrations",
+    "component": "empty-state",
+    "title": "内置插画",
+    "code": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { cn } from \"@/lib/utils\"\nimport {\n  EmptyStateIllustration,\n  emptyStateClassicIllustrations,\n  emptyStateColorIllustrations,\n  type EmptyStateIllustrationVariant,\n} from \"@/components/ui/empty-state\"\n\nconst variants: Array<{\n  value: EmptyStateIllustrationVariant\n  label: string\n  count: number\n}> = [\n  {\n    value: \"gradient\",\n    label: \"渐变\",\n    count: emptyStateClassicIllustrations.length,\n  },\n  {\n    value: \"flat\",\n    label: \"扁平\",\n    count: emptyStateClassicIllustrations.length,\n  },\n  { value: \"color\", label: \"彩色\", count: emptyStateColorIllustrations.length },\n]\n\nfunction IllustrationItem({\n  name,\n  children,\n}: {\n  name: string\n  children: React.ReactNode\n}) {\n  return (\n    <figure className=\"flex min-h-44 flex-col items-center justify-between gap-4 border-b border-r p-5\">\n      <div className=\"flex min-h-28 items-center justify-center\">\n        {children}\n      </div>\n      <figcaption className=\"text-muted-foreground max-w-full truncate font-mono text-[11px]\">\n        {name}\n      </figcaption>\n    </figure>\n  )\n}\n\nexport default function EmptyStateIllustrations() {\n  const [variant, setVariant] =\n    React.useState<EmptyStateIllustrationVariant>(\"gradient\")\n\n  return (\n    <div className=\"w-full overflow-hidden border\">\n      <div className=\"flex flex-wrap items-center justify-between gap-4 border-b px-4 py-3\">\n        <div>\n          <p className=\"text-sm font-medium\">空状态插画库</p>\n          <p className=\"text-muted-foreground mt-0.5 text-xs\">\n            选择系列并复制插画名称用于 EmptyStateIllustration。\n          </p>\n        </div>\n        <div className=\"bg-muted flex items-center gap-0.5 p-0.5\">\n          {variants.map((item) => (\n            <button\n              key={item.value}\n              type=\"button\"\n              aria-pressed={variant === item.value}\n              onClick={() => setVariant(item.value)}\n              className={cn(\n                \"text-muted-foreground hover:text-foreground px-3 py-1.5 text-xs transition-colors\",\n                variant === item.value &&\n                  \"bg-background text-foreground shadow-xs\"\n              )}\n            >\n              {item.label} · {item.count}\n            </button>\n          ))}\n        </div>\n      </div>\n\n      <div className=\"-mb-px -mr-px grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4\">\n        {variant === \"color\"\n          ? emptyStateColorIllustrations.map((name) => (\n              <IllustrationItem key={name} name={name}>\n                <EmptyStateIllustration\n                  variant=\"color\"\n                  name={name}\n                  className=\"w-32\"\n                />\n              </IllustrationItem>\n            ))\n          : emptyStateClassicIllustrations.map((name) => (\n              <IllustrationItem key={name} name={name}>\n                <EmptyStateIllustration\n                  variant={variant}\n                  name={name}\n                  className=\"w-32\"\n                />\n              </IllustrationItem>\n            ))}\n      </div>\n    </div>\n  )\n}\n"
+  }
+}

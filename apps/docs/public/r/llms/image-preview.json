@@ -1,0 +1,154 @@
+{
+  "name": "image-preview",
+  "type": "registry:ui",
+  "title": "图片预览 Image Preview",
+  "description": "点击缩略图进入沉浸式大图预览，并提供缩放、旋转与下载操作。",
+  "import": "import { ImagePreview } from \"@/components/ui/image-preview\"",
+  "exports": [
+    "ImagePreview"
+  ],
+  "typeExports": [
+    "ImagePreviewProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/image-preview",
+    "shadcn": "npx shadcn@latest add http://localhost:3000/r/image-preview.json",
+    "npmDependencies": [
+      "radix-ui",
+      "lucide-react",
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "src",
+      "type": "string",
+      "required": true,
+      "control": "text",
+      "description": "Image URL used by both the thumbnail and full-size preview."
+    },
+    {
+      "name": "alt",
+      "type": "string",
+      "required": true,
+      "control": "text",
+      "description": "Accessible description of the image."
+    },
+    {
+      "name": "previewSrc",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "Optional higher-resolution URL used only in the preview."
+    },
+    {
+      "name": "caption",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "Caption shown below the expanded image."
+    },
+    {
+      "name": "open",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "Controlled open state."
+    },
+    {
+      "name": "defaultOpen",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "Initial open state when uncontrolled."
+    },
+    {
+      "name": "onOpenChange",
+      "type": "((open: boolean) => void)",
+      "required": false,
+      "control": "text",
+      "description": "Called whenever the preview opens or closes."
+    },
+    {
+      "name": "minZoom",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0.5",
+      "description": "Smallest available zoom level."
+    },
+    {
+      "name": "maxZoom",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "3",
+      "description": "Largest available zoom level."
+    },
+    {
+      "name": "zoomStep",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0.25",
+      "description": "Amount added or removed by each zoom action."
+    },
+    {
+      "name": "showToolbar",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "Show zoom, rotate, reset, and optional download actions."
+    },
+    {
+      "name": "downloadName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "Download filename. Supplying it adds a download action."
+    },
+    {
+      "name": "thumbnailClassName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "Classes applied to the thumbnail image."
+    },
+    {
+      "name": "previewClassName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "Classes applied to the expanded image."
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean"
+    }
+  ],
+  "usage": "`ImagePreview` 用于在不离开当前页面的情况下查看图片细节。缩略图本身是可聚焦按钮，全屏预览通过 Dialog 管理焦点、Escape 关闭和无障碍标题。它适合相册、附件、设计稿与商品图；需要编辑、裁剪或批注时，应使用专门的图片编辑器。",
+  "extended": "### 简洁预览\n\n设置 `showToolbar={false}` 可隐藏变换操作，仅保留查看与关闭能力。传入 `downloadName` 时才会显示下载按钮，避免在不允许保存图片的场景中暴露无效操作。",
+  "events": "- `onOpenChange(open)`：预览打开或关闭时触发，支持受控与非受控状态。\n- 缩放按钮也可使用 `+`、`-` 快捷键，按 `0` 重置缩放和旋转。\n- Escape、背景点击和焦点管理会关闭或约束预览；放大后可拖动图片查看边缘细节。\n- 其余按钮属性会透传给缩略图触发器。",
+  "examples": [
+    {
+      "name": "image-preview-demo",
+      "title": "基础示例"
+    },
+    {
+      "name": "image-preview-minimal",
+      "title": "简洁预览"
+    }
+  ],
+  "files": [
+    "registry/ui/image-preview.tsx"
+  ],
+  "docsUrl": "http://localhost:3000/docs/components/image-preview",
+  "sourceUrl": "http://localhost:3000/r/image-preview.json"
+}

@@ -1,0 +1,86 @@
+{
+  "name": "in-view",
+  "type": "registry:ui",
+  "title": "进入视口 In View",
+  "description": "当内容进入视口时播放可配置的入场动画。",
+  "categories": [
+    "motion"
+  ],
+  "import": "import { InView } from \"@/components/ui/in-view\"",
+  "exports": [
+    "InView"
+  ],
+  "typeExports": [
+    "InViewProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/in-view",
+    "shadcn": "npx shadcn@latest add http://localhost:3000/r/in-view.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": []
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": true,
+      "control": "text",
+      "description": "Content animated when it enters the viewport."
+    },
+    {
+      "name": "variants",
+      "type": "Variants",
+      "required": false,
+      "control": "text",
+      "defaultValue": "{\n  hidden: { opacity: 0, y: 16 },\n  visible: { opacity: 1, y: 0 },\n}",
+      "description": "Hidden and visible animation states."
+    },
+    {
+      "name": "transition",
+      "type": "Transition",
+      "required": false,
+      "control": "text",
+      "defaultValue": "{ duration: 0.45, ease: \"easeOut\" }",
+      "description": "Motion transition used between states."
+    },
+    {
+      "name": "viewOptions",
+      "type": "UseInViewOptions",
+      "required": false,
+      "control": "text",
+      "description": "Intersection observer options such as `margin` and `amount`."
+    },
+    {
+      "name": "once",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "Only play the entrance animation once."
+    },
+    {
+      "name": "as",
+      "type": "ElementType<any, keyof IntrinsicElements>",
+      "required": false,
+      "control": "text",
+      "defaultValue": "div",
+      "description": "HTML element rendered by the component."
+    }
+  ],
+  "usage": "`InView` 适合延后展示长页面中的说明、数据段或媒体内容。它使用浏览器交叉观察能力判断可见性，默认只播放一次，并在减少动态效果偏好下直接显示最终状态。",
+  "extended": "通过 `as=\"section\"` 调整语义元素；设置 `once={false}` 可在每次进入和离开视口时重播。对于很长的列表，应只为关键内容添加入场效果。",
+  "events": "组件透传底层元素的原生事件。需要获知可见状态时，可通过自定义 `variants` 的 Motion 回调处理；`viewOptions` 支持 `margin` 与 `amount` 等观察参数。",
+  "examples": [
+    {
+      "name": "in-view-demo",
+      "title": "基础示例"
+    }
+  ],
+  "files": [
+    "registry/ui/in-view.tsx"
+  ],
+  "docsUrl": "http://localhost:3000/docs/components/in-view",
+  "sourceUrl": "http://localhost:3000/r/in-view.json"
+}

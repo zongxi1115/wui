@@ -1,0 +1,78 @@
+{
+  "name": "sliding-number",
+  "type": "registry:ui",
+  "title": "滑动数字 Sliding Number",
+  "description": "用独立数字轮平滑过渡数值变化。",
+  "categories": [
+    "motion",
+    "number-effect"
+  ],
+  "import": "import { SlidingNumber } from \"@/components/ui/sliding-number\"",
+  "exports": [
+    "SlidingNumber"
+  ],
+  "typeExports": [
+    "SlidingNumberProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/sliding-number",
+    "shadcn": "npx shadcn@latest add http://localhost:3000/r/sliding-number.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "value",
+      "type": "string | number",
+      "required": true,
+      "control": "text",
+      "description": "Number or numeric string to display."
+    },
+    {
+      "name": "padStart",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "Pad single-digit integer values with a leading zero."
+    },
+    {
+      "name": "decimalSeparator",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "defaultValue": ".",
+      "description": "Character used in place of the decimal point."
+    },
+    {
+      "name": "transition",
+      "type": "Transition",
+      "required": false,
+      "control": "text",
+      "defaultValue": "{\n  type: \"spring\",\n  stiffness: 260,\n  damping: 28,\n}",
+      "description": "Motion transition used by every digit."
+    }
+  ],
+  "usage": "`SlidingNumber` 适合计数器、实时指标、时钟和金额展示。每个数位独立滑动，非数字字符会原样保留；组件为读屏提供完整值而不是逐位朗读。",
+  "extended": "### 时钟\n\n`padStart` 会为个位整数补零，`decimalSeparator` 可用于本地化小数符号。更复杂的千分位和货币格式建议先用 `Intl.NumberFormat` 生成字符串后再传入。",
+  "events": "组件没有自有事件，并透传 `<span>` 的原生事件。修改 `value` 即会触发过渡；减少动态效果时数位立即更新。",
+  "examples": [
+    {
+      "name": "sliding-number-demo",
+      "title": "基础示例"
+    },
+    {
+      "name": "sliding-number-clock",
+      "title": "时钟"
+    }
+  ],
+  "files": [
+    "registry/ui/sliding-number.tsx"
+  ],
+  "docsUrl": "http://localhost:3000/docs/components/sliding-number",
+  "sourceUrl": "http://localhost:3000/r/sliding-number.json"
+}

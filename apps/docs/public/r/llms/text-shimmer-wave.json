@@ -1,0 +1,121 @@
+{
+  "name": "text-shimmer-wave",
+  "type": "registry:ui",
+  "title": "文本波光 Text Shimmer Wave",
+  "description": "逐字符传播的立体位移与高光波浪。",
+  "categories": [
+    "motion",
+    "text-effect"
+  ],
+  "import": "import { TextShimmerWave } from \"@/components/ui/text-shimmer-wave\"",
+  "exports": [
+    "TextShimmerWave"
+  ],
+  "typeExports": [
+    "TextShimmerWaveProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/text-shimmer-wave",
+    "shadcn": "npx shadcn@latest add http://localhost:3000/r/text-shimmer-wave.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "string",
+      "required": true,
+      "control": "text",
+      "description": "Text animated as a traveling character wave."
+    },
+    {
+      "name": "as",
+      "type": "ElementType<any, keyof IntrinsicElements>",
+      "required": false,
+      "control": "text",
+      "defaultValue": "span",
+      "description": "HTML element rendered by the component."
+    },
+    {
+      "name": "duration",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "1.5",
+      "description": "Seconds for one full wave."
+    },
+    {
+      "name": "zDistance",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "10",
+      "description": "Z-axis travel in pixels."
+    },
+    {
+      "name": "xDistance",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "2",
+      "description": "Horizontal travel in pixels."
+    },
+    {
+      "name": "yDistance",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "-2",
+      "description": "Vertical travel in pixels."
+    },
+    {
+      "name": "spread",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "1",
+      "description": "Distance between character wave phases."
+    },
+    {
+      "name": "scaleDistance",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "1.1",
+      "description": "Peak character scale."
+    },
+    {
+      "name": "rotateYDistance",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "10",
+      "description": "Peak Y-axis rotation in degrees."
+    },
+    {
+      "name": "transition",
+      "type": "Transition",
+      "required": false,
+      "control": "text",
+      "description": "Motion transition merged into every character."
+    }
+  ],
+  "usage": "`TextShimmerWave` 把颜色、位移、缩放与轻微旋转组合成逐字符波浪。它比普通扫光更醒目，适合短暂生成状态或单一展示焦点。",
+  "extended": "`xDistance`、`yDistance`、`zDistance` 控制空间位移，`scaleDistance` 和 `rotateYDistance` 控制形变。使用自定义 `transition` 时仍建议保留循环，确保波浪持续传播。",
+  "events": "组件没有自有事件，底层元素事件继续透传。减少动态效果时只显示静态文字。",
+  "examples": [
+    {
+      "name": "text-shimmer-wave-demo",
+      "title": "基础示例"
+    }
+  ],
+  "files": [
+    "registry/ui/text-shimmer-wave.tsx"
+  ],
+  "docsUrl": "http://localhost:3000/docs/components/text-shimmer-wave",
+  "sourceUrl": "http://localhost:3000/r/text-shimmer-wave.json"
+}

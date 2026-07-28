@@ -1,0 +1,102 @@
+{
+  "name": "text-loop",
+  "type": "registry:ui",
+  "title": "文本循环 Text Loop",
+  "description": "在多段文本或行内内容之间自动循环切换。",
+  "categories": [
+    "motion",
+    "text-effect"
+  ],
+  "import": "import { TextLoop } from \"@/components/ui/text-loop\"",
+  "exports": [
+    "TextLoop"
+  ],
+  "typeExports": [
+    "TextLoopProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/text-loop",
+    "shadcn": "npx shadcn@latest add http://localhost:3000/r/text-loop.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "ReactNode[]",
+      "required": true,
+      "control": "text",
+      "description": "Content items displayed one after another."
+    },
+    {
+      "name": "interval",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "2.5",
+      "description": "Seconds between item changes."
+    },
+    {
+      "name": "transition",
+      "type": "Transition",
+      "required": false,
+      "control": "text",
+      "defaultValue": "{ duration: 0.35, ease: \"easeOut\" }",
+      "description": "Motion transition for each item."
+    },
+    {
+      "name": "variants",
+      "type": "Variants",
+      "required": false,
+      "control": "text",
+      "defaultValue": "{\n  initial: { y: 12, opacity: 0, filter: \"blur(4px)\" },\n  animate: { y: 0, opacity: 1, filter: \"blur(0px)\" },\n  exit: { y: -12, opacity: 0, filter: \"blur(4px)\" },\n}",
+      "description": "Initial, animate and exit states."
+    },
+    {
+      "name": "onIndexChange",
+      "type": "((index: number) => void)",
+      "required": false,
+      "control": "text",
+      "description": "Called after the active index changes."
+    },
+    {
+      "name": "trigger",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "Start or pause automatic changes."
+    },
+    {
+      "name": "mode",
+      "type": "\"sync\" | \"popLayout\" | \"wait\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "sync",
+        "popLayout",
+        "wait"
+      ],
+      "defaultValue": "popLayout",
+      "description": "AnimatePresence sequencing mode."
+    }
+  ],
+  "usage": "`TextLoop` 用于一句话中轮换关键词、功能标签或短状态。子项可以是任意 React 节点，但应保持相近尺寸，避免页面布局不断跳动。",
+  "extended": "可通过 `variants` 自定义切换方向，通过 `mode` 调整新旧内容的排序策略。持续循环的文字不应承载必须被读屏即时获知的重要状态。",
+  "events": "`onIndexChange` 在索引切换后返回新索引。`trigger={false}` 会暂停自动轮换，原生 `<span>` 事件照常透传。",
+  "examples": [
+    {
+      "name": "text-loop-demo",
+      "title": "基础示例"
+    }
+  ],
+  "files": [
+    "registry/ui/text-loop.tsx"
+  ],
+  "docsUrl": "http://localhost:3000/docs/components/text-loop",
+  "sourceUrl": "http://localhost:3000/r/text-loop.json"
+}

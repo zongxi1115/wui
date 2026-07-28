@@ -73,12 +73,55 @@ function toPosix(p: string): string {
   return p.split(path.sep).join("/")
 }
 
+async function expandDirectoryFiles(item: RegistryItem): Promise<RegistryItem> {
+  const includeDirectory = item.meta?.includeDirectory
+  const targetDirectory = item.meta?.targetDirectory
+
+  if (typeof includeDirectory !== "string") return item
+  if (typeof targetDirectory !== "string") {
+    throw new Error(
+      `Registry item "${item.name}" uses meta.includeDirectory without meta.targetDirectory`
+    )
+  }
+
+  const registryRoot = path.resolve(ROOT, "registry")
+  const sourceDirectory = path.resolve(ROOT, includeDirectory)
+  if (!sourceDirectory.startsWith(`${registryRoot}${path.sep}`)) {
+    throw new Error(
+      `Generated registry files must stay inside registry/: ${includeDirectory}`
+    )
+  }
+  if (
+    path.isAbsolute(targetDirectory) ||
+    targetDirectory.split(/[\\/]/).includes("..")
+  ) {
+    throw new Error(`Invalid generated target directory: ${targetDirectory}`)
+  }
+
+  const entries = (await fs.readdir(sourceDirectory, { withFileTypes: true }))
+    .filter((entry) => entry.isFile())
+    .filter((entry) => /\.(?:md|ts|tsx|txt)$/.test(entry.name))
+    .sort((a, b) => a.name.localeCompare(b.name))
+
+  return {
+    ...item,
+    files: entries.map((entry) => ({
+      path: toPosix(path.join(includeDirectory, entry.name)),
+      type: /\.(?:ts|tsx)$/.test(entry.name) ? "registry:ui" : "registry:file",
+      target: toPosix(path.join(targetDirectory, entry.name)),
+    })),
+  }
+}
+
 // ---------------------------------------------------------------------------
 // Main
 // ---------------------------------------------------------------------------
 async function main() {
   const raw = JSON.parse(await fs.readFile(REGISTRY_JSON, "utf8"))
   const registry = registrySchema.parse(raw)
+  const registryItems = await Promise.all(
+    registry.items.map(expandDirectoryFiles)
+  )
 
   // Start clean so removed items don't linger in the output.
   await fs.rm(OUT_DIR, { recursive: true, force: true })
@@ -88,14 +131,30 @@ async function main() {
   const indexEntries: Record<string, unknown> = {}
   const discovery: Array<Record<string, unknown>> = []
 
-  for (const item of registry.items) {
+  for (const item of registryItems) {
     const files = await Promise.all(
-      item.files.map(async (f) => ({
-        path: toPosix(f.path),
-        type: f.type,
-        ...(f.target ? { target: toPosix(f.target) } : {}),
-        content: await readSource(f.path),
-      }))
+      item.files.map(async (f) => {
+        const content = await readSource(f.path)
+
+        if (f.type === "registry:asset" && f.target?.startsWith("public/")) {
+          const publicRoot = path.resolve(ROOT, "public")
+          const previewTarget = path.resolve(ROOT, f.target)
+          if (!previewTarget.startsWith(`${publicRoot}${path.sep}`)) {
+            throw new Error(
+              `Asset target must stay inside public/: ${f.target}`
+            )
+          }
+          await fs.mkdir(path.dirname(previewTarget), { recursive: true })
+          await fs.copyFile(path.resolve(ROOT, f.path), previewTarget)
+        }
+
+        return {
+          path: toPosix(f.path),
+          type: f.type,
+          ...(f.target ? { target: toPosix(f.target) } : {}),
+          content,
+        }
+      })
     )
 
     const output: RegistryItem & { $schema: string; files: unknown[] } = {
@@ -194,7 +253,7 @@ async function main() {
 
   // --- Report -------------------------------------------------------------
   console.log(
-    `✓ registry built: ${registry.items.length} items, ${exampleFiles.length} examples`
+    `✓ registry built: ${registryItems.length} items, ${exampleFiles.length} examples`
   )
   console.log(`  → ${toPosix(path.relative(ROOT, OUT_DIR))}/*.json`)
   console.log(`  → ${toPosix(path.relative(ROOT, INDEX_FILE))}`)

@@ -1,0 +1,43 @@
+---
+title: 空状态 Empty State
+description: 在没有数据或结果时解释现状并引导下一步。
+component: empty-state
+---
+
+## 基础示例
+
+<ComponentPreview name="empty-state-demo" />
+
+<CodeTabs command="wui@latest add @wui/empty-state" />
+
+<ComponentSource name="empty-state" title="components/ui/empty-state.tsx" />
+
+## 内置插画
+
+<ComponentPreview name="empty-state-illustrations" />
+
+组件内置 `gradient`、`flat` 和 `color` 三套插画。渐变与扁平系列各包含 65 个通用空状态场景，彩色系列包含 20 个权限、通知与业务状态场景。使用 `EmptyStateMedia` 管理插画与正文之间的间距，通过 `EmptyStateIllustration` 的 `name` 和 `variant` 选择素材。
+
+```tsx
+<EmptyStateMedia>
+  <EmptyStateIllustration variant="flat" name="search-folder" />
+</EmptyStateMedia>
+```
+
+`emptyStateClassicIllustrations`、`emptyStateColorIllustrations` 和 `emptyStateIllustrations` 提供完整的类型安全名称清单，可用于业务侧选择器或二次封装。
+
+## 组件作用
+
+`EmptyState` 用于首次使用、筛选无结果和内容被清空后的页面区域。标题应说明发生了什么，描述解释原因或价值，主操作只保留最合理的下一步；加载中应使用 Skeleton，错误反馈应使用 Message。
+
+## 组件属性
+
+<PropsTable name="empty-state" />
+
+## 事件
+
+容器本身不产生业务事件。操作由 `EmptyStateActions` 中组合的 Button 或链接承担，原生容器事件仍会透传。
+
+## 扩展使用
+
+使用 `size` 控制纵向留白；简单语义图标使用 `EmptyStateIcon`，复杂插画使用 `EmptyStateMedia` 与 `EmptyStateIllustration`。`EmptyStateHint` 用于放置快捷键、拖放提示等低优先级信息。

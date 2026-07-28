@@ -1,0 +1,122 @@
+{
+  "name": "download",
+  "type": "registry:ui",
+  "title": "下载 Download",
+  "description": "同时表达文件信息、下载进度与完成反馈的下载操作组件。",
+  "import": "import { Download, downloadVariants } from \"@/components/ui/download\"",
+  "exports": [
+    "Download",
+    "downloadVariants"
+  ],
+  "typeExports": [
+    "DownloadProps",
+    "DownloadStatus"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/download",
+    "shadcn": "npx shadcn@latest add http://localhost:3000/r/download.json",
+    "npmDependencies": [
+      "lucide-react",
+      "class-variance-authority",
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "filename",
+      "type": "string",
+      "required": true,
+      "control": "text",
+      "description": "Main file label shown in the control."
+    },
+    {
+      "name": "meta",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "Secondary metadata such as file type and size."
+    },
+    {
+      "name": "fileIcon",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "File type icon inferred from the filename. Pass a node to override it or false to hide it."
+    },
+    {
+      "name": "href",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "Direct URL downloaded when the control is activated."
+    },
+    {
+      "name": "status",
+      "type": "\"idle\" | \"downloading\" | \"complete\" | \"error\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "idle",
+        "downloading",
+        "complete",
+        "error"
+      ],
+      "defaultValue": "\"idle\"",
+      "description": "Visual lifecycle state."
+    },
+    {
+      "name": "progress",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0",
+      "description": "Determinate progress from 0 to 100."
+    },
+    {
+      "name": "size",
+      "type": "\"default\" | \"compact\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "default",
+        "compact"
+      ],
+      "defaultValue": "default",
+      "description": "Height and spacing preset."
+    },
+    {
+      "name": "onDownload",
+      "type": "(() => void | Promise<void>)",
+      "required": false,
+      "control": "text",
+      "description": "Called when the user requests the download."
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean"
+    }
+  ],
+  "usage": "`Download` 将文件身份、体积、进度和操作反馈收拢到一个明确的下载入口。它适合资源包、报告、媒体与导出文件；只有一个简单小文件时，普通 Button 搭配下载图标通常更合适。\n\n传入 `href` 可直接触发浏览器下载；需要请求接口或生成文件时使用 `onDownload`。业务方可通过 `status` 与 `progress` 精确控制下载生命周期。\n\n组件默认根据 `filename` 的后缀显示对应的 Lucide 文件图标。通过 `fileIcon` 可传入自定义图标，或传入 `false` 隐藏图标。",
+  "extended": "### 紧凑尺寸与状态\n\n`status` 支持 `idle`、`downloading`、`complete` 与 `error`；`progress` 接受 0–100 的数值。",
+  "events": "- `onDownload()`：用户激活下载时调用，可返回 Promise。\n- 原生 `onFocus`、`onBlur` 等按钮事件会继续透传。",
+  "examples": [
+    {
+      "name": "download-demo",
+      "title": "基础示例"
+    },
+    {
+      "name": "download-states",
+      "title": "紧凑尺寸与状态"
+    }
+  ],
+  "files": [
+    "registry/ui/download.tsx"
+  ],
+  "docsUrl": "http://localhost:3000/docs/components/download",
+  "sourceUrl": "http://localhost:3000/r/download.json"
+}

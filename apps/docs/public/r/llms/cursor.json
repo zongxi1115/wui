@@ -1,0 +1,96 @@
+{
+  "name": "cursor",
+  "type": "registry:ui",
+  "title": "自定义光标 Cursor",
+  "description": "可全局使用或附着到局部区域的弹簧跟随光标。",
+  "categories": [
+    "motion"
+  ],
+  "import": "import { Cursor } from \"@/components/ui/cursor\"",
+  "exports": [
+    "Cursor"
+  ],
+  "typeExports": [
+    "CursorProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/cursor",
+    "shadcn": "npx shadcn@latest add http://localhost:3000/r/cursor.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": true,
+      "control": "text",
+      "description": "Visual rendered at the pointer position."
+    },
+    {
+      "name": "springConfig",
+      "type": "SpringOptions",
+      "required": false,
+      "control": "text",
+      "defaultValue": "{ stiffness: 500, damping: 35, mass: 0.2 }",
+      "description": "Spring physics used to follow the pointer."
+    },
+    {
+      "name": "attachToParent",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "Limit the cursor to the component's parent element."
+    },
+    {
+      "name": "transition",
+      "type": "Transition",
+      "required": false,
+      "control": "text",
+      "defaultValue": "{ duration: 0.15 }",
+      "description": "Entrance and exit transition."
+    },
+    {
+      "name": "variants",
+      "type": "Variants",
+      "required": false,
+      "control": "text",
+      "defaultValue": "{\n  initial: { opacity: 0, scale: 0.75 },\n  animated: { opacity: 1, scale: 1 },\n  exit: { opacity: 0, scale: 0.75 },\n}",
+      "description": "Initial, animated and exit states for the cursor visual."
+    },
+    {
+      "name": "hideNativeCursor",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "Hide the platform cursor over the active target."
+    },
+    {
+      "name": "onPositionChange",
+      "type": "((position: CursorPosition) => void)",
+      "required": false,
+      "control": "text",
+      "description": "Called whenever the pointer coordinates change."
+    }
+  ],
+  "usage": "`Cursor` 用视觉反馈补充作品展示、图片探索等指针交互。`attachToParent` 会把活动范围限制在直接父元素；触摸设备和非精确指针不会显示自定义光标。\n\n  自定义光标会被辅助技术忽略。操作含义、状态和文本仍应在页面内容中完整表达。",
+  "extended": "不设置 `attachToParent` 时，组件会跟随整个页面；可以通过 `springConfig` 调整跟手或拖尾感，并用 `variants` 自定义出现与退出状态。",
+  "events": "`onPositionChange` 返回目标坐标系内的 `{ x, y }`。容器事件仍由父元素自行处理，光标视觉设置了 `pointer-events: none`，不会阻断点击。",
+  "examples": [
+    {
+      "name": "cursor-demo",
+      "title": "基础示例"
+    }
+  ],
+  "files": [
+    "registry/ui/cursor.tsx"
+  ],
+  "docsUrl": "http://localhost:3000/docs/components/cursor",
+  "sourceUrl": "http://localhost:3000/r/cursor.json"
+}

@@ -1,0 +1,83 @@
+{
+  "name": "color-picker",
+  "type": "registry:ui",
+  "title": "颜色选择器 Color Picker",
+  "description": "面向设计 Token 的 OKLCH 颜色选择器，支持感知色彩通道、透明度和精确 CSS 值。",
+  "import": "import { ColorPicker, formatColorValue, parseColorValue } from \"@/components/ui/color-picker\"",
+  "exports": [
+    "ColorPicker",
+    "formatColorValue",
+    "parseColorValue"
+  ],
+  "typeExports": [
+    "ColorPickerProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/color-picker",
+    "shadcn": "npx shadcn@latest add http://localhost:3000/r/color-picker.json",
+    "npmDependencies": [
+      "radix-ui"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "value",
+      "type": "string",
+      "required": true,
+      "control": "text",
+      "description": "CSS OKLCH color value."
+    },
+    {
+      "name": "onValueChange",
+      "type": "(value: string) => void",
+      "required": true,
+      "control": "text",
+      "description": "Called continuously while a channel or exact value changes."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "defaultValue": "选择颜色",
+      "description": "Accessible name for the trigger."
+    },
+    {
+      "name": "showAlpha",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "Show the alpha channel control."
+    },
+    {
+      "name": "swatches",
+      "type": "string[]",
+      "required": false,
+      "control": "text",
+      "defaultValue": "[\n  \"oklch(0.546 0.245 262.881)\", // wui-token-audit-allow -- picker color data\n  \"oklch(0.585 0.233 277.117)\", // wui-token-audit-allow -- picker color data\n  \"oklch(0.577 0.245 27.325)\", // wui-token-audit-allow -- picker color data\n  \"oklch(0.666 0.179 58.318)\", // wui-token-audit-allow -- picker color data\n  \"oklch(0.527 0.154 150.069)\", // wui-token-audit-allow -- picker color data\n  \"oklch(0.6 0.118 184.704)\", // wui-token-audit-allow -- picker color data\n]",
+      "description": "Quick-pick OKLCH swatches."
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean"
+    }
+  ],
+  "usage": "`ColorPicker` 默认提供面向普通用户的基础 RGB 模式，可直接打开系统色板或输入 R、G、B 数值。专业 OKLCH 模式将明度、色度和色相拆开控制，更适合精细配置设计 Token。",
+  "examples": [
+    {
+      "name": "color-picker-demo",
+      "title": "基础示例"
+    }
+  ],
+  "files": [
+    "registry/ui/color-picker.tsx"
+  ],
+  "docsUrl": "http://localhost:3000/docs/components/color-picker",
+  "sourceUrl": "http://localhost:3000/r/color-picker.json"
+}

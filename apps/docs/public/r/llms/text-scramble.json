@@ -1,0 +1,97 @@
+{
+  "name": "text-scramble",
+  "type": "registry:ui",
+  "title": "文本扰码 Text Scramble",
+  "description": "随机字符逐步解析为目标文本的扰码效果。",
+  "categories": [
+    "motion",
+    "text-effect"
+  ],
+  "import": "import { TextScramble } from \"@/components/ui/text-scramble\"",
+  "exports": [
+    "TextScramble"
+  ],
+  "typeExports": [
+    "TextScrambleProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/text-scramble",
+    "shadcn": "npx shadcn@latest add http://localhost:3000/r/text-scramble.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "string",
+      "required": true,
+      "control": "text",
+      "description": "Final text revealed by the scramble."
+    },
+    {
+      "name": "as",
+      "type": "ElementType<any, keyof IntrinsicElements>",
+      "required": false,
+      "control": "text",
+      "defaultValue": "p",
+      "description": "HTML element rendered by the component."
+    },
+    {
+      "name": "duration",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0.8",
+      "description": "Total reveal duration in seconds."
+    },
+    {
+      "name": "speed",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0.04",
+      "description": "Seconds between scramble frames."
+    },
+    {
+      "name": "characterSet",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "defaultValue": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&*",
+      "description": "Characters sampled while scrambling."
+    },
+    {
+      "name": "trigger",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "Start the effect. Toggling false then true replays it."
+    },
+    {
+      "name": "onScrambleComplete",
+      "type": "(() => void)",
+      "required": false,
+      "control": "text",
+      "description": "Called after every character reaches its final value."
+    }
+  ],
+  "usage": "`TextScramble` 适合生成、解码或终端语义的短状态。随机字符只作为视觉层，读屏始终获得最终文本。避免对正文和重要错误信息使用。",
+  "extended": "通过 `characterSet` 限制随机字符风格，例如仅用 `01` 营造二进制效果。`duration` 控制总时长，`speed` 控制随机字符刷新间隔。",
+  "events": "`onScrambleComplete` 在最终文本完全解析后触发。将 `trigger` 从 `false` 切换为 `true` 可以重播。",
+  "examples": [
+    {
+      "name": "text-scramble-demo",
+      "title": "基础示例"
+    }
+  ],
+  "files": [
+    "registry/ui/text-scramble.tsx"
+  ],
+  "docsUrl": "http://localhost:3000/docs/components/text-scramble",
+  "sourceUrl": "http://localhost:3000/r/text-scramble.json"
+}

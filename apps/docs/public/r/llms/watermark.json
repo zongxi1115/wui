@@ -1,0 +1,113 @@
+{
+  "name": "watermark",
+  "type": "registry:ui",
+  "title": "水印 Watermark",
+  "description": "在内容区域上方添加重复的文字水印。",
+  "import": "import { Watermark } from \"@/components/ui/watermark\"",
+  "exports": [
+    "Watermark"
+  ],
+  "typeExports": [
+    "WatermarkFont",
+    "WatermarkProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/watermark",
+    "shadcn": "npx shadcn@latest add http://localhost:3000/r/watermark.json",
+    "npmDependencies": [],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "content",
+      "type": "string | string[]",
+      "required": false,
+      "control": "text",
+      "defaultValue": "WUI",
+      "description": "One line or multiple lines of repeated watermark text."
+    },
+    {
+      "name": "rotate",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "-22",
+      "description": "Clockwise rotation angle in degrees."
+    },
+    {
+      "name": "gap",
+      "type": "[number, number]",
+      "required": false,
+      "control": "text",
+      "defaultValue": "[80, 80]",
+      "description": "Horizontal and vertical space between watermark cells."
+    },
+    {
+      "name": "offset",
+      "type": "[number, number]",
+      "required": false,
+      "control": "text",
+      "defaultValue": "[0, 0]",
+      "description": "Horizontal and vertical offset of the repeating pattern."
+    },
+    {
+      "name": "width",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "160",
+      "description": "Width of one watermark mark in pixels."
+    },
+    {
+      "name": "height",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "64",
+      "description": "Height of one watermark mark in pixels."
+    },
+    {
+      "name": "font",
+      "type": "WatermarkFont",
+      "required": false,
+      "control": "text",
+      "description": "Text typography options."
+    },
+    {
+      "name": "opacity",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0.15",
+      "description": "Opacity of the watermark layer."
+    },
+    {
+      "name": "zIndex",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "10",
+      "description": "Stacking order of the watermark layer."
+    }
+  ],
+  "usage": "`Watermark` 在内容区域上叠加重复文字，用于表达所有权、保密级别或文档状态。水印层会忽略\n指针事件，因此其下方的控件和可选择文本仍可正常使用。\n\n- 适合用于报告、预览、导出文档页面和受限内容。\n- 需要同时展示查看者身份或时间戳时，可以传入多行文本。\n- 水印只是一种视觉提示，不能代替权限控制。\n\n  `Watermark` 默认不包含任何动画。它是一个被动的环境层，应该安静地位于内容之上；动画既会\n  抢夺注意力、影响受保护内容的可读性，也会导致大面积平铺区域反复重绘。并非每个组件都需要\n  动效，取舍原则见 `docs/COMPONENT-SPEC.md` 第 9 节。",
+  "extended": "### 多行文字与自定义间距\n\n向 `content` 传入数组即可展示多行文字。较长标签需要更多空间时，可同时调整 `width`、\n`height` 和 `gap`，再微调 `rotate` 与 `opacity`，确保受保护内容仍清晰可读。",
+  "events": "根元素会透传原生 `<div>` 事件和属性。水印视觉层使用 `pointer-events: none`，因此不会成为事件目标。",
+  "examples": [
+    {
+      "name": "watermark-demo",
+      "title": "基础示例"
+    },
+    {
+      "name": "watermark-custom",
+      "title": "多行文字与自定义间距"
+    }
+  ],
+  "files": [
+    "registry/ui/watermark.tsx"
+  ],
+  "docsUrl": "http://localhost:3000/docs/components/watermark",
+  "sourceUrl": "http://localhost:3000/r/watermark.json"
+}

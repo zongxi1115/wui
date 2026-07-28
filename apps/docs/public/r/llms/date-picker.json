@@ -1,0 +1,120 @@
+{
+  "name": "date-picker",
+  "type": "registry:ui",
+  "title": "日期选择器 Date Picker",
+  "description": "在紧凑弹层中选择、格式化和清除日期。",
+  "import": "import { DatePicker } from \"@/components/ui/date-picker\"",
+  "exports": [
+    "DatePicker"
+  ],
+  "typeExports": [
+    "DatePickerProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/date-picker",
+    "shadcn": "npx shadcn@latest add http://localhost:3000/r/date-picker.json",
+    "npmDependencies": [
+      "radix-ui",
+      "lucide-react"
+    ],
+    "registryDependencies": [
+      "utils",
+      "calendar"
+    ]
+  },
+  "props": [
+    {
+      "name": "value",
+      "type": "Date",
+      "required": false,
+      "control": "text",
+      "description": "Selected date."
+    },
+    {
+      "name": "defaultValue",
+      "type": "Date",
+      "required": false,
+      "control": "text",
+      "description": "Initially selected date in uncontrolled mode."
+    },
+    {
+      "name": "onValueChange",
+      "type": "((date: Date) => void)",
+      "required": false,
+      "control": "text",
+      "description": "Called after a date is selected or cleared."
+    },
+    {
+      "name": "placeholder",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "defaultValue": "选择日期",
+      "description": "Placeholder shown without a value."
+    },
+    {
+      "name": "locale",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "defaultValue": "zh-CN",
+      "description": "Date formatting locale."
+    },
+    {
+      "name": "formatOptions",
+      "type": "DateTimeFormatOptions",
+      "required": false,
+      "control": "text",
+      "description": "Intl date formatting options."
+    },
+    {
+      "name": "clearable",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "Allow clearing the current selection."
+    },
+    {
+      "name": "min",
+      "type": "Date",
+      "required": false,
+      "control": "text",
+      "description": "Earliest selectable day."
+    },
+    {
+      "name": "max",
+      "type": "Date",
+      "required": false,
+      "control": "text",
+      "description": "Latest selectable day."
+    },
+    {
+      "name": "disabledDate",
+      "type": "((date: Date) => boolean)",
+      "required": false,
+      "control": "text",
+      "description": "Custom disabled-day matcher."
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean"
+    }
+  ],
+  "usage": "`DatePicker` 用于表单中的单日期输入，并复用 Calendar 的日期规则与键盘能力。需要连续日期、多个日期或时间范围时，应组合专门的范围选择器，而不是在单值接口中塞入数组。",
+  "extended": "使用 `locale` 与 `formatOptions` 控制触发器文案；`min`、`max` 和 `disabledDate` 会原样传递给内部 Calendar。表单校验信息应放在触发器下方，而不是放进弹层。",
+  "events": "`onValueChange(date | undefined)` 在选择或清空日期后触发。选中日期后弹层自动关闭；点击清除按钮不会打开弹层。",
+  "examples": [
+    {
+      "name": "date-picker-demo",
+      "title": "基础示例"
+    }
+  ],
+  "files": [
+    "registry/ui/date-picker.tsx"
+  ],
+  "docsUrl": "http://localhost:3000/docs/components/date-picker",
+  "sourceUrl": "http://localhost:3000/r/date-picker.json"
+}

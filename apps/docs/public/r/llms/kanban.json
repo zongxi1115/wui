@@ -1,0 +1,55 @@
+{
+  "name": "kanban",
+  "type": "registry:ui",
+  "title": "看板 Kanban",
+  "description": "用可组合列和原生拖放组织任务流转。",
+  "import": "import { Kanban, KanbanCard, KanbanColumn, KanbanColumnBody, KanbanColumnCount, KanbanColumnHeader, KanbanColumnTitle } from \"@/components/ui/kanban\"",
+  "exports": [
+    "Kanban",
+    "KanbanCard",
+    "KanbanColumn",
+    "KanbanColumnBody",
+    "KanbanColumnCount",
+    "KanbanColumnHeader",
+    "KanbanColumnTitle"
+  ],
+  "typeExports": [
+    "KanbanCardProps",
+    "KanbanColumnProps",
+    "KanbanMove",
+    "KanbanProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/kanban",
+    "shadcn": "npx shadcn@latest add http://localhost:3000/r/kanban.json",
+    "npmDependencies": [
+      "lucide-react"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "onMove",
+      "type": "((move: KanbanMove) => void)",
+      "required": false,
+      "control": "text",
+      "description": "Called when a card is dropped into another column."
+    }
+  ],
+  "usage": "`Kanban` 用于按状态呈现可流转工作项，适合任务、线索和内容生产流程。组件只管理拖放上下文，不持有业务数据，因此排序、权限和持久化仍由调用方决定；稳定的二维数据更适合 Table。",
+  "extended": "列由 `KanbanColumnHeader`、`KanbanColumnTitle`、`KanbanColumnCount` 与 `KanbanColumnBody` 自由组合。移动端默认横向滚动；触屏排序或复杂列内重排场景可在这些布局原语上接入专用拖拽方案。",
+  "events": "卡片跨列放下时触发 `onMove({ itemId, from, to })`。每个 `KanbanColumn` 与 `KanbanCard` 都必须提供稳定的 `value`，原生拖拽事件仍可通过对应元素监听。",
+  "examples": [
+    {
+      "name": "kanban-demo",
+      "title": "基础示例"
+    }
+  ],
+  "files": [
+    "registry/ui/kanban.tsx"
+  ],
+  "docsUrl": "http://localhost:3000/docs/components/kanban",
+  "sourceUrl": "http://localhost:3000/r/kanban.json"
+}

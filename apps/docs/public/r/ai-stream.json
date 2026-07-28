@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "ai-stream",
+  "type": "registry:ui",
+  "title": "AI Stream",
+  "description": "Reusable streamed text for answers, reasoning, and other AI content.",
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/ai-stream.tsx",
+      "type": "registry:ui",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { AnimatePresence, motion, useReducedMotion } from \"motion/react\"\n\nimport { cn } from \"@/registry/lib/utils\"\n\nexport interface AiStreamProps\n  extends Omit<React.ComponentProps<\"div\">, \"children\"> {\n  /** The complete text received so far. */\n  children: string\n  /** Whether more text is expected. @default false */\n  isStreaming?: boolean\n  /** Number of trailing characters covered by the live feather. @default 18 */\n  featherLength?: number\n}\n\n/** Renders cumulative streamed text with a feathered right edge. */\nfunction AiStream({\n  className,\n  children,\n  isStreaming = false,\n  featherLength = 18,\n  ...props\n}: AiStreamProps) {\n  const tailLength = isStreaming\n    ? Math.min(Math.max(featherLength, 0), children.length)\n    : 0\n  const stableText = tailLength > 0 ? children.slice(0, -tailLength) : children\n  const liveEdge = tailLength > 0 ? children.slice(-tailLength) : \"\"\n\n  return (\n    <div\n      data-slot=\"ai-stream\"\n      aria-live={isStreaming ? \"polite\" : undefined}\n      aria-busy={isStreaming}\n      className={cn(\"whitespace-pre-wrap\", className)}\n      {...props}\n    >\n      {stableText}\n      {liveEdge ? (\n        <span\n          data-slot=\"ai-stream-edge\"\n          className=\"box-decoration-clone\"\n          style={{\n            backgroundImage:\n              \"linear-gradient(90deg, currentColor 0%, currentColor 42%, transparent 100%)\",\n            backgroundClip: \"text\",\n            WebkitBackgroundClip: \"text\",\n            WebkitTextFillColor: \"transparent\",\n          }}\n        >\n          {liveEdge}\n        </span>\n      ) : null}\n    </div>\n  )\n}\n\nexport interface AiStreamDeltasProps\n  extends Omit<React.ComponentProps<\"div\">, \"children\"> {\n  /** Ordered delta segments. Append entries without rewriting previous ones. */\n  deltas: readonly string[]\n  /** Whether more deltas are expected. @default false */\n  isStreaming?: boolean\n}\n\n/** Renders each incoming delta as a short, independent fade-in segment. */\nfunction AiStreamDeltas({\n  className,\n  deltas,\n  isStreaming = false,\n  ...props\n}: AiStreamDeltasProps) {\n  const reduceMotion = useReducedMotion()\n\n  return (\n    <div\n      data-slot=\"ai-stream-deltas\"\n      aria-live={isStreaming ? \"polite\" : undefined}\n      aria-busy={isStreaming}\n      className={cn(\"whitespace-pre-wrap\", className)}\n      {...props}\n    >\n      <AnimatePresence initial={false}>\n        {deltas.map((delta, index) => (\n          <motion.span\n            key={index}\n            data-slot=\"ai-stream-delta\"\n            initial={\n              reduceMotion\n                ? false\n                : { opacity: 0, y: 3, filter: \"blur(3px)\" }\n            }\n            animate={{ opacity: 1, y: 0, filter: \"blur(0px)\" }}\n            transition={\n              reduceMotion\n                ? { duration: 0 }\n                : { duration: 0.4, ease: [0.22, 1, 0.36, 1] }\n            }\n          >\n            {delta}\n          </motion.span>\n        ))}\n      </AnimatePresence>\n    </div>\n  )\n}\n\nexport { AiStream, AiStreamDeltas }\n"
+    }
+  ],
+  "categories": [
+    "ai"
+  ]
+}

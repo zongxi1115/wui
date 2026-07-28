@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "ai-todo",
+  "type": "registry:ui",
+  "title": "AI Todo",
+  "description": "Agent task plans with readable progress and optional status interaction.",
+  "dependencies": [
+    "class-variance-authority",
+    "lucide-react"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/ai-todo.tsx",
+      "type": "registry:ui",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { cva } from \"class-variance-authority\"\nimport {\n  BanIcon,\n  CheckIcon,\n  CircleIcon,\n  LoaderCircleIcon,\n  ListTodoIcon,\n} from \"lucide-react\"\n\nimport { cn } from \"@/registry/lib/utils\"\n\nexport type AiTodoStatus =\n  | \"pending\"\n  | \"in-progress\"\n  | \"completed\"\n  | \"cancelled\"\n\nconst aiTodoIndicatorVariants = cva(\n  \"flex size-5 shrink-0 items-center justify-center rounded-full border\",\n  {\n    variants: {\n      status: {\n        pending: \"border-border text-muted-foreground\",\n        \"in-progress\": \"border-info/40 bg-info/10 text-info\",\n        completed: \"border-success bg-success text-success-foreground\",\n        cancelled: \"border-border bg-muted text-muted-foreground\",\n      },\n    },\n    defaultVariants: { status: \"pending\" },\n  }\n)\n\nconst todoIcons = {\n  pending: CircleIcon,\n  \"in-progress\": LoaderCircleIcon,\n  completed: CheckIcon,\n  cancelled: BanIcon,\n} as const\n\nfunction AiTodo({ className, ...props }: React.ComponentProps<\"section\">) {\n  return (\n    <section\n      data-slot=\"ai-todo\"\n      className={cn(\"overflow-hidden rounded-md border bg-background\", className)}\n      {...props}\n    />\n  )\n}\n\nfunction AiTodoHeader({\n  className,\n  children,\n  ...props\n}: React.ComponentProps<\"header\">) {\n  return (\n    <header\n      data-slot=\"ai-todo-header\"\n      className={cn(\n        \"flex items-center gap-2 border-b px-3 py-2.5 text-sm font-medium\",\n        className\n      )}\n      {...props}\n    >\n      <ListTodoIcon className=\"size-4 text-muted-foreground\" />\n      {children}\n    </header>\n  )\n}\n\nfunction AiTodoList({ className, ...props }: React.ComponentProps<\"ol\">) {\n  return (\n    <ol\n      data-slot=\"ai-todo-list\"\n      className={cn(\"divide-y\", className)}\n      {...props}\n    />\n  )\n}\n\nexport interface AiTodoItemProps\n  extends Omit<React.ComponentProps<\"li\">, \"title\"> {\n  /** Main task label. */\n  title: React.ReactNode\n  /** Optional supporting detail. */\n  description?: React.ReactNode\n  /** Task progression state. @default \"pending\" */\n  status?: AiTodoStatus\n  /** Called when the status control is pressed. */\n  onStatusChange?: (status: AiTodoStatus) => void\n}\n\n/** A readable task row with optional status interaction. */\nfunction AiTodoItem({\n  className,\n  title,\n  description,\n  status = \"pending\",\n  onStatusChange,\n  ...props\n}: AiTodoItemProps) {\n  const Icon = todoIcons[status]\n  const nextStatus = status === \"completed\" ? \"pending\" : \"completed\"\n\n  return (\n    <li\n      data-slot=\"ai-todo-item\"\n      data-status={status}\n      className={cn(\"flex items-start gap-3 px-3 py-3\", className)}\n      {...props}\n    >\n      <button\n        type=\"button\"\n        data-slot=\"ai-todo-indicator\"\n        aria-label={status === \"completed\" ? \"标记为未完成\" : \"标记为已完成\"}\n        disabled={!onStatusChange}\n        className={cn(\n          aiTodoIndicatorVariants({ status }),\n          onStatusChange\n            ? \"cursor-pointer outline-none focus-visible:ring-[3px] focus-visible:ring-ring/35\"\n            : \"cursor-default\"\n        )}\n        onClick={() => onStatusChange?.(nextStatus)}\n      >\n        <Icon\n          className={cn(\n            \"size-3\",\n            status === \"in-progress\" && \"motion-safe:animate-spin\"\n          )}\n        />\n      </button>\n      <div className=\"min-w-0 flex-1\">\n        <div\n          data-slot=\"ai-todo-title\"\n          className={cn(\n            \"text-sm font-medium leading-5\",\n            (status === \"completed\" || status === \"cancelled\") &&\n              \"text-muted-foreground line-through\"\n          )}\n        >\n          {title}\n        </div>\n        {description ? (\n          <div\n            data-slot=\"ai-todo-description\"\n            className=\"mt-0.5 text-xs leading-5 text-muted-foreground\"\n          >\n            {description}\n          </div>\n        ) : null}\n      </div>\n    </li>\n  )\n}\n\nexport {\n  AiTodo,\n  AiTodoHeader,\n  AiTodoItem,\n  AiTodoList,\n  aiTodoIndicatorVariants,\n}\n"
+    }
+  ],
+  "categories": [
+    "ai"
+  ]
+}

@@ -1,0 +1,93 @@
+{
+  "name": "confirm-dialog",
+  "type": "registry:component",
+  "title": "确认对话框 Confirm Dialog",
+  "description": "由 Dialog 和 Button 组合而成的开箱即用确认对话框。",
+  "import": "import { ConfirmDialog } from \"@/components/confirm-dialog\"",
+  "exports": [
+    "ConfirmDialog"
+  ],
+  "typeExports": [
+    "ConfirmDialogProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/confirm-dialog",
+    "shadcn": "npx shadcn@latest add http://localhost:3000/r/confirm-dialog.json",
+    "npmDependencies": [],
+    "registryDependencies": [
+      "dialog",
+      "button"
+    ]
+  },
+  "props": [
+    {
+      "name": "trigger",
+      "type": "ReactNode",
+      "required": true,
+      "control": "text",
+      "description": "The element that opens the dialog. Rendered inside the trigger via `asChild`."
+    },
+    {
+      "name": "title",
+      "type": "string",
+      "required": true,
+      "control": "text",
+      "description": "Heading shown at the top of the dialog."
+    },
+    {
+      "name": "description",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "Optional supporting text under the title."
+    },
+    {
+      "name": "confirmLabel",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "defaultValue": "Confirm",
+      "description": "Label for the confirm button."
+    },
+    {
+      "name": "cancelLabel",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "defaultValue": "Cancel",
+      "description": "Label for the cancel button."
+    },
+    {
+      "name": "variant",
+      "type": "\"default\" | \"destructive\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "default",
+        "destructive"
+      ],
+      "defaultValue": "default",
+      "description": "Visual style of the confirm button."
+    },
+    {
+      "name": "onConfirm",
+      "type": "(() => void)",
+      "required": false,
+      "control": "text",
+      "description": "Called when the user clicks the confirm button."
+    }
+  ],
+  "usage": "`ConfirmDialog` 将常见的“确定要继续吗？”交互封装成一个声明式组件，免去每次需要确认操作时\n重复组合 `Dialog` 和 `Button`。它适合用于删除等具有破坏性或不可逆的操作。",
+  "extended": "组件源码会直接保存在你的项目中，你可以自由扩展，例如为确认按钮添加异步加载状态、\n透传 `onOpenChange`，或调整底部操作区域的布局。",
+  "examples": [
+    {
+      "name": "confirm-dialog-demo",
+      "title": "基础示例"
+    }
+  ],
+  "files": [
+    "registry/components/confirm-dialog.tsx"
+  ],
+  "docsUrl": "http://localhost:3000/docs/components/confirm-dialog",
+  "sourceUrl": "http://localhost:3000/r/confirm-dialog.json"
+}

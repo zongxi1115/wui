@@ -9,8 +9,12 @@
     "registry:build": {
       "outputs": [
         "public/r/**",
+        "public/llms.txt",
         "registry/__index__.tsx",
-        "registry/__components__.tsx"
+        "registry/__components__.tsx",
+        "registry/__props__.ts",
+        "registry/__props__.json",
+        "registry/__playground__.tsx"
       ]
     },
     "dev": {

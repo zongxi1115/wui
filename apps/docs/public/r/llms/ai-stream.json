@@ -1,0 +1,65 @@
+{
+  "name": "ai-stream",
+  "type": "registry:ui",
+  "title": "AI 流式文本 AI Stream",
+  "description": "可用于普通回答与思考过程的通用流式文本动效。",
+  "categories": [
+    "ai"
+  ],
+  "import": "import { AiStream, AiStreamDeltas } from \"@/components/ui/ai-stream\"",
+  "exports": [
+    "AiStream",
+    "AiStreamDeltas"
+  ],
+  "typeExports": [
+    "AiStreamDeltasProps",
+    "AiStreamProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/ai-stream",
+    "shadcn": "npx shadcn@latest add http://localhost:3000/r/ai-stream.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "string",
+      "required": true,
+      "control": "text",
+      "description": "The complete text received so far."
+    },
+    {
+      "name": "isStreaming",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "Whether more text is expected."
+    },
+    {
+      "name": "featherLength",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "18",
+      "description": "Number of trailing characters covered by the live feather."
+    }
+  ],
+  "usage": "`AiStream` 是与消息类型无关的流式文本组件。普通助手回答可以直接使用；需要展示模型返回的推理摘要时，也可以把同一个组件放进 [`AiReasoning`](/docs/components/ai-reasoning)。\n\n传入当前累计文本与 `isStreaming` 状态即可。生成期间只有最新文字的最右侧边缘羽化，已稳定的正文不会重复执行动画；生成结束后立即恢复完整文字。",
+  "examples": [
+    {
+      "name": "ai-stream-demo",
+      "title": "基础示例"
+    }
+  ],
+  "files": [
+    "registry/ui/ai-stream.tsx"
+  ],
+  "docsUrl": "http://localhost:3000/docs/components/ai-stream",
+  "sourceUrl": "http://localhost:3000/r/ai-stream.json"
+}

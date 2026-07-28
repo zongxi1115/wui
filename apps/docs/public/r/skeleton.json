@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "skeleton",
+  "type": "registry:ui",
+  "title": "Skeleton",
+  "description": "A neutral placeholder that preserves layout while content loads.",
+  "dependencies": [
+    "class-variance-authority"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/skeleton.tsx",
+      "type": "registry:ui",
+      "content": "import * as React from \"react\"\nimport { cva, type VariantProps } from \"class-variance-authority\"\n\nimport { cn } from \"@/registry/lib/utils\"\n\nconst skeletonVariants = cva(\"shrink-0 bg-muted\", {\n  variants: {\n    shape: {\n      default: \"rounded-md\",\n      circle: \"rounded-full\",\n      text: \"h-4 rounded-sm\",\n    },\n    animation: {\n      pulse: \"animate-pulse motion-reduce:animate-none\",\n      none: \"\",\n    },\n  },\n  defaultVariants: {\n    shape: \"default\",\n    animation: \"pulse\",\n  },\n})\n\nexport interface SkeletonProps\n  extends React.ComponentProps<\"div\">,\n    VariantProps<typeof skeletonVariants> {\n  /** Corner treatment for the placeholder. @default \"default\" */\n  shape?: \"default\" | \"circle\" | \"text\"\n  /** Loading animation. @default \"pulse\" */\n  animation?: \"pulse\" | \"none\"\n}\n\n/** A neutral placeholder that preserves layout while content is loading. */\nfunction Skeleton({\n  className,\n  shape = \"default\",\n  animation = \"pulse\",\n  ...props\n}: SkeletonProps) {\n  return (\n    <div\n      data-slot=\"skeleton\"\n      data-shape={shape}\n      data-animation={animation}\n      aria-hidden=\"true\"\n      className={cn(skeletonVariants({ shape, animation }), className)}\n      {...props}\n    />\n  )\n}\n\nexport interface SkeletonTextProps extends React.ComponentProps<\"div\"> {\n  /** Number of text rows. @default 3 */\n  lines?: number\n  /** Width of the final row. @default \"70%\" */\n  lastLineWidth?: React.CSSProperties[\"width\"]\n  /** Loading animation shared by every row. @default \"pulse\" */\n  animation?: \"pulse\" | \"none\"\n}\n\n/** Generates a compact stack of text-shaped skeleton rows. */\nfunction SkeletonText({\n  className,\n  lines = 3,\n  lastLineWidth = \"70%\",\n  animation = \"pulse\",\n  ...props\n}: SkeletonTextProps) {\n  return (\n    <div\n      data-slot=\"skeleton-text\"\n      aria-hidden=\"true\"\n      className={cn(\"grid w-full gap-2\", className)}\n      {...props}\n    >\n      {Array.from({ length: lines }, (_, index) => (\n        <Skeleton\n          key={index}\n          shape=\"text\"\n          animation={animation}\n          className=\"w-full\"\n          style={index === lines - 1 ? { width: lastLineWidth } : undefined}\n        />\n      ))}\n    </div>\n  )\n}\n\nexport { Skeleton, SkeletonText, skeletonVariants }\n"
+    }
+  ]
+}

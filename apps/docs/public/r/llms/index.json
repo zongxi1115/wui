@@ -1,0 +1,765 @@
+{
+  "name": "wui",
+  "homepage": "http://localhost:3000",
+  "items": [
+    {
+      "name": "ai-chat",
+      "type": "registry:ui",
+      "title": "AI 对话 AI Chat",
+      "description": "可组合的 AI 消息、滚动容器与提示输入框。",
+      "categories": [
+        "ai"
+      ],
+      "keyProps": [],
+      "exampleCount": 1
+    },
+    {
+      "name": "ai-conversation-timeline",
+      "type": "registry:ui",
+      "title": "AI 对话时间线 AI Conversation Timeline",
+      "description": "用紧凑刻度浏览长对话，悬停预览并快速定位到指定轮次。",
+      "categories": [
+        "ai"
+      ],
+      "keyProps": [
+        "items: readonly AiConversationTimelineItem[]",
+        "activeId: string",
+        "defaultActiveId: string",
+        "previewSide: left|right",
+        "preview: boolean",
+        "onActiveChange: ((id: string) => void)"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "ai-tool",
+      "type": "registry:ui",
+      "title": "AI 工具调用 AI Tool",
+      "description": "展示 AI 工具的执行状态、参数、结果与错误。",
+      "categories": [
+        "ai"
+      ],
+      "keyProps": [
+        "status: pending|approval|running|success|error|denied",
+        "disabled: boolean",
+        "asChild: boolean"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "ai-todo",
+      "type": "registry:ui",
+      "title": "AI 任务清单 AI Todo",
+      "description": "展示 Agent 计划、执行进度与任务说明。",
+      "categories": [
+        "ai"
+      ],
+      "keyProps": [],
+      "exampleCount": 1
+    },
+    {
+      "name": "ai-stream",
+      "type": "registry:ui",
+      "title": "AI 流式文本 AI Stream",
+      "description": "可用于普通回答与思考过程的通用流式文本动效。",
+      "categories": [
+        "ai"
+      ],
+      "keyProps": [
+        "children: string",
+        "isStreaming: boolean",
+        "featherLength: number"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "ai-reasoning",
+      "type": "registry:ui",
+      "title": "AI 推理过程 AI Reasoning",
+      "description": "流式展示模型返回的 reasoning 文本，并在生成期间自动展开。",
+      "categories": [
+        "ai"
+      ],
+      "keyProps": [
+        "isStreaming: boolean",
+        "duration: number",
+        "disabled: boolean",
+        "asChild: boolean"
+      ],
+      "exampleCount": 3
+    },
+    {
+      "name": "utils",
+      "type": "registry:lib",
+      "title": "cn utility",
+      "description": "Tailwind class merge helper used by every component.",
+      "keyProps": [],
+      "exampleCount": 0
+    },
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "按钮 Button",
+      "description": "显示一个按钮，或显示一个外观类似按钮的组件。",
+      "keyProps": [
+        "variant: default|destructive|outline|secondary|ghost|link",
+        "size: default|sm|lg|icon",
+        "asChild: boolean",
+        "motion: boolean",
+        "ripple: boolean",
+        "disabled: boolean"
+      ],
+      "exampleCount": 9
+    },
+    {
+      "name": "dialog",
+      "type": "registry:ui",
+      "title": "对话框 Dialog",
+      "description": "基于 Radix UI 构建、覆盖在主窗口之上的浮层窗口。",
+      "keyProps": [
+        "variant: modal|inline"
+      ],
+      "exampleCount": 2
+    },
+    {
+      "name": "morphing-dialog",
+      "type": "registry:ui",
+      "title": "形变对话框 Morphing Dialog",
+      "description": "从触发元素平滑变形成聚焦内容的模态对话框。",
+      "categories": [
+        "motion",
+        "advanced"
+      ],
+      "keyProps": [
+        "transition: Transition"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "morphing-popover",
+      "type": "registry:ui",
+      "title": "形变弹出框 Morphing Popover",
+      "description": "从触发器原位展开成轻量交互面板的弹出层。",
+      "categories": [
+        "motion",
+        "advanced"
+      ],
+      "keyProps": [
+        "open: boolean",
+        "defaultOpen: boolean",
+        "onOpenChange: ((open: boolean) => void)",
+        "transition: Transition",
+        "variants: Variants"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "progressive-blur",
+      "type": "registry:ui",
+      "title": "渐进模糊 Progressive Blur",
+      "description": "使用多层渐变遮罩构建方向可控的渐进式背景模糊。",
+      "categories": [
+        "motion",
+        "advanced"
+      ],
+      "keyProps": [
+        "direction: top|right|bottom|left",
+        "blurLayers: number",
+        "blurIntensity: number"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "watermark",
+      "type": "registry:ui",
+      "title": "水印 Watermark",
+      "description": "在内容区域上方添加重复的文字水印。",
+      "keyProps": [
+        "content: string | string[]",
+        "rotate: number",
+        "gap: [number, number]",
+        "offset: [number, number]",
+        "width: number",
+        "height: number"
+      ],
+      "exampleCount": 2
+    },
+    {
+      "name": "confirm-dialog",
+      "type": "registry:component",
+      "title": "确认对话框 Confirm Dialog",
+      "description": "由 Dialog 和 Button 组合而成的开箱即用确认对话框。",
+      "keyProps": [
+        "trigger: ReactNode",
+        "title: string",
+        "description: string",
+        "confirmLabel: string",
+        "cancelLabel: string",
+        "variant: default|destructive"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "motion",
+      "type": "registry:ui",
+      "title": "动效 Motion",
+      "description": "基于 motion 构建的可选动画基础组件和预设库。",
+      "keyProps": [
+        "preset: fade|scale|slide-up|slide-down|slide-left|slide-right|pop|blur",
+        "transition: Transition | \"smooth\" | \"spring\" | \"snappy\"",
+        "delay: number",
+        "inView: boolean",
+        "once: boolean",
+        "asChild: boolean"
+      ],
+      "exampleCount": 4
+    },
+    {
+      "name": "icon",
+      "type": "registry:ui",
+      "title": "图标 Icon",
+      "description": "基于 Lucide 的可搜索图标集合与无障碍渲染组件。",
+      "keyProps": [
+        "icon: LucideIcon",
+        "size: number | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\"",
+        "label: string"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "animated-icon",
+      "type": "registry:ui",
+      "title": "动态图标 Animated Icon",
+      "description": "图标内部路径会随交互运动的 Lucide 动态图标集合。",
+      "keyProps": [
+        "icon: AnimatedIconGlyph",
+        "label: string",
+        "ref: Ref<AnimatedIconHandle>",
+        "size: number",
+        "duration: number",
+        "isAnimated: boolean"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "animated-icon-collection",
+      "type": "registry:ui",
+      "title": "Animated Icon Collection",
+      "description": "The complete deduplicated AnimateIcons and ItsHover path-animated icon collection.",
+      "keyProps": [],
+      "exampleCount": 0
+    },
+    {
+      "name": "shiny-button",
+      "type": "registry:ui",
+      "title": "闪光按钮 Shiny Button",
+      "description": "带有流动扫光效果的填充按钮。",
+      "categories": [
+        "fancy"
+      ],
+      "keyProps": [
+        "speed: number",
+        "gap: number",
+        "disabled: boolean"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "switch",
+      "type": "registry:ui",
+      "title": "开关 Switch",
+      "description": "带弹簧滑块与完整无障碍语义的二元状态控件。",
+      "keyProps": [
+        "size: sm|default|lg",
+        "disabled: boolean",
+        "asChild: boolean"
+      ],
+      "exampleCount": 2
+    },
+    {
+      "name": "progress",
+      "type": "registry:ui",
+      "title": "进度条 Progress",
+      "description": "细腻、克制并支持确定与不确定状态的进度指示器。",
+      "keyProps": [
+        "variant: linear|circular",
+        "size: sm|default|lg",
+        "color: primary|blue|success|warning|destructive",
+        "showValue: boolean",
+        "indicatorClassName: string",
+        "asChild: boolean"
+      ],
+      "exampleCount": 2
+    },
+    {
+      "name": "slider",
+      "type": "registry:ui",
+      "title": "滑动输入 Slider",
+      "description": "悬浮时展开轨道、数值标签实时跟随的可调输入控件。",
+      "keyProps": [
+        "variant: default|expand",
+        "showValue: hover|always|never",
+        "formatValue: ((value: number) => ReactNode)",
+        "disabled: boolean",
+        "asChild: boolean"
+      ],
+      "exampleCount": 2
+    },
+    {
+      "name": "color-picker",
+      "type": "registry:ui",
+      "title": "颜色选择器 Color Picker",
+      "description": "面向设计 Token 的 OKLCH 颜色选择器，支持感知色彩通道、透明度和精确 CSS 值。",
+      "keyProps": [
+        "value: string",
+        "onValueChange: (value: string) => void",
+        "label: string",
+        "showAlpha: boolean",
+        "swatches: string[]",
+        "disabled: boolean"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "radio-group",
+      "type": "registry:ui",
+      "title": "单选框 Radio Group",
+      "description": "用于互斥选项的轻量单选控件组。",
+      "keyProps": [
+        "disabled: boolean",
+        "asChild: boolean"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "checkbox",
+      "type": "registry:ui",
+      "title": "多选框 Checkbox",
+      "description": "支持选中、未选中与不确定状态的多选控件。",
+      "keyProps": [
+        "size: sm|default|lg",
+        "disabled: boolean",
+        "asChild: boolean"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "select",
+      "type": "registry:ui",
+      "title": "下拉框 Select",
+      "description": "带景深入场、分组与键盘导航的选项选择器。",
+      "keyProps": [
+        "disabled: boolean"
+      ],
+      "exampleCount": 2
+    },
+    {
+      "name": "tabs",
+      "type": "registry:ui",
+      "title": "标签栏 Tabs",
+      "description": "使用共享布局动效平滑切换内容分区。",
+      "keyProps": [
+        "asChild: boolean"
+      ],
+      "exampleCount": 2
+    },
+    {
+      "name": "input",
+      "type": "registry:ui",
+      "title": "输入框 Input",
+      "description": "支持前后内容、浮动标签、下划线和错误态的输入框。",
+      "keyProps": [
+        "variant: default|underline",
+        "visualSize: default|sm|lg",
+        "label: ReactNode",
+        "startContent: ReactNode",
+        "endContent: ReactNode",
+        "wrapperClassName: string"
+      ],
+      "exampleCount": 4
+    },
+    {
+      "name": "download",
+      "type": "registry:ui",
+      "title": "下载 Download",
+      "description": "同时表达文件信息、下载进度与完成反馈的下载操作组件。",
+      "keyProps": [
+        "filename: string",
+        "meta: string",
+        "fileIcon: ReactNode",
+        "href: string",
+        "status: idle|downloading|complete|error",
+        "progress: number"
+      ],
+      "exampleCount": 2
+    },
+    {
+      "name": "upload",
+      "type": "registry:ui",
+      "title": "上传 Upload",
+      "description": "支持点击选择、拖拽放置与上传状态反馈的文件上传组件。",
+      "keyProps": [
+        "label: string",
+        "description: string",
+        "status: idle|uploading|complete|error",
+        "progress: number",
+        "size: default|compact",
+        "multiple: boolean"
+      ],
+      "exampleCount": 2
+    },
+    {
+      "name": "kbd",
+      "type": "registry:ui",
+      "title": "键盘提示 Kbd",
+      "description": "用紧凑、克制的按键样式展示快捷键与键盘操作。",
+      "keyProps": [
+        "size: sm|default"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "tooltip",
+      "type": "registry:ui",
+      "title": "文字提示 Tooltip",
+      "description": "在悬停或键盘聚焦时，为控件补充简短的上下文说明。",
+      "keyProps": [
+        "open: boolean",
+        "defaultOpen: boolean",
+        "onOpenChange: ((open: boolean) => void)",
+        "delayDuration: number",
+        "disableHoverableContent: boolean"
+      ],
+      "exampleCount": 2
+    },
+    {
+      "name": "image-preview",
+      "type": "registry:ui",
+      "title": "图片预览 Image Preview",
+      "description": "点击缩略图进入沉浸式大图预览，并提供缩放、旋转与下载操作。",
+      "keyProps": [
+        "src: string",
+        "alt: string",
+        "previewSrc: string",
+        "caption: ReactNode",
+        "open: boolean",
+        "defaultOpen: boolean"
+      ],
+      "exampleCount": 2
+    },
+    {
+      "name": "skeleton",
+      "type": "registry:ui",
+      "title": "骨架屏 Skeleton",
+      "description": "在内容加载期间维持页面结构，降低布局跳动与等待的不确定感。",
+      "keyProps": [
+        "shape: default|circle|text",
+        "animation: pulse|none"
+      ],
+      "exampleCount": 2
+    },
+    {
+      "name": "message",
+      "type": "registry:ui",
+      "title": "消息 Message",
+      "description": "用于传达成功、提示、警告和错误状态的轻量反馈消息。",
+      "keyProps": [
+        "variant: default|info|success|warning|destructive",
+        "size: default|compact",
+        "position: top-left|top|top-right|bottom-left|bottom|bottom-right",
+        "title: ReactNode",
+        "children: ReactNode",
+        "icon: ReactNode"
+      ],
+      "exampleCount": 5
+    },
+    {
+      "name": "in-view",
+      "type": "registry:ui",
+      "title": "进入视口 In View",
+      "description": "当内容进入视口时播放可配置的入场动画。",
+      "categories": [
+        "motion"
+      ],
+      "keyProps": [
+        "children: ReactNode",
+        "variants: Variants",
+        "transition: Transition",
+        "viewOptions: UseInViewOptions",
+        "once: boolean",
+        "as: ElementType<any, keyof IntrinsicElements>"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "infinite-slider",
+      "type": "registry:ui",
+      "title": "无限滑动 Infinite Slider",
+      "description": "平滑循环内容的水平或垂直滑动轨道。",
+      "categories": [
+        "motion"
+      ],
+      "keyProps": [
+        "children: ReactNode",
+        "gap: number",
+        "speed: number",
+        "speedOnHover: number",
+        "direction: horizontal|vertical",
+        "reverse: boolean"
+      ],
+      "exampleCount": 2
+    },
+    {
+      "name": "cursor",
+      "type": "registry:ui",
+      "title": "自定义光标 Cursor",
+      "description": "可全局使用或附着到局部区域的弹簧跟随光标。",
+      "categories": [
+        "motion"
+      ],
+      "keyProps": [
+        "children: ReactNode",
+        "springConfig: SpringOptions",
+        "attachToParent: boolean",
+        "transition: Transition",
+        "variants: Variants",
+        "hideNativeCursor: boolean"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "text-effect",
+      "type": "registry:ui",
+      "title": "文本入场 Text Effect",
+      "description": "按行、单词或字符拆分并播放文本入场效果。",
+      "categories": [
+        "motion",
+        "text-effect"
+      ],
+      "keyProps": [
+        "children: string",
+        "per: line|word|char",
+        "as: ElementType<any, keyof IntrinsicElements>",
+        "preset: fade|blur-sm|fade-in-blur|scale|slide",
+        "variants: { container?: Variants; item?: Variants; } | undefined",
+        "delay: number"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "text-loop",
+      "type": "registry:ui",
+      "title": "文本循环 Text Loop",
+      "description": "在多段文本或行内内容之间自动循环切换。",
+      "categories": [
+        "motion",
+        "text-effect"
+      ],
+      "keyProps": [
+        "children: ReactNode[]",
+        "interval: number",
+        "transition: Transition",
+        "variants: Variants",
+        "onIndexChange: ((index: number) => void)",
+        "trigger: boolean"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "text-morph",
+      "type": "registry:ui",
+      "title": "文本变形 Text Morph",
+      "description": "在文字变化时让共享字符流畅地移动到新位置。",
+      "categories": [
+        "motion",
+        "text-effect"
+      ],
+      "keyProps": [
+        "children: string",
+        "as: ElementType<any, keyof IntrinsicElements>"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "text-roll",
+      "type": "registry:ui",
+      "title": "文本翻滚 Text Roll",
+      "description": "悬停或挂载时逐字符翻滚的文字效果。",
+      "categories": [
+        "motion",
+        "text-effect"
+      ],
+      "keyProps": [
+        "children: string",
+        "duration: number",
+        "getEnterDelay: ((index: number) => number)",
+        "getExitDelay: ((index: number) => number)",
+        "transition: Transition",
+        "variants: Variants"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "text-scramble",
+      "type": "registry:ui",
+      "title": "文本扰码 Text Scramble",
+      "description": "随机字符逐步解析为目标文本的扰码效果。",
+      "categories": [
+        "motion",
+        "text-effect"
+      ],
+      "keyProps": [
+        "children: string",
+        "as: ElementType<any, keyof IntrinsicElements>",
+        "duration: number",
+        "speed: number",
+        "characterSet: string",
+        "trigger: boolean"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "text-shimmer",
+      "type": "registry:ui",
+      "title": "文本扫光 Text Shimmer",
+      "description": "在文字表面循环扫过的主题感知高光。",
+      "categories": [
+        "motion",
+        "text-effect"
+      ],
+      "keyProps": [
+        "children: string",
+        "as: ElementType<any, keyof IntrinsicElements>",
+        "duration: number",
+        "spread: number"
+      ],
+      "exampleCount": 2
+    },
+    {
+      "name": "text-shimmer-wave",
+      "type": "registry:ui",
+      "title": "文本波光 Text Shimmer Wave",
+      "description": "逐字符传播的立体位移与高光波浪。",
+      "categories": [
+        "motion",
+        "text-effect"
+      ],
+      "keyProps": [
+        "children: string",
+        "as: ElementType<any, keyof IntrinsicElements>",
+        "duration: number",
+        "zDistance: number",
+        "xDistance: number",
+        "yDistance: number"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "sliding-number",
+      "type": "registry:ui",
+      "title": "滑动数字 Sliding Number",
+      "description": "用独立数字轮平滑过渡数值变化。",
+      "categories": [
+        "motion",
+        "number-effect"
+      ],
+      "keyProps": [
+        "value: string | number",
+        "padStart: boolean",
+        "decimalSeparator: string",
+        "transition: Transition"
+      ],
+      "exampleCount": 2
+    },
+    {
+      "name": "table",
+      "type": "registry:ui",
+      "title": "表格 Table",
+      "description": "用原生表格语义组织和比较结构化数据。",
+      "keyProps": [
+        "containerClassName: string",
+        "density: default|compact",
+        "striped: boolean"
+      ],
+      "exampleCount": 2
+    },
+    {
+      "name": "calendar",
+      "type": "registry:ui",
+      "title": "日历 Calendar",
+      "description": "用可访问的月视图浏览并选择单个日期。",
+      "keyProps": [
+        "value: Date",
+        "defaultValue: Date",
+        "onValueChange: ((date: Date) => void)",
+        "month: Date",
+        "defaultMonth: Date",
+        "onMonthChange: ((month: Date) => void)"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "date-picker",
+      "type": "registry:ui",
+      "title": "日期选择器 Date Picker",
+      "description": "在紧凑弹层中选择、格式化和清除日期。",
+      "keyProps": [
+        "value: Date",
+        "defaultValue: Date",
+        "onValueChange: ((date: Date) => void)",
+        "placeholder: string",
+        "locale: string",
+        "formatOptions: DateTimeFormatOptions"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "time-picker",
+      "type": "registry:ui",
+      "title": "时间选择器 Time Picker",
+      "description": "用小时、分钟与时制分栏快速设定时间。",
+      "keyProps": [
+        "value: string",
+        "defaultValue: string",
+        "onValueChange: ((value: string) => void)",
+        "hourCycle: enum",
+        "minuteStep: enum",
+        "placeholder: string"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "kanban",
+      "type": "registry:ui",
+      "title": "看板 Kanban",
+      "description": "用可组合列和原生拖放组织任务流转。",
+      "keyProps": [
+        "onMove: ((move: KanbanMove) => void)"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "timeline",
+      "type": "registry:ui",
+      "title": "时间轴 Timeline",
+      "description": "以清晰的时间顺序展示事件、状态与说明。",
+      "keyProps": [
+        "orientation: vertical|horizontal",
+        "align: start|alternate",
+        "density: default|compact",
+        "connector: solid|dashed"
+      ],
+      "exampleCount": 6
+    },
+    {
+      "name": "empty-state",
+      "type": "registry:ui",
+      "title": "空状态 Empty State",
+      "description": "在没有数据或结果时解释现状并引导下一步。",
+      "keyProps": [
+        "size: sm|default|lg"
+      ],
+      "exampleCount": 2
+    }
+  ]
+}

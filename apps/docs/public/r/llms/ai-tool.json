@@ -1,0 +1,83 @@
+{
+  "name": "ai-tool",
+  "type": "registry:ui",
+  "title": "AI 工具调用 AI Tool",
+  "description": "展示 AI 工具的执行状态、参数、结果与错误。",
+  "categories": [
+    "ai"
+  ],
+  "import": "import { AiTool, AiToolCode, AiToolContent, AiToolError, AiToolLabel, AiToolSection, AiToolStatus, AiToolTrigger, aiToolStatusVariants } from \"@/components/ui/ai-tool\"",
+  "exports": [
+    "AiTool",
+    "AiToolCode",
+    "AiToolContent",
+    "AiToolError",
+    "AiToolLabel",
+    "AiToolSection",
+    "AiToolStatus",
+    "AiToolTrigger",
+    "aiToolStatusVariants"
+  ],
+  "typeExports": [
+    "AiToolProps",
+    "AiToolStatus",
+    "AiToolStatusProps",
+    "AiToolTriggerProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/ai-tool",
+    "shadcn": "npx shadcn@latest add http://localhost:3000/r/ai-tool.json",
+    "npmDependencies": [
+      "radix-ui",
+      "class-variance-authority",
+      "lucide-react"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "status",
+      "type": "\"pending\" | \"approval\" | \"running\" | \"success\" | \"error\" | \"denied\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "pending",
+        "approval",
+        "running",
+        "success",
+        "error",
+        "denied"
+      ],
+      "defaultValue": "pending",
+      "description": "Tool execution state."
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean"
+    },
+    {
+      "name": "asChild",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean"
+    }
+  ],
+  "usage": "`AiTool` 用于把一次工具调用压缩成可扫描的状态行，并在需要时展开参数、结果或错误。它适合搜索、读文件、数据库查询和生成任务，不负责真正调用工具，也不应把敏感参数直接展示给最终用户。\n\n普通后台任务状态更适合进度条或时间轴；只有当“哪个工具做了什么”对理解 Agent 行为有帮助时才使用该组件。",
+  "extended": "### 状态映射\n\n使用 `pending`、`approval`、`running`、`success`、`error` 与 `denied` 映射工具协议状态。颜色、图标和文字会共同表达状态，不依赖单一颜色；`running` 图标会在系统开启“减少动态效果”时停止旋转。\n\n### 自定义输出\n\nJSON 参数可放入 `AiToolCode`，普通文本、表格、文件列表或图片可以直接组合在 `AiToolSection` 内。失败信息使用 `AiToolError`，避免把堆栈和内部路径直接暴露给不需要调试信息的用户。",
+  "events": "组件透传 Radix Collapsible 的 `open`、`defaultOpen` 与 `onOpenChange`，支持受控和非受控展开。工具批准、拒绝与重试按钮由业务层放入 `AiToolSection`，并自行绑定请求事件。",
+  "examples": [
+    {
+      "name": "ai-tool-demo",
+      "title": "基础示例"
+    }
+  ],
+  "files": [
+    "registry/ui/ai-tool.tsx"
+  ],
+  "docsUrl": "http://localhost:3000/docs/components/ai-tool",
+  "sourceUrl": "http://localhost:3000/r/ai-tool.json"
+}

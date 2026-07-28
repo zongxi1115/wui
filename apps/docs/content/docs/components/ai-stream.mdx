@@ -1,0 +1,27 @@
+---
+title: AI 流式文本 AI Stream
+description: 可用于普通回答与思考过程的通用流式文本动效。
+component: ai-stream
+---
+
+## 基础示例
+
+<ComponentPreview name="ai-stream-demo" />
+
+<CodeTabs command="wui@latest add @wui/ai-stream" />
+
+<ComponentSource name="ai-stream" title="components/ui/ai-stream.tsx" />
+
+## 组件作用
+
+`AiStream` 是与消息类型无关的流式文本组件。普通助手回答可以直接使用；需要展示模型返回的推理摘要时，也可以把同一个组件放进 [`AiReasoning`](/docs/components/ai-reasoning)。
+
+传入当前累计文本与 `isStreaming` 状态即可。生成期间只有最新文字的最右侧边缘羽化，已稳定的正文不会重复执行动画；生成结束后立即恢复完整文字。
+
+## 组件属性
+
+<PropsTable name="ai-stream" />
+
+## Delta 分段模式
+
+保留原始 delta 数组时可以使用 `AiStreamDeltas`。每个新片段只淡入一次，适合粒度较大的服务端分段；连续的小字符增量优先使用 `AiStream`。

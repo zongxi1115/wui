@@ -1,0 +1,56 @@
+{
+  "name": "tabs",
+  "type": "registry:ui",
+  "title": "标签栏 Tabs",
+  "description": "使用共享布局动效平滑切换内容分区。",
+  "import": "import { Tabs, TabsContent, TabsList, TabsTrigger, tabsListVariants } from \"@/components/ui/tabs\"",
+  "exports": [
+    "Tabs",
+    "TabsContent",
+    "TabsList",
+    "TabsTrigger",
+    "tabsListVariants"
+  ],
+  "typeExports": [
+    "TabsListProps",
+    "TabsProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/tabs",
+    "shadcn": "npx shadcn@latest add http://localhost:3000/r/tabs.json",
+    "npmDependencies": [
+      "radix-ui",
+      "class-variance-authority",
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "asChild",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean"
+    }
+  ],
+  "usage": "`Tabs` 在同一页面区域切换同等级内容。选中指示器使用 Motion shared layout 在触发器之间自然滑动，内容则以短促的淡入和位移建立方向感。不要用 Tabs 隐藏必须同时比较的信息。",
+  "extended": "### 下划线样式\n\n使用 `value` 可创建受控标签栏，使用 `defaultValue` 则保持组件内部状态。",
+  "events": "- `onValueChange(value)`：当前标签变化后触发。\n- 键盘方向键、Home、End 与焦点管理由 Radix 处理。",
+  "examples": [
+    {
+      "name": "tabs-demo",
+      "title": "基础示例"
+    },
+    {
+      "name": "tabs-underline",
+      "title": "下划线样式"
+    }
+  ],
+  "files": [
+    "registry/ui/tabs.tsx"
+  ],
+  "docsUrl": "http://localhost:3000/docs/components/tabs",
+  "sourceUrl": "http://localhost:3000/r/tabs.json"
+}

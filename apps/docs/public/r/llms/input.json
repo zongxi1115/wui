@@ -1,0 +1,111 @@
+{
+  "name": "input",
+  "type": "registry:ui",
+  "title": "输入框 Input",
+  "description": "支持前后内容、浮动标签、下划线和错误态的输入框。",
+  "import": "import { Input, inputShellVariants } from \"@/components/ui/input\"",
+  "exports": [
+    "Input",
+    "inputShellVariants"
+  ],
+  "typeExports": [
+    "InputProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/input",
+    "shadcn": "npx shadcn@latest add http://localhost:3000/r/input.json",
+    "npmDependencies": [
+      "class-variance-authority"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "variant",
+      "type": "\"default\" | \"underline\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "default",
+        "underline"
+      ],
+      "defaultValue": "default",
+      "description": "Surface treatment of the input."
+    },
+    {
+      "name": "visualSize",
+      "type": "\"default\" | \"sm\" | \"lg\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "default",
+        "sm",
+        "lg"
+      ],
+      "defaultValue": "default",
+      "description": "Visual height preset."
+    },
+    {
+      "name": "label",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "Floating label shown inside the field until focus or input."
+    },
+    {
+      "name": "startContent",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "Decorative or actionable content before the input."
+    },
+    {
+      "name": "endContent",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "Decorative or actionable content after the input."
+    },
+    {
+      "name": "wrapperClassName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "Extra classes applied to the outer surface."
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean"
+    }
+  ],
+  "usage": "`Input` 用于录入单行文本、邮箱、密码或搜索内容。它保留原生 input 的全部语义，并用 `startContent`、`endContent` 承载图标、快捷键提示或清除按钮。聚焦反馈只改变边框与焦点环，不移动组件本身，避免页面产生跳动。",
+  "extended": "### 图标、错误与禁用态\n\n### 浮动标签\n\n传入 `label` 后，标签初始位于输入区域中部；聚焦或输入内容时会缩小并移动到左上角。\n\n### 下划线样式\n\n`variant=\"underline\"` 适合密度更高、容器边界已经明确的表单区域。\n\n使用 `visualSize=\"sm | default | lg\"` 调整视觉尺寸，原生 `size` 属性仍保留其 HTML 含义。",
+  "events": "所有原生输入事件均会透传，包括 `onChange`、`onInput`、`onFocus`、`onBlur` 与键盘事件。传入 `aria-invalid=\"true\"` 会同步显示错误边框与光晕。",
+  "examples": [
+    {
+      "name": "input-demo",
+      "title": "基础示例"
+    },
+    {
+      "name": "input-states",
+      "title": "图标、错误与禁用态"
+    },
+    {
+      "name": "input-floating-label",
+      "title": "浮动标签"
+    },
+    {
+      "name": "input-underline",
+      "title": "下划线样式"
+    }
+  ],
+  "files": [
+    "registry/ui/input.tsx"
+  ],
+  "docsUrl": "http://localhost:3000/docs/components/input",
+  "sourceUrl": "http://localhost:3000/r/input.json"
+}

@@ -1,16 +1,9 @@
 import "@/app/global.css"
 import { RootProvider } from "fumadocs-ui/provider"
 import type { Metadata } from "next"
-import { Google_Sans_Code } from "next/font/google"
 import type { ReactNode } from "react"
 
 import { TokenThemeRuntime } from "@/components/token-configurator"
-
-const googleSansCode = Google_Sans_Code({
-  subsets: ["latin"],
-  variable: "--font-google-sans-code",
-  display: "swap",
-})
 
 export const metadata: Metadata = {
   title: {
@@ -23,7 +16,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${googleSansCode.variable} flex min-h-screen flex-col`}>
+      <body className="flex min-h-screen flex-col">
         <RootProvider>
           <TokenThemeRuntime />
           {children}

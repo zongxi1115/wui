@@ -1,0 +1,96 @@
+{
+  "name": "infinite-slider",
+  "type": "registry:ui",
+  "title": "无限滑动 Infinite Slider",
+  "description": "平滑循环内容的水平或垂直滑动轨道。",
+  "categories": [
+    "motion"
+  ],
+  "import": "import { InfiniteSlider } from \"@/components/ui/infinite-slider\"",
+  "exports": [
+    "InfiniteSlider"
+  ],
+  "typeExports": [
+    "InfiniteSliderProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/infinite-slider",
+    "shadcn": "npx shadcn@latest add http://localhost:3000/r/infinite-slider.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": true,
+      "control": "text",
+      "description": "Items displayed in the continuously looping track."
+    },
+    {
+      "name": "gap",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "16",
+      "description": "Space between items in pixels."
+    },
+    {
+      "name": "speed",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "64",
+      "description": "Track speed in pixels per second."
+    },
+    {
+      "name": "speedOnHover",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "description": "Track speed while hovered. Set to `0` to pause on hover."
+    },
+    {
+      "name": "direction",
+      "type": "\"horizontal\" | \"vertical\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "horizontal",
+        "vertical"
+      ],
+      "defaultValue": "horizontal",
+      "description": "Slider axis."
+    },
+    {
+      "name": "reverse",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "Move in the opposite direction."
+    }
+  ],
+  "usage": "`InfiniteSlider` 用于品牌列表、合作伙伴、标签或轻量媒体带。它按像素速度持续移动，并复制一组内容形成无缝循环；减少动态效果时会停止并只保留一组内容。",
+  "extended": "### 垂直与反向\n\n使用纵向模式时必须给外层设置明确高度。内容应保持简短，且不要把需要键盘操作的控件放入会持续移动的轨道。",
+  "events": "组件透传容器的鼠标、指针与焦点事件。`speedOnHover` 用来改变悬停速度，设为 `0` 即可暂停。",
+  "examples": [
+    {
+      "name": "infinite-slider-demo",
+      "title": "基础示例"
+    },
+    {
+      "name": "infinite-slider-vertical",
+      "title": "垂直与反向"
+    }
+  ],
+  "files": [
+    "registry/ui/infinite-slider.tsx"
+  ],
+  "docsUrl": "http://localhost:3000/docs/components/infinite-slider",
+  "sourceUrl": "http://localhost:3000/r/infinite-slider.json"
+}
