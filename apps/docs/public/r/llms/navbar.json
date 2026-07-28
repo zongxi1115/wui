@@ -1,0 +1,104 @@
+{
+  "name": "navbar",
+  "type": "registry:ui",
+  "title": "导航栏 Navbar",
+  "description": "适用于页面顶部与应用左侧的可组合导航栏。",
+  "categories": [
+    "navigation"
+  ],
+  "import": "import { Navbar, NavbarBadge, NavbarBrand, NavbarBrandLabel, NavbarCollapseTrigger, NavbarContent, NavbarFooter, NavbarGroup, NavbarHeader, NavbarItem, NavbarLabel, NavbarLink, NavbarLinkAccessory, NavbarLinkLabel, NavbarList, NavbarSeparator, NavbarSubLink, NavbarSubList, NavbarSubmenu, NavbarSubmenuContent, NavbarSubmenuTrigger, navbarVariants } from \"@/components/ui/navbar\"",
+  "exports": [
+    "Navbar",
+    "NavbarBadge",
+    "NavbarBrand",
+    "NavbarBrandLabel",
+    "NavbarCollapseTrigger",
+    "NavbarContent",
+    "NavbarFooter",
+    "NavbarGroup",
+    "NavbarHeader",
+    "NavbarItem",
+    "NavbarLabel",
+    "NavbarLink",
+    "NavbarLinkAccessory",
+    "NavbarLinkLabel",
+    "NavbarList",
+    "NavbarSeparator",
+    "NavbarSubLink",
+    "NavbarSubList",
+    "NavbarSubmenu",
+    "NavbarSubmenuContent",
+    "NavbarSubmenuTrigger",
+    "navbarVariants"
+  ],
+  "typeExports": [
+    "NavbarLinkProps",
+    "NavbarProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/navbar",
+    "shadcn": "npx shadcn@latest add http://localhost:3000/r/navbar.json",
+    "npmDependencies": [
+      "radix-ui",
+      "class-variance-authority",
+      "lucide-react"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "orientation",
+      "type": "\"horizontal\" | \"vertical\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "horizontal",
+        "vertical"
+      ],
+      "defaultValue": "horizontal",
+      "description": "Layout direction. Use `vertical` for an application-level left rail."
+    },
+    {
+      "name": "collapsed",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "Controlled compact state for a vertical navbar."
+    },
+    {
+      "name": "defaultCollapsed",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "Initial compact state when uncontrolled."
+    },
+    {
+      "name": "onCollapsedChange",
+      "type": "((collapsed: boolean) => void)",
+      "required": false,
+      "control": "text",
+      "description": "Called when the vertical navbar changes between full and compact widths."
+    }
+  ],
+  "usage": "`Navbar` 用来承载应用的主要目的地、品牌入口和全局操作。默认横向布局适合页面顶部；当产品拥有多个稳定模块、需要在页面之间持续切换时，使用纵向布局作为全局左侧导航。它不负责路由状态，当前项应由业务层通过 `active` 明确传入。",
+  "extended": "### 全局左侧导航\n\n纵向布局适合后台、工作台和多模块工具。这个示例同时展示右侧浮入的二级导航与宽窄收起：指针悬停或键盘聚焦「项目」时，子栏目从侧栏右侧出现；收起后保留图标入口，并通过 `title` / `aria-label` 继续说明目的地。\n\n受控场景传入 `collapsed` 与 `onCollapsedChange`；普通场景只放置 `NavbarCollapseTrigger` 即可使用内部状态。导航分组不宜过多，同一层级优先保持 5–8 个可见入口。",
+  "events": "导航事件由 `NavbarLink` 渲染的原生链接或 `asChild` 子元素处理。当前页面会自动获得 `aria-current=\"page\"`；键盘焦点沿用浏览器的链接与按钮顺序。",
+  "examples": [
+    {
+      "name": "navbar-demo",
+      "title": "基础示例"
+    },
+    {
+      "name": "navbar-vertical",
+      "title": "全局左侧导航"
+    }
+  ],
+  "files": [
+    "registry/ui/navbar.tsx"
+  ],
+  "docsUrl": "http://localhost:3000/docs/components/navbar",
+  "sourceUrl": "http://localhost:3000/r/navbar.json"
+}

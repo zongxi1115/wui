@@ -1,0 +1,31 @@
+---
+title: Form
+description: Composable form fields with coordinated labels, validation messages, and motion.
+component: form
+---
+
+## Basic example
+
+<ComponentPreview name="form-demo" />
+
+<CodeTabs command="wui@latest add @wui/form" />
+
+<ComponentSource name="form" title="components/ui/form.tsx" />
+
+## What it's for
+
+`Form` provides semantic layout and accessible relationships between labels, controls, descriptions, and validation messages. It works with native form state or any validation library because validity stays explicit on each `FormField`. Use it for product forms that need consistent spacing and feedback; a plain HTML form remains preferable when no shared field treatment is needed.
+
+## Props
+
+<PropsTable name="form" />
+
+## Events
+
+- `Form` forwards native form events including `onSubmit`, `onReset`, and `onInvalid`.
+- `FormControl` preserves the child control's own events while attaching field IDs and ARIA relationships.
+- Changing `FormField invalid` reveals `FormMessage` and triggers a short, reduced-motion-aware correction cue.
+
+## Extended usage
+
+Compose `FormSection` and `FormLegend` for grouped data, and place primary or secondary actions inside `FormActions`. Set `animated={false}` when the surrounding screen already owns the entrance transition.

@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
-import { motion, useReducedMotion } from "motion/react"
+import { AnimatePresence, motion, useReducedMotion } from "motion/react"
 
 import { cn } from "@/registry/lib/utils"
 
@@ -333,4 +333,330 @@ function Calendar({
   )
 }
 
-export { Calendar, sameDay, startOfMonth }
+export type CalendarEventTone =
+  "primary" | "info" | "success" | "warning" | "neutral"
+
+export interface CalendarEvent {
+  /** Stable event identifier. */
+  id: string
+  /** Date on which the event is displayed. */
+  date: Date
+  /** Short event label. */
+  title: string
+  /** Optional time or supporting metadata. */
+  meta?: string
+  /** Semantic event color. @default "primary" */
+  tone?: CalendarEventTone
+}
+
+export interface CalendarPanelProps extends Omit<
+  React.ComponentProps<"div">,
+  "onChange" | "defaultValue"
+> {
+  /** Selected date. */
+  value?: Date
+  /** Initially selected date in uncontrolled mode. */
+  defaultValue?: Date
+  /** Called when a day is selected. */
+  onValueChange?: (date: Date) => void
+  /** Visible month. */
+  month?: Date
+  /** Initial visible month in uncontrolled mode. */
+  defaultMonth?: Date
+  /** Called when month navigation changes the visible month. */
+  onMonthChange?: (month: Date) => void
+  /** Events rendered inside the month grid. */
+  events?: CalendarEvent[]
+  /** Maximum visible events in each day cell. @default 3 */
+  maxVisibleEvents?: number
+  /** Called when an event is activated. */
+  onEventClick?: (event: CalendarEvent) => void
+  /** Locale used for headings and weekday labels. @default "zh-CN" */
+  locale?: string
+}
+
+const EVENT_TONES: Record<CalendarEventTone, string> = {
+  primary: "bg-primary/9 text-primary hover:bg-primary/14",
+  info: "bg-info/10 text-info hover:bg-info/15",
+  success: "bg-success/10 text-success hover:bg-success/15",
+  warning: "bg-warning/12 text-warning hover:bg-warning/17",
+  neutral:
+    "bg-muted text-muted-foreground hover:bg-accent hover:text-foreground",
+}
+
+function dateKey(date: Date) {
+  return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
+}
+
+/** A full-width month planner with event density, selection, and animated navigation. */
+function CalendarPanel({
+  className,
+  value,
+  defaultValue,
+  onValueChange,
+  month,
+  defaultMonth,
+  onMonthChange,
+  events = [],
+  maxVisibleEvents = 3,
+  onEventClick,
+  locale = "zh-CN",
+  ...props
+}: CalendarPanelProps) {
+  const reduceMotion = useReducedMotion()
+  const selectionId = React.useId()
+  const today = React.useMemo(() => new Date(), [])
+  const [internalValue, setInternalValue] = React.useState(defaultValue)
+  const selected = value ?? internalValue
+  const [internalMonth, setInternalMonth] = React.useState(() =>
+    startOfMonth(defaultMonth ?? value ?? defaultValue ?? today)
+  )
+  const [direction, setDirection] = React.useState(0)
+  const visibleMonth = startOfMonth(month ?? internalMonth)
+  const days = React.useMemo(
+    () => monthDays(visibleMonth),
+    [visibleMonth.getFullYear(), visibleMonth.getMonth()]
+  )
+  const weekdays = React.useMemo(() => {
+    const sunday = new Date(2026, 7, 2)
+    return Array.from({ length: 7 }, (_, index) => {
+      const day = new Date(sunday)
+      day.setDate(sunday.getDate() + index)
+      return new Intl.DateTimeFormat(locale, { weekday: "short" }).format(day)
+    })
+  }, [locale])
+  const eventsByDate = React.useMemo(() => {
+    const grouped = new Map<string, CalendarEvent[]>()
+    events.forEach((event) => {
+      const key = dateKey(event.date)
+      grouped.set(key, [...(grouped.get(key) ?? []), event])
+    })
+    return grouped
+  }, [events])
+
+  function changeMonth(next: Date, nextDirection: number) {
+    const start = startOfMonth(next)
+    setDirection(nextDirection)
+    if (month === undefined) setInternalMonth(start)
+    onMonthChange?.(start)
+  }
+
+  function select(date: Date) {
+    if (value === undefined) setInternalValue(date)
+    onValueChange?.(date)
+    if (date.getMonth() !== visibleMonth.getMonth()) {
+      changeMonth(date, date < visibleMonth ? -1 : 1)
+    }
+  }
+
+  const monthLabel = new Intl.DateTimeFormat(locale, {
+    year: "numeric",
+    month: "long",
+  }).format(visibleMonth)
+
+  return (
+    <div
+      data-slot="calendar-panel"
+      className={cn("bg-background min-w-0 border", className)}
+      {...props}
+    >
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b px-4 py-3">
+        <div>
+          <p className="text-muted-foreground text-xs font-medium">月视图</p>
+          <h2
+            aria-live="polite"
+            className="mt-0.5 text-lg font-semibold tracking-tight"
+          >
+            {monthLabel}
+          </h2>
+        </div>
+        <div className="flex items-center gap-1">
+          <button
+            type="button"
+            className="hover:bg-accent focus-visible:ring-ring/40 mr-2 h-8 border px-3 text-sm font-medium outline-none transition-colors focus-visible:ring-2"
+            onClick={() => changeMonth(today, today < visibleMonth ? -1 : 1)}
+          >
+            今天
+          </button>
+          <button
+            type="button"
+            aria-label="上个月"
+            className="text-muted-foreground hover:bg-accent hover:text-foreground focus-visible:ring-ring/40 flex size-8 items-center justify-center rounded-md outline-none transition-colors focus-visible:ring-2"
+            onClick={() =>
+              changeMonth(
+                new Date(
+                  visibleMonth.getFullYear(),
+                  visibleMonth.getMonth() - 1,
+                  1
+                ),
+                -1
+              )
+            }
+          >
+            <ChevronLeftIcon className="size-4" />
+          </button>
+          <button
+            type="button"
+            aria-label="下个月"
+            className="text-muted-foreground hover:bg-accent hover:text-foreground focus-visible:ring-ring/40 flex size-8 items-center justify-center rounded-md outline-none transition-colors focus-visible:ring-2"
+            onClick={() =>
+              changeMonth(
+                new Date(
+                  visibleMonth.getFullYear(),
+                  visibleMonth.getMonth() + 1,
+                  1
+                ),
+                1
+              )
+            }
+          >
+            <ChevronRightIcon className="size-4" />
+          </button>
+        </div>
+      </div>
+
+      <div className="overflow-x-auto">
+        <div className="min-w-[48rem]">
+          <div className="bg-muted/25 grid grid-cols-7 border-b">
+            {weekdays.map((weekday, index) => (
+              <div
+                key={`${weekday}-${index}`}
+                role="columnheader"
+                className="text-muted-foreground px-3 py-2 text-xs font-medium"
+              >
+                {weekday}
+              </div>
+            ))}
+          </div>
+          <AnimatePresence initial={false} mode="wait" custom={direction}>
+            <motion.div
+              key={`${visibleMonth.getFullYear()}-${visibleMonth.getMonth()}`}
+              role="grid"
+              aria-label={monthLabel}
+              className="grid grid-cols-7"
+              custom={direction}
+              initial={
+                reduceMotion
+                  ? false
+                  : { opacity: 0, x: direction >= 0 ? 22 : -22 }
+              }
+              animate={{ opacity: 1, x: 0 }}
+              exit={
+                reduceMotion
+                  ? { opacity: 0 }
+                  : { opacity: 0, x: direction >= 0 ? -22 : 22 }
+              }
+              transition={
+                reduceMotion
+                  ? { duration: 0 }
+                  : { type: "spring", stiffness: 330, damping: 34, mass: 0.72 }
+              }
+            >
+              {days.map((date) => {
+                const outside = date.getMonth() !== visibleMonth.getMonth()
+                const active = selected ? sameDay(date, selected) : false
+                const current = sameDay(date, today)
+                const dayEvents = eventsByDate.get(dateKey(date)) ?? []
+                const visibleEvents = dayEvents.slice(0, maxVisibleEvents)
+                const remaining = dayEvents.length - visibleEvents.length
+
+                return (
+                  <div
+                    key={date.toISOString()}
+                    role="gridcell"
+                    aria-selected={active}
+                    className={cn(
+                      "hover:bg-accent/25 relative isolate min-h-28 border-b border-r p-2 transition-colors",
+                      outside && "bg-muted/15 text-muted-foreground"
+                    )}
+                  >
+                    {active ? (
+                      <motion.div
+                        aria-hidden
+                        layoutId={`${selectionId}-panel-selection`}
+                        className="border-primary pointer-events-none absolute inset-0 z-0 border-2"
+                        transition={
+                          reduceMotion
+                            ? { duration: 0 }
+                            : {
+                                type: "spring",
+                                stiffness: 360,
+                                damping: 35,
+                                mass: 0.75,
+                              }
+                        }
+                      />
+                    ) : null}
+                    <div className="relative z-10 flex items-start justify-between">
+                      <button
+                        type="button"
+                        aria-label={new Intl.DateTimeFormat(locale, {
+                          month: "long",
+                          day: "numeric",
+                        }).format(date)}
+                        aria-current={current ? "date" : undefined}
+                        className={cn(
+                          "focus-visible:ring-ring/40 flex size-7 items-center justify-center rounded-full text-xs font-medium tabular-nums outline-none transition-colors focus-visible:ring-2",
+                          current && "bg-primary text-primary-foreground",
+                          !current && "hover:bg-accent"
+                        )}
+                        onClick={() => select(date)}
+                      >
+                        {date.getDate()}
+                      </button>
+                      {dayEvents.length ? (
+                        <span className="text-muted-foreground text-[10px] tabular-nums">
+                          {dayEvents.length}
+                        </span>
+                      ) : null}
+                    </div>
+                    <div className="relative z-10 mt-1 grid gap-1">
+                      {visibleEvents.map((event) => {
+                        const eventClassName = cn(
+                          "min-w-0 px-1.5 py-1 text-left text-[11px] leading-4 transition-colors",
+                          EVENT_TONES[event.tone ?? "primary"]
+                        )
+                        const content = (
+                          <>
+                            {event.meta ? (
+                              <span className="mr-1 opacity-70">
+                                {event.meta}
+                              </span>
+                            ) : null}
+                            <span className="font-medium">{event.title}</span>
+                          </>
+                        )
+
+                        return onEventClick ? (
+                          <button
+                            type="button"
+                            key={event.id}
+                            className={eventClassName}
+                            onClick={() => onEventClick(event)}
+                          >
+                            {content}
+                          </button>
+                        ) : (
+                          <div key={event.id} className={eventClassName}>
+                            {content}
+                          </div>
+                        )
+                      })}
+                      {remaining > 0 ? (
+                        <span className="text-muted-foreground px-1.5 text-[11px] font-medium">
+                          还有 {remaining} 项
+                        </span>
+                      ) : null}
+                    </div>
+                  </div>
+                )
+              })}
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export { Calendar, CalendarPanel, sameDay, startOfMonth }

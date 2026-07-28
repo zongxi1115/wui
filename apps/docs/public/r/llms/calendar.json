@@ -3,13 +3,17 @@
   "type": "registry:ui",
   "title": "日历 Calendar",
   "description": "用可访问的月视图浏览并选择单个日期。",
-  "import": "import { Calendar, sameDay, startOfMonth } from \"@/components/ui/calendar\"",
+  "import": "import { Calendar, CalendarPanel, sameDay, startOfMonth } from \"@/components/ui/calendar\"",
   "exports": [
     "Calendar",
+    "CalendarPanel",
     "sameDay",
     "startOfMonth"
   ],
   "typeExports": [
+    "CalendarEvent",
+    "CalendarEventTone",
+    "CalendarPanelProps",
     "CalendarProps"
   ],
   "install": {
@@ -105,12 +109,16 @@
     }
   ],
   "usage": "`Calendar` 适合需要直接呈现月份上下文的日期选择、排期和预约场景。它内置相邻月份日期、今天标记、禁用区间和方向键导航；如果界面空间有限，应使用由它组合而成的 DatePicker。",
-  "extended": "通过 `min`、`max` 或 `disabled(date)` 限制可选范围；将 `showOutsideDays` 设为 `false` 可隐藏相邻月份日期。业务应在组件外呈现预约余量或日程摘要，避免让每个日期格承载过多信息。",
+  "extended": "通过 `min`、`max` 或 `disabled(date)` 限制可选范围；将 `showOutsideDays` 设为 `false` 可隐藏相邻月份日期。\n\n### 大型日历面板\n\n`CalendarPanel` 面向排期、项目节奏和团队日程等需要完整月份上下文的场景。它支持受控日期与月份、日程语义色、单日数量折叠和事件点击，并以水平滚动保留窄屏下的日期密度。",
   "events": "`onValueChange(date)` 在选择日期后触发；`onMonthChange(month)` 在切换月份时触发。组件同时支持受控与非受控模式。\n\n选中背景会在日期之间弹性移动；当天的小圆点在被选中时原地展开为完整背景。鼠标经过日期网格时，轻量悬停层会在格子之间平滑跟随，并在系统开启“减少动态效果”时自动降级。",
   "examples": [
     {
       "name": "calendar-demo",
       "title": "基础示例"
+    },
+    {
+      "name": "calendar-panel",
+      "title": "大型日历面板"
     }
   ],
   "files": [

@@ -1,0 +1,63 @@
+{
+  "name": "collapsible",
+  "type": "registry:ui",
+  "title": "折叠面板 Collapsible",
+  "description": "按需展开一段补充内容，并保留清晰的状态与键盘交互。",
+  "categories": [
+    "layout"
+  ],
+  "import": "import { Collapsible, CollapsibleContent, CollapsibleTrigger } from \"@/components/ui/collapsible\"",
+  "exports": [
+    "Collapsible",
+    "CollapsibleContent",
+    "CollapsibleTrigger"
+  ],
+  "typeExports": [
+    "CollapsibleProps",
+    "CollapsibleTriggerProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/collapsible",
+    "shadcn": "npx shadcn@latest add http://localhost:3000/r/collapsible.json",
+    "npmDependencies": [
+      "radix-ui",
+      "lucide-react",
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean"
+    },
+    {
+      "name": "asChild",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean"
+    }
+  ],
+  "usage": "`Collapsible` 用于隐藏暂时不需要的补充信息，例如高级设置、详情和次级导航。触发器始终可见，内容展开时使用短促的高度与透明度过渡；用户偏好减少动态效果时会直接切换状态。不要用它隐藏完成当前任务所必需的信息。",
+  "extended": "### 受控状态\n\n当页面其他区域需要读取或改变展开状态时，传入 `open` 与 `onOpenChange`。如果折叠内容彼此互斥，应使用 Accordion，而不是手动同步多个 `Collapsible`。",
+  "events": "- `onOpenChange(open)`：用户点击触发器或受控状态变化时触发。\n- 触发器使用原生按钮语义，支持 Enter 与 Space，并同步 `aria-expanded` 和内容关联关系。",
+  "examples": [
+    {
+      "name": "collapsible-demo",
+      "title": "基础示例"
+    },
+    {
+      "name": "collapsible-controlled",
+      "title": "受控状态"
+    }
+  ],
+  "files": [
+    "registry/ui/collapsible.tsx"
+  ],
+  "docsUrl": "http://localhost:3000/docs/components/collapsible",
+  "sourceUrl": "http://localhost:3000/r/collapsible.json"
+}

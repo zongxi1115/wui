@@ -1,0 +1,101 @@
+{
+  "name": "descriptions",
+  "type": "registry:ui",
+  "title": "描述列表 Descriptions",
+  "description": "以清晰的键值结构展示对象、记录与档案信息。",
+  "import": "import { Descriptions, DescriptionsItem } from \"@/components/ui/descriptions\"",
+  "exports": [
+    "Descriptions",
+    "DescriptionsItem"
+  ],
+  "typeExports": [
+    "DescriptionsItemProps",
+    "DescriptionsProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/descriptions",
+    "shadcn": "npx shadcn@latest add http://localhost:3000/r/descriptions.json",
+    "npmDependencies": [],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "title",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "Heading rendered above the description list."
+    },
+    {
+      "name": "extra",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "Action rendered opposite the heading."
+    },
+    {
+      "name": "columns",
+      "type": "enum",
+      "required": false,
+      "control": "text",
+      "defaultValue": "3",
+      "description": "Number of item groups per row."
+    },
+    {
+      "name": "bordered",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "Draw a structured border around labels and values."
+    },
+    {
+      "name": "layout",
+      "type": "\"horizontal\" | \"vertical\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "horizontal",
+        "vertical"
+      ],
+      "defaultValue": "horizontal",
+      "description": "Place labels beside or above their values."
+    },
+    {
+      "name": "size",
+      "type": "\"sm\" | \"default\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "sm",
+        "default"
+      ],
+      "defaultValue": "default",
+      "description": "Vertical density."
+    },
+    {
+      "name": "labelWidth",
+      "type": "Width<string | number>",
+      "required": false,
+      "control": "text",
+      "defaultValue": "7rem",
+      "description": "Fixed width of every horizontal label cell."
+    }
+  ],
+  "usage": "`Descriptions` 用于只读地呈现项目、订单、账户或设备等单个对象的属性。它使用语义化描述列表，适合“字段—值”阅读；大量同构记录的横向比较应使用 Table。",
+  "extended": "`bordered` 适合信息密度较高的管理页面，默认分隔线样式更轻；`layout=\"vertical\"` 适合标签较长或窄容器。`columns` 与 `span` 应配合使用，跨列总数不要超过当前行容量。",
+  "events": "描述列表本身不产生事件。通过 `extra` 放置编辑、复制等轻量操作；字段值中的链接或按钮仍保留各自的原生事件。",
+  "examples": [
+    {
+      "name": "descriptions-demo",
+      "title": "基础示例"
+    }
+  ],
+  "files": [
+    "registry/ui/descriptions.tsx"
+  ],
+  "docsUrl": "http://localhost:3000/docs/components/descriptions",
+  "sourceUrl": "http://localhost:3000/r/descriptions.json"
+}

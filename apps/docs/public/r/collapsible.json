@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "collapsible",
+  "type": "registry:ui",
+  "title": "Collapsible",
+  "description": "An accessible disclosure region with animated content.",
+  "dependencies": [
+    "radix-ui",
+    "lucide-react",
+    "motion"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/collapsible.tsx",
+      "type": "registry:ui",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { Collapsible as CollapsiblePrimitive } from \"radix-ui\"\nimport { ChevronDownIcon } from \"lucide-react\"\nimport { motion, useReducedMotion } from \"motion/react\"\n\nimport { cn } from \"@/registry/lib/utils\"\n\nconst CollapsibleContext = React.createContext(false)\n\nexport interface CollapsibleProps\n  extends React.ComponentProps<typeof CollapsiblePrimitive.Root> {}\n\n/** A disclosure region with controlled and uncontrolled open state. */\nfunction Collapsible({\n  open,\n  defaultOpen = false,\n  onOpenChange,\n  ...props\n}: CollapsibleProps) {\n  const [internalOpen, setInternalOpen] = React.useState(defaultOpen)\n  const resolvedOpen = open ?? internalOpen\n  return (\n    <CollapsibleContext.Provider value={resolvedOpen}>\n      <CollapsiblePrimitive.Root\n        data-slot=\"collapsible\"\n        open={resolvedOpen}\n        onOpenChange={(next) => {\n          if (open === undefined) setInternalOpen(next)\n          onOpenChange?.(next)\n        }}\n        {...props}\n      />\n    </CollapsibleContext.Provider>\n  )\n}\n\nexport interface CollapsibleTriggerProps\n  extends React.ComponentProps<typeof CollapsiblePrimitive.Trigger> {\n  /** Show the built-in rotating chevron after the label. @default true */\n  showIndicator?: boolean\n}\n\nfunction CollapsibleTrigger({\n  className,\n  children,\n  showIndicator = true,\n  asChild = false,\n  ...props\n}: CollapsibleTriggerProps) {\n  return (\n    <CollapsiblePrimitive.Trigger\n      data-slot=\"collapsible-trigger\"\n      asChild={asChild}\n      className={cn(\n        \"group flex w-full items-center gap-3 rounded-md px-3 py-2 text-left text-sm font-medium outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:ring-[3px] focus-visible:ring-ring/35 disabled:pointer-events-none disabled:opacity-50\",\n        className\n      )}\n      {...props}\n    >\n      {asChild ? (\n        children\n      ) : (\n        <>\n          <span className=\"min-w-0 flex-1\">{children}</span>\n          {showIndicator ? (\n            <ChevronDownIcon\n              aria-hidden\n              data-slot=\"collapsible-indicator\"\n              className=\"size-4 shrink-0 text-muted-foreground transition-transform duration-200 group-data-[state=open]:rotate-180 motion-reduce:transition-none\"\n            />\n          ) : null}\n        </>\n      )}\n    </CollapsiblePrimitive.Trigger>\n  )\n}\n\nfunction CollapsibleContent({\n  className,\n  children,\n  ...props\n}: Omit<\n  React.ComponentProps<typeof CollapsiblePrimitive.Content>,\n  \"asChild\" | \"forceMount\"\n>) {\n  const open = React.useContext(CollapsibleContext)\n  const reduceMotion = useReducedMotion()\n  return (\n    <CollapsiblePrimitive.Content forceMount asChild {...props}>\n      <motion.div\n        data-slot=\"collapsible-content\"\n        aria-hidden={!open}\n        inert={!open}\n        className={cn(\"overflow-hidden\", className)}\n        initial={false}\n        animate={{ height: open ? \"auto\" : 0, opacity: open ? 1 : 0 }}\n        transition={\n          reduceMotion\n            ? { duration: 0 }\n            : { duration: 0.24, ease: [0.22, 1, 0.36, 1] }\n        }\n      >\n        {children}\n      </motion.div>\n    </CollapsiblePrimitive.Content>\n  )\n}\n\nexport { Collapsible, CollapsibleContent, CollapsibleTrigger }\n"
+    }
+  ],
+  "categories": [
+    "layout"
+  ]
+}

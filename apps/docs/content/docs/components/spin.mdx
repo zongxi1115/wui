@@ -1,0 +1,29 @@
+---
+title: 加载中 Spin
+description: 用轻量、可降级的动态指示器表达等待状态。
+component: spin
+---
+
+## 基础示例
+
+<ComponentPreview name="spin-demo" />
+
+<CodeTabs command="wui@latest add @wui/spin" />
+
+<ComponentSource name="spin" title="components/ui/spin.tsx" />
+
+## 组件作用
+
+`Spin` 适合用户已经触发操作、但结果尚未返回的短时等待。独立使用时呈现状态指示器，包裹内容时会保留原布局并覆盖交互；首屏骨架和结构化占位仍应使用 Skeleton。
+
+## 组件属性
+
+<PropsTable name="spin" />
+
+## 事件
+
+组件不产生业务事件，由 `spinning` 控制显示。`delay` 可过滤瞬时请求造成的闪烁；系统开启“减少动态效果”后，旋转与弹性过渡会立即停用，但加载语义仍然保留。
+
+## 扩展使用
+
+传入 `indicator` 可替换默认轨道；`fullscreen` 用于会阻塞整页的关键切换。普通局部请求优先使用内容遮罩，避免全屏加载打断上下文。

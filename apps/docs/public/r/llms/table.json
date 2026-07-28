@@ -16,6 +16,8 @@
     "tableVariants"
   ],
   "typeExports": [
+    "TableCellProps",
+    "TableHeadProps",
     "TableProps"
   ],
   "install": {
@@ -55,6 +57,14 @@
       "control": "boolean",
       "defaultValue": "false",
       "description": "Adds a subtle background to alternating body rows."
+    },
+    {
+      "name": "stickyHeader",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "Keeps the header visible while the table container scrolls."
     }
   ],
   "usage": "`Table` 用于展示具有稳定列结构、需要横向比较的数据。组件保留原生表格元素的语义，适合账单、成员列表、用量明细和配置清单。小屏幕下外层容器会横向滚动，避免压缩内容或破坏列关系。\n\n如果内容主要用于页面布局、只有单列键值，或需要虚拟滚动和复杂数据处理，应选择更合适的布局或数据网格方案。",
@@ -68,6 +78,10 @@
     {
       "name": "table-compact",
       "title": "紧凑密度与斑马纹"
+    },
+    {
+      "name": "table-advanced",
+      "title": "高级数据表格"
     }
   ],
   "files": [

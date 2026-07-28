@@ -1,0 +1,93 @@
+{
+  "name": "spin",
+  "type": "registry:ui",
+  "title": "加载中 Spin",
+  "description": "用轻量、可降级的动态指示器表达等待状态。",
+  "import": "import { Spin, spinIndicatorVariants } from \"@/components/ui/spin\"",
+  "exports": [
+    "Spin",
+    "spinIndicatorVariants"
+  ],
+  "typeExports": [
+    "SpinIndicatorProps",
+    "SpinProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/spin",
+    "shadcn": "npx shadcn@latest add http://localhost:3000/r/spin.json",
+    "npmDependencies": [
+      "class-variance-authority",
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "spinning",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "Whether the loading state is visible."
+    },
+    {
+      "name": "size",
+      "type": "\"sm\" | \"default\" | \"lg\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "sm",
+        "default",
+        "lg"
+      ],
+      "defaultValue": "default",
+      "description": "Indicator dimensions."
+    },
+    {
+      "name": "label",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "Accessible loading message shown beside the indicator."
+    },
+    {
+      "name": "indicator",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "Replace the default orbital indicator."
+    },
+    {
+      "name": "delay",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0",
+      "description": "Wait before showing the indicator to avoid flashes for fast operations."
+    },
+    {
+      "name": "fullscreen",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "Cover the viewport instead of rendering in document flow."
+    }
+  ],
+  "usage": "`Spin` 适合用户已经触发操作、但结果尚未返回的短时等待。独立使用时呈现状态指示器，包裹内容时会保留原布局并覆盖交互；首屏骨架和结构化占位仍应使用 Skeleton。",
+  "extended": "传入 `indicator` 可替换默认轨道；`fullscreen` 用于会阻塞整页的关键切换。普通局部请求优先使用内容遮罩，避免全屏加载打断上下文。",
+  "events": "组件不产生业务事件，由 `spinning` 控制显示。`delay` 可过滤瞬时请求造成的闪烁；系统开启“减少动态效果”后，旋转与弹性过渡会立即停用，但加载语义仍然保留。",
+  "examples": [
+    {
+      "name": "spin-demo",
+      "title": "基础示例"
+    }
+  ],
+  "files": [
+    "registry/ui/spin.tsx"
+  ],
+  "docsUrl": "http://localhost:3000/docs/components/spin",
+  "sourceUrl": "http://localhost:3000/r/spin.json"
+}

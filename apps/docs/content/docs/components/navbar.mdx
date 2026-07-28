@@ -1,0 +1,43 @@
+---
+title: 导航栏 Navbar
+description: 适用于页面顶部与应用左侧的可组合导航栏。
+component: navbar
+---
+
+## 基础示例
+
+<ComponentPreview name="navbar-demo" />
+
+<CodeTabs command="wui@latest add @wui/navbar" />
+
+<ComponentSource name="navbar" title="components/ui/navbar.tsx" />
+
+## 组件作用
+
+`Navbar` 用来承载应用的主要目的地、品牌入口和全局操作。默认横向布局适合页面顶部；当产品拥有多个稳定模块、需要在页面之间持续切换时，使用纵向布局作为全局左侧导航。它不负责路由状态，当前项应由业务层通过 `active` 明确传入。
+
+## 组件属性
+
+<PropsTable name="navbar" />
+
+- `Navbar` 通过 `orientation="horizontal | vertical"` 控制整体方向。
+- 纵向模式支持 `collapsed`、`defaultCollapsed` 与 `onCollapsedChange`，并由 `NavbarCollapseTrigger` 提供内置收起按钮。
+- `NavbarLink` 支持 `active` 和 `asChild`，可组合 Next.js `Link` 或其他路由链接。
+- `NavbarHeader`、`NavbarContent`、`NavbarGroup` 与 `NavbarFooter` 建立固定区域和可滚动导航区域。
+- `NavbarLabel` 只在纵向布局显示，避免横向导航出现多余层级。
+- `NavbarSubmenu`、`NavbarSubmenuTrigger` 与 `NavbarSubmenuContent` 在悬停或键盘聚焦父栏目时，从侧栏右侧展示子栏目。
+- `NavbarSubList` 与 `NavbarSubLink` 负责浮层内的二级目的地。
+
+## 事件
+
+导航事件由 `NavbarLink` 渲染的原生链接或 `asChild` 子元素处理。当前页面会自动获得 `aria-current="page"`；键盘焦点沿用浏览器的链接与按钮顺序。
+
+## 拓展使用
+
+### 全局左侧导航
+
+<ComponentPreview name="navbar-vertical" />
+
+纵向布局适合后台、工作台和多模块工具。这个示例同时展示右侧浮入的二级导航与宽窄收起：指针悬停或键盘聚焦「项目」时，子栏目从侧栏右侧出现；收起后保留图标入口，并通过 `title` / `aria-label` 继续说明目的地。
+
+受控场景传入 `collapsed` 与 `onCollapsedChange`；普通场景只放置 `NavbarCollapseTrigger` 即可使用内部状态。导航分组不宜过多，同一层级优先保持 5–8 个可见入口。

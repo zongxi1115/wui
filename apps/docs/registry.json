@@ -84,7 +84,12 @@
       "title": "AI Reasoning",
       "description": "Collapsible model-provided reasoning summaries and progress steps.",
       "categories": ["ai"],
-      "dependencies": ["radix-ui", "class-variance-authority", "lucide-react", "motion"],
+      "dependencies": [
+        "radix-ui",
+        "class-variance-authority",
+        "lucide-react",
+        "motion"
+      ],
       "registryDependencies": ["utils", "ai-stream"],
       "files": [
         {
@@ -479,6 +484,34 @@
       ]
     },
     {
+      "name": "cascader",
+      "type": "registry:ui",
+      "title": "Cascader",
+      "description": "A multi-column picker for selecting hierarchical values.",
+      "dependencies": ["radix-ui", "lucide-react", "motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/cascader.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "form",
+      "type": "registry:ui",
+      "title": "Form",
+      "description": "Composable form fields with animated validation feedback.",
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/form.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "tabs",
       "type": "registry:ui",
       "title": "Tabs",
@@ -488,6 +521,36 @@
       "files": [
         {
           "path": "registry/ui/tabs.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "navbar",
+      "type": "registry:ui",
+      "title": "Navbar",
+      "description": "Composable horizontal and application-level vertical navigation.",
+      "categories": ["navigation"],
+      "dependencies": ["radix-ui", "class-variance-authority", "lucide-react"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/navbar.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "collapsible",
+      "type": "registry:ui",
+      "title": "Collapsible",
+      "description": "An accessible disclosure region with animated content.",
+      "categories": ["layout"],
+      "dependencies": ["radix-ui", "lucide-react", "motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/collapsible.tsx",
           "type": "registry:ui"
         }
       ]
@@ -1618,6 +1681,48 @@
           "path": "registry/assets/empty-state/color/resource-6.svg",
           "type": "registry:asset",
           "target": "public/wui/empty-state/color/resource-6.svg"
+        }
+      ]
+    },
+    {
+      "name": "spin",
+      "type": "registry:ui",
+      "title": "Spin",
+      "description": "A reduced-motion aware loading indicator for inline, nested, and fullscreen states.",
+      "dependencies": ["class-variance-authority", "motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/spin.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "drawer",
+      "type": "registry:ui",
+      "title": "Drawer",
+      "description": "A focus-managed edge panel with spring-based enter and exit motion.",
+      "dependencies": ["radix-ui", "lucide-react", "motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/drawer.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "descriptions",
+      "type": "registry:ui",
+      "title": "Descriptions",
+      "description": "A semantic key-value list for records, profiles, and object summaries.",
+      "dependencies": [],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/descriptions.tsx",
+          "type": "registry:ui"
         }
       ]
     }

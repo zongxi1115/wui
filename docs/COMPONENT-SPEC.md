@@ -8,14 +8,14 @@
 
 ## 0. 目录与命名
 
-| 内容 | 位置 | 命名 |
-|---|---|---|
-| 组件源码（基础 UI） | `apps/docs/registry/ui/<name>.tsx` | 文件 kebab-case，导出 PascalCase |
-| 组件源码（复合组件） | `apps/docs/registry/components/<name>.tsx` | 同上 |
-| 工具函数/hook | `apps/docs/registry/lib/*`、`apps/docs/registry/hooks/*` | — |
-| 示例 demo | `apps/docs/registry/examples/<name>-*.tsx` | `<name>-demo.tsx` 为主示例，其余按用途命名 |
-| 文档页 | `apps/docs/content/docs/components/<name>.mdx` | — |
-| registry 登记 | `apps/docs/registry.json` 的 `items[]` | `name` = kebab-case |
+| 内容                 | 位置                                                     | 命名                                       |
+| -------------------- | -------------------------------------------------------- | ------------------------------------------ |
+| 组件源码（基础 UI）  | `apps/docs/registry/ui/<name>.tsx`                       | 文件 kebab-case，导出 PascalCase           |
+| 组件源码（复合组件） | `apps/docs/registry/components/<name>.tsx`               | 同上                                       |
+| 工具函数/hook        | `apps/docs/registry/lib/*`、`apps/docs/registry/hooks/*` | —                                          |
+| 示例 demo            | `apps/docs/registry/examples/<name>-*.tsx`               | `<name>-demo.tsx` 为主示例，其余按用途命名 |
+| 文档页               | `apps/docs/content/docs/components/<name>.mdx`           | —                                          |
+| registry 登记        | `apps/docs/registry.json` 的 `items[]`                   | `name` = kebab-case                        |
 
 **导入约定（重要）**：registry 源码内部一律用 `@/registry/...` 前缀互相引用：
 
@@ -82,12 +82,12 @@ export { Badge, badgeVariants }
 ```jsonc
 {
   "name": "badge",
-  "type": "registry:ui",          // ui | component | lib | hook | block | page | file
+  "type": "registry:ui", // ui | component | lib | hook | block | page | file
   "title": "Badge",
   "description": "小标签，用于状态或分类。",
-  "dependencies": ["class-variance-authority"],   // 需要安装的 npm 包
-  "registryDependencies": ["utils"],               // 依赖的其他 registry 组件（会递归拉取）
-  "files": [{ "path": "registry/ui/badge.tsx", "type": "registry:ui" }]
+  "dependencies": ["class-variance-authority"], // 需要安装的 npm 包
+  "registryDependencies": ["utils"], // 依赖的其他 registry 组件（会递归拉取）
+  "files": [{ "path": "registry/ui/badge.tsx", "type": "registry:ui" }],
 }
 ```
 
@@ -195,16 +195,70 @@ pnpm --filter docs gen:component confirm-banner --type component
 
 ### 9.2 「加/不加」判断
 
-| 该加 | 不该加 |
-|---|---|
+| 该加                                           | 不该加                                                 |
+| ---------------------------------------------- | ------------------------------------------------------ |
 | 交互反馈：hover/press/focus 的颜色、位移、缩放 | 纯被动、需「隐入背景」的图层（水印、分隔线、骨架底纹） |
-| 进出场：浮层/弹层的 fade + 位移 + 缩放 | 大面积重绘、持续动画会拖累性能或分散注意力的场景 |
-| 引导视线：单个 CTA、空状态的点睛效果 | 一屏内多处同时持续动，互相打架、令人疲劳 |
-| 链接/按钮：下划线滑入、渐变过渡 | 会伤害可读性或让核心内容「抖动」的地方 |
+| 进出场：浮层/弹层的 fade + 位移 + 缩放         | 大面积重绘、持续动画会拖累性能或分散注意力的场景       |
+| 引导视线：单个 CTA、空状态的点睛效果           | 一屏内多处同时持续动，互相打架、令人疲劳               |
+| 链接/按钮：下划线滑入、渐变过渡                | 会伤害可读性或让核心内容「抖动」的地方                 |
 
 一句话：**动效服务于「反馈」「引导」「层级」，而不是为动而动。** 拿不准就先不加，或做成 opt-in prop。
 
-### 9.3 各组件基线（现状 + 要求）
+### 9.3 状态连续性与共享视觉层
+
+优秀的组件动效不是在状态变化后“播放一段动画”，而是让用户看见**同一个视觉对象如何从旧状态连续变化到新状态**。选中背景、悬停光影、当前标记和展开面板都应优先遵循这一原则。
+
+#### 状态切换应表现为移动或形变，而不是替换
+
+- 互斥选项的选中背景应使用共享布局（如 Motion `layoutId`）在选项之间移动，避免旧背景淡出、新背景淡入造成两个对象同时存在的错觉。
+- 一个小标记需要变成选中背景时，应尽量保留同一个 Motion 元素，并连续插值位置、宽高、圆角、阴影与透明度。例如“当天”的小圆点被选中后原地放大成日期背景，取消选中后再缩回圆点。
+- 使用共享布局时，每个组件实例必须生成独立 ID（如 `useId()`）；禁止多个实例共用固定 `layoutId`，否则跨组件元素可能错误配对。
+- 初次渲染通常设置 `initial={false}`，只对用户触发的状态变化做动画，避免页面加载时所有选中层从未知位置飞入。
+
+#### 悬停反馈优先跟随目标，必要时才跟随原始指针
+
+- 对日期格、菜单项、分段控制等离散选项，推荐让一个绝对定位的反馈层在目标之间弹性移动。它比逐项独立 hover 背景更连续，也比逐像素追踪鼠标更稳定。
+- 对色板、画布、空间控制器等连续区域，可用 `MotionValue` + `useSpring` 跟随指针坐标；不要用 React state 在每个 `pointermove` 上触发整棵组件重渲染。
+- 跟随层必须 `pointer-events-none`，位于内容下方，并在指针离开、目标禁用、月份/分页切换或组件卸载时清理状态。
+- 触屏环境不应伪造 hover。使用 `pointerType` 区分触摸输入，核心选择反馈仍由 click、keyboard 与受控状态驱动。
+
+#### 视觉反馈层与内容层必须分离
+
+交互项推荐使用固定的三层结构：
+
+1. hover / spotlight 等环境反馈层；
+2. selection / active 等状态背景层；
+3. 文本、图标和焦点轮廓等内容层。
+
+容器使用 `relative` / `isolate` 建立局部层叠上下文，反馈层使用绝对定位，内容保持稳定的 `z-index`。动画只能改变反馈层，不应通过 padding、border-width 或字体粗细变化推动内容，从而避免布局跳动。
+
+选中状态的文字颜色必须与背景使用成对语义 token（如 `bg-primary text-primary-foreground`）；悬停光影、阴影与描边也应来自现有 token，不能为动效另写一套硬编码色值。
+
+#### 弹簧参数表达对象属性，不是越“弹”越好
+
+- 小型选中层和悬停层应使用高 stiffness、中高 damping、较低 mass，获得跟手但不反复振荡的反馈。
+- 面板、卡片等较大对象应降低 stiffness，避免大面积内容高速移动造成眩晕。
+- 同一组件内承担相同语义的移动应复用一组 spring 参数；hover、selection、drag 不同语义可以使用不同参数，但不能每个元素随意调一套。
+- 阴影可以随选中层移动或在形变过程中增强，但应保持克制。阴影用于表达抬升和聚焦，不应成为持续追逐鼠标的高对比装饰。
+
+参数值属于组件 recipe，不应直接升级为全局 token。只有当同一组运动参数在三个以上核心组件中表达完全相同的语义时，再考虑抽取为共享 preset。
+
+#### 降级时保留状态，不保留过程
+
+`prefers-reduced-motion` 开启时，应立即渲染正确终态：选中背景仍存在、当天标记仍能变成背景、当前项仍有明确语义，但取消弹簧位移、缩放追踪和循环脉冲。降级不能把状态反馈一起删掉。
+
+#### 通用验收清单
+
+- 快速连续移动指针时，反馈层不会丢失、闪烁或落后多个目标；
+- 鼠标、键盘和触摸都能到达同一业务状态，不能只有 hover 才看得到反馈；
+- 受控与非受控模式切换状态时，动画对象身份保持稳定；
+- 同页多个组件实例不会因 `layoutId` 冲突而互相飞动；
+- 滚动、窗口缩放、分页或内容换行后，跟随层仍与目标几何位置一致；
+- 浅色、深色、高对比与 reduced-motion 下均能辨认状态；
+- 动画层不拦截点击，不制造嵌套交互元素，也不改变原有焦点顺序；
+- Registry 正确声明 `motion` 依赖，循环动画不会在不可见时持续消耗资源。
+
+### 9.4 各组件基线（现状 + 要求）
 
 - **Button**（`registry/ui/button.tsx`）
   - 基础：`transition-[color,background-color,border-color,box-shadow]` 平滑过渡（不含 transform，避免与弹簧打架）。
@@ -218,7 +272,7 @@ pnpm --filter docs gen:component confirm-banner --type component
 - **Motion**（`registry/ui/motion.tsx`）：共享动画原语与 `presets`/`transitions`，是「需要 `motion` 运行时」的统一入口，供其他组件 `asChild` 复用。
 - **Watermark**（`registry/ui/watermark.tsx`）：**刻意不加任何动效**。它是被动环境图层，动它会喧宾夺主、伤可读性、且大面积重绘无收益——典型的「不该加」。
 
-### 9.4 Fancy · 效果组件栏目
+### 9.5 Fancy · 效果组件栏目
 
 面向「从 CodePen 搬来的炫酷效果」这类**展示型/花哨**组件，单独归入 **Fancy** 栏目。它们与核心组件共用同一套 registry + `wui add` 按需拉取流程，只是**允许更张扬、更有主见**，但仍受 §9.1 三条硬性原则约束（尤其必须能在减弱动效下降级）。范本：`registry/ui/shiny-button.tsx`（掠光按钮）。
 

@@ -1,0 +1,81 @@
+{
+  "name": "drawer",
+  "type": "registry:ui",
+  "title": "抽屉 Drawer",
+  "description": "从视口边缘平滑进入、用于承载补充任务的焦点面板。",
+  "import": "import { Drawer, DrawerBody, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerPortal, DrawerTitle, DrawerTrigger } from \"@/components/ui/drawer\"",
+  "exports": [
+    "Drawer",
+    "DrawerBody",
+    "DrawerClose",
+    "DrawerContent",
+    "DrawerDescription",
+    "DrawerFooter",
+    "DrawerHeader",
+    "DrawerPortal",
+    "DrawerTitle",
+    "DrawerTrigger"
+  ],
+  "typeExports": [
+    "DrawerContentProps",
+    "DrawerProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/drawer",
+    "shadcn": "npx shadcn@latest add http://localhost:3000/r/drawer.json",
+    "npmDependencies": [
+      "radix-ui",
+      "lucide-react",
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "open",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "Controlled visibility state."
+    },
+    {
+      "name": "defaultOpen",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "Initial visibility in uncontrolled mode."
+    },
+    {
+      "name": "onOpenChange",
+      "type": "((open: boolean) => void)",
+      "required": false,
+      "control": "text",
+      "description": "Called whenever the drawer requests a visibility change."
+    },
+    {
+      "name": "modal",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "Trap focus and disable interaction outside the panel."
+    }
+  ],
+  "usage": "`Drawer` 适合在不离开当前页面的情况下查看详情、编辑设置或完成一段短流程。它保留底层页面上下文，并提供焦点圈定、Esc 关闭和遮罩点击；需要用户集中确认的高风险操作应使用 Dialog。",
+  "extended": "使用 `DrawerHeader`、`DrawerBody` 和 `DrawerFooter` 建立稳定的滚动区域。移动端的长表单建议使用 `side=\"bottom\"` 或 `size=\"full\"`，桌面详情面板通常从右侧进入。",
+  "events": "根组件沿用 Radix Dialog 的 `open`、`defaultOpen` 与 `onOpenChange`。进出场由同一组大面板弹簧驱动，关闭时按原路径返回；减少动态效果开启后直接呈现最终位置。",
+  "examples": [
+    {
+      "name": "drawer-demo",
+      "title": "基础示例"
+    }
+  ],
+  "files": [
+    "registry/ui/drawer.tsx"
+  ],
+  "docsUrl": "http://localhost:3000/docs/components/drawer",
+  "sourceUrl": "http://localhost:3000/r/drawer.json"
+}

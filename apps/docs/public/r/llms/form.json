@@ -1,0 +1,96 @@
+{
+  "name": "form",
+  "type": "registry:ui",
+  "title": "Form",
+  "description": "Composable form fields with coordinated labels, validation messages, and motion.",
+  "import": "import { Form, FormActions, FormControl, FormDescription, FormField, FormLabel, FormLegend, FormMessage, FormSection } from \"@/components/ui/form\"",
+  "exports": [
+    "Form",
+    "FormActions",
+    "FormControl",
+    "FormDescription",
+    "FormField",
+    "FormLabel",
+    "FormLegend",
+    "FormMessage",
+    "FormSection"
+  ],
+  "typeExports": [
+    "FormControlProps",
+    "FormFieldProps",
+    "FormProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/form",
+    "shadcn": "npx shadcn@latest add http://localhost:3000/r/form.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "animated",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "Animate the form into place when it mounts."
+    },
+    {
+      "name": "acceptCharset",
+      "type": "string",
+      "required": false,
+      "control": "text"
+    },
+    {
+      "name": "action",
+      "type": "string | ((formData: FormData) => void | Promise<void>)",
+      "required": false,
+      "control": "text"
+    },
+    {
+      "name": "autoComplete",
+      "type": "string",
+      "required": false,
+      "control": "text"
+    },
+    {
+      "name": "encType",
+      "type": "string",
+      "required": false,
+      "control": "text"
+    },
+    {
+      "name": "method",
+      "type": "string",
+      "required": false,
+      "control": "text"
+    },
+    {
+      "name": "noValidate",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean"
+    },
+    {
+      "name": "target",
+      "type": "string",
+      "required": false,
+      "control": "text"
+    }
+  ],
+  "examples": [
+    {
+      "name": "form-demo",
+      "title": "Basic example"
+    }
+  ],
+  "files": [
+    "registry/ui/form.tsx"
+  ],
+  "docsUrl": "http://localhost:3000/docs/components/form",
+  "sourceUrl": "http://localhost:3000/r/form.json"
+}

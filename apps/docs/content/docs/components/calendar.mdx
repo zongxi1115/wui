@@ -28,4 +28,10 @@ component: calendar
 
 ## 扩展使用
 
-通过 `min`、`max` 或 `disabled(date)` 限制可选范围；将 `showOutsideDays` 设为 `false` 可隐藏相邻月份日期。业务应在组件外呈现预约余量或日程摘要，避免让每个日期格承载过多信息。
+通过 `min`、`max` 或 `disabled(date)` 限制可选范围；将 `showOutsideDays` 设为 `false` 可隐藏相邻月份日期。
+
+### 大型日历面板
+
+<ComponentPreview name="calendar-panel" />
+
+`CalendarPanel` 面向排期、项目节奏和团队日程等需要完整月份上下文的场景。它支持受控日期与月份、日程语义色、单日数量折叠和事件点击，并以水平滚动保留窄屏下的日期密度。

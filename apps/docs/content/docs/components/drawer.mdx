@@ -1,0 +1,31 @@
+---
+title: 抽屉 Drawer
+description: 从视口边缘平滑进入、用于承载补充任务的焦点面板。
+component: drawer
+---
+
+## 基础示例
+
+<ComponentPreview name="drawer-demo" />
+
+<CodeTabs command="wui@latest add @wui/drawer" />
+
+<ComponentSource name="drawer" title="components/ui/drawer.tsx" />
+
+## 组件作用
+
+`Drawer` 适合在不离开当前页面的情况下查看详情、编辑设置或完成一段短流程。它保留底层页面上下文，并提供焦点圈定、Esc 关闭和遮罩点击；需要用户集中确认的高风险操作应使用 Dialog。
+
+## 组件属性
+
+<PropsTable name="drawer" />
+
+`DrawerContent` 提供 `side`（`top`、`right`、`bottom`、`left`）、`size`（`sm`、`default`、`lg`、`full`）与 `hideClose`。
+
+## 事件
+
+根组件沿用 Radix Dialog 的 `open`、`defaultOpen` 与 `onOpenChange`。进出场由同一组大面板弹簧驱动，关闭时按原路径返回；减少动态效果开启后直接呈现最终位置。
+
+## 扩展使用
+
+使用 `DrawerHeader`、`DrawerBody` 和 `DrawerFooter` 建立稳定的滚动区域。移动端的长表单建议使用 `side="bottom"` 或 `size="full"`，桌面详情面板通常从右侧进入。

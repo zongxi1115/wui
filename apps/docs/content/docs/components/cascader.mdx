@@ -1,0 +1,31 @@
+---
+title: Cascader
+description: A multi-column picker for navigating and selecting hierarchical values.
+component: cascader
+---
+
+## Basic example
+
+<ComponentPreview name="cascader-demo" />
+
+<CodeTabs command="wui@latest add @wui/cascader" />
+
+<ComponentSource name="cascader" title="components/ui/cascader.tsx" />
+
+## What it's for
+
+Use `Cascader` when a choice belongs to a clear hierarchy, such as region / city, department / team, or category / subcategory. Each selection reveals the next column so users keep their context while moving deeper. Use `Select` for a single flat list and a searchable command menu for large, unstructured datasets.
+
+## Props
+
+<PropsTable name="cascader" />
+
+## Events
+
+- `onValueChange(value, options)` fires after any level changes and returns both the stable value path and resolved option objects.
+- `onOpenChange` is managed internally through the trigger; a leaf closes the panel by default.
+- Standard button focus and keyboard activation events are forwarded to the trigger.
+
+## Extended usage
+
+Set `closeOnSelect={false}` to keep the panel open after a leaf selection. Use `contentClassName` to adjust the panel width without changing the trigger, and pass a custom `separator` when the selected path needs different visual punctuation.

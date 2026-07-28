@@ -29,6 +29,8 @@ export interface TableProps
   density?: "default" | "compact"
   /** Adds a subtle background to alternating body rows. @default false */
   striped?: boolean
+  /** Keeps the header visible while the table container scrolls. @default false */
+  stickyHeader?: boolean
 }
 
 /** A responsive native table with composable semantic sections. */
@@ -37,17 +39,26 @@ function Table({
   containerClassName,
   density = "default",
   striped = false,
+  stickyHeader = false,
   ...props
 }: TableProps) {
   return (
     <div
       data-slot="table-container"
-      className={cn("relative w-full overflow-x-auto", containerClassName)}
+      className={cn(
+        "relative isolate w-full overflow-auto overscroll-contain",
+        containerClassName
+      )}
     >
       <table
         data-slot="table"
         data-density={density}
-        className={cn(tableVariants({ density, striped, className }))}
+        className={cn(
+          tableVariants({ density, striped }),
+          stickyHeader &&
+            "[&_[data-slot=table-header]]:sticky [&_[data-slot=table-header]]:top-0 [&_[data-slot=table-header]]:z-20 [&_[data-slot=table-header]]:bg-background",
+          className
+        )}
         {...props}
       />
     </div>
@@ -104,41 +115,91 @@ function TableRow({
     <tr
       data-slot="table-row"
       className={cn(
-        "border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted",
+        "group/row border-b transition-colors hover:bg-muted/50 data-[dragging=true]:opacity-45 data-[state=selected]:bg-muted",
         className
       )}
       {...props}
     />
   )
+}
+
+export interface TableHeadProps extends React.ComponentProps<"th"> {
+  /** Pins the column to an edge of the horizontal scroll container. */
+  pinned?: "left" | "right"
+  /** Distance from the pinned edge, useful when pinning multiple columns. @default 0 */
+  pinOffset?: number | string
 }
 
 function TableHead({
   className,
+  pinned,
+  pinOffset = 0,
+  style,
   ...props
-}: React.ComponentProps<"th">) {
+}: TableHeadProps) {
   return (
     <th
       data-slot="table-head"
+      data-pinned={pinned}
       className={cn(
         "h-10 whitespace-nowrap px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0",
+        pinned &&
+          "z-30 bg-background group-hover/row:bg-muted/50 group-data-[state=selected]/row:bg-muted",
+        pinned === "left" && "border-r",
+        pinned === "right" && "border-l",
         className
       )}
+      style={{
+        ...style,
+        ...(pinned ? { position: "sticky" } : {}),
+        ...(pinned === "left"
+          ? { left: pinOffset, insetInlineStart: pinOffset }
+          : {}),
+        ...(pinned === "right"
+          ? { right: pinOffset, insetInlineEnd: pinOffset }
+          : {}),
+      }}
       {...props}
     />
   )
 }
 
+export interface TableCellProps extends React.ComponentProps<"td"> {
+  /** Pins the column to an edge of the horizontal scroll container. */
+  pinned?: "left" | "right"
+  /** Distance from the pinned edge, useful when pinning multiple columns. @default 0 */
+  pinOffset?: number | string
+}
+
 function TableCell({
   className,
+  pinned,
+  pinOffset = 0,
+  style,
   ...props
-}: React.ComponentProps<"td">) {
+}: TableCellProps) {
   return (
     <td
       data-slot="table-cell"
+      data-pinned={pinned}
       className={cn(
         "whitespace-nowrap p-4 align-middle [&:has([role=checkbox])]:pr-0",
+        pinned &&
+          "z-10 bg-background group-hover/row:bg-muted/50 group-data-[state=selected]/row:bg-muted",
+        pinned === "left" && "border-r",
+        pinned === "right" && "border-l",
         className
       )}
+      style={{
+        ...style,
+        ...(pinned ? { position: "sticky" } : {}),
+        ...(pinned === "left"
+          ? { left: pinOffset, insetInlineStart: pinOffset }
+          : {}),
+        ...(pinned === "right"
+          ? { right: pinOffset, insetInlineEnd: pinOffset }
+          : {}),
+      }}
       {...props}
     />
   )

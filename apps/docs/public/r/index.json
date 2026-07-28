@@ -241,10 +241,46 @@
       ]
     },
     {
+      "name": "cascader",
+      "type": "registry:ui",
+      "title": "Cascader",
+      "description": "A multi-column picker for selecting hierarchical values.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "form",
+      "type": "registry:ui",
+      "title": "Form",
+      "description": "Composable form fields with animated validation feedback.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
       "name": "tabs",
       "type": "registry:ui",
       "title": "Tabs",
       "description": "A tabbed interface with a fluid shared-layout indicator.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "navbar",
+      "type": "registry:ui",
+      "title": "Navbar",
+      "description": "Composable horizontal and application-level vertical navigation.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "collapsible",
+      "type": "registry:ui",
+      "title": "Collapsible",
+      "description": "An accessible disclosure region with animated content.",
       "registryDependencies": [
         "utils"
       ]
@@ -478,6 +514,33 @@
       "type": "registry:ui",
       "title": "Empty State",
       "description": "A focused zero-data state with optional icon, actions, and 150 bundled illustrations.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "spin",
+      "type": "registry:ui",
+      "title": "Spin",
+      "description": "A reduced-motion aware loading indicator for inline, nested, and fullscreen states.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "drawer",
+      "type": "registry:ui",
+      "title": "Drawer",
+      "description": "A focus-managed edge panel with spring-based enter and exit motion.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "descriptions",
+      "type": "registry:ui",
+      "title": "Descriptions",
+      "description": "A semantic key-value list for records, profiles, and object summaries.",
       "registryDependencies": [
         "utils"
       ]

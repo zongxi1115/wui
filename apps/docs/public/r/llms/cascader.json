@@ -1,0 +1,113 @@
+{
+  "name": "cascader",
+  "type": "registry:ui",
+  "title": "Cascader",
+  "description": "A multi-column picker for navigating and selecting hierarchical values.",
+  "import": "import { Cascader } from \"@/components/ui/cascader\"",
+  "exports": [
+    "Cascader"
+  ],
+  "typeExports": [
+    "CascaderOption",
+    "CascaderProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/cascader",
+    "shadcn": "npx shadcn@latest add http://localhost:3000/r/cascader.json",
+    "npmDependencies": [
+      "radix-ui",
+      "lucide-react",
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "options",
+      "type": "CascaderOption[]",
+      "required": true,
+      "control": "text",
+      "description": "Hierarchical option tree."
+    },
+    {
+      "name": "value",
+      "type": "string[]",
+      "required": false,
+      "control": "text",
+      "description": "Selected value path in controlled mode."
+    },
+    {
+      "name": "defaultValue",
+      "type": "string[]",
+      "required": false,
+      "control": "text",
+      "defaultValue": "[]",
+      "description": "Initial value path in uncontrolled mode."
+    },
+    {
+      "name": "onValueChange",
+      "type": "((value: string[], options: CascaderOption[]) => void)",
+      "required": false,
+      "control": "text",
+      "description": "Called whenever the active path changes."
+    },
+    {
+      "name": "placeholder",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "defaultValue": "Select a location",
+      "description": "Placeholder shown before a complete path is selected."
+    },
+    {
+      "name": "separator",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "defaultValue": "/",
+      "description": "Separator placed between selected labels."
+    },
+    {
+      "name": "closeOnSelect",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "Close the panel after choosing a leaf option."
+    },
+    {
+      "name": "panelLabel",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "defaultValue": "Cascader options",
+      "description": "Accessible label for the option panel."
+    },
+    {
+      "name": "contentClassName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "Extra classes applied to the floating panel."
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean"
+    }
+  ],
+  "examples": [
+    {
+      "name": "cascader-demo",
+      "title": "Basic example"
+    }
+  ],
+  "files": [
+    "registry/ui/cascader.tsx"
+  ],
+  "docsUrl": "http://localhost:3000/docs/components/cascader",
+  "sourceUrl": "http://localhost:3000/r/cascader.json"
+}

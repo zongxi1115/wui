@@ -37,3 +37,13 @@ component: table
 <ComponentPreview name="table-compact" />
 
 使用 `className` 控制表格本身，使用 `containerClassName` 定制横向滚动容器。数值列建议右对齐并添加 `tabular-nums`，以便快速比较。
+
+## 高级数据表格
+
+基础组件保持原生表格语义，筛选、排序、展开和拖动等业务状态由使用方组合。下面的完整示例同时展示级联表头、树形数据、同级拖动排序、列内筛选、排序、行选择、紧凑密度、固定表头和左右固定列。
+
+<ComponentPreview name="table-advanced" />
+
+`stickyHeader` 会让表头在 `containerClassName` 设置的滚动区域内保持可见。`TableHead` 与 `TableCell` 的 `pinned` 支持固定到 `left` 或 `right`，横向滚动时仍保留在容器边缘。连续固定多列时通过 `pinOffset` 指定相对边缘的累计距离；建议使用 `colgroup` 锁定列宽，并让表头与单元格使用相同的 `pinOffset`。
+
+级联表头继续使用原生 `colSpan` 与 `rowSpan`。树形展开、筛选、选择和拖动排序没有绑定特定状态库，示例中的状态可以替换为 TanStack Table、服务端查询或业务自己的数据模型。

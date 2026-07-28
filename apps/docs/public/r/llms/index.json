@@ -354,11 +354,71 @@
       "exampleCount": 2
     },
     {
+      "name": "cascader",
+      "type": "registry:ui",
+      "title": "Cascader",
+      "description": "A multi-column picker for navigating and selecting hierarchical values.",
+      "keyProps": [
+        "options: CascaderOption[]",
+        "value: string[]",
+        "defaultValue: string[]",
+        "onValueChange: ((value: string[], options: CascaderOption[]) => void)",
+        "placeholder: string",
+        "separator: ReactNode"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "form",
+      "type": "registry:ui",
+      "title": "Form",
+      "description": "Composable form fields with coordinated labels, validation messages, and motion.",
+      "keyProps": [
+        "animated: boolean",
+        "acceptCharset: string",
+        "action: string | ((formData: FormData) => void | Promise<void>)",
+        "autoComplete: string",
+        "encType: string",
+        "method: string"
+      ],
+      "exampleCount": 1
+    },
+    {
       "name": "tabs",
       "type": "registry:ui",
       "title": "标签栏 Tabs",
       "description": "使用共享布局动效平滑切换内容分区。",
       "keyProps": [
+        "asChild: boolean"
+      ],
+      "exampleCount": 2
+    },
+    {
+      "name": "navbar",
+      "type": "registry:ui",
+      "title": "导航栏 Navbar",
+      "description": "适用于页面顶部与应用左侧的可组合导航栏。",
+      "categories": [
+        "navigation"
+      ],
+      "keyProps": [
+        "orientation: horizontal|vertical",
+        "collapsed: boolean",
+        "defaultCollapsed: boolean",
+        "onCollapsedChange: ((collapsed: boolean) => void)"
+      ],
+      "exampleCount": 2
+    },
+    {
+      "name": "collapsible",
+      "type": "registry:ui",
+      "title": "折叠面板 Collapsible",
+      "description": "按需展开一段补充内容，并保留清晰的状态与键盘交互。",
+      "categories": [
+        "layout"
+      ],
+      "keyProps": [
+        "disabled: boolean",
         "asChild: boolean"
       ],
       "exampleCount": 2
@@ -679,9 +739,10 @@
       "keyProps": [
         "containerClassName: string",
         "density: default|compact",
-        "striped: boolean"
+        "striped: boolean",
+        "stickyHeader: boolean"
       ],
-      "exampleCount": 2
+      "exampleCount": 3
     },
     {
       "name": "calendar",
@@ -696,7 +757,7 @@
         "defaultMonth: Date",
         "onMonthChange: ((month: Date) => void)"
       ],
-      "exampleCount": 1
+      "exampleCount": 2
     },
     {
       "name": "date-picker",
@@ -760,6 +821,49 @@
         "size: sm|default|lg"
       ],
       "exampleCount": 2
+    },
+    {
+      "name": "spin",
+      "type": "registry:ui",
+      "title": "加载中 Spin",
+      "description": "用轻量、可降级的动态指示器表达等待状态。",
+      "keyProps": [
+        "spinning: boolean",
+        "size: sm|default|lg",
+        "label: ReactNode",
+        "indicator: ReactNode",
+        "delay: number",
+        "fullscreen: boolean"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "drawer",
+      "type": "registry:ui",
+      "title": "抽屉 Drawer",
+      "description": "从视口边缘平滑进入、用于承载补充任务的焦点面板。",
+      "keyProps": [
+        "open: boolean",
+        "defaultOpen: boolean",
+        "onOpenChange: ((open: boolean) => void)",
+        "modal: boolean"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "descriptions",
+      "type": "registry:ui",
+      "title": "描述列表 Descriptions",
+      "description": "以清晰的键值结构展示对象、记录与档案信息。",
+      "keyProps": [
+        "title: ReactNode",
+        "extra: ReactNode",
+        "columns: enum",
+        "bordered: boolean",
+        "layout: horizontal|vertical",
+        "size: sm|default"
+      ],
+      "exampleCount": 1
     }
   ]
 }

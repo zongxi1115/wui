@@ -1,0 +1,31 @@
+---
+title: 描述列表 Descriptions
+description: 以清晰的键值结构展示对象、记录与档案信息。
+component: descriptions
+---
+
+## 基础示例
+
+<ComponentPreview name="descriptions-demo" />
+
+<CodeTabs command="wui@latest add @wui/descriptions" />
+
+<ComponentSource name="descriptions" title="components/ui/descriptions.tsx" />
+
+## 组件作用
+
+`Descriptions` 用于只读地呈现项目、订单、账户或设备等单个对象的属性。它使用语义化描述列表，适合“字段—值”阅读；大量同构记录的横向比较应使用 Table。
+
+## 组件属性
+
+<PropsTable name="descriptions" />
+
+每个 `DescriptionsItem` 接收必填的 `label`，并可通过 `span` 跨越多个描述列。
+
+## 事件
+
+描述列表本身不产生事件。通过 `extra` 放置编辑、复制等轻量操作；字段值中的链接或按钮仍保留各自的原生事件。
+
+## 扩展使用
+
+`bordered` 适合信息密度较高的管理页面，默认分隔线样式更轻；`layout="vertical"` 适合标签较长或窄容器。`columns` 与 `span` 应配合使用，跨列总数不要超过当前行容量。
