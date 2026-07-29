@@ -1,4 +1,4 @@
-# @wui/cli
+# @wui-design/cli
 
 Pull [wui](https://ui.wzx.wang) components into your project on demand.
 
@@ -9,14 +9,14 @@ you own the source and can edit it freely. The registry follows the shadcn
 ## Usage
 
 ```bash
-npx @wui/cli@latest init          # interactive project and theme setup
-npx @wui/cli@latest add button    # copies button (+ its deps) into your project
+npx @wui-design/cli@latest init          # interactive project and theme setup
+npx @wui-design/cli@latest add button    # copies button (+ its deps) into your project
 ```
 
 Or install it globally and use the shorter `wui` binary:
 
 ```bash
-npm i -g @wui/cli
+npm i -g @wui-design/cli
 wui add @wui/button @wui/card
 ```
 

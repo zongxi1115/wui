@@ -26,7 +26,7 @@ importers:
       '@animateicons/react':
         specifier: ^0.3.4
         version: 0.3.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
-      '@wui/mcp':
+      '@wui-design/mcp':
         specifier: workspace:*
         version: link:../../packages/mcp
       class-variance-authority:

@@ -23,11 +23,11 @@ Cursor / Windsurf 等在其 MCP 配置里填：
 ### 方式二：stdio（离线、可指定版本）
 
 ```bash
-claude mcp add wui -- npx -y @wui/mcp
+claude mcp add wui -- npx -y @wui-design/mcp
 ```
 
 ```json
-{ "mcpServers": { "wui": { "command": "npx", "args": ["-y", "@wui/mcp"] } } }
+{ "mcpServers": { "wui": { "command": "npx", "args": ["-y", "@wui-design/mcp"] } } }
 ```
 
 可选参数：
@@ -41,7 +41,7 @@ claude mcp add wui -- npx -y @wui/mcp
 
 ```bash
 pnpm --filter docs registry:build
-pnpm --filter @wui/mcp build
+pnpm --filter @wui-design/mcp build
 node packages/mcp/dist/index.js --dir apps/docs/public/r
 ```
 
@@ -107,7 +107,7 @@ apps/docs/app/api/mcp/route.ts   # Streamable HTTP 入口，复用同一份 core
 ```
 
 两个传输共用 `core`，工具行为完全一致。`core` 以 TypeScript 源码形式导出
-（配合 `transpilePackages`），因此改动 core 后 docs 站不需要先构建 `@wui/mcp`。
+（配合 `transpilePackages`），因此改动 core 后 docs 站不需要先构建 `@wui-design/mcp`。
 
 HTTP 端点是无状态的：每个请求自包含，直接返回 JSON 而不是 SSE 流（协议允许），
 所以不需要会话存储，可以直接跑在 serverless 上。

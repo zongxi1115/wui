@@ -1,5 +1,5 @@
 {
-  "name": "@wui/cli",
+  "name": "@wui-design/cli",
   "version": "0.1.0",
   "description": "wui — pull shadcn-style components into your project on demand.",
   "keywords": [

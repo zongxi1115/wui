@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@animateicons/react": "^0.3.4",
-    "@wui/mcp": "workspace:*",
+    "@wui-design/mcp": "workspace:*",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "fumadocs-core": "^15.0.0",

@@ -1,9 +1,9 @@
 /**
  * wui-mcp — stdio MCP server exposing the wui component library to LLM agents.
  *
- *   npx @wui/mcp                                  # the public registry
- *   npx @wui/mcp --registry https://host/r        # a self-hosted one
- *   npx @wui/mcp --dir ./apps/docs/public/r       # a local checkout
+ *   npx @wui-design/mcp                                  # the public registry
+ *   npx @wui-design/mcp --registry https://host/r        # a self-hosted one
+ *   npx @wui-design/mcp --dir ./apps/docs/public/r       # a local checkout
  */
 import { createRequire } from "node:module"
 

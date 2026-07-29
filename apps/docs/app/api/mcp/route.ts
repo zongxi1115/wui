@@ -11,7 +11,7 @@
  */
 import path from "node:path"
 
-import { callTool, createFileLoader, Registry, tools } from "@wui/mcp/core"
+import { callTool, createFileLoader, Registry, tools } from "@wui-design/mcp/core"
 
 export const dynamic = "force-dynamic"
 

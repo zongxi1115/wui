@@ -1,5 +1,5 @@
 {
-  "name": "@wui/mcp",
+  "name": "@wui-design/mcp",
   "version": "0.1.0",
   "description": "MCP server that exposes the wui component library (props, usage rules, examples) to LLM agents.",
   "keywords": [

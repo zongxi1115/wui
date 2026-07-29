@@ -144,7 +144,7 @@ export { Badge, badgeVariants }
 □ 8. pnpm --filter docs dev                  # 本地预览：实时渲染 + 源码 + 属性表
 □ 9. 用 CLI 验证拉取：
       node packages/cli/dist/index.js add @wui/<name> --cwd <某测试项目> --dry-run
-□ 10. pnpm --filter @wui/cli typecheck / test（若改动了 CLI）
+□ 10. pnpm --filter @wui-design/cli typecheck / test（若改动了 CLI）
 ```
 
 ---

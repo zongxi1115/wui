@@ -87,7 +87,7 @@ claude mcp add --transport http wui https://wui.dev/api/mcp
 <Tab value="Claude Code">
 
 ```bash
-claude mcp add wui -- npx -y @wui/mcp
+claude mcp add wui -- npx -y @wui-design/mcp
 ```
 
 </Tab>
@@ -99,7 +99,7 @@ claude mcp add wui -- npx -y @wui/mcp
   "mcpServers": {
     "wui": {
       "command": "npx",
-      "args": ["-y", "@wui/mcp"]
+      "args": ["-y", "@wui-design/mcp"]
     }
   }
 }
@@ -112,7 +112,7 @@ claude mcp add wui -- npx -y @wui/mcp
 如果你部署了自己的 registry，用 `--registry` 指向它：
 
 ```bash
-npx -y @wui/mcp --registry https://你的站点/r
+npx -y @wui-design/mcp --registry https://你的站点/r
 ```
 
 ## 验证是否接上
