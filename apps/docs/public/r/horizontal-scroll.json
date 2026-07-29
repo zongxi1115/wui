@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "horizontal-scroll",
+  "type": "registry:ui",
+  "title": "Horizontal Scroll",
+  "description": "Converts vertical section progress into a pinned horizontal track.",
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/horizontal-scroll.tsx",
+      "type": "registry:ui",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport {\n  motion,\n  useReducedMotion,\n  useScroll,\n  useTransform,\n  type HTMLMotionProps,\n} from \"motion/react\"\n\nimport { cn } from \"@/registry/lib/utils\"\n\nexport interface HorizontalScrollProps extends Omit<\n  HTMLMotionProps<\"section\">,\n  \"children\"\n> {\n  /** Wide content translated horizontally while the section is pinned. */\n  children: React.ReactNode\n  /** Scrollable element to observe instead of the page. */\n  container?: React.RefObject<HTMLElement | null>\n  /** Extra vertical scrolling distance in pixels. @default 0 */\n  scrollPadding?: number\n  /** Classes applied to the pinned viewport. */\n  viewportClassName?: string\n  /** Classes applied to the horizontally translated track. */\n  trackClassName?: string\n}\n\ninterface HorizontalMetrics {\n  distance: number\n  viewportHeight: number\n}\n\n/** Converts vertical section progress into a pinned horizontal track. */\nfunction HorizontalScroll({\n  children,\n  container,\n  scrollPadding = 0,\n  className,\n  viewportClassName,\n  trackClassName,\n  style,\n  ...props\n}: HorizontalScrollProps) {\n  const sectionRef = React.useRef<HTMLElement>(null)\n  const trackRef = React.useRef<HTMLDivElement>(null)\n  const reduceMotion = useReducedMotion()\n  const [metrics, setMetrics] = React.useState<HorizontalMetrics>({\n    distance: 0,\n    viewportHeight: 0,\n  })\n\n  const { scrollYProgress } = useScroll({\n    target: sectionRef,\n    container,\n    offset: [\"start start\", \"end end\"],\n  })\n  const x = useTransform(scrollYProgress, [0, 1], [0, -metrics.distance])\n\n  React.useLayoutEffect(() => {\n    const section = sectionRef.current\n    const track = trackRef.current\n    if (!section || !track) return\n\n    const measure = () => {\n      const viewportHeight =\n        container?.current?.clientHeight ?? window.innerHeight\n      setMetrics({\n        distance: Math.max(track.scrollWidth - section.clientWidth, 0),\n        viewportHeight,\n      })\n    }\n\n    measure()\n    const observer = new ResizeObserver(measure)\n    observer.observe(section)\n    observer.observe(track)\n    if (container?.current) observer.observe(container.current)\n    window.addEventListener(\"resize\", measure)\n\n    return () => {\n      observer.disconnect()\n      window.removeEventListener(\"resize\", measure)\n    }\n  }, [children, container])\n\n  if (reduceMotion) {\n    return (\n      <motion.section\n        ref={sectionRef}\n        data-slot=\"horizontal-scroll\"\n        className={cn(\"overflow-x-auto\", className)}\n        style={style}\n        {...props}\n      >\n        <div\n          ref={trackRef}\n          data-slot=\"horizontal-scroll-track\"\n          className={cn(\"flex w-max\", trackClassName)}\n        >\n          {children}\n        </div>\n      </motion.section>\n    )\n  }\n\n  const sectionHeight =\n    metrics.viewportHeight + metrics.distance + scrollPadding\n\n  return (\n    <motion.section\n      ref={sectionRef}\n      data-slot=\"horizontal-scroll\"\n      className={cn(\"relative\", className)}\n      style={{ ...style, height: sectionHeight || undefined }}\n      {...props}\n    >\n      <div\n        data-slot=\"horizontal-scroll-viewport\"\n        className={cn(\"sticky top-0 overflow-hidden\", viewportClassName)}\n        style={{ height: metrics.viewportHeight || \"100vh\" }}\n      >\n        <motion.div\n          ref={trackRef}\n          data-slot=\"horizontal-scroll-track\"\n          className={cn(\n            \"flex h-full w-max will-change-transform\",\n            trackClassName\n          )}\n          style={{ x }}\n        >\n          {children}\n        </motion.div>\n      </div>\n    </motion.section>\n  )\n}\n\nexport { HorizontalScroll }\n"
+    }
+  ],
+  "categories": [
+    "scroll",
+    "motion"
+  ]
+}

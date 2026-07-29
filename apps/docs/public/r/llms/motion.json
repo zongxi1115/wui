@@ -16,7 +16,7 @@
   ],
   "install": {
     "wui": "npx wui@latest add @wui/motion",
-    "shadcn": "npx shadcn@latest add http://localhost:3000/r/motion.json",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/motion.json",
     "npmDependencies": [
       "motion",
       "radix-ui"
@@ -26,17 +26,17 @@
   "props": [
     {
       "name": "preset",
-      "type": "\"fade\" | \"scale\" | \"slide-up\" | \"slide-down\" | \"slide-left\" | \"slide-right\" | \"pop\" | \"blur\"",
+      "type": "\"pop\" | \"scale\" | \"fade\" | \"slide-up\" | \"slide-down\" | \"slide-left\" | \"slide-right\" | \"blur\"",
       "required": false,
       "control": "select",
       "options": [
-        "fade",
+        "pop",
         "scale",
+        "fade",
         "slide-up",
         "slide-down",
         "slide-left",
         "slide-right",
-        "pop",
         "blur"
       ],
       "defaultValue": "fade",
@@ -82,8 +82,8 @@
       "description": "Merge motion onto the single child element instead of rendering a div."
     }
   ],
-  "usage": "`Motion` 是 wui 的可选动画层。你可以包裹任意内容，为其添加自然的入场动画；也可以使用\n`asChild` 为现有组件（如 `Button`）添加动画，而不增加额外的包装节点。组件内置一组命名\n`presets` 和 `transitions`，以确保应用中的动画风格一致。当用户偏好减少动态效果时，\n它会**自动禁用动画**。\n\n由于 Motion 是独立的 registry 条目，不使用动画的组件不会引入相关依赖；只有需要动画时\n才会拉取 `motion`。",
-  "extended": "### 动画预设\n\n### 滚动进入视口时播放（`inView`）\n\n### 为现有组件添加动画（`asChild`）\n\n  `Motion` 会读取 `prefers-reduced-motion`，当用户要求减少动态效果时静态渲染子元素，\n  无需额外处理。",
+  "usage": "`Motion` 是 wui 的可选动画层。你可以包裹任意内容，为其添加自然的入场动画；也可以使用\r\n`asChild` 为现有组件（如 `Button`）添加动画，而不增加额外的包装节点。组件内置一组命名\r\n`presets` 和 `transitions`，以确保应用中的动画风格一致。当用户偏好减少动态效果时，\r\n它会**自动禁用动画**。\r\n\r\n由于 Motion 是独立的 registry 条目，不使用动画的组件不会引入相关依赖；只有需要动画时\r\n才会拉取 `motion`。",
+  "extended": "### 动画预设\r\n\r\n\r\n\r\n### 滚动进入视口时播放（`inView`）\r\n\r\n\r\n\r\n### 为现有组件添加动画（`asChild`）\r\n\r\n\r\n\r\n\r\n  `Motion` 会读取 `prefers-reduced-motion`，当用户要求减少动态效果时静态渲染子元素，\r\n  无需额外处理。",
   "examples": [
     {
       "name": "motion-demo",
@@ -105,6 +105,6 @@
   "files": [
     "registry/ui/motion.tsx"
   ],
-  "docsUrl": "http://localhost:3000/docs/components/motion",
-  "sourceUrl": "http://localhost:3000/r/motion.json"
+  "docsUrl": "https://ui.wzx.wang/docs/components/motion",
+  "sourceUrl": "https://ui.wzx.wang/r/motion.json"
 }

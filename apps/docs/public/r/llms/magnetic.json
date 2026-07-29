@@ -1,0 +1,72 @@
+{
+  "name": "magnetic",
+  "type": "registry:ui",
+  "title": "鼠标跟随 Magnetic",
+  "description": "让内容轻微跟随指针位移，并在离开时自然回弹。",
+  "categories": [
+    "motion"
+  ],
+  "import": "import { Magnetic } from \"@/components/ui/magnetic\"",
+  "exports": [
+    "Magnetic"
+  ],
+  "typeExports": [
+    "MagneticProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/magnetic",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/magnetic.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "strength",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0.18",
+      "description": "How strongly the content follows the pointer."
+    },
+    {
+      "name": "maxDistance",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "12",
+      "description": "Maximum movement on either axis, in pixels."
+    },
+    {
+      "name": "springConfig",
+      "type": "SpringOptions",
+      "required": false,
+      "control": "text",
+      "defaultValue": "{ stiffness: 260, damping: 22, mass: 0.35 }",
+      "description": "Spring physics used for movement and return."
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "Disable pointer tracking without changing the layout."
+    }
+  ],
+  "usage": "`Magnetic` 根据指针相对组件中心的位置产生少量位移，适合按钮、图标入口和单个行动项。离开组件后会通过弹簧动画回到原位；触摸输入和“减少动态效果”偏好不会触发位移。",
+  "examples": [
+    {
+      "name": "magnetic-demo",
+      "title": "基础示例"
+    }
+  ],
+  "files": [
+    "registry/ui/magnetic.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/magnetic",
+  "sourceUrl": "https://ui.wzx.wang/r/magnetic.json"
+}

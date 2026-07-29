@@ -13,7 +13,7 @@
   ],
   "install": {
     "wui": "npx wui@latest add @wui/progress",
-    "shadcn": "npx shadcn@latest add http://localhost:3000/r/progress.json",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/progress.json",
     "npmDependencies": [
       "radix-ui",
       "class-variance-authority"
@@ -37,12 +37,12 @@
     },
     {
       "name": "size",
-      "type": "\"sm\" | \"default\" | \"lg\"",
+      "type": "\"default\" | \"sm\" | \"lg\"",
       "required": false,
       "control": "select",
       "options": [
-        "sm",
         "default",
+        "sm",
         "lg"
       ],
       "defaultValue": "default",
@@ -50,15 +50,15 @@
     },
     {
       "name": "color",
-      "type": "\"primary\" | \"blue\" | \"success\" | \"warning\" | \"destructive\"",
+      "type": "\"destructive\" | \"success\" | \"warning\" | \"primary\" | \"blue\"",
       "required": false,
       "control": "select",
       "options": [
-        "primary",
-        "blue",
+        "destructive",
         "success",
         "warning",
-        "destructive"
+        "primary",
+        "blue"
       ],
       "defaultValue": "primary",
       "description": "Semantic accent used by the completed portion."
@@ -86,7 +86,7 @@
     }
   ],
   "usage": "`Progress` 用于展示下载、上传、同步或处理任务的完成程度。它同时提供安静的线性轨道和紧凑环形布局；不传 `value` 时会显示不确定进度。",
-  "extended": "### 颜色与环形进度\n\n使用 `color=\"primary | blue | success | warning | destructive\"` 表达不同语义。`variant=\"circular\"` 切换为环形布局，配合 `showValue` 在环内显示百分比；`size` 会分别调整线性轨道厚度或环形直径。动画会在系统开启“减少动态效果”时自动停用。",
+  "extended": "### 颜色与环形进度\r\n\r\n\r\n\r\n使用 `color=\"primary | blue | success | warning | destructive\"` 表达不同语义。`variant=\"circular\"` 切换为环形布局，配合 `showValue` 在环内显示百分比；`size` 会分别调整线性轨道厚度或环形直径。动画会在系统开启“减少动态效果”时自动停用。",
   "events": "进度条是只读状态组件，不提供交互事件。使用 `value` 更新完成度，并通过 `aria-label` 或 `getValueLabel` 提供可访问描述。",
   "examples": [
     {
@@ -101,6 +101,6 @@
   "files": [
     "registry/ui/progress.tsx"
   ],
-  "docsUrl": "http://localhost:3000/docs/components/progress",
-  "sourceUrl": "http://localhost:3000/r/progress.json"
+  "docsUrl": "https://ui.wzx.wang/docs/components/progress",
+  "sourceUrl": "https://ui.wzx.wang/r/progress.json"
 }

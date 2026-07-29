@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "parallax",
+  "type": "registry:ui",
+  "title": "Parallax",
+  "description": "Moves a layer at a different rate while it crosses the viewport.",
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/parallax.tsx",
+      "type": "registry:ui",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport {\n  motion,\n  useReducedMotion,\n  useScroll,\n  useTransform,\n  type HTMLMotionProps,\n  type UseScrollOptions,\n} from \"motion/react\"\n\nimport { cn } from \"@/registry/lib/utils\"\n\nexport interface ParallaxProps extends Omit<\n  HTMLMotionProps<\"div\">,\n  \"children\"\n> {\n  /** Content translated as the wrapper crosses the viewport. */\n  children: React.ReactNode\n  /** Translation axis. @default \"y\" */\n  axis?: \"x\" | \"y\"\n  /** Translation range in pixels from scroll start to end. @default [-48, 48] */\n  distance?: [number, number]\n  /** Optional scale range, useful for image-within-frame parallax. */\n  scale?: [number, number]\n  /** Scrollable element to observe instead of the page. */\n  container?: React.RefObject<HTMLElement | null>\n  /** Motion scroll offsets for the wrapper. @default [\"start end\", \"end start\"] */\n  offset?: UseScrollOptions[\"offset\"]\n}\n\n/** Moves a layer at a different rate while it crosses the viewport. */\nfunction Parallax({\n  children,\n  axis = \"y\",\n  distance = [-48, 48],\n  scale,\n  container,\n  offset = [\"start end\", \"end start\"],\n  className,\n  style,\n  ...props\n}: ParallaxProps) {\n  const target = React.useRef<HTMLDivElement>(null)\n  const reduceMotion = useReducedMotion()\n  const { scrollYProgress } = useScroll({ target, container, offset })\n  const translation = useTransform(scrollYProgress, [0, 1], distance)\n  const scaleValue = useTransform(scrollYProgress, [0, 1], scale ?? [1, 1])\n\n  return (\n    <motion.div\n      ref={target}\n      data-slot=\"parallax\"\n      data-axis={axis}\n      className={cn(\"will-change-transform\", className)}\n      style={{\n        ...style,\n        x: reduceMotion || axis === \"y\" ? 0 : translation,\n        y: reduceMotion || axis === \"x\" ? 0 : translation,\n        scale: reduceMotion ? 1 : scaleValue,\n      }}\n      {...props}\n    >\n      {children}\n    </motion.div>\n  )\n}\n\nexport { Parallax }\n"
+    }
+  ],
+  "categories": [
+    "scroll",
+    "motion"
+  ]
+}

@@ -1,0 +1,115 @@
+{
+  "name": "glow",
+  "type": "registry:ui",
+  "title": "渐变环绕发光 Glow",
+  "description": "让多色渐变光线沿内容四周持续环绕，并提供单色发光变体。",
+  "categories": [
+    "fancy"
+  ],
+  "import": "import { Glow } from \"@/components/ui/glow\"",
+  "exports": [
+    "Glow"
+  ],
+  "typeExports": [
+    "GlowProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/glow",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/glow.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": true,
+      "control": "text",
+      "description": "Content placed above the glow."
+    },
+    {
+      "name": "variant",
+      "type": "\"rainbow\" | \"solid\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "rainbow",
+        "solid"
+      ],
+      "defaultValue": "rainbow",
+      "description": "Visual treatment for the illuminated edge."
+    },
+    {
+      "name": "color",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "defaultValue": "oklch(0.7 0.2 260)",
+      "description": "CSS color used by the solid variant."
+    },
+    {
+      "name": "colors",
+      "type": "string[]",
+      "required": false,
+      "control": "text",
+      "defaultValue": "[\"#ff3d81\", \"#ffb800\", \"#34d399\", \"#38bdf8\", \"#8b5cf6\", \"#ff3d81\"]",
+      "description": "Colors distributed around the rainbow edge."
+    },
+    {
+      "name": "spread",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "18",
+      "description": "Distance the light spreads beyond the edge, in pixels."
+    },
+    {
+      "name": "borderWidth",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "1",
+      "description": "Width of the illuminated edge, in pixels."
+    },
+    {
+      "name": "glowOpacity",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0.7",
+      "description": "Peak opacity of the glow."
+    },
+    {
+      "name": "pulse",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "Gently pulse the solid variant."
+    },
+    {
+      "name": "duration",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "4",
+      "description": "Seconds for one animation cycle."
+    }
+  ],
+  "usage": "`Glow` 默认让一条多色渐变光线沿内容四周持续环绕，并用同一条边缘生成柔和光晕。装饰层不会遮挡内容或拦截指针事件，适合重点入口、功能展示和需要短暂吸引注意的区域。",
+  "examples": [
+    {
+      "name": "glow-demo",
+      "title": "基础示例"
+    }
+  ],
+  "files": [
+    "registry/ui/glow.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/glow",
+  "sourceUrl": "https://ui.wzx.wang/r/glow.json"
+}

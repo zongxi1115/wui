@@ -26,7 +26,7 @@
   ],
   "install": {
     "wui": "npx wui@latest add @wui/timeline",
-    "shadcn": "npx shadcn@latest add http://localhost:3000/r/timeline.json",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/timeline.json",
     "npmDependencies": [
       "class-variance-authority",
       "motion"
@@ -38,12 +38,12 @@
   "props": [
     {
       "name": "orientation",
-      "type": "\"vertical\" | \"horizontal\"",
+      "type": "\"horizontal\" | \"vertical\"",
       "required": false,
       "control": "select",
       "options": [
-        "vertical",
-        "horizontal"
+        "horizontal",
+        "vertical"
       ],
       "defaultValue": "vertical",
       "description": "Timeline direction."
@@ -62,12 +62,12 @@
     },
     {
       "name": "density",
-      "type": "\"default\" | \"compact\"",
+      "type": "\"compact\" | \"default\"",
       "required": false,
       "control": "select",
       "options": [
-        "default",
-        "compact"
+        "compact",
+        "default"
       ],
       "defaultValue": "default",
       "description": "Spacing preset between events."
@@ -86,7 +86,7 @@
     }
   ],
   "usage": "`Timeline` 适合审计日志、发布记录、订单进度和活动历史。它强调事件顺序与因果阅读，不适合需要跨列比较的数据，也不要用大量装饰图标代替明确的标题与时间。",
-  "extended": "### 状态进度\n\n通过 `state=\"complete | current | upcoming\"` 表达流程阶段，并为当前节点开启 `pulse`。`density=\"compact\"` 和虚线连接器适合订单、审批等步骤紧密的流程；颜色与文案应同时表达状态，不能只依赖色相。\n\n### 图标节点与富内容\n\n`TimelineDot size=\"icon\"` 可以承载 Lucide 图标。`TimelineCard` 用于提交记录、附件、引用内容等需要独立边界的信息，`TimelineMeta` 用于作者、文件数和辅助状态。\n\n### 左右交错\n\n`align=\"alternate\"` 配合每个 `TimelineItem` 的 `side` 构建里程碑叙事。交错布局适合少量、内容长度接近的重要节点；高频日志仍应使用单侧布局，避免视线反复跳转。\n\n### 横向步骤\n\n`orientation=\"horizontal\"` 适合 onboarding、发布阶段与短流程进度。在窄屏容器外增加横向滚动，并保持每一步有足够宽度；超过六个节点时通常应改回纵向布局。\n\n### 紧凑审计日志\n\n`density=\"compact\"` 可降低节点间距，适合操作记录和系统日志。普通记录保持默认小圆点，仅对异常、成功或当前状态使用语义色。\n\n`TimelineDot` 提供 default、primary、success、warning 与 destructive 五种语义状态。所有持续脉冲都会在系统开启“减少动态效果”时自动停止。",
+  "extended": "### 状态进度\r\n\r\n\r\n\r\n通过 `state=\"complete | current | upcoming\"` 表达流程阶段，并为当前节点开启 `pulse`。`density=\"compact\"` 和虚线连接器适合订单、审批等步骤紧密的流程；颜色与文案应同时表达状态，不能只依赖色相。\r\n\r\n### 图标节点与富内容\r\n\r\n\r\n\r\n`TimelineDot size=\"icon\"` 可以承载 Lucide 图标。`TimelineCard` 用于提交记录、附件、引用内容等需要独立边界的信息，`TimelineMeta` 用于作者、文件数和辅助状态。\r\n\r\n### 左右交错\r\n\r\n\r\n\r\n`align=\"alternate\"` 配合每个 `TimelineItem` 的 `side` 构建里程碑叙事。交错布局适合少量、内容长度接近的重要节点；高频日志仍应使用单侧布局，避免视线反复跳转。\r\n\r\n### 横向步骤\r\n\r\n\r\n\r\n`orientation=\"horizontal\"` 适合 onboarding、发布阶段与短流程进度。在窄屏容器外增加横向滚动，并保持每一步有足够宽度；超过六个节点时通常应改回纵向布局。\r\n\r\n### 紧凑审计日志\r\n\r\n\r\n\r\n`density=\"compact\"` 可降低节点间距，适合操作记录和系统日志。普通记录保持默认小圆点，仅对异常、成功或当前状态使用语义色。\r\n\r\n`TimelineDot` 提供 default、primary、success、warning 与 destructive 五种语义状态。所有持续脉冲都会在系统开启“减少动态效果”时自动停止。",
   "events": "时间轴由语义化的 `ol` 与 `li` 构成，所有原生事件均会透传。组件不内置展开、分页或加载逻辑，可在 `TimelineContent` 内自由组合交互元素。",
   "examples": [
     {
@@ -117,6 +117,6 @@
   "files": [
     "registry/ui/timeline.tsx"
   ],
-  "docsUrl": "http://localhost:3000/docs/components/timeline",
-  "sourceUrl": "http://localhost:3000/r/timeline.json"
+  "docsUrl": "https://ui.wzx.wang/docs/components/timeline",
+  "sourceUrl": "https://ui.wzx.wang/r/timeline.json"
 }

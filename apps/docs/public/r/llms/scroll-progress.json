@@ -1,0 +1,125 @@
+{
+  "name": "scroll-progress",
+  "type": "registry:ui",
+  "title": "滚动进度 Scroll Progress",
+  "description": "用顶部进度条或环形指示器显示页面、容器或区块的阅读进度。",
+  "categories": [
+    "scroll",
+    "motion"
+  ],
+  "import": "import { ScrollProgress } from \"@/components/ui/scroll-progress\"",
+  "exports": [
+    "ScrollProgress"
+  ],
+  "typeExports": [
+    "ScrollProgressProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/scroll-progress",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/scroll-progress.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "variant",
+      "type": "\"circle\" | \"bar\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "circle",
+        "bar"
+      ],
+      "defaultValue": "bar",
+      "description": "Visual form of the progress indicator."
+    },
+    {
+      "name": "position",
+      "type": "\"inline\" | \"top\" | \"bottom\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "inline",
+        "top",
+        "bottom"
+      ],
+      "defaultValue": "top",
+      "description": "Edge used by a fixed bar. Use `inline` to keep it in normal flow."
+    },
+    {
+      "name": "container",
+      "type": "RefObject<HTMLElement | null>",
+      "required": false,
+      "control": "text",
+      "description": "Scrollable element to observe instead of the page."
+    },
+    {
+      "name": "target",
+      "type": "RefObject<HTMLElement | null>",
+      "required": false,
+      "control": "text",
+      "description": "Element whose passage through the viewport defines the progress."
+    },
+    {
+      "name": "offset",
+      "type": "ScrollOffset",
+      "required": false,
+      "control": "text",
+      "description": "Motion scroll offsets used when `target` is supplied."
+    },
+    {
+      "name": "size",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "44",
+      "description": "Diameter of the circular indicator in pixels."
+    },
+    {
+      "name": "strokeWidth",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "3",
+      "description": "Stroke width of the circular indicator in pixels."
+    },
+    {
+      "name": "smooth",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "Smooth abrupt scroll updates with a spring."
+    },
+    {
+      "name": "trackClassName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "Classes applied to the inactive track."
+    },
+    {
+      "name": "indicatorClassName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "Classes applied to the moving indicator."
+    }
+  ],
+  "usage": "`ScrollProgress` 可以观察整个页面、指定滚动容器，或通过 `target` 只计算某个内容区块的经过进度。`variant=\"bar\"` 适合全局阅读位置，`variant=\"circle\"` 适合文章工具栏和沉浸式章节。",
+  "examples": [
+    {
+      "name": "scroll-progress-demo",
+      "title": "基础示例"
+    }
+  ],
+  "files": [
+    "registry/ui/scroll-progress.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/scroll-progress",
+  "sourceUrl": "https://ui.wzx.wang/r/scroll-progress.json"
+}

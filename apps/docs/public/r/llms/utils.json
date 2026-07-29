@@ -9,7 +9,7 @@
   ],
   "install": {
     "wui": "npx wui@latest add @wui/utils",
-    "shadcn": "npx shadcn@latest add http://localhost:3000/r/utils.json",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/utils.json",
     "npmDependencies": [
       "clsx",
       "tailwind-merge"
@@ -23,6 +23,6 @@
   "files": [
     "registry/lib/utils.ts"
   ],
-  "docsUrl": "http://localhost:3000/docs/components/utils",
-  "sourceUrl": "http://localhost:3000/r/utils.json"
+  "docsUrl": "https://ui.wzx.wang/docs/components/utils",
+  "sourceUrl": "https://ui.wzx.wang/r/utils.json"
 }

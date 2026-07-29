@@ -14,7 +14,7 @@
   ],
   "install": {
     "wui": "npx wui@latest add @wui/color-picker",
-    "shadcn": "npx shadcn@latest add http://localhost:3000/r/color-picker.json",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/color-picker.json",
     "npmDependencies": [
       "radix-ui"
     ],
@@ -78,6 +78,6 @@
   "files": [
     "registry/ui/color-picker.tsx"
   ],
-  "docsUrl": "http://localhost:3000/docs/components/color-picker",
-  "sourceUrl": "http://localhost:3000/r/color-picker.json"
+  "docsUrl": "https://ui.wzx.wang/docs/components/color-picker",
+  "sourceUrl": "https://ui.wzx.wang/r/color-picker.json"
 }

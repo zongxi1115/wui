@@ -14,7 +14,7 @@
   ],
   "install": {
     "wui": "npx wui@latest add @wui/kbd",
-    "shadcn": "npx shadcn@latest add http://localhost:3000/r/kbd.json",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/kbd.json",
     "npmDependencies": [
       "class-variance-authority"
     ],
@@ -25,19 +25,19 @@
   "props": [
     {
       "name": "size",
-      "type": "\"sm\" | \"default\"",
+      "type": "\"default\" | \"sm\"",
       "required": false,
       "control": "select",
       "options": [
-        "sm",
-        "default"
+        "default",
+        "sm"
       ],
       "defaultValue": "default",
       "description": "Physical size of the key hint."
     }
   ],
   "usage": "`Kbd` 用于展示单个键位，`KbdGroup` 用于对齐组合快捷键。它是说明性内容，不可点击，也不应该承担 Button 的交互职责。组件只使用细边框和语义底色，不添加内高光或厚重拟物阴影。",
-  "extended": "组合键使用多个 `Kbd` 包裹在 `KbdGroup` 中，并为仅由符号组成的组合提供清晰的 `aria-label`。\n\n```tsx\n<KbdGroup aria-label=\"Shortcut: Control K\">\n  <Kbd>Ctrl</Kbd>\n  <Kbd>K</Kbd>\n</KbdGroup>\n```",
+  "extended": "组合键使用多个 `Kbd` 包裹在 `KbdGroup` 中，并为仅由符号组成的组合提供清晰的 `aria-label`。\r\n\r\n```tsx\r\n<KbdGroup aria-label=\"Shortcut: Control K\">\r\n  <Kbd>Ctrl</Kbd>\r\n  <Kbd>K</Kbd>\r\n</KbdGroup>\r\n```",
   "events": "键盘提示本身不触发操作，但原生指针、焦点及数据属性仍会透传。需要响应快捷键时，应在页面或功能逻辑中单独注册键盘事件。",
   "examples": [
     {
@@ -48,6 +48,6 @@
   "files": [
     "registry/ui/kbd.tsx"
   ],
-  "docsUrl": "http://localhost:3000/docs/components/kbd",
-  "sourceUrl": "http://localhost:3000/r/kbd.json"
+  "docsUrl": "https://ui.wzx.wang/docs/components/kbd",
+  "sourceUrl": "https://ui.wzx.wang/r/kbd.json"
 }

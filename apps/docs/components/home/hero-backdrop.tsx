@@ -9,11 +9,11 @@ import {
   AvatarGroup,
   AvatarGroupCount,
 } from "@/registry/ui/avatar"
+import { Alert } from "@/registry/ui/alert"
 import { Button } from "@/registry/ui/button"
 import { Checkbox } from "@/registry/ui/checkbox"
 import { Input } from "@/registry/ui/input"
 import { Kbd, KbdGroup } from "@/registry/ui/kbd"
-import { Message } from "@/registry/ui/message"
 import { Progress } from "@/registry/ui/progress"
 import { ProgressiveBlur } from "@/registry/ui/progressive-blur"
 import { RadioGroup, RadioGroupItem } from "@/registry/ui/radio-group"
@@ -156,9 +156,9 @@ const checkboxCard = (
 
 const successCard = (
   <Card key="success">
-    <Message variant="success" size="compact" title="修改已保存">
+    <Alert variant="success" size="compact" title="修改已保存">
       工作区设置已更新。
-    </Message>
+    </Alert>
   </Card>
 )
 
@@ -242,9 +242,9 @@ const shimmerCard = (
 
 const warningCard = (
   <Card key="warning">
-    <Message variant="warning" size="compact" title="存储空间不足">
+    <Alert variant="warning" size="compact" title="存储空间不足">
       清理未使用的文件以继续上传。
-    </Message>
+    </Alert>
   </Card>
 )
 
@@ -275,9 +275,9 @@ const shinyCard = (
 
 const infoCard = (
   <Card key="info">
-    <Message variant="info" size="compact" title="有新版本">
+    <Alert variant="info" size="compact" title="有新版本">
       准备好后刷新页面即可更新。
-    </Message>
+    </Alert>
   </Card>
 )
 

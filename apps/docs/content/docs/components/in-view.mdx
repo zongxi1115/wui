@@ -8,6 +8,8 @@ component: in-view
 
 <ComponentPreview name="in-view-demo" />
 
+<DependencyBadges packages={["motion"]} />
+
 <CodeTabs command="wui@latest add @wui/in-view" />
 
 <ComponentSource name="in-view" title="components/ui/in-view.tsx" />
@@ -27,3 +29,9 @@ component: in-view
 ## 扩展使用
 
 通过 `as="section"` 调整语义元素；设置 `once={false}` 可在每次进入和离开视口时重播。对于很长的列表，应只为关键内容添加入场效果。
+
+### 图片遮罩揭示
+
+`InView` 的自定义 `variants` 可以直接驱动 `clip-path`，无需为 Image Reveal 再引入一套相同的视口观察逻辑。
+
+<ComponentPreview name="in-view-image-reveal" />

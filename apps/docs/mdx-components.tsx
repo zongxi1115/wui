@@ -7,6 +7,7 @@ import { AnimatedIconLibrary } from "@/components/animated-icon-library"
 import { CodeTabs } from "@/components/code-tabs"
 import { ComponentPreview } from "@/components/component-preview"
 import { ComponentSource } from "@/components/component-source"
+import { DependencyBadges } from "@/components/dependency-badges"
 import { IconLibrary } from "@/components/icon-library"
 import { Playground } from "@/components/playground"
 import { PropsTable } from "@/components/props-table"
@@ -18,6 +19,7 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
     AnimatedIconLibrary,
     ComponentPreview,
     ComponentSource,
+    DependencyBadges,
     IconLibrary,
     CodeTabs,
     Playground,

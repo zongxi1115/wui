@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "spotlight-card",
+  "type": "registry:ui",
+  "title": "Spotlight Card",
+  "description": "Illuminates a surface around the current pointer position.",
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/spotlight-card.tsx",
+      "type": "registry:ui",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { cn } from \"@/registry/lib/utils\"\n\nexport interface SpotlightCardProps extends React.ComponentProps<\"div\"> {\n  /** Content rendered above the pointer spotlight. */\n  children: React.ReactNode\n  /** Spotlight radius in pixels. @default 220 */\n  radius?: number\n  /** CSS color used at the center of the spotlight. @default \"color-mix(in oklab, var(--foreground) 16%, transparent)\" */\n  color?: string\n  /** Classes applied to the spotlight layer. */\n  spotlightClassName?: string\n}\n\n/** Illuminates a surface around the current pointer position. */\nfunction SpotlightCard({\n  children,\n  radius = 220,\n  color = \"color-mix(in oklab, var(--foreground) 16%, transparent)\",\n  className,\n  spotlightClassName,\n  onPointerEnter,\n  onPointerMove,\n  onPointerLeave,\n  ...props\n}: SpotlightCardProps) {\n  const rootRef = React.useRef<HTMLDivElement>(null)\n  const spotlightRef = React.useRef<HTMLDivElement>(null)\n\n  function updateSpotlight(event: React.PointerEvent<HTMLDivElement>) {\n    if (event.pointerType === \"touch\") return\n    const rect = event.currentTarget.getBoundingClientRect()\n    const layer = spotlightRef.current\n    if (!layer) return\n    layer.style.setProperty(\"--spotlight-x\", `${event.clientX - rect.left}px`)\n    layer.style.setProperty(\"--spotlight-y\", `${event.clientY - rect.top}px`)\n  }\n\n  return (\n    <div\n      ref={rootRef}\n      data-slot=\"spotlight-card\"\n      className={cn(\"relative isolate overflow-hidden\", className)}\n      onPointerEnter={(event) => {\n        updateSpotlight(event)\n        if (event.pointerType !== \"touch\" && spotlightRef.current) {\n          spotlightRef.current.style.opacity = \"1\"\n        }\n        onPointerEnter?.(event)\n      }}\n      onPointerMove={(event) => {\n        updateSpotlight(event)\n        onPointerMove?.(event)\n      }}\n      onPointerLeave={(event) => {\n        if (spotlightRef.current) spotlightRef.current.style.opacity = \"0\"\n        onPointerLeave?.(event)\n      }}\n      {...props}\n    >\n      <div\n        ref={spotlightRef}\n        aria-hidden=\"true\"\n        data-slot=\"spotlight-card-light\"\n        className={cn(\n          \"pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-200\",\n          spotlightClassName\n        )}\n        style={\n          {\n            \"--spotlight-x\": \"50%\",\n            \"--spotlight-y\": \"50%\",\n            background: `radial-gradient(circle ${radius}px at var(--spotlight-x) var(--spotlight-y), ${color}, transparent 72%)`,\n          } as React.CSSProperties\n        }\n      />\n      {children}\n    </div>\n  )\n}\n\nexport { SpotlightCard }\n"
+    }
+  ],
+  "categories": [
+    "pointer",
+    "fancy"
+  ]
+}

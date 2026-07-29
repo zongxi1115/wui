@@ -14,7 +14,7 @@
   ],
   "install": {
     "wui": "npx wui@latest add @wui/time-picker",
-    "shadcn": "npx shadcn@latest add http://localhost:3000/r/time-picker.json",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/time-picker.json",
     "npmDependencies": [
       "radix-ui",
       "lucide-react",
@@ -89,6 +89,6 @@
   "files": [
     "registry/ui/time-picker.tsx"
   ],
-  "docsUrl": "http://localhost:3000/docs/components/time-picker",
-  "sourceUrl": "http://localhost:3000/r/time-picker.json"
+  "docsUrl": "https://ui.wzx.wang/docs/components/time-picker",
+  "sourceUrl": "https://ui.wzx.wang/r/time-picker.json"
 }

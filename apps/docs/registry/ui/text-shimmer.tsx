@@ -46,7 +46,6 @@ function TextShimmer({
         "--shimmer-spread": shimmerSpread,
         ...style,
       } as React.CSSProperties}
-      initial={false}
       animate={
         reduceMotion
           ? { backgroundPosition: "100% center" }

@@ -26,7 +26,7 @@
   ],
   "install": {
     "wui": "npx wui@latest add @wui/ai-tool",
-    "shadcn": "npx shadcn@latest add http://localhost:3000/r/ai-tool.json",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/ai-tool.json",
     "npmDependencies": [
       "radix-ui",
       "class-variance-authority",
@@ -39,15 +39,15 @@
   "props": [
     {
       "name": "status",
-      "type": "\"pending\" | \"approval\" | \"running\" | \"success\" | \"error\" | \"denied\"",
+      "type": "\"error\" | \"pending\" | \"approval\" | \"running\" | \"success\" | \"denied\"",
       "required": false,
       "control": "select",
       "options": [
+        "error",
         "pending",
         "approval",
         "running",
         "success",
-        "error",
         "denied"
       ],
       "defaultValue": "pending",
@@ -78,6 +78,6 @@
   "files": [
     "registry/ui/ai-tool.tsx"
   ],
-  "docsUrl": "http://localhost:3000/docs/components/ai-tool",
-  "sourceUrl": "http://localhost:3000/r/ai-tool.json"
+  "docsUrl": "https://ui.wzx.wang/docs/components/ai-tool",
+  "sourceUrl": "https://ui.wzx.wang/r/ai-tool.json"
 }

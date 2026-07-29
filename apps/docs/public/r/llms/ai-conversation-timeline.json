@@ -16,7 +16,7 @@
   ],
   "install": {
     "wui": "npx wui@latest add @wui/ai-conversation-timeline",
-    "shadcn": "npx shadcn@latest add http://localhost:3000/r/ai-conversation-timeline.json",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/ai-conversation-timeline.json",
     "npmDependencies": [
       "motion"
     ],
@@ -48,12 +48,12 @@
     },
     {
       "name": "previewSide",
-      "type": "\"left\" | \"right\"",
+      "type": "\"right\" | \"left\"",
       "required": false,
       "control": "select",
       "options": [
-        "left",
-        "right"
+        "right",
+        "left"
       ],
       "defaultValue": "right",
       "description": "Side on which the hover preview appears."
@@ -92,6 +92,6 @@
   "files": [
     "registry/ui/ai-conversation-timeline.tsx"
   ],
-  "docsUrl": "http://localhost:3000/docs/components/ai-conversation-timeline",
-  "sourceUrl": "http://localhost:3000/r/ai-conversation-timeline.json"
+  "docsUrl": "https://ui.wzx.wang/docs/components/ai-conversation-timeline",
+  "sourceUrl": "https://ui.wzx.wang/r/ai-conversation-timeline.json"
 }

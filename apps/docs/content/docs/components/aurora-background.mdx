@@ -1,0 +1,30 @@
+---
+title: 极光背景 Aurora Background
+description: 用缓慢移动的模糊色场构建低频氛围背景。
+component: aurora-background
+---
+
+## 基础示例
+
+<ComponentPreview name="aurora-background-demo" />
+
+<DependencyBadges packages={["motion"]} />
+
+<CodeTabs command="wui@latest add @wui/aurora-background" />
+
+<ComponentSource
+  name="aurora-background"
+  title="components/ui/aurora-background.tsx"
+/>
+
+## 组件作用
+
+`AuroraBackground` 叠加三个径向色场，并以不同周期缓慢移动和缩放。内容固定渲染在背景上层，颜色、模糊强度和周期都可以调整。
+
+## 组件属性
+
+<PropsTable name="aurora-background" />
+
+## 使用建议
+
+极光背景应占据较大区域并保持低频运动，避免在多个相邻卡片中重复使用。优先选择对比明确、色相数量有限的三色组合，并检查前景文字在整个运动周期中的对比度。减少动态效果开启时色场保持静止。

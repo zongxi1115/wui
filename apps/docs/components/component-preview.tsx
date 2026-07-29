@@ -5,9 +5,11 @@ import { getRegistrySource } from "@/lib/registry-source"
 export async function ComponentPreview({
   name,
   className,
+  previewClassName,
 }: {
   name: string
   className?: string
+  previewClassName?: string
 }) {
   const { code } = await getRegistrySource(name)
   const display = fixImportsForDisplay(code)
@@ -19,6 +21,7 @@ export async function ComponentPreview({
       html={html}
       raw={display}
       className={className}
+      previewClassName={previewClassName}
     />
   )
 }

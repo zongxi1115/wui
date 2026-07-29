@@ -17,7 +17,7 @@
   ],
   "install": {
     "wui": "npx wui@latest add @wui/ai-stream",
-    "shadcn": "npx shadcn@latest add http://localhost:3000/r/ai-stream.json",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/ai-stream.json",
     "npmDependencies": [
       "motion"
     ],
@@ -60,6 +60,6 @@
   "files": [
     "registry/ui/ai-stream.tsx"
   ],
-  "docsUrl": "http://localhost:3000/docs/components/ai-stream",
-  "sourceUrl": "http://localhost:3000/r/ai-stream.json"
+  "docsUrl": "https://ui.wzx.wang/docs/components/ai-stream",
+  "sourceUrl": "https://ui.wzx.wang/r/ai-stream.json"
 }

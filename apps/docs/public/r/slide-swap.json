@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "slide-swap",
+  "type": "registry:ui",
+  "title": "Slide Swap",
+  "description": "Slides one whole content layer out while an identical layer enters.",
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/slide-swap.tsx",
+      "type": "registry:ui",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport {\n  motion,\n  useReducedMotion,\n  type HTMLMotionProps,\n  type Transition,\n} from \"motion/react\"\n\nimport { cn } from \"@/registry/lib/utils\"\n\nexport interface SlideSwapProps extends Omit<\n  HTMLMotionProps<\"span\">,\n  \"children\" | \"transition\"\n> {\n  /** Content duplicated for the outgoing and incoming layers. */\n  children: React.ReactNode\n  /** Direction the visible layer leaves. @default \"up\" */\n  direction?: \"up\" | \"down\"\n  /** Force the swapped state from outside the component. */\n  active?: boolean\n  /** Transition shared by both content layers. */\n  transition?: Transition\n}\n\n/** Slides one whole content layer out while an identical layer enters. */\nfunction SlideSwap({\n  children,\n  direction = \"up\",\n  active,\n  transition = { duration: 0.42, ease: [0.22, 1, 0.36, 1] },\n  className,\n  onPointerEnter,\n  onPointerLeave,\n  ...props\n}: SlideSwapProps) {\n  const [hovered, setHovered] = React.useState(false)\n  const reduceMotion = useReducedMotion()\n  const swapped = active ?? hovered\n  const travel = direction === \"up\" ? \"-100%\" : \"100%\"\n  const incomingStart = direction === \"up\" ? \"100%\" : \"-100%\"\n  const outgoingTarget = reduceMotion ? { y: 0 } : { y: swapped ? travel : 0 }\n  const incomingTarget = reduceMotion\n    ? { y: 0 }\n    : { y: swapped ? 0 : incomingStart }\n\n  return (\n    <motion.span\n      data-slot=\"slide-swap\"\n      className={cn(\"relative inline-block overflow-hidden\", className)}\n      onPointerEnter={(event) => {\n        setHovered(true)\n        onPointerEnter?.(event)\n      }}\n      onPointerLeave={(event) => {\n        setHovered(false)\n        onPointerLeave?.(event)\n      }}\n      {...props}\n    >\n      <motion.span\n        data-slot=\"slide-swap-layer\"\n        className=\"block\"\n        initial={false}\n        animate={outgoingTarget}\n        transition={transition}\n      >\n        {children}\n      </motion.span>\n      <motion.span\n        aria-hidden=\"true\"\n        inert\n        data-slot=\"slide-swap-layer\"\n        className=\"absolute inset-x-0 top-0 block\"\n        initial={false}\n        animate={incomingTarget}\n        transition={transition}\n      >\n        {children}\n      </motion.span>\n    </motion.span>\n  )\n}\n\nexport { SlideSwap }\n"
+    }
+  ],
+  "categories": [
+    "motion"
+  ]
+}

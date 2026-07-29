@@ -1,6 +1,6 @@
 {
   "name": "wui",
-  "homepage": "http://localhost:3000",
+  "homepage": "https://ui.wzx.wang",
   "items": [
     {
       "name": "ai-prompt",
@@ -38,7 +38,7 @@
         "items: readonly AiConversationTimelineItem[]",
         "activeId: string",
         "defaultActiveId: string",
-        "previewSide: left|right",
+        "previewSide: right|left",
         "preview: boolean",
         "onActiveChange: ((id: string) => void)"
       ],
@@ -53,7 +53,7 @@
         "ai"
       ],
       "keyProps": [
-        "status: pending|approval|running|success|error|denied",
+        "status: error|pending|approval|running|success|denied",
         "disabled: boolean",
         "asChild: boolean"
       ],
@@ -107,10 +107,22 @@
       "title": "头像 Avatar",
       "description": "带图片回退、在线状态和头像组的通用身份组件。",
       "keyProps": [
-        "size: sm|default|xs|lg",
+        "size: default|sm|lg|xs",
         "asChild: boolean"
       ],
       "exampleCount": 2
+    },
+    {
+      "name": "badge",
+      "type": "registry:ui",
+      "title": "徽章 Badge",
+      "description": "用紧凑的标签展示状态、分类或简短元数据。",
+      "keyProps": [
+        "variant: default|secondary|destructive|outline|success|warning|info",
+        "size: default|sm|lg",
+        "asChild: boolean"
+      ],
+      "exampleCount": 1
     },
     {
       "name": "bubble",
@@ -136,7 +148,7 @@
       "title": "按钮 Button",
       "description": "显示一个按钮，或显示一个外观类似按钮的组件。",
       "keyProps": [
-        "variant: default|destructive|outline|secondary|ghost|link",
+        "variant: default|link|secondary|destructive|outline|ghost",
         "size: default|sm|lg|icon",
         "asChild: boolean",
         "motion: boolean",
@@ -151,7 +163,7 @@
       "title": "对话框 Dialog",
       "description": "基于 Radix UI 构建、覆盖在主窗口之上的浮层窗口。",
       "keyProps": [
-        "variant: modal|inline"
+        "variant: inline|modal"
       ],
       "exampleCount": 2
     },
@@ -207,16 +219,16 @@
       "name": "watermark",
       "type": "registry:ui",
       "title": "水印 Watermark",
-      "description": "在内容区域上方添加重复的文字水印。",
+      "description": "在内容区域上方添加重复的文字或图片水印。",
       "keyProps": [
         "content: string | string[]",
+        "image: string",
         "rotate: number",
         "gap: [number, number]",
         "offset: [number, number]",
-        "width: number",
-        "height: number"
+        "width: number"
       ],
-      "exampleCount": 2
+      "exampleCount": 3
     },
     {
       "name": "confirm-dialog",
@@ -239,7 +251,7 @@
       "title": "动效 Motion",
       "description": "基于 motion 构建的可选动画基础组件和预设库。",
       "keyProps": [
-        "preset: fade|scale|slide-up|slide-down|slide-left|slide-right|pop|blur",
+        "preset: pop|scale|fade|slide-up|slide-down|slide-left|slide-right|blur",
         "transition: Transition | \"smooth\" | \"spring\" | \"snappy\"",
         "delay: number",
         "inView: boolean",
@@ -255,10 +267,12 @@
       "description": "基于 Lucide 的可搜索图标集合与无障碍渲染组件。",
       "keyProps": [
         "icon: LucideIcon",
-        "size: number | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\"",
+        "size: number | \"sm\" | \"lg\" | \"xs\" | \"md\" | \"xl\"",
+        "variant: default|secondary|destructive|success|warning|info|primary|muted",
+        "color: Color",
         "label: string"
       ],
-      "exampleCount": 1
+      "exampleCount": 2
     },
     {
       "name": "animated-icon",
@@ -273,7 +287,7 @@
         "duration: number",
         "isAnimated: boolean"
       ],
-      "exampleCount": 1
+      "exampleCount": 2
     },
     {
       "name": "animated-icon-collection",
@@ -304,7 +318,7 @@
       "title": "开关 Switch",
       "description": "带弹簧滑块与完整无障碍语义的二元状态控件。",
       "keyProps": [
-        "size: sm|default|lg",
+        "size: default|sm|lg",
         "disabled: boolean",
         "asChild: boolean"
       ],
@@ -317,8 +331,8 @@
       "description": "细腻、克制并支持确定与不确定状态的进度指示器。",
       "keyProps": [
         "variant: linear|circular",
-        "size: sm|default|lg",
-        "color: primary|blue|success|warning|destructive",
+        "size: default|sm|lg",
+        "color: destructive|success|warning|primary|blue",
         "showValue: boolean",
         "indicatorClassName: string",
         "asChild: boolean"
@@ -332,7 +346,7 @@
       "description": "悬浮时展开轨道、数值标签实时跟随的可调输入控件。",
       "keyProps": [
         "variant: default|expand",
-        "showValue: hover|always|never",
+        "showValue: always|hover|never",
         "formatValue: ((value: number) => ReactNode)",
         "disabled: boolean",
         "asChild: boolean"
@@ -371,7 +385,7 @@
       "title": "多选框 Checkbox",
       "description": "支持选中、未选中与不确定状态的多选控件。",
       "keyProps": [
-        "size: sm|default|lg",
+        "size: default|sm|lg",
         "disabled: boolean",
         "asChild: boolean"
       ],
@@ -409,11 +423,11 @@
       "description": "可组合的表单字段，协调标签、校验提示与动效反馈。",
       "keyProps": [
         "animated: boolean",
-        "acceptCharset: string",
-        "action: string | ((formData: FormData) => void | Promise<void>)",
         "autoComplete: string",
-        "encType: string",
-        "method: string"
+        "method: string",
+        "target: string",
+        "acceptCharset: string",
+        "action: string | ((formData: FormData) => void | Promise<void>)"
       ],
       "exampleCount": 1
     },
@@ -482,7 +496,7 @@
         "meta: string",
         "fileIcon: ReactNode",
         "href: string",
-        "status: idle|downloading|complete|error",
+        "status: idle|error|complete|downloading",
         "progress: number"
       ],
       "exampleCount": 2
@@ -495,9 +509,9 @@
       "keyProps": [
         "label: string",
         "description: string",
-        "status: idle|uploading|complete|error",
+        "status: idle|error|complete|uploading",
         "progress: number",
-        "size: default|compact",
+        "size: compact|default",
         "multiple: boolean"
       ],
       "exampleCount": 2
@@ -508,7 +522,7 @@
       "title": "键盘提示 Kbd",
       "description": "用紧凑、克制的按键样式展示快捷键与键盘操作。",
       "keyProps": [
-        "size: sm|default"
+        "size: default|sm"
       ],
       "exampleCount": 1
     },
@@ -542,30 +556,53 @@
       "exampleCount": 2
     },
     {
+      "name": "video-player",
+      "type": "registry:ui",
+      "title": "视频播放器 Video Player",
+      "description": "由可自由组合的小组件构成，支持播放、进度、音量、快捷键和全屏的视频播放器。",
+      "keyProps": [],
+      "exampleCount": 1
+    },
+    {
       "name": "skeleton",
       "type": "registry:ui",
       "title": "骨架屏 Skeleton",
       "description": "在内容加载期间维持页面结构，降低布局跳动与等待的不确定感。",
       "keyProps": [
         "shape: default|circle|text",
-        "animation: pulse|none"
+        "animation: none|pulse"
       ],
       "exampleCount": 2
+    },
+    {
+      "name": "alert",
+      "type": "registry:ui",
+      "title": "警告提示 Alert",
+      "description": "用于展示需要保留在页面中的状态、说明和操作建议。",
+      "keyProps": [
+        "variant: default|destructive|success|warning|info",
+        "size: compact|default",
+        "title: ReactNode",
+        "icon: ReactNode",
+        "action: ReactNode",
+        "closable: boolean"
+      ],
+      "exampleCount": 4
     },
     {
       "name": "message",
       "type": "registry:ui",
       "title": "消息 Message",
-      "description": "用于传达成功、提示、警告和错误状态的轻量反馈消息。",
+      "description": "用于在操作后提供短暂、轻量的全局反馈。",
       "keyProps": [
-        "variant: default|info|success|warning|destructive",
-        "size: default|compact",
-        "position: top-left|top|top-right|bottom-left|bottom|bottom-right",
-        "title: ReactNode",
-        "children: ReactNode",
-        "icon: ReactNode"
+        "position: top|bottom|top-left|top-right|bottom-left|bottom-right",
+        "duration: number",
+        "maxCount: number",
+        "offset: number",
+        "gap: number",
+        "stacked: boolean"
       ],
-      "exampleCount": 5
+      "exampleCount": 3
     },
     {
       "name": "in-view",
@@ -582,6 +619,191 @@
         "viewOptions: UseInViewOptions",
         "once: boolean",
         "as: ElementType<any, keyof IntrinsicElements>"
+      ],
+      "exampleCount": 2
+    },
+    {
+      "name": "scroll-progress",
+      "type": "registry:ui",
+      "title": "滚动进度 Scroll Progress",
+      "description": "用顶部进度条或环形指示器显示页面、容器或区块的阅读进度。",
+      "categories": [
+        "scroll",
+        "motion"
+      ],
+      "keyProps": [
+        "variant: circle|bar",
+        "position: inline|top|bottom",
+        "container: RefObject<HTMLElement | null>",
+        "target: RefObject<HTMLElement | null>",
+        "offset: ScrollOffset",
+        "size: number"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "smooth-scroll",
+      "type": "registry:ui",
+      "title": "平滑滚动 Smooth Scroll",
+      "description": "用 Lenis 为页面或自定义容器提供惯性平滑滚动基座。",
+      "categories": [
+        "scroll",
+        "motion"
+      ],
+      "keyProps": [
+        "children: ReactNode",
+        "options: LenisOptions",
+        "disabled: boolean",
+        "respectReducedMotion: boolean",
+        "root: boolean | \"asChild\"",
+        "autoRaf: boolean"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "parallax",
+      "type": "registry:ui",
+      "title": "视差 Parallax",
+      "description": "让内容层在经过视口时以不同速度平移或缩放。",
+      "categories": [
+        "scroll",
+        "motion"
+      ],
+      "keyProps": [
+        "children: ReactNode",
+        "axis: x|y",
+        "distance: [number, number]",
+        "scale: [number, number]",
+        "container: RefObject<HTMLElement | null>",
+        "offset: ScrollOffset"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "scroll-text",
+      "type": "registry:ui",
+      "title": "滚动文字 Scroll Text",
+      "description": "让段落随滚动逐词变亮，或按行从遮罩中揭示。",
+      "categories": [
+        "scroll",
+        "motion",
+        "text-effect"
+      ],
+      "keyProps": [
+        "children: string",
+        "mode: highlight|reveal",
+        "per: line|word",
+        "as: ElementType<any, keyof IntrinsicElements>",
+        "range: readonly [number, number]",
+        "overlap: number"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "sticky-stack",
+      "type": "registry:ui",
+      "title": "粘性卡片堆叠 Sticky Stack",
+      "description": "让卡片依次钉住、缩放，并被后续内容覆盖。",
+      "categories": [
+        "scroll",
+        "motion"
+      ],
+      "keyProps": [
+        "children: ReactNode",
+        "top: number",
+        "gap: number",
+        "scaleStep: number",
+        "container: RefObject<HTMLElement | null>"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "horizontal-scroll",
+      "type": "registry:ui",
+      "title": "横向滚动区块 Horizontal Scroll",
+      "description": "将垂直滚动距离映射为钉住内容轨道的水平移动。",
+      "categories": [
+        "scroll",
+        "motion"
+      ],
+      "keyProps": [
+        "children: ReactNode",
+        "container: RefObject<HTMLElement | null>",
+        "scrollPadding: number",
+        "viewportClassName: string",
+        "trackClassName: string"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "velocity-marquee",
+      "type": "registry:ui",
+      "title": "滚动速度跑马灯 Velocity Marquee",
+      "description": "跑马灯根据滚动速度加速，并随滚动方向反转。",
+      "categories": [
+        "scroll",
+        "motion"
+      ],
+      "keyProps": [
+        "children: ReactNode",
+        "baseSpeed: number",
+        "sensitivity: number",
+        "maxBoost: number",
+        "gap: number",
+        "reverse: boolean"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "scroll-expand",
+      "type": "registry:ui",
+      "title": "滚动扩展 Scroll Expand",
+      "description": "将图片、视频或首屏从小画框滚动扩展到满屏，也可反向收拢。",
+      "categories": [
+        "scroll",
+        "motion"
+      ],
+      "keyProps": [
+        "children: ReactNode",
+        "direction: expand|collapse",
+        "inset: number",
+        "radius: number",
+        "scrollLength: number",
+        "container: RefObject<HTMLElement | null>"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "scroll-sequence",
+      "type": "registry:ui",
+      "title": "滚动分步 Scroll Sequence",
+      "description": "固定区块并用滚动进度逐步切换内部内容。",
+      "categories": [
+        "scroll",
+        "motion"
+      ],
+      "keyProps": [
+        "children: ReactNode",
+        "stepLength: number",
+        "container: RefObject<HTMLElement | null>",
+        "showProgress: boolean",
+        "onStepChange: ((index: number) => void)",
+        "viewportClassName: string"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "scroll-snap",
+      "type": "registry:ui",
+      "title": "滚动吸附 Scroll Snap",
+      "description": "用原生 CSS Scroll Snap 构建整屏或横向吸附章节。",
+      "categories": [
+        "scroll"
+      ],
+      "keyProps": [
+        "axis: x|y",
+        "strictness: mandatory|proximity",
+        "hideScrollbar: boolean"
       ],
       "exampleCount": 1
     },
@@ -622,6 +844,228 @@
       "exampleCount": 1
     },
     {
+      "name": "magnetic",
+      "type": "registry:ui",
+      "title": "鼠标跟随 Magnetic",
+      "description": "让内容轻微跟随指针位移，并在离开时自然回弹。",
+      "categories": [
+        "motion"
+      ],
+      "keyProps": [
+        "strength: number",
+        "maxDistance: number",
+        "springConfig: SpringOptions",
+        "disabled: boolean"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "glow",
+      "type": "registry:ui",
+      "title": "渐变环绕发光 Glow",
+      "description": "让多色渐变光线沿内容四周持续环绕，并提供单色发光变体。",
+      "categories": [
+        "fancy"
+      ],
+      "keyProps": [
+        "children: ReactNode",
+        "variant: rainbow|solid",
+        "color: string",
+        "colors: string[]",
+        "spread: number",
+        "borderWidth: number"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "annotation",
+      "type": "registry:ui",
+      "title": "动态标注 Annotation",
+      "description": "用路径箭头、荧光笔和自定义手绘轨迹强调页面内容。",
+      "categories": [
+        "fancy",
+        "motion"
+      ],
+      "keyProps": [
+        "children: ReactNode",
+        "variant: smooth|rough",
+        "color: string",
+        "duration: number",
+        "delay: number",
+        "inView: boolean"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "slide-swap",
+      "type": "registry:ui",
+      "title": "内容滑动交换 Slide Swap",
+      "description": "整块内容从上方移出，同时由下方滑入相同内容。",
+      "categories": [
+        "motion"
+      ],
+      "keyProps": [
+        "children: ReactNode",
+        "direction: up|down",
+        "active: boolean",
+        "transition: Transition"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "hover-marquee",
+      "type": "registry:ui",
+      "title": "浮入滚动目录 Hover Marquee",
+      "description": "目录行浮入或聚焦后，显示无缝横向滚动的内容预览。",
+      "categories": [
+        "fancy",
+        "motion"
+      ],
+      "keyProps": [
+        "children: ReactNode",
+        "marquee: ReactNode",
+        "speed: number",
+        "gap: number",
+        "reverse: boolean",
+        "active: boolean"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "spotlight-card",
+      "type": "registry:ui",
+      "title": "聚光卡片 Spotlight Card",
+      "description": "根据鼠标位置在内容表面显露一层局部光照。",
+      "categories": [
+        "pointer",
+        "fancy"
+      ],
+      "keyProps": [
+        "children: ReactNode",
+        "radius: number",
+        "color: string",
+        "spotlightClassName: string"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "tilt-card",
+      "type": "registry:ui",
+      "title": "透视倾斜 Tilt Card",
+      "description": "卡片随指针产生克制的 3D 透视倾斜并弹性回正。",
+      "categories": [
+        "pointer",
+        "motion",
+        "fancy"
+      ],
+      "keyProps": [
+        "children: ReactNode",
+        "maxTilt: number",
+        "perspective: number",
+        "hoverScale: number",
+        "glare: boolean",
+        "glareClassName: string"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "image-trail",
+      "type": "registry:ui",
+      "title": "图像轨迹 Image Trail",
+      "description": "鼠标移动时沿路径依次甩出短暂的图片或视觉片段。",
+      "categories": [
+        "pointer",
+        "motion",
+        "fancy"
+      ],
+      "keyProps": [
+        "items: ReactNode[]",
+        "children: ReactNode",
+        "distance: number",
+        "lifetime: number",
+        "maxItems: number",
+        "itemClassName: string"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "hover-preview",
+      "type": "registry:ui",
+      "title": "悬停预览 Hover Preview",
+      "description": "列表项浮入或聚焦时显示跟随指针的作品预览。",
+      "categories": [
+        "pointer",
+        "motion",
+        "fancy"
+      ],
+      "keyProps": [
+        "children: ReactNode",
+        "preview: ReactNode",
+        "offsetX: number",
+        "offsetY: number",
+        "open: boolean",
+        "previewClassName: string"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "aurora-background",
+      "type": "registry:ui",
+      "title": "极光背景 Aurora Background",
+      "description": "用缓慢移动的模糊色场构建低频氛围背景。",
+      "categories": [
+        "background",
+        "motion",
+        "fancy"
+      ],
+      "keyProps": [
+        "children: ReactNode",
+        "colors: [string, string, string]",
+        "duration: number",
+        "blur: number",
+        "layerClassName: string"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "grain-overlay",
+      "type": "registry:ui",
+      "title": "颗粒遮罩 Grain Overlay",
+      "description": "用可缩放 SVG 噪声为任意表面增加克制的胶片颗粒质感。",
+      "categories": [
+        "background",
+        "fancy"
+      ],
+      "keyProps": [
+        "opacity: number",
+        "frequency: number",
+        "octaves: number",
+        "seed: number",
+        "blendMode: inherit|color|initial|-moz-initial|revert|revert-layer|unset|color-burn|color-dodge|darken|difference|exclusion|hard-light|hue|lighten|luminosity|multiply|normal|overlay|saturation|screen|soft-light|plus-darker|plus-lighter"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "spotlight-grid",
+      "type": "registry:ui",
+      "title": "聚光网格 Spotlight Grid",
+      "description": "用鼠标聚光显露网格或点阵背景的局部结构。",
+      "categories": [
+        "background",
+        "pointer",
+        "fancy"
+      ],
+      "keyProps": [
+        "children: ReactNode",
+        "pattern: grid|dots",
+        "size: number",
+        "radius: number",
+        "patternColor: string",
+        "baseOpacity: number"
+      ],
+      "exampleCount": 1
+    },
+    {
       "name": "text-effect",
       "type": "registry:ui",
       "title": "文本入场 Text Effect",
@@ -634,7 +1078,7 @@
         "children: string",
         "per: line|word|char",
         "as: ElementType<any, keyof IntrinsicElements>",
-        "preset: fade|blur-sm|fade-in-blur|scale|slide",
+        "preset: scale|fade|blur-sm|fade-in-blur|slide",
         "variants: { container?: Variants; item?: Variants; } | undefined",
         "delay: number"
       ],
@@ -772,7 +1216,7 @@
       "description": "用原生表格语义组织和比较结构化数据。",
       "keyProps": [
         "containerClassName: string",
-        "density: default|compact",
+        "density: compact|default",
         "striped: boolean",
         "stickyHeader: boolean"
       ],
@@ -839,9 +1283,9 @@
       "title": "时间轴 Timeline",
       "description": "以清晰的时间顺序展示事件、状态与说明。",
       "keyProps": [
-        "orientation: vertical|horizontal",
+        "orientation: horizontal|vertical",
         "align: start|alternate",
-        "density: default|compact",
+        "density: compact|default",
         "connector: solid|dashed"
       ],
       "exampleCount": 6
@@ -852,7 +1296,7 @@
       "title": "空状态 Empty State",
       "description": "在没有数据或结果时解释现状并引导下一步。",
       "keyProps": [
-        "size: sm|default|lg"
+        "size: default|sm|lg"
       ],
       "exampleCount": 2
     },
@@ -863,11 +1307,26 @@
       "description": "用轻量、可降级的动态指示器表达等待状态。",
       "keyProps": [
         "spinning: boolean",
-        "size: sm|default|lg",
+        "size: default|sm|lg",
         "label: ReactNode",
         "indicator: ReactNode",
         "delay: number",
         "fullscreen: boolean"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "notification-badge",
+      "type": "registry:ui",
+      "title": "消息提示 Notification Badge",
+      "description": "在图标、头像或控件边缘展示未读数量与提示红点。",
+      "keyProps": [
+        "count: ReactNode",
+        "max: number",
+        "showZero: boolean",
+        "dot: boolean",
+        "visible: boolean",
+        "variant: default|destructive|success|warning|info"
       ],
       "exampleCount": 1
     },
@@ -895,7 +1354,7 @@
         "columns: enum",
         "bordered: boolean",
         "layout: horizontal|vertical",
-        "size: sm|default"
+        "size: default|sm"
       ],
       "exampleCount": 1
     },
@@ -904,7 +1363,10 @@
       "type": "registry:ui",
       "title": "卡片 Card",
       "description": "将同一主题的内容、状态与操作组织在一个清晰的表面中。",
-      "keyProps": [],
+      "keyProps": [
+        "variant: outline|elevated",
+        "interactive: boolean"
+      ],
       "exampleCount": 2
     }
   ]

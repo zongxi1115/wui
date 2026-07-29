@@ -1,0 +1,27 @@
+---
+title: 滚动文字 Scroll Text
+description: 让段落随滚动逐词变亮，或按行从遮罩中揭示。
+component: scroll-text
+---
+
+## 基础示例
+
+<ComponentPreview name="scroll-text-demo" />
+
+<DependencyBadges packages={["motion"]} />
+
+<CodeTabs command="wui@latest add @wui/scroll-text" />
+
+<ComponentSource name="scroll-text" title="components/ui/scroll-text.tsx" />
+
+## 组件作用
+
+`mode="highlight"` 将一段文字按词从弱化色逐步过渡到前景色，适合叙事型大段文案；`mode="reveal"` 把单词或显式换行放入遮罩，随滚动向上揭示。与一次性播放的 `TextEffect` 不同，它的状态始终由当前滚动位置控制，可以正向或反向回放。
+
+## 组件属性
+
+<PropsTable name="scroll-text" />
+
+## 使用建议
+
+按行揭示时在字符串中插入换行并设置 `per="line"`。`range` 控制整组片段占用的进度区间，`overlap` 控制相邻片段同时过渡的程度。逐词高亮更适合 20–60 个词的段落，不要用于正文的每一个自然段。

@@ -3,18 +3,20 @@
   "type": "registry:ui",
   "title": "图标 Icon",
   "description": "基于 Lucide 的可搜索图标集合与无障碍渲染组件。",
-  "import": "import { Icon, iconSizes } from \"@/components/ui/icon\"",
+  "import": "import { Icon, iconColorVariants, iconSizes } from \"@/components/ui/icon\"",
   "exports": [
     "Icon",
+    "iconColorVariants",
     "iconSizes"
   ],
   "typeExports": [
+    "IconColor",
     "IconProps",
     "IconSize"
   ],
   "install": {
     "wui": "npx wui@latest add @wui/icon",
-    "shadcn": "npx shadcn@latest add http://localhost:3000/r/icon.json",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/icon.json",
     "npmDependencies": [
       "lucide-react"
     ],
@@ -30,11 +32,36 @@
     },
     {
       "name": "size",
-      "type": "number | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\"",
+      "type": "number | \"sm\" | \"lg\" | \"xs\" | \"md\" | \"xl\"",
       "required": false,
       "control": "text",
       "defaultValue": "md",
       "description": "Named size token or an exact pixel size."
+    },
+    {
+      "name": "variant",
+      "type": "\"default\" | \"secondary\" | \"destructive\" | \"success\" | \"warning\" | \"info\" | \"primary\" | \"muted\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "default",
+        "secondary",
+        "destructive",
+        "success",
+        "warning",
+        "info",
+        "primary",
+        "muted"
+      ],
+      "defaultValue": "default",
+      "description": "Semantic text color token."
+    },
+    {
+      "name": "color",
+      "type": "Color",
+      "required": false,
+      "control": "text",
+      "description": "Custom CSS/SVG color. Overrides the semantic color when provided."
     },
     {
       "name": "label",
@@ -49,11 +76,15 @@
     {
       "name": "icon-demo",
       "title": "基础示例"
+    },
+    {
+      "name": "icon-colors",
+      "title": "颜色变体"
     }
   ],
   "files": [
     "registry/ui/icon.tsx"
   ],
-  "docsUrl": "http://localhost:3000/docs/components/icon",
-  "sourceUrl": "http://localhost:3000/r/icon.json"
+  "docsUrl": "https://ui.wzx.wang/docs/components/icon",
+  "sourceUrl": "https://ui.wzx.wang/r/icon.json"
 }

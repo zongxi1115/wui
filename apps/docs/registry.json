@@ -1,7 +1,7 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry.json",
   "name": "wui",
-  "homepage": "http://localhost:3000",
+  "homepage": "https://ui.wzx.wang",
   "items": [
     {
       "name": "ai-prompt",
@@ -129,6 +129,20 @@
       "files": [
         {
           "path": "registry/ui/avatar.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "badge",
+      "type": "registry:ui",
+      "title": "Badge",
+      "description": "A compact label for status, category, or short metadata.",
+      "dependencies": ["radix-ui", "class-variance-authority"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/badge.tsx",
           "type": "registry:ui"
         }
       ]
@@ -340,7 +354,7 @@
       "name": "watermark",
       "type": "registry:ui",
       "title": "Watermark",
-      "description": "Adds a repeated text watermark over a section of content.",
+      "description": "Adds a repeated text or image watermark over a section of content.",
       "registryDependencies": ["utils"],
       "files": [
         {
@@ -689,6 +703,20 @@
       ]
     },
     {
+      "name": "video-player",
+      "type": "registry:ui",
+      "title": "Video Player",
+      "description": "A composable video player with playback, seek, volume, keyboard, and fullscreen controls.",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["utils", "button", "slider", "tooltip"],
+      "files": [
+        {
+          "path": "registry/ui/video-player.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "skeleton",
       "type": "registry:ui",
       "title": "Skeleton",
@@ -703,14 +731,28 @@
       ]
     },
     {
+      "name": "alert",
+      "type": "registry:ui",
+      "title": "Alert",
+      "description": "Persistent inline feedback with semantic variants, actions, and dismissal.",
+      "dependencies": ["lucide-react", "class-variance-authority"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/alert.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "message",
       "type": "registry:ui",
       "title": "Message",
-      "description": "Portal-based global messages plus an inline feedback primitive.",
+      "description": "Portal-based transient messages with animated status icons and configurable motion.",
       "dependencies": [
         "radix-ui",
         "lucide-react",
-        "class-variance-authority",
+        "@animateicons/react",
         "motion"
       ],
       "registryDependencies": ["utils"],
@@ -731,6 +773,154 @@
       "files": [
         {
           "path": "registry/ui/in-view.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "scroll-progress",
+      "type": "registry:ui",
+      "title": "Scroll Progress",
+      "description": "Shows page, container, or section scroll completion as a bar or ring.",
+      "categories": ["scroll", "motion"],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/scroll-progress.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "smooth-scroll",
+      "type": "registry:ui",
+      "title": "Smooth Scroll",
+      "description": "Provides Lenis smooth scrolling for the document or a custom container.",
+      "categories": ["scroll", "motion"],
+      "dependencies": ["lenis"],
+      "files": [
+        {
+          "path": "registry/ui/smooth-scroll.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "parallax",
+      "type": "registry:ui",
+      "title": "Parallax",
+      "description": "Moves a layer at a different rate while it crosses the viewport.",
+      "categories": ["scroll", "motion"],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/parallax.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "scroll-text",
+      "type": "registry:ui",
+      "title": "Scroll Text",
+      "description": "Reveals lines or progressively highlights words according to scroll progress.",
+      "categories": ["scroll", "motion", "text-effect"],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/scroll-text.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "sticky-stack",
+      "type": "registry:ui",
+      "title": "Sticky Stack",
+      "description": "Pins, layers, and scales cards as the next item arrives.",
+      "categories": ["scroll", "motion"],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/sticky-stack.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "horizontal-scroll",
+      "type": "registry:ui",
+      "title": "Horizontal Scroll",
+      "description": "Converts vertical section progress into a pinned horizontal track.",
+      "categories": ["scroll", "motion"],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/horizontal-scroll.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "velocity-marquee",
+      "type": "registry:ui",
+      "title": "Velocity Marquee",
+      "description": "Accelerates and changes a seamless marquee direction with scrolling.",
+      "categories": ["scroll", "motion"],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/velocity-marquee.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "scroll-expand",
+      "type": "registry:ui",
+      "title": "Scroll Expand",
+      "description": "Pins media while scroll progress expands it to full bleed or collapses it away.",
+      "categories": ["scroll", "motion"],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/scroll-expand.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "scroll-sequence",
+      "type": "registry:ui",
+      "title": "Scroll Sequence",
+      "description": "Pins a viewport and swaps its child steps according to scroll progress.",
+      "categories": ["scroll", "motion"],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/scroll-sequence.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "scroll-snap",
+      "type": "registry:ui",
+      "title": "Scroll Snap",
+      "description": "A native CSS scroll-snap container for page-like or horizontal sections.",
+      "categories": ["scroll"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/scroll-snap.tsx",
           "type": "registry:ui"
         }
       ]
@@ -761,6 +951,183 @@
       "files": [
         {
           "path": "registry/ui/cursor.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "magnetic",
+      "type": "registry:ui",
+      "title": "Magnetic",
+      "description": "Moves content subtly toward the pointer and springs back to rest.",
+      "categories": ["motion"],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/magnetic.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "glow",
+      "type": "registry:ui",
+      "title": "Glow",
+      "description": "Adds an illuminated border and soft light around all four sides of content.",
+      "categories": ["fancy"],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/glow.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "annotation",
+      "type": "registry:ui",
+      "title": "Annotation",
+      "description": "Draws animated arrows, marker strokes, and custom paths around content.",
+      "categories": ["fancy", "motion"],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/annotation.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "slide-swap",
+      "type": "registry:ui",
+      "title": "Slide Swap",
+      "description": "Slides one whole content layer out while an identical layer enters.",
+      "categories": ["motion"],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/slide-swap.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "hover-marquee",
+      "type": "registry:ui",
+      "title": "Hover Marquee",
+      "description": "Reveals a horizontally looping preview when a directory row is hovered.",
+      "categories": ["fancy", "motion"],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils", "infinite-slider"],
+      "files": [
+        {
+          "path": "registry/ui/hover-marquee.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "spotlight-card",
+      "type": "registry:ui",
+      "title": "Spotlight Card",
+      "description": "Illuminates a surface around the current pointer position.",
+      "categories": ["pointer", "fancy"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/spotlight-card.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "tilt-card",
+      "type": "registry:ui",
+      "title": "Tilt Card",
+      "description": "Tilts a surface in 3D according to the pointer position and springs to rest.",
+      "categories": ["pointer", "motion", "fancy"],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/tilt-card.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "image-trail",
+      "type": "registry:ui",
+      "title": "Image Trail",
+      "description": "Leaves a short-lived sequence of visual items behind the pointer.",
+      "categories": ["pointer", "motion", "fancy"],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/image-trail.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "hover-preview",
+      "type": "registry:ui",
+      "title": "Hover Preview",
+      "description": "Displays a spring-following visual preview for a hovered or focused row.",
+      "categories": ["pointer", "motion", "fancy"],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/hover-preview.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "aurora-background",
+      "type": "registry:ui",
+      "title": "Aurora Background",
+      "description": "Layers slow, blurred color fields behind content.",
+      "categories": ["background", "motion", "fancy"],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/aurora-background.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "grain-overlay",
+      "type": "registry:ui",
+      "title": "Grain Overlay",
+      "description": "Adds a scalable SVG fractal-noise texture over a positioned surface.",
+      "categories": ["background", "fancy"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/grain-overlay.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "spotlight-grid",
+      "type": "registry:ui",
+      "title": "Spotlight Grid",
+      "description": "Reveals a grid or dot pattern around the current pointer position.",
+      "categories": ["background", "pointer", "fancy"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/spotlight-grid.tsx",
           "type": "registry:ui"
         }
       ]
@@ -1743,6 +2110,20 @@
       "files": [
         {
           "path": "registry/ui/spin.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "notification-badge",
+      "type": "registry:ui",
+      "title": "Notification Badge",
+      "description": "A count or dot indicator positioned over an icon, avatar, or control.",
+      "dependencies": ["class-variance-authority"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/notification-badge.tsx",
           "type": "registry:ui"
         }
       ]

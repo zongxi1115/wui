@@ -1,0 +1,105 @@
+{
+  "name": "scroll-expand",
+  "type": "registry:ui",
+  "title": "滚动扩展 Scroll Expand",
+  "description": "将图片、视频或首屏从小画框滚动扩展到满屏，也可反向收拢。",
+  "categories": [
+    "scroll",
+    "motion"
+  ],
+  "import": "import { ScrollExpand } from \"@/components/ui/scroll-expand\"",
+  "exports": [
+    "ScrollExpand"
+  ],
+  "typeExports": [
+    "ScrollExpandProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/scroll-expand",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/scroll-expand.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": true,
+      "control": "text",
+      "description": "Media or hero content that expands or collapses in the pinned viewport."
+    },
+    {
+      "name": "direction",
+      "type": "\"expand\" | \"collapse\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "expand",
+        "collapse"
+      ],
+      "defaultValue": "expand",
+      "description": "Scroll direction of the visual transformation."
+    },
+    {
+      "name": "inset",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "10",
+      "description": "Initial inset on every edge, as a percentage."
+    },
+    {
+      "name": "radius",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "28",
+      "description": "Corner radius at the compact state in pixels."
+    },
+    {
+      "name": "scrollLength",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "1.8",
+      "description": "Section length in viewport heights."
+    },
+    {
+      "name": "container",
+      "type": "RefObject<HTMLElement | null>",
+      "required": false,
+      "control": "text",
+      "description": "Scrollable element to observe instead of the page."
+    },
+    {
+      "name": "viewportClassName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "Classes applied to the sticky viewport."
+    },
+    {
+      "name": "frameClassName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "Classes applied to the transformed content frame."
+    }
+  ],
+  "usage": "`ScrollExpand` 在指定滚动长度内固定一个视口，通过 `clip-path` 和内部缩放把媒体从留白画框展开到满屏。设置 `direction=\"collapse\"` 可用于首屏缩小、圆角化退场的 Sticky Scale Hero 手法。",
+  "examples": [
+    {
+      "name": "scroll-expand-demo",
+      "title": "基础示例"
+    }
+  ],
+  "files": [
+    "registry/ui/scroll-expand.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/scroll-expand",
+  "sourceUrl": "https://ui.wzx.wang/r/scroll-expand.json"
+}

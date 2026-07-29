@@ -12,7 +12,7 @@
   ],
   "install": {
     "wui": "npx wui@latest add @wui/confirm-dialog",
-    "shadcn": "npx shadcn@latest add http://localhost:3000/r/confirm-dialog.json",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/confirm-dialog.json",
     "npmDependencies": [],
     "registryDependencies": [
       "dialog",
@@ -77,8 +77,8 @@
       "description": "Called when the user clicks the confirm button."
     }
   ],
-  "usage": "`ConfirmDialog` 将常见的“确定要继续吗？”交互封装成一个声明式组件，免去每次需要确认操作时\n重复组合 `Dialog` 和 `Button`。它适合用于删除等具有破坏性或不可逆的操作。",
-  "extended": "组件源码会直接保存在你的项目中，你可以自由扩展，例如为确认按钮添加异步加载状态、\n透传 `onOpenChange`，或调整底部操作区域的布局。",
+  "usage": "`ConfirmDialog` 将常见的“确定要继续吗？”交互封装成一个声明式组件，免去每次需要确认操作时\r\n重复组合 `Dialog` 和 `Button`。它适合用于删除等具有破坏性或不可逆的操作。",
+  "extended": "组件源码会直接保存在你的项目中，你可以自由扩展，例如为确认按钮添加异步加载状态、\r\n透传 `onOpenChange`，或调整底部操作区域的布局。",
   "examples": [
     {
       "name": "confirm-dialog-demo",
@@ -88,6 +88,6 @@
   "files": [
     "registry/components/confirm-dialog.tsx"
   ],
-  "docsUrl": "http://localhost:3000/docs/components/confirm-dialog",
-  "sourceUrl": "http://localhost:3000/r/confirm-dialog.json"
+  "docsUrl": "https://ui.wzx.wang/docs/components/confirm-dialog",
+  "sourceUrl": "https://ui.wzx.wang/r/confirm-dialog.json"
 }

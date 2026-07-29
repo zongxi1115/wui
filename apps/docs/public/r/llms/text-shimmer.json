@@ -16,7 +16,7 @@
   ],
   "install": {
     "wui": "npx wui@latest add @wui/text-shimmer",
-    "shadcn": "npx shadcn@latest add http://localhost:3000/r/text-shimmer.json",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/text-shimmer.json",
     "npmDependencies": [
       "motion"
     ],
@@ -72,6 +72,6 @@
   "files": [
     "registry/ui/text-shimmer.tsx"
   ],
-  "docsUrl": "http://localhost:3000/docs/components/text-shimmer",
-  "sourceUrl": "http://localhost:3000/r/text-shimmer.json"
+  "docsUrl": "https://ui.wzx.wang/docs/components/text-shimmer",
+  "sourceUrl": "https://ui.wzx.wang/r/text-shimmer.json"
 }

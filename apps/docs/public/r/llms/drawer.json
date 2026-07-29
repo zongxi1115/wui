@@ -22,7 +22,7 @@
   ],
   "install": {
     "wui": "npx wui@latest add @wui/drawer",
-    "shadcn": "npx shadcn@latest add http://localhost:3000/r/drawer.json",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/drawer.json",
     "npmDependencies": [
       "radix-ui",
       "lucide-react",
@@ -76,6 +76,6 @@
   "files": [
     "registry/ui/drawer.tsx"
   ],
-  "docsUrl": "http://localhost:3000/docs/components/drawer",
-  "sourceUrl": "http://localhost:3000/r/drawer.json"
+  "docsUrl": "https://ui.wzx.wang/docs/components/drawer",
+  "sourceUrl": "https://ui.wzx.wang/r/drawer.json"
 }

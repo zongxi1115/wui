@@ -18,7 +18,7 @@
   ],
   "install": {
     "wui": "npx wui@latest add @wui/calendar",
-    "shadcn": "npx shadcn@latest add http://localhost:3000/r/calendar.json",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/calendar.json",
     "npmDependencies": [
       "lucide-react",
       "motion"
@@ -109,8 +109,8 @@
     }
   ],
   "usage": "`Calendar` 适合需要直接呈现月份上下文的日期选择、排期和预约场景。它内置相邻月份日期、今天标记、禁用区间和方向键导航；如果界面空间有限，应使用由它组合而成的 DatePicker。",
-  "extended": "通过 `min`、`max` 或 `disabled(date)` 限制可选范围；将 `showOutsideDays` 设为 `false` 可隐藏相邻月份日期。\n\n### 大型日历面板\n\n`CalendarPanel` 面向排期、项目节奏和团队日程等需要完整月份上下文的场景。它支持受控日期与月份、日程语义色、单日数量折叠和事件点击，并以水平滚动保留窄屏下的日期密度。",
-  "events": "`onValueChange(date)` 在选择日期后触发；`onMonthChange(month)` 在切换月份时触发。组件同时支持受控与非受控模式。\n\n选中背景会在日期之间弹性移动；当天的小圆点在被选中时原地展开为完整背景。鼠标经过日期网格时，轻量悬停层会在格子之间平滑跟随，并在系统开启“减少动态效果”时自动降级。",
+  "extended": "通过 `min`、`max` 或 `disabled(date)` 限制可选范围；将 `showOutsideDays` 设为 `false` 可隐藏相邻月份日期。\r\n\r\n### 大型日历面板\r\n\r\n\r\n\r\n`CalendarPanel` 面向排期、项目节奏和团队日程等需要完整月份上下文的场景。它支持受控日期与月份、日程语义色、单日数量折叠和事件点击，并以水平滚动保留窄屏下的日期密度。",
+  "events": "`onValueChange(date)` 在选择日期后触发；`onMonthChange(month)` 在切换月份时触发。组件同时支持受控与非受控模式。\r\n\r\n选中背景会在日期之间弹性移动；当天的小圆点在被选中时原地展开为完整背景。鼠标经过日期网格时，轻量悬停层会在格子之间平滑跟随，并在系统开启“减少动态效果”时自动降级。",
   "examples": [
     {
       "name": "calendar-demo",
@@ -124,6 +124,6 @@
   "files": [
     "registry/ui/calendar.tsx"
   ],
-  "docsUrl": "http://localhost:3000/docs/components/calendar",
-  "sourceUrl": "http://localhost:3000/r/calendar.json"
+  "docsUrl": "https://ui.wzx.wang/docs/components/calendar",
+  "sourceUrl": "https://ui.wzx.wang/r/calendar.json"
 }

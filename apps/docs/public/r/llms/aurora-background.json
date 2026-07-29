@@ -1,0 +1,80 @@
+{
+  "name": "aurora-background",
+  "type": "registry:ui",
+  "title": "极光背景 Aurora Background",
+  "description": "用缓慢移动的模糊色场构建低频氛围背景。",
+  "categories": [
+    "background",
+    "motion",
+    "fancy"
+  ],
+  "import": "import { AuroraBackground } from \"@/components/ui/aurora-background\"",
+  "exports": [
+    "AuroraBackground"
+  ],
+  "typeExports": [
+    "AuroraBackgroundProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/aurora-background",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/aurora-background.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "Foreground content rendered above the aurora layers."
+    },
+    {
+      "name": "colors",
+      "type": "[string, string, string]",
+      "required": false,
+      "control": "text",
+      "defaultValue": "[\"var(--info)\", \"var(--success)\", \"var(--warning)\"]",
+      "description": "Three CSS colors used by the moving light fields."
+    },
+    {
+      "name": "duration",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "18",
+      "description": "Seconds for one complete movement cycle."
+    },
+    {
+      "name": "blur",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "56",
+      "description": "Blur strength in pixels."
+    },
+    {
+      "name": "layerClassName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "Classes applied to every aurora layer."
+    }
+  ],
+  "usage": "`AuroraBackground` 叠加三个径向色场，并以不同周期缓慢移动和缩放。内容固定渲染在背景上层，颜色、模糊强度和周期都可以调整。",
+  "examples": [
+    {
+      "name": "aurora-background-demo",
+      "title": "基础示例"
+    }
+  ],
+  "files": [
+    "registry/ui/aurora-background.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/aurora-background",
+  "sourceUrl": "https://ui.wzx.wang/r/aurora-background.json"
+}

@@ -20,7 +20,7 @@
   ],
   "install": {
     "wui": "npx wui@latest add @wui/ai-todo",
-    "shadcn": "npx shadcn@latest add http://localhost:3000/r/ai-todo.json",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/ai-todo.json",
     "npmDependencies": [
       "class-variance-authority",
       "lucide-react"
@@ -42,6 +42,6 @@
   "files": [
     "registry/ui/ai-todo.tsx"
   ],
-  "docsUrl": "http://localhost:3000/docs/components/ai-todo",
-  "sourceUrl": "http://localhost:3000/r/ai-todo.json"
+  "docsUrl": "https://ui.wzx.wang/docs/components/ai-todo",
+  "sourceUrl": "https://ui.wzx.wang/r/ai-todo.json"
 }

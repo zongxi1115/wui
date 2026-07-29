@@ -1,0 +1,27 @@
+---
+title: 徽章 Badge
+description: 用紧凑的标签展示状态、分类或简短元数据。
+component: badge
+---
+
+## 基础示例
+
+<ComponentPreview name="badge-demo" />
+
+<CodeTabs command="wui@latest add @wui/badge" />
+
+<ComponentSource name="badge" title="components/ui/badge.tsx" />
+
+## 组件作用
+
+`Badge` 适合展示状态、分类、版本和其他短文本。语义色使用主题中的 `info`、`success`、`warning` 与 `destructive` token；仅表达分类而非状态时，优先使用 `default`、`secondary` 或 `outline`。
+
+通过 `asChild` 可以把样式合并到链接等单个子元素上，同时保留子元素原有语义。
+
+## 组件属性
+
+<PropsTable name="badge" />
+
+## 可访问性
+
+徽章默认是无额外语义的行内容器。表达无法从邻近文本判断的状态时，请提供可读文本；不要只依赖颜色传达含义。

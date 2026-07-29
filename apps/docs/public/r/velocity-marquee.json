@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "velocity-marquee",
+  "type": "registry:ui",
+  "title": "Velocity Marquee",
+  "description": "Accelerates and changes a seamless marquee direction with scrolling.",
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/velocity-marquee.tsx",
+      "type": "registry:ui",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport {\n  motion,\n  useAnimationFrame,\n  useInView,\n  useReducedMotion,\n  useScroll,\n  useSpring,\n  useVelocity,\n  type HTMLMotionProps,\n} from \"motion/react\"\n\nimport { cn } from \"@/registry/lib/utils\"\n\nexport interface VelocityMarqueeProps extends Omit<\n  HTMLMotionProps<\"div\">,\n  \"children\"\n> {\n  /** Items repeated across the seamless track. */\n  children: React.ReactNode\n  /** Idle track speed in pixels per second. @default 36 */\n  baseSpeed?: number\n  /** Added speed for each pixel per second of scroll velocity. @default 0.08 */\n  sensitivity?: number\n  /** Maximum velocity-driven speed boost in pixels per second. @default 180 */\n  maxBoost?: number\n  /** Gap between repeated groups in pixels. @default 32 */\n  gap?: number\n  /** Invert the base and scroll-driven direction. @default false */\n  reverse?: boolean\n  /** Scrollable element to observe instead of the page. */\n  container?: React.RefObject<HTMLElement | null>\n  /** Classes applied to each repeated group. */\n  groupClassName?: string\n}\n\nfunction wrap(value: number, size: number) {\n  return ((value % size) + size) % size\n}\n\n/** A seamless marquee that accelerates and changes direction with scrolling. */\nfunction VelocityMarquee({\n  children,\n  baseSpeed = 36,\n  sensitivity = 0.08,\n  maxBoost = 180,\n  gap = 32,\n  reverse = false,\n  container,\n  className,\n  groupClassName,\n  ...props\n}: VelocityMarqueeProps) {\n  const rootRef = React.useRef<HTMLDivElement>(null)\n  const groupRef = React.useRef<HTMLDivElement>(null)\n  const trackRef = React.useRef<HTMLDivElement>(null)\n  const positionRef = React.useRef(0)\n  const directionRef = React.useRef(reverse ? -1 : 1)\n  const [groupSize, setGroupSize] = React.useState(0)\n  const reduceMotion = useReducedMotion()\n  const inView = useInView(rootRef)\n  const { scrollY } = useScroll({ container })\n  const scrollVelocity = useSpring(useVelocity(scrollY), {\n    stiffness: 120,\n    damping: 30,\n    mass: 0.35,\n  })\n\n  React.useLayoutEffect(() => {\n    const group = groupRef.current\n    if (!group) return\n\n    const measure = () => setGroupSize(group.getBoundingClientRect().width)\n    measure()\n    const observer = new ResizeObserver(measure)\n    observer.observe(group)\n    return () => observer.disconnect()\n  }, [children, gap])\n\n  useAnimationFrame((_, delta) => {\n    if (reduceMotion || !inView || groupSize === 0) return\n\n    const velocity = scrollVelocity.get()\n    if (Math.abs(velocity) > 4) {\n      directionRef.current = (velocity < 0 ? -1 : 1) * (reverse ? -1 : 1)\n    }\n\n    const boost = Math.min(Math.abs(velocity) * sensitivity, maxBoost)\n    positionRef.current +=\n      directionRef.current * (baseSpeed + boost) * (delta / 1000)\n\n    if (trackRef.current) {\n      const offset = -wrap(positionRef.current, groupSize)\n      trackRef.current.style.transform = `translate3d(${offset}px, 0, 0)`\n    }\n  })\n\n  const groupClasses = cn(\"flex shrink-0 items-center\", groupClassName)\n  const groupStyle = { gap, paddingRight: gap }\n\n  return (\n    <motion.div\n      ref={rootRef}\n      data-slot=\"velocity-marquee\"\n      className={cn(\n        reduceMotion ? \"overflow-x-auto\" : \"overflow-hidden\",\n        className\n      )}\n      {...props}\n    >\n      <div\n        ref={trackRef}\n        data-slot=\"velocity-marquee-track\"\n        className=\"flex w-max will-change-transform\"\n      >\n        <div\n          ref={groupRef}\n          data-slot=\"velocity-marquee-group\"\n          className={groupClasses}\n          style={groupStyle}\n        >\n          {children}\n        </div>\n        {reduceMotion ? null : (\n          <div\n            aria-hidden=\"true\"\n            inert\n            data-slot=\"velocity-marquee-group\"\n            className={groupClasses}\n            style={groupStyle}\n          >\n            {children}\n          </div>\n        )}\n      </div>\n    </motion.div>\n  )\n}\n\nexport { VelocityMarquee }\n"
+    }
+  ],
+  "categories": [
+    "scroll",
+    "motion"
+  ]
+}

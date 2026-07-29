@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { RotateCwIcon } from "lucide-react"
 
 import { Components } from "@/registry/__components__"
 import { CopyButton } from "@/components/copy-button"
@@ -11,13 +12,17 @@ export function ComponentPreviewClient({
   html,
   raw,
   className,
+  previewClassName,
 }: {
   name: string
   html: string
   raw: string
   className?: string
+  previewClassName?: string
 }) {
   const [tab, setTab] = React.useState<"preview" | "code">("preview")
+  const [key, setKey] = React.useState(0)
+  const [spinning, setSpinning] = React.useState(false)
   const Comp = Components[name]
 
   return (
@@ -29,17 +34,39 @@ export function ComponentPreviewClient({
         <TabButton active={tab === "code"} onClick={() => setTab("code")}>
           Code
         </TabButton>
+        {tab === "preview" && (
+          <button
+            type="button"
+            aria-label="Reload preview"
+            title="重新加载"
+            onClick={() => {
+              setKey((k) => k + 1)
+              setSpinning(true)
+            }}
+            className="ml-auto mr-1 inline-flex size-7 items-center justify-center rounded-md text-muted-foreground transition-colors hover:text-foreground [&_svg]:size-3.5"
+          >
+            <RotateCwIcon
+              className={cn(spinning && "animate-spin")}
+              onAnimationIteration={() => setSpinning(false)}
+            />
+          </button>
+        )}
       </div>
 
       {tab === "preview" ? (
-        <div className="flex min-h-[350px] w-full items-center justify-center rounded-b-lg border border-t-0 p-10">
+        <div
+          className={cn(
+            "flex min-h-[350px] w-full items-center justify-center rounded-b-lg border border-t-0 p-10",
+            previewClassName
+          )}
+        >
           <React.Suspense
             fallback={
               <span className="text-sm text-muted-foreground">Loading…</span>
             }
           >
             {Comp ? (
-              <Comp />
+              <Comp key={key} />
             ) : (
               <p className="text-sm text-destructive">
                 Unknown preview: <code>{name}</code>

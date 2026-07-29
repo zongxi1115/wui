@@ -21,7 +21,7 @@
   ],
   "install": {
     "wui": "npx wui@latest add @wui/bubble",
-    "shadcn": "npx shadcn@latest add http://localhost:3000/r/bubble.json",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/bubble.json",
     "npmDependencies": [
       "class-variance-authority"
     ],
@@ -43,8 +43,8 @@
       "description": "Horizontal message alignment."
     }
   ],
-  "usage": "`Bubble` 用于聊天、评论、协作记录和活动流中的单条消息。它只负责一条消息的方向、表面和元信息布局，不负责消息列表滚动、发送状态或数据请求。\n\n头像通过通用 [`Avatar`](/docs/components/avatar) 组合，操作按钮继续使用 `Button`，避免气泡内部重复定义身份和交互组件。长篇 AI 回答可以使用 `variant=\"ghost\"`，减少大块底色对阅读的干扰。",
-  "extended": "### 表面样式\n\n`default`、`primary` 和 `outline` 适合短消息，`ghost` 适合长文本或富内容。不要仅靠颜色区分发送者，仍应保留方向、署名或其他可识别信息。",
+  "usage": "`Bubble` 用于聊天、评论、协作记录和活动流中的单条消息。它只负责一条消息的方向、表面和元信息布局，不负责消息列表滚动、发送状态或数据请求。\r\n\r\n头像通过通用 [`Avatar`](/docs/components/avatar) 组合，操作按钮继续使用 `Button`，避免气泡内部重复定义身份和交互组件。长篇 AI 回答可以使用 `variant=\"ghost\"`，减少大块底色对阅读的干扰。",
+  "extended": "### 表面样式\r\n\r\n\r\n\r\n`default`、`primary` 和 `outline` 适合短消息，`ghost` 适合长文本或富内容。不要仅靠颜色区分发送者，仍应保留方向、署名或其他可识别信息。",
   "events": "所有部件透传对应原生元素事件。`side` 只控制视觉方向；消息菜单、复制、重试、已读回执等行为由业务层绑定到 `BubbleActions` 中的按钮。",
   "examples": [
     {
@@ -59,6 +59,6 @@
   "files": [
     "registry/ui/bubble.tsx"
   ],
-  "docsUrl": "http://localhost:3000/docs/components/bubble",
-  "sourceUrl": "http://localhost:3000/r/bubble.json"
+  "docsUrl": "https://ui.wzx.wang/docs/components/bubble",
+  "sourceUrl": "https://ui.wzx.wang/r/bubble.json"
 }

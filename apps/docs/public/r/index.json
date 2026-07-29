@@ -1,6 +1,6 @@
 {
   "name": "wui",
-  "homepage": "http://localhost:3000",
+  "homepage": "https://ui.wzx.wang",
   "items": [
     {
       "name": "ai-prompt",
@@ -83,6 +83,15 @@
       ]
     },
     {
+      "name": "badge",
+      "type": "registry:ui",
+      "title": "Badge",
+      "description": "A compact label for status, category, or short metadata.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
       "name": "bubble",
       "type": "registry:ui",
       "title": "Bubble",
@@ -156,7 +165,7 @@
       "name": "watermark",
       "type": "registry:ui",
       "title": "Watermark",
-      "description": "Adds a repeated text watermark over a section of content.",
+      "description": "Adds a repeated text or image watermark over a section of content.",
       "registryDependencies": [
         "utils"
       ]
@@ -373,6 +382,18 @@
       ]
     },
     {
+      "name": "video-player",
+      "type": "registry:ui",
+      "title": "Video Player",
+      "description": "A composable video player with playback, seek, volume, keyboard, and fullscreen controls.",
+      "registryDependencies": [
+        "utils",
+        "button",
+        "slider",
+        "tooltip"
+      ]
+    },
+    {
       "name": "skeleton",
       "type": "registry:ui",
       "title": "Skeleton",
@@ -382,10 +403,19 @@
       ]
     },
     {
+      "name": "alert",
+      "type": "registry:ui",
+      "title": "Alert",
+      "description": "Persistent inline feedback with semantic variants, actions, and dismissal.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
       "name": "message",
       "type": "registry:ui",
       "title": "Message",
-      "description": "Portal-based global messages plus an inline feedback primitive.",
+      "description": "Portal-based transient messages with animated status icons and configurable motion.",
       "registryDependencies": [
         "utils"
       ]
@@ -396,6 +426,94 @@
       "title": "In View",
       "description": "Animates content when it enters the viewport.",
       "registryDependencies": []
+    },
+    {
+      "name": "scroll-progress",
+      "type": "registry:ui",
+      "title": "Scroll Progress",
+      "description": "Shows page, container, or section scroll completion as a bar or ring.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "smooth-scroll",
+      "type": "registry:ui",
+      "title": "Smooth Scroll",
+      "description": "Provides Lenis smooth scrolling for the document or a custom container.",
+      "registryDependencies": []
+    },
+    {
+      "name": "parallax",
+      "type": "registry:ui",
+      "title": "Parallax",
+      "description": "Moves a layer at a different rate while it crosses the viewport.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "scroll-text",
+      "type": "registry:ui",
+      "title": "Scroll Text",
+      "description": "Reveals lines or progressively highlights words according to scroll progress.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "sticky-stack",
+      "type": "registry:ui",
+      "title": "Sticky Stack",
+      "description": "Pins, layers, and scales cards as the next item arrives.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "horizontal-scroll",
+      "type": "registry:ui",
+      "title": "Horizontal Scroll",
+      "description": "Converts vertical section progress into a pinned horizontal track.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "velocity-marquee",
+      "type": "registry:ui",
+      "title": "Velocity Marquee",
+      "description": "Accelerates and changes a seamless marquee direction with scrolling.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "scroll-expand",
+      "type": "registry:ui",
+      "title": "Scroll Expand",
+      "description": "Pins media while scroll progress expands it to full bleed or collapses it away.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "scroll-sequence",
+      "type": "registry:ui",
+      "title": "Scroll Sequence",
+      "description": "Pins a viewport and swaps its child steps according to scroll progress.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "scroll-snap",
+      "type": "registry:ui",
+      "title": "Scroll Snap",
+      "description": "A native CSS scroll-snap container for page-like or horizontal sections.",
+      "registryDependencies": [
+        "utils"
+      ]
     },
     {
       "name": "infinite-slider",
@@ -411,6 +529,115 @@
       "type": "registry:ui",
       "title": "Cursor",
       "description": "A spring-following custom cursor for the page or a parent region.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "magnetic",
+      "type": "registry:ui",
+      "title": "Magnetic",
+      "description": "Moves content subtly toward the pointer and springs back to rest.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "glow",
+      "type": "registry:ui",
+      "title": "Glow",
+      "description": "Adds an illuminated border and soft light around all four sides of content.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "annotation",
+      "type": "registry:ui",
+      "title": "Annotation",
+      "description": "Draws animated arrows, marker strokes, and custom paths around content.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "slide-swap",
+      "type": "registry:ui",
+      "title": "Slide Swap",
+      "description": "Slides one whole content layer out while an identical layer enters.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "hover-marquee",
+      "type": "registry:ui",
+      "title": "Hover Marquee",
+      "description": "Reveals a horizontally looping preview when a directory row is hovered.",
+      "registryDependencies": [
+        "utils",
+        "infinite-slider"
+      ]
+    },
+    {
+      "name": "spotlight-card",
+      "type": "registry:ui",
+      "title": "Spotlight Card",
+      "description": "Illuminates a surface around the current pointer position.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "tilt-card",
+      "type": "registry:ui",
+      "title": "Tilt Card",
+      "description": "Tilts a surface in 3D according to the pointer position and springs to rest.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "image-trail",
+      "type": "registry:ui",
+      "title": "Image Trail",
+      "description": "Leaves a short-lived sequence of visual items behind the pointer.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "hover-preview",
+      "type": "registry:ui",
+      "title": "Hover Preview",
+      "description": "Displays a spring-following visual preview for a hovered or focused row.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "aurora-background",
+      "type": "registry:ui",
+      "title": "Aurora Background",
+      "description": "Layers slow, blurred color fields behind content.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "grain-overlay",
+      "type": "registry:ui",
+      "title": "Grain Overlay",
+      "description": "Adds a scalable SVG fractal-noise texture over a positioned surface.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "spotlight-grid",
+      "type": "registry:ui",
+      "title": "Spotlight Grid",
+      "description": "Reveals a grid or dot pattern around the current pointer position.",
       "registryDependencies": [
         "utils"
       ]
@@ -556,6 +783,15 @@
       "type": "registry:ui",
       "title": "Spin",
       "description": "A reduced-motion aware loading indicator for inline, nested, and fullscreen states.",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "notification-badge",
+      "type": "registry:ui",
+      "title": "Notification Badge",
+      "description": "A count or dot indicator positioned over an icon, avatar, or control.",
       "registryDependencies": [
         "utils"
       ]

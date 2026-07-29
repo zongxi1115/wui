@@ -73,6 +73,16 @@ function toPosix(p: string): string {
   return p.split(path.sep).join("/")
 }
 
+async function writeFileIfChanged(file: string, content: string) {
+  try {
+    if ((await fs.readFile(file, "utf8")) === content) return
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error
+  }
+
+  await fs.writeFile(file, content, "utf8")
+}
+
 async function expandDirectoryFiles(item: RegistryItem): Promise<RegistryItem> {
   const includeDirectory = item.meta?.includeDirectory
   const targetDirectory = item.meta?.targetDirectory
@@ -123,9 +133,15 @@ async function main() {
     registry.items.map(expandDirectoryFiles)
   )
 
-  // Start clean so removed items don't linger in the output.
-  await fs.rm(OUT_DIR, { recursive: true, force: true })
+  // Remove stale registry JSON without deleting independently generated
+  // subdirectories such as public/r/llms.
   await fs.mkdir(OUT_DIR, { recursive: true })
+  const previousOutputs = await fs.readdir(OUT_DIR, { withFileTypes: true })
+  await Promise.all(
+    previousOutputs
+      .filter((entry) => entry.isFile() && entry.name.endsWith(".json"))
+      .map((entry) => fs.unlink(path.join(OUT_DIR, entry.name)))
+  )
 
   // --- 1 + 2. Build public/r/<name>.json and the discovery index. ---------
   const indexEntries: Record<string, unknown> = {}
@@ -239,7 +255,7 @@ async function main() {
       2
     )}\n`
 
-  await fs.writeFile(INDEX_FILE, indexContent, "utf8")
+  await writeFileIfChanged(INDEX_FILE, indexContent)
 
   const componentsContent =
     banner +
@@ -249,7 +265,7 @@ async function main() {
     lazyLines.join("\n") +
     `\n}\n`
 
-  await fs.writeFile(COMPONENTS_FILE, componentsContent, "utf8")
+  await writeFileIfChanged(COMPONENTS_FILE, componentsContent)
 
   // --- Report -------------------------------------------------------------
   console.log(

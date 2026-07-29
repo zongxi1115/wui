@@ -14,7 +14,7 @@
   ],
   "install": {
     "wui": "npx wui@latest add @wui/download",
-    "shadcn": "npx shadcn@latest add http://localhost:3000/r/download.json",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/download.json",
     "npmDependencies": [
       "lucide-react",
       "class-variance-authority",
@@ -55,14 +55,14 @@
     },
     {
       "name": "status",
-      "type": "\"idle\" | \"downloading\" | \"complete\" | \"error\"",
+      "type": "\"idle\" | \"error\" | \"complete\" | \"downloading\"",
       "required": false,
       "control": "select",
       "options": [
         "idle",
-        "downloading",
+        "error",
         "complete",
-        "error"
+        "downloading"
       ],
       "defaultValue": "\"idle\"",
       "description": "Visual lifecycle state."
@@ -77,12 +77,12 @@
     },
     {
       "name": "size",
-      "type": "\"default\" | \"compact\"",
+      "type": "\"compact\" | \"default\"",
       "required": false,
       "control": "select",
       "options": [
-        "default",
-        "compact"
+        "compact",
+        "default"
       ],
       "defaultValue": "default",
       "description": "Height and spacing preset."
@@ -101,9 +101,9 @@
       "control": "boolean"
     }
   ],
-  "usage": "`Download` 将文件身份、体积、进度和操作反馈收拢到一个明确的下载入口。它适合资源包、报告、媒体与导出文件；只有一个简单小文件时，普通 Button 搭配下载图标通常更合适。\n\n传入 `href` 可直接触发浏览器下载；需要请求接口或生成文件时使用 `onDownload`。业务方可通过 `status` 与 `progress` 精确控制下载生命周期。\n\n组件默认根据 `filename` 的后缀显示对应的 Lucide 文件图标。通过 `fileIcon` 可传入自定义图标，或传入 `false` 隐藏图标。",
-  "extended": "### 紧凑尺寸与状态\n\n`status` 支持 `idle`、`downloading`、`complete` 与 `error`；`progress` 接受 0–100 的数值。",
-  "events": "- `onDownload()`：用户激活下载时调用，可返回 Promise。\n- 原生 `onFocus`、`onBlur` 等按钮事件会继续透传。",
+  "usage": "`Download` 将文件身份、体积、进度和操作反馈收拢到一个明确的下载入口。它适合资源包、报告、媒体与导出文件；只有一个简单小文件时，普通 Button 搭配下载图标通常更合适。\r\n\r\n传入 `href` 可直接触发浏览器下载；需要请求接口或生成文件时使用 `onDownload`。业务方可通过 `status` 与 `progress` 精确控制下载生命周期。\r\n\r\n组件默认根据 `filename` 的后缀显示对应的 Lucide 文件图标。通过 `fileIcon` 可传入自定义图标，或传入 `false` 隐藏图标。",
+  "extended": "### 紧凑尺寸与状态\r\n\r\n\r\n\r\n`status` 支持 `idle`、`downloading`、`complete` 与 `error`；`progress` 接受 0–100 的数值。",
+  "events": "- `onDownload()`：用户激活下载时调用，可返回 Promise。\r\n- 原生 `onFocus`、`onBlur` 等按钮事件会继续透传。",
   "examples": [
     {
       "name": "download-demo",
@@ -117,6 +117,6 @@
   "files": [
     "registry/ui/download.tsx"
   ],
-  "docsUrl": "http://localhost:3000/docs/components/download",
-  "sourceUrl": "http://localhost:3000/r/download.json"
+  "docsUrl": "https://ui.wzx.wang/docs/components/download",
+  "sourceUrl": "https://ui.wzx.wang/r/download.json"
 }

@@ -21,7 +21,7 @@
   ],
   "install": {
     "wui": "npx wui@latest add @wui/kanban",
-    "shadcn": "npx shadcn@latest add http://localhost:3000/r/kanban.json",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/kanban.json",
     "npmDependencies": [
       "lucide-react"
     ],
@@ -50,6 +50,6 @@
   "files": [
     "registry/ui/kanban.tsx"
   ],
-  "docsUrl": "http://localhost:3000/docs/components/kanban",
-  "sourceUrl": "http://localhost:3000/r/kanban.json"
+  "docsUrl": "https://ui.wzx.wang/docs/components/kanban",
+  "sourceUrl": "https://ui.wzx.wang/r/kanban.json"
 }

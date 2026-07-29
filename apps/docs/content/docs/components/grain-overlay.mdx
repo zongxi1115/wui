@@ -1,0 +1,25 @@
+---
+title: 颗粒遮罩 Grain Overlay
+description: 用可缩放 SVG 噪声为任意表面增加克制的胶片颗粒质感。
+component: grain-overlay
+---
+
+## 基础示例
+
+<ComponentPreview name="grain-overlay-demo" />
+
+<CodeTabs command="wui@latest add @wui/grain-overlay" />
+
+<ComponentSource name="grain-overlay" title="components/ui/grain-overlay.tsx" />
+
+## 组件作用
+
+`GrainOverlay` 使用 SVG `feTurbulence` 生成可重复、与分辨率无关的静态噪声。它没有第三方运行时依赖，默认绝对定位并忽略指针事件，可直接放进任意 `relative` 表面。
+
+## 组件属性
+
+<PropsTable name="grain-overlay" />
+
+## 使用建议
+
+从 `opacity={0.08}` 到 `0.18` 的范围开始，根据底色选择 `soft-light`、`overlay` 或 `multiply`。颗粒是统一材质语言，不要只给某张普通卡片单独添加；大面积铺设前应在低端设备上确认 SVG 滤镜成本。

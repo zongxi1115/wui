@@ -1,0 +1,107 @@
+{
+  "name": "notification-badge",
+  "type": "registry:ui",
+  "title": "消息提示 Notification Badge",
+  "description": "在图标、头像或控件边缘展示未读数量与提示红点。",
+  "import": "import { NotificationBadge, notificationBadgeVariants } from \"@/components/ui/notification-badge\"",
+  "exports": [
+    "NotificationBadge",
+    "notificationBadgeVariants"
+  ],
+  "typeExports": [
+    "NotificationBadgeProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/notification-badge",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/notification-badge.json",
+    "npmDependencies": [
+      "class-variance-authority"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "count",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "Content displayed in the indicator. Numeric values respect `max`."
+    },
+    {
+      "name": "max",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "99",
+      "description": "Highest numeric value shown before using a trailing plus sign."
+    },
+    {
+      "name": "showZero",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "Keep a numeric zero visible."
+    },
+    {
+      "name": "dot",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "Render a small presence dot instead of count content."
+    },
+    {
+      "name": "visible",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "Controlled indicator visibility."
+    },
+    {
+      "name": "variant",
+      "type": "\"default\" | \"destructive\" | \"success\" | \"warning\" | \"info\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "default",
+        "destructive",
+        "success",
+        "warning",
+        "info"
+      ],
+      "defaultValue": "destructive",
+      "description": "Semantic color of the indicator."
+    },
+    {
+      "name": "offset",
+      "type": "readonly [number, number]",
+      "required": false,
+      "control": "text",
+      "defaultValue": "[0, 0]",
+      "description": "Pixel offset from the top-right anchor."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "Accessible name for the indicator."
+    }
+  ],
+  "usage": "`NotificationBadge` 将数字或提示点定位在任意子元素的右上角，适合未读消息、待办数量和新状态提醒。数字 `count` 支持 `max` 封顶，零值默认隐藏；使用 `dot` 时只显示提示点。\n\n`count` 也可以传入 React 节点，因此示例直接组合了 `SlidingNumber`，让未读数变化时产生逐位滑动效果。",
+  "examples": [
+    {
+      "name": "notification-badge-demo",
+      "title": "基础示例"
+    }
+  ],
+  "files": [
+    "registry/ui/notification-badge.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/notification-badge",
+  "sourceUrl": "https://ui.wzx.wang/r/notification-badge.json"
+}

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "grain-overlay",
+  "type": "registry:ui",
+  "title": "Grain Overlay",
+  "description": "Adds a scalable SVG fractal-noise texture over a positioned surface.",
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/grain-overlay.tsx",
+      "type": "registry:ui",
+      "content": "import * as React from \"react\"\n\nimport { cn } from \"@/registry/lib/utils\"\n\nexport interface GrainOverlayProps extends Omit<\n  React.ComponentProps<\"svg\">,\n  \"opacity\"\n> {\n  /** Grain opacity. @default 0.16 */\n  opacity?: number\n  /** Base turbulence frequency. @default 0.72 */\n  frequency?: number\n  /** Number of fractal noise octaves. @default 3 */\n  octaves?: number\n  /** Deterministic noise seed. @default 8 */\n  seed?: number\n  /** CSS blend mode used by the overlay. @default \"soft-light\" */\n  blendMode?: React.CSSProperties[\"mixBlendMode\"]\n}\n\n/** Adds a scalable SVG fractal-noise texture over a positioned surface. */\nfunction GrainOverlay({\n  opacity = 0.16,\n  frequency = 0.72,\n  octaves = 3,\n  seed = 8,\n  blendMode = \"soft-light\",\n  className,\n  style,\n  ...props\n}: GrainOverlayProps) {\n  const filterId = `grain-${React.useId().replaceAll(\":\", \"\")}`\n\n  return (\n    <svg\n      aria-hidden=\"true\"\n      data-slot=\"grain-overlay\"\n      className={cn(\n        \"pointer-events-none absolute inset-0 size-full select-none\",\n        className\n      )}\n      style={{ ...style, opacity, mixBlendMode: blendMode }}\n      {...props}\n    >\n      <filter id={filterId} x=\"-20%\" y=\"-20%\" width=\"140%\" height=\"140%\">\n        <feTurbulence\n          type=\"fractalNoise\"\n          baseFrequency={frequency}\n          numOctaves={octaves}\n          seed={seed}\n          stitchTiles=\"stitch\"\n        />\n        <feColorMatrix type=\"saturate\" values=\"0\" />\n      </filter>\n      <rect width=\"100%\" height=\"100%\" filter={`url(#${filterId})`} />\n    </svg>\n  )\n}\n\nexport { GrainOverlay }\n"
+    }
+  ],
+  "categories": [
+    "background",
+    "fancy"
+  ]
+}

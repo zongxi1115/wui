@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "tilt-card",
+  "type": "registry:ui",
+  "title": "Tilt Card",
+  "description": "Tilts a surface in 3D according to the pointer position and springs to rest.",
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/tilt-card.tsx",
+      "type": "registry:ui",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport {\n  motion,\n  useMotionTemplate,\n  useMotionValue,\n  useReducedMotion,\n  useSpring,\n  type HTMLMotionProps,\n} from \"motion/react\"\n\nimport { cn } from \"@/registry/lib/utils\"\n\nexport interface TiltCardProps extends Omit<\n  HTMLMotionProps<\"div\">,\n  \"children\"\n> {\n  /** Content rendered on the tilting plane. */\n  children: React.ReactNode\n  /** Maximum rotation on either axis in degrees. @default 9 */\n  maxTilt?: number\n  /** Perspective depth in pixels. @default 900 */\n  perspective?: number\n  /** Scale applied while the pointer is over the card. @default 1.015 */\n  hoverScale?: number\n  /** Show a pointer-position glare layer. @default false */\n  glare?: boolean\n  /** Classes applied to the optional glare layer. */\n  glareClassName?: string\n}\n\n/** Tilts a surface in 3D according to the pointer position and springs to rest. */\nfunction TiltCard({\n  children,\n  maxTilt = 9,\n  perspective = 900,\n  hoverScale = 1.015,\n  glare = false,\n  className,\n  glareClassName,\n  style,\n  onPointerMove,\n  onPointerLeave,\n  ...props\n}: TiltCardProps) {\n  const reduceMotion = useReducedMotion()\n  const rotateXValue = useMotionValue(0)\n  const rotateYValue = useMotionValue(0)\n  const glareX = useMotionValue(50)\n  const glareY = useMotionValue(50)\n  const rotateX = useSpring(rotateXValue, {\n    stiffness: 220,\n    damping: 24,\n    mass: 0.45,\n  })\n  const rotateY = useSpring(rotateYValue, {\n    stiffness: 220,\n    damping: 24,\n    mass: 0.45,\n  })\n  const glareBackground = useMotionTemplate`radial-gradient(circle at ${glareX}% ${glareY}%, white, transparent 46%)`\n\n  function reset() {\n    rotateXValue.set(0)\n    rotateYValue.set(0)\n  }\n\n  return (\n    <motion.div\n      data-slot=\"tilt-card\"\n      className={cn(\"relative transform-gpu\", className)}\n      style={{\n        ...style,\n        rotateX: reduceMotion ? 0 : rotateX,\n        rotateY: reduceMotion ? 0 : rotateY,\n        transformPerspective: perspective,\n        transformStyle: \"preserve-3d\",\n      }}\n      whileHover={reduceMotion ? undefined : { scale: hoverScale }}\n      onPointerMove={(event) => {\n        if (!reduceMotion && event.pointerType !== \"touch\") {\n          const rect = event.currentTarget.getBoundingClientRect()\n          const x = (event.clientX - rect.left) / rect.width\n          const y = (event.clientY - rect.top) / rect.height\n          rotateXValue.set((0.5 - y) * maxTilt * 2)\n          rotateYValue.set((x - 0.5) * maxTilt * 2)\n          glareX.set(x * 100)\n          glareY.set(y * 100)\n        }\n        onPointerMove?.(event)\n      }}\n      onPointerLeave={(event) => {\n        reset()\n        onPointerLeave?.(event)\n      }}\n      {...props}\n    >\n      {children}\n      {glare ? (\n        <motion.div\n          aria-hidden=\"true\"\n          data-slot=\"tilt-card-glare\"\n          className={cn(\n            \"pointer-events-none absolute inset-0 opacity-35 mix-blend-soft-light\",\n            glareClassName\n          )}\n          style={{ background: glareBackground }}\n        />\n      ) : null}\n    </motion.div>\n  )\n}\n\nexport { TiltCard }\n"
+    }
+  ],
+  "categories": [
+    "pointer",
+    "motion",
+    "fancy"
+  ]
+}

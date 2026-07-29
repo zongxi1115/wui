@@ -1,0 +1,90 @@
+{
+  "name": "parallax",
+  "type": "registry:ui",
+  "title": "视差 Parallax",
+  "description": "让内容层在经过视口时以不同速度平移或缩放。",
+  "categories": [
+    "scroll",
+    "motion"
+  ],
+  "import": "import { Parallax } from \"@/components/ui/parallax\"",
+  "exports": [
+    "Parallax"
+  ],
+  "typeExports": [
+    "ParallaxProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/parallax",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/parallax.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": true,
+      "control": "text",
+      "description": "Content translated as the wrapper crosses the viewport."
+    },
+    {
+      "name": "axis",
+      "type": "\"x\" | \"y\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "x",
+        "y"
+      ],
+      "defaultValue": "y",
+      "description": "Translation axis."
+    },
+    {
+      "name": "distance",
+      "type": "[number, number]",
+      "required": false,
+      "control": "text",
+      "defaultValue": "[-48, 48]",
+      "description": "Translation range in pixels from scroll start to end."
+    },
+    {
+      "name": "scale",
+      "type": "[number, number]",
+      "required": false,
+      "control": "text",
+      "description": "Optional scale range, useful for image-within-frame parallax."
+    },
+    {
+      "name": "container",
+      "type": "RefObject<HTMLElement | null>",
+      "required": false,
+      "control": "text",
+      "description": "Scrollable element to observe instead of the page."
+    },
+    {
+      "name": "offset",
+      "type": "ScrollOffset",
+      "required": false,
+      "control": "text",
+      "defaultValue": "[\"start end\", \"end start\"]",
+      "description": "Motion scroll offsets for the wrapper."
+    }
+  ],
+  "usage": "`Parallax` 将目标经过视口的进度映射为水平或垂直位移。`distance` 决定起止位置，`scale` 可叠加轻微缩放，适合图片内层视差、标题层级和前后景分离。",
+  "examples": [
+    {
+      "name": "parallax-demo",
+      "title": "基础示例"
+    }
+  ],
+  "files": [
+    "registry/ui/parallax.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/parallax",
+  "sourceUrl": "https://ui.wzx.wang/r/parallax.json"
+}

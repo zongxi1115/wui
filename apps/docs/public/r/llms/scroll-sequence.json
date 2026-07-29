@@ -1,0 +1,93 @@
+{
+  "name": "scroll-sequence",
+  "type": "registry:ui",
+  "title": "滚动分步 Scroll Sequence",
+  "description": "固定区块并用滚动进度逐步切换内部内容。",
+  "categories": [
+    "scroll",
+    "motion"
+  ],
+  "import": "import { ScrollSequence } from \"@/components/ui/scroll-sequence\"",
+  "exports": [
+    "ScrollSequence"
+  ],
+  "typeExports": [
+    "ScrollSequenceProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/scroll-sequence",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/scroll-sequence.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": true,
+      "control": "text",
+      "description": "Steps displayed one at a time in the pinned viewport."
+    },
+    {
+      "name": "stepLength",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0.65",
+      "description": "Scroll distance per transition, in viewport-height units."
+    },
+    {
+      "name": "container",
+      "type": "RefObject<HTMLElement | null>",
+      "required": false,
+      "control": "text",
+      "description": "Scrollable element to observe instead of the page."
+    },
+    {
+      "name": "showProgress",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "Show a compact step indicator."
+    },
+    {
+      "name": "onStepChange",
+      "type": "((index: number) => void)",
+      "required": false,
+      "control": "text",
+      "description": "Called when the active step changes."
+    },
+    {
+      "name": "viewportClassName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "Classes applied to the pinned viewport."
+    },
+    {
+      "name": "stepClassName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "Classes applied to the active step wrapper."
+    }
+  ],
+  "usage": "`ScrollSequence` 把每个直接子元素视为一个步骤，在固定视口中根据滚动进度切换。它适合 feature 分步演示、流程解释和一个主体视觉配合多段说明的场景。",
+  "events": "`onStepChange(index)` 在活动步骤改变时触发，可用于同步外部导航、媒体时间点或分析事件。不要在回调中反向修改滚动位置，以免造成循环更新。",
+  "examples": [
+    {
+      "name": "scroll-sequence-demo",
+      "title": "基础示例"
+    }
+  ],
+  "files": [
+    "registry/ui/scroll-sequence.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/scroll-sequence",
+  "sourceUrl": "https://ui.wzx.wang/r/scroll-sequence.json"
+}

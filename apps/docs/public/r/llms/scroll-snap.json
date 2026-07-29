@@ -1,0 +1,72 @@
+{
+  "name": "scroll-snap",
+  "type": "registry:ui",
+  "title": "滚动吸附 Scroll Snap",
+  "description": "用原生 CSS Scroll Snap 构建整屏或横向吸附章节。",
+  "categories": [
+    "scroll"
+  ],
+  "import": "import { ScrollSnap, ScrollSnapItem } from \"@/components/ui/scroll-snap\"",
+  "exports": [
+    "ScrollSnap",
+    "ScrollSnapItem"
+  ],
+  "typeExports": [
+    "ScrollSnapItemProps",
+    "ScrollSnapProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/scroll-snap",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/scroll-snap.json",
+    "npmDependencies": [],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "axis",
+      "type": "\"x\" | \"y\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "x",
+        "y"
+      ],
+      "defaultValue": "y",
+      "description": "Snap axis."
+    },
+    {
+      "name": "strictness",
+      "type": "\"mandatory\" | \"proximity\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "mandatory",
+        "proximity"
+      ],
+      "defaultValue": "mandatory",
+      "description": "Whether the browser must always settle on a snap point."
+    },
+    {
+      "name": "hideScrollbar",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "Hide native scrollbars while preserving scrolling."
+    }
+  ],
+  "usage": "`ScrollSnap` 是原生滚动容器的轻量封装，`ScrollSnapItem` 提供语义化吸附点。组件没有第三方运行时依赖，浏览器负责惯性、触控和吸附结算。",
+  "examples": [
+    {
+      "name": "scroll-snap-demo",
+      "title": "基础示例"
+    }
+  ],
+  "files": [
+    "registry/ui/scroll-snap.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/scroll-snap",
+  "sourceUrl": "https://ui.wzx.wang/r/scroll-snap.json"
+}

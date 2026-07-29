@@ -54,7 +54,7 @@
   ],
   "install": {
     "wui": "npx wui@latest add @wui/ai-prompt",
-    "shadcn": "npx shadcn@latest add http://localhost:3000/r/ai-prompt.json",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/ai-prompt.json",
     "npmDependencies": [
       "class-variance-authority",
       "lucide-react"
@@ -101,6 +101,6 @@
   "files": [
     "registry/ui/ai-prompt.tsx"
   ],
-  "docsUrl": "http://localhost:3000/docs/components/ai-prompt",
-  "sourceUrl": "http://localhost:3000/r/ai-prompt.json"
+  "docsUrl": "https://ui.wzx.wang/docs/components/ai-prompt",
+  "sourceUrl": "https://ui.wzx.wang/r/ai-prompt.json"
 }

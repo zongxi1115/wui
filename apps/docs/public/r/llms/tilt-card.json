@@ -1,0 +1,88 @@
+{
+  "name": "tilt-card",
+  "type": "registry:ui",
+  "title": "透视倾斜 Tilt Card",
+  "description": "卡片随指针产生克制的 3D 透视倾斜并弹性回正。",
+  "categories": [
+    "pointer",
+    "motion",
+    "fancy"
+  ],
+  "import": "import { TiltCard } from \"@/components/ui/tilt-card\"",
+  "exports": [
+    "TiltCard"
+  ],
+  "typeExports": [
+    "TiltCardProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/tilt-card",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/tilt-card.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": true,
+      "control": "text",
+      "description": "Content rendered on the tilting plane."
+    },
+    {
+      "name": "maxTilt",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "9",
+      "description": "Maximum rotation on either axis in degrees."
+    },
+    {
+      "name": "perspective",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "900",
+      "description": "Perspective depth in pixels."
+    },
+    {
+      "name": "hoverScale",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "1.015",
+      "description": "Scale applied while the pointer is over the card."
+    },
+    {
+      "name": "glare",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "Show a pointer-position glare layer."
+    },
+    {
+      "name": "glareClassName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "Classes applied to the optional glare layer."
+    }
+  ],
+  "usage": "`TiltCard` 将指针在卡片中的归一化位置映射为 X/Y 轴旋转，并用弹簧回到静止状态。内部内容可以通过 `translateZ` 建立少量前后层级，`glare` 则提供可选的光照反馈。",
+  "examples": [
+    {
+      "name": "tilt-card-demo",
+      "title": "基础示例"
+    }
+  ],
+  "files": [
+    "registry/ui/tilt-card.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/tilt-card",
+  "sourceUrl": "https://ui.wzx.wang/r/tilt-card.json"
+}

@@ -1,0 +1,69 @@
+{
+  "name": "spotlight-card",
+  "type": "registry:ui",
+  "title": "聚光卡片 Spotlight Card",
+  "description": "根据鼠标位置在内容表面显露一层局部光照。",
+  "categories": [
+    "pointer",
+    "fancy"
+  ],
+  "import": "import { SpotlightCard } from \"@/components/ui/spotlight-card\"",
+  "exports": [
+    "SpotlightCard"
+  ],
+  "typeExports": [
+    "SpotlightCardProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/spotlight-card",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/spotlight-card.json",
+    "npmDependencies": [],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": true,
+      "control": "text",
+      "description": "Content rendered above the pointer spotlight."
+    },
+    {
+      "name": "radius",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "220",
+      "description": "Spotlight radius in pixels."
+    },
+    {
+      "name": "color",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "defaultValue": "color-mix(in oklab, var(--foreground) 16%, transparent)",
+      "description": "CSS color used at the center of the spotlight."
+    },
+    {
+      "name": "spotlightClassName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "Classes applied to the spotlight layer."
+    }
+  ],
+  "usage": "`SpotlightCard` 记录指针相对组件的位置，用径向背景显露局部色彩。它不引入第三方运行时依赖，适合作品目录、定价区域或需要轻微空间反馈的表面。",
+  "examples": [
+    {
+      "name": "spotlight-card-demo",
+      "title": "基础示例"
+    }
+  ],
+  "files": [
+    "registry/ui/spotlight-card.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/spotlight-card",
+  "sourceUrl": "https://ui.wzx.wang/r/spotlight-card.json"
+}

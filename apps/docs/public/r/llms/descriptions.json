@@ -14,7 +14,7 @@
   ],
   "install": {
     "wui": "npx wui@latest add @wui/descriptions",
-    "shadcn": "npx shadcn@latest add http://localhost:3000/r/descriptions.json",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/descriptions.json",
     "npmDependencies": [],
     "registryDependencies": [
       "utils"
@@ -65,12 +65,12 @@
     },
     {
       "name": "size",
-      "type": "\"sm\" | \"default\"",
+      "type": "\"default\" | \"sm\"",
       "required": false,
       "control": "select",
       "options": [
-        "sm",
-        "default"
+        "default",
+        "sm"
       ],
       "defaultValue": "default",
       "description": "Vertical density."
@@ -96,6 +96,6 @@
   "files": [
     "registry/ui/descriptions.tsx"
   ],
-  "docsUrl": "http://localhost:3000/docs/components/descriptions",
-  "sourceUrl": "http://localhost:3000/r/descriptions.json"
+  "docsUrl": "https://ui.wzx.wang/docs/components/descriptions",
+  "sourceUrl": "https://ui.wzx.wang/r/descriptions.json"
 }

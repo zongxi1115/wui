@@ -14,7 +14,7 @@
   ],
   "install": {
     "wui": "npx wui@latest add @wui/radio-group",
-    "shadcn": "npx shadcn@latest add http://localhost:3000/r/radio-group.json",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/radio-group.json",
     "npmDependencies": [
       "radix-ui",
       "class-variance-authority"
@@ -49,6 +49,6 @@
   "files": [
     "registry/ui/radio-group.tsx"
   ],
-  "docsUrl": "http://localhost:3000/docs/components/radio-group",
-  "sourceUrl": "http://localhost:3000/r/radio-group.json"
+  "docsUrl": "https://ui.wzx.wang/docs/components/radio-group",
+  "sourceUrl": "https://ui.wzx.wang/r/radio-group.json"
 }

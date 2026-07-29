@@ -15,7 +15,7 @@
   ],
   "install": {
     "wui": "npx wui@latest add @wui/in-view",
-    "shadcn": "npx shadcn@latest add http://localhost:3000/r/in-view.json",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/in-view.json",
     "npmDependencies": [
       "motion"
     ],
@@ -70,17 +70,21 @@
     }
   ],
   "usage": "`InView` 适合延后展示长页面中的说明、数据段或媒体内容。它使用浏览器交叉观察能力判断可见性，默认只播放一次，并在减少动态效果偏好下直接显示最终状态。",
-  "extended": "通过 `as=\"section\"` 调整语义元素；设置 `once={false}` 可在每次进入和离开视口时重播。对于很长的列表，应只为关键内容添加入场效果。",
+  "extended": "通过 `as=\"section\"` 调整语义元素；设置 `once={false}` 可在每次进入和离开视口时重播。对于很长的列表，应只为关键内容添加入场效果。\n\n### 图片遮罩揭示\n\n`InView` 的自定义 `variants` 可以直接驱动 `clip-path`，无需为 Image Reveal 再引入一套相同的视口观察逻辑。",
   "events": "组件透传底层元素的原生事件。需要获知可见状态时，可通过自定义 `variants` 的 Motion 回调处理；`viewOptions` 支持 `margin` 与 `amount` 等观察参数。",
   "examples": [
     {
       "name": "in-view-demo",
       "title": "基础示例"
+    },
+    {
+      "name": "in-view-image-reveal",
+      "title": "图片遮罩揭示"
     }
   ],
   "files": [
     "registry/ui/in-view.tsx"
   ],
-  "docsUrl": "http://localhost:3000/docs/components/in-view",
-  "sourceUrl": "http://localhost:3000/r/in-view.json"
+  "docsUrl": "https://ui.wzx.wang/docs/components/in-view",
+  "sourceUrl": "https://ui.wzx.wang/r/in-view.json"
 }

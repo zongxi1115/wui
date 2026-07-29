@@ -16,7 +16,7 @@
   ],
   "install": {
     "wui": "npx wui@latest add @wui/text-loop",
-    "shadcn": "npx shadcn@latest add http://localhost:3000/r/text-loop.json",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/text-loop.json",
     "npmDependencies": [
       "motion"
     ],
@@ -97,6 +97,6 @@
   "files": [
     "registry/ui/text-loop.tsx"
   ],
-  "docsUrl": "http://localhost:3000/docs/components/text-loop",
-  "sourceUrl": "http://localhost:3000/r/text-loop.json"
+  "docsUrl": "https://ui.wzx.wang/docs/components/text-loop",
+  "sourceUrl": "https://ui.wzx.wang/r/text-loop.json"
 }

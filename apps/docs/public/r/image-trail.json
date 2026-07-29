@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "image-trail",
+  "type": "registry:ui",
+  "title": "Image Trail",
+  "description": "Leaves a short-lived sequence of visual items behind the pointer.",
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/image-trail.tsx",
+      "type": "registry:ui",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport {\n  AnimatePresence,\n  motion,\n  useReducedMotion,\n  type HTMLMotionProps,\n} from \"motion/react\"\n\nimport { cn } from \"@/registry/lib/utils\"\n\ninterface TrailItem {\n  id: number\n  itemIndex: number\n  x: number\n  y: number\n}\n\nexport interface ImageTrailProps extends Omit<\n  HTMLMotionProps<\"div\">,\n  \"children\"\n> {\n  /** Visual items cycled through as the pointer moves. */\n  items: React.ReactNode[]\n  /** Static content rendered inside the interaction region. */\n  children?: React.ReactNode\n  /** Pointer distance required before adding another item, in pixels. @default 72 */\n  distance?: number\n  /** Lifetime of each trail item in milliseconds. @default 720 */\n  lifetime?: number\n  /** Maximum number of trail items rendered at once. @default 8 */\n  maxItems?: number\n  /** Classes applied to every positioned trail item. */\n  itemClassName?: string\n}\n\n/** Leaves a short-lived sequence of visual items behind the pointer. */\nfunction ImageTrail({\n  items,\n  children,\n  distance = 72,\n  lifetime = 720,\n  maxItems = 8,\n  className,\n  itemClassName,\n  onPointerMove,\n  onPointerLeave,\n  ...props\n}: ImageTrailProps) {\n  const reduceMotion = useReducedMotion()\n  const [trail, setTrail] = React.useState<TrailItem[]>([])\n  const lastPosition = React.useRef<{ x: number; y: number } | null>(null)\n  const sequence = React.useRef(0)\n  const timers = React.useRef<Set<number>>(new Set())\n\n  React.useEffect(() => {\n    const activeTimers = timers.current\n    return () => {\n      activeTimers.forEach((timer) => window.clearTimeout(timer))\n    }\n  }, [])\n\n  function addItem(event: React.PointerEvent<HTMLDivElement>) {\n    if (reduceMotion || event.pointerType === \"touch\" || items.length === 0)\n      return\n\n    const rect = event.currentTarget.getBoundingClientRect()\n    const x = event.clientX - rect.left\n    const y = event.clientY - rect.top\n    const previous = lastPosition.current\n    if (previous && Math.hypot(x - previous.x, y - previous.y) < distance)\n      return\n\n    lastPosition.current = { x, y }\n    const id = sequence.current++\n    const nextItem = { id, itemIndex: id % items.length, x, y }\n    setTrail((current) => [...current, nextItem].slice(-maxItems))\n\n    const timer = window.setTimeout(() => {\n      setTrail((current) => current.filter((item) => item.id !== id))\n      timers.current.delete(timer)\n    }, lifetime)\n    timers.current.add(timer)\n  }\n\n  return (\n    <motion.div\n      data-slot=\"image-trail\"\n      className={cn(\"relative isolate overflow-hidden\", className)}\n      onPointerMove={(event) => {\n        addItem(event)\n        onPointerMove?.(event)\n      }}\n      onPointerLeave={(event) => {\n        lastPosition.current = null\n        onPointerLeave?.(event)\n      }}\n      {...props}\n    >\n      {children}\n      <AnimatePresence>\n        {trail.map((item) => (\n          <motion.div\n            key={item.id}\n            aria-hidden=\"true\"\n            data-slot=\"image-trail-item\"\n            className={cn(\n              \"pointer-events-none absolute left-0 top-0 z-10 -translate-x-1/2 -translate-y-1/2\",\n              itemClassName\n            )}\n            style={{ x: item.x, y: item.y }}\n            initial={{ opacity: 0, scale: 0.82, rotate: -3 }}\n            animate={{ opacity: 1, scale: 1, rotate: 0 }}\n            exit={{ opacity: 0, scale: 0.92, y: item.y - 20 }}\n            transition={{ duration: lifetime / 1000, ease: [0.22, 1, 0.36, 1] }}\n          >\n            {items[item.itemIndex]}\n          </motion.div>\n        ))}\n      </AnimatePresence>\n    </motion.div>\n  )\n}\n\nexport { ImageTrail }\n"
+    }
+  ],
+  "categories": [
+    "pointer",
+    "motion",
+    "fancy"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "aurora-background",
+  "type": "registry:ui",
+  "title": "Aurora Background",
+  "description": "Layers slow, blurred color fields behind content.",
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/aurora-background.tsx",
+      "type": "registry:ui",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { motion, useReducedMotion, type HTMLMotionProps } from \"motion/react\"\n\nimport { cn } from \"@/registry/lib/utils\"\n\nexport interface AuroraBackgroundProps extends Omit<\n  HTMLMotionProps<\"div\">,\n  \"children\"\n> {\n  /** Foreground content rendered above the aurora layers. */\n  children?: React.ReactNode\n  /** Three CSS colors used by the moving light fields. */\n  colors?: [string, string, string]\n  /** Seconds for one complete movement cycle. @default 18 */\n  duration?: number\n  /** Blur strength in pixels. @default 56 */\n  blur?: number\n  /** Classes applied to every aurora layer. */\n  layerClassName?: string\n}\n\n/** Layers slow, blurred color fields behind content. */\nfunction AuroraBackground({\n  children,\n  colors = [\"var(--info)\", \"var(--success)\", \"var(--warning)\"],\n  duration = 18,\n  blur = 56,\n  className,\n  layerClassName,\n  ...props\n}: AuroraBackgroundProps) {\n  const reduceMotion = useReducedMotion()\n  const positions = [\n    \"-left-[18%] -top-[28%] h-[85%] w-[75%]\",\n    \"-bottom-[34%] left-[24%] h-[90%] w-[72%]\",\n    \"-right-[24%] top-[8%] h-[72%] w-[62%]\",\n  ]\n\n  return (\n    <motion.div\n      data-slot=\"aurora-background\"\n      className={cn(\n        \"bg-foreground relative isolate overflow-hidden\",\n        className\n      )}\n      {...props}\n    >\n      <div\n        aria-hidden=\"true\"\n        className=\"pointer-events-none absolute inset-0 -z-10\"\n      >\n        {colors.map((color, index) => (\n          <motion.div\n            key={color}\n            data-slot=\"aurora-background-layer\"\n            className={cn(\n              \"absolute rounded-[50%] opacity-65 mix-blend-screen\",\n              positions[index],\n              layerClassName\n            )}\n            style={{\n              background: `radial-gradient(closest-side, ${color}, transparent)`,\n              filter: `blur(${blur}px)`,\n            }}\n            animate={\n              reduceMotion\n                ? undefined\n                : {\n                    x: index === 1 ? [0, -36, 28, 0] : [0, 42, -24, 0],\n                    y: index === 2 ? [0, 34, -18, 0] : [0, -24, 30, 0],\n                    scale: [1, 1.12, 0.96, 1],\n                  }\n            }\n            transition={{\n              duration: duration + index * 2,\n              repeat: Infinity,\n              ease: \"easeInOut\",\n            }}\n          />\n        ))}\n      </div>\n      <div className=\"relative z-10\">{children}</div>\n    </motion.div>\n  )\n}\n\nexport { AuroraBackground }\n"
+    }
+  ],
+  "categories": [
+    "background",
+    "motion",
+    "fancy"
+  ]
+}

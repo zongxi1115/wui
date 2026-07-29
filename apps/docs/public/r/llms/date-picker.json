@@ -12,7 +12,7 @@
   ],
   "install": {
     "wui": "npx wui@latest add @wui/date-picker",
-    "shadcn": "npx shadcn@latest add http://localhost:3000/r/date-picker.json",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/date-picker.json",
     "npmDependencies": [
       "radix-ui",
       "lucide-react"
@@ -115,6 +115,6 @@
   "files": [
     "registry/ui/date-picker.tsx"
   ],
-  "docsUrl": "http://localhost:3000/docs/components/date-picker",
-  "sourceUrl": "http://localhost:3000/r/date-picker.json"
+  "docsUrl": "https://ui.wzx.wang/docs/components/date-picker",
+  "sourceUrl": "https://ui.wzx.wang/r/date-picker.json"
 }

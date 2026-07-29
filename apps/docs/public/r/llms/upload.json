@@ -14,7 +14,7 @@
   ],
   "install": {
     "wui": "npx wui@latest add @wui/upload",
-    "shadcn": "npx shadcn@latest add http://localhost:3000/r/upload.json",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/upload.json",
     "npmDependencies": [
       "lucide-react",
       "class-variance-authority",
@@ -42,14 +42,14 @@
     },
     {
       "name": "status",
-      "type": "\"idle\" | \"uploading\" | \"complete\" | \"error\"",
+      "type": "\"idle\" | \"error\" | \"complete\" | \"uploading\"",
       "required": false,
       "control": "select",
       "options": [
         "idle",
-        "uploading",
+        "error",
         "complete",
-        "error"
+        "uploading"
       ],
       "defaultValue": "\"idle\"",
       "description": "Visual lifecycle state."
@@ -64,12 +64,12 @@
     },
     {
       "name": "size",
-      "type": "\"default\" | \"compact\"",
+      "type": "\"compact\" | \"default\"",
       "required": false,
       "control": "select",
       "options": [
-        "default",
-        "compact"
+        "compact",
+        "default"
       ],
       "defaultValue": "default",
       "description": "Height and spacing preset."
@@ -110,9 +110,9 @@
       "control": "boolean"
     }
   ],
-  "usage": "`Upload` 将文件选择、拖拽区域和上传反馈放在同一个入口中，适合附件、媒体资源和批量文件上传。示例在上传完成后用 `Download` 展示文件，形成从提交到取回的完整文件流。\n\n组件负责文件选择与交互状态，不预设请求方式。使用 `onFilesChange` 只获取文件，或通过 `onUpload` 返回 Promise，让组件自动展示上传中、完成与失败状态。",
-  "extended": "### 尺寸与状态\n\n`status` 支持 `idle`、`uploading`、`complete` 与 `error`；传入 `progress` 可显示 0–100 的确定进度。使用 `accept` 限制系统文件选择器中的类型，使用 `multiple` 开启多选。",
-  "events": "- `onFilesChange(files)`：用户选择或拖入文件后立即调用。\n- `onUpload(files)`：选择文件后调用；返回 Promise 时，非受控模式会跟随其生命周期更新状态。\n- 原生表单属性以及 `onFocus`、`onBlur` 等输入事件会继续透传到隐藏的文件输入框。",
+  "usage": "`Upload` 将文件选择、拖拽区域和上传反馈放在同一个入口中，适合附件、媒体资源和批量文件上传。示例在上传完成后用 `Download` 展示文件，形成从提交到取回的完整文件流。\r\n\r\n组件负责文件选择与交互状态，不预设请求方式。使用 `onFilesChange` 只获取文件，或通过 `onUpload` 返回 Promise，让组件自动展示上传中、完成与失败状态。",
+  "extended": "### 尺寸与状态\r\n\r\n\r\n\r\n`status` 支持 `idle`、`uploading`、`complete` 与 `error`；传入 `progress` 可显示 0–100 的确定进度。使用 `accept` 限制系统文件选择器中的类型，使用 `multiple` 开启多选。",
+  "events": "- `onFilesChange(files)`：用户选择或拖入文件后立即调用。\r\n- `onUpload(files)`：选择文件后调用；返回 Promise 时，非受控模式会跟随其生命周期更新状态。\r\n- 原生表单属性以及 `onFocus`、`onBlur` 等输入事件会继续透传到隐藏的文件输入框。",
   "examples": [
     {
       "name": "upload-demo",
@@ -126,6 +126,6 @@
   "files": [
     "registry/ui/upload.tsx"
   ],
-  "docsUrl": "http://localhost:3000/docs/components/upload",
-  "sourceUrl": "http://localhost:3000/r/upload.json"
+  "docsUrl": "https://ui.wzx.wang/docs/components/upload",
+  "sourceUrl": "https://ui.wzx.wang/r/upload.json"
 }

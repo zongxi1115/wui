@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sticky-stack",
+  "type": "registry:ui",
+  "title": "Sticky Stack",
+  "description": "Pins, layers, and scales cards as the next item arrives.",
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/sticky-stack.tsx",
+      "type": "registry:ui",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport {\n  motion,\n  useReducedMotion,\n  useScroll,\n  useTransform,\n  type HTMLMotionProps,\n  type MotionValue,\n} from \"motion/react\"\n\nimport { cn } from \"@/registry/lib/utils\"\n\ninterface StickyStackContextValue {\n  count: number\n  gap: number\n  scaleStep: number\n  top: number\n  progress: MotionValue<number>\n  reduceMotion: boolean\n}\n\nconst StickyStackContext = React.createContext<StickyStackContextValue | null>(\n  null\n)\n\nexport interface StickyStackProps extends Omit<\n  HTMLMotionProps<\"div\">,\n  \"children\"\n> {\n  /** StickyStackItem elements rendered in stacking order. */\n  children: React.ReactNode\n  /** Top offset of the first sticky item in pixels. @default 24 */\n  top?: number\n  /** Visible vertical offset between stacked items in pixels. @default 12 */\n  gap?: number\n  /** Scale removed for every card placed above an item. @default 0.035 */\n  scaleStep?: number\n  /** Scrollable element to observe instead of the page. */\n  container?: React.RefObject<HTMLElement | null>\n}\n\nexport interface StickyStackItemProps extends Omit<\n  HTMLMotionProps<\"div\">,\n  \"children\"\n> {\n  /** Card content. */\n  children: React.ReactNode\n  /** Position in the stack. Inferred automatically for direct children. */\n  index?: number\n}\n\ninterface StickyStackItemInternalProps extends StickyStackItemProps {\n  stackIndex?: number\n}\n\n/** A group of cards that pin, layer, and recede as the next card arrives. */\nfunction StickyStack({\n  children,\n  top = 24,\n  gap = 12,\n  scaleStep = 0.035,\n  container,\n  className,\n  ...props\n}: StickyStackProps) {\n  const target = React.useRef<HTMLDivElement>(null)\n  const reduceMotion = Boolean(useReducedMotion())\n  const items = React.Children.toArray(children)\n  const { scrollYProgress } = useScroll({\n    target,\n    container,\n    offset: [\"start start\", \"end end\"],\n  })\n\n  return (\n    <StickyStackContext.Provider\n      value={{\n        count: items.length,\n        gap,\n        scaleStep,\n        top,\n        progress: scrollYProgress,\n        reduceMotion,\n      }}\n    >\n      <motion.div\n        ref={target}\n        data-slot=\"sticky-stack\"\n        className={cn(\"relative\", className)}\n        {...props}\n      >\n        {items.map((child, stackIndex) =>\n          React.isValidElement<StickyStackItemInternalProps>(child)\n            ? React.cloneElement(child, { stackIndex })\n            : child\n        )}\n      </motion.div>\n    </StickyStackContext.Provider>\n  )\n}\n\n/** One card inside a StickyStack. */\nfunction StickyStackItem({\n  children,\n  index,\n  stackIndex,\n  className,\n  style,\n  ...props\n}: StickyStackItemInternalProps) {\n  const context = React.useContext(StickyStackContext)\n  if (!context) {\n    throw new Error(\"StickyStackItem must be used inside StickyStack\")\n  }\n\n  const itemIndex = index ?? stackIndex ?? 0\n  const count = Math.max(context.count, 1)\n  const start = Math.min(itemIndex / count, 0.98)\n  const targetScale = Math.max(\n    0.75,\n    1 - (count - itemIndex - 1) * context.scaleStep\n  )\n  const scale = useTransform(context.progress, [start, 1], [1, targetScale])\n\n  return (\n    <motion.div\n      data-slot=\"sticky-stack-item\"\n      className={cn(\"sticky mb-[18vh] origin-top last:mb-0\", className)}\n      style={{\n        ...style,\n        top: context.top + itemIndex * context.gap,\n        zIndex: itemIndex + 1,\n        scale: context.reduceMotion ? 1 : scale,\n      }}\n      {...props}\n    >\n      {children}\n    </motion.div>\n  )\n}\n\nexport { StickyStack, StickyStackItem }\n"
+    }
+  ],
+  "categories": [
+    "scroll",
+    "motion"
+  ]
+}

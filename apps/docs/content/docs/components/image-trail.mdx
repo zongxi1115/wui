@@ -1,0 +1,27 @@
+---
+title: 图像轨迹 Image Trail
+description: 鼠标移动时沿路径依次甩出短暂的图片或视觉片段。
+component: image-trail
+---
+
+## 基础示例
+
+<ComponentPreview name="image-trail-demo" />
+
+<DependencyBadges packages={["motion"]} />
+
+<CodeTabs command="wui@latest add @wui/image-trail" />
+
+<ComponentSource name="image-trail" title="components/ui/image-trail.tsx" />
+
+## 组件作用
+
+`ImageTrail` 按指针移动距离采样位置，并循环使用 `items` 中的视觉内容形成短暂轨迹。组件限制同时存在的项目数，并在离场后清理节点，适合作品首屏、专题页和强视觉索引。
+
+## 组件属性
+
+<PropsTable name="image-trail" />
+
+## 使用建议
+
+`distance` 越小轨迹越密，`lifetime` 越长重叠越多。轨迹项目应使用固定尺寸并避免包含可交互元素；真正的信息和操作放在静态 `children` 中。触摸输入和减少动态效果偏好不会生成轨迹。

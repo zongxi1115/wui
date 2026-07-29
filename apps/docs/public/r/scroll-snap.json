@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "scroll-snap",
+  "type": "registry:ui",
+  "title": "Scroll Snap",
+  "description": "A native CSS scroll-snap container for page-like or horizontal sections.",
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/scroll-snap.tsx",
+      "type": "registry:ui",
+      "content": "import * as React from \"react\"\n\nimport { cn } from \"@/registry/lib/utils\"\n\nexport interface ScrollSnapProps extends React.ComponentProps<\"div\"> {\n  /** Snap axis. @default \"y\" */\n  axis?: \"x\" | \"y\"\n  /** Whether the browser must always settle on a snap point. @default \"mandatory\" */\n  strictness?: \"mandatory\" | \"proximity\"\n  /** Hide native scrollbars while preserving scrolling. @default false */\n  hideScrollbar?: boolean\n}\n\nexport interface ScrollSnapItemProps extends React.ComponentProps<\"section\"> {\n  /** Position used when the item becomes the active snap point. @default \"start\" */\n  align?: \"start\" | \"center\" | \"end\"\n  /** Prevent fast scrolling from skipping this item. @default false */\n  stop?: boolean\n}\n\n/** A native CSS scroll-snap container for page-like or horizontal sections. */\nfunction ScrollSnap({\n  axis = \"y\",\n  strictness = \"mandatory\",\n  hideScrollbar = false,\n  className,\n  style,\n  ...props\n}: ScrollSnapProps) {\n  return (\n    <div\n      data-slot=\"scroll-snap\"\n      data-axis={axis}\n      className={cn(\n        \"overscroll-contain\",\n        axis === \"y\" ? \"overflow-y-auto\" : \"overflow-x-auto\",\n        hideScrollbar && \"[scrollbar-width:none] [&::-webkit-scrollbar]:hidden\",\n        className\n      )}\n      style={{ ...style, scrollSnapType: `${axis} ${strictness}` }}\n      {...props}\n    />\n  )\n}\n\n/** One semantic snap point inside ScrollSnap. */\nfunction ScrollSnapItem({\n  align = \"start\",\n  stop = false,\n  className,\n  style,\n  ...props\n}: ScrollSnapItemProps) {\n  return (\n    <section\n      data-slot=\"scroll-snap-item\"\n      className={cn(\"shrink-0\", className)}\n      style={{\n        ...style,\n        scrollSnapAlign: align,\n        scrollSnapStop: stop ? \"always\" : \"normal\",\n      }}\n      {...props}\n    />\n  )\n}\n\nexport { ScrollSnap, ScrollSnapItem }\n"
+    }
+  ],
+  "categories": [
+    "scroll"
+  ]
+}

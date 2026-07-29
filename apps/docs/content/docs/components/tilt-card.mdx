@@ -1,0 +1,27 @@
+---
+title: 透视倾斜 Tilt Card
+description: 卡片随指针产生克制的 3D 透视倾斜并弹性回正。
+component: tilt-card
+---
+
+## 基础示例
+
+<ComponentPreview name="tilt-card-demo" />
+
+<DependencyBadges packages={["motion"]} />
+
+<CodeTabs command="wui@latest add @wui/tilt-card" />
+
+<ComponentSource name="tilt-card" title="components/ui/tilt-card.tsx" />
+
+## 组件作用
+
+`TiltCard` 将指针在卡片中的归一化位置映射为 X/Y 轴旋转，并用弹簧回到静止状态。内部内容可以通过 `translateZ` 建立少量前后层级，`glare` 则提供可选的光照反馈。
+
+## 组件属性
+
+<PropsTable name="tilt-card" />
+
+## 使用建议
+
+`maxTilt` 建议保持在 4–10 度，`perspective` 越大透视越平缓。倾斜适合单个主视觉或少量作品卡片，不要给密集列表中的每个操作控件都添加。触摸输入和减少动态效果偏好下会保持静止。

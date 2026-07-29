@@ -2,10 +2,12 @@ import { promises as fs } from "node:fs"
 import path from "node:path"
 
 import { resolveTree } from "../registry/resolver"
+import { fetchRegistryIndex } from "../registry/index"
 import { applyTransforms } from "../registry/transform"
 import { applyRegistryCssVars } from "../registry/css-vars"
 import type { Config, RegistryItem, RegistryItemFile } from "../registry/schema"
 import { aliasToPath, readConfig, resolveBaseDir } from "../utils/config"
+import { ask, isInteractive } from "../utils/interactive"
 import { detectPackageManager, runInstall } from "../utils/pm"
 import { logger } from "../utils/logger"
 
@@ -28,9 +30,37 @@ export async function addCommand(
     return
   }
   if (components.length === 0) {
-    logger.error(`Specify at least one component, e.g. wui add @wui/button`)
-    process.exitCode = 1
-    return
+    if (!isInteractive()) {
+      logger.error(`Specify at least one component, e.g. wui add @wui/button`)
+      process.exitCode = 1
+      return
+    }
+
+    const template =
+      config.registries["@wui"] ?? Object.values(config.registries)[0]
+    if (!template) throw new Error("No registry configured in wui.json.")
+    logger.step("Loading components…")
+    const index = await fetchRegistryIndex(template)
+    const selectable = index.items.filter((item) =>
+      ["registry:ui", "registry:component"].includes(item.type)
+    )
+    const answers = await ask<"components">({
+      type: "autocompleteMultiselect",
+      name: "components",
+      message: "Select components to add",
+      instructions: false,
+      choices: selectable.map((item) => ({
+        title: item.title ?? item.name,
+        value: item.name,
+        description: item.description,
+      })),
+      min: 1,
+    })
+    if (!answers) {
+      logger.warn("Cancelled.")
+      return
+    }
+    components = answers.components as string[]
   }
 
   logger.step(`Resolving ${components.join(", ")}…`)
@@ -103,7 +133,7 @@ function fileExists(p: string): Promise<boolean> {
   )
 }
 
-function resolveTarget(
+export function resolveTarget(
   item: RegistryItem,
   file: RegistryItemFile,
   config: Config,
@@ -131,7 +161,11 @@ function resolveTarget(
   }
 }
 
-function resolveTargetAlias(target: string, config: Config, baseDir: string): string {
+function resolveTargetAlias(
+  target: string,
+  config: Config,
+  baseDir: string
+): string {
   const { aliases } = config
   if (target.startsWith("@ui/"))
     return path.join(aliasToPath(aliases.ui, baseDir), target.slice(4))
@@ -141,8 +175,11 @@ function resolveTargetAlias(target: string, config: Config, baseDir: string): st
     return path.join(aliasToPath(aliases.hooks, baseDir), target.slice(7))
   if (target.startsWith("@lib/"))
     return path.join(aliasToPath(aliases.lib, baseDir), target.slice(5))
-  if (target.startsWith("~/")) return target.slice(2)
-  return target
+  // `~/` is the escape hatch for "project root, verbatim". Everything else is
+  // relative to the alias base (`src/` when the project has one), so a bare
+  // target like `components/ui/icons/x.tsx` stays reachable through `@/`.
+  if (target.startsWith("~/")) return path.join(target.slice(2))
+  return path.join(baseDir, target)
 }
 
 function basename(p: string): string {

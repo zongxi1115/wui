@@ -1,0 +1,25 @@
+---
+title: 内容滑动交换 Slide Swap
+description: 整块内容从上方移出，同时由下方滑入相同内容。
+component: slide-swap
+---
+
+## 基础示例
+
+<ComponentPreview name="slide-swap-demo" />
+
+<CodeTabs command="wui@latest add @wui/slide-swap" />
+
+<ComponentSource name="slide-swap" title="components/ui/slide-swap.tsx" />
+
+## 组件作用
+
+`SlideSwap` 与逐字符动画不同，它把文字、图标或其他组合内容作为完整的一层进行交换。默认在鼠标浮入时让当前层向上离开，并让副本从下方进入，适合导航链接、按钮标签和目录入口。
+
+## 组件属性
+
+<PropsTable name="slide-swap" />
+
+## 使用建议
+
+组件只负责视觉内容，实际链接或按钮语义应放在外层。通过 `direction="down"` 可以反转方向，也可以传入 `active` 由外部状态控制交换。

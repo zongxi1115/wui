@@ -16,7 +16,7 @@
   ],
   "install": {
     "wui": "npx wui@latest add @wui/text-scramble",
-    "shadcn": "npx shadcn@latest add http://localhost:3000/r/text-scramble.json",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/text-scramble.json",
     "npmDependencies": [
       "motion"
     ],
@@ -92,6 +92,6 @@
   "files": [
     "registry/ui/text-scramble.tsx"
   ],
-  "docsUrl": "http://localhost:3000/docs/components/text-scramble",
-  "sourceUrl": "http://localhost:3000/r/text-scramble.json"
+  "docsUrl": "https://ui.wzx.wang/docs/components/text-scramble",
+  "sourceUrl": "https://ui.wzx.wang/r/text-scramble.json"
 }

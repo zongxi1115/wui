@@ -1,0 +1,74 @@
+{
+  "name": "slide-swap",
+  "type": "registry:ui",
+  "title": "内容滑动交换 Slide Swap",
+  "description": "整块内容从上方移出，同时由下方滑入相同内容。",
+  "categories": [
+    "motion"
+  ],
+  "import": "import { SlideSwap } from \"@/components/ui/slide-swap\"",
+  "exports": [
+    "SlideSwap"
+  ],
+  "typeExports": [
+    "SlideSwapProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/slide-swap",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/slide-swap.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": true,
+      "control": "text",
+      "description": "Content duplicated for the outgoing and incoming layers."
+    },
+    {
+      "name": "direction",
+      "type": "\"up\" | \"down\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "up",
+        "down"
+      ],
+      "defaultValue": "up",
+      "description": "Direction the visible layer leaves."
+    },
+    {
+      "name": "active",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "Force the swapped state from outside the component."
+    },
+    {
+      "name": "transition",
+      "type": "Transition",
+      "required": false,
+      "control": "text",
+      "defaultValue": "{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }",
+      "description": "Transition shared by both content layers."
+    }
+  ],
+  "usage": "`SlideSwap` 与逐字符动画不同，它把文字、图标或其他组合内容作为完整的一层进行交换。默认在鼠标浮入时让当前层向上离开，并让副本从下方进入，适合导航链接、按钮标签和目录入口。",
+  "examples": [
+    {
+      "name": "slide-swap-demo",
+      "title": "基础示例"
+    }
+  ],
+  "files": [
+    "registry/ui/slide-swap.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/slide-swap",
+  "sourceUrl": "https://ui.wzx.wang/r/slide-swap.json"
+}

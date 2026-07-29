@@ -1,0 +1,79 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ui.wzx.wang/schema.json",
+  "title": "wui.json",
+  "description": "Configuration for the wui CLI — where components land and which registries to pull them from.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "format": "uri"
+    },
+    "style": {
+      "type": "string",
+      "default": "default",
+      "description": "The component style variant to pull."
+    },
+    "rsc": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether the project uses React Server Components."
+    },
+    "tsx": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether components are written as .tsx (false emits .jsx)."
+    },
+    "tailwind": {
+      "type": "object",
+      "description": "Tailwind CSS integration.",
+      "properties": {
+        "css": {
+          "type": "string",
+          "default": "app/globals.css",
+          "description": "Path to the stylesheet that registry CSS variables are merged into."
+        },
+        "baseColor": {
+          "type": "string",
+          "default": "neutral",
+          "description": "Base color ramp used to generate theme tokens."
+        },
+        "cssVariables": {
+          "type": "boolean",
+          "default": true,
+          "description": "Theme via CSS variables rather than hard-coded utility classes."
+        }
+      },
+      "additionalProperties": false
+    },
+    "aliases": {
+      "type": "object",
+      "description": "Import aliases that determine where each kind of file is written. Resolved against the `@/*` path in tsconfig.json, falling back to src/ then the project root.",
+      "properties": {
+        "components": { "type": "string", "default": "@/components" },
+        "ui": { "type": "string", "default": "@/components/ui" },
+        "lib": { "type": "string", "default": "@/lib" },
+        "hooks": { "type": "string", "default": "@/hooks" },
+        "utils": { "type": "string", "default": "@/lib/utils" }
+      },
+      "additionalProperties": false
+    },
+    "registries": {
+      "type": "object",
+      "description": "Namespace -> URL template. `{name}` is replaced with the component name, so `@wui/button` resolves against the `@wui` entry.",
+      "propertyNames": {
+        "pattern": "^@[a-z0-9-~][a-z0-9-._~]*$"
+      },
+      "additionalProperties": {
+        "type": "string",
+        "format": "uri"
+      },
+      "examples": [
+        {
+          "@wui": "https://ui.wzx.wang/r/{name}.json"
+        }
+      ]
+    }
+  },
+  "additionalProperties": false
+}

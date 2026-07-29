@@ -13,7 +13,7 @@
   ],
   "install": {
     "wui": "npx wui@latest add @wui/cascader",
-    "shadcn": "npx shadcn@latest add http://localhost:3000/r/cascader.json",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/cascader.json",
     "npmDependencies": [
       "radix-ui",
       "lucide-react",
@@ -106,7 +106,7 @@
       "control": "boolean"
     }
   ],
-  "events": "- `onValueChange(value, options)` 会在任一级发生变化后触发，并返回稳定值路径与已解析的选项对象。\n- `onOpenChange` 由组件内部的触发器管理；默认选中叶子节点后关闭面板。\n- 标准按钮的聚焦和键盘激活事件会透传给触发器。",
+  "events": "- `onValueChange(value, options)` 会在任一级发生变化后触发，并返回稳定值路径与已解析的选项对象。\r\n- `onOpenChange` 由组件内部的触发器管理；默认选中叶子节点后关闭面板。\r\n- 标准按钮的聚焦和键盘激活事件会透传给触发器。",
   "examples": [
     {
       "name": "cascader-demo",
@@ -116,6 +116,6 @@
   "files": [
     "registry/ui/cascader.tsx"
   ],
-  "docsUrl": "http://localhost:3000/docs/components/cascader",
-  "sourceUrl": "http://localhost:3000/r/cascader.json"
+  "docsUrl": "https://ui.wzx.wang/docs/components/cascader",
+  "sourceUrl": "https://ui.wzx.wang/r/cascader.json"
 }

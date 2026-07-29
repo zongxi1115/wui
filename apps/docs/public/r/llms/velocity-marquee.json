@@ -1,0 +1,102 @@
+{
+  "name": "velocity-marquee",
+  "type": "registry:ui",
+  "title": "滚动速度跑马灯 Velocity Marquee",
+  "description": "跑马灯根据滚动速度加速，并随滚动方向反转。",
+  "categories": [
+    "scroll",
+    "motion"
+  ],
+  "import": "import { VelocityMarquee } from \"@/components/ui/velocity-marquee\"",
+  "exports": [
+    "VelocityMarquee"
+  ],
+  "typeExports": [
+    "VelocityMarqueeProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/velocity-marquee",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/velocity-marquee.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": true,
+      "control": "text",
+      "description": "Items repeated across the seamless track."
+    },
+    {
+      "name": "baseSpeed",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "36",
+      "description": "Idle track speed in pixels per second."
+    },
+    {
+      "name": "sensitivity",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0.08",
+      "description": "Added speed for each pixel per second of scroll velocity."
+    },
+    {
+      "name": "maxBoost",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "180",
+      "description": "Maximum velocity-driven speed boost in pixels per second."
+    },
+    {
+      "name": "gap",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "32",
+      "description": "Gap between repeated groups in pixels."
+    },
+    {
+      "name": "reverse",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "Invert the base and scroll-driven direction."
+    },
+    {
+      "name": "container",
+      "type": "RefObject<HTMLElement | null>",
+      "required": false,
+      "control": "text",
+      "description": "Scrollable element to observe instead of the page."
+    },
+    {
+      "name": "groupClassName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "Classes applied to each repeated group."
+    }
+  ],
+  "usage": "`VelocityMarquee` 保留持续的基础速度，同时读取页面或指定容器的滚动速度来增加推进量和改变方向。内部只渲染两个无缝组，第二组从辅助技术中隐藏。",
+  "examples": [
+    {
+      "name": "velocity-marquee-demo",
+      "title": "基础示例"
+    }
+  ],
+  "files": [
+    "registry/ui/velocity-marquee.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/velocity-marquee",
+  "sourceUrl": "https://ui.wzx.wang/r/velocity-marquee.json"
+}

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "badge",
+  "type": "registry:ui",
+  "title": "Badge",
+  "description": "A compact label for status, category, or short metadata.",
+  "dependencies": [
+    "radix-ui",
+    "class-variance-authority"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/badge.tsx",
+      "type": "registry:ui",
+      "content": "import * as React from \"react\"\nimport { Slot } from \"radix-ui\"\nimport { cva } from \"class-variance-authority\"\n\nimport { cn } from \"@/registry/lib/utils\"\n\nconst badgeVariants = cva(\n  \"inline-flex w-fit shrink-0 items-center justify-center gap-1 whitespace-nowrap rounded-full border px-2 py-0.5 text-xs font-medium leading-none transition-colors [&_svg]:pointer-events-none [&_svg]:size-3 [&_svg]:shrink-0\",\n  {\n    variants: {\n      variant: {\n        default: \"border-transparent bg-primary text-primary-foreground\",\n        secondary:\n          \"border-transparent bg-secondary text-secondary-foreground\",\n        outline: \"border-border bg-background text-foreground\",\n        destructive:\n          \"border-transparent bg-destructive text-destructive-foreground\",\n        success: \"border-transparent bg-success text-success-foreground\",\n        warning: \"border-transparent bg-warning text-warning-foreground\",\n        info: \"border-transparent bg-info text-info-foreground\",\n      },\n      size: {\n        sm: \"min-h-4 px-1.5 text-[10px]\",\n        default: \"min-h-5\",\n        lg: \"min-h-6 px-2.5 text-sm\",\n      },\n    },\n    defaultVariants: {\n      variant: \"default\",\n      size: \"default\",\n    },\n  }\n)\n\nexport interface BadgeProps extends React.ComponentProps<\"span\"> {\n  /** Visual treatment of the badge. @default \"default\" */\n  variant?:\n    | \"default\"\n    | \"secondary\"\n    | \"outline\"\n    | \"destructive\"\n    | \"success\"\n    | \"warning\"\n    | \"info\"\n  /** Height and horizontal padding preset. @default \"default\" */\n  size?: \"sm\" | \"default\" | \"lg\"\n  /** Render as the single child element via Radix Slot. @default false */\n  asChild?: boolean\n}\n\n/** A compact label for status, category, or short metadata. */\nfunction Badge({\n  className,\n  variant = \"default\",\n  size = \"default\",\n  asChild = false,\n  ...props\n}: BadgeProps) {\n  const Comp = asChild ? Slot.Root : \"span\"\n\n  return (\n    <Comp\n      data-slot=\"badge\"\n      data-variant={variant}\n      data-size={size}\n      className={cn(badgeVariants({ variant, size }), className)}\n      {...props}\n    />\n  )\n}\n\nexport { Badge, badgeVariants }\n"
+    }
+  ]
+}

@@ -4,70 +4,96 @@
 
 ## 组件
 
-- [AI 输入框 AI Prompt](http://localhost:3000/docs/components/ai-prompt): 支持提及、模型选择、附件、引用和可选能力的组合式 AI 输入框。
-- [AI 对话 AI Chat](http://localhost:3000/docs/components/ai-chat): 可组合的 AI 消息、滚动容器与提示输入框。
-- [AI 对话时间线 AI Conversation Timeline](http://localhost:3000/docs/components/ai-conversation-timeline): 用紧凑刻度浏览长对话，悬停预览并快速定位到指定轮次。
-- [AI 工具调用 AI Tool](http://localhost:3000/docs/components/ai-tool): 展示 AI 工具的执行状态、参数、结果与错误。
-- [AI 任务清单 AI Todo](http://localhost:3000/docs/components/ai-todo): 展示 Agent 计划、执行进度与任务说明。
-- [AI 流式文本 AI Stream](http://localhost:3000/docs/components/ai-stream): 可用于普通回答与思考过程的通用流式文本动效。
-- [AI 推理过程 AI Reasoning](http://localhost:3000/docs/components/ai-reasoning): 流式展示模型返回的 reasoning 文本，并在生成期间自动展开。
-- [头像 Avatar](http://localhost:3000/docs/components/avatar): 带图片回退、在线状态和头像组的通用身份组件。
-- [气泡 Bubble](http://localhost:3000/docs/components/bubble): 可组合头像、署名、正文、时间与操作区的通用消息气泡。
-- [cn utility](http://localhost:3000/docs/components/utils): Tailwind class merge helper used by every component.
-- [按钮 Button](http://localhost:3000/docs/components/button): 显示一个按钮，或显示一个外观类似按钮的组件。
-- [对话框 Dialog](http://localhost:3000/docs/components/dialog): 基于 Radix UI 构建、覆盖在主窗口之上的浮层窗口。
-- [形变对话框 Morphing Dialog](http://localhost:3000/docs/components/morphing-dialog): 从触发元素平滑变形成聚焦内容的模态对话框。
-- [形变弹出框 Morphing Popover](http://localhost:3000/docs/components/morphing-popover): 从触发器原位展开成轻量交互面板的弹出层。
-- [渐进模糊 Progressive Blur](http://localhost:3000/docs/components/progressive-blur): 使用多层渐变遮罩构建方向可控的渐进式背景模糊。
-- [水印 Watermark](http://localhost:3000/docs/components/watermark): 在内容区域上方添加重复的文字水印。
-- [确认对话框 Confirm Dialog](http://localhost:3000/docs/components/confirm-dialog): 由 Dialog 和 Button 组合而成的开箱即用确认对话框。
-- [动效 Motion](http://localhost:3000/docs/components/motion): 基于 motion 构建的可选动画基础组件和预设库。
-- [图标 Icon](http://localhost:3000/docs/components/icon): 基于 Lucide 的可搜索图标集合与无障碍渲染组件。
-- [动态图标 Animated Icon](http://localhost:3000/docs/components/animated-icon): 图标内部路径会随交互运动的 Lucide 动态图标集合。
-- [Animated Icon Collection](http://localhost:3000/docs/components/animated-icon-collection): The complete deduplicated AnimateIcons and ItsHover path-animated icon collection.
-- [闪光按钮 Shiny Button](http://localhost:3000/docs/components/shiny-button): 带有流动扫光效果的填充按钮。
-- [开关 Switch](http://localhost:3000/docs/components/switch): 带弹簧滑块与完整无障碍语义的二元状态控件。
-- [进度条 Progress](http://localhost:3000/docs/components/progress): 细腻、克制并支持确定与不确定状态的进度指示器。
-- [滑动输入 Slider](http://localhost:3000/docs/components/slider): 悬浮时展开轨道、数值标签实时跟随的可调输入控件。
-- [颜色选择器 Color Picker](http://localhost:3000/docs/components/color-picker): 面向设计 Token 的 OKLCH 颜色选择器，支持感知色彩通道、透明度和精确 CSS 值。
-- [单选框 Radio Group](http://localhost:3000/docs/components/radio-group): 用于互斥选项的轻量单选控件组。
-- [多选框 Checkbox](http://localhost:3000/docs/components/checkbox): 支持选中、未选中与不确定状态的多选控件。
-- [下拉框 Select](http://localhost:3000/docs/components/select): 带景深入场、分组与键盘导航的选项选择器。
-- [Cascader](http://localhost:3000/docs/components/cascader): 用于浏览和选择层级值的多列选择器。
-- [Form](http://localhost:3000/docs/components/form): 可组合的表单字段，协调标签、校验提示与动效反馈。
-- [标签栏 Tabs](http://localhost:3000/docs/components/tabs): 使用共享布局动效平滑切换内容分区。
-- [导航栏 Navbar](http://localhost:3000/docs/components/navbar): 适用于页面顶部与应用左侧的可组合导航栏。
-- [折叠面板 Collapsible](http://localhost:3000/docs/components/collapsible): 按需展开一段补充内容，并保留清晰的状态与键盘交互。
-- [输入框 Input](http://localhost:3000/docs/components/input): 支持前后内容、浮动标签、下划线和错误态的输入框。
-- [下载 Download](http://localhost:3000/docs/components/download): 同时表达文件信息、下载进度与完成反馈的下载操作组件。
-- [上传 Upload](http://localhost:3000/docs/components/upload): 支持点击选择、拖拽放置与上传状态反馈的文件上传组件。
-- [键盘提示 Kbd](http://localhost:3000/docs/components/kbd): 用紧凑、克制的按键样式展示快捷键与键盘操作。
-- [文字提示 Tooltip](http://localhost:3000/docs/components/tooltip): 在悬停或键盘聚焦时，为控件补充简短的上下文说明。
-- [图片预览 Image Preview](http://localhost:3000/docs/components/image-preview): 点击缩略图进入沉浸式大图预览，并提供缩放、旋转与下载操作。
-- [骨架屏 Skeleton](http://localhost:3000/docs/components/skeleton): 在内容加载期间维持页面结构，降低布局跳动与等待的不确定感。
-- [消息 Message](http://localhost:3000/docs/components/message): 用于传达成功、提示、警告和错误状态的轻量反馈消息。
-- [进入视口 In View](http://localhost:3000/docs/components/in-view): 当内容进入视口时播放可配置的入场动画。
-- [无限滑动 Infinite Slider](http://localhost:3000/docs/components/infinite-slider): 平滑循环内容的水平或垂直滑动轨道。
-- [自定义光标 Cursor](http://localhost:3000/docs/components/cursor): 可全局使用或附着到局部区域的弹簧跟随光标。
-- [文本入场 Text Effect](http://localhost:3000/docs/components/text-effect): 按行、单词或字符拆分并播放文本入场效果。
-- [文本循环 Text Loop](http://localhost:3000/docs/components/text-loop): 在多段文本或行内内容之间自动循环切换。
-- [文本变形 Text Morph](http://localhost:3000/docs/components/text-morph): 在文字变化时让共享字符流畅地移动到新位置。
-- [文本翻滚 Text Roll](http://localhost:3000/docs/components/text-roll): 悬停或挂载时逐字符翻滚的文字效果。
-- [文本扰码 Text Scramble](http://localhost:3000/docs/components/text-scramble): 随机字符逐步解析为目标文本的扰码效果。
-- [文本扫光 Text Shimmer](http://localhost:3000/docs/components/text-shimmer): 在文字表面循环扫过的主题感知高光。
-- [文本波光 Text Shimmer Wave](http://localhost:3000/docs/components/text-shimmer-wave): 逐字符传播的立体位移与高光波浪。
-- [滑动数字 Sliding Number](http://localhost:3000/docs/components/sliding-number): 用独立数字轮平滑过渡数值变化。
-- [表格 Table](http://localhost:3000/docs/components/table): 用原生表格语义组织和比较结构化数据。
-- [日历 Calendar](http://localhost:3000/docs/components/calendar): 用可访问的月视图浏览并选择单个日期。
-- [日期选择器 Date Picker](http://localhost:3000/docs/components/date-picker): 在紧凑弹层中选择、格式化和清除日期。
-- [时间选择器 Time Picker](http://localhost:3000/docs/components/time-picker): 用小时、分钟与时制分栏快速设定时间。
-- [看板 Kanban](http://localhost:3000/docs/components/kanban): 用可组合列和原生拖放组织任务流转。
-- [时间轴 Timeline](http://localhost:3000/docs/components/timeline): 以清晰的时间顺序展示事件、状态与说明。
-- [空状态 Empty State](http://localhost:3000/docs/components/empty-state): 在没有数据或结果时解释现状并引导下一步。
-- [加载中 Spin](http://localhost:3000/docs/components/spin): 用轻量、可降级的动态指示器表达等待状态。
-- [抽屉 Drawer](http://localhost:3000/docs/components/drawer): 从视口边缘平滑进入、用于承载补充任务的焦点面板。
-- [描述列表 Descriptions](http://localhost:3000/docs/components/descriptions): 以清晰的键值结构展示对象、记录与档案信息。
-- [卡片 Card](http://localhost:3000/docs/components/card): 将同一主题的内容、状态与操作组织在一个清晰的表面中。
+- [AI 输入框 AI Prompt](https://ui.wzx.wang/docs/components/ai-prompt): 支持提及、模型选择、附件、引用和可选能力的组合式 AI 输入框。
+- [AI 对话 AI Chat](https://ui.wzx.wang/docs/components/ai-chat): 可组合的 AI 消息、滚动容器与提示输入框。
+- [AI 对话时间线 AI Conversation Timeline](https://ui.wzx.wang/docs/components/ai-conversation-timeline): 用紧凑刻度浏览长对话，悬停预览并快速定位到指定轮次。
+- [AI 工具调用 AI Tool](https://ui.wzx.wang/docs/components/ai-tool): 展示 AI 工具的执行状态、参数、结果与错误。
+- [AI 任务清单 AI Todo](https://ui.wzx.wang/docs/components/ai-todo): 展示 Agent 计划、执行进度与任务说明。
+- [AI 流式文本 AI Stream](https://ui.wzx.wang/docs/components/ai-stream): 可用于普通回答与思考过程的通用流式文本动效。
+- [AI 推理过程 AI Reasoning](https://ui.wzx.wang/docs/components/ai-reasoning): 流式展示模型返回的 reasoning 文本，并在生成期间自动展开。
+- [头像 Avatar](https://ui.wzx.wang/docs/components/avatar): 带图片回退、在线状态和头像组的通用身份组件。
+- [徽章 Badge](https://ui.wzx.wang/docs/components/badge): 用紧凑的标签展示状态、分类或简短元数据。
+- [气泡 Bubble](https://ui.wzx.wang/docs/components/bubble): 可组合头像、署名、正文、时间与操作区的通用消息气泡。
+- [cn utility](https://ui.wzx.wang/docs/components/utils): Tailwind class merge helper used by every component.
+- [按钮 Button](https://ui.wzx.wang/docs/components/button): 显示一个按钮，或显示一个外观类似按钮的组件。
+- [对话框 Dialog](https://ui.wzx.wang/docs/components/dialog): 基于 Radix UI 构建、覆盖在主窗口之上的浮层窗口。
+- [形变对话框 Morphing Dialog](https://ui.wzx.wang/docs/components/morphing-dialog): 从触发元素平滑变形成聚焦内容的模态对话框。
+- [形变弹出框 Morphing Popover](https://ui.wzx.wang/docs/components/morphing-popover): 从触发器原位展开成轻量交互面板的弹出层。
+- [渐进模糊 Progressive Blur](https://ui.wzx.wang/docs/components/progressive-blur): 使用多层渐变遮罩构建方向可控的渐进式背景模糊。
+- [水印 Watermark](https://ui.wzx.wang/docs/components/watermark): 在内容区域上方添加重复的文字或图片水印。
+- [确认对话框 Confirm Dialog](https://ui.wzx.wang/docs/components/confirm-dialog): 由 Dialog 和 Button 组合而成的开箱即用确认对话框。
+- [动效 Motion](https://ui.wzx.wang/docs/components/motion): 基于 motion 构建的可选动画基础组件和预设库。
+- [图标 Icon](https://ui.wzx.wang/docs/components/icon): 基于 Lucide 的可搜索图标集合与无障碍渲染组件。
+- [动态图标 Animated Icon](https://ui.wzx.wang/docs/components/animated-icon): 图标内部路径会随交互运动的 Lucide 动态图标集合。
+- [Animated Icon Collection](https://ui.wzx.wang/docs/components/animated-icon-collection): The complete deduplicated AnimateIcons and ItsHover path-animated icon collection.
+- [闪光按钮 Shiny Button](https://ui.wzx.wang/docs/components/shiny-button): 带有流动扫光效果的填充按钮。
+- [开关 Switch](https://ui.wzx.wang/docs/components/switch): 带弹簧滑块与完整无障碍语义的二元状态控件。
+- [进度条 Progress](https://ui.wzx.wang/docs/components/progress): 细腻、克制并支持确定与不确定状态的进度指示器。
+- [滑动输入 Slider](https://ui.wzx.wang/docs/components/slider): 悬浮时展开轨道、数值标签实时跟随的可调输入控件。
+- [颜色选择器 Color Picker](https://ui.wzx.wang/docs/components/color-picker): 面向设计 Token 的 OKLCH 颜色选择器，支持感知色彩通道、透明度和精确 CSS 值。
+- [单选框 Radio Group](https://ui.wzx.wang/docs/components/radio-group): 用于互斥选项的轻量单选控件组。
+- [多选框 Checkbox](https://ui.wzx.wang/docs/components/checkbox): 支持选中、未选中与不确定状态的多选控件。
+- [下拉框 Select](https://ui.wzx.wang/docs/components/select): 带景深入场、分组与键盘导航的选项选择器。
+- [Cascader](https://ui.wzx.wang/docs/components/cascader): 用于浏览和选择层级值的多列选择器。
+- [Form](https://ui.wzx.wang/docs/components/form): 可组合的表单字段，协调标签、校验提示与动效反馈。
+- [标签栏 Tabs](https://ui.wzx.wang/docs/components/tabs): 使用共享布局动效平滑切换内容分区。
+- [导航栏 Navbar](https://ui.wzx.wang/docs/components/navbar): 适用于页面顶部与应用左侧的可组合导航栏。
+- [折叠面板 Collapsible](https://ui.wzx.wang/docs/components/collapsible): 按需展开一段补充内容，并保留清晰的状态与键盘交互。
+- [输入框 Input](https://ui.wzx.wang/docs/components/input): 支持前后内容、浮动标签、下划线和错误态的输入框。
+- [下载 Download](https://ui.wzx.wang/docs/components/download): 同时表达文件信息、下载进度与完成反馈的下载操作组件。
+- [上传 Upload](https://ui.wzx.wang/docs/components/upload): 支持点击选择、拖拽放置与上传状态反馈的文件上传组件。
+- [键盘提示 Kbd](https://ui.wzx.wang/docs/components/kbd): 用紧凑、克制的按键样式展示快捷键与键盘操作。
+- [文字提示 Tooltip](https://ui.wzx.wang/docs/components/tooltip): 在悬停或键盘聚焦时，为控件补充简短的上下文说明。
+- [图片预览 Image Preview](https://ui.wzx.wang/docs/components/image-preview): 点击缩略图进入沉浸式大图预览，并提供缩放、旋转与下载操作。
+- [视频播放器 Video Player](https://ui.wzx.wang/docs/components/video-player): 由可自由组合的小组件构成，支持播放、进度、音量、快捷键和全屏的视频播放器。
+- [骨架屏 Skeleton](https://ui.wzx.wang/docs/components/skeleton): 在内容加载期间维持页面结构，降低布局跳动与等待的不确定感。
+- [警告提示 Alert](https://ui.wzx.wang/docs/components/alert): 用于展示需要保留在页面中的状态、说明和操作建议。
+- [消息 Message](https://ui.wzx.wang/docs/components/message): 用于在操作后提供短暂、轻量的全局反馈。
+- [进入视口 In View](https://ui.wzx.wang/docs/components/in-view): 当内容进入视口时播放可配置的入场动画。
+- [滚动进度 Scroll Progress](https://ui.wzx.wang/docs/components/scroll-progress): 用顶部进度条或环形指示器显示页面、容器或区块的阅读进度。
+- [平滑滚动 Smooth Scroll](https://ui.wzx.wang/docs/components/smooth-scroll): 用 Lenis 为页面或自定义容器提供惯性平滑滚动基座。
+- [视差 Parallax](https://ui.wzx.wang/docs/components/parallax): 让内容层在经过视口时以不同速度平移或缩放。
+- [滚动文字 Scroll Text](https://ui.wzx.wang/docs/components/scroll-text): 让段落随滚动逐词变亮，或按行从遮罩中揭示。
+- [粘性卡片堆叠 Sticky Stack](https://ui.wzx.wang/docs/components/sticky-stack): 让卡片依次钉住、缩放，并被后续内容覆盖。
+- [横向滚动区块 Horizontal Scroll](https://ui.wzx.wang/docs/components/horizontal-scroll): 将垂直滚动距离映射为钉住内容轨道的水平移动。
+- [滚动速度跑马灯 Velocity Marquee](https://ui.wzx.wang/docs/components/velocity-marquee): 跑马灯根据滚动速度加速，并随滚动方向反转。
+- [滚动扩展 Scroll Expand](https://ui.wzx.wang/docs/components/scroll-expand): 将图片、视频或首屏从小画框滚动扩展到满屏，也可反向收拢。
+- [滚动分步 Scroll Sequence](https://ui.wzx.wang/docs/components/scroll-sequence): 固定区块并用滚动进度逐步切换内部内容。
+- [滚动吸附 Scroll Snap](https://ui.wzx.wang/docs/components/scroll-snap): 用原生 CSS Scroll Snap 构建整屏或横向吸附章节。
+- [无限滑动 Infinite Slider](https://ui.wzx.wang/docs/components/infinite-slider): 平滑循环内容的水平或垂直滑动轨道。
+- [自定义光标 Cursor](https://ui.wzx.wang/docs/components/cursor): 可全局使用或附着到局部区域的弹簧跟随光标。
+- [鼠标跟随 Magnetic](https://ui.wzx.wang/docs/components/magnetic): 让内容轻微跟随指针位移，并在离开时自然回弹。
+- [渐变环绕发光 Glow](https://ui.wzx.wang/docs/components/glow): 让多色渐变光线沿内容四周持续环绕，并提供单色发光变体。
+- [动态标注 Annotation](https://ui.wzx.wang/docs/components/annotation): 用路径箭头、荧光笔和自定义手绘轨迹强调页面内容。
+- [内容滑动交换 Slide Swap](https://ui.wzx.wang/docs/components/slide-swap): 整块内容从上方移出，同时由下方滑入相同内容。
+- [浮入滚动目录 Hover Marquee](https://ui.wzx.wang/docs/components/hover-marquee): 目录行浮入或聚焦后，显示无缝横向滚动的内容预览。
+- [聚光卡片 Spotlight Card](https://ui.wzx.wang/docs/components/spotlight-card): 根据鼠标位置在内容表面显露一层局部光照。
+- [透视倾斜 Tilt Card](https://ui.wzx.wang/docs/components/tilt-card): 卡片随指针产生克制的 3D 透视倾斜并弹性回正。
+- [图像轨迹 Image Trail](https://ui.wzx.wang/docs/components/image-trail): 鼠标移动时沿路径依次甩出短暂的图片或视觉片段。
+- [悬停预览 Hover Preview](https://ui.wzx.wang/docs/components/hover-preview): 列表项浮入或聚焦时显示跟随指针的作品预览。
+- [极光背景 Aurora Background](https://ui.wzx.wang/docs/components/aurora-background): 用缓慢移动的模糊色场构建低频氛围背景。
+- [颗粒遮罩 Grain Overlay](https://ui.wzx.wang/docs/components/grain-overlay): 用可缩放 SVG 噪声为任意表面增加克制的胶片颗粒质感。
+- [聚光网格 Spotlight Grid](https://ui.wzx.wang/docs/components/spotlight-grid): 用鼠标聚光显露网格或点阵背景的局部结构。
+- [文本入场 Text Effect](https://ui.wzx.wang/docs/components/text-effect): 按行、单词或字符拆分并播放文本入场效果。
+- [文本循环 Text Loop](https://ui.wzx.wang/docs/components/text-loop): 在多段文本或行内内容之间自动循环切换。
+- [文本变形 Text Morph](https://ui.wzx.wang/docs/components/text-morph): 在文字变化时让共享字符流畅地移动到新位置。
+- [文本翻滚 Text Roll](https://ui.wzx.wang/docs/components/text-roll): 悬停或挂载时逐字符翻滚的文字效果。
+- [文本扰码 Text Scramble](https://ui.wzx.wang/docs/components/text-scramble): 随机字符逐步解析为目标文本的扰码效果。
+- [文本扫光 Text Shimmer](https://ui.wzx.wang/docs/components/text-shimmer): 在文字表面循环扫过的主题感知高光。
+- [文本波光 Text Shimmer Wave](https://ui.wzx.wang/docs/components/text-shimmer-wave): 逐字符传播的立体位移与高光波浪。
+- [滑动数字 Sliding Number](https://ui.wzx.wang/docs/components/sliding-number): 用独立数字轮平滑过渡数值变化。
+- [表格 Table](https://ui.wzx.wang/docs/components/table): 用原生表格语义组织和比较结构化数据。
+- [日历 Calendar](https://ui.wzx.wang/docs/components/calendar): 用可访问的月视图浏览并选择单个日期。
+- [日期选择器 Date Picker](https://ui.wzx.wang/docs/components/date-picker): 在紧凑弹层中选择、格式化和清除日期。
+- [时间选择器 Time Picker](https://ui.wzx.wang/docs/components/time-picker): 用小时、分钟与时制分栏快速设定时间。
+- [看板 Kanban](https://ui.wzx.wang/docs/components/kanban): 用可组合列和原生拖放组织任务流转。
+- [时间轴 Timeline](https://ui.wzx.wang/docs/components/timeline): 以清晰的时间顺序展示事件、状态与说明。
+- [空状态 Empty State](https://ui.wzx.wang/docs/components/empty-state): 在没有数据或结果时解释现状并引导下一步。
+- [加载中 Spin](https://ui.wzx.wang/docs/components/spin): 用轻量、可降级的动态指示器表达等待状态。
+- [消息提示 Notification Badge](https://ui.wzx.wang/docs/components/notification-badge): 在图标、头像或控件边缘展示未读数量与提示红点。
+- [抽屉 Drawer](https://ui.wzx.wang/docs/components/drawer): 从视口边缘平滑进入、用于承载补充任务的焦点面板。
+- [描述列表 Descriptions](https://ui.wzx.wang/docs/components/descriptions): 以清晰的键值结构展示对象、记录与档案信息。
+- [卡片 Card](https://ui.wzx.wang/docs/components/card): 将同一主题的内容、状态与操作组织在一个清晰的表面中。
 
 ## 说明
 

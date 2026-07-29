@@ -22,7 +22,7 @@
   ],
   "install": {
     "wui": "npx wui@latest add @wui/morphing-popover",
-    "shadcn": "npx shadcn@latest add http://localhost:3000/r/morphing-popover.json",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/morphing-popover.json",
     "npmDependencies": [
       "radix-ui",
       "motion"
@@ -82,6 +82,6 @@
   "files": [
     "registry/ui/morphing-popover.tsx"
   ],
-  "docsUrl": "http://localhost:3000/docs/components/morphing-popover",
-  "sourceUrl": "http://localhost:3000/r/morphing-popover.json"
+  "docsUrl": "https://ui.wzx.wang/docs/components/morphing-popover",
+  "sourceUrl": "https://ui.wzx.wang/r/morphing-popover.json"
 }

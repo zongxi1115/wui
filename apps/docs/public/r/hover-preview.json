@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "hover-preview",
+  "type": "registry:ui",
+  "title": "Hover Preview",
+  "description": "Displays a spring-following visual preview for a hovered or focused row.",
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/hover-preview.tsx",
+      "type": "registry:ui",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport {\n  AnimatePresence,\n  motion,\n  useMotionValue,\n  useReducedMotion,\n  useSpring,\n  type HTMLMotionProps,\n} from \"motion/react\"\n\nimport { cn } from \"@/registry/lib/utils\"\n\nexport interface HoverPreviewProps extends Omit<\n  HTMLMotionProps<\"div\">,\n  \"children\"\n> {\n  /** Interactive row, link, or control that activates the preview. */\n  children: React.ReactNode\n  /** Visual content displayed beside the pointer. */\n  preview: React.ReactNode\n  /** Horizontal pointer offset in pixels. @default 24 */\n  offsetX?: number\n  /** Vertical pointer offset in pixels. @default 20 */\n  offsetY?: number\n  /** Controlled visibility. */\n  open?: boolean\n  /** Classes applied to the floating preview. */\n  previewClassName?: string\n}\n\n/** Displays a spring-following visual preview for a hovered or focused row. */\nfunction HoverPreview({\n  children,\n  preview,\n  offsetX = 24,\n  offsetY = 20,\n  open,\n  className,\n  previewClassName,\n  onPointerEnter,\n  onPointerMove,\n  onPointerLeave,\n  onFocus,\n  onBlur,\n  ...props\n}: HoverPreviewProps) {\n  const [hovered, setHovered] = React.useState(false)\n  const [focused, setFocused] = React.useState(false)\n  const [finePointer, setFinePointer] = React.useState(false)\n  const reduceMotion = useReducedMotion()\n  const rawX = useMotionValue(0)\n  const rawY = useMotionValue(0)\n  const x = useSpring(rawX, { stiffness: 420, damping: 34, mass: 0.25 })\n  const y = useSpring(rawY, { stiffness: 420, damping: 34, mass: 0.25 })\n  const visible = open ?? ((hovered && finePointer) || focused)\n\n  React.useEffect(() => {\n    const media = window.matchMedia(\"(pointer: fine)\")\n    const update = () => setFinePointer(media.matches)\n    update()\n    media.addEventListener(\"change\", update)\n    return () => media.removeEventListener(\"change\", update)\n  }, [])\n\n  function setPosition(clientX: number, clientY: number) {\n    rawX.set(clientX + offsetX)\n    rawY.set(clientY + offsetY)\n  }\n\n  return (\n    <motion.div\n      data-slot=\"hover-preview\"\n      className={cn(\"relative\", className)}\n      onPointerEnter={(event) => {\n        if (event.pointerType !== \"touch\") {\n          setHovered(true)\n          setPosition(event.clientX, event.clientY)\n        }\n        onPointerEnter?.(event)\n      }}\n      onPointerMove={(event) => {\n        if (event.pointerType !== \"touch\")\n          setPosition(event.clientX, event.clientY)\n        onPointerMove?.(event)\n      }}\n      onPointerLeave={(event) => {\n        setHovered(false)\n        onPointerLeave?.(event)\n      }}\n      onFocus={(event) => {\n        setFocused(true)\n        const rect = event.currentTarget.getBoundingClientRect()\n        setPosition(rect.right, rect.top + rect.height / 2)\n        onFocus?.(event)\n      }}\n      onBlur={(event) => {\n        if (!event.currentTarget.contains(event.relatedTarget))\n          setFocused(false)\n        onBlur?.(event)\n      }}\n      {...props}\n    >\n      {children}\n      <AnimatePresence>\n        {visible ? (\n          <motion.div\n            aria-hidden=\"true\"\n            data-slot=\"hover-preview-content\"\n            className={cn(\n              \"pointer-events-none fixed left-0 top-0 z-50 overflow-hidden\",\n              previewClassName\n            )}\n            style={{ x: reduceMotion ? rawX : x, y: reduceMotion ? rawY : y }}\n            initial={reduceMotion ? false : { opacity: 0, scale: 0.92 }}\n            animate={{ opacity: 1, scale: 1 }}\n            exit={{ opacity: 0, scale: 0.96 }}\n            transition={{ duration: reduceMotion ? 0 : 0.2 }}\n          >\n            {preview}\n          </motion.div>\n        ) : null}\n      </AnimatePresence>\n    </motion.div>\n  )\n}\n\nexport { HoverPreview }\n"
+    }
+  ],
+  "categories": [
+    "pointer",
+    "motion",
+    "fancy"
+  ]
+}

@@ -1,0 +1,87 @@
+{
+  "name": "image-trail",
+  "type": "registry:ui",
+  "title": "图像轨迹 Image Trail",
+  "description": "鼠标移动时沿路径依次甩出短暂的图片或视觉片段。",
+  "categories": [
+    "pointer",
+    "motion",
+    "fancy"
+  ],
+  "import": "import { ImageTrail } from \"@/components/ui/image-trail\"",
+  "exports": [
+    "ImageTrail"
+  ],
+  "typeExports": [
+    "ImageTrailProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/image-trail",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/image-trail.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "items",
+      "type": "ReactNode[]",
+      "required": true,
+      "control": "text",
+      "description": "Visual items cycled through as the pointer moves."
+    },
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "Static content rendered inside the interaction region."
+    },
+    {
+      "name": "distance",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "72",
+      "description": "Pointer distance required before adding another item, in pixels."
+    },
+    {
+      "name": "lifetime",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "720",
+      "description": "Lifetime of each trail item in milliseconds."
+    },
+    {
+      "name": "maxItems",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "8",
+      "description": "Maximum number of trail items rendered at once."
+    },
+    {
+      "name": "itemClassName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "Classes applied to every positioned trail item."
+    }
+  ],
+  "usage": "`ImageTrail` 按指针移动距离采样位置，并循环使用 `items` 中的视觉内容形成短暂轨迹。组件限制同时存在的项目数，并在离场后清理节点，适合作品首屏、专题页和强视觉索引。",
+  "examples": [
+    {
+      "name": "image-trail-demo",
+      "title": "基础示例"
+    }
+  ],
+  "files": [
+    "registry/ui/image-trail.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/image-trail",
+  "sourceUrl": "https://ui.wzx.wang/r/image-trail.json"
+}

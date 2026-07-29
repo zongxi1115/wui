@@ -21,7 +21,7 @@
   ],
   "install": {
     "wui": "npx wui@latest add @wui/avatar",
-    "shadcn": "npx shadcn@latest add http://localhost:3000/r/avatar.json",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/avatar.json",
     "npmDependencies": [
       "radix-ui",
       "class-variance-authority"
@@ -33,14 +33,14 @@
   "props": [
     {
       "name": "size",
-      "type": "\"sm\" | \"default\" | \"xs\" | \"lg\"",
+      "type": "\"default\" | \"sm\" | \"lg\" | \"xs\"",
       "required": false,
       "control": "select",
       "options": [
-        "sm",
         "default",
-        "xs",
-        "lg"
+        "sm",
+        "lg",
+        "xs"
       ],
       "defaultValue": "default",
       "description": "Physical avatar size."
@@ -52,8 +52,8 @@
       "control": "boolean"
     }
   ],
-  "usage": "`Avatar` 用于显示用户、团队、机器人或其他可识别实体。它将图片加载、回退内容和尺寸规则统一在一个稳定的圆形容器中；不应把头像当作无语义的装饰图标使用。\n\n`AvatarBadge` 表示在线、离开、忙碌或离线状态，`AvatarGroup` 用于紧凑展示少量成员。",
-  "extended": "### 头像组\n\n头像组只显示需要被快速识别的少量成员，剩余数量使用 `AvatarGroupCount` 汇总，避免横向堆叠过长。",
+  "usage": "`Avatar` 用于显示用户、团队、机器人或其他可识别实体。它将图片加载、回退内容和尺寸规则统一在一个稳定的圆形容器中；不应把头像当作无语义的装饰图标使用。\r\n\r\n`AvatarBadge` 表示在线、离开、忙碌或离线状态，`AvatarGroup` 用于紧凑展示少量成员。",
+  "extended": "### 头像组\r\n\r\n\r\n\r\n头像组只显示需要被快速识别的少量成员，剩余数量使用 `AvatarGroupCount` 汇总，避免横向堆叠过长。",
   "events": "`AvatarImage` 透传图片的加载事件与 `ref`；`Avatar`、`AvatarFallback` 和分组部件透传对应原生元素属性。在线状态由业务层传给 `AvatarBadge status`，组件不会自行轮询用户状态。",
   "examples": [
     {
@@ -68,6 +68,6 @@
   "files": [
     "registry/ui/avatar.tsx"
   ],
-  "docsUrl": "http://localhost:3000/docs/components/avatar",
-  "sourceUrl": "http://localhost:3000/r/avatar.json"
+  "docsUrl": "https://ui.wzx.wang/docs/components/avatar",
+  "sourceUrl": "https://ui.wzx.wang/r/avatar.json"
 }

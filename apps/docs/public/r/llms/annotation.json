@@ -1,0 +1,102 @@
+{
+  "name": "annotation",
+  "type": "registry:ui",
+  "title": "动态标注 Annotation",
+  "description": "用路径箭头、荧光笔和自定义手绘轨迹强调页面内容。",
+  "categories": [
+    "fancy",
+    "motion"
+  ],
+  "import": "import { AnnotationHighlight, AnnotationPath } from \"@/components/ui/annotation\"",
+  "exports": [
+    "AnnotationHighlight",
+    "AnnotationPath"
+  ],
+  "typeExports": [
+    "AnnotationHighlightProps",
+    "AnnotationPathProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/annotation",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/annotation.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": true,
+      "control": "text",
+      "description": "Inline content placed above the marker stroke."
+    },
+    {
+      "name": "variant",
+      "type": "\"smooth\" | \"rough\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "smooth",
+        "rough"
+      ],
+      "defaultValue": "smooth",
+      "description": "Shape of the marker stroke."
+    },
+    {
+      "name": "color",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "defaultValue": "oklch(0.88 0.16 92 / 0.58)",
+      "description": "Marker color."
+    },
+    {
+      "name": "duration",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0.65",
+      "description": "Seconds used to sweep across the content."
+    },
+    {
+      "name": "delay",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0",
+      "description": "Delay before highlighting, in seconds."
+    },
+    {
+      "name": "inView",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "Start highlighting when the content enters the viewport."
+    },
+    {
+      "name": "once",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "Only highlight the first time the content enters the viewport."
+    }
+  ],
+  "usage": "`AnnotationPath` 用绘制中的 SVG 路径引导视线，默认带有弯曲箭头，也可以通过 `path`、`viewBox` 和 `arrow` 组合成圈选、下划线或任意手绘标记。`AnnotationHighlight` 把荧光笔笔触放在文字下方，支持平整的 `smooth` 和边缘不齐的 `rough` 两种样式。",
+  "examples": [
+    {
+      "name": "annotation-demo",
+      "title": "基础示例"
+    }
+  ],
+  "files": [
+    "registry/ui/annotation.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/annotation",
+  "sourceUrl": "https://ui.wzx.wang/r/annotation.json"
+}

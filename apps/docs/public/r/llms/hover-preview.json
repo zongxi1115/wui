@@ -1,0 +1,86 @@
+{
+  "name": "hover-preview",
+  "type": "registry:ui",
+  "title": "悬停预览 Hover Preview",
+  "description": "列表项浮入或聚焦时显示跟随指针的作品预览。",
+  "categories": [
+    "pointer",
+    "motion",
+    "fancy"
+  ],
+  "import": "import { HoverPreview } from \"@/components/ui/hover-preview\"",
+  "exports": [
+    "HoverPreview"
+  ],
+  "typeExports": [
+    "HoverPreviewProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/hover-preview",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/hover-preview.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": true,
+      "control": "text",
+      "description": "Interactive row, link, or control that activates the preview."
+    },
+    {
+      "name": "preview",
+      "type": "ReactNode",
+      "required": true,
+      "control": "text",
+      "description": "Visual content displayed beside the pointer."
+    },
+    {
+      "name": "offsetX",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "24",
+      "description": "Horizontal pointer offset in pixels."
+    },
+    {
+      "name": "offsetY",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "20",
+      "description": "Vertical pointer offset in pixels."
+    },
+    {
+      "name": "open",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "Controlled visibility."
+    },
+    {
+      "name": "previewClassName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "Classes applied to the floating preview."
+    }
+  ],
+  "usage": "`HoverPreview` 把任意列表行与对应的视觉预览组合，鼠标浮入时在指针旁显示弹簧跟随的浮层，键盘聚焦时则把浮层定位到当前行附近。它适合作品索引、资源目录和带图的文本导航。",
+  "examples": [
+    {
+      "name": "hover-preview-demo",
+      "title": "基础示例"
+    }
+  ],
+  "files": [
+    "registry/ui/hover-preview.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/hover-preview",
+  "sourceUrl": "https://ui.wzx.wang/r/hover-preview.json"
+}

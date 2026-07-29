@@ -34,7 +34,7 @@
   ],
   "install": {
     "wui": "npx wui@latest add @wui/ai-chat",
-    "shadcn": "npx shadcn@latest add http://localhost:3000/r/ai-chat.json",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/ai-chat.json",
     "npmDependencies": [
       "class-variance-authority",
       "lucide-react"
@@ -59,6 +59,6 @@
   "files": [
     "registry/ui/ai-chat.tsx"
   ],
-  "docsUrl": "http://localhost:3000/docs/components/ai-chat",
-  "sourceUrl": "http://localhost:3000/r/ai-chat.json"
+  "docsUrl": "https://ui.wzx.wang/docs/components/ai-chat",
+  "sourceUrl": "https://ui.wzx.wang/r/ai-chat.json"
 }

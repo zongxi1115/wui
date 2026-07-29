@@ -1,0 +1,30 @@
+---
+title: 滚动速度跑马灯 Velocity Marquee
+description: 跑马灯根据滚动速度加速，并随滚动方向反转。
+component: velocity-marquee
+---
+
+## 基础示例
+
+<ComponentPreview name="velocity-marquee-demo" />
+
+<DependencyBadges packages={["motion"]} />
+
+<CodeTabs command="wui@latest add @wui/velocity-marquee" />
+
+<ComponentSource
+  name="velocity-marquee"
+  title="components/ui/velocity-marquee.tsx"
+/>
+
+## 组件作用
+
+`VelocityMarquee` 保留持续的基础速度，同时读取页面或指定容器的滚动速度来增加推进量和改变方向。内部只渲染两个无缝组，第二组从辅助技术中隐藏。
+
+## 组件属性
+
+<PropsTable name="velocity-marquee" />
+
+## 使用建议
+
+`sensitivity` 决定滚动反馈强度，`maxBoost` 防止触控板快速滑动造成不可读的速度。斜置效果应在组件外通过小角度 `rotate` 完成。组件离开视口或用户偏好减少动态效果时会停止动画，后者回退为可横向滚动内容。

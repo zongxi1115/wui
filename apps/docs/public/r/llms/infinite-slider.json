@@ -15,7 +15,7 @@
   ],
   "install": {
     "wui": "npx wui@latest add @wui/infinite-slider",
-    "shadcn": "npx shadcn@latest add http://localhost:3000/r/infinite-slider.json",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/infinite-slider.json",
     "npmDependencies": [
       "motion"
     ],
@@ -76,7 +76,7 @@
     }
   ],
   "usage": "`InfiniteSlider` 用于品牌列表、合作伙伴、标签或轻量媒体带。它按像素速度持续移动，并复制一组内容形成无缝循环；减少动态效果时会停止并只保留一组内容。",
-  "extended": "### 垂直与反向\n\n使用纵向模式时必须给外层设置明确高度。内容应保持简短，且不要把需要键盘操作的控件放入会持续移动的轨道。",
+  "extended": "### 垂直与反向\r\n\r\n\r\n\r\n使用纵向模式时必须给外层设置明确高度。内容应保持简短，且不要把需要键盘操作的控件放入会持续移动的轨道。",
   "events": "组件透传容器的鼠标、指针与焦点事件。`speedOnHover` 用来改变悬停速度，设为 `0` 即可暂停。",
   "examples": [
     {
@@ -91,6 +91,6 @@
   "files": [
     "registry/ui/infinite-slider.tsx"
   ],
-  "docsUrl": "http://localhost:3000/docs/components/infinite-slider",
-  "sourceUrl": "http://localhost:3000/r/infinite-slider.json"
+  "docsUrl": "https://ui.wzx.wang/docs/components/infinite-slider",
+  "sourceUrl": "https://ui.wzx.wang/r/infinite-slider.json"
 }

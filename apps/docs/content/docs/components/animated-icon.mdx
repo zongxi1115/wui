@@ -10,6 +10,24 @@ component: animated-icon
 
 <ComponentPreview name="animated-icon-demo" />
 
+## 颜色变体
+
+`AnimatedIcon` 使用与 `Icon` 相同的语义色变体。颜色通过 `currentColor` 传给动态图标内部的 SVG 路径，因此不会影响图标本身的动画编排。
+
+<ComponentPreview name="animated-icon-colors" />
+
+```tsx
+<AnimatedIcon icon={HeartIcon} variant="success" size={24} />
+<AnimatedIcon icon={TriangleAlertIcon} variant="warning" size={24} />
+<AnimatedIcon icon={CircleXIcon} variant="destructive" size={24} />
+```
+
+支持 `default`、`primary`、`secondary`、`muted`、`info`、`success`、`warning` 和 `destructive`。需要自定义颜色时，传入 `color`；它会覆盖 `variant` 的语义色。
+
+```tsx
+<AnimatedIcon icon={HeartIcon} variant="primary" color="#e11d48" />
+```
+
 安装完整集合：
 
 <CodeTabs command="wui@latest add @wui/animated-icon-collection" />

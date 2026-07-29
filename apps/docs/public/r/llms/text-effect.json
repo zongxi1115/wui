@@ -18,7 +18,7 @@
   ],
   "install": {
     "wui": "npx wui@latest add @wui/text-effect",
-    "shadcn": "npx shadcn@latest add http://localhost:3000/r/text-effect.json",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/text-effect.json",
     "npmDependencies": [
       "motion"
     ],
@@ -57,14 +57,14 @@
     },
     {
       "name": "preset",
-      "type": "\"fade\" | \"blur-sm\" | \"fade-in-blur\" | \"scale\" | \"slide\"",
+      "type": "\"scale\" | \"fade\" | \"blur-sm\" | \"fade-in-blur\" | \"slide\"",
       "required": false,
       "control": "select",
       "options": [
+        "scale",
         "fade",
         "blur-sm",
         "fade-in-blur",
-        "scale",
         "slide"
       ],
       "defaultValue": "fade",
@@ -157,6 +157,6 @@
   "files": [
     "registry/ui/text-effect.tsx"
   ],
-  "docsUrl": "http://localhost:3000/docs/components/text-effect",
-  "sourceUrl": "http://localhost:3000/r/text-effect.json"
+  "docsUrl": "https://ui.wzx.wang/docs/components/text-effect",
+  "sourceUrl": "https://ui.wzx.wang/r/text-effect.json"
 }

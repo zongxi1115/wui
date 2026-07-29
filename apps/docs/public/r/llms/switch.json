@@ -13,7 +13,7 @@
   ],
   "install": {
     "wui": "npx wui@latest add @wui/switch",
-    "shadcn": "npx shadcn@latest add http://localhost:3000/r/switch.json",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/switch.json",
     "npmDependencies": [
       "radix-ui",
       "class-variance-authority",
@@ -26,12 +26,12 @@
   "props": [
     {
       "name": "size",
-      "type": "\"sm\" | \"default\" | \"lg\"",
+      "type": "\"default\" | \"sm\" | \"lg\"",
       "required": false,
       "control": "select",
       "options": [
-        "sm",
         "default",
+        "sm",
         "lg"
       ],
       "defaultValue": "default",
@@ -50,9 +50,9 @@
       "control": "boolean"
     }
   ],
-  "usage": "`Switch` 用于让设置立即在开启与关闭之间切换，例如通知、隐私或显示偏好。它基于 Radix Switch，支持鼠标、触摸、键盘以及表单语义；滑块通过 Motion 弹簧运动，并在 `prefers-reduced-motion` 下自动静止降级。\n\n不要用 Switch 代替需要“提交/取消”的操作；这类场景应使用 Checkbox 或 Button。",
-  "extended": "### 尺寸\n\n受控用法通过 `checked` 与 `onCheckedChange` 管理；非受控用法使用 `defaultChecked`。",
-  "events": "- `onCheckedChange(checked)`：状态变化后触发。\n- 原生焦点、键盘与表单属性会继续透传到底层 Radix Root。",
+  "usage": "`Switch` 用于让设置立即在开启与关闭之间切换，例如通知、隐私或显示偏好。它基于 Radix Switch，支持鼠标、触摸、键盘以及表单语义；滑块通过 Motion 弹簧运动，并在 `prefers-reduced-motion` 下自动静止降级。\r\n\r\n不要用 Switch 代替需要“提交/取消”的操作；这类场景应使用 Checkbox 或 Button。",
+  "extended": "### 尺寸\r\n\r\n\r\n\r\n受控用法通过 `checked` 与 `onCheckedChange` 管理；非受控用法使用 `defaultChecked`。",
+  "events": "- `onCheckedChange(checked)`：状态变化后触发。\r\n- 原生焦点、键盘与表单属性会继续透传到底层 Radix Root。",
   "examples": [
     {
       "name": "switch-demo",
@@ -66,6 +66,6 @@
   "files": [
     "registry/ui/switch.tsx"
   ],
-  "docsUrl": "http://localhost:3000/docs/components/switch",
-  "sourceUrl": "http://localhost:3000/r/switch.json"
+  "docsUrl": "https://ui.wzx.wang/docs/components/switch",
+  "sourceUrl": "https://ui.wzx.wang/r/switch.json"
 }

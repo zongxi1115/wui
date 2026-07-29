@@ -12,7 +12,7 @@
   ],
   "install": {
     "wui": "npx wui@latest add @wui/image-preview",
-    "shadcn": "npx shadcn@latest add http://localhost:3000/r/image-preview.json",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/image-preview.json",
     "npmDependencies": [
       "radix-ui",
       "lucide-react",
@@ -134,8 +134,8 @@
     }
   ],
   "usage": "`ImagePreview` 用于在不离开当前页面的情况下查看图片细节。缩略图本身是可聚焦按钮，全屏预览通过 Dialog 管理焦点、Escape 关闭和无障碍标题。它适合相册、附件、设计稿与商品图；需要编辑、裁剪或批注时，应使用专门的图片编辑器。",
-  "extended": "### 简洁预览\n\n设置 `showToolbar={false}` 可隐藏变换操作，仅保留查看与关闭能力。传入 `downloadName` 时才会显示下载按钮，避免在不允许保存图片的场景中暴露无效操作。",
-  "events": "- `onOpenChange(open)`：预览打开或关闭时触发，支持受控与非受控状态。\n- 缩放按钮也可使用 `+`、`-` 快捷键，按 `0` 重置缩放和旋转。\n- Escape、背景点击和焦点管理会关闭或约束预览；放大后可拖动图片查看边缘细节。\n- 其余按钮属性会透传给缩略图触发器。",
+  "extended": "### 简洁预览\r\n\r\n\r\n\r\n设置 `showToolbar={false}` 可隐藏变换操作，仅保留查看与关闭能力。传入 `downloadName` 时才会显示下载按钮，避免在不允许保存图片的场景中暴露无效操作。",
+  "events": "- `onOpenChange(open)`：预览打开或关闭时触发，支持受控与非受控状态。\r\n- 缩放按钮也可使用 `+`、`-` 快捷键，按 `0` 重置缩放和旋转。\r\n- Escape、背景点击和焦点管理会关闭或约束预览；放大后可拖动图片查看边缘细节。\r\n- 其余按钮属性会透传给缩略图触发器。",
   "examples": [
     {
       "name": "image-preview-demo",
@@ -149,6 +149,6 @@
   "files": [
     "registry/ui/image-preview.tsx"
   ],
-  "docsUrl": "http://localhost:3000/docs/components/image-preview",
-  "sourceUrl": "http://localhost:3000/r/image-preview.json"
+  "docsUrl": "https://ui.wzx.wang/docs/components/image-preview",
+  "sourceUrl": "https://ui.wzx.wang/r/image-preview.json"
 }

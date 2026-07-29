@@ -8,6 +8,26 @@ component: icon
 
 <ComponentPreview name="icon-demo" />
 
+## 颜色变体
+
+使用 `variant` 选择主题语义色。颜色来自 WUI 的设计令牌，会随明暗主题自动切换。
+
+<ComponentPreview name="icon-colors" />
+
+```tsx
+<Icon icon={CheckIcon} variant="success" />
+<Icon icon={InfoIcon} variant="info" />
+<Icon icon={TriangleAlertIcon} variant="warning" />
+<Icon icon={CircleXIcon} variant="destructive" />
+```
+
+支持 `default`、`primary`、`secondary`、`muted`、`info`、`success`、`warning` 和 `destructive`。
+需要使用自定义颜色时，直接传入 `color`；它会覆盖 `variant` 的语义色。
+
+```tsx
+<Icon icon={SparklesIcon} variant="primary" color="rebeccapurple" />
+```
+
 安装组件：
 
 <CodeTabs command="wui@latest add @wui/icon" />

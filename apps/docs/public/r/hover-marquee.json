@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "hover-marquee",
+  "type": "registry:ui",
+  "title": "Hover Marquee",
+  "description": "Reveals a horizontally looping preview when a directory row is hovered.",
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "utils",
+    "infinite-slider"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/hover-marquee.tsx",
+      "type": "registry:ui",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport {\n  AnimatePresence,\n  motion,\n  useReducedMotion,\n  type HTMLMotionProps,\n} from \"motion/react\"\n\nimport { InfiniteSlider } from \"@/registry/ui/infinite-slider\"\nimport { cn } from \"@/registry/lib/utils\"\n\nexport interface HoverMarqueeProps extends Omit<\n  HTMLMotionProps<\"div\">,\n  \"children\"\n> {\n  /** Content shown while the row is idle. */\n  children: React.ReactNode\n  /** Content repeated inside the moving preview track. */\n  marquee: React.ReactNode\n  /** Track speed in pixels per second. @default 96 */\n  speed?: number\n  /** Space between repeated preview items in pixels. @default 32 */\n  gap?: number\n  /** Move the preview track in the opposite direction. @default false */\n  reverse?: boolean\n  /** Force the preview open from outside the component. */\n  active?: boolean\n  /** Classes applied to the moving preview layer. */\n  marqueeClassName?: string\n}\n\n/** Reveals a horizontally looping preview when a directory row is hovered. */\nfunction HoverMarquee({\n  children,\n  marquee,\n  speed = 96,\n  gap = 32,\n  reverse = false,\n  active,\n  className,\n  marqueeClassName,\n  onPointerEnter,\n  onPointerLeave,\n  onFocus,\n  onBlur,\n  ...props\n}: HoverMarqueeProps) {\n  const [hovered, setHovered] = React.useState(false)\n  const [focused, setFocused] = React.useState(false)\n  const reduceMotion = useReducedMotion()\n  const revealed = active ?? (hovered || focused)\n\n  return (\n    <motion.div\n      data-slot=\"hover-marquee\"\n      className={cn(\"relative overflow-hidden\", className)}\n      onPointerEnter={(event) => {\n        setHovered(true)\n        onPointerEnter?.(event)\n      }}\n      onPointerLeave={(event) => {\n        setHovered(false)\n        onPointerLeave?.(event)\n      }}\n      onFocus={(event) => {\n        setFocused(true)\n        onFocus?.(event)\n      }}\n      onBlur={(event) => {\n        if (!event.currentTarget.contains(event.relatedTarget))\n          setFocused(false)\n        onBlur?.(event)\n      }}\n      {...props}\n    >\n      <motion.div\n        data-slot=\"hover-marquee-idle\"\n        initial={false}\n        animate={{ opacity: revealed ? 0 : 1, y: revealed ? -8 : 0 }}\n        transition={{ duration: reduceMotion ? 0 : 0.2 }}\n      >\n        {children}\n      </motion.div>\n\n      <AnimatePresence initial={false}>\n        {revealed ? (\n          <motion.div\n            data-slot=\"hover-marquee-preview\"\n            className={cn(\n              \"absolute inset-0 flex items-center\",\n              marqueeClassName\n            )}\n            initial={reduceMotion ? false : { opacity: 0, y: 8 }}\n            animate={{ opacity: 1, y: 0 }}\n            exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 8 }}\n            transition={{ duration: reduceMotion ? 0 : 0.24 }}\n          >\n            <InfiniteSlider\n              aria-hidden=\"true\"\n              className=\"w-full\"\n              speed={reduceMotion ? 0 : speed}\n              gap={gap}\n              reverse={reverse}\n            >\n              {marquee}\n            </InfiniteSlider>\n          </motion.div>\n        ) : null}\n      </AnimatePresence>\n    </motion.div>\n  )\n}\n\nexport { HoverMarquee }\n"
+    }
+  ],
+  "categories": [
+    "fancy",
+    "motion"
+  ]
+}

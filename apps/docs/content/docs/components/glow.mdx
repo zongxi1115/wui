@@ -1,0 +1,25 @@
+---
+title: 渐变环绕发光 Glow
+description: 让多色渐变光线沿内容四周持续环绕，并提供单色发光变体。
+component: glow
+---
+
+## 基础示例
+
+<ComponentPreview name="glow-demo" />
+
+<CodeTabs command="wui@latest add @wui/glow" />
+
+<ComponentSource name="glow" title="components/ui/glow.tsx" />
+
+## 组件作用
+
+`Glow` 默认让一条多色渐变光线沿内容四周持续环绕，并用同一条边缘生成柔和光晕。装饰层不会遮挡内容或拦截指针事件，适合重点入口、功能展示和需要短暂吸引注意的区域。
+
+## 组件属性
+
+<PropsTable name="glow" />
+
+## 使用建议
+
+默认的 `rainbow` 变体通过 `colors`、`spread` 和 `duration` 调整环绕效果。使用 `variant="solid"` 可切换到原来的单色呼吸光晕，并通过 `color`、`glowOpacity` 和 `pulse` 控制外观。用户启用“减少动态效果”时，两种变体都会自动停止动画。

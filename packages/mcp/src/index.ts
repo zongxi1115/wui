@@ -5,6 +5,8 @@
  *   npx @wui/mcp --registry https://host/r        # a self-hosted one
  *   npx @wui/mcp --dir ./apps/docs/public/r       # a local checkout
  */
+import { createRequire } from "node:module"
+
 import { Server } from "@modelcontextprotocol/sdk/server/index.js"
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import {
@@ -32,8 +34,14 @@ const dir = flag("dir") ?? process.env.WUI_REGISTRY_DIR
 const url = flag("registry") ?? process.env.WUI_REGISTRY_URL ?? DEFAULT_REGISTRY_URL
 const registry = new Registry(dir ? createFileLoader(dir) : createRemoteLoader(url))
 
+// dist/index.js sits one level under the package root, so this resolves the
+// published package.json — keeping the advertised version in sync with npm.
+const { version } = createRequire(import.meta.url)("../package.json") as {
+  version: string
+}
+
 const server = new Server(
-  { name: "wui", version: "0.1.0" },
+  { name: "wui", version },
   { capabilities: { tools: {} } }
 )
 

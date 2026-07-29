@@ -1,0 +1,130 @@
+{
+  "name": "alert",
+  "type": "registry:ui",
+  "title": "警告提示 Alert",
+  "description": "用于展示需要保留在页面中的状态、说明和操作建议。",
+  "import": "import { Alert, alertVariants } from \"@/components/ui/alert\"",
+  "exports": [
+    "Alert",
+    "alertVariants"
+  ],
+  "typeExports": [
+    "AlertProps",
+    "AlertVariant"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/alert",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/alert.json",
+    "npmDependencies": [
+      "lucide-react",
+      "class-variance-authority"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "variant",
+      "type": "\"default\" | \"destructive\" | \"success\" | \"warning\" | \"info\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "default",
+        "destructive",
+        "success",
+        "warning",
+        "info"
+      ],
+      "defaultValue": "default",
+      "description": "Semantic appearance and default icon."
+    },
+    {
+      "name": "size",
+      "type": "\"compact\" | \"default\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "compact",
+        "default"
+      ],
+      "defaultValue": "default",
+      "description": "Density preset."
+    },
+    {
+      "name": "title",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "Optional heading displayed above the description."
+    },
+    {
+      "name": "icon",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "Custom leading icon. Pass `false` to hide the icon."
+    },
+    {
+      "name": "action",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "Optional action rendered at the end of the alert."
+    },
+    {
+      "name": "closable",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "Show a close control."
+    },
+    {
+      "name": "visible",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "Controlled visibility."
+    },
+    {
+      "name": "defaultVisible",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "Initial visibility in uncontrolled mode."
+    },
+    {
+      "name": "onVisibleChange",
+      "type": "((visible: boolean) => void)",
+      "required": false,
+      "control": "text",
+      "description": "Called whenever visibility changes."
+    }
+  ],
+  "usage": "Alert 是页面内的持久反馈组件，适合承载标题、较长说明、尾部操作以及需要用户主动关闭的状态。只需要在操作后短暂提示一句结果时，应使用 Message。",
+  "examples": [
+    {
+      "name": "alert-demo",
+      "title": "基础示例"
+    },
+    {
+      "name": "alert-action",
+      "title": "尾部操作"
+    },
+    {
+      "name": "alert-dismissible",
+      "title": "可关闭与受控显示"
+    },
+    {
+      "name": "alert-compact",
+      "title": "紧凑尺寸"
+    }
+  ],
+  "files": [
+    "registry/ui/alert.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/alert",
+  "sourceUrl": "https://ui.wzx.wang/r/alert.json"
+}

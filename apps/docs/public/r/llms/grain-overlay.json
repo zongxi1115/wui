@@ -1,0 +1,105 @@
+{
+  "name": "grain-overlay",
+  "type": "registry:ui",
+  "title": "颗粒遮罩 Grain Overlay",
+  "description": "用可缩放 SVG 噪声为任意表面增加克制的胶片颗粒质感。",
+  "categories": [
+    "background",
+    "fancy"
+  ],
+  "import": "import { GrainOverlay } from \"@/components/ui/grain-overlay\"",
+  "exports": [
+    "GrainOverlay"
+  ],
+  "typeExports": [
+    "GrainOverlayProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/grain-overlay",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/grain-overlay.json",
+    "npmDependencies": [],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "opacity",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0.16",
+      "description": "Grain opacity."
+    },
+    {
+      "name": "frequency",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0.72",
+      "description": "Base turbulence frequency."
+    },
+    {
+      "name": "octaves",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "3",
+      "description": "Number of fractal noise octaves."
+    },
+    {
+      "name": "seed",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "8",
+      "description": "Deterministic noise seed."
+    },
+    {
+      "name": "blendMode",
+      "type": "\"inherit\" | \"color\" | \"initial\" | \"-moz-initial\" | \"revert\" | \"revert-layer\" | \"unset\" | \"color-burn\" | \"color-dodge\" | \"darken\" | \"difference\" | \"exclusion\" | \"hard-light\" | \"hue\" | \"lighten\" | \"luminosity\" | \"multiply\" | \"normal\" | \"overlay\" | \"saturation\" | \"screen\" | \"soft-light\" | \"plus-darker\" | \"plus-lighter\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "inherit",
+        "color",
+        "initial",
+        "-moz-initial",
+        "revert",
+        "revert-layer",
+        "unset",
+        "color-burn",
+        "color-dodge",
+        "darken",
+        "difference",
+        "exclusion",
+        "hard-light",
+        "hue",
+        "lighten",
+        "luminosity",
+        "multiply",
+        "normal",
+        "overlay",
+        "saturation",
+        "screen",
+        "soft-light",
+        "plus-darker",
+        "plus-lighter"
+      ],
+      "defaultValue": "soft-light",
+      "description": "CSS blend mode used by the overlay."
+    }
+  ],
+  "usage": "`GrainOverlay` 使用 SVG `feTurbulence` 生成可重复、与分辨率无关的静态噪声。它没有第三方运行时依赖，默认绝对定位并忽略指针事件，可直接放进任意 `relative` 表面。",
+  "examples": [
+    {
+      "name": "grain-overlay-demo",
+      "title": "基础示例"
+    }
+  ],
+  "files": [
+    "registry/ui/grain-overlay.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/grain-overlay",
+  "sourceUrl": "https://ui.wzx.wang/r/grain-overlay.json"
+}

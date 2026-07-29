@@ -1,0 +1,77 @@
+{
+  "name": "horizontal-scroll",
+  "type": "registry:ui",
+  "title": "横向滚动区块 Horizontal Scroll",
+  "description": "将垂直滚动距离映射为钉住内容轨道的水平移动。",
+  "categories": [
+    "scroll",
+    "motion"
+  ],
+  "import": "import { HorizontalScroll } from \"@/components/ui/horizontal-scroll\"",
+  "exports": [
+    "HorizontalScroll"
+  ],
+  "typeExports": [
+    "HorizontalScrollProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/horizontal-scroll",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/horizontal-scroll.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": true,
+      "control": "text",
+      "description": "Wide content translated horizontally while the section is pinned."
+    },
+    {
+      "name": "container",
+      "type": "RefObject<HTMLElement | null>",
+      "required": false,
+      "control": "text",
+      "description": "Scrollable element to observe instead of the page."
+    },
+    {
+      "name": "scrollPadding",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0",
+      "description": "Extra vertical scrolling distance in pixels."
+    },
+    {
+      "name": "viewportClassName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "Classes applied to the pinned viewport."
+    },
+    {
+      "name": "trackClassName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "Classes applied to the horizontally translated track."
+    }
+  ],
+  "usage": "`HorizontalScroll` 测量轨道溢出宽度，将同等距离加入页面高度，并在区块经过时固定视口、移动内部轨道。它适合案例画廊、时间线和横向章节，不会改变子元素的结构。",
+  "examples": [
+    {
+      "name": "horizontal-scroll-demo",
+      "title": "基础示例"
+    }
+  ],
+  "files": [
+    "registry/ui/horizontal-scroll.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/horizontal-scroll",
+  "sourceUrl": "https://ui.wzx.wang/r/horizontal-scroll.json"
+}

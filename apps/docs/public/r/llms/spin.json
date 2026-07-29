@@ -14,7 +14,7 @@
   ],
   "install": {
     "wui": "npx wui@latest add @wui/spin",
-    "shadcn": "npx shadcn@latest add http://localhost:3000/r/spin.json",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/spin.json",
     "npmDependencies": [
       "class-variance-authority",
       "motion"
@@ -34,12 +34,12 @@
     },
     {
       "name": "size",
-      "type": "\"sm\" | \"default\" | \"lg\"",
+      "type": "\"default\" | \"sm\" | \"lg\"",
       "required": false,
       "control": "select",
       "options": [
-        "sm",
         "default",
+        "sm",
         "lg"
       ],
       "defaultValue": "default",
@@ -88,6 +88,6 @@
   "files": [
     "registry/ui/spin.tsx"
   ],
-  "docsUrl": "http://localhost:3000/docs/components/spin",
-  "sourceUrl": "http://localhost:3000/r/spin.json"
+  "docsUrl": "https://ui.wzx.wang/docs/components/spin",
+  "sourceUrl": "https://ui.wzx.wang/r/spin.json"
 }

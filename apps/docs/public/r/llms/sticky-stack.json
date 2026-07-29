@@ -1,0 +1,81 @@
+{
+  "name": "sticky-stack",
+  "type": "registry:ui",
+  "title": "粘性卡片堆叠 Sticky Stack",
+  "description": "让卡片依次钉住、缩放，并被后续内容覆盖。",
+  "categories": [
+    "scroll",
+    "motion"
+  ],
+  "import": "import { StickyStack, StickyStackItem } from \"@/components/ui/sticky-stack\"",
+  "exports": [
+    "StickyStack",
+    "StickyStackItem"
+  ],
+  "typeExports": [
+    "StickyStackItemProps",
+    "StickyStackProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/sticky-stack",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/sticky-stack.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": true,
+      "control": "text",
+      "description": "StickyStackItem elements rendered in stacking order."
+    },
+    {
+      "name": "top",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "24",
+      "description": "Top offset of the first sticky item in pixels."
+    },
+    {
+      "name": "gap",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "12",
+      "description": "Visible vertical offset between stacked items in pixels."
+    },
+    {
+      "name": "scaleStep",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0.035",
+      "description": "Scale removed for every card placed above an item."
+    },
+    {
+      "name": "container",
+      "type": "RefObject<HTMLElement | null>",
+      "required": false,
+      "control": "text",
+      "description": "Scrollable element to observe instead of the page."
+    }
+  ],
+  "usage": "`StickyStack` 负责计算整组滚动进度，并自动为直接子级 `StickyStackItem` 注入堆叠顺序。卡片使用原生 `position: sticky` 固定，较早出现的卡片会随整组进度轻微缩小，后续卡片按更高层级覆盖上来。",
+  "examples": [
+    {
+      "name": "sticky-stack-demo",
+      "title": "基础示例"
+    }
+  ],
+  "files": [
+    "registry/ui/sticky-stack.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/sticky-stack",
+  "sourceUrl": "https://ui.wzx.wang/r/sticky-stack.json"
+}

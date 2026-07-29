@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "smooth-scroll",
+  "type": "registry:ui",
+  "title": "Smooth Scroll",
+  "description": "Provides Lenis smooth scrolling for the document or a custom container.",
+  "dependencies": [
+    "lenis"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/smooth-scroll.tsx",
+      "type": "registry:ui",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { ReactLenis, type LenisProps } from \"lenis/react\"\nimport type { LenisOptions } from \"lenis\"\n\nexport interface SmoothScrollProps extends Omit<LenisProps, \"options\"> {\n  /** Content rendered inside the Lenis context or custom scroll container. */\n  children?: React.ReactNode\n  /** Lenis instance options. */\n  options?: LenisOptions\n  /** Disable interpolation while preserving the content wrapper. @default false */\n  disabled?: boolean\n  /** Respect the operating system reduced-motion preference. @default true */\n  respectReducedMotion?: boolean\n}\n\n/** Provides Lenis smooth scrolling for the document or a custom container. */\nfunction SmoothScroll({\n  children,\n  root = true,\n  options,\n  disabled = false,\n  respectReducedMotion = true,\n  className,\n  ...props\n}: SmoothScrollProps) {\n  const [reduceMotion, setReduceMotion] = React.useState(false)\n\n  React.useEffect(() => {\n    if (!respectReducedMotion) return\n    const media = window.matchMedia(\"(prefers-reduced-motion: reduce)\")\n    const update = () => setReduceMotion(media.matches)\n    update()\n    media.addEventListener(\"change\", update)\n    return () => media.removeEventListener(\"change\", update)\n  }, [respectReducedMotion])\n\n  if (disabled || reduceMotion) {\n    return root ? (\n      <>{children}</>\n    ) : (\n      <div className={className} {...props}>\n        {children}\n      </div>\n    )\n  }\n\n  return (\n    <ReactLenis\n      root={root}\n      className={className}\n      options={{ autoRaf: true, ...options }}\n      {...props}\n    >\n      {children}\n    </ReactLenis>\n  )\n}\n\nexport { SmoothScroll }\n"
+    }
+  ],
+  "categories": [
+    "scroll",
+    "motion"
+  ]
+}

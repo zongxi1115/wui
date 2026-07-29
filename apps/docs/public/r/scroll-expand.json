@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "scroll-expand",
+  "type": "registry:ui",
+  "title": "Scroll Expand",
+  "description": "Pins media while scroll progress expands it to full bleed or collapses it away.",
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/scroll-expand.tsx",
+      "type": "registry:ui",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport {\n  motion,\n  useReducedMotion,\n  useScroll,\n  useTransform,\n  type HTMLMotionProps,\n} from \"motion/react\"\n\nimport { cn } from \"@/registry/lib/utils\"\n\nexport interface ScrollExpandProps extends Omit<\n  HTMLMotionProps<\"section\">,\n  \"children\"\n> {\n  /** Media or hero content that expands or collapses in the pinned viewport. */\n  children: React.ReactNode\n  /** Scroll direction of the visual transformation. @default \"expand\" */\n  direction?: \"expand\" | \"collapse\"\n  /** Initial inset on every edge, as a percentage. @default 10 */\n  inset?: number\n  /** Corner radius at the compact state in pixels. @default 28 */\n  radius?: number\n  /** Section length in viewport heights. @default 1.8 */\n  scrollLength?: number\n  /** Scrollable element to observe instead of the page. */\n  container?: React.RefObject<HTMLElement | null>\n  /** Classes applied to the sticky viewport. */\n  viewportClassName?: string\n  /** Classes applied to the transformed content frame. */\n  frameClassName?: string\n}\n\n/** Pins media while scroll progress expands it to full bleed or collapses it away. */\nfunction ScrollExpand({\n  children,\n  direction = \"expand\",\n  inset = 10,\n  radius = 28,\n  scrollLength = 1.8,\n  container,\n  className,\n  viewportClassName,\n  frameClassName,\n  style,\n  ...props\n}: ScrollExpandProps) {\n  const sectionRef = React.useRef<HTMLElement>(null)\n  const [viewportHeight, setViewportHeight] = React.useState(0)\n  const reduceMotion = useReducedMotion()\n  const { scrollYProgress } = useScroll({\n    target: sectionRef,\n    container,\n    offset: [\"start start\", \"end end\"],\n  })\n  const compactClip = `inset(${inset}% round ${radius}px)`\n  const expandedClip = \"inset(0% round 0px)\"\n  const clipPath = useTransform(\n    scrollYProgress,\n    [0, 1],\n    direction === \"expand\"\n      ? [compactClip, expandedClip]\n      : [expandedClip, compactClip]\n  )\n  const scale = useTransform(\n    scrollYProgress,\n    [0, 1],\n    direction === \"expand\" ? [1.08, 1] : [1, 1.08]\n  )\n\n  React.useLayoutEffect(() => {\n    const measure = () => {\n      setViewportHeight(container?.current?.clientHeight ?? window.innerHeight)\n    }\n    measure()\n    const observer = new ResizeObserver(measure)\n    if (container?.current) observer.observe(container.current)\n    window.addEventListener(\"resize\", measure)\n    return () => {\n      observer.disconnect()\n      window.removeEventListener(\"resize\", measure)\n    }\n  }, [container])\n\n  return (\n    <motion.section\n      ref={sectionRef}\n      data-slot=\"scroll-expand\"\n      data-direction={direction}\n      className={cn(\"relative\", className)}\n      style={{\n        ...style,\n        height: viewportHeight\n          ? viewportHeight * scrollLength\n          : `${scrollLength * 100}vh`,\n      }}\n      {...props}\n    >\n      <div\n        data-slot=\"scroll-expand-viewport\"\n        className={cn(\"sticky top-0 overflow-hidden\", viewportClassName)}\n        style={{ height: viewportHeight || \"100vh\" }}\n      >\n        <motion.div\n          data-slot=\"scroll-expand-frame\"\n          className={cn(\"h-full w-full overflow-hidden\", frameClassName)}\n          style={{\n            clipPath: reduceMotion ? expandedClip : clipPath,\n          }}\n        >\n          <motion.div\n            data-slot=\"scroll-expand-content\"\n            className=\"h-full w-full will-change-transform\"\n            style={{ scale: reduceMotion ? 1 : scale }}\n          >\n            {children}\n          </motion.div>\n        </motion.div>\n      </div>\n    </motion.section>\n  )\n}\n\nexport { ScrollExpand }\n"
+    }
+  ],
+  "categories": [
+    "scroll",
+    "motion"
+  ]
+}

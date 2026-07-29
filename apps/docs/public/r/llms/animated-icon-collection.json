@@ -6,7 +6,7 @@
   "exports": [],
   "install": {
     "wui": "npx wui@latest add @wui/animated-icon-collection",
-    "shadcn": "npx shadcn@latest add http://localhost:3000/r/animated-icon-collection.json",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/animated-icon-collection.json",
     "npmDependencies": [
       "motion"
     ],
@@ -17,6 +17,6 @@
   "props": [],
   "examples": [],
   "files": [],
-  "docsUrl": "http://localhost:3000/docs/components/animated-icon-collection",
-  "sourceUrl": "http://localhost:3000/r/animated-icon-collection.json"
+  "docsUrl": "https://ui.wzx.wang/docs/components/animated-icon-collection",
+  "sourceUrl": "https://ui.wzx.wang/r/animated-icon-collection.json"
 }

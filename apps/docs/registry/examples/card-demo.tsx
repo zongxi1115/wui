@@ -10,6 +10,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/registry/ui/card"
+import { Progress } from "@/registry/ui/progress"
+
+const facts = [
+  { label: "负责人", value: "林澈" },
+  { label: "截止日期", value: "8 月 16 日" },
+]
 
 export default function CardDemo() {
   return (
@@ -23,26 +29,30 @@ export default function CardDemo() {
           </Button>
         </CardAction>
       </CardHeader>
-      <CardContent>
-        <div className="grid grid-cols-3 gap-4 border-y py-4">
-          <div>
-            <p className="text-muted-foreground text-xs">进度</p>
-            <p className="mt-1 text-sm font-medium">72%</p>
+      <CardContent className="flex flex-col gap-5">
+        <div className="flex flex-col gap-2.5">
+          <div className="flex items-baseline justify-between">
+            <span className="text-muted-foreground text-xs">完成进度</span>
+            <span className="text-xl font-semibold tabular-nums tracking-tight">
+              72
+              <span className="text-muted-foreground ml-0.5 text-sm font-normal">
+                %
+              </span>
+            </span>
           </div>
-          <div>
-            <p className="text-muted-foreground text-xs">负责人</p>
-            <p className="mt-1 text-sm font-medium">林澈</p>
-          </div>
-          <div>
-            <p className="text-muted-foreground text-xs">截止日期</p>
-            <p className="mt-1 text-sm font-medium">8 月 16 日</p>
-          </div>
+          <Progress value={72} aria-label="完成进度" />
         </div>
+        <dl className="bg-muted/50 grid grid-cols-2 gap-4 rounded-xl px-4 py-3">
+          {facts.map((fact) => (
+            <div key={fact.label}>
+              <dt className="text-muted-foreground text-xs">{fact.label}</dt>
+              <dd className="mt-1 text-sm font-medium">{fact.value}</dd>
+            </div>
+          ))}
+        </dl>
       </CardContent>
       <CardFooter className="justify-between">
-        <span className="text-muted-foreground text-sm">
-          最近更新于 2 小时前
-        </span>
+        <span className="text-muted-foreground text-xs">最近更新于 2 小时前</span>
         <Button size="sm">打开项目</Button>
       </CardFooter>
     </Card>

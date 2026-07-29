@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Select as SelectPrimitive } from "radix-ui"
+import * as SelectPrimitive from "radix-ui/select"
 import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from "lucide-react"
 import { motion, useReducedMotion } from "motion/react"
 import { cva } from "class-variance-authority"

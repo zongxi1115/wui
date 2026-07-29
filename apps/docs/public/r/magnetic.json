@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "magnetic",
+  "type": "registry:ui",
+  "title": "Magnetic",
+  "description": "Moves content subtly toward the pointer and springs back to rest.",
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/magnetic.tsx",
+      "type": "registry:ui",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport {\n  motion,\n  useMotionValue,\n  useReducedMotion,\n  useSpring,\n  type HTMLMotionProps,\n  type SpringOptions,\n} from \"motion/react\"\n\nimport { cn } from \"@/registry/lib/utils\"\n\nexport interface MagneticProps extends HTMLMotionProps<\"div\"> {\n  /** How strongly the content follows the pointer. @default 0.18 */\n  strength?: number\n  /** Maximum movement on either axis, in pixels. @default 12 */\n  maxDistance?: number\n  /** Spring physics used for movement and return. */\n  springConfig?: SpringOptions\n  /** Disable pointer tracking without changing the layout. @default false */\n  disabled?: boolean\n  // Narrows motion's children type (which allows MotionValue) back to ReactNode.\n  children?: React.ReactNode\n}\n\n/** Moves its content subtly toward the pointer, then springs back to rest. */\nfunction Magnetic({\n  strength = 0.18,\n  maxDistance = 12,\n  springConfig = { stiffness: 260, damping: 22, mass: 0.35 },\n  disabled = false,\n  className,\n  style,\n  children,\n  onPointerMove,\n  onPointerLeave,\n  onPointerCancel,\n  ...props\n}: MagneticProps) {\n  const reduceMotion = useReducedMotion()\n  const rawX = useMotionValue(0)\n  const rawY = useMotionValue(0)\n  const x = useSpring(rawX, springConfig)\n  const y = useSpring(rawY, springConfig)\n\n  React.useEffect(() => {\n    if (disabled || reduceMotion) {\n      rawX.set(0)\n      rawY.set(0)\n    }\n  }, [disabled, rawX, rawY, reduceMotion])\n\n  const reset = () => {\n    rawX.set(0)\n    rawY.set(0)\n  }\n\n  const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {\n    onPointerMove?.(event)\n    if (\n      event.defaultPrevented ||\n      disabled ||\n      reduceMotion ||\n      event.pointerType === \"touch\"\n    ) {\n      return\n    }\n\n    const rect = event.currentTarget.getBoundingClientRect()\n    const offsetX = (event.clientX - (rect.left + rect.width / 2)) * strength\n    const offsetY = (event.clientY - (rect.top + rect.height / 2)) * strength\n\n    const limit = Math.max(0, maxDistance)\n    rawX.set(Math.max(-limit, Math.min(limit, offsetX)))\n    rawY.set(Math.max(-limit, Math.min(limit, offsetY)))\n  }\n\n  const handlePointerLeave = (event: React.PointerEvent<HTMLDivElement>) => {\n    onPointerLeave?.(event)\n    reset()\n  }\n\n  const handlePointerCancel = (event: React.PointerEvent<HTMLDivElement>) => {\n    onPointerCancel?.(event)\n    reset()\n  }\n\n  return (\n    <motion.div\n      data-slot=\"magnetic\"\n      {...props}\n      className={cn(\"inline-flex\", className)}\n      style={{\n        ...style,\n        x: disabled || reduceMotion ? 0 : x,\n        y: disabled || reduceMotion ? 0 : y,\n      }}\n      onPointerMove={handlePointerMove}\n      onPointerLeave={handlePointerLeave}\n      onPointerCancel={handlePointerCancel}\n    >\n      {children}\n    </motion.div>\n  )\n}\n\nexport { Magnetic }\n"
+    }
+  ],
+  "categories": [
+    "motion"
+  ]
+}

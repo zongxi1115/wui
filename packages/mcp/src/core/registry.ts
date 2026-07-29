@@ -6,7 +6,7 @@ import type {
   RegistryIndex,
 } from "./types"
 
-export const DEFAULT_REGISTRY_URL = "https://wui.dev/r"
+export const DEFAULT_REGISTRY_URL = "https://ui.wzx.wang/r"
 
 /** Reads digests over HTTP from a deployed docs site. */
 export function createRemoteLoader(baseUrl: string): Loader {

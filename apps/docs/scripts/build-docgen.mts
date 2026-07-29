@@ -27,6 +27,16 @@ const PLAYGROUND: Array<{ name: string; file: string; export: string }> = [
   { name: "button", file: "registry/ui/button.tsx", export: "Button" },
 ]
 
+async function writeFileIfChanged(file: string, content: string) {
+  try {
+    if ((await fs.readFile(file, "utf8")) === content) return
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error
+  }
+
+  await fs.writeFile(file, content, "utf8")
+}
+
 function pascalCase(name: string): string {
   return name
     .split(/[-_]/)
@@ -176,16 +186,18 @@ async function main() {
       (item.type === "registry:ui" || item.type === "registry:component")
   )
 
+  const files = items.map((item) => path.join(ROOT, item.files[0].path))
+  const docsByFile = new Map<string, docgen.ComponentDoc[]>()
+  for (const doc of parser.parse(files)) {
+    const file = path.resolve(doc.filePath)
+    const docs = docsByFile.get(file) ?? []
+    docs.push(doc)
+    docsByFile.set(file, docs)
+  }
+
   const propsMap: Record<string, unknown[]> = {}
-  for (const item of items) {
-    const file = path.join(ROOT, item.files[0].path)
-    let docs: docgen.ComponentDoc[]
-    try {
-      docs = parser.parse(file)
-    } catch (err) {
-      console.warn(`  ! skipped ${item.name}: ${(err as Error).message}`)
-      continue
-    }
+  for (const [index, item] of items.entries()) {
+    const docs = docsByFile.get(path.resolve(files[index])) ?? []
     if (docs.length === 0) continue
 
     const exportName = pascalCase(item.name)
@@ -223,11 +235,10 @@ async function main() {
     `  description?: string\n` +
     `}\n\n` +
     `export const Props: Record<string, PropMeta[]> = ${JSON.stringify(propsMap, null, 2)}\n`
-  await fs.writeFile(PROPS_FILE, propsContent, "utf8")
-  await fs.writeFile(
+  await writeFileIfChanged(PROPS_FILE, propsContent)
+  await writeFileIfChanged(
     PROPS_JSON_FILE,
-    JSON.stringify(propsMap, null, 2) + "\n",
-    "utf8"
+    JSON.stringify(propsMap, null, 2) + "\n"
   )
 
   const imports = PLAYGROUND.map(
@@ -241,7 +252,7 @@ async function main() {
     `import type * as React from "react"\n${imports}\n\n` +
     `// eslint-disable-next-line @typescript-eslint/no-explicit-any\n` +
     `export const Playgrounds: Record<string, React.ComponentType<any>> = {\n${entries}\n}\n`
-  await fs.writeFile(PLAYGROUND_FILE, playgroundContent, "utf8")
+  await writeFileIfChanged(PLAYGROUND_FILE, playgroundContent)
 
   console.log(
     `✓ docgen: props for ${Object.keys(propsMap).length} component(s), ${PLAYGROUND.length} playground entry(ies)`

@@ -24,7 +24,7 @@
   ],
   "install": {
     "wui": "npx wui@latest add @wui/morphing-dialog",
-    "shadcn": "npx shadcn@latest add http://localhost:3000/r/morphing-dialog.json",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/morphing-dialog.json",
     "npmDependencies": [
       "radix-ui",
       "lucide-react",
@@ -56,6 +56,6 @@
   "files": [
     "registry/ui/morphing-dialog.tsx"
   ],
-  "docsUrl": "http://localhost:3000/docs/components/morphing-dialog",
-  "sourceUrl": "http://localhost:3000/r/morphing-dialog.json"
+  "docsUrl": "https://ui.wzx.wang/docs/components/morphing-dialog",
+  "sourceUrl": "https://ui.wzx.wang/r/morphing-dialog.json"
 }

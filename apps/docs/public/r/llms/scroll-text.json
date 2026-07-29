@@ -1,0 +1,119 @@
+{
+  "name": "scroll-text",
+  "type": "registry:ui",
+  "title": "滚动文字 Scroll Text",
+  "description": "让段落随滚动逐词变亮，或按行从遮罩中揭示。",
+  "categories": [
+    "scroll",
+    "motion",
+    "text-effect"
+  ],
+  "import": "import { ScrollText } from \"@/components/ui/scroll-text\"",
+  "exports": [
+    "ScrollText"
+  ],
+  "typeExports": [
+    "ScrollTextProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/scroll-text",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/scroll-text.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "string",
+      "required": true,
+      "control": "text",
+      "description": "Text split into scroll-controlled segments."
+    },
+    {
+      "name": "mode",
+      "type": "\"highlight\" | \"reveal\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "highlight",
+        "reveal"
+      ],
+      "defaultValue": "highlight",
+      "description": "Reveal style. `highlight` progressively changes muted text to foreground."
+    },
+    {
+      "name": "per",
+      "type": "\"line\" | \"word\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "line",
+        "word"
+      ],
+      "defaultValue": "word",
+      "description": "Segment granularity."
+    },
+    {
+      "name": "as",
+      "type": "ElementType<any, keyof IntrinsicElements>",
+      "required": false,
+      "control": "text",
+      "defaultValue": "p",
+      "description": "HTML element rendered by the component."
+    },
+    {
+      "name": "range",
+      "type": "readonly [number, number]",
+      "required": false,
+      "control": "text",
+      "defaultValue": "[0, 1]",
+      "description": "Portion of the total scroll progress assigned across all segments."
+    },
+    {
+      "name": "overlap",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0.35",
+      "description": "Overlap between neighboring segment ranges."
+    },
+    {
+      "name": "container",
+      "type": "RefObject<HTMLElement | null>",
+      "required": false,
+      "control": "text",
+      "description": "Scrollable element to observe instead of the page."
+    },
+    {
+      "name": "offset",
+      "type": "ScrollOffset",
+      "required": false,
+      "control": "text",
+      "defaultValue": "[\"start 0.85\", \"end 0.35\"]",
+      "description": "Motion scroll offsets for the text block."
+    },
+    {
+      "name": "segmentClassName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "Classes applied to every text segment."
+    }
+  ],
+  "usage": "`mode=\"highlight\"` 将一段文字按词从弱化色逐步过渡到前景色，适合叙事型大段文案；`mode=\"reveal\"` 把单词或显式换行放入遮罩，随滚动向上揭示。与一次性播放的 `TextEffect` 不同，它的状态始终由当前滚动位置控制，可以正向或反向回放。",
+  "examples": [
+    {
+      "name": "scroll-text-demo",
+      "title": "基础示例"
+    }
+  ],
+  "files": [
+    "registry/ui/scroll-text.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/scroll-text",
+  "sourceUrl": "https://ui.wzx.wang/r/scroll-text.json"
+}

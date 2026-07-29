@@ -1,0 +1,40 @@
+---
+title: 粘性卡片堆叠 Sticky Stack
+description: 让卡片依次钉住、缩放，并被后续内容覆盖。
+component: sticky-stack
+---
+
+## 基础示例
+
+<ComponentPreview name="sticky-stack-demo" />
+
+<DependencyBadges packages={["motion"]} />
+
+<CodeTabs command="wui@latest add @wui/sticky-stack" />
+
+<ComponentSource name="sticky-stack" title="components/ui/sticky-stack.tsx" />
+
+## 组件作用
+
+`StickyStack` 负责计算整组滚动进度，并自动为直接子级 `StickyStackItem` 注入堆叠顺序。卡片使用原生 `position: sticky` 固定，较早出现的卡片会随整组进度轻微缩小，后续卡片按更高层级覆盖上来。
+
+## 组件属性
+
+<PropsTable name="sticky-stack" />
+
+`StickyStackItem` 透传 Motion `div` 属性，并提供以下组合属性：
+
+<PropsTable
+  data={[
+    { prop: "children *", type: "React.ReactNode", description: "卡片内容。" },
+    {
+      prop: "index",
+      type: "number",
+      description: "手动指定堆叠顺序；直接子级会自动推断。",
+    },
+  ]}
+/>
+
+## 使用建议
+
+卡片高度应保持接近，但内容无需完全一致。`top` 与 `gap` 决定堆叠露出的顶部边缘，`scaleStep` 决定空间深度。组件依赖祖先拥有足够滚动距离；放在嵌套滚动容器时传入同一个 `container` ref。

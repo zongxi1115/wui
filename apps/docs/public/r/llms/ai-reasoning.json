@@ -25,7 +25,7 @@
   ],
   "install": {
     "wui": "npx wui@latest add @wui/ai-reasoning",
-    "shadcn": "npx shadcn@latest add http://localhost:3000/r/ai-reasoning.json",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/ai-reasoning.json",
     "npmDependencies": [
       "radix-ui",
       "class-variance-authority",
@@ -86,6 +86,6 @@
   "files": [
     "registry/ui/ai-reasoning.tsx"
   ],
-  "docsUrl": "http://localhost:3000/docs/components/ai-reasoning",
-  "sourceUrl": "http://localhost:3000/r/ai-reasoning.json"
+  "docsUrl": "https://ui.wzx.wang/docs/components/ai-reasoning",
+  "sourceUrl": "https://ui.wzx.wang/r/ai-reasoning.json"
 }

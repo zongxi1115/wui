@@ -1,0 +1,41 @@
+---
+title: 动态标注 Annotation
+description: 用路径箭头、荧光笔和自定义手绘轨迹强调页面内容。
+component: annotation
+---
+
+## 基础示例
+
+<ComponentPreview name="annotation-demo" />
+
+<CodeTabs command="wui@latest add @wui/annotation" />
+
+<ComponentSource name="annotation" title="components/ui/annotation.tsx" />
+
+## 组件作用
+
+`AnnotationPath` 用绘制中的 SVG 路径引导视线，默认带有弯曲箭头，也可以通过 `path`、`viewBox` 和 `arrow` 组合成圈选、下划线或任意手绘标记。`AnnotationHighlight` 把荧光笔笔触放在文字下方，支持平整的 `smooth` 和边缘不齐的 `rough` 两种样式。
+
+## 组件属性
+
+### AnnotationPath
+
+<PropsTable name="annotation" />
+
+### AnnotationHighlight
+
+| 属性       | 类型                  | 默认值     | 说明                     |
+| ---------- | --------------------- | ---------- | ------------------------ |
+| `children` | `ReactNode`           | —          | 放在笔触上方的单行内容。 |
+| `variant`  | `"smooth" \| "rough"` | `"smooth"` | 平整或手绘不齐的笔触。   |
+| `color`    | `string`              | 黄色半透明 | 笔触颜色。               |
+| `duration` | `number`              | `0.65`     | 扫过内容所需秒数。       |
+| `delay`    | `number`              | `0`        | 播放前延迟秒数。         |
+| `inView`   | `boolean`             | `true`     | 是否进入视口后播放。     |
+| `once`     | `boolean`             | `true`     | 是否只播放一次。         |
+
+## 使用建议
+
+路径坐标需要与 `viewBox` 使用同一套坐标系；自定义轨迹时建议保留少量外围空间，避免笔触或箭头被裁切。两种组件默认在进入视口时播放一次，也可以设置 `inView={false}` 在挂载时播放，或设置 `once={false}` 在每次进入视口时重播。
+
+荧光笔更适合单行短语。需要强调多行内容时，建议拆成多个短语分别标注，避免笔触跨行后失去手写感。

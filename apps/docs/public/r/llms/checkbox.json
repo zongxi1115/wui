@@ -13,7 +13,7 @@
   ],
   "install": {
     "wui": "npx wui@latest add @wui/checkbox",
-    "shadcn": "npx shadcn@latest add http://localhost:3000/r/checkbox.json",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/checkbox.json",
     "npmDependencies": [
       "radix-ui",
       "class-variance-authority",
@@ -26,12 +26,12 @@
   "props": [
     {
       "name": "size",
-      "type": "\"sm\" | \"default\" | \"lg\"",
+      "type": "\"default\" | \"sm\" | \"lg\"",
       "required": false,
       "control": "select",
       "options": [
-        "sm",
         "default",
+        "sm",
         "lg"
       ],
       "defaultValue": "default",
@@ -62,6 +62,6 @@
   "files": [
     "registry/ui/checkbox.tsx"
   ],
-  "docsUrl": "http://localhost:3000/docs/components/checkbox",
-  "sourceUrl": "http://localhost:3000/r/checkbox.json"
+  "docsUrl": "https://ui.wzx.wang/docs/components/checkbox",
+  "sourceUrl": "https://ui.wzx.wang/r/checkbox.json"
 }

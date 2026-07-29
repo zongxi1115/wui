@@ -2,29 +2,27 @@
   "name": "message",
   "type": "registry:ui",
   "title": "消息 Message",
-  "description": "用于传达成功、提示、警告和错误状态的轻量反馈消息。",
-  "import": "import { Message, MessageProvider, messageVariants, useMessage } from \"@/components/ui/message\"",
+  "description": "用于在操作后提供短暂、轻量的全局反馈。",
+  "import": "import { MessageProvider, useMessage } from \"@/components/ui/message\"",
   "exports": [
-    "Message",
     "MessageProvider",
-    "messageVariants",
     "useMessage"
   ],
   "typeExports": [
     "MessageApi",
+    "MessageMotionConfig",
     "MessageOptions",
     "MessagePosition",
-    "MessageProps",
     "MessageProviderProps",
     "MessageVariant"
   ],
   "install": {
     "wui": "npx wui@latest add @wui/message",
-    "shadcn": "npx shadcn@latest add http://localhost:3000/r/message.json",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/message.json",
     "npmDependencies": [
       "radix-ui",
       "lucide-react",
-      "class-variance-authority",
+      "@animateicons/react",
       "motion"
     ],
     "registryDependencies": [
@@ -33,142 +31,128 @@
   },
   "props": [
     {
-      "name": "variant",
-      "type": "\"default\" | \"info\" | \"success\" | \"warning\" | \"destructive\"",
-      "required": false,
-      "control": "select",
-      "options": [
-        "default",
-        "info",
-        "success",
-        "warning",
-        "destructive"
-      ],
-      "defaultValue": "default",
-      "description": "Semantic appearance and default icon."
-    },
-    {
-      "name": "size",
-      "type": "\"default\" | \"compact\"",
-      "required": false,
-      "control": "select",
-      "options": [
-        "default",
-        "compact"
-      ],
-      "defaultValue": "default",
-      "description": "Density preset."
-    },
-    {
       "name": "position",
-      "type": "\"top-left\" | \"top\" | \"top-right\" | \"bottom-left\" | \"bottom\" | \"bottom-right\"",
+      "type": "\"top\" | \"bottom\" | \"top-left\" | \"top-right\" | \"bottom-left\" | \"bottom-right\"",
       "required": false,
       "control": "select",
       "options": [
-        "top-left",
         "top",
+        "bottom",
+        "top-left",
         "top-right",
         "bottom-left",
-        "bottom",
         "bottom-right"
       ],
       "defaultValue": "top",
-      "description": "Direction used by the enter and exit motion."
+      "description": "Default screen position."
     },
     {
-      "name": "title",
-      "type": "ReactNode",
+      "name": "duration",
+      "type": "number",
       "required": false,
-      "control": "text",
-      "description": "Optional heading displayed above the message body."
+      "control": "number",
+      "defaultValue": "3000",
+      "description": "Default time before dismissal in milliseconds."
     },
     {
-      "name": "children",
-      "type": "ReactNode",
+      "name": "maxCount",
+      "type": "number",
       "required": false,
-      "control": "text",
-      "description": "Message body."
+      "control": "number",
+      "defaultValue": "5",
+      "description": "Maximum number of visible messages. Older messages are dismissed first."
     },
     {
-      "name": "icon",
-      "type": "ReactNode",
+      "name": "offset",
+      "type": "number",
       "required": false,
-      "control": "text",
-      "description": "Custom leading icon. Pass `false` to hide the icon."
+      "control": "number",
+      "defaultValue": "20",
+      "description": "Distance between the viewport and the window edge, in pixels."
     },
     {
-      "name": "action",
-      "type": "ReactNode",
+      "name": "gap",
+      "type": "number",
       "required": false,
-      "control": "text",
-      "description": "Optional action rendered at the end of the message."
+      "control": "number",
+      "defaultValue": "10",
+      "description": "Space between stacked messages, in pixels."
     },
     {
-      "name": "closable",
-      "type": "boolean",
-      "required": false,
-      "control": "boolean",
-      "defaultValue": "false",
-      "description": "Show a close control."
-    },
-    {
-      "name": "visible",
-      "type": "boolean",
-      "required": false,
-      "control": "boolean",
-      "description": "Controlled visibility."
-    },
-    {
-      "name": "defaultVisible",
+      "name": "stacked",
       "type": "boolean",
       "required": false,
       "control": "boolean",
       "defaultValue": "true",
-      "description": "Initial visibility in uncontrolled mode."
+      "description": "Stack messages as overlapping layers instead of a vertical list."
     },
     {
-      "name": "onVisibleChange",
-      "type": "((visible: boolean) => void)",
+      "name": "maxVisibleMessages",
+      "type": "number",
       "required": false,
-      "control": "text",
-      "description": "Called whenever visibility changes."
+      "control": "number",
+      "defaultValue": "3",
+      "description": "Maximum number of visible layers in a stacked queue."
     },
     {
-      "name": "onExitComplete",
-      "type": "(() => void)",
+      "name": "scaleFactor",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0.05",
+      "description": "Scale reduction applied to each successive stacked layer."
+    },
+    {
+      "name": "expandOnHover",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "Expand stacked messages into a list on hover or keyboard focus."
+    },
+    {
+      "name": "dragToDismiss",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "Allow messages to be dismissed by dragging horizontally."
+    },
+    {
+      "name": "dragThreshold",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "72",
+      "description": "Horizontal drag distance required to dismiss, in pixels."
+    },
+    {
+      "name": "motion",
+      "type": "Partial<MessageMotionConfig>",
       "required": false,
       "control": "text",
-      "description": "Called after the exit animation completes."
+      "defaultValue": "{}",
+      "description": "Motion defaults shared by all messages."
     }
   ],
-  "usage": "`MessageProvider` 与 `useMessage()` 用于由按钮或业务事件触发全局轻提示。消息通过 Portal 渲染，\n可以出现在左上、顶部、右上、左下、底部或右下，并在指定时间后自动消失。它适合保存成功、\n复制完成和可恢复错误等短反馈；需要承载复杂操作或长时间保留时，应使用 Notification 或 Dialog。\n\n底层 `Message` 也可以单独使用，作为表单附近或页面内容中的内联反馈条。\n\n不同变体通过图标、语义角色和克制的色彩变化表达含义，不依赖大面积高饱和背景。消息进入和\n退出时使用短距离弹簧过渡，并在 `prefers-reduced-motion` 下关闭位移和缩放。",
-  "extended": "### 内联状态变体\n\n### 尾部操作\n\n### 可关闭与受控显示\n\n### 紧凑尺寸\n\n  同一区域尽量只显示一条当前消息。连续发生的全局反馈更适合交给 Toast 队列处理。",
-  "events": "- `onVisibleChange(visible)`：关闭按钮或受控状态改变可见性时触发。\n- `useMessage().open(options)`：创建消息并返回消息 id。\n- `dismiss(id)` / `clear()`：关闭单条消息或清空当前消息队列。\n- 原生指针、焦点与动画事件会继续透传到底层 Motion `div`。\n- `warning` 与 `destructive` 默认使用 `role=\"alert\"`；其他变体默认使用 `role=\"status\"`。",
+  "usage": "`MessageProvider` 与 `useMessage()` 用于由按钮或业务事件触发全局轻提示。Message 通过 Portal 渲染，适合保存成功、复制完成、轻量警告和可恢复错误等短反馈。\n\nMessage 只承载一行紧凑内容；需要标题、较长说明、尾部操作或长期保留的页面内反馈时，请使用 Alert。\n\n默认状态图标来自 `@animateicons/react`，消息出现时会自动播放一次：信息使用 `InfoIcon`、成功使用 `CircleCheckIcon`、警告使用 `TriangleAlertIcon`、错误使用 `XIcon`。",
   "examples": [
     {
       "name": "message-demo",
       "title": "基础示例"
     },
     {
-      "name": "message-variants",
-      "title": "内联状态变体"
+      "name": "message-motion",
+      "title": "自定义透明度与动效"
     },
     {
-      "name": "message-action",
-      "title": "尾部操作"
-    },
-    {
-      "name": "message-dismissible",
-      "title": "可关闭与受控显示"
-    },
-    {
-      "name": "message-compact",
-      "title": "紧凑尺寸"
+      "name": "message-stack",
+      "title": "堆叠与拖动移除"
     }
   ],
   "files": [
     "registry/ui/message.tsx"
   ],
-  "docsUrl": "http://localhost:3000/docs/components/message",
-  "sourceUrl": "http://localhost:3000/r/message.json"
+  "docsUrl": "https://ui.wzx.wang/docs/components/message",
+  "sourceUrl": "https://ui.wzx.wang/r/message.json"
 }

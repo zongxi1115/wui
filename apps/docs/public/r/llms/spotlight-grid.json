@@ -1,0 +1,98 @@
+{
+  "name": "spotlight-grid",
+  "type": "registry:ui",
+  "title": "聚光网格 Spotlight Grid",
+  "description": "用鼠标聚光显露网格或点阵背景的局部结构。",
+  "categories": [
+    "background",
+    "pointer",
+    "fancy"
+  ],
+  "import": "import { SpotlightGrid } from \"@/components/ui/spotlight-grid\"",
+  "exports": [
+    "SpotlightGrid"
+  ],
+  "typeExports": [
+    "SpotlightGridProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/spotlight-grid",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/spotlight-grid.json",
+    "npmDependencies": [],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "Content rendered above the pattern."
+    },
+    {
+      "name": "pattern",
+      "type": "\"grid\" | \"dots\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "grid",
+        "dots"
+      ],
+      "defaultValue": "grid",
+      "description": "Background pattern."
+    },
+    {
+      "name": "size",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "28",
+      "description": "Pattern cell size in pixels."
+    },
+    {
+      "name": "radius",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "240",
+      "description": "Radius of the revealed pointer spotlight in pixels."
+    },
+    {
+      "name": "patternColor",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "defaultValue": "currentColor",
+      "description": "CSS color used by the pattern."
+    },
+    {
+      "name": "baseOpacity",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0.1",
+      "description": "Opacity of the always-visible pattern."
+    },
+    {
+      "name": "patternClassName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "Classes applied to both pattern layers."
+    }
+  ],
+  "usage": "`SpotlightGrid` 渲染一层弱化的基础图案和一层通过径向 mask 显露的清晰图案。`pattern=\"dots\"` 可切换为点阵；组件只使用 CSS 背景和指针事件，没有第三方运行时依赖。",
+  "examples": [
+    {
+      "name": "spotlight-grid-demo",
+      "title": "基础示例"
+    }
+  ],
+  "files": [
+    "registry/ui/spotlight-grid.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/spotlight-grid",
+  "sourceUrl": "https://ui.wzx.wang/r/spotlight-grid.json"
+}

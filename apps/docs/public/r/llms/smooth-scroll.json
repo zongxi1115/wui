@@ -1,0 +1,85 @@
+{
+  "name": "smooth-scroll",
+  "type": "registry:ui",
+  "title": "平滑滚动 Smooth Scroll",
+  "description": "用 Lenis 为页面或自定义容器提供惯性平滑滚动基座。",
+  "categories": [
+    "scroll",
+    "motion"
+  ],
+  "import": "import { SmoothScroll } from \"@/components/ui/smooth-scroll\"",
+  "exports": [
+    "SmoothScroll"
+  ],
+  "typeExports": [
+    "SmoothScrollProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/smooth-scroll",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/smooth-scroll.json",
+    "npmDependencies": [
+      "lenis"
+    ],
+    "registryDependencies": []
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "Content rendered inside the Lenis context or custom scroll container."
+    },
+    {
+      "name": "options",
+      "type": "LenisOptions",
+      "required": false,
+      "control": "text",
+      "description": "Lenis instance options."
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "Disable interpolation while preserving the content wrapper."
+    },
+    {
+      "name": "respectReducedMotion",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "Respect the operating system reduced-motion preference."
+    },
+    {
+      "name": "root",
+      "type": "boolean | \"asChild\"",
+      "required": false,
+      "control": "text",
+      "defaultValue": "true",
+      "description": "Setup a global instance of Lenis\nif `asChild`, the component will render wrapper and content divs"
+    },
+    {
+      "name": "autoRaf",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "Auto-setup requestAnimationFrame\n@deprecated use options.autoRaf instead"
+    }
+  ],
+  "usage": "`SmoothScroll` 封装 Lenis 官方 React Provider。默认 `root` 模式接管文档滚动；设置 `root={false}` 可渲染独立滚动容器。`options` 会直接传给 Lenis，并默认开启 `autoRaf`。\n\n按照 Lenis 官方建议，在应用入口引入配套样式：\n\n```tsx\nimport \"lenis/dist/lenis.css\"\n```",
+  "examples": [
+    {
+      "name": "smooth-scroll-demo",
+      "title": "基础示例"
+    }
+  ],
+  "files": [
+    "registry/ui/smooth-scroll.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/smooth-scroll",
+  "sourceUrl": "https://ui.wzx.wang/r/smooth-scroll.json"
+}

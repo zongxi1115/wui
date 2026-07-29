@@ -16,7 +16,7 @@
   ],
   "install": {
     "wui": "npx wui@latest add @wui/sliding-number",
-    "shadcn": "npx shadcn@latest add http://localhost:3000/r/sliding-number.json",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/sliding-number.json",
     "npmDependencies": [
       "motion"
     ],
@@ -58,7 +58,7 @@
     }
   ],
   "usage": "`SlidingNumber` 适合计数器、实时指标、时钟和金额展示。每个数位独立滑动，非数字字符会原样保留；组件为读屏提供完整值而不是逐位朗读。",
-  "extended": "### 时钟\n\n`padStart` 会为个位整数补零，`decimalSeparator` 可用于本地化小数符号。更复杂的千分位和货币格式建议先用 `Intl.NumberFormat` 生成字符串后再传入。",
+  "extended": "### 时钟\r\n\r\n\r\n\r\n`padStart` 会为个位整数补零，`decimalSeparator` 可用于本地化小数符号。更复杂的千分位和货币格式建议先用 `Intl.NumberFormat` 生成字符串后再传入。",
   "events": "组件没有自有事件，并透传 `<span>` 的原生事件。修改 `value` 即会触发过渡；减少动态效果时数位立即更新。",
   "examples": [
     {
@@ -73,6 +73,6 @@
   "files": [
     "registry/ui/sliding-number.tsx"
   ],
-  "docsUrl": "http://localhost:3000/docs/components/sliding-number",
-  "sourceUrl": "http://localhost:3000/r/sliding-number.json"
+  "docsUrl": "https://ui.wzx.wang/docs/components/sliding-number",
+  "sourceUrl": "https://ui.wzx.wang/r/sliding-number.json"
 }

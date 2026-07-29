@@ -49,10 +49,10 @@ const ROW = 9
 /** Vertical padding inside the strip, in pixels. */
 const PAD = 6
 /**
- * Falloff radius of the pointer magnifier, in pixels. Kept just above ROW so
- * the tick under the pointer clearly peaks and only ~2 neighbours follow it.
+ * Falloff radius of the pointer magnifier, in pixels. Wide enough for the
+ * ticks immediately above and below the pointer to follow with a small lift.
  */
-const SPREAD = 10
+const SPREAD = 14
 /** Resting and magnified tick lengths per level. */
 const LENGTHS = {
   1: { rest: 12, peak: 46 },
@@ -154,6 +154,7 @@ function AiConversationTimeline({
             active={item.id === activeId}
             anchor={previewSide}
             pointer={pointer}
+            stripRef={stripRef}
             reduceMotion={!!reduceMotion}
             onSelect={() => selectItem(item, index)}
             onPreview={(next) => setPreviewId(next ? item.id : undefined)}
@@ -240,6 +241,7 @@ function Tick({
   active,
   anchor,
   pointer,
+  stripRef,
   reduceMotion,
   onSelect,
   onPreview,
@@ -250,20 +252,50 @@ function Tick({
   active: boolean
   anchor: "left" | "right"
   pointer: MotionValue<number>
+  stripRef: React.RefObject<HTMLOListElement | null>
   reduceMotion: boolean
   onSelect: () => void
   onPreview: (previewing: boolean) => void
   onFocusCenter: (center: number) => void
 }) {
   const { rest, peak } = LENGTHS[item.level ?? 1]
-  // The strip owns its own pitch, so the center is exact — and it is measured
-  // from the same box (the list border box) the pointer offset comes from.
-  const center = PAD + index * ROW + ROW / 2
+  // Start from the intended pitch, then replace it with the rendered center.
+  // This keeps pointer and tick positions in the same coordinate system even
+  // when surrounding styles alter the actual row layout.
+  const tickRef = React.useRef<HTMLButtonElement>(null)
+  const center = useMotionValue(PAD + index * ROW + ROW / 2)
+
+  const measureCenter = React.useCallback(() => {
+    const strip = stripRef.current
+    const tick = tickRef.current
+    if (!strip || !tick) return center.get()
+
+    const stripRect = strip.getBoundingClientRect()
+    const tickRect = tick.getBoundingClientRect()
+    const nextCenter = tickRect.top - stripRect.top + tickRect.height / 2
+    center.set(nextCenter)
+    return nextCenter
+  }, [center, stripRef])
+
+  useIsomorphicLayoutEffect(() => {
+    measureCenter()
+
+    const strip = stripRef.current
+    const tick = tickRef.current
+    if (!strip || !tick || typeof ResizeObserver === "undefined") return
+
+    const observer = new ResizeObserver(measureCenter)
+    observer.observe(strip)
+    observer.observe(tick)
+    return () => observer.disconnect()
+  }, [measureCenter, stripRef])
 
   // Gaussian falloff: the tick under the pointer peaks, neighbours trail off.
-  const proximity = useTransform(pointer, (y) =>
-    y < 0 ? 0 : Math.exp(-((y - center) ** 2) / (2 * SPREAD ** 2))
-  )
+  const proximity = useTransform(() => {
+    const y = pointer.get()
+    const tickCenter = center.get()
+    return y < 0 ? 0 : Math.exp(-((y - tickCenter) ** 2) / (2 * SPREAD ** 2))
+  })
   const widthTarget = useTransform(proximity, (p) => rest + (peak - rest) * p)
   const opacityTarget = useTransform(proximity, (p) =>
     Math.min(1, (active ? 0.5 : 0.22) + p * 0.78)
@@ -274,6 +306,7 @@ function Tick({
   return (
     <li className="flex w-full" style={{ height: ROW }}>
       <button
+        ref={tickRef}
         type="button"
         aria-label={item.title}
         aria-current={active ? "step" : undefined}
@@ -288,7 +321,7 @@ function Tick({
         onPointerEnter={() => onPreview(true)}
         onFocus={() => {
           onPreview(true)
-          onFocusCenter(center)
+          onFocusCenter(measureCenter())
         }}
         onBlur={() => onPreview(false)}
       >

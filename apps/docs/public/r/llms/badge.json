@@ -1,0 +1,77 @@
+{
+  "name": "badge",
+  "type": "registry:ui",
+  "title": "徽章 Badge",
+  "description": "用紧凑的标签展示状态、分类或简短元数据。",
+  "import": "import { Badge, badgeVariants } from \"@/components/ui/badge\"",
+  "exports": [
+    "Badge",
+    "badgeVariants"
+  ],
+  "typeExports": [
+    "BadgeProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/badge",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/badge.json",
+    "npmDependencies": [
+      "radix-ui",
+      "class-variance-authority"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "variant",
+      "type": "\"default\" | \"secondary\" | \"destructive\" | \"outline\" | \"success\" | \"warning\" | \"info\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "default",
+        "secondary",
+        "destructive",
+        "outline",
+        "success",
+        "warning",
+        "info"
+      ],
+      "defaultValue": "default",
+      "description": "Visual treatment of the badge."
+    },
+    {
+      "name": "size",
+      "type": "\"default\" | \"sm\" | \"lg\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "default",
+        "sm",
+        "lg"
+      ],
+      "defaultValue": "default",
+      "description": "Height and horizontal padding preset."
+    },
+    {
+      "name": "asChild",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "Render as the single child element via Radix Slot."
+    }
+  ],
+  "usage": "`Badge` 适合展示状态、分类、版本和其他短文本。语义色使用主题中的 `info`、`success`、`warning` 与 `destructive` token；仅表达分类而非状态时，优先使用 `default`、`secondary` 或 `outline`。\n\n通过 `asChild` 可以把样式合并到链接等单个子元素上，同时保留子元素原有语义。",
+  "examples": [
+    {
+      "name": "badge-demo",
+      "title": "基础示例"
+    }
+  ],
+  "files": [
+    "registry/ui/badge.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/badge",
+  "sourceUrl": "https://ui.wzx.wang/r/badge.json"
+}

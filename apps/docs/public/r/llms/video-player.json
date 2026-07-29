@@ -1,0 +1,52 @@
+{
+  "name": "video-player",
+  "type": "registry:ui",
+  "title": "视频播放器 Video Player",
+  "description": "由可自由组合的小组件构成，支持播放、进度、音量、快捷键和全屏的视频播放器。",
+  "import": "import { VideoPlayer, VideoPlayerControlBar, VideoPlayerControlGroup, VideoPlayerControls, VideoPlayerFullscreenButton, VideoPlayerMuteButton, VideoPlayerPlayButton, VideoPlayerSeek, VideoPlayerTime, VideoPlayerVideo, VideoPlayerVolume, formatTime, useVideoPlayer } from \"@/components/ui/video-player\"",
+  "exports": [
+    "VideoPlayer",
+    "VideoPlayerControlBar",
+    "VideoPlayerControlGroup",
+    "VideoPlayerControls",
+    "VideoPlayerFullscreenButton",
+    "VideoPlayerMuteButton",
+    "VideoPlayerPlayButton",
+    "VideoPlayerSeek",
+    "VideoPlayerTime",
+    "VideoPlayerVideo",
+    "VideoPlayerVolume",
+    "formatTime",
+    "useVideoPlayer"
+  ],
+  "typeExports": [
+    "VideoPlayerProps",
+    "VideoPlayerVideoProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/video-player",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/video-player.json",
+    "npmDependencies": [
+      "lucide-react"
+    ],
+    "registryDependencies": [
+      "utils",
+      "button",
+      "slider",
+      "tooltip"
+    ]
+  },
+  "props": [],
+  "usage": "`VideoPlayer` 只负责共享媒体状态和键盘交互，其余界面由独立积木组合。可以替换控制栏布局、隐藏音量、加入业务按钮，或直接只使用媒体节点与播放按钮，而不需要修改组件内部。",
+  "examples": [
+    {
+      "name": "video-player-demo",
+      "title": "完整示例"
+    }
+  ],
+  "files": [
+    "registry/ui/video-player.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/video-player",
+  "sourceUrl": "https://ui.wzx.wang/r/video-player.json"
+}

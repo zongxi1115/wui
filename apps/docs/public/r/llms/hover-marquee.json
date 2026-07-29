@@ -1,0 +1,94 @@
+{
+  "name": "hover-marquee",
+  "type": "registry:ui",
+  "title": "浮入滚动目录 Hover Marquee",
+  "description": "目录行浮入或聚焦后，显示无缝横向滚动的内容预览。",
+  "categories": [
+    "fancy",
+    "motion"
+  ],
+  "import": "import { HoverMarquee } from \"@/components/ui/hover-marquee\"",
+  "exports": [
+    "HoverMarquee"
+  ],
+  "typeExports": [
+    "HoverMarqueeProps"
+  ],
+  "install": {
+    "wui": "npx wui@latest add @wui/hover-marquee",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/hover-marquee.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils",
+      "infinite-slider"
+    ]
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": true,
+      "control": "text",
+      "description": "Content shown while the row is idle."
+    },
+    {
+      "name": "marquee",
+      "type": "ReactNode",
+      "required": true,
+      "control": "text",
+      "description": "Content repeated inside the moving preview track."
+    },
+    {
+      "name": "speed",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "96",
+      "description": "Track speed in pixels per second."
+    },
+    {
+      "name": "gap",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "32",
+      "description": "Space between repeated preview items in pixels."
+    },
+    {
+      "name": "reverse",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "Move the preview track in the opposite direction."
+    },
+    {
+      "name": "active",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "Force the preview open from outside the component."
+    },
+    {
+      "name": "marqueeClassName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "Classes applied to the moving preview layer."
+    }
+  ],
+  "usage": "`HoverMarquee` 默认展示普通目录行，鼠标浮入或键盘焦点进入时，以横向循环的预览带替换原内容。它适合作品索引、案例目录、分类导航和视觉化菜单。\n\n组件内部复用 `InfiniteSlider`，安装时会自动带上对应依赖。启用“减少动态效果”时仍会显示预览内容，但不会持续滚动。",
+  "examples": [
+    {
+      "name": "hover-marquee-demo",
+      "title": "基础示例"
+    }
+  ],
+  "files": [
+    "registry/ui/hover-marquee.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/hover-marquee",
+  "sourceUrl": "https://ui.wzx.wang/r/hover-marquee.json"
+}

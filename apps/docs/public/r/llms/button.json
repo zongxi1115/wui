@@ -13,7 +13,7 @@
   ],
   "install": {
     "wui": "npx wui@latest add @wui/button",
-    "shadcn": "npx shadcn@latest add http://localhost:3000/r/button.json",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/button.json",
     "npmDependencies": [
       "radix-ui",
       "class-variance-authority",
@@ -26,16 +26,16 @@
   "props": [
     {
       "name": "variant",
-      "type": "\"default\" | \"destructive\" | \"outline\" | \"secondary\" | \"ghost\" | \"link\"",
+      "type": "\"default\" | \"link\" | \"secondary\" | \"destructive\" | \"outline\" | \"ghost\"",
       "required": false,
       "control": "select",
       "options": [
         "default",
+        "link",
+        "secondary",
         "destructive",
         "outline",
-        "secondary",
-        "ghost",
-        "link"
+        "ghost"
       ],
       "defaultValue": "default",
       "description": "Visual style of the button."
@@ -85,9 +85,9 @@
       "control": "boolean"
     }
   ],
-  "usage": "`Button` 是触发操作的主要方式，例如提交表单、打开对话框或确认选择。任何需要“执行某个动作”\n的场景都可以使用它。\n\n- 当控件用于页面跳转而非执行操作时，使用 **`link` 变体**，或通过 `asChild` 配合 `<a>`。\n- 删除等不可逆操作使用 **`variant=\"destructive\"`**。\n- 仅显示图标时使用 **`size=\"icon\"`**，并始终提供 `aria-label` 或视觉隐藏文字以保证无障碍体验。",
-  "extended": "### 变体\n\n### 尺寸\n\n### 搭配图标\n\n### 加载状态\n\n### 链接变体（动态下划线）\n\n`link` 变体会在悬停时让下划线滑入，并同步平滑改变文字颜色，无需额外配置。下划线紧贴文字标签\n而不是按钮的内边距边界，因此在任何 `size` 下都能保持合适的视觉效果。\n\n  使用 `asChild` 渲染真实链接时，按钮会将元素控制权交给子元素，包裹标签的下划线动画无法应用，\n  因此 `link` 变体会回退为普通的 `hover:underline`。如有需要，请直接在 `<a>` 上添加动画样式。\n\n### 作为链接（`asChild`）\n\n将 `asChild` 与链接元素组合，可渲染一个外观像按钮、语义仍为 `<a>` 的元素：\n\n### 动效（可选）\n\n设置 `motion` 属性可启用轻微的弹性按压与悬停微交互。该功能依赖\n[`motion`](/docs/components/motion)，并会在用户偏好减少动态效果时自动禁用。\n\n### 涟漪（可选）\n\n设置 `ripple` 属性可启用从指针位置向外扩散的 Material 风格点击涟漪。它可以与 `motion`\n组合使用；与其他 wui 动画一样，启用 `prefers-reduced-motion` 时不会播放。使用 `asChild`\n时会忽略 `ripple`。",
-  "events": "`Button` 会将 `{...props}` 展开到底层元素，因此支持所有原生按钮事件。\n\n  启用 `asChild` 后，事件会绑定到你渲染的子元素（例如 `<a>`），而不是 `<button>`。",
+  "usage": "`Button` 是触发操作的主要方式，例如提交表单、打开对话框或确认选择。任何需要“执行某个动作”\r\n的场景都可以使用它。\r\n\r\n- 当控件用于页面跳转而非执行操作时，使用 **`link` 变体**，或通过 `asChild` 配合 `<a>`。\r\n- 删除等不可逆操作使用 **`variant=\"destructive\"`**。\r\n- 仅显示图标时使用 **`size=\"icon\"`**，并始终提供 `aria-label` 或视觉隐藏文字以保证无障碍体验。",
+  "extended": "### 变体\r\n\r\n\r\n\r\n### 尺寸\r\n\r\n\r\n\r\n### 搭配图标\r\n\r\n\r\n\r\n### 加载状态\r\n\r\n\r\n\r\n### 链接变体（动态下划线）\r\n\r\n`link` 变体会在悬停时让下划线滑入，并同步平滑改变文字颜色，无需额外配置。下划线紧贴文字标签\r\n而不是按钮的内边距边界，因此在任何 `size` 下都能保持合适的视觉效果。\r\n\r\n\r\n\r\n\r\n  使用 `asChild` 渲染真实链接时，按钮会将元素控制权交给子元素，包裹标签的下划线动画无法应用，\r\n  因此 `link` 变体会回退为普通的 `hover:underline`。如有需要，请直接在 `<a>` 上添加动画样式。\r\n\r\n\r\n### 作为链接（`asChild`）\r\n\r\n将 `asChild` 与链接元素组合，可渲染一个外观像按钮、语义仍为 `<a>` 的元素：\r\n\r\n\r\n\r\n### 动效（可选）\r\n\r\n设置 `motion` 属性可启用轻微的弹性按压与悬停微交互。该功能依赖\r\n[`motion`](/docs/components/motion)，并会在用户偏好减少动态效果时自动禁用。\r\n\r\n\r\n\r\n### 涟漪（可选）\r\n\r\n设置 `ripple` 属性可启用从指针位置向外扩散的 Material 风格点击涟漪。它可以与 `motion`\r\n组合使用；与其他 wui 动画一样，启用 `prefers-reduced-motion` 时不会播放。使用 `asChild`\r\n时会忽略 `ripple`。",
+  "events": "`Button` 会将 `{...props}` 展开到底层元素，因此支持所有原生按钮事件。\r\n\r\n\r\n\r\n\r\n  启用 `asChild` 后，事件会绑定到你渲染的子元素（例如 `<a>`），而不是 `<button>`。",
   "examples": [
     {
       "name": "button-demo",
@@ -129,6 +129,6 @@
   "files": [
     "registry/ui/button.tsx"
   ],
-  "docsUrl": "http://localhost:3000/docs/components/button",
-  "sourceUrl": "http://localhost:3000/r/button.json"
+  "docsUrl": "https://ui.wzx.wang/docs/components/button",
+  "sourceUrl": "https://ui.wzx.wang/r/button.json"
 }

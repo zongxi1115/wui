@@ -1,10 +1,10 @@
 import { Button } from "@/registry/ui/button"
-import { Message } from "@/registry/ui/message"
+import { Alert } from "@/registry/ui/alert"
 
-export default function MessageAction() {
+export default function AlertAction() {
   return (
     <div className="w-full max-w-lg">
-      <Message
+      <Alert
         title="Draft restored"
         action={
           <Button variant="ghost" size="sm">
@@ -13,7 +13,7 @@ export default function MessageAction() {
         }
       >
         We recovered changes from your previous session.
-      </Message>
+      </Alert>
     </div>
   )
 }

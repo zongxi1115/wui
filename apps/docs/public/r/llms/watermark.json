@@ -2,7 +2,7 @@
   "name": "watermark",
   "type": "registry:ui",
   "title": "水印 Watermark",
-  "description": "在内容区域上方添加重复的文字水印。",
+  "description": "在内容区域上方添加重复的文字或图片水印。",
   "import": "import { Watermark } from \"@/components/ui/watermark\"",
   "exports": [
     "Watermark"
@@ -13,7 +13,7 @@
   ],
   "install": {
     "wui": "npx wui@latest add @wui/watermark",
-    "shadcn": "npx shadcn@latest add http://localhost:3000/r/watermark.json",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/watermark.json",
     "npmDependencies": [],
     "registryDependencies": [
       "utils"
@@ -25,8 +25,15 @@
       "type": "string | string[]",
       "required": false,
       "control": "text",
-      "defaultValue": "WUI",
+      "defaultValue": "\"WUI\"",
       "description": "One line or multiple lines of repeated watermark text."
+    },
+    {
+      "name": "image",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "Image URL used as the repeated watermark. Takes precedence over content."
     },
     {
       "name": "rotate",
@@ -92,8 +99,8 @@
       "description": "Stacking order of the watermark layer."
     }
   ],
-  "usage": "`Watermark` 在内容区域上叠加重复文字，用于表达所有权、保密级别或文档状态。水印层会忽略\n指针事件，因此其下方的控件和可选择文本仍可正常使用。\n\n- 适合用于报告、预览、导出文档页面和受限内容。\n- 需要同时展示查看者身份或时间戳时，可以传入多行文本。\n- 水印只是一种视觉提示，不能代替权限控制。\n\n  `Watermark` 默认不包含任何动画。它是一个被动的环境层，应该安静地位于内容之上；动画既会\n  抢夺注意力、影响受保护内容的可读性，也会导致大面积平铺区域反复重绘。并非每个组件都需要\n  动效，取舍原则见 `docs/COMPONENT-SPEC.md` 第 9 节。",
-  "extended": "### 多行文字与自定义间距\n\n向 `content` 传入数组即可展示多行文字。较长标签需要更多空间时，可同时调整 `width`、\n`height` 和 `gap`，再微调 `rotate` 与 `opacity`，确保受保护内容仍清晰可读。",
+  "usage": "`Watermark` 在内容区域上叠加重复文字，用于表达所有权、保密级别或文档状态。水印层会忽略\r\n指针事件，因此其下方的控件和可选择文本仍可正常使用。\r\n\r\n- 适合用于报告、预览、导出文档页面和受限内容。\r\n- 需要同时展示查看者身份或时间戳时，可以传入多行文本。\r\n- 水印只是一种视觉提示，不能代替权限控制。\r\n\r\n\r\n  `Watermark` 默认不包含任何动画。它是一个被动的环境层，应该安静地位于内容之上；动画既会\r\n  抢夺注意力、影响受保护内容的可读性，也会导致大面积平铺区域反复重绘。并非每个组件都需要\r\n  动效，取舍原则见 `docs/COMPONENT-SPEC.md` 第 9 节。",
+  "extended": "### 多行文字与自定义间距\r\n\r\n\n向 `content` 传入数组即可展示多行文字。较长标签需要更多空间时，可同时调整 `width`、\n`height` 和 `gap`，再微调 `rotate` 与 `opacity`，确保受保护内容仍清晰可读。\n\n### 图片水印\n\n传入 `image` 可以重复铺设图片水印。图片会在 `width` 和 `height` 定义的区域内保持比例居中显示，并继续使用相同的 `rotate`、`gap`、`offset` 和 `opacity` 设置。传入图片时，`image` 的优先级高于 `content`。",
   "events": "根元素会透传原生 `<div>` 事件和属性。水印视觉层使用 `pointer-events: none`，因此不会成为事件目标。",
   "examples": [
     {
@@ -103,11 +110,15 @@
     {
       "name": "watermark-custom",
       "title": "多行文字与自定义间距"
+    },
+    {
+      "name": "watermark-image",
+      "title": "图片水印"
     }
   ],
   "files": [
     "registry/ui/watermark.tsx"
   ],
-  "docsUrl": "http://localhost:3000/docs/components/watermark",
-  "sourceUrl": "http://localhost:3000/r/watermark.json"
+  "docsUrl": "https://ui.wzx.wang/docs/components/watermark",
+  "sourceUrl": "https://ui.wzx.wang/r/watermark.json"
 }

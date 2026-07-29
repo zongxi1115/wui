@@ -13,7 +13,7 @@
   ],
   "install": {
     "wui": "npx wui@latest add @wui/slider",
-    "shadcn": "npx shadcn@latest add http://localhost:3000/r/slider.json",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/slider.json",
     "npmDependencies": [
       "radix-ui",
       "class-variance-authority"
@@ -37,12 +37,12 @@
     },
     {
       "name": "showValue",
-      "type": "\"hover\" | \"always\" | \"never\"",
+      "type": "\"always\" | \"hover\" | \"never\"",
       "required": false,
       "control": "select",
       "options": [
-        "hover",
         "always",
+        "hover",
         "never"
       ],
       "defaultValue": "hover",
@@ -70,7 +70,7 @@
     }
   ],
   "usage": "`Slider` 用于音量、亮度、缩放和数值范围等连续调整。轨道在悬浮或键盘聚焦时平滑变粗，滑块上方的标签跟随位置并实时显示当前值。",
-  "extended": "使用 `showValue=\"hover | always | never\"` 控制浮动标签，通过 `formatValue` 添加百分号、单位或自定义内容。传入两个值即可得到范围选择器，方向键会按照 `step` 调整数值。\n\n### 满尺寸展开\n\n`variant=\"expand\"` 会在鼠标浮入或键盘聚焦时将轨道扩展到 `20px`，与滑块圆点保持相同高度；离开交互区域后平滑收回细轨道。",
+  "extended": "使用 `showValue=\"hover | always | never\"` 控制浮动标签，通过 `formatValue` 添加百分号、单位或自定义内容。传入两个值即可得到范围选择器，方向键会按照 `step` 调整数值。\r\n\r\n### 满尺寸展开\r\n\r\n\r\n\r\n`variant=\"expand\"` 会在鼠标浮入或键盘聚焦时将轨道扩展到 `20px`，与滑块圆点保持相同高度；离开交互区域后平滑收回细轨道。",
   "events": "`onValueChange(values)` 在拖动或键盘调整期间连续触发；需要只在操作完成后提交时使用 `onValueCommit(values)`。组件支持受控与非受控用法。",
   "examples": [
     {
@@ -85,6 +85,6 @@
   "files": [
     "registry/ui/slider.tsx"
   ],
-  "docsUrl": "http://localhost:3000/docs/components/slider",
-  "sourceUrl": "http://localhost:3000/r/slider.json"
+  "docsUrl": "https://ui.wzx.wang/docs/components/slider",
+  "sourceUrl": "https://ui.wzx.wang/r/slider.json"
 }

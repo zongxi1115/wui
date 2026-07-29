@@ -20,6 +20,8 @@ interface WatermarkFont {
 interface WatermarkProps extends Omit<React.ComponentProps<"div">, "content"> {
   /** One line or multiple lines of repeated watermark text. @default "WUI" */
   content?: string | string[]
+  /** Image URL used as the repeated watermark. Takes precedence over content. */
+  image?: string
   /** Clockwise rotation angle in degrees. @default -22 */
   rotate?: number
   /** Horizontal and vertical space between watermark cells. @default [80, 80] */
@@ -41,7 +43,8 @@ interface WatermarkProps extends Omit<React.ComponentProps<"div">, "content"> {
 function Watermark({
   children,
   className,
-  content = "WUI",
+  content,
+  image,
   rotate = -22,
   gap = [80, 80],
   offset = [0, 0],
@@ -53,7 +56,10 @@ function Watermark({
   ...props
 }: WatermarkProps) {
   const patternId = `watermark-${React.useId().replace(/:/g, "")}`
-  const lines = Array.isArray(content) ? content : [content]
+  const resolvedContent = content ?? "WUI"
+  const lines = Array.isArray(resolvedContent)
+    ? resolvedContent
+    : [resolvedContent]
   const fontSize = font?.fontSize ?? 16
   const lineHeight = fontSize * 1.4
   const patternWidth = width + gap[0]
@@ -85,25 +91,37 @@ function Watermark({
             patternUnits="userSpaceOnUse"
           >
             <g transform={`rotate(${rotate} ${centerX} ${centerY})`}>
-              {lines.map((line, index) => (
-                <text
-                  key={`${line}-${index}`}
-                  data-slot="watermark-text"
-                  x={centerX}
-                  y={firstLineY + index * lineHeight}
-                  fill="currentColor"
-                  textAnchor="middle"
-                  dominantBaseline="middle"
-                  style={{
-                    fontFamily: font?.fontFamily,
-                    fontSize,
-                    fontStyle: font?.fontStyle ?? "normal",
-                    fontWeight: font?.fontWeight ?? 500,
-                  }}
-                >
-                  {line}
-                </text>
-              ))}
+              {image ? (
+                <image
+                  data-slot="watermark-image"
+                  href={image}
+                  x={centerX - width / 2}
+                  y={centerY - height / 2}
+                  width={width}
+                  height={height}
+                  preserveAspectRatio="xMidYMid meet"
+                />
+              ) : (
+                lines.map((line, index) => (
+                  <text
+                    key={`${line}-${index}`}
+                    data-slot="watermark-text"
+                    x={centerX}
+                    y={firstLineY + index * lineHeight}
+                    fill="currentColor"
+                    textAnchor="middle"
+                    dominantBaseline="middle"
+                    style={{
+                      fontFamily: font?.fontFamily,
+                      fontSize,
+                      fontStyle: font?.fontStyle ?? "normal",
+                      fontWeight: font?.fontWeight ?? 500,
+                    }}
+                  >
+                    {line}
+                  </text>
+                ))
+              )}
             </g>
           </pattern>
         </defs>

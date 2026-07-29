@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "spotlight-grid",
+  "type": "registry:ui",
+  "title": "Spotlight Grid",
+  "description": "Reveals a grid or dot pattern around the current pointer position.",
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/spotlight-grid.tsx",
+      "type": "registry:ui",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { cn } from \"@/registry/lib/utils\"\n\nexport interface SpotlightGridProps extends React.ComponentProps<\"div\"> {\n  /** Content rendered above the pattern. */\n  children?: React.ReactNode\n  /** Background pattern. @default \"grid\" */\n  pattern?: \"grid\" | \"dots\"\n  /** Pattern cell size in pixels. @default 28 */\n  size?: number\n  /** Radius of the revealed pointer spotlight in pixels. @default 240 */\n  radius?: number\n  /** CSS color used by the pattern. @default \"currentColor\" */\n  patternColor?: string\n  /** Opacity of the always-visible pattern. @default 0.1 */\n  baseOpacity?: number\n  /** Classes applied to both pattern layers. */\n  patternClassName?: string\n}\n\nfunction patternImage(pattern: NonNullable<SpotlightGridProps[\"pattern\"]>) {\n  return pattern === \"dots\"\n    ? \"radial-gradient(circle, currentColor 1px, transparent 1.2px)\"\n    : \"linear-gradient(currentColor 1px, transparent 1px), linear-gradient(90deg, currentColor 1px, transparent 1px)\"\n}\n\n/** Reveals a grid or dot pattern around the current pointer position. */\nfunction SpotlightGrid({\n  children,\n  pattern = \"grid\",\n  size = 28,\n  radius = 240,\n  patternColor = \"currentColor\",\n  baseOpacity = 0.1,\n  className,\n  patternClassName,\n  onPointerEnter,\n  onPointerMove,\n  onPointerLeave,\n  ...props\n}: SpotlightGridProps) {\n  const revealRef = React.useRef<HTMLDivElement>(null)\n  const backgroundImage = patternImage(pattern)\n  const backgroundSize = `${size}px ${size}px`\n\n  function update(event: React.PointerEvent<HTMLDivElement>) {\n    if (event.pointerType === \"touch\") return\n    const rect = event.currentTarget.getBoundingClientRect()\n    const layer = revealRef.current\n    if (!layer) return\n    layer.style.setProperty(\"--grid-x\", `${event.clientX - rect.left}px`)\n    layer.style.setProperty(\"--grid-y\", `${event.clientY - rect.top}px`)\n  }\n\n  return (\n    <div\n      data-slot=\"spotlight-grid\"\n      data-pattern={pattern}\n      className={cn(\"relative isolate overflow-hidden\", className)}\n      onPointerEnter={(event) => {\n        update(event)\n        if (event.pointerType !== \"touch\" && revealRef.current)\n          revealRef.current.style.opacity = \"1\"\n        onPointerEnter?.(event)\n      }}\n      onPointerMove={(event) => {\n        update(event)\n        onPointerMove?.(event)\n      }}\n      onPointerLeave={(event) => {\n        if (revealRef.current) revealRef.current.style.opacity = \"0\"\n        onPointerLeave?.(event)\n      }}\n      {...props}\n    >\n      <div\n        aria-hidden=\"true\"\n        data-slot=\"spotlight-grid-pattern\"\n        className={cn(\n          \"pointer-events-none absolute inset-0 -z-10\",\n          patternClassName\n        )}\n        style={{\n          color: patternColor,\n          opacity: baseOpacity,\n          backgroundImage,\n          backgroundSize,\n        }}\n      />\n      <div\n        ref={revealRef}\n        aria-hidden=\"true\"\n        data-slot=\"spotlight-grid-reveal\"\n        className={cn(\n          \"pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-200\",\n          patternClassName\n        )}\n        style={\n          {\n            \"--grid-x\": \"50%\",\n            \"--grid-y\": \"50%\",\n            color: patternColor,\n            backgroundImage,\n            backgroundSize,\n            maskImage: `radial-gradient(circle ${radius}px at var(--grid-x) var(--grid-y), black, transparent)`,\n          } as React.CSSProperties\n        }\n      />\n      {children}\n    </div>\n  )\n}\n\nexport { SpotlightGrid }\n"
+    }
+  ],
+  "categories": [
+    "background",
+    "pointer",
+    "fancy"
+  ]
+}

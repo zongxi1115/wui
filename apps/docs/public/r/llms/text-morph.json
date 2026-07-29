@@ -16,7 +16,7 @@
   ],
   "install": {
     "wui": "npx wui@latest add @wui/text-morph",
-    "shadcn": "npx shadcn@latest add http://localhost:3000/r/text-morph.json",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/text-morph.json",
     "npmDependencies": [
       "motion"
     ],
@@ -53,6 +53,6 @@
   "files": [
     "registry/ui/text-morph.tsx"
   ],
-  "docsUrl": "http://localhost:3000/docs/components/text-morph",
-  "sourceUrl": "http://localhost:3000/r/text-morph.json"
+  "docsUrl": "https://ui.wzx.wang/docs/components/text-morph",
+  "sourceUrl": "https://ui.wzx.wang/r/text-morph.json"
 }

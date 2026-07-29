@@ -1,6 +1,6 @@
 ---
 title: 水印 Watermark
-description: 在内容区域上方添加重复的文字水印。
+description: 在内容区域上方添加重复的文字或图片水印。
 component: watermark
 ---
 
@@ -47,7 +47,8 @@ pnpm add clsx tailwind-merge
 
 <PropsTable
   data={[
-    { prop: "content", type: "string | string[]", default: '"WUI"', description: "重复显示的一行或多行水印文字。" },
+    { prop: "content", type: "string | string[]", default: '"WUI"', description: "重复显示的一行或多行水印文字；未传入 image 时生效。" },
+    { prop: "image", type: "string", description: "重复显示的图片地址，优先级高于 content。" },
     { prop: "rotate", type: "number", default: "-22", description: "顺时针旋转角度（度）。" },
     { prop: "gap", type: "[number, number]", default: "[80, 80]", description: "水印单元格之间的水平和垂直间距（像素）。" },
     { prop: "offset", type: "[number, number]", default: "[0, 0]", description: "重复图案的水平和垂直偏移（像素）。" },
@@ -82,3 +83,9 @@ pnpm add clsx tailwind-merge
 
 向 `content` 传入数组即可展示多行文字。较长标签需要更多空间时，可同时调整 `width`、
 `height` 和 `gap`，再微调 `rotate` 与 `opacity`，确保受保护内容仍清晰可读。
+
+### 图片水印
+
+传入 `image` 可以重复铺设图片水印。图片会在 `width` 和 `height` 定义的区域内保持比例居中显示，并继续使用相同的 `rotate`、`gap`、`offset` 和 `opacity` 设置。传入图片时，`image` 的优先级高于 `content`。
+
+<ComponentPreview name="watermark-image" />

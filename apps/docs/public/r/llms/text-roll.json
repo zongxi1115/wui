@@ -16,7 +16,7 @@
   ],
   "install": {
     "wui": "npx wui@latest add @wui/text-roll",
-    "shadcn": "npx shadcn@latest add http://localhost:3000/r/text-roll.json",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/text-roll.json",
     "npmDependencies": [
       "motion"
     ],
@@ -96,6 +96,6 @@
   "files": [
     "registry/ui/text-roll.tsx"
   ],
-  "docsUrl": "http://localhost:3000/docs/components/text-roll",
-  "sourceUrl": "http://localhost:3000/r/text-roll.json"
+  "docsUrl": "https://ui.wzx.wang/docs/components/text-roll",
+  "sourceUrl": "https://ui.wzx.wang/r/text-roll.json"
 }

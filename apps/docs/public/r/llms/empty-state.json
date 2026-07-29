@@ -27,7 +27,7 @@
   ],
   "install": {
     "wui": "npx wui@latest add @wui/empty-state",
-    "shadcn": "npx shadcn@latest add http://localhost:3000/r/empty-state.json",
+    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/empty-state.json",
     "npmDependencies": [
       "class-variance-authority"
     ],
@@ -38,12 +38,12 @@
   "props": [
     {
       "name": "size",
-      "type": "\"sm\" | \"default\" | \"lg\"",
+      "type": "\"default\" | \"sm\" | \"lg\"",
       "required": false,
       "control": "select",
       "options": [
-        "sm",
         "default",
+        "sm",
         "lg"
       ],
       "defaultValue": "default",
@@ -216,6 +216,6 @@
     "registry/assets/empty-state/color/resource-5.svg",
     "registry/assets/empty-state/color/resource-6.svg"
   ],
-  "docsUrl": "http://localhost:3000/docs/components/empty-state",
-  "sourceUrl": "http://localhost:3000/r/empty-state.json"
+  "docsUrl": "https://ui.wzx.wang/docs/components/empty-state",
+  "sourceUrl": "https://ui.wzx.wang/r/empty-state.json"
 }

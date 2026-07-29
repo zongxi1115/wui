@@ -1,49 +1,49 @@
 "use client"
 
 import { Button } from "@/registry/ui/button"
-import {
-  MessageProvider,
-  useMessage,
-  type MessagePosition,
-} from "@/registry/ui/message"
-
-const positions: Array<{ value: MessagePosition; label: string }> = [
-  { value: "top-left", label: "Top left" },
-  { value: "top", label: "Top" },
-  { value: "top-right", label: "Top right" },
-  { value: "bottom-left", label: "Bottom left" },
-  { value: "bottom", label: "Bottom" },
-  { value: "bottom-right", label: "Bottom right" },
-]
+import { MessageProvider, useMessage } from "@/registry/ui/message"
 
 export default function MessageDemo() {
   return (
     <MessageProvider>
-      <MessagePositionButtons />
+      <MessageTypeButtons />
     </MessageProvider>
   )
 }
 
-function MessagePositionButtons() {
+function MessageTypeButtons() {
   const message = useMessage()
 
   return (
-    <div className="grid w-full max-w-md grid-cols-3 gap-2">
-      {positions.map((position) => (
-        <Button
-          key={position.value}
-          variant="outline"
-          size="sm"
-          onClick={() =>
-            message.success("Your changes have been saved.", {
-              title: position.label,
-              position: position.value,
-            })
-          }
-        >
-          {position.label}
-        </Button>
-      ))}
+    <div className="flex w-full max-w-xl flex-wrap justify-center gap-2">
+      <Button
+        variant="outline"
+        size="sm"
+        onClick={() => message.info("A new version is available.")}
+      >
+        Info
+      </Button>
+      <Button
+        variant="outline"
+        size="sm"
+        onClick={() => message.success("Changes saved successfully.")}
+      >
+        Success
+      </Button>
+      <Button
+        variant="outline"
+        size="sm"
+        onClick={() => message.warning("Storage space is running low.")}
+      >
+        Warning
+      </Button>
+      <Button
+        variant="outline"
+        size="sm"
+        onClick={() => message.error("The request could not be completed.")}
+      >
+        Error
+      </Button>
     </div>
   )
 }
