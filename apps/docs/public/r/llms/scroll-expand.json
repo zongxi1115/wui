@@ -15,8 +15,8 @@
     "ScrollExpandProps"
   ],
   "install": {
-    "wui": "npx wui@latest add @wui/scroll-expand",
-    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/scroll-expand.json",
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/scroll-expand",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/scroll-expand.json",
     "npmDependencies": [
       "motion"
     ],

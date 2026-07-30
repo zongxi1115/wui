@@ -15,8 +15,8 @@
     "GrainOverlayProps"
   ],
   "install": {
-    "wui": "npx wui@latest add @wui/grain-overlay",
-    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/grain-overlay.json",
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/grain-overlay",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/grain-overlay.json",
     "npmDependencies": [],
     "registryDependencies": [
       "utils"

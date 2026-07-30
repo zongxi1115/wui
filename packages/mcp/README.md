@@ -15,7 +15,7 @@ claude mcp add --transport http wui https://ui.wzx.wang/api/mcp
 Over stdio:
 
 ```bash
-claude mcp add wui -- npx -y @wui-design/mcp
+claude mcp add wui -- pnpm dlx @wui-design/mcp@latest
 ```
 
 <details>
@@ -24,7 +24,7 @@ claude mcp add wui -- npx -y @wui-design/mcp
 ```json
 {
   "mcpServers": {
-    "wui": { "command": "npx", "args": ["-y", "@wui-design/mcp"] }
+    "wui": { "command": "pnpm", "args": ["dlx", "@wui-design/mcp@latest"] }
   }
 }
 ```
@@ -47,8 +47,8 @@ claude mcp add wui -- npx -y @wui-design/mcp
 Defaults to the public registry. Override with a flag or an env var:
 
 ```bash
-npx @wui-design/mcp --registry https://your-host/r     # a self-hosted registry
-npx @wui-design/mcp --dir ./apps/docs/public/r         # a local checkout
+pnpm dlx @wui-design/mcp@latest --registry https://your-host/r     # a self-hosted registry
+pnpm dlx @wui-design/mcp@latest --dir ./apps/docs/public/r         # a local checkout
 ```
 
 | Flag | Env var |

@@ -21,8 +21,8 @@
     "TableProps"
   ],
   "install": {
-    "wui": "npx wui@latest add @wui/table",
-    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/table.json",
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/table",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/table.json",
     "npmDependencies": [
       "class-variance-authority"
     ],

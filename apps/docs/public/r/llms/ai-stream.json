@@ -16,8 +16,8 @@
     "AiStreamProps"
   ],
   "install": {
-    "wui": "npx wui@latest add @wui/ai-stream",
-    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/ai-stream.json",
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/ai-stream",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/ai-stream.json",
     "npmDependencies": [
       "motion"
     ],

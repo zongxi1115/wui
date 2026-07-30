@@ -25,8 +25,8 @@
     "TimelineSeparatorProps"
   ],
   "install": {
-    "wui": "npx wui@latest add @wui/timeline",
-    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/timeline.json",
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/timeline",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/timeline.json",
     "npmDependencies": [
       "class-variance-authority",
       "motion"

@@ -16,7 +16,7 @@ type PackageManager = keyof typeof RUNNERS
 
 /**
  * Renders a runnable command across package managers, e.g.
- * `<CodeTabs command="wui@latest add @wui/button" />`.
+ * `<CodeTabs command="@wui-design/cli@latest add @wui/button" />`.
  */
 export function CodeTabs({ command }: { command: string }) {
   const [pm, setPm] = React.useState<PackageManager>("pnpm")

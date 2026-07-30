@@ -16,8 +16,8 @@
     "ScrollSnapProps"
   ],
   "install": {
-    "wui": "npx wui@latest add @wui/scroll-snap",
-    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/scroll-snap.json",
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/scroll-snap",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/scroll-snap.json",
     "npmDependencies": [],
     "registryDependencies": [
       "utils"

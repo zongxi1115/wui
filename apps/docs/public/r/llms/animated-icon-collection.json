@@ -5,8 +5,8 @@
   "description": "The complete deduplicated AnimateIcons and ItsHover path-animated icon collection.",
   "exports": [],
   "install": {
-    "wui": "npx wui@latest add @wui/animated-icon-collection",
-    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/animated-icon-collection.json",
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/animated-icon-collection",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/animated-icon-collection.json",
     "npmDependencies": [
       "motion"
     ],

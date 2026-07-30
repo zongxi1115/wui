@@ -15,8 +15,8 @@
     "TextLoopProps"
   ],
   "install": {
-    "wui": "npx wui@latest add @wui/text-loop",
-    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/text-loop.json",
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/text-loop",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/text-loop.json",
     "npmDependencies": [
       "motion"
     ],

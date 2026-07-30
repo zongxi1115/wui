@@ -109,7 +109,7 @@ Radix（统一从 `radix-ui` 包导入） · `class-variance-authority` · `moti
 ## 安装组件
 
 ```bash
-npx wui@latest add @wui/<name>     # 或者：npx shadcn@latest add <registry>/<name>.json
+pnpm dlx @wui-design/cli@latest add @wui/<name>     # 或者：pnpm dlx shadcn@latest add <registry>/<name>.json
 ```
 
 `add` 会递归解析 registry 依赖，并自动安装所需 npm 包。所有组件都依赖 `utils`

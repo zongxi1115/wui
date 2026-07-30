@@ -12,8 +12,8 @@
     "WatermarkProps"
   ],
   "install": {
-    "wui": "npx wui@latest add @wui/watermark",
-    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/watermark.json",
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/watermark",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/watermark.json",
     "npmDependencies": [],
     "registryDependencies": [
       "utils"

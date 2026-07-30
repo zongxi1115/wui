@@ -14,8 +14,8 @@
     "SkeletonTextProps"
   ],
   "install": {
-    "wui": "npx wui@latest add @wui/skeleton",
-    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/skeleton.json",
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/skeleton",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/skeleton.json",
     "npmDependencies": [
       "class-variance-authority"
     ],

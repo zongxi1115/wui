@@ -23,11 +23,11 @@ Cursor / Windsurf 等在其 MCP 配置里填：
 ### 方式二：stdio（离线、可指定版本）
 
 ```bash
-claude mcp add wui -- npx -y @wui-design/mcp
+claude mcp add wui -- pnpm dlx @wui-design/mcp@latest
 ```
 
 ```json
-{ "mcpServers": { "wui": { "command": "npx", "args": ["-y", "@wui-design/mcp"] } } }
+{ "mcpServers": { "wui": { "command": "pnpm", "args": ["dlx", "@wui-design/mcp@latest"] } } }
 ```
 
 可选参数：

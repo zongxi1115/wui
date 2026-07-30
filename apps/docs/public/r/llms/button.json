@@ -12,8 +12,8 @@
     "ButtonProps"
   ],
   "install": {
-    "wui": "npx wui@latest add @wui/button",
-    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/button.json",
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/button",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/button.json",
     "npmDependencies": [
       "radix-ui",
       "class-variance-authority",

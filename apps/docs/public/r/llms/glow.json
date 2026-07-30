@@ -14,8 +14,8 @@
     "GlowProps"
   ],
   "install": {
-    "wui": "npx wui@latest add @wui/glow",
-    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/glow.json",
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/glow",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/glow.json",
     "npmDependencies": [
       "motion"
     ],

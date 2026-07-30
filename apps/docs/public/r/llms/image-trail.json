@@ -16,8 +16,8 @@
     "ImageTrailProps"
   ],
   "install": {
-    "wui": "npx wui@latest add @wui/image-trail",
-    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/image-trail.json",
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/image-trail",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/image-trail.json",
     "npmDependencies": [
       "motion"
     ],

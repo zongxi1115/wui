@@ -11,8 +11,8 @@
     "ConfirmDialogProps"
   ],
   "install": {
-    "wui": "npx wui@latest add @wui/confirm-dialog",
-    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/confirm-dialog.json",
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/confirm-dialog",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/confirm-dialog.json",
     "npmDependencies": [],
     "registryDependencies": [
       "dialog",

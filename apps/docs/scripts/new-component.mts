@@ -98,7 +98,7 @@ component: ${name}
 
 <ComponentPreview name="${name}-demo" />
 
-<CodeTabs command="wui@latest add @wui/${name}" />
+<CodeTabs command="@wui-design/cli@latest add @wui/${name}" />
 
 <ComponentSource name="${name}" title="components/ui/${name}.tsx" />
 

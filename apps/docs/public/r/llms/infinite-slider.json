@@ -14,8 +14,8 @@
     "InfiniteSliderProps"
   ],
   "install": {
-    "wui": "npx wui@latest add @wui/infinite-slider",
-    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/infinite-slider.json",
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/infinite-slider",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/infinite-slider.json",
     "npmDependencies": [
       "motion"
     ],

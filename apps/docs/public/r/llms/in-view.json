@@ -14,8 +14,8 @@
     "InViewProps"
   ],
   "install": {
-    "wui": "npx wui@latest add @wui/in-view",
-    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/in-view.json",
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/in-view",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/in-view.json",
     "npmDependencies": [
       "motion"
     ],

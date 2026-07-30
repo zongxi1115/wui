@@ -8,8 +8,8 @@
     "cn"
   ],
   "install": {
-    "wui": "npx wui@latest add @wui/utils",
-    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/utils.json",
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/utils",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/utils.json",
     "npmDependencies": [
       "clsx",
       "tailwind-merge"

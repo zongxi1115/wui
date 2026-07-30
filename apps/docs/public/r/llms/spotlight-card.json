@@ -15,8 +15,8 @@
     "SpotlightCardProps"
   ],
   "install": {
-    "wui": "npx wui@latest add @wui/spotlight-card",
-    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/spotlight-card.json",
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/spotlight-card",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/spotlight-card.json",
     "npmDependencies": [],
     "registryDependencies": [
       "utils"

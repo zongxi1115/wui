@@ -14,8 +14,8 @@
     "SlideSwapProps"
   ],
   "install": {
-    "wui": "npx wui@latest add @wui/slide-swap",
-    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/slide-swap.json",
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/slide-swap",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/slide-swap.json",
     "npmDependencies": [
       "motion"
     ],

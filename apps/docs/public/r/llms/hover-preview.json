@@ -16,8 +16,8 @@
     "HoverPreviewProps"
   ],
   "install": {
-    "wui": "npx wui@latest add @wui/hover-preview",
-    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/hover-preview.json",
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/hover-preview",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/hover-preview.json",
     "npmDependencies": [
       "motion"
     ],

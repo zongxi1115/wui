@@ -12,8 +12,8 @@
     "BadgeProps"
   ],
   "install": {
-    "wui": "npx wui@latest add @wui/badge",
-    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/badge.json",
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/badge",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/badge.json",
     "npmDependencies": [
       "radix-ui",
       "class-variance-authority"

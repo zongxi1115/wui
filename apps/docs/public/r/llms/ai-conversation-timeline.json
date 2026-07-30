@@ -15,8 +15,8 @@
     "AiConversationTimelineProps"
   ],
   "install": {
-    "wui": "npx wui@latest add @wui/ai-conversation-timeline",
-    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/ai-conversation-timeline.json",
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/ai-conversation-timeline",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/ai-conversation-timeline.json",
     "npmDependencies": [
       "motion"
     ],

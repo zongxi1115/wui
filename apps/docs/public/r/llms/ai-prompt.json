@@ -53,8 +53,8 @@
     "AiPromptTextareaProps"
   ],
   "install": {
-    "wui": "npx wui@latest add @wui/ai-prompt",
-    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/ai-prompt.json",
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/ai-prompt",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/ai-prompt.json",
     "npmDependencies": [
       "class-variance-authority",
       "lucide-react"

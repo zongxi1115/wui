@@ -14,8 +14,8 @@
     "ShinyButtonProps"
   ],
   "install": {
-    "wui": "npx wui@latest add @wui/shiny-button",
-    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/shiny-button.json",
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/shiny-button",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/shiny-button.json",
     "npmDependencies": [
       "motion"
     ],

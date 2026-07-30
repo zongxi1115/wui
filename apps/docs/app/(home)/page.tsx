@@ -81,7 +81,7 @@ export default function HomePage() {
           </div>
 
           <div className="w-full max-w-lg text-left [&>div]:my-0">
-            <CodeTabs command="wui@latest add @wui/button" />
+            <CodeTabs command="@wui-design/cli@latest add @wui/button" />
           </div>
 
           <ul className="text-muted-foreground flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm">
@@ -161,7 +161,7 @@ export default function HomePage() {
           先跑一次 init 生成 wui.json 与主题 token，之后按需 add 组件即可。
         </p>
         <div className="mx-auto mt-6 max-w-lg text-left [&>div]:my-0">
-          <CodeTabs command="wui@latest init" />
+          <CodeTabs command="@wui-design/cli@latest init" />
         </div>
         <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
           <Button asChild>

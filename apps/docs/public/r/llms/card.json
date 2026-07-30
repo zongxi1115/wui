@@ -15,8 +15,8 @@
     "CardTitle"
   ],
   "install": {
-    "wui": "npx wui@latest add @wui/card",
-    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/card.json",
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/card",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/card.json",
     "npmDependencies": [],
     "registryDependencies": [
       "utils"

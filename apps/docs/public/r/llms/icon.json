@@ -15,8 +15,8 @@
     "IconSize"
   ],
   "install": {
-    "wui": "npx wui@latest add @wui/icon",
-    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/icon.json",
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/icon",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/icon.json",
     "npmDependencies": [
       "lucide-react"
     ],

@@ -15,8 +15,8 @@
     "HorizontalScrollProps"
   ],
   "install": {
-    "wui": "npx wui@latest add @wui/horizontal-scroll",
-    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/horizontal-scroll.json",
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/horizontal-scroll",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/horizontal-scroll.json",
     "npmDependencies": [
       "motion"
     ],

@@ -22,7 +22,7 @@ wui 通过 [MCP](https://modelcontextprotocol.io)（Model Context Protocol）把
 <Tab value="Claude Code">
 
 ```bash
-claude mcp add --transport http wui https://wui.dev/api/mcp
+claude mcp add --transport http wui https://ui.wzx.wang/api/mcp
 ```
 
 </Tab>
@@ -35,7 +35,7 @@ claude mcp add --transport http wui https://wui.dev/api/mcp
 {
   "mcpServers": {
     "wui": {
-      "url": "https://wui.dev/api/mcp"
+      "url": "https://ui.wzx.wang/api/mcp"
     }
   }
 }
@@ -52,7 +52,7 @@ claude mcp add --transport http wui https://wui.dev/api/mcp
   "servers": {
     "wui": {
       "type": "http",
-      "url": "https://wui.dev/api/mcp"
+      "url": "https://ui.wzx.wang/api/mcp"
     }
   }
 }
@@ -68,7 +68,7 @@ claude mcp add --transport http wui https://wui.dev/api/mcp
 {
   "mcpServers": {
     "wui": {
-      "url": "https://wui.dev/api/mcp"
+      "url": "https://ui.wzx.wang/api/mcp"
     }
   }
 }
@@ -87,7 +87,7 @@ claude mcp add --transport http wui https://wui.dev/api/mcp
 <Tab value="Claude Code">
 
 ```bash
-claude mcp add wui -- npx -y @wui-design/mcp
+claude mcp add wui -- pnpm dlx @wui-design/mcp@latest
 ```
 
 </Tab>
@@ -98,8 +98,8 @@ claude mcp add wui -- npx -y @wui-design/mcp
 {
   "mcpServers": {
     "wui": {
-      "command": "npx",
-      "args": ["-y", "@wui-design/mcp"]
+      "command": "pnpm",
+      "args": ["dlx", "@wui-design/mcp@latest"]
     }
   }
 }
@@ -112,7 +112,7 @@ claude mcp add wui -- npx -y @wui-design/mcp
 如果你部署了自己的 registry，用 `--registry` 指向它：
 
 ```bash
-npx -y @wui-design/mcp --registry https://你的站点/r
+pnpm dlx @wui-design/mcp@latest --registry https://你的站点/r
 ```
 
 ## 验证是否接上

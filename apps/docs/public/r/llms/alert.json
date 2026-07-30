@@ -13,8 +13,8 @@
     "AlertVariant"
   ],
   "install": {
-    "wui": "npx wui@latest add @wui/alert",
-    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/alert.json",
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/alert",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/alert.json",
     "npmDependencies": [
       "lucide-react",
       "class-variance-authority"

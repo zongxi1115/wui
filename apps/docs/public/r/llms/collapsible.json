@@ -17,8 +17,8 @@
     "CollapsibleTriggerProps"
   ],
   "install": {
-    "wui": "npx wui@latest add @wui/collapsible",
-    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/collapsible.json",
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/collapsible",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/collapsible.json",
     "npmDependencies": [
       "radix-ui",
       "lucide-react",

@@ -13,8 +13,8 @@
     "DescriptionsProps"
   ],
   "install": {
-    "wui": "npx wui@latest add @wui/descriptions",
-    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/descriptions.json",
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/descriptions",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/descriptions.json",
     "npmDependencies": [],
     "registryDependencies": [
       "utils"

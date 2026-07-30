@@ -17,8 +17,8 @@
     "StickyStackProps"
   ],
   "install": {
-    "wui": "npx wui@latest add @wui/sticky-stack",
-    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/sticky-stack.json",
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/sticky-stack",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/sticky-stack.json",
     "npmDependencies": [
       "motion"
     ],

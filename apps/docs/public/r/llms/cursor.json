@@ -14,8 +14,8 @@
     "CursorProps"
   ],
   "install": {
-    "wui": "npx wui@latest add @wui/cursor",
-    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/cursor.json",
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/cursor",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/cursor.json",
     "npmDependencies": [
       "motion"
     ],

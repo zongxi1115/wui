@@ -23,8 +23,8 @@
     "MorphingDialogProps"
   ],
   "install": {
-    "wui": "npx wui@latest add @wui/morphing-dialog",
-    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/morphing-dialog.json",
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/morphing-dialog",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/morphing-dialog.json",
     "npmDependencies": [
       "radix-ui",
       "lucide-react",

@@ -20,8 +20,8 @@
     "AvatarProps"
   ],
   "install": {
-    "wui": "npx wui@latest add @wui/avatar",
-    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/avatar.json",
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/avatar",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/avatar.json",
     "npmDependencies": [
       "radix-ui",
       "class-variance-authority"

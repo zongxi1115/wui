@@ -15,8 +15,8 @@
     "VelocityMarqueeProps"
   ],
   "install": {
-    "wui": "npx wui@latest add @wui/velocity-marquee",
-    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/velocity-marquee.json",
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/velocity-marquee",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/velocity-marquee.json",
     "npmDependencies": [
       "motion"
     ],

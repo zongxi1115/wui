@@ -15,8 +15,8 @@
     "ScrollProgressProps"
   ],
   "install": {
-    "wui": "npx wui@latest add @wui/scroll-progress",
-    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/scroll-progress.json",
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/scroll-progress",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/scroll-progress.json",
     "npmDependencies": [
       "motion"
     ],

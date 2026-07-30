@@ -298,9 +298,9 @@ async function main() {
       exports: values,
       ...(types.length ? { typeExports: types } : {}),
       install: {
-        wui: `npx wui@latest add @wui/${item.name}`,
+        wui: `pnpm dlx @wui-design/cli@latest add @wui/${item.name}`,
         shadcn: site
-          ? `npx shadcn@latest add ${site}/r/${item.name}.json`
+          ? `pnpm dlx shadcn@latest add ${site}/r/${item.name}.json`
           : undefined,
         npmDependencies: item.dependencies ?? [],
         registryDependencies: item.registryDependencies ?? [],

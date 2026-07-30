@@ -15,8 +15,8 @@
     "MotionTransition"
   ],
   "install": {
-    "wui": "npx wui@latest add @wui/motion",
-    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/motion.json",
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/motion",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/motion.json",
     "npmDependencies": [
       "motion",
       "radix-ui"

@@ -21,8 +21,8 @@
     "FormProps"
   ],
   "install": {
-    "wui": "npx wui@latest add @wui/form",
-    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/form.json",
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/form",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/form.json",
     "npmDependencies": [
       "motion"
     ],

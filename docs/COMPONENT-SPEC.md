@@ -111,7 +111,7 @@ export { Badge, badgeVariants }
 
 `content/docs/components/<name>.mdx` 必须包含以下 5 个小节（顺序固定，可中英双标题）。可用 MDX 组件：`<ComponentPreview name>`、`<ComponentSource name title>`、`<CodeTabs command>`、`<PropsTable data>`、`<Steps>/<Step>`、`<Callout>`。
 
-1. **基础示例** —— `<ComponentPreview name="<name>-demo" />` + 安装命令 `<CodeTabs command="wui@latest add @wui/<name>" />` + 源码 `<ComponentSource name="<name>" />`。
+1. **基础示例** —— `<ComponentPreview name="<name>-demo" />` + 安装命令 `<CodeTabs command="@wui-design/cli@latest add @wui/<name>" />` + 源码 `<ComponentSource name="<name>" />`。
 2. **组件作用** —— 用途、适用/不适用场景。
 3. **组件属性** —— 优先用 **`<PropsTable name="<name>" />`**：属性从组件 TS 类型 + TSDoc **自动解析**（见 §8），每个 prop 的类型/默认值/说明都来自代码。也可用 `<PropsTable data={[...]}/>` 手写。
 4. **事件** —— 回调与透传的原生事件（`onClick`、`onOpenChange`…）。
@@ -167,7 +167,7 @@ pnpm --filter docs gen:component confirm-banner --type component
 
 - `registry:build` 读取 `registry.json`，把每个组件的源码 **inline 成字符串** 写入 `apps/docs/public/r/<name>.json`（遵循 shadcn `registry-item.json` schema），同时生成文档站预览用的 `registry/__index__.tsx`（元数据）与 `registry/__components__.tsx`（`name → React.lazy` 懒加载映射）。
 - 使用者侧 `wui add @wui/<name>`：CLI 拉取该 JSON → 递归解析 `registryDependencies` 并去重 → 安装 npm 依赖 → 改写 `@/registry/...` import 为使用者 alias → 写入目标目录。
-- 因为遵循 shadcn schema，官方 `npx shadcn@latest add @wui/<name>` 也能拉取（前提：使用者已在 `components.json` 配好 `@wui` 命名空间）。
+- 因为遵循 shadcn schema，官方 `pnpm dlx shadcn@latest add @wui/<name>` 也能拉取（前提：使用者已在 `components.json` 配好 `@wui` 命名空间）。
 
 ---
 

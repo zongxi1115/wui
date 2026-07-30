@@ -16,8 +16,8 @@
     "TiltCardProps"
   ],
   "install": {
-    "wui": "npx wui@latest add @wui/tilt-card",
-    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/tilt-card.json",
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/tilt-card",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/tilt-card.json",
     "npmDependencies": [
       "motion"
     ],

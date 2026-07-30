@@ -13,8 +13,8 @@
     "SpinProps"
   ],
   "install": {
-    "wui": "npx wui@latest add @wui/spin",
-    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/spin.json",
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/spin",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/spin.json",
     "npmDependencies": [
       "class-variance-authority",
       "motion"

@@ -13,8 +13,8 @@
     "TimePickerProps"
   ],
   "install": {
-    "wui": "npx wui@latest add @wui/time-picker",
-    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/time-picker.json",
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/time-picker",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/time-picker.json",
     "npmDependencies": [
       "radix-ui",
       "lucide-react",

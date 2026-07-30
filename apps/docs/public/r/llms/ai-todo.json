@@ -19,8 +19,8 @@
     "AiTodoStatus"
   ],
   "install": {
-    "wui": "npx wui@latest add @wui/ai-todo",
-    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/ai-todo.json",
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/ai-todo",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/ai-todo.json",
     "npmDependencies": [
       "class-variance-authority",
       "lucide-react"

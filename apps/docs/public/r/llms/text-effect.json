@@ -17,8 +17,8 @@
     "TextEffectProps"
   ],
   "install": {
-    "wui": "npx wui@latest add @wui/text-effect",
-    "shadcn": "npx shadcn@latest add https://ui.wzx.wang/r/text-effect.json",
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/text-effect",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/text-effect.json",
     "npmDependencies": [
       "motion"
     ],
