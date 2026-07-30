@@ -24,4 +24,6 @@ component: ai-stream
 
 ## Delta 分段模式
 
+<ComponentPreview name="ai-stream-deltas" />
+
 保留原始 delta 数组时可以使用 `AiStreamDeltas`。每个新片段只淡入一次，适合粒度较大的服务端分段；连续的小字符增量优先使用 `AiStream`。

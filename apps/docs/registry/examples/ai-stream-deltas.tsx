@@ -3,23 +3,18 @@
 import * as React from "react"
 
 import { Button } from "@/registry/ui/button"
-import {
-  AiReasoning,
-  AiReasoningContent,
-  AiReasoningDeltas,
-  AiReasoningTrigger,
-} from "@/registry/ui/ai-reasoning"
+import { AiStreamDeltas } from "@/registry/ui/ai-stream"
 
 const sourceDeltas = [
-  "先确认需求边界，",
-  "保留现有认证逻辑。",
-  "\n\n然后读取登录表单，",
-  "核对输入、错误提示和提交状态。",
-  "\n\n最后整理页面层级，",
-  "并检查移动端操作区的间距。",
+  "登录页改版会保留现有认证逻辑，",
+  "优先调整表单的信息层级。",
+  "\n\n桌面端沿用现有内容宽度，",
+  "移动端则重新整理操作区间距。",
+  "\n\n错误提示、加载和提交状态",
+  "继续复用组件库已有能力。",
 ]
 
-export default function AiReasoningDeltasDemo() {
+export default function AiStreamDeltasDemo() {
   const [deltas, setDeltas] = React.useState<string[]>(sourceDeltas)
   const [streaming, setStreaming] = React.useState(false)
 
@@ -48,12 +43,9 @@ export default function AiReasoningDeltasDemo() {
 
   return (
     <div className="mx-auto w-full max-w-xl space-y-4">
-      <AiReasoning isStreaming={streaming} duration={3.1} defaultOpen>
-        <AiReasoningTrigger />
-        <AiReasoningContent>
-          <AiReasoningDeltas deltas={deltas} />
-        </AiReasoningContent>
-      </AiReasoning>
+      <div className="text-foreground text-sm leading-7">
+        <AiStreamDeltas deltas={deltas} isStreaming={streaming} />
+      </div>
       <Button
         type="button"
         variant="outline"

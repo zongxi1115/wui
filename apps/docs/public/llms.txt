@@ -10,7 +10,7 @@
 - [AI 工具调用 AI Tool](https://ui.wzx.wang/docs/components/ai-tool): 展示 AI 工具的执行状态、参数、结果与错误。
 - [AI 任务清单 AI Todo](https://ui.wzx.wang/docs/components/ai-todo): 展示 Agent 计划、执行进度与任务说明。
 - [AI 流式文本 AI Stream](https://ui.wzx.wang/docs/components/ai-stream): 可用于普通回答与思考过程的通用流式文本动效。
-- [AI 推理过程 AI Reasoning](https://ui.wzx.wang/docs/components/ai-reasoning): 流式展示模型返回的 reasoning 文本，并在生成期间自动展开。
+- [AI 推理过程 AI Reasoning](https://ui.wzx.wang/docs/components/ai-reasoning): 用可折叠的思考链展示模型推理摘要与执行进度。
 - [头像 Avatar](https://ui.wzx.wang/docs/components/avatar): 带图片回退、在线状态和头像组的通用身份组件。
 - [徽章 Badge](https://ui.wzx.wang/docs/components/badge): 用紧凑的标签展示状态、分类或简短元数据。
 - [气泡 Bubble](https://ui.wzx.wang/docs/components/bubble): 可组合头像、署名、正文、时间与操作区的通用消息气泡。

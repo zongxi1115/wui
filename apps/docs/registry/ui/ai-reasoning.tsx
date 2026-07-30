@@ -5,7 +5,6 @@ import { Collapsible as CollapsiblePrimitive } from "radix-ui"
 import { cva } from "class-variance-authority"
 import { AnimatePresence, motion, useReducedMotion } from "motion/react"
 import {
-  BrainCircuitIcon,
   CheckIcon,
   ChevronDownIcon,
   CircleIcon,
@@ -13,12 +12,6 @@ import {
 } from "lucide-react"
 
 import { cn } from "@/registry/lib/utils"
-import {
-  AiStream,
-  AiStreamDeltas,
-  type AiStreamDeltasProps,
-  type AiStreamProps,
-} from "@/registry/ui/ai-stream"
 
 type AiReasoningStepStatus = "pending" | "active" | "complete"
 
@@ -28,19 +21,23 @@ const AiReasoningContext = React.createContext<{
   isStreaming: boolean
 }>({ isOpen: false, isStreaming: false })
 
-const aiReasoningStepVariants = cva("relative flex gap-3 pb-4 last:pb-0", {
-  variants: {
-    status: {
-      pending: "text-muted-foreground opacity-65",
-      active: "text-foreground",
-      complete: "text-muted-foreground",
+const aiReasoningStepVariants = cva(
+  "relative flex gap-3 pb-4 after:absolute after:left-[7.5px] after:top-5 after:bottom-0 after:w-px after:bg-border last:pb-0 last:after:hidden",
+  {
+    variants: {
+      status: {
+        pending: "text-muted-foreground opacity-65",
+        active: "text-foreground",
+        complete: "text-muted-foreground",
+      },
     },
-  },
-  defaultVariants: { status: "pending" },
-})
+    defaultVariants: { status: "pending" },
+  }
+)
 
-export interface AiReasoningProps
-  extends React.ComponentProps<typeof CollapsiblePrimitive.Root> {
+export interface AiReasoningProps extends React.ComponentProps<
+  typeof CollapsiblePrimitive.Root
+> {
   /** Whether reasoning is still arriving. @default false */
   isStreaming?: boolean
   /** Completed reasoning time in seconds. */
@@ -97,8 +94,9 @@ function AiReasoning({
   )
 }
 
-export interface AiReasoningTriggerProps
-  extends React.ComponentProps<typeof CollapsiblePrimitive.Trigger> {
+export interface AiReasoningTriggerProps extends React.ComponentProps<
+  typeof CollapsiblePrimitive.Trigger
+> {
   /** Customize the trigger summary. */
   getLabel?: (isStreaming: boolean, duration?: number) => React.ReactNode
 }
@@ -109,48 +107,27 @@ function AiReasoningTrigger({
   getLabel,
   ...props
 }: AiReasoningTriggerProps) {
-  const { duration, isOpen, isStreaming } =
-    React.useContext(AiReasoningContext)
+  const { duration, isOpen, isStreaming } = React.useContext(AiReasoningContext)
   const reduceMotion = useReducedMotion()
   const label = getLabel
     ? getLabel(isStreaming, duration)
     : isStreaming
       ? "正在思考…"
       : duration
-        ? `思考完成 · ${duration.toFixed(1)} 秒`
+        ? `思考了 ${Number.isInteger(duration) ? duration : duration.toFixed(1)} 秒`
         : "查看思考过程"
 
   return (
     <CollapsiblePrimitive.Trigger
       data-slot="ai-reasoning-trigger"
       className={cn(
-        "group flex items-center gap-2 rounded-md py-1 text-sm text-muted-foreground outline-none transition-colors hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/35",
+        "text-muted-foreground hover:text-foreground focus-visible:ring-ring/35 group flex items-center gap-2 rounded-md py-1 text-sm outline-none transition-colors focus-visible:ring-[3px]",
         className
       )}
       {...props}
     >
       {children ?? (
         <>
-          <AnimatePresence initial={false} mode="wait">
-            <motion.span
-              key={isStreaming ? "streaming" : "complete"}
-              className="flex size-4 items-center justify-center"
-              initial={reduceMotion ? false : { opacity: 0, scale: 0.72 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={reduceMotion ? undefined : { opacity: 0, scale: 0.72 }}
-              transition={
-                reduceMotion
-                  ? { duration: 0 }
-                  : { type: "spring", stiffness: 520, damping: 32 }
-              }
-            >
-              {isStreaming ? (
-                <LoaderCircleIcon className="size-4 motion-safe:animate-spin" />
-              ) : (
-                <BrainCircuitIcon className="size-4" />
-              )}
-            </motion.span>
-          </AnimatePresence>
           <AnimatePresence initial={false} mode="popLayout">
             <motion.span
               key={String(label)}
@@ -192,7 +169,7 @@ function AiReasoningContent({
     <CollapsiblePrimitive.Content
       data-slot="ai-reasoning-content"
       className={cn(
-        "mt-2 overflow-hidden border-l pl-4 text-sm leading-6 text-muted-foreground data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:slide-out-to-top-1 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:slide-in-from-top-1 motion-reduce:animate-none",
+        "text-muted-foreground data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:slide-out-to-top-1 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:slide-in-from-top-1 mt-2 overflow-hidden text-sm leading-6 motion-reduce:animate-none",
         className
       )}
       {...props}
@@ -204,43 +181,22 @@ function AiReasoningContent({
   )
 }
 
-export interface AiReasoningStreamProps
-  extends Omit<AiStreamProps, "isStreaming"> {}
-
-/** Renders cumulative stream text with a soft live edge instead of a cursor. */
-function AiReasoningStream({
-  ...props
-}: AiReasoningStreamProps) {
-  const { isStreaming } = React.useContext(AiReasoningContext)
-
-  return <AiStream data-slot="ai-reasoning-stream" isStreaming={isStreaming} {...props} />
-}
-
-export interface AiReasoningDeltasProps
-  extends Omit<AiStreamDeltasProps, "isStreaming"> {}
-
-/** Renders each incoming delta as a short, independent fade-in segment. */
-function AiReasoningDeltas({
-  ...props
-}: AiReasoningDeltasProps) {
-  const { isStreaming } = React.useContext(AiReasoningContext)
-
-  return (
-    <AiStreamDeltas
-      data-slot="ai-reasoning-deltas"
-      isStreaming={isStreaming}
-      {...props}
-    />
-  )
-}
-
-export interface AiReasoningStepProps extends React.ComponentProps<"div"> {
+export interface AiReasoningStepProps extends Omit<
+  React.ComponentProps<typeof motion.div>,
+  "children"
+> {
   /** Progress state for this visible reasoning summary. @default "pending" */
   status?: AiReasoningStepStatus
   /** Short step label. */
   label?: React.ReactNode
   /** Optional supporting description. */
   description?: React.ReactNode
+  /** Optional icon used for this kind of reasoning activity. */
+  icon?: React.ReactNode
+  /** Optional metadata aligned to the end of the step. */
+  meta?: React.ReactNode
+  /** Arbitrary React content rendered in the step body. */
+  children?: React.ReactNode
 }
 
 function AiReasoningStep({
@@ -248,9 +204,12 @@ function AiReasoningStep({
   status = "pending",
   label,
   description,
+  icon,
+  meta,
   children,
   ...props
 }: AiReasoningStepProps) {
+  const reduceMotion = useReducedMotion()
   const Icon =
     status === "complete"
       ? CheckIcon
@@ -259,25 +218,49 @@ function AiReasoningStep({
         : CircleIcon
 
   return (
-    <div
+    <motion.div
       data-slot="ai-reasoning-step"
       data-status={status}
       className={cn(aiReasoningStepVariants({ status }), className)}
+      initial={reduceMotion ? false : { opacity: 0, y: 4, filter: "blur(2px)" }}
+      animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+      transition={
+        reduceMotion
+          ? { duration: 0 }
+          : { duration: 0.28, ease: [0.22, 1, 0.36, 1] }
+      }
       {...props}
     >
-      <span className="relative z-10 mt-1 flex size-4 shrink-0 items-center justify-center rounded-full bg-background">
-        <Icon
-          className={cn(
-            "size-3",
-            status === "active" && "text-info motion-safe:animate-spin",
-            status === "complete" && "text-success"
-          )}
-        />
+      <span className="bg-background relative z-10 mt-1 flex size-4 shrink-0 items-center justify-center">
+        {icon ?? (
+          <Icon
+            className={cn(
+              "size-3",
+              status === "active" && "text-info motion-safe:animate-spin",
+              status === "complete" && "text-success"
+            )}
+          />
+        )}
       </span>
       <div className="min-w-0 flex-1">
-        {label ? (
-          <div data-slot="ai-reasoning-step-label" className="font-medium">
-            {label}
+        {label || meta ? (
+          <div className="flex min-w-0 items-start justify-between gap-4">
+            {label ? (
+              <div
+                data-slot="ai-reasoning-step-label"
+                className="min-w-0 font-medium"
+              >
+                {label}
+              </div>
+            ) : null}
+            {meta ? (
+              <div
+                data-slot="ai-reasoning-step-meta"
+                className="text-muted-foreground shrink-0 text-xs"
+              >
+                {meta}
+              </div>
+            ) : null}
           </div>
         ) : null}
         {description ? (
@@ -288,18 +271,20 @@ function AiReasoningStep({
             {description}
           </div>
         ) : null}
-        {children}
+        {children ? (
+          <div data-slot="ai-reasoning-step-content" className="mt-1 min-w-0">
+            {children}
+          </div>
+        ) : null}
       </div>
-    </div>
+    </motion.div>
   )
 }
 
 export {
   AiReasoning,
   AiReasoningContent,
-  AiReasoningDeltas,
   AiReasoningStep,
-  AiReasoningStream,
   AiReasoningTrigger,
   aiReasoningStepVariants,
 }

@@ -83,13 +83,13 @@
         "isStreaming: boolean",
         "featherLength: number"
       ],
-      "exampleCount": 1
+      "exampleCount": 2
     },
     {
       "name": "ai-reasoning",
       "type": "registry:ui",
       "title": "AI 推理过程 AI Reasoning",
-      "description": "流式展示模型返回的 reasoning 文本，并在生成期间自动展开。",
+      "description": "用可折叠的思考链展示模型推理摘要与执行进度。",
       "categories": [
         "ai"
       ],
@@ -99,7 +99,7 @@
         "disabled: boolean",
         "asChild: boolean"
       ],
-      "exampleCount": 3
+      "exampleCount": 2
     },
     {
       "name": "avatar",

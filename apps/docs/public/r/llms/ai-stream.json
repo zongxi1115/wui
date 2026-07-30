@@ -55,6 +55,10 @@
     {
       "name": "ai-stream-demo",
       "title": "基础示例"
+    },
+    {
+      "name": "ai-stream-deltas",
+      "title": "Delta 分段模式"
     }
   ],
   "files": [

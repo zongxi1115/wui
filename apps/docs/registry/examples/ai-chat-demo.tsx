@@ -21,7 +21,7 @@ import {
 import {
   AiReasoning,
   AiReasoningContent,
-  AiReasoningStream,
+  AiReasoningStep,
   AiReasoningTrigger,
 } from "@/registry/ui/ai-reasoning"
 import {
@@ -62,9 +62,15 @@ export default function AiChatDemo() {
             <AiReasoning duration={2.8} defaultOpen>
               <AiReasoningTrigger />
               <AiReasoningContent>
-                <AiReasoningStream>
-                  先读取登录流程，确认表单、第三方登录和错误反馈；再核对设计变量，沿用现有间距、边框与语义色。
-                </AiReasoningStream>
+                <AiReasoningStep
+                  status="complete"
+                  label="读取登录流程与表单状态"
+                />
+                <AiReasoningStep
+                  status="complete"
+                  label="核对现有间距、边框与语义色"
+                />
+                <AiReasoningStep status="complete" label="整理页面改版顺序" />
               </AiReasoningContent>
             </AiReasoning>
 
@@ -85,10 +91,7 @@ export default function AiChatDemo() {
             <AiTodo>
               <AiTodoHeader>实施计划 · 1/3</AiTodoHeader>
               <AiTodoList>
-                <AiTodoItem
-                  status="completed"
-                  title="盘点现有登录状态"
-                />
+                <AiTodoItem status="completed" title="盘点现有登录状态" />
                 <AiTodoItem
                   status="in-progress"
                   title="重组表单信息层级"
@@ -114,9 +117,7 @@ export default function AiChatDemo() {
 
         {messages.map((message, index) => (
           <AiChatMessage key={`${message}-${index}`} role="user">
-            <AiChatMessageContent role="user">
-              {message}
-            </AiChatMessageContent>
+            <AiChatMessageContent role="user">{message}</AiChatMessageContent>
           </AiChatMessage>
         ))}
       </AiChatMessages>
@@ -132,7 +133,12 @@ export default function AiChatDemo() {
       >
         <AiChatPromptFooter>
           <AiChatPromptTools>
-            <Button type="button" variant="ghost" size="icon" aria-label="添加附件">
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              aria-label="添加附件"
+            >
               <PaperclipIcon />
             </Button>
           </AiChatPromptTools>

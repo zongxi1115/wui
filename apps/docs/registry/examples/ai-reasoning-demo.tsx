@@ -1,48 +1,99 @@
 "use client"
 
 import * as React from "react"
+import { Globe2Icon, LightbulbIcon, SearchIcon } from "lucide-react"
 
 import { Button } from "@/registry/ui/button"
 import {
   AiReasoning,
   AiReasoningContent,
-  AiReasoningStream,
+  AiReasoningStep,
   AiReasoningTrigger,
 } from "@/registry/ui/ai-reasoning"
 
-const fullReasoning =
-  "我先确认请求的目标：需要重做登录页，但保留现有认证逻辑。\n\n接着检查项目里的表单、按钮和错误提示，避免引入另一套视觉规则。\n\n现有页面的问题主要是信息层级拥挤，移动端操作区也缺少稳定间距。\n\n因此实施顺序应该是：先整理结构，再复用现有组件，最后核对响应式状态。"
+const steps: Array<{
+  label: string
+  meta?: string
+  icon: React.ComponentType<{ className?: string }>
+  body?: React.ReactNode
+}> = [
+  {
+    label: "已搜索登录页现有组件与设计变量",
+    meta: "15 个结果",
+    icon: Globe2Icon,
+    body: (
+      <div className="flex flex-wrap gap-1.5">
+        <code className="bg-muted rounded px-1.5 py-0.5 text-xs">
+          login form
+        </code>
+        <code className="bg-muted rounded px-1.5 py-0.5 text-xs">
+          auth error state
+        </code>
+      </div>
+    ),
+  },
+  {
+    label: "正在补充查找认证流程与错误状态",
+    icon: LightbulbIcon,
+  },
+  {
+    label: "已完成 3 次相关搜索",
+    icon: SearchIcon,
+  },
+  {
+    label: "正在整理页面层级与移动端改版方案",
+    icon: LightbulbIcon,
+  },
+]
 
 export default function AiReasoningDemo() {
   const [streaming, setStreaming] = React.useState(false)
-  const [reasoning, setReasoning] = React.useState(
-    "我先确认请求目标，再检查现有组件与设计变量，最后形成实施顺序。"
-  )
+  const [activeIndex, setActiveIndex] = React.useState(steps.length)
 
   React.useEffect(() => {
     if (!streaming) return
 
-    let cursor = 0
-    setReasoning("")
+    let nextIndex = 0
+    setActiveIndex(nextIndex)
     const timer = window.setInterval(() => {
-      const deltaSize = cursor % 3 === 0 ? 3 : 2
-      cursor = Math.min(cursor + deltaSize, fullReasoning.length)
-      setReasoning(fullReasoning.slice(0, cursor))
-      if (cursor === fullReasoning.length) {
+      nextIndex += 1
+      setActiveIndex(nextIndex)
+
+      if (nextIndex === steps.length) {
         window.clearInterval(timer)
         setStreaming(false)
       }
-    }, 90)
+    }, 900)
 
     return () => window.clearInterval(timer)
   }, [streaming])
 
+  const visibleSteps = streaming
+    ? steps.slice(0, Math.min(activeIndex + 1, steps.length))
+    : steps
+
   return (
-    <div className="mx-auto w-full max-w-xl space-y-4">
-      <AiReasoning isStreaming={streaming} duration={2.6} defaultOpen>
+    <div className="mx-auto w-full max-w-xl space-y-5">
+      <AiReasoning isStreaming={streaming} duration={10} defaultOpen>
         <AiReasoningTrigger />
         <AiReasoningContent>
-          <AiReasoningStream>{reasoning}</AiReasoningStream>
+          {visibleSteps.map((step, index) => {
+            const Icon = step.icon
+            const status =
+              !streaming || index < activeIndex ? "complete" : "active"
+
+            return (
+              <AiReasoningStep
+                key={step.label}
+                status={status}
+                label={step.label}
+                meta={step.meta}
+                icon={<Icon className="size-3.5" />}
+              >
+                {step.body}
+              </AiReasoningStep>
+            )
+          })}
         </AiReasoningContent>
       </AiReasoning>
 
@@ -53,7 +104,7 @@ export default function AiReasoningDemo() {
         disabled={streaming}
         onClick={() => setStreaming(true)}
       >
-        {streaming ? "正在流式输出…" : "重新模拟流式推理"}
+        {streaming ? "正在生成思考链…" : "重新播放思考过程"}
       </Button>
     </div>
   )
