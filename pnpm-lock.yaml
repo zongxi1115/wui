@@ -68,6 +68,9 @@ importers:
       shiki:
         specifier: ^1.29.1
         version: 1.29.2
+      svglide:
+        specifier: ^1.0.1
+        version: 1.0.1(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       tailwind-merge:
         specifier: ^2.6.0
         version: 2.6.1
@@ -3493,6 +3496,13 @@ packages:
     resolution: {integrity: sha512-DhuTmvZWux4H1UOnWMB3sk0sbaCVOoQZjv8u1rDoTV0HTdGem9hkAZtl4JZy8P2z4Bg0nT+YMeOFyVr4zcG5Tw==}
     engines: {node: '>=16 || 14 >=14.17'}
     hasBin: true
+
+  svglide@1.0.1:
+    resolution: {integrity: sha512-WNCyoMaKPnyACJnIU7SpuP/qkrg6PAVeBliH8KpDvut0azmBU0g1Otmd6S1GAXcAd8LZDbFzMH+B5fjJhQrouQ==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      react: ^18.0.0
+      react-dom: ^18.0.0
 
   tailwind-merge@2.6.1:
     resolution: {integrity: sha512-Oo6tHdpZsGpkKG88HJ8RR1rg/RdnEkQEfMoEk2x1XRI3F1AxeU+ijRXpiVUF4UbLfcxxRGw6TbUINKYdWVsQTQ==}
@@ -7197,6 +7207,11 @@ snapshots:
       pirates: 4.0.7
       tinyglobby: 0.2.17
       ts-interface-checker: 0.1.13
+
+  svglide@1.0.1(react-dom@19.2.8(react@19.2.8))(react@19.2.8):
+    dependencies:
+      react: 19.2.8
+      react-dom: 19.2.8(react@19.2.8)
 
   tailwind-merge@2.6.1: {}
 

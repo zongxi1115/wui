@@ -205,7 +205,7 @@
       "name": "animated-icon-collection",
       "type": "registry:ui",
       "title": "Animated Icon Collection",
-      "description": "The complete deduplicated AnimateIcons and ItsHover path-animated icon collection.",
+      "description": "The complete deduplicated AnimateIcons, ItsHover, and SVGlide path-animated icon collection.",
       "registryDependencies": [
         "animated-icon"
       ]

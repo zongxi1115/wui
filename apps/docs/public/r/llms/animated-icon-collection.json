@@ -2,13 +2,14 @@
   "name": "animated-icon-collection",
   "type": "registry:ui",
   "title": "Animated Icon Collection",
-  "description": "The complete deduplicated AnimateIcons and ItsHover path-animated icon collection.",
+  "description": "The complete deduplicated AnimateIcons, ItsHover, and SVGlide path-animated icon collection.",
   "exports": [],
   "install": {
     "wui": "pnpm dlx @wui-design/cli@latest add @wui/animated-icon-collection",
     "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/animated-icon-collection.json",
     "npmDependencies": [
-      "motion"
+      "motion",
+      "svglide"
     ],
     "registryDependencies": [
       "animated-icon"

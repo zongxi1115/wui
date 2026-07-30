@@ -3,6 +3,7 @@
 import * as React from "react"
 import * as lucideAnimatedIcons from "@animateicons/react/lucide"
 import { CheckIcon, SearchIcon } from "lucide-react"
+import * as svglideIcons from "svglide"
 
 import * as itsHoverAnimatedIcons from "@/registry/icons/animated"
 import { cn } from "@/registry/lib/utils"
@@ -10,13 +11,15 @@ import type { AnimatedIconHandle } from "@/registry/ui/animated-icon"
 
 const PAGE_SIZE = 96
 
-type IconSource = "animateicons" | "itshover"
-type GalleryIcon = React.ForwardRefExoticComponent<
+type IconSource = "animateicons" | "itshover" | "svglide"
+type SourceFilter = "all" | IconSource
+type GalleryIcon = React.ComponentType<
   {
     size?: number | string
     color?: string
     strokeWidth?: number
     className?: string
+    "data-hovered"?: boolean
   } & React.RefAttributes<AnimatedIconHandle>
 >
 
@@ -54,33 +57,72 @@ const itsHoverEntries = Object.entries(itsHoverAnimatedIcons)
     source: "itshover" as const,
   }))
 
+const existingNames = new Set(
+  [...animateIconsEntries, ...itsHoverEntries].map((entry) =>
+    toSearchName(entry.name)
+  )
+)
+
+const svgGlideEntries = Object.entries(svglideIcons)
+  .filter(
+    ([name, icon]) =>
+      !existingNames.has(toSearchName(name)) &&
+      (typeof icon === "function" || (typeof icon === "object" && icon !== null))
+  )
+  .map(([name, icon]) => ({
+    name,
+    icon: icon as unknown as GalleryIcon,
+    source: "svglide" as const,
+  }))
+
 const animatedIcons: AnimatedIconEntry[] = [
   ...animateIconsEntries,
   ...itsHoverEntries,
+  ...svgGlideEntries,
 ].sort((a, b) => toSearchName(a.name).localeCompare(toSearchName(b.name)))
+
+const sourceFilters: Array<{ value: SourceFilter; label: string }> = [
+  { value: "all", label: "全部" },
+  { value: "animateicons", label: "AnimateIcons" },
+  { value: "itshover", label: "ItsHover" },
+  { value: "svglide", label: "SVGlide" },
+]
 
 function AnimatedIconTile({
   name,
   icon,
+  source,
   copied,
   onCopy,
 }: {
   name: string
   icon: GalleryIcon
+  source: IconSource
   copied: boolean
   onCopy: () => void
 }) {
   const iconRef = React.useRef<AnimatedIconHandle>(null)
+  const [active, setActive] = React.useState(false)
   const Glyph = icon
+
+  function startAnimation() {
+    setActive(true)
+    iconRef.current?.startAnimation()
+  }
+
+  function stopAnimation() {
+    setActive(false)
+    iconRef.current?.stopAnimation()
+  }
 
   return (
     <button
       type="button"
       title={`复制 ${name} 的导入语句`}
-      onMouseEnter={() => iconRef.current?.startAnimation()}
-      onMouseLeave={() => iconRef.current?.stopAnimation()}
-      onFocus={() => iconRef.current?.startAnimation()}
-      onBlur={() => iconRef.current?.stopAnimation()}
+      onMouseEnter={startAnimation}
+      onMouseLeave={stopAnimation}
+      onFocus={startAnimation}
+      onBlur={stopAnimation}
       onClick={onCopy}
       className={cn(
         "hover:bg-muted/60 focus-visible:ring-ring/50 group flex min-h-24 min-w-0 flex-col items-center justify-center gap-2 border-b border-r px-2 py-3 text-center outline-none transition-colors focus-visible:z-10 focus-visible:ring-[3px] focus-visible:ring-inset",
@@ -89,6 +131,8 @@ function AnimatedIconTile({
     >
       {copied ? (
         <CheckIcon aria-hidden className="size-6" />
+      ) : source === "svglide" ? (
+        <Glyph aria-hidden className="size-6" data-hovered={active} />
       ) : (
         <Glyph ref={iconRef} size={24} />
       )}
@@ -101,28 +145,32 @@ function AnimatedIconTile({
 
 export function AnimatedIconLibrary() {
   const [query, setQuery] = React.useState("")
+  const [source, setSource] = React.useState<SourceFilter>("all")
   const [limit, setLimit] = React.useState(PAGE_SIZE)
   const [copied, setCopied] = React.useState<string | null>(null)
   const deferredQuery = React.useDeferredValue(query.trim().toLowerCase())
 
   const filtered = React.useMemo(
     () =>
-      animatedIcons.filter((entry) =>
-        `${entry.name.toLowerCase()} ${toSearchName(entry.name)}`.includes(
-          deferredQuery
-        )
+      animatedIcons.filter(
+        (entry) =>
+          (source === "all" || entry.source === source) &&
+          `${entry.name.toLowerCase()} ${toSearchName(entry.name)}`.includes(
+            deferredQuery
+          )
       ),
-    [deferredQuery]
+    [deferredQuery, source]
   )
   const visible = filtered.slice(0, limit)
 
-  React.useEffect(() => setLimit(PAGE_SIZE), [deferredQuery])
+  React.useEffect(() => setLimit(PAGE_SIZE), [deferredQuery, source])
 
   async function copyImport(entry: AnimatedIconEntry) {
-    const importPath =
-      entry.source === "animateicons"
-        ? "@animateicons/react/lucide"
-        : "@/components/ui/animated-icons"
+    const importPath = {
+      animateicons: "@animateicons/react/lucide",
+      itshover: "@/components/ui/animated-icons",
+      svglide: "svglide",
+    }[entry.source]
 
     await navigator.clipboard.writeText(
       `import { ${entry.name} } from "${importPath}"`
@@ -152,6 +200,22 @@ export function AnimatedIconLibrary() {
             {filtered.length} / {animatedIcons.length} 个逐路径动态图标
           </p>
         </div>
+        <div className="flex flex-wrap gap-x-5 gap-y-2" aria-label="图标来源">
+          {sourceFilters.map((filter) => (
+            <button
+              key={filter.value}
+              type="button"
+              aria-pressed={source === filter.value}
+              onClick={() => setSource(filter.value)}
+              className={cn(
+                "text-muted-foreground hover:text-foreground focus-visible:ring-ring/40 text-xs font-medium outline-none transition-colors focus-visible:ring-[3px]",
+                source === filter.value && "text-foreground underline underline-offset-4"
+              )}
+            >
+              {filter.label}
+            </button>
+          ))}
+        </div>
       </div>
 
       {visible.length ? (
@@ -161,6 +225,7 @@ export function AnimatedIconLibrary() {
               key={`${entry.source}:${entry.name}`}
               name={entry.name}
               icon={entry.icon}
+              source={entry.source}
               copied={copied === `${entry.source}:${entry.name}`}
               onCopy={() => copyImport(entry)}
             />

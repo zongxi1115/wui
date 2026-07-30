@@ -25,7 +25,7 @@
 - [动效 Motion](https://ui.wzx.wang/docs/components/motion): 基于 motion 构建的可选动画基础组件和预设库。
 - [图标 Icon](https://ui.wzx.wang/docs/components/icon): 基于 Lucide 的可搜索图标集合与无障碍渲染组件。
 - [动态图标 Animated Icon](https://ui.wzx.wang/docs/components/animated-icon): 图标内部路径会随交互运动的 Lucide 动态图标集合。
-- [Animated Icon Collection](https://ui.wzx.wang/docs/components/animated-icon-collection): The complete deduplicated AnimateIcons and ItsHover path-animated icon collection.
+- [Animated Icon Collection](https://ui.wzx.wang/docs/components/animated-icon-collection): The complete deduplicated AnimateIcons, ItsHover, and SVGlide path-animated icon collection.
 - [闪光按钮 Shiny Button](https://ui.wzx.wang/docs/components/shiny-button): 带有流动扫光效果的填充按钮。
 - [开关 Switch](https://ui.wzx.wang/docs/components/switch): 带弹簧滑块与完整无障碍语义的二元状态控件。
 - [进度条 Progress](https://ui.wzx.wang/docs/components/progress): 细腻、克制并支持确定与不确定状态的进度指示器。
