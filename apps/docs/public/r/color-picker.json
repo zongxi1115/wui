@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "color-picker",
   "type": "registry:ui",
-  "title": "Color Picker",
-  "description": "An OKLCH color picker with perceptual channels, alpha and exact CSS input.",
+  "title": "颜色选择器 Color Picker",
+  "description": "面向设计 Token 的 OKLCH 颜色选择器，支持感知色彩通道、透明度和精确 CSS 值。",
   "dependencies": [
     "radix-ui"
   ],

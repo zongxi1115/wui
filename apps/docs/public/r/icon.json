@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "icon",
   "type": "registry:ui",
-  "title": "Icon",
-  "description": "An accessible, consistently sized adapter for Lucide icons.",
+  "title": "图标 Icon",
+  "description": "基于 Lucide 的可搜索图标集合与无障碍渲染组件。",
   "dependencies": [
     "lucide-react"
   ],

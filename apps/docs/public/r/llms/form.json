@@ -1,7 +1,7 @@
 {
   "name": "form",
   "type": "registry:ui",
-  "title": "Form",
+  "title": "表单 Form",
   "description": "可组合的表单字段，协调标签、校验提示与动效反馈。",
   "import": "import { Form, FormActions, FormControl, FormDescription, FormField, FormLabel, FormLegend, FormMessage, FormSection } from \"@/components/ui/form\"",
   "exports": [
@@ -37,56 +37,63 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "true",
-      "description": "挂载时是否播放表单入场动效。@default true"
+      "description": "挂载表单时是否播放入场动效。"
     },
     {
       "name": "autoComplete",
       "type": "string",
       "required": false,
-      "control": "text"
+      "control": "text",
+      "description": "是否启用浏览器的表单自动填充。"
     },
     {
       "name": "method",
       "type": "string",
       "required": false,
-      "control": "text"
+      "control": "text",
+      "description": "提交表单时使用的 HTTP 方法。"
     },
     {
       "name": "target",
       "type": "string",
       "required": false,
-      "control": "text"
+      "control": "text",
+      "description": "提交结果打开的浏览上下文。"
     },
     {
       "name": "acceptCharset",
       "type": "string",
       "required": false,
-      "control": "text"
+      "control": "text",
+      "description": "提交表单使用的字符编码。"
     },
     {
       "name": "action",
       "type": "string | ((formData: FormData) => void | Promise<void>)",
       "required": false,
-      "control": "text"
+      "control": "text",
+      "description": "表单提交的目标地址。"
     },
     {
       "name": "encType",
       "type": "string",
       "required": false,
-      "control": "text"
+      "control": "text",
+      "description": "提交表单时使用的编码类型。"
     },
     {
       "name": "noValidate",
       "type": "boolean",
       "required": false,
-      "control": "boolean"
+      "control": "boolean",
+      "description": "是否跳过浏览器原生表单校验。"
     }
   ],
-  "events": "- `Form` 会透传 `onSubmit`、`onReset` 和 `onInvalid` 等原生表单事件。\r\n- `FormControl` 保留子控件自身事件，同时补充字段 ID 和 ARIA 关联。\r\n- 修改 `FormField` 的 `invalid` 会显示紧邻控件的 `FormMessage`，并触发适配减少动态效果偏好的轻微纠正提示。",
+  "events": "- `Form` 会透传 `onSubmit`、`onReset` 和 `onInvalid` 等原生表单事件。\n- `FormControl` 保留子控件自身事件，同时补充字段 ID 和 ARIA 关联。\n- `FormField` 的 `invalid` 为真时，`FormMessage` 会显示在对应控件附近；错误文字应说明如何修正，而不只是写“格式错误”。",
   "examples": [
     {
       "name": "form-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     }
   ],
   "files": [

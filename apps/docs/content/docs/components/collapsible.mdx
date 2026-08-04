@@ -4,7 +4,7 @@ description: 按需展开一段补充内容，并保留清晰的状态与键盘�
 component: collapsible
 ---
 
-## 基础示例
+## 基础用法
 
 <ComponentPreview name="collapsible-demo" />
 
@@ -12,27 +12,31 @@ component: collapsible
 
 <ComponentSource name="collapsible" title="components/ui/collapsible.tsx" />
 
-## 组件作用
+## 使用场景
 
-`Collapsible` 用于隐藏暂时不需要的补充信息，例如高级设置、详情和次级导航。触发器始终可见，内容展开时使用短促的高度与透明度过渡；用户偏好减少动态效果时会直接切换状态。不要用它隐藏完成当前任务所必需的信息。
+`Collapsible` 用于隐藏暂时不需要的补充信息，例如高级设置、详情和次级导航。触发器始终可见，用户可以随时展开或收起。
+不要把完成当前任务所必需的字段放进默认收起的区域，也不要用它替代需要同时展开多个面板的 Accordion。
 
-## 组件属性
+内容展开时会有短促的高度和透明度过渡；用户开启“减少动态效果”后会直接切换到最终状态。
+
+## 属性
 
 <PropsTable name="collapsible" />
 
-- `Collapsible` 透传 Radix Root 的 `open`、`defaultOpen`、`disabled` 与 `onOpenChange`。
-- `CollapsibleTrigger` 支持 `asChild`，并可通过 `showIndicator={false}` 隐藏默认箭头。
-- `CollapsibleContent` 负责展开动效，收起时会从键盘导航和辅助技术中移除内部内容。
+- `Collapsible` 透传 Radix Root 的 `open`、`defaultOpen`、`disabled` 和 `onOpenChange`。
+- `CollapsibleTrigger` 支持 `asChild`，也可以通过 `showIndicator={false}` 隐藏默认箭头。
+- `CollapsibleContent` 负责展开区域及其动效；收起后，内部内容会从键盘导航和辅助技术中移除。
 
 ## 事件
 
-- `onOpenChange(open)`：用户点击触发器或受控状态变化时触发。
+- `onOpenChange(open)`：用户点击触发器，或受控状态被更新时触发。
 - 触发器使用原生按钮语义，支持 Enter 与 Space，并同步 `aria-expanded` 和内容关联关系。
 
-## 拓展使用
+## 扩展用法
 
 ### 受控状态
 
 <ComponentPreview name="collapsible-controlled" />
 
-当页面其他区域需要读取或改变展开状态时，传入 `open` 与 `onOpenChange`。如果折叠内容彼此互斥，应使用 Accordion，而不是手动同步多个 `Collapsible`。
+当页面其他区域需要读取或改变展开状态时，传入 `open` 与 `onOpenChange`。受控模式下，回调必须更新外部状态，
+否则触发器会有点击反馈但内容不会展开。如果多个区域彼此互斥，应使用 Accordion，而不是手动同步多个 `Collapsible`。

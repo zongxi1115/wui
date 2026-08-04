@@ -18,8 +18,8 @@ export interface ToolDefinition {
 // ---------------------------------------------------------------------------
 function renderProp(p: PropMeta): string {
   const bits = [`- \`${p.name}\`: ${p.type}`]
-  if (p.required) bits.push(" **(required)**")
-  else if (p.defaultValue) bits.push(` (default: \`${p.defaultValue}\`)`)
+  if (p.required) bits.push(" **（必填）**")
+  else if (p.defaultValue) bits.push(`（默认值：\`${p.defaultValue}\`）`)
   if (p.description) bits.push(` — ${p.description.replace(/\s*\n\s*/g, " ")}`)
   return bits.join("")
 }
@@ -38,7 +38,7 @@ function renderComponent(d: ComponentDigest): string {
   if (d.docsUrl) out.push(`**文档**：${d.docsUrl}`)
   out.push("")
 
-  out.push("## Props")
+  out.push("## 属性")
   out.push(
     d.props.length
       ? d.props.map(renderProp).join("\n")
@@ -65,7 +65,7 @@ function renderComponent(d: ComponentDigest): string {
 }
 
 function renderIndexEntry(i: IndexEntry): string {
-  const props = i.keyProps.length ? ` — props: ${i.keyProps.join("; ")}` : ""
+  const props = i.keyProps.length ? ` — 关键属性：${i.keyProps.join("；")}` : ""
   return `- \`${i.name}\` **${i.title}**: ${i.description}${props}`
 }
 

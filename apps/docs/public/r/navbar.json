@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "navbar",
   "type": "registry:ui",
-  "title": "Navbar",
-  "description": "Composable horizontal and application-level vertical navigation.",
+  "title": "导航栏 Navbar",
+  "description": "适用于页面顶部与应用左侧的可组合导航栏。",
   "dependencies": [
     "radix-ui",
     "class-variance-authority",

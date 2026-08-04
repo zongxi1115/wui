@@ -32,7 +32,7 @@
       "type": "string",
       "required": true,
       "control": "text",
-      "description": "Text split into animated segments."
+      "description": "要拆分并播放动画的文本。"
     },
     {
       "name": "per",
@@ -45,7 +45,7 @@
         "char"
       ],
       "defaultValue": "word",
-      "description": "Segment granularity."
+      "description": "文本拆分粒度：行、单词或字符。"
     },
     {
       "name": "as",
@@ -53,7 +53,7 @@
       "required": false,
       "control": "text",
       "defaultValue": "p",
-      "description": "HTML element rendered by the component."
+      "description": "组件实际渲染的 HTML 元素。"
     },
     {
       "name": "preset",
@@ -68,14 +68,14 @@
         "slide"
       ],
       "defaultValue": "fade",
-      "description": "Built-in segment animation."
+      "description": "内置的片段入场动画。"
     },
     {
       "name": "variants",
       "type": "{ container?: Variants; item?: Variants; } | undefined",
       "required": false,
       "control": "text",
-      "description": "Custom container and segment variants."
+      "description": "自定义容器和文本片段的动画变体。"
     },
     {
       "name": "delay",
@@ -83,7 +83,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "0",
-      "description": "Delay before the reveal begins, in seconds."
+      "description": "开始揭示文本前等待的时间，单位为秒。"
     },
     {
       "name": "trigger",
@@ -91,7 +91,7 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "true",
-      "description": "Reveal or hide the text."
+      "description": "是否显示文本。切换为 false 可隐藏文本。"
     },
     {
       "name": "speedReveal",
@@ -99,7 +99,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "1",
-      "description": "Multiplier for the container stagger speed."
+      "description": "容器交错动画速度的倍率。"
     },
     {
       "name": "speedSegment",
@@ -107,51 +107,49 @@
       "required": false,
       "control": "number",
       "defaultValue": "1",
-      "description": "Multiplier for each segment's animation speed."
+      "description": "每个文本片段动画速度的倍率。"
     },
     {
       "name": "segmentWrapperClassName",
       "type": "string",
       "required": false,
       "control": "text",
-      "description": "Extra class applied to every segment wrapper."
+      "description": "应用于每个文本片段包装元素的额外 CSS 类名。"
     },
     {
       "name": "containerTransition",
       "type": "Transition",
       "required": false,
       "control": "text",
-      "description": "Custom container transition."
+      "description": "容器使用的自定义过渡动画。"
     },
     {
       "name": "segmentTransition",
       "type": "Transition",
       "required": false,
       "control": "text",
-      "description": "Custom transition for each segment."
+      "description": "每个文本片段使用的自定义过渡动画。"
     },
     {
       "name": "onAnimationStart",
       "type": "(() => void)",
       "required": false,
       "control": "text",
-      "description": "Called when the reveal animation starts."
+      "description": "文本揭示动画开始时触发。"
     },
     {
       "name": "onAnimationComplete",
       "type": "(() => void)",
       "required": false,
       "control": "text",
-      "description": "Called when the reveal animation completes."
+      "description": "文本揭示动画完成时触发。"
     }
   ],
-  "usage": "`TextEffect` 提供 `fade`、`blur-sm`、`fade-in-blur`、`scale` 和 `slide` 五种预设，也可以传入容器与片段 `variants`。它适合标题、短说明和状态提示，不应对长篇正文逐字播放。",
-  "extended": "`per=\"line\"` 按换行符拆分，`per=\"word\"` 保留空格，`per=\"char\"` 适合短标题。`speedReveal` 控制片段间隔，`speedSegment` 控制单个片段速度。",
-  "events": "`onAnimationStart` 和 `onAnimationComplete` 分别在整段动画开始、完成时触发。用 `trigger` 控制进入和退出；底层元素的其他原生事件会继续透传。",
+  "events": "`onAnimationStart` 和 `onAnimationComplete` 分别在整段动画开始和完成时触发。用 `trigger` 控制进入和退出；\n底层元素的其他原生事件会继续透传。",
   "examples": [
     {
       "name": "text-effect-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     }
   ],
   "files": [

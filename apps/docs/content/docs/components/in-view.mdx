@@ -4,7 +4,7 @@ description: 当内容进入视口时播放可配置的入场动画。
 component: in-view
 ---
 
-## 基础示例
+## 基础用法
 
 <ComponentPreview name="in-view-demo" />
 
@@ -14,21 +14,23 @@ component: in-view
 
 <ComponentSource name="in-view" title="components/ui/in-view.tsx" />
 
-## 组件作用
+## 使用场景
 
-`InView` 适合延后展示长页面中的说明、数据段或媒体内容。它使用浏览器交叉观察能力判断可见性，默认只播放一次，并在减少动态效果偏好下直接显示最终状态。
+`InView` 适合延后展示长页面中的说明、数据段或媒体内容。它使用浏览器的交叉观察能力判断可见性，默认只播放一次；
+用户开启“减少动态效果”时直接显示最终状态。它只改变出现方式，不应让用户必须滚动动画才能获得关键信息。
 
-## 组件属性
+## 属性
 
 <PropsTable name="in-view" />
 
 ## 事件
 
-组件透传底层元素的原生事件。需要获知可见状态时，可通过自定义 `variants` 的 Motion 回调处理；`viewOptions` 支持 `margin` 与 `amount` 等观察参数。
+组件透传底层元素的原生事件。需要获知可见状态时，可以通过自定义 `variants` 的 Motion 回调处理；`viewOptions` 支持 `margin` 和 `amount` 等观察参数。
 
-## 扩展使用
+## 扩展用法
 
-通过 `as="section"` 调整语义元素；设置 `once={false}` 可在每次进入和离开视口时重播。对于很长的列表，应只为关键内容添加入场效果。
+通过 `as="section"` 调整元素类型；设置 `once={false}` 可以在每次进入视口时重播。对于很长的列表，应只为关键内容添加入场效果，
+避免大量节点同时启动动画。
 
 ### 图片遮罩揭示
 

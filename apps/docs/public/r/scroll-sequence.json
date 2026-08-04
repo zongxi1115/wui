@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "scroll-sequence",
   "type": "registry:ui",
-  "title": "Scroll Sequence",
-  "description": "Pins a viewport and swaps its child steps according to scroll progress.",
+  "title": "滚动分步 Scroll Sequence",
+  "description": "固定区块并用滚动进度逐步切换内部内容。",
   "dependencies": [
     "motion"
   ],

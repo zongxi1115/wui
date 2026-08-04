@@ -4,7 +4,7 @@ description: 带有流动扫光效果的填充按钮。
 component: shiny-button
 ---
 
-## 基础示例
+## 基础用法
 
 <ComponentPreview name="shiny-button-demo" />
 
@@ -14,18 +14,18 @@ component: shiny-button
 
 <ComponentSource name="shiny-button" title="components/ui/shiny-button.tsx" />
 
-## 组件作用
+## 使用场景
 
-`ShinyButton` 是 **Fancy** 系列的首个组件。该系列包含偏展示性的效果组件，类似 CodePen
-中的创意效果；它们与核心 UI 共存，并通过相同的 `wui add` 流程按需拉取。
+`ShinyButton` 是 **Fancy** 系列的展示型按钮。该系列包含偏视觉效果的组件，与核心 UI 共存，
+并通过相同的 `wui add` 流程按需安装。
 
 效果组件比核心基础组件更有视觉倾向，也更醒目，因此应克制、有目的地使用：
 
-- 适合用于首屏行动按钮、定价页的“升级”按钮或空状态等需要单一视觉焦点的位置。
+- 适合用于首屏主操作、定价页的“升级”按钮或空状态等需要单一视觉焦点的位置。
 - 不要在整个表单或工具栏中铺满闪光按钮；持续动画会与内容争夺注意力并造成视觉疲劳。
-- 与所有 wui 动画一样，当用户偏好减少动态效果时，扫光会自动禁用，按钮仍保持为普通的实色按钮。
+- 用户开启“减少动态效果”时，扫光会自动禁用，按钮仍保持为普通实色按钮。
 
-## 组件属性
+## 属性
 
 `ShinyButton` 继承 `motion.button` 的全部属性，并额外提供：
 
@@ -33,16 +33,14 @@ component: shiny-button
 
 ## 事件
 
-`ShinyButton` 会像 [`Button`](/docs/components/button) 一样，将 `onClick`、`onFocus`
-等原生按钮事件透传给底层元素。
+`ShinyButton` 会像 [`Button`](/docs/components/button) 一样，将 `onClick`、`onFocus` 等原生按钮事件透传给底层元素。
 
-## 扩展使用
+## 扩展用法
 
-组件源码位于你的项目中，可以自由调整外观：修改 `speed` 和 `gap` 控制扫光的速度与密度，
-将 `bg-primary` 表面替换为渐变，或修改 `linear-gradient` 实现彩色高光。
+组件源码位于你的项目中，可以自由调整外观：修改 `speed` 和 `gap` 控制扫光的速度和密度，
+将 `bg-primary` 表面替换为渐变，或修改 `linear-gradient` 实现彩色高光。修改时应保留按钮的文字对比度和焦点样式。
 
 <Callout title="添加自己的效果组件">
-  新效果组件遵循标准的[组件规范](/docs)，额外要求仅为在 `registry.json` 中添加
-  `"categories": ["fancy"]`，并将页面放到组件侧边栏的 **Fancy** 分组下。
-  完整清单见 `docs/COMPONENT-SPEC.md` 第 9 节。
+  新效果组件遵循标准的[组件规范](/docs)，并在 `registry.json` 中添加 `"categories": ["fancy"]`，
+  页面放到组件侧边栏的 **Fancy** 分组下。
 </Callout>

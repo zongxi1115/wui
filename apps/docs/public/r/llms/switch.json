@@ -35,28 +35,28 @@
         "lg"
       ],
       "defaultValue": "default",
-      "description": "Physical size of the switch."
+      "description": "开关的尺寸。"
     },
     {
       "name": "disabled",
       "type": "boolean",
       "required": false,
-      "control": "boolean"
+      "control": "boolean",
+      "description": "是否禁用组件。"
     },
     {
       "name": "asChild",
       "type": "boolean",
       "required": false,
-      "control": "boolean"
+      "control": "boolean",
+      "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
     }
   ],
-  "usage": "`Switch` 用于让设置立即在开启与关闭之间切换，例如通知、隐私或显示偏好。它基于 Radix Switch，支持鼠标、触摸、键盘以及表单语义；滑块通过 Motion 弹簧运动，并在 `prefers-reduced-motion` 下自动静止降级。\r\n\r\n不要用 Switch 代替需要“提交/取消”的操作；这类场景应使用 Checkbox 或 Button。",
-  "extended": "### 尺寸\r\n\r\n\r\n\r\n受控用法通过 `checked` 与 `onCheckedChange` 管理；非受控用法使用 `defaultChecked`。",
-  "events": "- `onCheckedChange(checked)`：状态变化后触发。\r\n- 原生焦点、键盘与表单属性会继续透传到底层 Radix Root。",
+  "events": "- `onCheckedChange(checked)`：状态变化后触发，参数为新的布尔值；受控模式下需要同步更新 `checked`。\n- 原生焦点、键盘与表单属性会继续透传到底层 Radix Root。",
   "examples": [
     {
       "name": "switch-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     },
     {
       "name": "switch-sizes",

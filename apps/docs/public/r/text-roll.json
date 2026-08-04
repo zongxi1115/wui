@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "text-roll",
   "type": "registry:ui",
-  "title": "Text Roll",
-  "description": "Rolls a second copy of each character into view.",
+  "title": "文本翻滚 Text Roll",
+  "description": "悬停或挂载时逐字符翻滚的文字效果。",
   "dependencies": [
     "motion"
   ],

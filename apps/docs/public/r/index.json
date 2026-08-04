@@ -5,8 +5,8 @@
     {
       "name": "ai-prompt",
       "type": "registry:ui",
-      "title": "AI Prompt",
-      "description": "Composable AI prompt input with mentions, models, attachments, quotes, and optional capabilities.",
+      "title": "AI 输入框 AI Prompt",
+      "description": "支持提及、模型选择、附件、引用和可选能力的组合式 AI 输入框。",
       "registryDependencies": [
         "utils",
         "button",
@@ -18,8 +18,8 @@
     {
       "name": "ai-chat",
       "type": "registry:ui",
-      "title": "AI Chat",
-      "description": "Composable AI messages, follow-scroll behavior, and prompt input.",
+      "title": "AI 对话 AI Chat",
+      "description": "可组合的 AI 消息、滚动容器与提示输入框。",
       "registryDependencies": [
         "utils",
         "button",
@@ -30,8 +30,8 @@
     {
       "name": "ai-conversation-timeline",
       "type": "registry:ui",
-      "title": "AI Conversation Timeline",
-      "description": "Compact hover-preview navigation for long AI conversations.",
+      "title": "AI 对话时间线 AI Conversation Timeline",
+      "description": "用紧凑刻度浏览长对话，悬停预览并快速定位到指定轮次。",
       "registryDependencies": [
         "utils"
       ]
@@ -39,8 +39,8 @@
     {
       "name": "ai-tool",
       "type": "registry:ui",
-      "title": "AI Tool",
-      "description": "Collapsible AI tool invocation states, inputs, outputs, and errors.",
+      "title": "AI 工具调用 AI Tool",
+      "description": "展示 AI 工具的执行状态、参数、结果与错误。",
       "registryDependencies": [
         "utils"
       ]
@@ -48,8 +48,8 @@
     {
       "name": "ai-todo",
       "type": "registry:ui",
-      "title": "AI Todo",
-      "description": "Agent task plans with readable progress and optional status interaction.",
+      "title": "AI 任务清单 AI Todo",
+      "description": "展示 Agent 计划、执行进度与任务说明。",
       "registryDependencies": [
         "utils"
       ]
@@ -57,8 +57,8 @@
     {
       "name": "ai-stream",
       "type": "registry:ui",
-      "title": "AI Stream",
-      "description": "Reusable streamed text for answers, reasoning, and other AI content.",
+      "title": "AI 流式文本 AI Stream",
+      "description": "可用于普通回答与思考过程的通用流式文本动效。",
       "registryDependencies": [
         "utils"
       ]
@@ -66,8 +66,8 @@
     {
       "name": "ai-reasoning",
       "type": "registry:ui",
-      "title": "AI Reasoning",
-      "description": "Collapsible model-provided reasoning summaries and progress steps.",
+      "title": "AI 推理过程 AI Reasoning",
+      "description": "用可折叠的思考链展示模型推理摘要与执行进度。",
       "registryDependencies": [
         "utils",
         "ai-stream"
@@ -76,8 +76,8 @@
     {
       "name": "avatar",
       "type": "registry:ui",
-      "title": "Avatar",
-      "description": "Universal identity avatar with image fallback, presence status, sizes, and groups.",
+      "title": "头像 Avatar",
+      "description": "带图片回退、在线状态和头像组的通用身份组件。",
       "registryDependencies": [
         "utils"
       ]
@@ -85,8 +85,8 @@
     {
       "name": "badge",
       "type": "registry:ui",
-      "title": "Badge",
-      "description": "A compact label for status, category, or short metadata.",
+      "title": "徽章 Badge",
+      "description": "用紧凑的标签展示状态、分类或简短元数据。",
       "registryDependencies": [
         "utils"
       ]
@@ -94,8 +94,8 @@
     {
       "name": "bubble",
       "type": "registry:ui",
-      "title": "Bubble",
-      "description": "Composable message bubble with direction, metadata, avatars, and actions.",
+      "title": "气泡 Bubble",
+      "description": "可组合头像、署名、正文、时间与操作区的通用消息气泡。",
       "registryDependencies": [
         "utils"
       ]
@@ -103,15 +103,15 @@
     {
       "name": "theme",
       "type": "registry:theme",
-      "title": "WUI Theme",
-      "description": "Semantic design tokens shared by every WUI component.",
+      "title": "WUI 主题",
+      "description": "供所有 WUI 组件共享的语义化设计令牌。",
       "registryDependencies": []
     },
     {
       "name": "utils",
       "type": "registry:lib",
-      "title": "cn utility",
-      "description": "Tailwind class merge helper used by every component.",
+      "title": "cn 工具函数",
+      "description": "供所有组件使用的 Tailwind 类名合并工具函数。",
       "registryDependencies": [
         "theme"
       ]
@@ -119,8 +119,8 @@
     {
       "name": "button",
       "type": "registry:ui",
-      "title": "Button",
-      "description": "Displays a button or a component that looks like a button.",
+      "title": "按钮 Button",
+      "description": "显示一个按钮，或显示一个外观类似按钮的组件。",
       "registryDependencies": [
         "utils"
       ]
@@ -128,8 +128,8 @@
     {
       "name": "dialog",
       "type": "registry:ui",
-      "title": "Dialog",
-      "description": "A window overlaid on the primary window, built on Radix UI.",
+      "title": "对话框 Dialog",
+      "description": "基于 Radix UI 构建、覆盖在主窗口之上的浮层窗口。",
       "registryDependencies": [
         "utils"
       ]
@@ -137,8 +137,8 @@
     {
       "name": "morphing-dialog",
       "type": "registry:ui",
-      "title": "形变对话框",
-      "description": "从触发元素连续形变展开的模态对话框。",
+      "title": "形变对话框 Morphing Dialog",
+      "description": "从触发元素平滑变形成聚焦内容的模态对话框。",
       "registryDependencies": [
         "utils"
       ]
@@ -146,8 +146,8 @@
     {
       "name": "morphing-popover",
       "type": "registry:ui",
-      "title": "形变弹出框",
-      "description": "使用共享布局动画从触发元素展开的锚定弹出层。",
+      "title": "形变弹出框 Morphing Popover",
+      "description": "从触发器原位展开成轻量交互面板的弹出层。",
       "registryDependencies": [
         "utils"
       ]
@@ -155,8 +155,8 @@
     {
       "name": "progressive-blur",
       "type": "registry:ui",
-      "title": "渐进模糊",
-      "description": "使用渐变遮罩构建的方向可控分层背景模糊。",
+      "title": "渐进模糊 Progressive Blur",
+      "description": "使用多层渐变遮罩构建方向可控的渐进式背景模糊。",
       "registryDependencies": [
         "utils"
       ]
@@ -164,8 +164,8 @@
     {
       "name": "watermark",
       "type": "registry:ui",
-      "title": "Watermark",
-      "description": "Adds a repeated text or image watermark over a section of content.",
+      "title": "水印 Watermark",
+      "description": "在内容区域上方添加重复的文字或图片水印。",
       "registryDependencies": [
         "utils"
       ]
@@ -173,8 +173,8 @@
     {
       "name": "confirm-dialog",
       "type": "registry:component",
-      "title": "Confirm Dialog",
-      "description": "A ready-made confirmation dialog composed from Dialog and Button.",
+      "title": "确认对话框 Confirm Dialog",
+      "description": "由 Dialog 和 Button 组合而成的开箱即用确认对话框。",
       "registryDependencies": [
         "dialog",
         "button"
@@ -183,29 +183,29 @@
     {
       "name": "motion",
       "type": "registry:ui",
-      "title": "Motion",
-      "description": "Optional animation primitive and presets built on motion.",
+      "title": "动效 Motion",
+      "description": "基于 motion 构建的可选动画基础组件和预设库。",
       "registryDependencies": []
     },
     {
       "name": "icon",
       "type": "registry:ui",
-      "title": "Icon",
-      "description": "An accessible, consistently sized adapter for Lucide icons.",
+      "title": "图标 Icon",
+      "description": "基于 Lucide 的可搜索图标集合与无障碍渲染组件。",
       "registryDependencies": []
     },
     {
       "name": "animated-icon",
       "type": "registry:ui",
-      "title": "Animated Icon",
-      "description": "Accessible path-animated Lucide icons with hover and imperative playback.",
+      "title": "动态图标 Animated Icon",
+      "description": "图标内部路径会随交互运动的 Lucide 动态图标集合。",
       "registryDependencies": []
     },
     {
       "name": "animated-icon-collection",
       "type": "registry:ui",
-      "title": "Animated Icon Collection",
-      "description": "The complete deduplicated AnimateIcons, ItsHover, and SVGlide path-animated icon collection.",
+      "title": "动态图标集合 Animated Icon Collection",
+      "description": "去重后的 AnimateIcons、ItsHover 和 SVGlide 路径动态图标完整集合。",
       "registryDependencies": [
         "animated-icon"
       ]
@@ -213,8 +213,8 @@
     {
       "name": "shiny-button",
       "type": "registry:ui",
-      "title": "Shiny Button",
-      "description": "A filled button with a light sweep that glides across it.",
+      "title": "闪光按钮 Shiny Button",
+      "description": "带有流动扫光效果的填充按钮。",
       "registryDependencies": [
         "utils"
       ]
@@ -222,8 +222,8 @@
     {
       "name": "switch",
       "type": "registry:ui",
-      "title": "Switch",
-      "description": "A tactile binary control with a spring-driven thumb.",
+      "title": "开关 Switch",
+      "description": "带弹簧滑块与完整无障碍语义的二元状态控件。",
       "registryDependencies": [
         "utils"
       ]
@@ -231,8 +231,8 @@
     {
       "name": "progress",
       "type": "registry:ui",
-      "title": "Progress",
-      "description": "A quiet determinate or indeterminate progress indicator.",
+      "title": "进度条 Progress",
+      "description": "细腻、克制并支持确定与不确定状态的进度指示器。",
       "registryDependencies": [
         "utils"
       ]
@@ -240,8 +240,8 @@
     {
       "name": "slider",
       "type": "registry:ui",
-      "title": "Slider",
-      "description": "An adjustable range input with an expanding track and live value label.",
+      "title": "滑动输入 Slider",
+      "description": "悬浮时展开轨道、数值标签实时跟随的可调输入控件。",
       "registryDependencies": [
         "utils"
       ]
@@ -249,8 +249,8 @@
     {
       "name": "color-picker",
       "type": "registry:ui",
-      "title": "Color Picker",
-      "description": "An OKLCH color picker with perceptual channels, alpha and exact CSS input.",
+      "title": "颜色选择器 Color Picker",
+      "description": "面向设计 Token 的 OKLCH 颜色选择器，支持感知色彩通道、透明度和精确 CSS 值。",
       "registryDependencies": [
         "utils"
       ]
@@ -258,8 +258,8 @@
     {
       "name": "radio-group",
       "type": "registry:ui",
-      "title": "Radio Group",
-      "description": "An accessible option group for mutually exclusive choices.",
+      "title": "单选框 Radio Group",
+      "description": "用于互斥选项的轻量单选控件组。",
       "registryDependencies": [
         "utils"
       ]
@@ -267,8 +267,8 @@
     {
       "name": "checkbox",
       "type": "registry:ui",
-      "title": "Checkbox",
-      "description": "An accessible checkbox with checked and indeterminate states.",
+      "title": "多选框 Checkbox",
+      "description": "支持选中、未选中与不确定状态的多选控件。",
       "registryDependencies": [
         "utils"
       ]
@@ -276,8 +276,8 @@
     {
       "name": "select",
       "type": "registry:ui",
-      "title": "Select",
-      "description": "An accessible option picker with a polished floating panel.",
+      "title": "下拉框 Select",
+      "description": "支持分组、禁用项和键盘导航的选项选择器。",
       "registryDependencies": [
         "utils"
       ]
@@ -285,8 +285,8 @@
     {
       "name": "cascader",
       "type": "registry:ui",
-      "title": "Cascader",
-      "description": "A multi-column picker for selecting hierarchical values.",
+      "title": "级联选择 Cascader",
+      "description": "用于浏览和选择层级值的多列选择器。",
       "registryDependencies": [
         "utils"
       ]
@@ -294,8 +294,8 @@
     {
       "name": "form",
       "type": "registry:ui",
-      "title": "Form",
-      "description": "Composable form fields with animated validation feedback.",
+      "title": "表单 Form",
+      "description": "可组合的表单字段，协调标签、校验提示与动效反馈。",
       "registryDependencies": [
         "utils"
       ]
@@ -303,8 +303,8 @@
     {
       "name": "tabs",
       "type": "registry:ui",
-      "title": "Tabs",
-      "description": "A tabbed interface with a fluid shared-layout indicator.",
+      "title": "标签栏 Tabs",
+      "description": "使用共享布局动效平滑切换内容分区。",
       "registryDependencies": [
         "utils"
       ]
@@ -312,8 +312,8 @@
     {
       "name": "navbar",
       "type": "registry:ui",
-      "title": "Navbar",
-      "description": "Composable horizontal and application-level vertical navigation.",
+      "title": "导航栏 Navbar",
+      "description": "适用于页面顶部与应用左侧的可组合导航栏。",
       "registryDependencies": [
         "utils"
       ]
@@ -321,8 +321,8 @@
     {
       "name": "collapsible",
       "type": "registry:ui",
-      "title": "Collapsible",
-      "description": "An accessible disclosure region with animated content.",
+      "title": "折叠面板 Collapsible",
+      "description": "按需展开一段补充内容，并保留清晰的状态与键盘交互。",
       "registryDependencies": [
         "utils"
       ]
@@ -330,8 +330,8 @@
     {
       "name": "input",
       "type": "registry:ui",
-      "title": "Input",
-      "description": "A text input with inline content, floating labels, and underline styling.",
+      "title": "输入框 Input",
+      "description": "支持前后内容、浮动标签、下划线和错误态的输入框。",
       "registryDependencies": [
         "utils"
       ]
@@ -339,8 +339,8 @@
     {
       "name": "download",
       "type": "registry:ui",
-      "title": "Download",
-      "description": "A file download action with progress and completion states.",
+      "title": "下载 Download",
+      "description": "同时表达文件信息、下载进度与完成反馈的下载操作组件。",
       "registryDependencies": [
         "utils"
       ]
@@ -348,8 +348,8 @@
     {
       "name": "upload",
       "type": "registry:ui",
-      "title": "Upload",
-      "description": "A click and drag-and-drop file picker with upload lifecycle feedback.",
+      "title": "上传 Upload",
+      "description": "支持点击选择、拖拽放置与上传状态反馈的文件上传组件。",
       "registryDependencies": [
         "utils"
       ]
@@ -357,8 +357,8 @@
     {
       "name": "kbd",
       "type": "registry:ui",
-      "title": "Kbd",
-      "description": "A compact visual hint for keyboard shortcuts and key presses.",
+      "title": "键盘提示 Kbd",
+      "description": "用紧凑、克制的按键样式展示快捷键与键盘操作。",
       "registryDependencies": [
         "utils"
       ]
@@ -366,8 +366,8 @@
     {
       "name": "tooltip",
       "type": "registry:ui",
-      "title": "Tooltip",
-      "description": "An accessible contextual label shown on hover or keyboard focus.",
+      "title": "文字提示 Tooltip",
+      "description": "在悬停或键盘聚焦时，为控件补充简短的上下文说明。",
       "registryDependencies": [
         "utils"
       ]
@@ -375,8 +375,8 @@
     {
       "name": "image-preview",
       "type": "registry:ui",
-      "title": "Image Preview",
-      "description": "An accessible fullscreen image viewer with zoom and rotation controls.",
+      "title": "图片预览 Image Preview",
+      "description": "点击缩略图进入沉浸式大图预览，并提供缩放、旋转与下载操作。",
       "registryDependencies": [
         "utils"
       ]
@@ -384,8 +384,8 @@
     {
       "name": "video-player",
       "type": "registry:ui",
-      "title": "Video Player",
-      "description": "A composable video player with playback, seek, volume, keyboard, and fullscreen controls.",
+      "title": "视频播放器 Video Player",
+      "description": "由可自由组合的小组件构成，支持播放、进度、音量、快捷键和全屏的视频播放器。",
       "registryDependencies": [
         "utils",
         "button",
@@ -396,8 +396,8 @@
     {
       "name": "skeleton",
       "type": "registry:ui",
-      "title": "Skeleton",
-      "description": "A neutral placeholder that preserves layout while content loads.",
+      "title": "骨架屏 Skeleton",
+      "description": "在内容加载期间维持页面结构，降低布局跳动与等待的不确定感。",
       "registryDependencies": [
         "utils"
       ]
@@ -405,8 +405,8 @@
     {
       "name": "alert",
       "type": "registry:ui",
-      "title": "Alert",
-      "description": "Persistent inline feedback with semantic variants, actions, and dismissal.",
+      "title": "警告提示 Alert",
+      "description": "用于展示需要保留在页面中的状态、说明和操作建议。",
       "registryDependencies": [
         "utils"
       ]
@@ -414,8 +414,8 @@
     {
       "name": "message",
       "type": "registry:ui",
-      "title": "Message",
-      "description": "Portal-based transient messages with animated status icons and configurable motion.",
+      "title": "消息 Message",
+      "description": "用于在操作后提供短暂、轻量的全局反馈。",
       "registryDependencies": [
         "utils"
       ]
@@ -423,15 +423,15 @@
     {
       "name": "in-view",
       "type": "registry:ui",
-      "title": "In View",
-      "description": "Animates content when it enters the viewport.",
+      "title": "进入视口 In View",
+      "description": "当内容进入视口时播放可配置的入场动画。",
       "registryDependencies": []
     },
     {
       "name": "scroll-progress",
       "type": "registry:ui",
-      "title": "Scroll Progress",
-      "description": "Shows page, container, or section scroll completion as a bar or ring.",
+      "title": "滚动进度 Scroll Progress",
+      "description": "用顶部进度条或环形指示器显示页面、容器或区块的阅读进度。",
       "registryDependencies": [
         "utils"
       ]
@@ -439,15 +439,15 @@
     {
       "name": "smooth-scroll",
       "type": "registry:ui",
-      "title": "Smooth Scroll",
-      "description": "Provides Lenis smooth scrolling for the document or a custom container.",
+      "title": "平滑滚动 Smooth Scroll",
+      "description": "用 Lenis 为页面或自定义容器提供惯性平滑滚动基座。",
       "registryDependencies": []
     },
     {
       "name": "parallax",
       "type": "registry:ui",
-      "title": "Parallax",
-      "description": "Moves a layer at a different rate while it crosses the viewport.",
+      "title": "视差 Parallax",
+      "description": "让内容层在经过视口时以不同速度平移或缩放。",
       "registryDependencies": [
         "utils"
       ]
@@ -455,8 +455,8 @@
     {
       "name": "scroll-text",
       "type": "registry:ui",
-      "title": "Scroll Text",
-      "description": "Reveals lines or progressively highlights words according to scroll progress.",
+      "title": "滚动文字 Scroll Text",
+      "description": "让段落随滚动逐词变亮，或按行从遮罩中揭示。",
       "registryDependencies": [
         "utils"
       ]
@@ -464,8 +464,8 @@
     {
       "name": "sticky-stack",
       "type": "registry:ui",
-      "title": "Sticky Stack",
-      "description": "Pins, layers, and scales cards as the next item arrives.",
+      "title": "粘性卡片堆叠 Sticky Stack",
+      "description": "让卡片依次钉住、缩放，并被后续内容覆盖。",
       "registryDependencies": [
         "utils"
       ]
@@ -473,8 +473,8 @@
     {
       "name": "horizontal-scroll",
       "type": "registry:ui",
-      "title": "Horizontal Scroll",
-      "description": "Converts vertical section progress into a pinned horizontal track.",
+      "title": "横向滚动区块 Horizontal Scroll",
+      "description": "将垂直滚动距离映射为钉住内容轨道的水平移动。",
       "registryDependencies": [
         "utils"
       ]
@@ -482,8 +482,8 @@
     {
       "name": "velocity-marquee",
       "type": "registry:ui",
-      "title": "Velocity Marquee",
-      "description": "Accelerates and changes a seamless marquee direction with scrolling.",
+      "title": "滚动速度跑马灯 Velocity Marquee",
+      "description": "跑马灯根据滚动速度加速，并随滚动方向反转。",
       "registryDependencies": [
         "utils"
       ]
@@ -491,8 +491,8 @@
     {
       "name": "scroll-expand",
       "type": "registry:ui",
-      "title": "Scroll Expand",
-      "description": "Pins media while scroll progress expands it to full bleed or collapses it away.",
+      "title": "滚动扩展 Scroll Expand",
+      "description": "将图片、视频或首屏从小画框滚动扩展到满屏，也可反向收拢。",
       "registryDependencies": [
         "utils"
       ]
@@ -500,8 +500,8 @@
     {
       "name": "scroll-sequence",
       "type": "registry:ui",
-      "title": "Scroll Sequence",
-      "description": "Pins a viewport and swaps its child steps according to scroll progress.",
+      "title": "滚动分步 Scroll Sequence",
+      "description": "固定区块并用滚动进度逐步切换内部内容。",
       "registryDependencies": [
         "utils"
       ]
@@ -509,8 +509,8 @@
     {
       "name": "scroll-snap",
       "type": "registry:ui",
-      "title": "Scroll Snap",
-      "description": "A native CSS scroll-snap container for page-like or horizontal sections.",
+      "title": "滚动吸附 Scroll Snap",
+      "description": "用原生 CSS Scroll Snap 构建整屏或横向吸附章节。",
       "registryDependencies": [
         "utils"
       ]
@@ -518,8 +518,8 @@
     {
       "name": "infinite-slider",
       "type": "registry:ui",
-      "title": "Infinite Slider",
-      "description": "A continuously looping horizontal or vertical content track.",
+      "title": "无限滑动 Infinite Slider",
+      "description": "平滑循环内容的水平或垂直滑动轨道。",
       "registryDependencies": [
         "utils"
       ]
@@ -527,8 +527,8 @@
     {
       "name": "cursor",
       "type": "registry:ui",
-      "title": "Cursor",
-      "description": "A spring-following custom cursor for the page or a parent region.",
+      "title": "自定义光标 Cursor",
+      "description": "可全局使用或附着到局部区域的弹簧跟随光标。",
       "registryDependencies": [
         "utils"
       ]
@@ -536,8 +536,8 @@
     {
       "name": "magnetic",
       "type": "registry:ui",
-      "title": "Magnetic",
-      "description": "Moves content subtly toward the pointer and springs back to rest.",
+      "title": "鼠标跟随 Magnetic",
+      "description": "让内容轻微跟随指针位移，并在离开时自然回弹。",
       "registryDependencies": [
         "utils"
       ]
@@ -545,8 +545,8 @@
     {
       "name": "glow",
       "type": "registry:ui",
-      "title": "Glow",
-      "description": "Adds an illuminated border and soft light around all four sides of content.",
+      "title": "渐变环绕发光 Glow",
+      "description": "让多色渐变光线沿内容四周持续环绕，并提供单色发光变体。",
       "registryDependencies": [
         "utils"
       ]
@@ -554,8 +554,8 @@
     {
       "name": "annotation",
       "type": "registry:ui",
-      "title": "Annotation",
-      "description": "Draws animated arrows, marker strokes, and custom paths around content.",
+      "title": "动态标注 Annotation",
+      "description": "用路径箭头、荧光笔和自定义手绘轨迹强调页面内容。",
       "registryDependencies": [
         "utils"
       ]
@@ -563,8 +563,8 @@
     {
       "name": "slide-swap",
       "type": "registry:ui",
-      "title": "Slide Swap",
-      "description": "Slides one whole content layer out while an identical layer enters.",
+      "title": "内容滑动交换 Slide Swap",
+      "description": "整块内容从上方移出，同时由下方滑入相同内容。",
       "registryDependencies": [
         "utils"
       ]
@@ -572,8 +572,8 @@
     {
       "name": "hover-marquee",
       "type": "registry:ui",
-      "title": "Hover Marquee",
-      "description": "Reveals a horizontally looping preview when a directory row is hovered.",
+      "title": "浮入滚动目录 Hover Marquee",
+      "description": "目录行浮入或聚焦后，显示无缝横向滚动的内容预览。",
       "registryDependencies": [
         "utils",
         "infinite-slider"
@@ -582,8 +582,8 @@
     {
       "name": "spotlight-card",
       "type": "registry:ui",
-      "title": "Spotlight Card",
-      "description": "Illuminates a surface around the current pointer position.",
+      "title": "聚光卡片 Spotlight Card",
+      "description": "根据鼠标位置在内容表面显露一层局部光照。",
       "registryDependencies": [
         "utils"
       ]
@@ -591,8 +591,8 @@
     {
       "name": "tilt-card",
       "type": "registry:ui",
-      "title": "Tilt Card",
-      "description": "Tilts a surface in 3D according to the pointer position and springs to rest.",
+      "title": "透视倾斜 Tilt Card",
+      "description": "卡片随指针产生克制的 3D 透视倾斜并弹性回正。",
       "registryDependencies": [
         "utils"
       ]
@@ -600,8 +600,8 @@
     {
       "name": "image-trail",
       "type": "registry:ui",
-      "title": "Image Trail",
-      "description": "Leaves a short-lived sequence of visual items behind the pointer.",
+      "title": "图像轨迹 Image Trail",
+      "description": "鼠标移动时沿路径依次甩出短暂的图片或视觉片段。",
       "registryDependencies": [
         "utils"
       ]
@@ -609,8 +609,8 @@
     {
       "name": "hover-preview",
       "type": "registry:ui",
-      "title": "Hover Preview",
-      "description": "Displays a spring-following visual preview for a hovered or focused row.",
+      "title": "悬停预览 Hover Preview",
+      "description": "列表项浮入或聚焦时显示跟随指针的作品预览。",
       "registryDependencies": [
         "utils"
       ]
@@ -618,8 +618,8 @@
     {
       "name": "aurora-background",
       "type": "registry:ui",
-      "title": "Aurora Background",
-      "description": "Layers slow, blurred color fields behind content.",
+      "title": "极光背景 Aurora Background",
+      "description": "用缓慢移动的模糊色场构建低频氛围背景。",
       "registryDependencies": [
         "utils"
       ]
@@ -627,8 +627,8 @@
     {
       "name": "grain-overlay",
       "type": "registry:ui",
-      "title": "Grain Overlay",
-      "description": "Adds a scalable SVG fractal-noise texture over a positioned surface.",
+      "title": "颗粒遮罩 Grain Overlay",
+      "description": "用可缩放 SVG 噪声为任意表面增加克制的胶片颗粒质感。",
       "registryDependencies": [
         "utils"
       ]
@@ -636,8 +636,8 @@
     {
       "name": "spotlight-grid",
       "type": "registry:ui",
-      "title": "Spotlight Grid",
-      "description": "Reveals a grid or dot pattern around the current pointer position.",
+      "title": "聚光网格 Spotlight Grid",
+      "description": "用鼠标聚光显露网格或点阵背景的局部结构。",
       "registryDependencies": [
         "utils"
       ]
@@ -645,8 +645,8 @@
     {
       "name": "text-effect",
       "type": "registry:ui",
-      "title": "Text Effect",
-      "description": "Reveals text by line, word or character with configurable presets.",
+      "title": "文本入场 Text Effect",
+      "description": "按行、单词或字符拆分并播放文本入场效果。",
       "registryDependencies": [
         "utils"
       ]
@@ -654,8 +654,8 @@
     {
       "name": "text-loop",
       "type": "registry:ui",
-      "title": "Text Loop",
-      "description": "Cycles through an array of text or inline content.",
+      "title": "文本循环 Text Loop",
+      "description": "在多段文本或行内内容之间自动循环切换。",
       "registryDependencies": [
         "utils"
       ]
@@ -663,8 +663,8 @@
     {
       "name": "text-morph",
       "type": "registry:ui",
-      "title": "Text Morph",
-      "description": "Morphs shared characters into their new positions when text changes.",
+      "title": "文本变形 Text Morph",
+      "description": "在文字变化时让共享字符流畅地移动到新位置。",
       "registryDependencies": [
         "utils"
       ]
@@ -672,8 +672,8 @@
     {
       "name": "text-roll",
       "type": "registry:ui",
-      "title": "Text Roll",
-      "description": "Rolls a second copy of each character into view.",
+      "title": "文本翻滚 Text Roll",
+      "description": "悬停或挂载时逐字符翻滚的文字效果。",
       "registryDependencies": [
         "utils"
       ]
@@ -681,8 +681,8 @@
     {
       "name": "text-scramble",
       "type": "registry:ui",
-      "title": "Text Scramble",
-      "description": "Resolves randomized characters into the supplied text.",
+      "title": "文本扰码 Text Scramble",
+      "description": "随机字符逐步解析为目标文本的扰码效果。",
       "registryDependencies": [
         "utils"
       ]
@@ -690,8 +690,8 @@
     {
       "name": "text-shimmer",
       "type": "registry:ui",
-      "title": "Text Shimmer",
-      "description": "Sweeps a theme-aware highlight across text.",
+      "title": "文本扫光 Text Shimmer",
+      "description": "在文字表面循环扫过的主题感知高光。",
       "registryDependencies": [
         "utils"
       ]
@@ -699,8 +699,8 @@
     {
       "name": "text-shimmer-wave",
       "type": "registry:ui",
-      "title": "Text Shimmer Wave",
-      "description": "Sends a shimmer-like 3D wave through text one character at a time.",
+      "title": "文本波光 Text Shimmer Wave",
+      "description": "逐字符传播的立体位移与高光波浪。",
       "registryDependencies": [
         "utils"
       ]
@@ -708,8 +708,8 @@
     {
       "name": "sliding-number",
       "type": "registry:ui",
-      "title": "Sliding Number",
-      "description": "Displays each numeric digit on an independently sliding reel.",
+      "title": "滑动数字 Sliding Number",
+      "description": "用独立数字轮平滑过渡数值变化。",
       "registryDependencies": [
         "utils"
       ]
@@ -717,8 +717,8 @@
     {
       "name": "table",
       "type": "registry:ui",
-      "title": "Table",
-      "description": "A responsive semantic table for structured data.",
+      "title": "表格 Table",
+      "description": "用原生表格语义组织和比较结构化数据。",
       "registryDependencies": [
         "utils"
       ]
@@ -726,8 +726,8 @@
     {
       "name": "calendar",
       "type": "registry:ui",
-      "title": "Calendar",
-      "description": "An accessible single-month date grid with controlled selection.",
+      "title": "日历 Calendar",
+      "description": "用可访问的月视图浏览并选择单个日期。",
       "registryDependencies": [
         "utils"
       ]
@@ -735,8 +735,8 @@
     {
       "name": "date-picker",
       "type": "registry:ui",
-      "title": "Date Picker",
-      "description": "A compact popover for selecting and clearing a date.",
+      "title": "日期选择器 Date Picker",
+      "description": "在紧凑弹层中选择、格式化和清除日期。",
       "registryDependencies": [
         "utils",
         "calendar"
@@ -745,8 +745,8 @@
     {
       "name": "time-picker",
       "type": "registry:ui",
-      "title": "Time Picker",
-      "description": "A column-based time picker with 12 and 24 hour modes.",
+      "title": "时间选择器 Time Picker",
+      "description": "用小时、分钟与时制分栏快速设定时间。",
       "registryDependencies": [
         "utils"
       ]
@@ -754,8 +754,8 @@
     {
       "name": "kanban",
       "type": "registry:ui",
-      "title": "Kanban",
-      "description": "A composable task board with native cross-column dragging.",
+      "title": "看板 Kanban",
+      "description": "用可组合列和原生拖放组织任务流转。",
       "registryDependencies": [
         "utils"
       ]
@@ -763,8 +763,8 @@
     {
       "name": "timeline",
       "type": "registry:ui",
-      "title": "Timeline",
-      "description": "Composable chronological events with semantic status markers.",
+      "title": "时间轴 Timeline",
+      "description": "以清晰的时间顺序展示事件、状态与说明。",
       "registryDependencies": [
         "utils"
       ]
@@ -772,8 +772,8 @@
     {
       "name": "empty-state",
       "type": "registry:ui",
-      "title": "Empty State",
-      "description": "A focused zero-data state with optional icon, actions, and 150 bundled illustrations.",
+      "title": "空状态 Empty State",
+      "description": "在没有数据或结果时解释现状并引导下一步。",
       "registryDependencies": [
         "utils"
       ]
@@ -781,8 +781,8 @@
     {
       "name": "spin",
       "type": "registry:ui",
-      "title": "Spin",
-      "description": "A reduced-motion aware loading indicator for inline, nested, and fullscreen states.",
+      "title": "加载中 Spin",
+      "description": "用轻量、可降级的动态指示器表达等待状态。",
       "registryDependencies": [
         "utils"
       ]
@@ -790,8 +790,8 @@
     {
       "name": "notification-badge",
       "type": "registry:ui",
-      "title": "Notification Badge",
-      "description": "A count or dot indicator positioned over an icon, avatar, or control.",
+      "title": "消息提示 Notification Badge",
+      "description": "在图标、头像或控件边缘展示未读数量与提示红点。",
       "registryDependencies": [
         "utils"
       ]
@@ -799,8 +799,8 @@
     {
       "name": "drawer",
       "type": "registry:ui",
-      "title": "Drawer",
-      "description": "A focus-managed edge panel with spring-based enter and exit motion.",
+      "title": "抽屉 Drawer",
+      "description": "从视口边缘平滑进入、用于承载补充任务的焦点面板。",
       "registryDependencies": [
         "utils"
       ]
@@ -808,8 +808,8 @@
     {
       "name": "descriptions",
       "type": "registry:ui",
-      "title": "Descriptions",
-      "description": "A semantic key-value list for records, profiles, and object summaries.",
+      "title": "描述列表 Descriptions",
+      "description": "以清晰的键值结构展示对象、记录与档案信息。",
       "registryDependencies": [
         "utils"
       ]
@@ -817,8 +817,8 @@
     {
       "name": "card",
       "type": "registry:ui",
-      "title": "Card",
-      "description": "A composable surface for grouping related content, context, and actions.",
+      "title": "卡片 Card",
+      "description": "将同一主题的内容、状态与操作组织在一个清晰的表面中。",
       "registryDependencies": [
         "utils"
       ]

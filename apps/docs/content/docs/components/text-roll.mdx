@@ -4,7 +4,7 @@ description: 悬停或挂载时逐字符翻滚的文字效果。
 component: text-roll
 ---
 
-## 基础示例
+## 基础用法
 
 <ComponentPreview name="text-roll-demo" />
 
@@ -12,18 +12,19 @@ component: text-roll
 
 <ComponentSource name="text-roll" title="components/ui/text-roll.tsx" />
 
-## 组件作用
+## 使用场景
 
-`TextRoll` 复制每个字符并纵向滚动第二份内容，适合导航链接、简短按钮和展示标题。默认悬停触发，不会持续争夺注意力。
+`TextRoll` 复制每个字符并让第二份内容纵向滚动，适合导航链接、简短按钮和展示标题。默认在悬停或聚焦时触发，
+不会持续争夺注意力；操作名称在静止状态下也必须完整可读。
 
-## 组件属性
+## 属性
 
 <PropsTable name="text-roll" />
 
 ## 事件
 
-组件使用鼠标进入和离开控制默认效果，其余 `<span>` 事件继续透传。减少动态效果时保留静态文字。
+组件使用鼠标进入和离开控制默认效果，其余 `<span>` 事件继续透传。用户开启“减少动态效果”时保留静态文字。
 
-## 扩展使用
+## 扩展用法
 
-使用 `trigger="mount"` 可在挂载时播放，`getEnterDelay` 和 `getExitDelay` 用来改变字符波次。自定义 `variants` 时保留 `rest` 与 `hover` 两个状态名。
+使用 `trigger="mount"` 可以在挂载时播放，`getEnterDelay` 和 `getExitDelay` 用来改变字符波次。自定义 `variants` 时保留 `rest` 和 `hover` 两个状态名。

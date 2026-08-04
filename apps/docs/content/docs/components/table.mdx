@@ -4,7 +4,7 @@ description: 用原生表格语义组织和比较结构化数据。
 component: table
 ---
 
-## 基础示例
+## 基础用法
 
 <ComponentPreview name="table-demo" />
 
@@ -12,13 +12,14 @@ component: table
 
 <ComponentSource name="table" title="components/ui/table.tsx" />
 
-## 组件作用
+## 使用场景
 
-`Table` 用于展示具有稳定列结构、需要横向比较的数据。组件保留原生表格元素的语义，适合账单、成员列表、用量明细和配置清单。小屏幕下外层容器会横向滚动，避免压缩内容或破坏列关系。
+`Table` 用于展示列结构稳定、需要横向比较的数据。它保留原生表格语义，适合账单、成员列表、用量明细和配置清单。
+小屏幕下外层容器会横向滚动，避免压缩内容或破坏列之间的对应关系。
 
-如果内容主要用于页面布局、只有单列键值，或需要虚拟滚动和复杂数据处理，应选择更合适的布局或数据网格方案。
+如果内容主要用于页面布局、只有单列键值，或需要虚拟滚动和复杂数据处理，应选择普通布局或专门的数据网格方案。
 
-## 组件属性
+## 属性
 
 <PropsTable name="table" />
 
@@ -26,24 +27,30 @@ component: table
 
 ## 事件
 
-所有原生表格事件都会透传，例如在 `TableRow` 上使用 `onClick`、`onPointerEnter` 或键盘事件。组件不内置选择逻辑；需要展示选中状态时，在行上设置 `data-state="selected"`，并由业务状态负责更新。
+所有原生表格事件都会透传，例如在 `TableRow` 上使用 `onClick`、`onPointerEnter` 或键盘事件。组件不内置选择逻辑；
+需要展示选中状态时，在行上设置 `data-state="selected"`，并由业务状态负责更新。可点击行仍应提供清晰的键盘操作方式。
 
-## 拓展使用
+## 扩展用法
 
 ### 紧凑密度与斑马纹
 
-`density="compact"` 减少单元格留白，适合信息密度较高的后台页面；`striped` 为相邻数据行添加轻微层次。`TableFooter` 可承载合计或汇总信息。
+`density="compact"` 减少单元格留白，适合信息密度较高的后台页面；`striped` 为相邻数据行增加轻微层次。`TableFooter` 可承载合计或汇总信息。
 
 <ComponentPreview name="table-compact" />
 
-使用 `className` 控制表格本身，使用 `containerClassName` 定制横向滚动容器。数值列建议右对齐并添加 `tabular-nums`，以便快速比较。
+使用 `className` 控制表格本身，使用 `containerClassName` 定制横向滚动容器。数值列建议右对齐并添加 `tabular-nums`，
+以便小数点和位数对齐，用户可以更快比较数据。
 
 ## 高级数据表格
 
-基础组件保持原生表格语义，筛选、排序、展开和拖动等业务状态由使用方组合。下面的完整示例同时展示级联表头、树形数据、同级拖动排序、列内筛选、排序、行选择、紧凑密度、固定表头和左右固定列。
+基础组件只保留原生表格语义，筛选、排序、展开和拖动等业务状态由使用方组合。下面的示例同时展示级联表头、树形数据、
+同级拖动排序、列内筛选、排序、行选择、紧凑密度、固定表头和左右固定列。
 
 <ComponentPreview name="table-advanced" />
 
-`stickyHeader` 会让表头在 `containerClassName` 设置的滚动区域内保持可见。`TableHead` 与 `TableCell` 的 `pinned` 支持固定到 `left` 或 `right`，横向滚动时仍保留在容器边缘。连续固定多列时通过 `pinOffset` 指定相对边缘的累计距离；建议使用 `colgroup` 锁定列宽，并让表头与单元格使用相同的 `pinOffset`。
+`stickyHeader` 会让表头在 `containerClassName` 设置的滚动区域内保持可见。`TableHead` 与 `TableCell` 的 `pinned` 支持固定到
+`left` 或 `right`，横向滚动时仍保留在容器边缘。连续固定多列时通过 `pinOffset` 指定相对边缘的累计距离；建议使用
+`colgroup` 锁定列宽，并让表头与单元格使用相同的 `pinOffset`。
 
-级联表头继续使用原生 `colSpan` 与 `rowSpan`。树形展开、筛选、选择和拖动排序没有绑定特定状态库，示例中的状态可以替换为 TanStack Table、服务端查询或业务自己的数据模型。
+级联表头继续使用原生 `colSpan` 和 `rowSpan`。树形展开、筛选、选择和拖动排序没有绑定特定状态库，
+示例中的状态可以替换为 TanStack Table、服务端查询或业务自己的数据模型。

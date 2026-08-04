@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "parallax",
   "type": "registry:ui",
-  "title": "Parallax",
-  "description": "Moves a layer at a different rate while it crosses the viewport.",
+  "title": "视差 Parallax",
+  "description": "让内容层在经过视口时以不同速度平移或缩放。",
   "dependencies": [
     "motion"
   ],

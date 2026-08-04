@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "magnetic",
   "type": "registry:ui",
-  "title": "Magnetic",
-  "description": "Moves content subtly toward the pointer and springs back to rest.",
+  "title": "鼠标跟随 Magnetic",
+  "description": "让内容轻微跟随指针位移，并在离开时自然回弹。",
   "dependencies": [
     "motion"
   ],

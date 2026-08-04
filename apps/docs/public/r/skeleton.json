@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "skeleton",
   "type": "registry:ui",
-  "title": "Skeleton",
-  "description": "A neutral placeholder that preserves layout while content loads.",
+  "title": "骨架屏 Skeleton",
+  "description": "在内容加载期间维持页面结构，降低布局跳动与等待的不确定感。",
   "dependencies": [
     "class-variance-authority"
   ],

@@ -30,7 +30,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "0.18",
-      "description": "How strongly the content follows the pointer."
+      "description": "内容跟随指针移动的强度。"
     },
     {
       "name": "maxDistance",
@@ -38,7 +38,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "12",
-      "description": "Maximum movement on either axis, in pixels."
+      "description": "任一方向允许移动的最大距离，单位为像素。"
     },
     {
       "name": "springConfig",
@@ -46,7 +46,7 @@
       "required": false,
       "control": "text",
       "defaultValue": "{ stiffness: 260, damping: 22, mass: 0.35 }",
-      "description": "Spring physics used for movement and return."
+      "description": "内容移动和回弹时使用的弹簧参数。"
     },
     {
       "name": "disabled",
@@ -54,14 +54,14 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "false",
-      "description": "Disable pointer tracking without changing the layout."
+      "description": "是否停用指针跟随，同时保留原有布局。"
     }
   ],
-  "usage": "`Magnetic` 根据指针相对组件中心的位置产生少量位移，适合按钮、图标入口和单个行动项。离开组件后会通过弹簧动画回到原位；触摸输入和“减少动态效果”偏好不会触发位移。",
+  "usage": "`strength` 控制跟随比例，`maxDistance` 限制最大位移。建议从较小数值开始，让反馈可以被感知但不影响点击目标的位置判断。",
   "examples": [
     {
       "name": "magnetic-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     }
   ],
   "files": [

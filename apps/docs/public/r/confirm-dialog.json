@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "confirm-dialog",
   "type": "registry:component",
-  "title": "Confirm Dialog",
-  "description": "A ready-made confirmation dialog composed from Dialog and Button.",
+  "title": "确认对话框 Confirm Dialog",
+  "description": "由 Dialog 和 Button 组合而成的开箱即用确认对话框。",
   "registryDependencies": [
     "dialog",
     "button"

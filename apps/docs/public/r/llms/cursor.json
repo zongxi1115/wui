@@ -29,7 +29,7 @@
       "type": "ReactNode",
       "required": true,
       "control": "text",
-      "description": "Visual rendered at the pointer position."
+      "description": "显示在指针位置的视觉内容。"
     },
     {
       "name": "springConfig",
@@ -37,7 +37,7 @@
       "required": false,
       "control": "text",
       "defaultValue": "{ stiffness: 500, damping: 35, mass: 0.2 }",
-      "description": "Spring physics used to follow the pointer."
+      "description": "跟随指针移动时使用的弹簧参数。"
     },
     {
       "name": "attachToParent",
@@ -45,7 +45,7 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "false",
-      "description": "Limit the cursor to the component's parent element."
+      "description": "是否将指针视觉限制在组件父元素范围内。"
     },
     {
       "name": "transition",
@@ -53,7 +53,7 @@
       "required": false,
       "control": "text",
       "defaultValue": "{ duration: 0.15 }",
-      "description": "Entrance and exit transition."
+      "description": "指针视觉进入和离开时使用的过渡动画。"
     },
     {
       "name": "variants",
@@ -61,7 +61,7 @@
       "required": false,
       "control": "text",
       "defaultValue": "{\n  initial: { opacity: 0, scale: 0.75 },\n  animated: { opacity: 1, scale: 1 },\n  exit: { opacity: 0, scale: 0.75 },\n}",
-      "description": "Initial, animated and exit states for the cursor visual."
+      "description": "指针视觉的初始、播放中和离开状态。"
     },
     {
       "name": "hideNativeCursor",
@@ -69,23 +69,21 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "true",
-      "description": "Hide the platform cursor over the active target."
+      "description": "激活区域内是否隐藏系统原生指针。"
     },
     {
       "name": "onPositionChange",
       "type": "((position: CursorPosition) => void)",
       "required": false,
       "control": "text",
-      "description": "Called whenever the pointer coordinates change."
+      "description": "指针坐标变化时触发。"
     }
   ],
-  "usage": "`Cursor` 用视觉反馈补充作品展示、图片探索等指针交互。`attachToParent` 会把活动范围限制在直接父元素；触摸设备和非精确指针不会显示自定义光标。\r\n\r\n\r\n  自定义光标会被辅助技术忽略。操作含义、状态和文本仍应在页面内容中完整表达。",
-  "extended": "不设置 `attachToParent` 时，组件会跟随整个页面；可以通过 `springConfig` 调整跟手或拖尾感，并用 `variants` 自定义出现与退出状态。",
-  "events": "`onPositionChange` 返回目标坐标系内的 `{ x, y }`。容器事件仍由父元素自行处理，光标视觉设置了 `pointer-events: none`，不会阻断点击。",
+  "events": "`onPositionChange` 返回目标坐标系内的 `{ x, y }`。容器事件仍由父元素自行处理；光标视觉层使用 `pointer-events: none`，\n不会阻断点击。",
   "examples": [
     {
       "name": "cursor-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     }
   ],
   "files": [

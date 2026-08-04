@@ -26,14 +26,14 @@
       "required": false,
       "control": "text",
       "defaultValue": "\"WUI\"",
-      "description": "One line or multiple lines of repeated watermark text."
+      "description": "要重复显示的一行或多行水印文字。"
     },
     {
       "name": "image",
       "type": "string",
       "required": false,
       "control": "text",
-      "description": "Image URL used as the repeated watermark. Takes precedence over content."
+      "description": "重复显示的水印图片地址。设置后优先使用图片，不再使用 content。"
     },
     {
       "name": "rotate",
@@ -41,7 +41,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "-22",
-      "description": "Clockwise rotation angle in degrees."
+      "description": "水印的顺时针旋转角度，单位为度。"
     },
     {
       "name": "gap",
@@ -49,7 +49,7 @@
       "required": false,
       "control": "text",
       "defaultValue": "[80, 80]",
-      "description": "Horizontal and vertical space between watermark cells."
+      "description": "水印单元之间的水平和垂直间距。"
     },
     {
       "name": "offset",
@@ -57,7 +57,7 @@
       "required": false,
       "control": "text",
       "defaultValue": "[0, 0]",
-      "description": "Horizontal and vertical offset of the repeating pattern."
+      "description": "重复图案的水平和垂直偏移量。"
     },
     {
       "name": "width",
@@ -65,7 +65,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "160",
-      "description": "Width of one watermark mark in pixels."
+      "description": "单个水印标记的宽度，单位为像素。"
     },
     {
       "name": "height",
@@ -73,14 +73,14 @@
       "required": false,
       "control": "number",
       "defaultValue": "64",
-      "description": "Height of one watermark mark in pixels."
+      "description": "单个水印标记的高度，单位为像素。"
     },
     {
       "name": "font",
       "type": "WatermarkFont",
       "required": false,
       "control": "text",
-      "description": "Text typography options."
+      "description": "水印文字的排版设置。"
     },
     {
       "name": "opacity",
@@ -88,7 +88,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "0.15",
-      "description": "Opacity of the watermark layer."
+      "description": "水印图层的不透明度。"
     },
     {
       "name": "zIndex",
@@ -96,16 +96,14 @@
       "required": false,
       "control": "number",
       "defaultValue": "10",
-      "description": "Stacking order of the watermark layer."
+      "description": "水印图层的堆叠层级。"
     }
   ],
-  "usage": "`Watermark` 在内容区域上叠加重复文字，用于表达所有权、保密级别或文档状态。水印层会忽略\r\n指针事件，因此其下方的控件和可选择文本仍可正常使用。\r\n\r\n- 适合用于报告、预览、导出文档页面和受限内容。\r\n- 需要同时展示查看者身份或时间戳时，可以传入多行文本。\r\n- 水印只是一种视觉提示，不能代替权限控制。\r\n\r\n\r\n  `Watermark` 默认不包含任何动画。它是一个被动的环境层，应该安静地位于内容之上；动画既会\r\n  抢夺注意力、影响受保护内容的可读性，也会导致大面积平铺区域反复重绘。并非每个组件都需要\r\n  动效，取舍原则见 `docs/COMPONENT-SPEC.md` 第 9 节。",
-  "extended": "### 多行文字与自定义间距\r\n\r\n\n向 `content` 传入数组即可展示多行文字。较长标签需要更多空间时，可同时调整 `width`、\n`height` 和 `gap`，再微调 `rotate` 与 `opacity`，确保受保护内容仍清晰可读。\n\n### 图片水印\n\n传入 `image` 可以重复铺设图片水印。图片会在 `width` 和 `height` 定义的区域内保持比例居中显示，并继续使用相同的 `rotate`、`gap`、`offset` 和 `opacity` 设置。传入图片时，`image` 的优先级高于 `content`。",
-  "events": "根元素会透传原生 `<div>` 事件和属性。水印视觉层使用 `pointer-events: none`，因此不会成为事件目标。",
+  "events": "根元素会透传原生 `<div>` 事件和属性。水印视觉层使用 `pointer-events: none`，因此不会成为事件目标；\n根容器上的事件仍可正常监听。",
   "examples": [
     {
       "name": "watermark-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     },
     {
       "name": "watermark-custom",

@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "utils",
   "type": "registry:lib",
-  "title": "cn utility",
-  "description": "Tailwind class merge helper used by every component.",
+  "title": "cn 工具函数",
+  "description": "供所有组件使用的 Tailwind 类名合并工具函数。",
   "dependencies": [
     "clsx",
     "tailwind-merge"

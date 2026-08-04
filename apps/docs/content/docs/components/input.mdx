@@ -4,7 +4,7 @@ description: 支持前后内容、浮动标签、下划线和错误态的输入�
 component: input
 ---
 
-## 基础示例
+## 基础用法
 
 <ComponentPreview name="input-demo" />
 
@@ -12,19 +12,24 @@ component: input
 
 <ComponentSource name="input" title="components/ui/input.tsx" />
 
-## 组件作用
+## 使用场景
 
-`Input` 用于录入单行文本、邮箱、密码或搜索内容。它保留原生 input 的全部语义，并用 `startContent`、`endContent` 承载图标、快捷键提示或清除按钮。聚焦反馈只改变边框与焦点环，不移动组件本身，避免页面产生跳动。
+`Input` 用于录入单行文本、邮箱、密码、搜索词等短内容。它保留原生 `input` 的属性和事件，
+并通过 `startContent`、`endContent` 放置图标、快捷键提示或清除按钮。需要录入多行文本时使用 Textarea，
+需要从固定选项中选择时使用 Select，而不是把 Input 改造成下拉框。
 
-## 组件属性
+聚焦反馈只改变边框和焦点环，不移动输入框本身，避免表单在输入时产生跳动。
+
+## 属性
 
 <PropsTable name="input" />
 
 ## 事件
 
-所有原生输入事件均会透传，包括 `onChange`、`onInput`、`onFocus`、`onBlur` 与键盘事件。传入 `aria-invalid="true"` 会同步显示错误边框与光晕。
+所有原生输入事件都会透传，包括 `onChange`、`onInput`、`onFocus`、`onBlur` 和键盘事件。传入 `aria-invalid="true"`
+会同步显示错误边框和错误状态；错误原因仍应通过表单说明文字提供，不能只依赖颜色。
 
-## 拓展使用
+## 扩展用法
 
 ### 图标、错误与禁用态
 
@@ -32,13 +37,14 @@ component: input
 
 ### 浮动标签
 
-传入 `label` 后，标签初始位于输入区域中部；聚焦或输入内容时会缩小并移动到左上角。
+传入 `label` 后，标签初始显示在输入区域中部；输入框聚焦或已有内容时，标签会缩小并移动到左上角。
+如果字段还需要帮助说明或错误信息，应使用表单布局把这些文字放在输入框下方，并通过 `aria-describedby` 关联。
 
 <ComponentPreview name="input-floating-label" />
 
 ### 下划线样式
 
-`variant="underline"` 适合密度更高、容器边界已经明确的表单区域。
+`variant="underline"` 适合密度较高、容器边界已经明确的表单区域。独立浮在页面上的输入框更适合默认边框样式。
 
 <ComponentPreview name="input-underline" />
 

@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "morphing-popover",
   "type": "registry:ui",
-  "title": "形变弹出框",
-  "description": "使用共享布局动画从触发元素展开的锚定弹出层。",
+  "title": "形变弹出框 Morphing Popover",
+  "description": "从触发器原位展开成轻量交互面板的弹出层。",
   "dependencies": [
     "radix-ui",
     "motion"

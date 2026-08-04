@@ -4,7 +4,7 @@ description: 让卡片依次钉住、缩放，并被后续内容覆盖。
 component: sticky-stack
 ---
 
-## 基础示例
+## 基础用法
 
 <ComponentPreview name="sticky-stack-demo" />
 
@@ -14,11 +14,12 @@ component: sticky-stack
 
 <ComponentSource name="sticky-stack" title="components/ui/sticky-stack.tsx" />
 
-## 组件作用
+## 使用场景
 
-`StickyStack` 负责计算整组滚动进度，并自动为直接子级 `StickyStackItem` 注入堆叠顺序。卡片使用原生 `position: sticky` 固定，较早出现的卡片会随整组进度轻微缩小，后续卡片按更高层级覆盖上来。
+`StickyStack` 负责计算整组滚动进度，并为直接子级 `StickyStackItem` 注入堆叠顺序。卡片使用原生 `position: sticky` 固定，
+较早出现的卡片随滚动进度轻微缩小，后续卡片按更高层级覆盖上来。它适合少量连续叙事卡片，不适合承载需要逐项操作的长列表。
 
-## 组件属性
+## 属性
 
 <PropsTable name="sticky-stack" />
 
@@ -35,6 +36,7 @@ component: sticky-stack
   ]}
 />
 
-## 使用建议
+## 使用说明
 
-卡片高度应保持接近，但内容无需完全一致。`top` 与 `gap` 决定堆叠露出的顶部边缘，`scaleStep` 决定空间深度。组件依赖祖先拥有足够滚动距离；放在嵌套滚动容器时传入同一个 `container` ref。
+卡片高度应尽量接近，但内容不必完全一致。`top` 和 `gap` 决定堆叠时露出的顶部边缘，`scaleStep` 决定缩小幅度。
+组件依赖祖先拥有足够的滚动距离；放在嵌套滚动容器时，应传入同一个 `container` ref。

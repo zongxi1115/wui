@@ -32,7 +32,7 @@
       "type": "ReactNode",
       "required": true,
       "control": "text",
-      "description": "StickyStackItem elements rendered in stacking order."
+      "description": "按堆叠顺序渲染的 StickyStackItem 元素。"
     },
     {
       "name": "top",
@@ -40,7 +40,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "24",
-      "description": "Top offset of the first sticky item in pixels."
+      "description": "第一个粘性项目距离顶部的偏移量，单位为像素。"
     },
     {
       "name": "gap",
@@ -48,7 +48,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "12",
-      "description": "Visible vertical offset between stacked items in pixels."
+      "description": "堆叠项目之间仍可见的垂直偏移量，单位为像素。"
     },
     {
       "name": "scaleStep",
@@ -56,21 +56,21 @@
       "required": false,
       "control": "number",
       "defaultValue": "0.035",
-      "description": "Scale removed for every card placed above an item."
+      "description": "每有一张卡片位于当前项目上方时减少的缩放比例。"
     },
     {
       "name": "container",
       "type": "RefObject<HTMLElement | null>",
       "required": false,
       "control": "text",
-      "description": "Scrollable element to observe instead of the page."
+      "description": "要监听的滚动容器；未设置时监听页面。"
     }
   ],
-  "usage": "`StickyStack` 负责计算整组滚动进度，并自动为直接子级 `StickyStackItem` 注入堆叠顺序。卡片使用原生 `position: sticky` 固定，较早出现的卡片会随整组进度轻微缩小，后续卡片按更高层级覆盖上来。",
+  "usage": "卡片高度应尽量接近，但内容不必完全一致。`top` 和 `gap` 决定堆叠时露出的顶部边缘，`scaleStep` 决定缩小幅度。\n组件依赖祖先拥有足够的滚动距离；放在嵌套滚动容器时，应传入同一个 `container` ref。",
   "examples": [
     {
       "name": "sticky-stack-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     }
   ],
   "files": [

@@ -4,7 +4,7 @@ description: 将垂直滚动距离映射为钉住内容轨道的水平移动。
 component: horizontal-scroll
 ---
 
-## 基础示例
+## 基础用法
 
 <ComponentPreview name="horizontal-scroll-demo" />
 
@@ -17,14 +17,16 @@ component: horizontal-scroll
   title="components/ui/horizontal-scroll.tsx"
 />
 
-## 组件作用
+## 使用场景
 
-`HorizontalScroll` 测量轨道溢出宽度，将同等距离加入页面高度，并在区块经过时固定视口、移动内部轨道。它适合案例画廊、时间线和横向章节，不会改变子元素的结构。
+`HorizontalScroll` 测量轨道溢出宽度，将相应距离加入页面高度，并在区块经过时固定视口、移动内部轨道。
+它适合案例画廊、时间线和横向章节，不会改变子元素结构；内容仍按 DOM 顺序提供给辅助技术。
 
-## 组件属性
+## 属性
 
 <PropsTable name="horizontal-scroll" />
 
-## 使用建议
+## 使用说明
 
-直接子内容需要明确宽度并设置 `shrink-0`。不要把表单、长文本或需要大量垂直浏览的内容放进横向轨道。减少动态效果开启后，组件回退为普通的横向可滚动容器，内容仍然可访问。
+直接子内容需要明确宽度并设置 `shrink-0`。不要把表单、长文本或需要大量垂直浏览的内容放进横向轨道。
+用户开启“减少动态效果”后，组件回退为普通的横向可滚动容器，内容仍然可访问。

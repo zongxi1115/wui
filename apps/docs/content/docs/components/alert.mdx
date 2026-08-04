@@ -4,7 +4,7 @@ description: 用于展示需要保留在页面中的状态、说明和操作建�
 component: alert
 ---
 
-## 基础示例
+## 基础用法
 
 <ComponentPreview name="alert-demo" />
 
@@ -12,11 +12,12 @@ component: alert
 
 <ComponentSource name="alert" title="components/ui/alert.tsx" />
 
-## 组件作用
+## 使用场景
 
-Alert 是页面内的持久反馈组件，适合承载标题、较长说明、尾部操作以及需要用户主动关闭的状态。只需要在操作后短暂提示一句结果时，应使用 Message。
+`Alert` 是页面内持续可见的反馈组件，适合承载标题、较长说明、尾部操作以及需要用户主动关闭的状态。
+它会跟随页面内容一起存在，适合错误说明、系统公告和下一步建议；只需要在操作后短暂提示一句结果时，应使用 Message。
 
-## 组件属性
+## 属性
 
 <PropsTable name="alert" />
 
@@ -24,9 +25,14 @@ Alert 是页面内的持久反馈组件，适合承载标题、较长说明、�
 
 <ComponentPreview name="alert-action" />
 
+将“查看详情”“重试”等下一步操作放在 Alert 尾部。操作按钮应直接说明动作，不要把整个提示区域做成一个没有明确名称的可点击块。
+
 ## 可关闭与受控显示
 
 <ComponentPreview name="alert-dismissible" />
+
+可关闭提示适合用户已经知道如何处理，或提示不应重复出现的场景。需要由业务层决定是否显示时，使用 `open` 和
+`onOpenChange`；关闭只改变展示状态，不会自动修改业务数据。
 
 ## 紧凑尺寸
 
@@ -36,4 +42,5 @@ Alert 是页面内的持久反馈组件，适合承载标题、较长说明、�
 
 - `warning` 与 `destructive` 默认使用 `role="alert"`。
 - 其他变体默认使用 `role="status"`。
-- 关闭按钮带有可访问名称，语义也可以通过原生 `role` 覆盖。
+- 关闭按钮带有可访问名称，标题和说明文字应完整表达信息，不要只通过背景色区分变体。
+- 如果提示会在用户操作后动态出现，确保内容足够简短，避免一次性打断读屏器正在读取的长段落。

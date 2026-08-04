@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "avatar",
   "type": "registry:ui",
-  "title": "Avatar",
-  "description": "Universal identity avatar with image fallback, presence status, sizes, and groups.",
+  "title": "头像 Avatar",
+  "description": "带图片回退、在线状态和头像组的通用身份组件。",
   "dependencies": [
     "radix-ui",
     "class-variance-authority"

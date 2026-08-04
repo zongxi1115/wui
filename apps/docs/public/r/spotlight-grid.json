@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "spotlight-grid",
   "type": "registry:ui",
-  "title": "Spotlight Grid",
-  "description": "Reveals a grid or dot pattern around the current pointer position.",
+  "title": "聚光网格 Spotlight Grid",
+  "description": "用鼠标聚光显露网格或点阵背景的局部结构。",
   "registryDependencies": [
     "utils"
   ],

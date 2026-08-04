@@ -4,7 +4,7 @@ description: 从触发元素平滑变形成聚焦内容的模态对话框。
 component: morphing-dialog
 ---
 
-## 基础示例
+## 基础用法
 
 <ComponentPreview name="morphing-dialog-demo" />
 
@@ -15,22 +15,27 @@ component: morphing-dialog
   title="components/ui/morphing-dialog.tsx"
 />
 
-## 组件作用
+## 使用场景
 
-`MorphingDialog` 使用 shared layout 动画让触发器的表面连续扩展为居中的对话框。它适合从一条摘要、按钮或媒体预览进入更完整的编辑与查看流程。
+`MorphingDialog` 使用共享布局动画，让触发器表面连续扩展为居中的对话框。它适合从一条摘要、按钮或媒体预览进入更完整的编辑和查看流程。
+触发器只负责打开入口，完整内容仍应放在对话框中，并提供明确的标题和关闭方式。
 
-对话框的焦点锁定、`Esc` 关闭、点按遮罩关闭和焦点归还由 Radix Dialog 负责；当用户启用“减少动态效果”时，几何变形会退化为无位移的静态切换。
+对话框的焦点锁定、`Esc` 关闭、点击遮罩关闭和焦点归还由 Radix Dialog 负责；用户开启“减少动态效果”时，
+几何变形会退化为无位移的静态切换。
 
-## 组件属性
+## 属性
 
 <PropsTable name="morphing-dialog" />
 
-`MorphingDialogContent` 额外提供 `overlayClassName` 与 `variants`，分别控制遮罩样式和内容进出场动画。`MorphingDialogTrigger`、`MorphingDialogClose` 支持 Radix 的 `asChild`。
+`MorphingDialogContent` 额外提供 `overlayClassName` 和 `variants`，分别控制遮罩样式和内容进出场动画。
+`MorphingDialogTrigger`、`MorphingDialogClose` 支持 Radix 的 `asChild`。
 
 ## 事件
 
-`onOpenChange(open)` 会在触发器、关闭按钮、`Esc` 或点按遮罩改变打开状态时调用。组件同时支持 `open` 受控模式和 `defaultOpen` 非受控模式。
+`onOpenChange(open)` 会在触发器、关闭按钮、`Esc` 或点击遮罩改变打开状态时调用。组件同时支持 `open` 受控模式和 `defaultOpen` 非受控模式；
+受控模式下必须在回调中更新 `open`。
 
-## 扩展使用
+## 扩展用法
 
-可以在触发器与内容中复用 `MorphingDialogImage`，让图片通过相同的 layout id 保持视觉连续性。标题、描述与操作区仍应保持简洁，避免把需要频繁操作的完整页面塞进模态层。
+可以在触发器与内容中复用 `MorphingDialogImage`，让图片通过相同的 layout id 保持视觉连续性。标题、描述和操作区仍应保持简洁，
+避免把需要频繁操作的完整页面塞进模态层。

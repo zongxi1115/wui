@@ -29,7 +29,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "0.16",
-      "description": "Grain opacity."
+      "description": "颗粒图层的不透明度。"
     },
     {
       "name": "frequency",
@@ -37,7 +37,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "0.72",
-      "description": "Base turbulence frequency."
+      "description": "基础湍流频率。"
     },
     {
       "name": "octaves",
@@ -45,7 +45,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "3",
-      "description": "Number of fractal noise octaves."
+      "description": "分形噪声的叠加层数。"
     },
     {
       "name": "seed",
@@ -53,7 +53,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "8",
-      "description": "Deterministic noise seed."
+      "description": "用于生成可复现噪声的随机种子。"
     },
     {
       "name": "blendMode",
@@ -87,14 +87,14 @@
         "plus-lighter"
       ],
       "defaultValue": "soft-light",
-      "description": "CSS blend mode used by the overlay."
+      "description": "遮罩图层使用的 CSS 混合模式。"
     }
   ],
-  "usage": "`GrainOverlay` 使用 SVG `feTurbulence` 生成可重复、与分辨率无关的静态噪声。它没有第三方运行时依赖，默认绝对定位并忽略指针事件，可直接放进任意 `relative` 表面。",
+  "usage": "建议从 `opacity={0.08}` 到 `0.18` 的范围开始，根据底色选择 `soft-light`、`overlay` 或 `multiply`。颗粒应作为统一材质语言使用，\n不要只给一张普通卡片单独添加；大面积铺设前应在低端设备上确认 SVG 滤镜成本。",
   "examples": [
     {
       "name": "grain-overlay-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     }
   ],
   "files": [

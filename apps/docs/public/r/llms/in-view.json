@@ -27,7 +27,7 @@
       "type": "ReactNode",
       "required": true,
       "control": "text",
-      "description": "Content animated when it enters the viewport."
+      "description": "进入视口时需要播放动画的内容。"
     },
     {
       "name": "variants",
@@ -35,7 +35,7 @@
       "required": false,
       "control": "text",
       "defaultValue": "{\n  hidden: { opacity: 0, y: 16 },\n  visible: { opacity: 1, y: 0 },\n}",
-      "description": "Hidden and visible animation states."
+      "description": "内容隐藏和显示时使用的动画变体。"
     },
     {
       "name": "transition",
@@ -43,14 +43,14 @@
       "required": false,
       "control": "text",
       "defaultValue": "{ duration: 0.45, ease: \"easeOut\" }",
-      "description": "Motion transition used between states."
+      "description": "状态切换时使用的 Motion 过渡动画。"
     },
     {
       "name": "viewOptions",
       "type": "UseInViewOptions",
       "required": false,
       "control": "text",
-      "description": "Intersection observer options such as `margin` and `amount`."
+      "description": "Intersection Observer 配置，例如 margin 和 amount。"
     },
     {
       "name": "once",
@@ -58,7 +58,7 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "true",
-      "description": "Only play the entrance animation once."
+      "description": "是否只播放一次入场动画。"
     },
     {
       "name": "as",
@@ -66,16 +66,14 @@
       "required": false,
       "control": "text",
       "defaultValue": "div",
-      "description": "HTML element rendered by the component."
+      "description": "组件实际渲染的 HTML 元素。"
     }
   ],
-  "usage": "`InView` 适合延后展示长页面中的说明、数据段或媒体内容。它使用浏览器交叉观察能力判断可见性，默认只播放一次，并在减少动态效果偏好下直接显示最终状态。",
-  "extended": "通过 `as=\"section\"` 调整语义元素；设置 `once={false}` 可在每次进入和离开视口时重播。对于很长的列表，应只为关键内容添加入场效果。\n\n### 图片遮罩揭示\n\n`InView` 的自定义 `variants` 可以直接驱动 `clip-path`，无需为 Image Reveal 再引入一套相同的视口观察逻辑。",
-  "events": "组件透传底层元素的原生事件。需要获知可见状态时，可通过自定义 `variants` 的 Motion 回调处理；`viewOptions` 支持 `margin` 与 `amount` 等观察参数。",
+  "events": "组件透传底层元素的原生事件。需要获知可见状态时，可以通过自定义 `variants` 的 Motion 回调处理；`viewOptions` 支持 `margin` 和 `amount` 等观察参数。",
   "examples": [
     {
       "name": "in-view-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     },
     {
       "name": "in-view-image-reveal",

@@ -30,21 +30,21 @@
       "type": "string",
       "required": false,
       "control": "text",
-      "description": "Time in 24-hour HH:mm format."
+      "description": "当前选中的时间，格式为 24 小时制 HH:mm。"
     },
     {
       "name": "defaultValue",
       "type": "string",
       "required": false,
       "control": "text",
-      "description": "Initial time in uncontrolled mode."
+      "description": "非受控模式下初始选中的时间。"
     },
     {
       "name": "onValueChange",
       "type": "((value: string) => void)",
       "required": false,
       "control": "text",
-      "description": "Called with a 24-hour HH:mm value."
+      "description": "时间变化时触发，并返回 24 小时制 HH:mm 值。"
     },
     {
       "name": "hourCycle",
@@ -52,7 +52,7 @@
       "required": false,
       "control": "text",
       "defaultValue": "24",
-      "description": "Display 12-hour or 24-hour time."
+      "description": "时间显示使用 12 小时制还是 24 小时制。"
     },
     {
       "name": "minuteStep",
@@ -60,7 +60,7 @@
       "required": false,
       "control": "text",
       "defaultValue": "5",
-      "description": "Minute interval."
+      "description": "分钟选择的间隔。"
     },
     {
       "name": "placeholder",
@@ -68,22 +68,21 @@
       "required": false,
       "control": "text",
       "defaultValue": "选择时间",
-      "description": "Placeholder shown without a value."
+      "description": "没有选中时间时显示的占位文本。"
     },
     {
       "name": "disabled",
       "type": "boolean",
       "required": false,
-      "control": "boolean"
+      "control": "boolean",
+      "description": "是否禁用组件。"
     }
   ],
-  "usage": "`TimePicker` 适合会议、预约和提醒等需要精确时间点的表单。值始终使用稳定的 24 小时 `HH:mm` 格式，展示层可选择 12 或 24 小时制；只需要粗粒度时段时，Select 通常更直接。",
-  "extended": "使用 `minuteStep` 在 1、5、10、15、30 分钟步进间选择。`hourCycle={12}` 会增加 AM/PM 分栏，但回调值仍保持 24 小时格式，便于存储与提交。",
-  "events": "点击“确定”后触发 `onValueChange(value)` 并关闭弹层。受控模式由调用方更新 `value`，非受控模式使用 `defaultValue`。",
+  "events": "点击“确定”后触发 `onValueChange(value)` 并关闭弹层。受控模式由调用方更新 `value`；非受控模式使用 `defaultValue`。\n用户只修改了弹层中的临时值但没有点击确认时，不会提交新值。",
   "examples": [
     {
       "name": "time-picker-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     }
   ],
   "files": [

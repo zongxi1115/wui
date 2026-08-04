@@ -33,63 +33,63 @@
       "type": "Date",
       "required": false,
       "control": "text",
-      "description": "Selected date."
+      "description": "当前选中的日期。"
     },
     {
       "name": "defaultValue",
       "type": "Date",
       "required": false,
       "control": "text",
-      "description": "Initially selected date in uncontrolled mode."
+      "description": "非受控模式下初始选中的日期。"
     },
     {
       "name": "onValueChange",
       "type": "((date: Date) => void)",
       "required": false,
       "control": "text",
-      "description": "Called when a day is selected."
+      "description": "用户选择日期时触发。"
     },
     {
       "name": "month",
       "type": "Date",
       "required": false,
       "control": "text",
-      "description": "Visible month."
+      "description": "当前显示的月份。"
     },
     {
       "name": "defaultMonth",
       "type": "Date",
       "required": false,
       "control": "text",
-      "description": "Initial visible month in uncontrolled mode."
+      "description": "非受控模式下初始显示的月份。"
     },
     {
       "name": "onMonthChange",
       "type": "((month: Date) => void)",
       "required": false,
       "control": "text",
-      "description": "Called when month navigation changes the visible month."
+      "description": "用户切换月份导致显示月份变化时触发。"
     },
     {
       "name": "min",
       "type": "Date",
       "required": false,
       "control": "text",
-      "description": "Earliest selectable day."
+      "description": "允许选择的最早日期。"
     },
     {
       "name": "max",
       "type": "Date",
       "required": false,
       "control": "text",
-      "description": "Latest selectable day."
+      "description": "允许选择的最晚日期。"
     },
     {
       "name": "disabled",
       "type": "((date: Date) => boolean)",
       "required": false,
       "control": "text",
-      "description": "Custom disabled-day matcher."
+      "description": "用于判断日期是否禁用的匹配函数。"
     },
     {
       "name": "showOutsideDays",
@@ -97,7 +97,7 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "true",
-      "description": "Show days from adjacent months."
+      "description": "是否显示当前月份前后相邻月份的日期。"
     },
     {
       "name": "locale",
@@ -105,16 +105,14 @@
       "required": false,
       "control": "text",
       "defaultValue": "zh-CN",
-      "description": "Locale used to format the month heading."
+      "description": "格式化月份标题时使用的地区设置。"
     }
   ],
-  "usage": "`Calendar` 适合需要直接呈现月份上下文的日期选择、排期和预约场景。它内置相邻月份日期、今天标记、禁用区间和方向键导航；如果界面空间有限，应使用由它组合而成的 DatePicker。",
-  "extended": "通过 `min`、`max` 或 `disabled(date)` 限制可选范围；将 `showOutsideDays` 设为 `false` 可隐藏相邻月份日期。\r\n\r\n### 大型日历面板\r\n\r\n\r\n\r\n`CalendarPanel` 面向排期、项目节奏和团队日程等需要完整月份上下文的场景。它支持受控日期与月份、日程语义色、单日数量折叠和事件点击，并以水平滚动保留窄屏下的日期密度。",
-  "events": "`onValueChange(date)` 在选择日期后触发；`onMonthChange(month)` 在切换月份时触发。组件同时支持受控与非受控模式。\r\n\r\n选中背景会在日期之间弹性移动；当天的小圆点在被选中时原地展开为完整背景。鼠标经过日期网格时，轻量悬停层会在格子之间平滑跟随，并在系统开启“减少动态效果”时自动降级。",
+  "events": "`onValueChange(date)` 在选择日期后触发；`onMonthChange(month)` 在切换月份时触发。组件同时支持受控和非受控模式。\n需要从服务端加载月份数据时，应在 `onMonthChange` 中请求并处理加载状态；Calendar 不会自动请求日程数据。\n\r\n选中背景会在日期之间移动；当天的小圆点在被选中时展开为完整背景。鼠标经过日期网格时，悬停层会跟随当前格子，\n用户开启“减少动态效果”后会直接呈现最终状态。",
   "examples": [
     {
       "name": "calendar-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     },
     {
       "name": "calendar-panel",

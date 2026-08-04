@@ -30,7 +30,7 @@
       "type": "ReactNode",
       "required": true,
       "control": "text",
-      "description": "Content translated as the wrapper crosses the viewport."
+      "description": "随包装容器经过视口而产生位移的内容。"
     },
     {
       "name": "axis",
@@ -42,7 +42,7 @@
         "y"
       ],
       "defaultValue": "y",
-      "description": "Translation axis."
+      "description": "内容移动的方向。"
     },
     {
       "name": "distance",
@@ -50,21 +50,21 @@
       "required": false,
       "control": "text",
       "defaultValue": "[-48, 48]",
-      "description": "Translation range in pixels from scroll start to end."
+      "description": "从滚动开始到结束的位移范围，单位为像素。"
     },
     {
       "name": "scale",
       "type": "[number, number]",
       "required": false,
       "control": "text",
-      "description": "Optional scale range, useful for image-within-frame parallax."
+      "description": "可选的缩放范围，适合在画框中展示图片时使用。"
     },
     {
       "name": "container",
       "type": "RefObject<HTMLElement | null>",
       "required": false,
       "control": "text",
-      "description": "Scrollable element to observe instead of the page."
+      "description": "要监听的滚动容器；未设置时监听页面。"
     },
     {
       "name": "offset",
@@ -72,14 +72,14 @@
       "required": false,
       "control": "text",
       "defaultValue": "[\"start end\", \"end start\"]",
-      "description": "Motion scroll offsets for the wrapper."
+      "description": "包装容器使用的 Motion 滚动偏移范围。"
     }
   ],
-  "usage": "`Parallax` 将目标经过视口的进度映射为水平或垂直位移。`distance` 决定起止位置，`scale` 可叠加轻微缩放，适合图片内层视差、标题层级和前后景分离。",
+  "usage": "图片内层视差应把 `Parallax` 放在 `overflow-hidden` 的固定画框内，并给内容预留超出画框的尺寸。建议从 `[-32, 32]`\n到 `[-72, 72]` 的小范围开始；移动距离过大会让内容显得脱离布局或被裁切。用户开启“减少动态效果”后内容保持静止。",
   "examples": [
     {
       "name": "parallax-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     }
   ],
   "files": [

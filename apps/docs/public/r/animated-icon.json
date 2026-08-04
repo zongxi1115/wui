@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "animated-icon",
   "type": "registry:ui",
-  "title": "Animated Icon",
-  "description": "Accessible path-animated Lucide icons with hover and imperative playback.",
+  "title": "动态图标 Animated Icon",
+  "description": "图标内部路径会随交互运动的 Lucide 动态图标集合。",
   "dependencies": [
     "@animateicons/react"
   ],

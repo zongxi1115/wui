@@ -38,7 +38,7 @@
         "left"
       ],
       "defaultValue": "bottom",
-      "description": "Edge that receives the strongest blur."
+      "description": "模糊效果最强的一侧。"
     },
     {
       "name": "blurLayers",
@@ -46,7 +46,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "8",
-      "description": "Number of overlapping mask bands. Values below 2 are clamped."
+      "description": "叠加的遮罩层数量，小于 2 时会按 2 层处理。"
     },
     {
       "name": "blurIntensity",
@@ -54,16 +54,14 @@
       "required": false,
       "control": "number",
       "defaultValue": "0.25",
-      "description": "Blur added by each successive layer in pixels."
+      "description": "每增加一层时叠加的模糊强度，单位为像素。"
     }
   ],
-  "usage": "`ProgressiveBlur` 将多个带渐变 mask 的 `backdrop-filter` 图层叠加起来，使模糊强度沿某个方向逐步增加。它适合滚动容器边缘、图片文字交界处和固定操作栏后方，用来建立内容层级而不是遮盖信息。\r\n\r\n组件仅负责视觉效果，默认忽略指针事件并从无障碍树隐藏。父容器通常需要 `position: relative` 与明确尺寸。",
-  "extended": "使用 `direction` 将最强模糊放在 `top`、`right`、`bottom` 或 `left`。增加 `blurLayers` 会让过渡更细腻但也提高渲染成本；优先从 6–10 层和较低的 `blurIntensity` 开始调整。",
-  "events": "组件透传 Motion `div` 的动画与原生指针事件属性。由于它默认用于纯装饰层，一般不应在模糊图层本身绑定交互。",
+  "events": "组件透传 Motion `div` 的动画和原生指针事件属性。由于它默认用于纯装饰层，一般不应在模糊图层本身绑定交互。",
   "examples": [
     {
       "name": "progressive-blur-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     }
   ],
   "files": [

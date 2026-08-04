@@ -2,7 +2,7 @@
   "name": "slider",
   "type": "registry:ui",
   "title": "滑动输入 Slider",
-  "description": "悬浮时展开轨道、数值标签实时跟随的可调输入控件。",
+  "description": "粗轨道、小圆点滑块与数值标签组合的可调输入控件。",
   "import": "import { Slider, sliderTrackVariants } from \"@/components/ui/slider\"",
   "exports": [
     "Slider",
@@ -33,7 +33,7 @@
         "expand"
       ],
       "defaultValue": "default",
-      "description": "Track expansion treatment used on hover and focus."
+      "description": "轨道的默认或交互展开样式。"
     },
     {
       "name": "showValue",
@@ -46,7 +46,7 @@
         "never"
       ],
       "defaultValue": "hover",
-      "description": "Controls when the value label is visible."
+      "description": "控制数值标签的显示时机。"
     },
     {
       "name": "formatValue",
@@ -54,32 +54,40 @@
       "required": false,
       "control": "text",
       "defaultValue": "(current) => current",
-      "description": "Formats the value displayed above each thumb."
+      "description": "格式化滑块手柄上方显示的数值。"
+    },
+    {
+      "name": "marks",
+      "type": "number[]",
+      "required": false,
+      "control": "text",
+      "defaultValue": "[]",
+      "description": "在轨道上显示为圆点的刻度值数组。"
     },
     {
       "name": "disabled",
       "type": "boolean",
       "required": false,
-      "control": "boolean"
+      "control": "boolean",
+      "description": "是否禁用组件。"
     },
     {
       "name": "asChild",
       "type": "boolean",
       "required": false,
-      "control": "boolean"
+      "control": "boolean",
+      "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
     }
   ],
-  "usage": "`Slider` 用于音量、亮度、缩放和数值范围等连续调整。轨道在悬浮或键盘聚焦时平滑变粗，滑块上方的标签跟随位置并实时显示当前值。",
-  "extended": "使用 `showValue=\"hover | always | never\"` 控制浮动标签，通过 `formatValue` 添加百分号、单位或自定义内容。传入两个值即可得到范围选择器，方向键会按照 `step` 调整数值。\r\n\r\n### 满尺寸展开\r\n\r\n\r\n\r\n`variant=\"expand\"` 会在鼠标浮入或键盘聚焦时将轨道扩展到 `20px`，与滑块圆点保持相同高度；离开交互区域后平滑收回细轨道。",
-  "events": "`onValueChange(values)` 在拖动或键盘调整期间连续触发；需要只在操作完成后提交时使用 `onValueCommit(values)`。组件支持受控与非受控用法。",
+  "events": "`onValueChange(values)` 会在拖动或键盘调整期间连续触发，适合实时更新预览；需要只在操作完成后提交时使用\n`onValueCommit(values)`。组件支持受控和非受控用法，范围模式下回调始终返回数值数组。",
   "examples": [
     {
       "name": "slider-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     },
     {
       "name": "slider-expand",
-      "title": "满尺寸展开"
+      "title": "交互状态与范围"
     }
   ],
   "files": [

@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "button",
   "type": "registry:ui",
-  "title": "Button",
-  "description": "Displays a button or a component that looks like a button.",
+  "title": "按钮 Button",
+  "description": "显示一个按钮，或显示一个外观类似按钮的组件。",
   "dependencies": [
     "radix-ui",
     "class-variance-authority",

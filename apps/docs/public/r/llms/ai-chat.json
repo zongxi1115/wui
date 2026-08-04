@@ -47,13 +47,11 @@
     ]
   },
   "props": [],
-  "usage": "`AiChat` 用于搭建 Agent 助手、客服和 Copilot 对话界面。它只处理消息布局、跟随滚动、回到底部和输入区组合，不持有模型请求与消息协议，因此既可以接 AI SDK，也可以接自有流式接口。\n\n默认头像复用通用 [`Avatar`](/docs/components/avatar)，输入区复用 [`AiPrompt`](/docs/components/ai-prompt) 的基础部件；需要提及、模型选择、附件或引用时，可以直接用完整的 `AiPrompt` 替换底部输入区。\n\n当界面只是普通评论列表或站内私信时，应继续使用业务列表组件，不要因为内容由 AI 生成就强行套用完整聊天外壳。",
-  "extended": "### 与工具、任务和推理组合\n\n聊天框刻意保持为复合组件：在助手消息中直接放入 [`AiTool`](/docs/components/ai-tool)、[`AiTodo`](/docs/components/ai-todo) 和 [`AiReasoning`](/docs/components/ai-reasoning)，即可呈现一个完整的 Agent 执行过程，无需为每种消息类型增加新的固定模板。\n\n### 流式消息\n\n生成开始时将 `AiChatSubmit status=\"submitted\"`，收到内容后切换为 `streaming`，结束后恢复 `idle`。`AiChatMessages` 只会在用户仍位于底部时跟随新内容；用户向上阅读历史记录后不会被强制拉回。\n\n### 空状态\n\n没有消息时在 `AiChatMessages` 内使用 `AiChatEmptyState`，放置一句明确的能力说明和少量起始建议。避免堆叠宣传文案、装饰插画和过多快捷入口。",
-  "events": "`AiChatPrompt` 透传表单的 `onSubmit`，由业务层读取输入、发送请求并控制 `AiChatSubmit` 的 `status`。`AiChatTextarea` 透传原生输入与键盘事件；示例使用 Enter 发送、Shift + Enter 换行。消息操作区不预设复制、重试或反馈逻辑。",
+  "events": "`AiChatPrompt` 透传表单的 `onSubmit`，业务层负责读取输入、发送请求并控制 `AiChatSubmit` 的 `status`。\n`AiChatTextarea` 透传原生输入和键盘事件；示例约定 Enter 发送、Shift + Enter 换行。消息操作区不预设复制、重试或反馈逻辑，\n这些操作应由业务层根据消息状态决定。",
   "examples": [
     {
       "name": "ai-chat-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     }
   ],
   "files": [

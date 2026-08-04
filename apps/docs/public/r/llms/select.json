@@ -2,7 +2,7 @@
   "name": "select",
   "type": "registry:ui",
   "title": "下拉框 Select",
-  "description": "带景深入场、分组与键盘导航的选项选择器。",
+  "description": "支持分组、禁用项和键盘导航的选项选择器。",
   "import": "import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger, SelectValue, selectTriggerVariants } from \"@/components/ui/select\"",
   "exports": [
     "Select",
@@ -38,16 +38,15 @@
       "name": "disabled",
       "type": "boolean",
       "required": false,
-      "control": "boolean"
+      "control": "boolean",
+      "description": "是否禁用组件。"
     }
   ],
-  "usage": "`Select` 从一组互斥选项中选择一个值。浮层使用克制的淡入与短距离弹簧位移建立层级，不额外堆叠玻璃材质或重阴影；搜索型或允许自由输入的场景应使用 Combobox，而不是 Select。",
-  "extended": "### 分组与分隔线\r\n\r\n\r\n\r\n通过 `disabled` 禁用整个 Select，或在单个 `SelectItem` 上禁用特定选项。",
-  "events": "- `onValueChange(value)`：选中项变化后触发。\r\n- `onOpenChange(open)`：浮层打开或关闭时触发。\r\n- `SelectItem` 支持 Radix 提供的选择、焦点与键盘事件。",
+  "events": "- `onValueChange(value)`：选中项变化后触发，参数是选项的 `value`。\n- `onOpenChange(open)`：浮层打开或关闭时触发。\n- `SelectItem` 支持 Radix 提供的选择、焦点和键盘事件。",
   "examples": [
     {
       "name": "select-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     },
     {
       "name": "select-groups",

@@ -4,7 +4,7 @@ description: 用独立数字轮平滑过渡数值变化。
 component: sliding-number
 ---
 
-## 基础示例
+## 基础用法
 
 <ComponentPreview name="sliding-number-demo" />
 
@@ -15,22 +15,23 @@ component: sliding-number
   title="components/ui/sliding-number.tsx"
 />
 
-## 组件作用
+## 使用场景
 
-`SlidingNumber` 适合计数器、实时指标、时钟和金额展示。每个数位独立滑动，非数字字符会原样保留；组件为读屏提供完整值而不是逐位朗读。
+`SlidingNumber` 适合计数器、实时指标、时钟和金额展示。每个数位独立滑动，非数字字符原样保留；
+组件会为读屏器提供完整值，而不是让辅助技术逐位朗读。
 
-## 组件属性
+## 属性
 
 <PropsTable name="sliding-number" />
 
 ## 事件
 
-组件没有自有事件，并透传 `<span>` 的原生事件。修改 `value` 即会触发过渡；减少动态效果时数位立即更新。
+组件没有自有事件，并透传 `<span>` 的原生事件。修改 `value` 即会触发过渡；用户开启“减少动态效果”时数位立即更新。
 
-## 扩展使用
+## 扩展用法
 
 ### 时钟
 
 <ComponentPreview name="sliding-number-clock" />
 
-`padStart` 会为个位整数补零，`decimalSeparator` 可用于本地化小数符号。更复杂的千分位和货币格式建议先用 `Intl.NumberFormat` 生成字符串后再传入。
+`padStart` 会为个位整数补零，`decimalSeparator` 可以设置小数符号。更复杂的千分位和货币格式建议先用 `Intl.NumberFormat` 生成字符串后再传入。

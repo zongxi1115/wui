@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "animated-icon-collection",
   "type": "registry:ui",
-  "title": "Animated Icon Collection",
-  "description": "The complete deduplicated AnimateIcons, ItsHover, and SVGlide path-animated icon collection.",
+  "title": "动态图标集合 Animated Icon Collection",
+  "description": "去重后的 AnimateIcons、ItsHover 和 SVGlide 路径动态图标完整集合。",
   "dependencies": [
     "motion",
     "svglide"

@@ -30,7 +30,7 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "true",
-      "description": "Whether the loading state is visible."
+      "description": "是否显示加载状态。"
     },
     {
       "name": "size",
@@ -43,21 +43,21 @@
         "lg"
       ],
       "defaultValue": "default",
-      "description": "Indicator dimensions."
+      "description": "加载指示器的尺寸。"
     },
     {
       "name": "label",
       "type": "ReactNode",
       "required": false,
       "control": "text",
-      "description": "Accessible loading message shown beside the indicator."
+      "description": "显示在加载指示器旁边的无障碍提示文字。"
     },
     {
       "name": "indicator",
       "type": "ReactNode",
       "required": false,
       "control": "text",
-      "description": "Replace the default orbital indicator."
+      "description": "替换默认的轨道式加载指示器。"
     },
     {
       "name": "delay",
@@ -65,7 +65,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "0",
-      "description": "Wait before showing the indicator to avoid flashes for fast operations."
+      "description": "显示加载指示器前等待的时间，避免快速操作出现闪烁。"
     },
     {
       "name": "fullscreen",
@@ -73,16 +73,14 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "false",
-      "description": "Cover the viewport instead of rendering in document flow."
+      "description": "是否覆盖整个视口，而不是在文档流中渲染。"
     }
   ],
-  "usage": "`Spin` 适合用户已经触发操作、但结果尚未返回的短时等待。独立使用时呈现状态指示器，包裹内容时会保留原布局并覆盖交互；首屏骨架和结构化占位仍应使用 Skeleton。",
-  "extended": "传入 `indicator` 可替换默认轨道；`fullscreen` 用于会阻塞整页的关键切换。普通局部请求优先使用内容遮罩，避免全屏加载打断上下文。",
-  "events": "组件不产生业务事件，由 `spinning` 控制显示。`delay` 可过滤瞬时请求造成的闪烁；系统开启“减少动态效果”后，旋转与弹性过渡会立即停用，但加载语义仍然保留。",
+  "events": "组件不产生业务事件，由 `spinning` 控制显示。`delay` 可以过滤瞬时请求造成的闪烁；用户开启“减少动态效果”后，\n旋转和弹性过渡会立即停用，但加载状态仍然会显示。",
   "examples": [
     {
       "name": "spin-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     }
   ],
   "files": [

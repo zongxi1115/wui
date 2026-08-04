@@ -32,7 +32,7 @@
       "type": "ReactNode",
       "required": true,
       "control": "text",
-      "description": "Inline content placed above the marker stroke."
+      "description": "显示在标注线条上方的行内内容。"
     },
     {
       "name": "variant",
@@ -44,7 +44,7 @@
         "rough"
       ],
       "defaultValue": "smooth",
-      "description": "Shape of the marker stroke."
+      "description": "标注线条的形状。"
     },
     {
       "name": "color",
@@ -52,7 +52,7 @@
       "required": false,
       "control": "text",
       "defaultValue": "oklch(0.88 0.16 92 / 0.58)",
-      "description": "Marker color."
+      "description": "标注线条的颜色。"
     },
     {
       "name": "duration",
@@ -60,7 +60,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "0.65",
-      "description": "Seconds used to sweep across the content."
+      "description": "线条扫过内容一次所需的时间，单位为秒。"
     },
     {
       "name": "delay",
@@ -68,7 +68,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "0",
-      "description": "Delay before highlighting, in seconds."
+      "description": "开始高亮前等待的时间，单位为秒。"
     },
     {
       "name": "inView",
@@ -76,7 +76,7 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "true",
-      "description": "Start highlighting when the content enters the viewport."
+      "description": "是否在内容进入视口时开始高亮。"
     },
     {
       "name": "once",
@@ -84,14 +84,14 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "true",
-      "description": "Only highlight the first time the content enters the viewport."
+      "description": "是否只在内容第一次进入视口时高亮。"
     }
   ],
-  "usage": "`AnnotationPath` 用绘制中的 SVG 路径引导视线，默认带有弯曲箭头，也可以通过 `path`、`viewBox` 和 `arrow` 组合成圈选、下划线或任意手绘标记。`AnnotationHighlight` 把荧光笔笔触放在文字下方，支持平整的 `smooth` 和边缘不齐的 `rough` 两种样式。",
+  "usage": "路径坐标需要与 `viewBox` 使用同一套坐标系；自定义轨迹时建议保留少量外围空间，避免笔触或箭头被裁切。两种组件默认在进入视口时播放一次，\n也可以设置 `inView={false}` 在挂载时播放，或设置 `once={false}` 在每次进入视口时重播。\n\n荧光笔更适合单行短语。需要强调多行内容时，建议拆成多个短语分别标注，避免笔触跨行后失去手写感，也避免遮挡正文。",
   "examples": [
     {
       "name": "annotation-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     }
   ],
   "files": [

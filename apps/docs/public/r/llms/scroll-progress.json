@@ -35,7 +35,7 @@
         "bar"
       ],
       "defaultValue": "bar",
-      "description": "Visual form of the progress indicator."
+      "description": "进度指示器的视觉形式。"
     },
     {
       "name": "position",
@@ -48,28 +48,28 @@
         "bottom"
       ],
       "defaultValue": "top",
-      "description": "Edge used by a fixed bar. Use `inline` to keep it in normal flow."
+      "description": "固定进度条所在的边缘。使用 inline 可让它保留在正常文档流中。"
     },
     {
       "name": "container",
       "type": "RefObject<HTMLElement | null>",
       "required": false,
       "control": "text",
-      "description": "Scrollable element to observe instead of the page."
+      "description": "要监听的滚动容器；未设置时监听页面。"
     },
     {
       "name": "target",
       "type": "RefObject<HTMLElement | null>",
       "required": false,
       "control": "text",
-      "description": "Element whose passage through the viewport defines the progress."
+      "description": "用于计算进度的目标元素。目标元素经过视口时会推动进度变化。"
     },
     {
       "name": "offset",
       "type": "ScrollOffset",
       "required": false,
       "control": "text",
-      "description": "Motion scroll offsets used when `target` is supplied."
+      "description": "设置 target 后使用的 Motion 滚动偏移范围。"
     },
     {
       "name": "size",
@@ -77,7 +77,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "44",
-      "description": "Diameter of the circular indicator in pixels."
+      "description": "环形指示器的直径，单位为像素。"
     },
     {
       "name": "strokeWidth",
@@ -85,7 +85,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "3",
-      "description": "Stroke width of the circular indicator in pixels."
+      "description": "环形指示器的描边宽度，单位为像素。"
     },
     {
       "name": "smooth",
@@ -93,28 +93,28 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "true",
-      "description": "Smooth abrupt scroll updates with a spring."
+      "description": "是否使用弹簧平滑处理突然的滚动进度变化。"
     },
     {
       "name": "trackClassName",
       "type": "string",
       "required": false,
       "control": "text",
-      "description": "Classes applied to the inactive track."
+      "description": "应用于未完成轨道的 CSS 类名。"
     },
     {
       "name": "indicatorClassName",
       "type": "string",
       "required": false,
       "control": "text",
-      "description": "Classes applied to the moving indicator."
+      "description": "应用于移动进度指示器的 CSS 类名。"
     }
   ],
-  "usage": "`ScrollProgress` 可以观察整个页面、指定滚动容器，或通过 `target` 只计算某个内容区块的经过进度。`variant=\"bar\"` 适合全局阅读位置，`variant=\"circle\"` 适合文章工具栏和沉浸式章节。",
+  "usage": "在嵌套滚动区域中同时传入 `container` 和 `target`。`offset` 使用 Motion 的滚动偏移语法；例如 `[\"start start\", \"end end\"]`\n表示目标顶部到达容器顶部时从 0 开始，目标底部到达容器底部时到 1。进度属于辅助导航，应同时提供章节标题和明确的页面结构。",
   "examples": [
     {
       "name": "scroll-progress-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     }
   ],
   "files": [

@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "spotlight-card",
   "type": "registry:ui",
-  "title": "Spotlight Card",
-  "description": "Illuminates a surface around the current pointer position.",
+  "title": "聚光卡片 Spotlight Card",
+  "description": "根据鼠标位置在内容表面显露一层局部光照。",
   "registryDependencies": [
     "utils"
   ],

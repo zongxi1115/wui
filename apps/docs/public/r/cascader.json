@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "cascader",
   "type": "registry:ui",
-  "title": "Cascader",
-  "description": "A multi-column picker for selecting hierarchical values.",
+  "title": "级联选择 Cascader",
+  "description": "用于浏览和选择层级值的多列选择器。",
   "dependencies": [
     "radix-ui",
     "lucide-react",

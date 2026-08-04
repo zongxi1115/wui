@@ -4,7 +4,7 @@ description: 在内容区域上方添加重复的文字或图片水印。
 component: watermark
 ---
 
-## 基础示例
+## 基础用法
 
 <ComponentPreview name="watermark-demo" />
 
@@ -26,22 +26,21 @@ pnpm add clsx tailwind-merge
 
 </Steps>
 
-## 组件作用
+## 使用场景
 
-`Watermark` 在内容区域上叠加重复文字，用于表达所有权、保密级别或文档状态。水印层会忽略
-指针事件，因此其下方的控件和可选择文本仍可正常使用。
+`Watermark` 在内容区域上叠加重复文字或图片，用于表达所有权、保密级别或文档状态。水印层不会接收指针事件，
+因此下方的控件和可选择文本仍可正常使用。
 
 - 适合用于报告、预览、导出文档页面和受限内容。
 - 需要同时展示查看者身份或时间戳时，可以传入多行文本。
-- 水印只是一种视觉提示，不能代替权限控制。
+- 水印只是视觉提示，不能代替权限控制、下载限制或敏感信息脱敏。
 
 <Callout title="特意不使用动画">
-  `Watermark` 默认不包含任何动画。它是一个被动的环境层，应该安静地位于内容之上；动画既会
-  抢夺注意力、影响受保护内容的可读性，也会导致大面积平铺区域反复重绘。并非每个组件都需要
-  动效，取舍原则见 `docs/COMPONENT-SPEC.md` 第 9 节。
+  `Watermark` 默认不包含动画。它是一个被动的环境层，应安静地位于内容之上；动画会抢夺注意力、影响受保护内容的可读性，
+  也会让大面积平铺区域反复重绘。水印不需要动效。
 </Callout>
 
-## 组件属性
+## 属性
 
 `Watermark` 继承原生 `<div>` 的全部属性，并额外提供：
 
@@ -61,12 +60,12 @@ pnpm add clsx tailwind-merge
   ]}
 />
 
-`WatermarkFont` 接受 `color`、`fontFamily`、`fontSize`、`fontStyle` 和
-`fontWeight`。默认颜色跟随当前主题的前景色。
+`WatermarkFont` 接受 `color`、`fontFamily`、`fontSize`、`fontStyle` 和 `fontWeight`。默认颜色跟随当前主题的前景色。
 
 ## 事件
 
-根元素会透传原生 `<div>` 事件和属性。水印视觉层使用 `pointer-events: none`，因此不会成为事件目标。
+根元素会透传原生 `<div>` 事件和属性。水印视觉层使用 `pointer-events: none`，因此不会成为事件目标；
+根容器上的事件仍可正常监听。
 
 <PropsTable
   data={[
@@ -75,17 +74,18 @@ pnpm add clsx tailwind-merge
   ]}
 />
 
-## 扩展使用
+## 扩展用法
 
 ### 多行文字与自定义间距
 
 <ComponentPreview name="watermark-custom" />
 
-向 `content` 传入数组即可展示多行文字。较长标签需要更多空间时，可同时调整 `width`、
-`height` 和 `gap`，再微调 `rotate` 与 `opacity`，确保受保护内容仍清晰可读。
+向 `content` 传入数组即可展示多行文字。较长标签需要更多空间时，可以同时调整 `width`、`height` 和 `gap`，
+再微调 `rotate` 和 `opacity`，确保底层内容仍然清晰可读。
 
 ### 图片水印
 
-传入 `image` 可以重复铺设图片水印。图片会在 `width` 和 `height` 定义的区域内保持比例居中显示，并继续使用相同的 `rotate`、`gap`、`offset` 和 `opacity` 设置。传入图片时，`image` 的优先级高于 `content`。
+传入 `image` 可以重复铺设图片水印。图片会在 `width` 和 `height` 定义的区域内保持比例并居中显示，
+同时继续使用 `rotate`、`gap`、`offset` 和 `opacity`。传入图片时，`image` 的优先级高于 `content`。
 
 <ComponentPreview name="watermark-image" />

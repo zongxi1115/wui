@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "progressive-blur",
   "type": "registry:ui",
-  "title": "渐进模糊",
-  "description": "使用渐变遮罩构建的方向可控分层背景模糊。",
+  "title": "渐进模糊 Progressive Blur",
+  "description": "使用多层渐变遮罩构建方向可控的渐进式背景模糊。",
   "dependencies": [
     "motion"
   ],

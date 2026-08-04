@@ -4,7 +4,7 @@ description: 让内容轻微跟随指针位移，并在离开时自然回弹。
 component: magnetic
 ---
 
-## 基础示例
+## 基础用法
 
 <ComponentPreview name="magnetic-demo" />
 
@@ -12,14 +12,15 @@ component: magnetic
 
 <ComponentSource name="magnetic" title="components/ui/magnetic.tsx" />
 
-## 组件作用
+## 使用场景
 
-`Magnetic` 根据指针相对组件中心的位置产生少量位移，适合按钮、图标入口和单个行动项。离开组件后会通过弹簧动画回到原位；触摸输入和“减少动态效果”偏好不会触发位移。
+`Magnetic` 根据指针相对组件中心的位置产生少量位移，适合按钮、图标入口和单个行动项。离开组件后会通过弹簧回到原位；
+触摸输入和用户的“减少动态效果”偏好不会触发位移。按钮的点击区域应保持稳定，不能依赖位移后的视觉位置判断命中范围。
 
-## 组件属性
+## 属性
 
 <PropsTable name="magnetic" />
 
-## 使用建议
+## 使用说明
 
-`strength` 控制跟随比例，`maxDistance` 限制最大位移。建议保持较小数值，让反馈可以被感知但不影响点击目标的位置判断。
+`strength` 控制跟随比例，`maxDistance` 限制最大位移。建议从较小数值开始，让反馈可以被感知但不影响点击目标的位置判断。

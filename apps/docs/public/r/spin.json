@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "spin",
   "type": "registry:ui",
-  "title": "Spin",
-  "description": "A reduced-motion aware loading indicator for inline, nested, and fullscreen states.",
+  "title": "加载中 Spin",
+  "description": "用轻量、可降级的动态指示器表达等待状态。",
   "dependencies": [
     "class-variance-authority",
     "motion"

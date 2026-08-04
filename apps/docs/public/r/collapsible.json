@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "collapsible",
   "type": "registry:ui",
-  "title": "Collapsible",
-  "description": "An accessible disclosure region with animated content.",
+  "title": "折叠面板 Collapsible",
+  "description": "按需展开一段补充内容，并保留清晰的状态与键盘交互。",
   "dependencies": [
     "radix-ui",
     "lucide-react",

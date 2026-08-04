@@ -37,7 +37,7 @@
         "info"
       ],
       "defaultValue": "default",
-      "description": "Semantic appearance and default icon."
+      "description": "提示的语义样式和默认图标。"
     },
     {
       "name": "size",
@@ -49,28 +49,28 @@
         "default"
       ],
       "defaultValue": "default",
-      "description": "Density preset."
+      "description": "提示内容的密度尺寸。"
     },
     {
       "name": "title",
       "type": "ReactNode",
       "required": false,
       "control": "text",
-      "description": "Optional heading displayed above the description."
+      "description": "说明文字上方显示的可选标题。"
     },
     {
       "name": "icon",
       "type": "ReactNode",
       "required": false,
       "control": "text",
-      "description": "Custom leading icon. Pass `false` to hide the icon."
+      "description": "自定义前置图标。传入 false 可隐藏图标。"
     },
     {
       "name": "action",
       "type": "ReactNode",
       "required": false,
       "control": "text",
-      "description": "Optional action rendered at the end of the alert."
+      "description": "显示在提示末尾的可选操作。"
     },
     {
       "name": "closable",
@@ -78,14 +78,14 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "false",
-      "description": "Show a close control."
+      "description": "是否显示关闭按钮。"
     },
     {
       "name": "visible",
       "type": "boolean",
       "required": false,
       "control": "boolean",
-      "description": "Controlled visibility."
+      "description": "受控模式下提示是否显示。"
     },
     {
       "name": "defaultVisible",
@@ -93,21 +93,20 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "true",
-      "description": "Initial visibility in uncontrolled mode."
+      "description": "非受控模式下提示的初始显示状态。"
     },
     {
       "name": "onVisibleChange",
       "type": "((visible: boolean) => void)",
       "required": false,
       "control": "text",
-      "description": "Called whenever visibility changes."
+      "description": "提示显示状态变化时触发。"
     }
   ],
-  "usage": "Alert 是页面内的持久反馈组件，适合承载标题、较长说明、尾部操作以及需要用户主动关闭的状态。只需要在操作后短暂提示一句结果时，应使用 Message。",
   "examples": [
     {
       "name": "alert-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     },
     {
       "name": "alert-action",

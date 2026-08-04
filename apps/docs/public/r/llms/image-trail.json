@@ -31,14 +31,14 @@
       "type": "ReactNode[]",
       "required": true,
       "control": "text",
-      "description": "Visual items cycled through as the pointer moves."
+      "description": "指针移动时依次循环显示的视觉内容。"
     },
     {
       "name": "children",
       "type": "ReactNode",
       "required": false,
       "control": "text",
-      "description": "Static content rendered inside the interaction region."
+      "description": "交互区域内始终显示的静态内容。"
     },
     {
       "name": "distance",
@@ -46,7 +46,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "72",
-      "description": "Pointer distance required before adding another item, in pixels."
+      "description": "新增一项轨迹内容前指针需要移动的距离，单位为像素。"
     },
     {
       "name": "lifetime",
@@ -54,7 +54,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "720",
-      "description": "Lifetime of each trail item in milliseconds."
+      "description": "每项轨迹内容的显示时长，单位为毫秒。"
     },
     {
       "name": "maxItems",
@@ -62,21 +62,21 @@
       "required": false,
       "control": "number",
       "defaultValue": "8",
-      "description": "Maximum number of trail items rendered at once."
+      "description": "同时渲染的轨迹内容数量上限。"
     },
     {
       "name": "itemClassName",
       "type": "string",
       "required": false,
       "control": "text",
-      "description": "Classes applied to every positioned trail item."
+      "description": "应用于每个定位轨迹项的 CSS 类名。"
     }
   ],
-  "usage": "`ImageTrail` 按指针移动距离采样位置，并循环使用 `items` 中的视觉内容形成短暂轨迹。组件限制同时存在的项目数，并在离场后清理节点，适合作品首屏、专题页和强视觉索引。",
+  "usage": "`distance` 越小轨迹越密，`lifetime` 越长重叠越多。轨迹项目应使用固定尺寸，并避免包含可交互元素；真正的信息和操作放在静态 `children` 中。\n触摸输入和用户的“减少动态效果”偏好不会生成轨迹。",
   "examples": [
     {
       "name": "image-trail-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     }
   ],
   "files": [

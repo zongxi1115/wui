@@ -30,7 +30,7 @@
       "type": "ReactNode",
       "required": true,
       "control": "text",
-      "description": "Media or hero content that expands or collapses in the pinned viewport."
+      "description": "固定视口中随滚动展开或收拢的媒体或首屏内容。"
     },
     {
       "name": "direction",
@@ -42,7 +42,7 @@
         "collapse"
       ],
       "defaultValue": "expand",
-      "description": "Scroll direction of the visual transformation."
+      "description": "视觉变换跟随的滚动方向。"
     },
     {
       "name": "inset",
@@ -50,7 +50,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "10",
-      "description": "Initial inset on every edge, as a percentage."
+      "description": "紧凑状态下四条边的初始内缩比例。"
     },
     {
       "name": "radius",
@@ -58,7 +58,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "28",
-      "description": "Corner radius at the compact state in pixels."
+      "description": "紧凑状态下的圆角半径，单位为像素。"
     },
     {
       "name": "scrollLength",
@@ -66,35 +66,35 @@
       "required": false,
       "control": "number",
       "defaultValue": "1.8",
-      "description": "Section length in viewport heights."
+      "description": "区块占用的视口高度数量。"
     },
     {
       "name": "container",
       "type": "RefObject<HTMLElement | null>",
       "required": false,
       "control": "text",
-      "description": "Scrollable element to observe instead of the page."
+      "description": "要监听的滚动容器；未设置时监听页面。"
     },
     {
       "name": "viewportClassName",
       "type": "string",
       "required": false,
       "control": "text",
-      "description": "Classes applied to the sticky viewport."
+      "description": "应用于固定视口的 CSS 类名。"
     },
     {
       "name": "frameClassName",
       "type": "string",
       "required": false,
       "control": "text",
-      "description": "Classes applied to the transformed content frame."
+      "description": "应用于变换内容画框的 CSS 类名。"
     }
   ],
-  "usage": "`ScrollExpand` 在指定滚动长度内固定一个视口，通过 `clip-path` 和内部缩放把媒体从留白画框展开到满屏。设置 `direction=\"collapse\"` 可用于首屏缩小、圆角化退场的 Sticky Scale Hero 手法。",
+  "usage": "子元素应填满组件尺寸，并自行使用 `object-cover` 或等价布局。`inset` 控制紧凑状态留白，`radius` 控制该状态的圆角，\n`scrollLength` 决定变化节奏。若内容中包含视频，仍需提供原生播放控制、字幕和暂停方式，不能只依靠滚动驱动播放。",
   "examples": [
     {
       "name": "scroll-expand-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     }
   ],
   "files": [

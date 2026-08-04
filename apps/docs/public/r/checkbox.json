@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "checkbox",
   "type": "registry:ui",
-  "title": "Checkbox",
-  "description": "An accessible checkbox with checked and indeterminate states.",
+  "title": "多选框 Checkbox",
+  "description": "支持选中、未选中与不确定状态的多选控件。",
   "dependencies": [
     "radix-ui",
     "class-variance-authority",

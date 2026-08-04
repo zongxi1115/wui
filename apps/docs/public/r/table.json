@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "table",
   "type": "registry:ui",
-  "title": "Table",
-  "description": "A responsive semantic table for structured data.",
+  "title": "表格 Table",
+  "description": "用原生表格语义组织和比较结构化数据。",
   "dependencies": [
     "class-variance-authority"
   ],

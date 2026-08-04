@@ -63,7 +63,7 @@ export function Playground({
   if (!Comp) {
     return (
       <p className="my-6 text-sm text-destructive">
-        No playground registered for <code>{name}</code>.
+        暂未为 <code>{name}</code> 注册交互演示。
       </p>
     )
   }
@@ -85,7 +85,7 @@ export function Playground({
 
       <div className="space-y-4 border-t bg-muted/20 p-4 md:border-l md:border-t-0">
         {childrenControl ? (
-          <Field label="children" description="The rendered content.">
+          <Field label="children" description="组件内部渲染的内容。">
             <input
               type="text"
               value={label}

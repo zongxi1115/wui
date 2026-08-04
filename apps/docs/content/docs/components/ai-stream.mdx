@@ -4,7 +4,7 @@ description: 可用于普通回答与思考过程的通用流式文本动效。
 component: ai-stream
 ---
 
-## 基础示例
+## 基础用法
 
 <ComponentPreview name="ai-stream-demo" />
 
@@ -12,13 +12,15 @@ component: ai-stream
 
 <ComponentSource name="ai-stream" title="components/ui/ai-stream.tsx" />
 
-## 组件作用
+## 使用场景
 
-`AiStream` 是与消息类型无关的流式文本组件。普通助手回答可以直接使用；需要展示模型返回的推理摘要时，也可以把同一个组件放进 [`AiReasoning`](/docs/components/ai-reasoning)。
+`AiStream` 是与消息类型无关的流式文本组件。普通助手回答可以直接使用；需要展示模型返回的可展示摘要时，
+也可以把它放进 [`AiReasoning`](/docs/components/ai-reasoning)。它只负责文本出现时的视觉过渡，不负责拼接服务端数据。
 
-传入当前累计文本与 `isStreaming` 状态即可。生成期间只有最新文字的最右侧边缘羽化，已稳定的正文不会重复执行动画；生成结束后立即恢复完整文字。
+传入当前累计文本和 `isStreaming` 状态即可。生成期间只有最新文字的最右侧边缘羽化，已稳定的正文不会重复执行动画；
+生成结束后立即恢复完整文字。请求失败时，应由业务层先展示错误信息，再将 `isStreaming` 设为 `false`。
 
-## 组件属性
+## 属性
 
 <PropsTable name="ai-stream" />
 
@@ -26,4 +28,5 @@ component: ai-stream
 
 <ComponentPreview name="ai-stream-deltas" />
 
-保留原始 delta 数组时可以使用 `AiStreamDeltas`。每个新片段只淡入一次，适合粒度较大的服务端分段；连续的小字符增量优先使用 `AiStream`。
+保留原始 delta 数组时可以使用 `AiStreamDeltas`。每个新片段只淡入一次，适合粒度较大的服务端分段；
+连续的小字符增量优先使用 `AiStream`，避免每个字符都创建单独的动画片段。

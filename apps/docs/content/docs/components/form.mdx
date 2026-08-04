@@ -1,10 +1,10 @@
 ---
-title: Form
+title: 表单 Form
 description: 可组合的表单字段，协调标签、校验提示与动效反馈。
 component: form
 ---
 
-## 基础示例
+## 基础用法
 
 <ComponentPreview name="form-demo" />
 
@@ -12,9 +12,11 @@ component: form
 
 <ComponentSource name="form" title="components/ui/form.tsx" />
 
-## 适用场景
+## 使用场景
 
-`Form` 为标签、控件、说明与校验提示提供语义化布局和无障碍关联。每个 `FormField` 显式维护校验状态，因此可配合原生表单状态或任意校验库使用。它适合需要一致间距与反馈的产品表单；无需统一字段样式时，原生 HTML 表单即可。
+`Form` 把标签、控件、帮助说明和校验消息放在统一的字段结构中，并自动建立它们之间的无障碍关联。
+每个 `FormField` 显式维护字段状态，因此可以接入原生表单状态或任意校验库。只需要提交几项简单数据时，原生 HTML 表单即可；
+需要多字段布局和一致反馈时，使用 `Form`。
 
 ## 属性
 
@@ -24,8 +26,9 @@ component: form
 
 - `Form` 会透传 `onSubmit`、`onReset` 和 `onInvalid` 等原生表单事件。
 - `FormControl` 保留子控件自身事件，同时补充字段 ID 和 ARIA 关联。
-- 修改 `FormField` 的 `invalid` 会显示紧邻控件的 `FormMessage`，并触发适配减少动态效果偏好的轻微纠正提示。
+- `FormField` 的 `invalid` 为真时，`FormMessage` 会显示在对应控件附近；错误文字应说明如何修正，而不只是写“格式错误”。
 
 ## 扩展用法
 
-使用 `FormSection` 和 `FormLegend` 组织成组信息，并将主次操作放入 `FormActions`。若页面容器已经负责入场动效，可设置 `animated={false}`。
+使用 `FormSection` 和 `FormLegend` 组织相关字段，并将主次操作放入 `FormActions`。如果页面容器已经负责入场动效，
+可以设置 `animated={false}`，避免同一字段出现两层动画。

@@ -6,17 +6,17 @@ export const baseOptions: BaseLayoutProps = {
   },
   links: [
     {
-      text: "Docs",
+      text: "文档",
       url: "/docs",
       active: "nested-url",
     },
     {
-      text: "Components",
+      text: "组件",
       url: "/docs/components/button",
       active: "nested-url",
     },
     {
-      text: "Theme",
+      text: "主题",
       url: "/docs/theme",
       active: "url",
     },

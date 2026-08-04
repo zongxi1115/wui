@@ -4,7 +4,7 @@ description: 由 Dialog 和 Button 组合而成的开箱即用确认对话框。
 component: confirm-dialog
 ---
 
-## 基础示例
+## 基础用法
 
 <ComponentPreview name="confirm-dialog-demo" />
 
@@ -17,12 +17,14 @@ component: confirm-dialog
 
 <ComponentSource name="confirm-dialog" title="components/confirm-dialog.tsx" />
 
-## 组件作用
+## 使用场景
 
-`ConfirmDialog` 将常见的“确定要继续吗？”交互封装成一个声明式组件，免去每次需要确认操作时
-重复组合 `Dialog` 和 `Button`。它适合用于删除等具有破坏性或不可逆的操作。
+`ConfirmDialog` 将“是否继续”这类二次确认封装成一个声明式组件，避免每次都重复组合 `Dialog` 和 `Button`。
+它适合删除、移除、发布或覆盖等具有破坏性、不可逆或影响范围较大的操作。普通的成功提交不需要再增加确认步骤。
 
-## 组件属性
+确认文案应写清楚对象和结果，例如“删除项目 A？删除后无法恢复”，确认按钮也应使用“删除”而不是模糊的“确定”。
+
+## 属性
 
 <PropsTable name="confirm-dialog" />
 
@@ -33,12 +35,13 @@ component: confirm-dialog
     {
       prop: "onConfirm",
       type: "() => void",
-      description: "用户点击确认按钮时调用。",
+      description: "用户点击确认按钮时调用；异步操作的加载、成功和失败状态由业务层维护。",
     },
   ]}
 />
 
-## 扩展使用
+## 扩展用法
 
-组件源码会直接保存在你的项目中，你可以自由扩展，例如为确认按钮添加异步加载状态、
-透传 `onOpenChange`，或调整底部操作区域的布局。
+组件源码会直接保存在你的项目中，可以按业务扩展。例如，为确认按钮添加异步加载状态，
+在操作完成后关闭对话框，透传 `onOpenChange`，或调整底部操作区域的布局。确认回调失败时，应保留对话框并显示错误原因，
+不要让用户误以为操作已经完成。

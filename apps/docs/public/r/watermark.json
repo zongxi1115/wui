@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "watermark",
   "type": "registry:ui",
-  "title": "Watermark",
-  "description": "Adds a repeated text or image watermark over a section of content.",
+  "title": "水印 Watermark",
+  "description": "在内容区域上方添加重复的文字或图片水印。",
   "registryDependencies": [
     "utils"
   ],

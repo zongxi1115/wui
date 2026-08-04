@@ -31,7 +31,7 @@
       "type": "string",
       "required": true,
       "control": "text",
-      "description": "The complete text received so far."
+      "description": "已经接收到的完整文本内容。"
     },
     {
       "name": "isStreaming",
@@ -39,7 +39,7 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "false",
-      "description": "Whether more text is expected."
+      "description": "是否仍在接收后续文本。"
     },
     {
       "name": "featherLength",
@@ -47,14 +47,13 @@
       "required": false,
       "control": "number",
       "defaultValue": "18",
-      "description": "Number of trailing characters covered by the live feather."
+      "description": "实时渐隐效果覆盖的末尾字符数量。"
     }
   ],
-  "usage": "`AiStream` 是与消息类型无关的流式文本组件。普通助手回答可以直接使用；需要展示模型返回的推理摘要时，也可以把同一个组件放进 [`AiReasoning`](/docs/components/ai-reasoning)。\n\n传入当前累计文本与 `isStreaming` 状态即可。生成期间只有最新文字的最右侧边缘羽化，已稳定的正文不会重复执行动画；生成结束后立即恢复完整文字。",
   "examples": [
     {
       "name": "ai-stream-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     },
     {
       "name": "ai-stream-deltas",

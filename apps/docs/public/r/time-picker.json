@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "time-picker",
   "type": "registry:ui",
-  "title": "Time Picker",
-  "description": "A column-based time picker with 12 and 24 hour modes.",
+  "title": "时间选择器 Time Picker",
+  "description": "用小时、分钟与时制分栏快速设定时间。",
   "dependencies": [
     "radix-ui",
     "lucide-react",

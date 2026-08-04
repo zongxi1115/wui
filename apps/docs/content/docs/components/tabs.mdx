@@ -4,7 +4,7 @@ description: 使用共享布局动效平滑切换内容分区。
 component: tabs
 ---
 
-## 基础示例
+## 基础用法
 
 <ComponentPreview name="tabs-demo" />
 
@@ -12,25 +12,30 @@ component: tabs
 
 <ComponentSource name="tabs" title="components/ui/tabs.tsx" />
 
-## 组件作用
+## 使用场景
 
-`Tabs` 在同一页面区域切换同等级内容。选中指示器使用 Motion shared layout 在触发器之间自然滑动，内容则以短促的淡入和位移建立方向感。不要用 Tabs 隐藏必须同时比较的信息。
+`Tabs` 用于在同一页面区域切换同等级内容，例如“概览 / 设置 / 权限”。每个标签对应一个独立面板，用户一次只查看其中一项。
+如果内容需要并排比较，或用户必须同时看到所有信息，不要使用 Tabs 隐藏内容。
 
-## 组件属性
+选中指示器会在触发器之间平滑移动，面板使用短促的淡入和位移提示切换方向；用户开启“减少动态效果”后会直接显示最终状态。
 
-`Tabs` 透传 Radix Root 的 `value`、`defaultValue`、`orientation`、`activationMode` 等属性；`TabsList` 提供 `variant="pill | underline"`。
+## 属性
+
+`Tabs` 透传 Radix Root 的 `value`、`defaultValue`、`orientation` 和 `activationMode` 等属性；`TabsList` 提供
+`variant="pill | underline"`，分别对应胶囊式和下划线式外观。
 
 <PropsTable name="tabs" />
 
 ## 事件
 
-- `onValueChange(value)`：当前标签变化后触发。
+- `onValueChange(value)`：当前标签变化后触发，参数是 `TabsTrigger` 的 `value`。
 - 键盘方向键、Home、End 与焦点管理由 Radix 处理。
 
-## 拓展使用
+## 扩展用法
 
 ### 下划线样式
 
 <ComponentPreview name="tabs-underline" />
 
-使用 `value` 可创建受控标签栏，使用 `defaultValue` 则保持组件内部状态。
+使用 `value` 和 `onValueChange` 创建受控标签栏；只需要设置初始标签时，使用 `defaultValue`，组件会自行维护当前状态。
+每个 `TabsTrigger` 都应有唯一的 `value`，并与对应 `TabsContent` 的 `value` 一致。

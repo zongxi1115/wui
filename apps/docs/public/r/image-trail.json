@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "image-trail",
   "type": "registry:ui",
-  "title": "Image Trail",
-  "description": "Leaves a short-lived sequence of visual items behind the pointer.",
+  "title": "图像轨迹 Image Trail",
+  "description": "鼠标移动时沿路径依次甩出短暂的图片或视觉片段。",
   "dependencies": [
     "motion"
   ],

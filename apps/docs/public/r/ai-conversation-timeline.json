@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "ai-conversation-timeline",
   "type": "registry:ui",
-  "title": "AI Conversation Timeline",
-  "description": "Compact hover-preview navigation for long AI conversations.",
+  "title": "AI 对话时间线 AI Conversation Timeline",
+  "description": "用紧凑刻度浏览长对话，悬停预览并快速定位到指定轮次。",
   "dependencies": [
     "motion"
   ],

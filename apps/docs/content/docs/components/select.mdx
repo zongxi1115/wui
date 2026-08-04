@@ -1,10 +1,10 @@
 ---
 title: 下拉框 Select
-description: 带景深入场、分组与键盘导航的选项选择器。
+description: 支持分组、禁用项和键盘导航的选项选择器。
 component: select
 ---
 
-## 基础示例
+## 基础用法
 
 <ComponentPreview name="select-demo" />
 
@@ -12,26 +12,31 @@ component: select
 
 <ComponentSource name="select" title="components/ui/select.tsx" />
 
-## 组件作用
+## 使用场景
 
-`Select` 从一组互斥选项中选择一个值。浮层使用克制的淡入与短距离弹簧位移建立层级，不额外堆叠玻璃材质或重阴影；搜索型或允许自由输入的场景应使用 Combobox，而不是 Select。
+`Select` 用于从一组固定、互斥的选项中选择一个值。它适合选项数量中等、无需输入搜索的场景；选项很少且需要同时展示时，
+使用 RadioGroup 更直接。需要搜索或允许用户输入新值时，应使用 Combobox，而不是把 Select 当成输入框。
 
-## 组件属性
+浮层会在触发器附近打开，并在空间不足时自动调整位置。组件只管理当前值和浮层交互，选项数据、加载和保存由业务层负责。
 
-核心部件包括 `Select`、`SelectTrigger`、`SelectValue`、`SelectContent`、`SelectItem`、`SelectGroup` 与 `SelectLabel`。Trigger 额外提供 `size="sm | default | lg"`。
+## 属性
+
+核心部件包括 `Select`、`SelectTrigger`、`SelectValue`、`SelectContent`、`SelectItem`、`SelectGroup` 和 `SelectLabel`。
+`SelectItem` 的 `value` 必须唯一，`SelectTrigger` 额外提供 `size="sm | default | lg"`。
 
 <PropsTable name="select" />
 
 ## 事件
 
-- `onValueChange(value)`：选中项变化后触发。
+- `onValueChange(value)`：选中项变化后触发，参数是选项的 `value`。
 - `onOpenChange(open)`：浮层打开或关闭时触发。
-- `SelectItem` 支持 Radix 提供的选择、焦点与键盘事件。
+- `SelectItem` 支持 Radix 提供的选择、焦点和键盘事件。
 
-## 拓展使用
+## 扩展用法
 
 ### 分组与分隔线
 
 <ComponentPreview name="select-groups" />
 
-通过 `disabled` 禁用整个 Select，或在单个 `SelectItem` 上禁用特定选项。
+通过 `disabled` 禁用整个 Select，或在单个 `SelectItem` 上禁用特定选项。受控用法使用 `value` 和 `onValueChange`；
+只需要设置初始选项时使用 `defaultValue`。选项被禁用后，不应在业务层继续把它设置为当前值。

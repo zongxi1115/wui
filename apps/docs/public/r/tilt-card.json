@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "tilt-card",
   "type": "registry:ui",
-  "title": "Tilt Card",
-  "description": "Tilts a surface in 3D according to the pointer position and springs to rest.",
+  "title": "透视倾斜 Tilt Card",
+  "description": "卡片随指针产生克制的 3D 透视倾斜并弹性回正。",
   "dependencies": [
     "motion"
   ],

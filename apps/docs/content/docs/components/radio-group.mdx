@@ -4,7 +4,7 @@ description: 用于互斥选项的轻量单选控件组。
 component: radio-group
 ---
 
-## 基础示例
+## 基础用法
 
 <ComponentPreview name="radio-group-demo" />
 
@@ -12,18 +12,23 @@ component: radio-group
 
 <ComponentSource name="radio-group" title="components/ui/radio-group.tsx" />
 
-## 组件作用
+## 使用场景
 
-`RadioGroup` 用于从两个或更多互斥选项中选择一项。环形边框与全局主色实心圆点保持清晰的选中反馈，同时保留方向键切换、焦点管理与表单语义。
+`RadioGroup` 用于从两个或更多互斥选项中选择一项。它适合选项数量较少、用户需要同时看到所有选项的场景，
+例如选择配送方式或计费周期；选项很多时使用 Select 更节省空间。
 
-## 组件属性
+组件保留方向键切换、焦点管理和表单行为。每个选项都应配有可读标签，并说明选中后会影响什么。
+
+## 属性
 
 <PropsTable name="radio-group" />
 
 ## 事件
 
-`onValueChange(value)` 在选择变化后触发。`RadioGroupItem` 接收必需的 `value`，原生焦点、禁用与表单属性会继续透传。
+`onValueChange(value)` 在选择变化后触发，参数是当前选项的 `value`。`RadioGroupItem` 必须设置唯一的 `value`；
+原生焦点、禁用与表单属性会继续透传。受控模式下，回调需要同步更新外部 `value`。
 
-## 拓展使用
+## 扩展用法
 
-通过 `orientation` 控制键盘导航方向，通过 `disabled` 禁用整组或单项。`RadioGroupItem` 支持 `size="sm | default | lg"`，标签应使用原生 `label` 包裹或通过 `htmlFor` 关联。
+通过 `orientation` 控制布局和键盘导航方向，通过 `disabled` 禁用整组或单项。`RadioGroupItem` 支持
+`size="sm | default | lg"`；标签应使用原生 `label` 包裹或通过 `htmlFor` 与控件关联。

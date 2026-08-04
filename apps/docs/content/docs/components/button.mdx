@@ -4,7 +4,7 @@ description: 显示一个按钮，或显示一个外观类似按钮的组件。
 component: button
 ---
 
-## 基础示例
+## 基础用法
 
 <ComponentPreview name="button-demo" />
 
@@ -26,14 +26,15 @@ pnpm add radix-ui class-variance-authority clsx tailwind-merge
 
 </Steps>
 
-## 组件作用
+## 使用场景
 
-`Button` 是触发操作的主要方式，例如提交表单、打开对话框或确认选择。任何需要“执行某个动作”
-的场景都可以使用它。
+`Button` 用来触发一个明确的操作，例如提交表单、打开对话框、保存内容或确认选择。按钮文案应直接说明
+点击后会发生什么，优先使用“保存”“删除”“添加成员”这类动词，而不是“确定”或“点击这里”。
 
-- 当控件用于页面跳转而非执行操作时，使用 **`link` 变体**，或通过 `asChild` 配合 `<a>`。
-- 删除等不可逆操作使用 **`variant="destructive"`**。
-- 仅显示图标时使用 **`size="icon"`**，并始终提供 `aria-label` 或视觉隐藏文字以保证无障碍体验。
+- 页面跳转应使用真实链接：可以选择 `link` 变体，或通过 `asChild` 组合 `<a>` / 路由链接。
+- 删除、移除等不可逆操作使用 `variant="destructive"`，并在按钮附近说明影响范围。
+- 只显示图标时使用 `size="icon"`，同时提供 `aria-label`；图标只是装饰时，不要让它承担按钮名称。
+- 提交请求期间使用加载状态并暂时阻止重复提交，完成后再恢复按钮操作。
 
 ## 交互演示
 
@@ -41,7 +42,7 @@ pnpm add radix-ui class-variance-authority clsx tailwind-merge
 
 <Playground name="button" exclude={["asChild"]} />
 
-## 组件属性
+## 属性
 
 `Button` 继承原生 `<button>` 的全部属性，并额外提供：
 
@@ -63,7 +64,7 @@ pnpm add radix-ui class-variance-authority clsx tailwind-merge
   启用 `asChild` 后，事件会绑定到你渲染的子元素（例如 `<a>`），而不是 `<button>`。
 </Callout>
 
-## 扩展使用
+## 扩展用法
 
 ### 变体
 
@@ -95,21 +96,20 @@ pnpm add radix-ui class-variance-authority clsx tailwind-merge
 
 ### 作为链接（`asChild`）
 
-将 `asChild` 与链接元素组合，可渲染一个外观像按钮、语义仍为 `<a>` 的元素：
+将 `asChild` 与链接元素组合，可以保留链接的跳转语义，同时复用按钮的视觉样式：
 
 <ComponentPreview name="button-as-child" />
 
 ### 动效（可选）
 
-设置 `motion` 属性可启用轻微的弹性按压与悬停微交互。该功能依赖
-[`motion`](/docs/components/motion)，并会在用户偏好减少动态效果时自动禁用。
+设置 `motion` 属性可以启用轻微的按压和悬停反馈。该功能依赖
+[`motion`](/docs/components/motion)，并会在用户开启“减少动态效果”后自动关闭。
 
 <ComponentPreview name="button-motion" />
 
 ### 涟漪（可选）
 
-设置 `ripple` 属性可启用从指针位置向外扩散的 Material 风格点击涟漪。它可以与 `motion`
-组合使用；与其他 wui 动画一样，启用 `prefers-reduced-motion` 时不会播放。使用 `asChild`
-时会忽略 `ripple`。
+设置 `ripple` 属性可以启用从指针位置向外扩散的点击反馈。它可以与 `motion` 同时使用；
+用户开启 `prefers-reduced-motion` 时不会播放动画。使用 `asChild` 时，涟漪效果不会生效。
 
 <ComponentPreview name="button-ripple" />

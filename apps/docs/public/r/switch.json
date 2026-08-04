@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "switch",
   "type": "registry:ui",
-  "title": "Switch",
-  "description": "A tactile binary control with a spring-driven thumb.",
+  "title": "开关 Switch",
+  "description": "带弹簧滑块与完整无障碍语义的二元状态控件。",
   "dependencies": [
     "radix-ui",
     "class-variance-authority",

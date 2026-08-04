@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "slide-swap",
   "type": "registry:ui",
-  "title": "Slide Swap",
-  "description": "Slides one whole content layer out while an identical layer enters.",
+  "title": "内容滑动交换 Slide Swap",
+  "description": "整块内容从上方移出，同时由下方滑入相同内容。",
   "dependencies": [
     "motion"
   ],

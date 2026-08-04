@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "upload",
   "type": "registry:ui",
-  "title": "Upload",
-  "description": "A click and drag-and-drop file picker with upload lifecycle feedback.",
+  "title": "上传 Upload",
+  "description": "支持点击选择、拖拽放置与上传状态反馈的文件上传组件。",
   "dependencies": [
     "lucide-react",
     "class-variance-authority",

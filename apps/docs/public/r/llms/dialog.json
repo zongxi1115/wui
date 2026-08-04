@@ -42,15 +42,13 @@
         "modal"
       ],
       "defaultValue": "modal",
-      "description": "Render as a centred modal or morph in place inside the document flow."
+      "description": "显示为居中的模态对话框，或在文档流中从触发元素原地展开。"
     }
   ],
-  "usage": "`Dialog` 用于暂时打断当前流程，展示需要聚焦的内容或请求用户确认。它会锁定焦点，支持完整的\r\n键盘操作，并可通过 `Esc` 或点击遮罩关闭，这些能力均由 Radix 提供。它适合模态流程；\r\n对于轻量的非模态消息，请优先使用 toast。\r\n\r\n该组件由一组可组合的部分构成：`Dialog`、`DialogTrigger`、`DialogContent`、\r\n`DialogHeader`、`DialogTitle`、`DialogDescription`、`DialogFooter` 和 `DialogClose`。\r\n\r\n\r\n  `DialogContent` 不只是简单淡入，而是会从打开它的按钮位置**生长出来**。打开时，面板从\r\n  触发元素的位置开始，以缩小且透明的状态弹性过渡到屏幕中央；关闭时则收缩回触发元素。\r\n  该效果由 [`motion`](/docs/components/motion) 提供。当用户偏好减少动态效果时，形变动画\r\n  会替换为纯淡入淡出。如果通过代码打开对话框且页面上没有触发元素，则从中心缩放。",
-  "extended": "### 原地布局变换（非模态）\r\n\r\n设置 `variant=\"inline\"` 后，Trigger 与 Content 各自包含一个没有文字的共享背景表面。Motion 只在\r\n这两个背景表面之间进行 `layoutId` 形变，因此面板可以从按钮轮廓自然长大，而按钮文字、表单和\r\n操作区只进行淡入淡出，不会参与缩放或被压扁。面板不会 Portal 到页面中央，也不会显示遮罩；\r\n`DialogHeader`、`DialogClose` 等其余组合 API 保持不变。\r\n\r\n\r\n\r\n\r\n  这种模式适合轻量设置、详情和编辑面板，不会锁定焦点或阻止页面其他区域交互。需要用户必须先\r\n  完成或取消的流程时，仍应使用上面的 Radix `Dialog`。\r\n\r\n\r\n如需开箱即用的确认流程，请查看由 `Dialog` 和 `Button` 组合而成的\r\n[确认对话框](/docs/components/confirm-dialog)。",
   "examples": [
     {
       "name": "dialog-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     },
     {
       "name": "dialog-layout",

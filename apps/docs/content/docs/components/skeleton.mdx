@@ -4,7 +4,7 @@ description: 在内容加载期间维持页面结构，降低布局跳动与等�
 component: skeleton
 ---
 
-## 基础示例
+## 基础用法
 
 <ComponentPreview name="skeleton-demo" />
 
@@ -12,24 +12,28 @@ component: skeleton
 
 <ComponentSource name="skeleton" title="components/ui/skeleton.tsx" />
 
-## 组件作用
+## 使用场景
 
-`Skeleton` 在内容尚未到达时保留其大致形状与空间，适合首屏资料、列表、图片和文字区域。骨架布局应尽量接近真实内容，但不需要复刻每个细节；操作完成后的反馈应使用 Progress 或 Message，而不是 Skeleton。
+`Skeleton` 在内容尚未到达时保留大致形状和空间，适合首屏资料、列表、图片和文字区域。骨架布局应接近真实内容，
+这样数据到达后不会大幅跳动，但不需要复刻每个细节。操作完成后的反馈使用 Progress 或 Message，不要继续显示 Skeleton。
 
-## 组件属性
+## 属性
 
 <PropsTable name="skeleton" />
 
-`shape="default | circle | text"` 分别适合图片与容器、头像以及文字行。`SkeletonText` 通过 `lines` 快速生成多行占位，并使用 `lastLineWidth` 调整最后一行长度。
+`shape="default | circle | text"` 分别适合图片或容器、头像和文字行。`SkeletonText` 通过 `lines` 快速生成多行占位，
+并使用 `lastLineWidth` 调整最后一行长度，让最后一行看起来像真实段落。
 
 ## 事件
 
-骨架屏是非交互元素，不触发事件，并默认对辅助技术隐藏。加载区域应在父容器设置 `aria-busy="true"`，并通过 `aria-label` 或邻近状态文本说明正在加载的内容。
+骨架屏是非交互元素，不触发事件，并默认对辅助技术隐藏。加载区域应在父容器设置 `aria-busy="true"`，
+并通过 `aria-label` 或邻近状态文本说明正在加载的内容；不要把每一条灰色占位块都暴露给读屏器。
 
-## 拓展使用
+## 扩展用法
 
 ### 内容布局
 
 <ComponentPreview name="skeleton-layout" />
 
-用真实页面使用的 Grid 或 Flex 布局组合多个 Skeleton，可以在数据到达前稳定保留版面。设置 `animation="none"` 可关闭脉冲效果；系统启用“减少动态效果”时，动画也会自动停用。
+使用真实页面的 Grid 或 Flex 布局组合多个 Skeleton，可以在数据到达前稳定保留版面。设置 `animation="none"` 可以关闭脉冲效果；
+用户开启“减少动态效果”时，动画也会自动停用。

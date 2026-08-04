@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "kbd",
   "type": "registry:ui",
-  "title": "Kbd",
-  "description": "A compact visual hint for keyboard shortcuts and key presses.",
+  "title": "键盘提示 Kbd",
+  "description": "用紧凑、克制的按键样式展示快捷键与键盘操作。",
   "dependencies": [
     "class-variance-authority"
   ],

@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "smooth-scroll",
   "type": "registry:ui",
-  "title": "Smooth Scroll",
-  "description": "Provides Lenis smooth scrolling for the document or a custom container.",
+  "title": "平滑滚动 Smooth Scroll",
+  "description": "用 Lenis 为页面或自定义容器提供惯性平滑滚动基座。",
   "dependencies": [
     "lenis"
   ],

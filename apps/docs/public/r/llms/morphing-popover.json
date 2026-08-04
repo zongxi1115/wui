@@ -37,7 +37,7 @@
       "type": "boolean",
       "required": false,
       "control": "boolean",
-      "description": "Whether the popover is open in controlled mode."
+      "description": "受控模式下弹出层是否打开。"
     },
     {
       "name": "defaultOpen",
@@ -45,14 +45,14 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "false",
-      "description": "Initial state in uncontrolled mode."
+      "description": "非受控模式下弹出层的初始打开状态。"
     },
     {
       "name": "onOpenChange",
       "type": "((open: boolean) => void)",
       "required": false,
       "control": "text",
-      "description": "Called whenever the open state changes."
+      "description": "弹出层打开状态变化时触发。"
     },
     {
       "name": "transition",
@@ -60,23 +60,21 @@
       "required": false,
       "control": "text",
       "defaultValue": "{\n  type: \"spring\",\n  stiffness: 460,\n  damping: 36,\n  mass: 0.65,\n} as const",
-      "description": "Spring or tween used by the shared-layout morph."
+      "description": "控制触发元素与弹出层之间形变过程的弹簧或补间动画。"
     },
     {
       "name": "variants",
       "type": "Variants",
       "required": false,
       "control": "text",
-      "description": "Motion variants for content entering and leaving the expanded surface."
+      "description": "配置内容展开和收起时使用的 Motion 动画变体。"
     }
   ],
-  "usage": "`MorphingPopover` 让触发器的背景表面自然扩展为锚定面板，适合快速编辑、筛选器、简短表单和上下文操作。它不会像 Dialog 一样阻断页面其余区域，因此不适合必须完成或明确取消的关键流程。\n\n面板与触发器处在同一个相对定位容器内，因此 shared layout 始终使用同一套坐标，不会受到 Portal 浮动定位的临时 transform 干扰。组件支持点外关闭、`Esc` 和焦点归还。",
-  "extended": "通过根组件的 `transition` 调整形变手感，通过 `variants` 自定义内部内容的出现方式。对于尺寸差异特别大的触发器与面板，应保持弹簧阻尼较高，避免边缘过度回弹。",
-  "events": "`onOpenChange(open)` 在打开状态变化时调用。受控模式使用 `open`，非受控模式使用 `defaultOpen`。",
+  "events": "`onOpenChange(open)` 在打开状态变化时调用。受控模式使用 `open`，非受控模式使用 `defaultOpen`；受控模式下要在回调中同步更新 `open`。",
   "examples": [
     {
       "name": "morphing-popover-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     }
   ],
   "files": [

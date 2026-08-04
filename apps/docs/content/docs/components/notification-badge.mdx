@@ -4,7 +4,7 @@ description: 在图标、头像或控件边缘展示未读数量与提示红点�
 component: notification-badge
 ---
 
-## 基础示例
+## 基础用法
 
 <ComponentPreview name="notification-badge-demo" />
 
@@ -15,16 +15,19 @@ component: notification-badge
   title="components/ui/notification-badge.tsx"
 />
 
-## 组件作用
+## 使用场景
 
-`NotificationBadge` 将数字或提示点定位在任意子元素的右上角，适合未读消息、待办数量和新状态提醒。数字 `count` 支持 `max` 封顶，零值默认隐藏；使用 `dot` 时只显示提示点。
+`NotificationBadge` 将数字或提示点定位在任意子元素的右上角，适合未读消息、待办数量和新状态提醒。
+`count` 支持通过 `max` 封顶，值为 0 时默认隐藏；使用 `dot` 时只显示提示点，适合只需要表达“有新内容”的场景。
 
-`count` 也可以传入 React 节点，因此示例直接组合了 `SlidingNumber`，让未读数变化时产生逐位滑动效果。
+`count` 也可以传入 React 节点，因此可以组合 `SlidingNumber`，让未读数量变化时逐位切换。数量来自接口时，
+建议在业务层明确“未读”还是“总数”，不要让用户从一个孤立数字猜测含义。
 
-## 组件属性
+## 属性
 
 <PropsTable name="notification-badge" />
 
 ## 位置与可访问性
 
-通过 `offset={[x, y]}` 以像素微调提示位置。动态或纯视觉内容应同时提供 `label`，使读屏器能够读取完整含义；被包裹的按钮或链接仍需提供自己的可访问名称。
+通过 `offset={[x, y]}` 以像素微调提示位置。动态或纯视觉提示应同时提供 `label`，让读屏器能够读取完整含义；
+被包裹的按钮或链接仍需提供自己的可访问名称，Badge 不会自动替子元素命名。

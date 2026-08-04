@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "progress",
   "type": "registry:ui",
-  "title": "Progress",
-  "description": "A quiet determinate or indeterminate progress indicator.",
+  "title": "进度条 Progress",
+  "description": "细腻、克制并支持确定与不确定状态的进度指示器。",
   "dependencies": [
     "radix-ui",
     "class-variance-authority"

@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "motion",
   "type": "registry:ui",
-  "title": "Motion",
-  "description": "Optional animation primitive and presets built on motion.",
+  "title": "动效 Motion",
+  "description": "基于 motion 构建的可选动画基础组件和预设库。",
   "dependencies": [
     "motion",
     "radix-ui"

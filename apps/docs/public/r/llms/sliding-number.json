@@ -30,7 +30,7 @@
       "type": "string | number",
       "required": true,
       "control": "text",
-      "description": "Number or numeric string to display."
+      "description": "要显示的数字或数字字符串。"
     },
     {
       "name": "padStart",
@@ -38,7 +38,7 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "false",
-      "description": "Pad single-digit integer values with a leading zero."
+      "description": "是否为一位整数补充前导零。"
     },
     {
       "name": "decimalSeparator",
@@ -46,7 +46,7 @@
       "required": false,
       "control": "text",
       "defaultValue": ".",
-      "description": "Character used in place of the decimal point."
+      "description": "替代小数点显示的字符。"
     },
     {
       "name": "transition",
@@ -54,16 +54,14 @@
       "required": false,
       "control": "text",
       "defaultValue": "{\n  type: \"spring\",\n  stiffness: 260,\n  damping: 28,\n}",
-      "description": "Motion transition used by every digit."
+      "description": "每个数字滚轮使用的过渡动画。"
     }
   ],
-  "usage": "`SlidingNumber` 适合计数器、实时指标、时钟和金额展示。每个数位独立滑动，非数字字符会原样保留；组件为读屏提供完整值而不是逐位朗读。",
-  "extended": "### 时钟\r\n\r\n\r\n\r\n`padStart` 会为个位整数补零，`decimalSeparator` 可用于本地化小数符号。更复杂的千分位和货币格式建议先用 `Intl.NumberFormat` 生成字符串后再传入。",
-  "events": "组件没有自有事件，并透传 `<span>` 的原生事件。修改 `value` 即会触发过渡；减少动态效果时数位立即更新。",
+  "events": "组件没有自有事件，并透传 `<span>` 的原生事件。修改 `value` 即会触发过渡；用户开启“减少动态效果”时数位立即更新。",
   "examples": [
     {
       "name": "sliding-number-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     },
     {
       "name": "sliding-number-clock",

@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "hover-marquee",
   "type": "registry:ui",
-  "title": "Hover Marquee",
-  "description": "Reveals a horizontally looping preview when a directory row is hovered.",
+  "title": "浮入滚动目录 Hover Marquee",
+  "description": "目录行浮入或聚焦后，显示无缝横向滚动的内容预览。",
   "dependencies": [
     "motion"
   ],

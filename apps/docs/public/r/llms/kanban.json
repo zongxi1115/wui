@@ -35,16 +35,14 @@
       "type": "((move: KanbanMove) => void)",
       "required": false,
       "control": "text",
-      "description": "Called when a card is dropped into another column."
+      "description": "卡片被拖入其他列后触发。"
     }
   ],
-  "usage": "`Kanban` 用于按状态呈现可流转工作项，适合任务、线索和内容生产流程。组件只管理拖放上下文，不持有业务数据，因此排序、权限和持久化仍由调用方决定；稳定的二维数据更适合 Table。",
-  "extended": "列由 `KanbanColumnHeader`、`KanbanColumnTitle`、`KanbanColumnCount` 与 `KanbanColumnBody` 自由组合。移动端默认横向滚动；触屏排序或复杂列内重排场景可在这些布局原语上接入专用拖拽方案。",
-  "events": "卡片跨列放下时触发 `onMove({ itemId, from, to })`。每个 `KanbanColumn` 与 `KanbanCard` 都必须提供稳定的 `value`，原生拖拽事件仍可通过对应元素监听。",
+  "events": "卡片跨列放下时触发 `onMove({ itemId, from, to })`。每个 `KanbanColumn` 和 `KanbanCard` 都必须提供稳定的 `value`，\n业务层应在回调中更新数据，否则拖动结束后界面会回到原位置。原生拖拽事件仍可通过对应元素监听。",
   "examples": [
     {
       "name": "kanban-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     }
   ],
   "files": [

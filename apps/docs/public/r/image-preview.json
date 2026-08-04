@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "image-preview",
   "type": "registry:ui",
-  "title": "Image Preview",
-  "description": "An accessible fullscreen image viewer with zoom and rotation controls.",
+  "title": "图片预览 Image Preview",
+  "description": "点击缩略图进入沉浸式大图预览，并提供缩放、旋转与下载操作。",
   "dependencies": [
     "radix-ui",
     "lucide-react",

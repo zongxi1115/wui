@@ -137,8 +137,8 @@
     {
       "name": "utils",
       "type": "registry:lib",
-      "title": "cn utility",
-      "description": "Tailwind class merge helper used by every component.",
+      "title": "cn 工具函数",
+      "description": "供所有组件使用的 Tailwind 类名合并工具函数。",
       "keyProps": [],
       "exampleCount": 0
     },
@@ -292,8 +292,8 @@
     {
       "name": "animated-icon-collection",
       "type": "registry:ui",
-      "title": "Animated Icon Collection",
-      "description": "The complete deduplicated AnimateIcons, ItsHover, and SVGlide path-animated icon collection.",
+      "title": "动态图标集合 Animated Icon Collection",
+      "description": "去重后的 AnimateIcons、ItsHover 和 SVGlide 路径动态图标完整集合。",
       "keyProps": [],
       "exampleCount": 0
     },
@@ -343,11 +343,12 @@
       "name": "slider",
       "type": "registry:ui",
       "title": "滑动输入 Slider",
-      "description": "悬浮时展开轨道、数值标签实时跟随的可调输入控件。",
+      "description": "粗轨道、小圆点滑块与数值标签组合的可调输入控件。",
       "keyProps": [
         "variant: default|expand",
         "showValue: always|hover|never",
         "formatValue: ((value: number) => ReactNode)",
+        "marks: number[]",
         "disabled: boolean",
         "asChild: boolean"
       ],
@@ -395,7 +396,7 @@
       "name": "select",
       "type": "registry:ui",
       "title": "下拉框 Select",
-      "description": "带景深入场、分组与键盘导航的选项选择器。",
+      "description": "支持分组、禁用项和键盘导航的选项选择器。",
       "keyProps": [
         "disabled: boolean"
       ],
@@ -404,7 +405,7 @@
     {
       "name": "cascader",
       "type": "registry:ui",
-      "title": "Cascader",
+      "title": "级联选择 Cascader",
       "description": "用于浏览和选择层级值的多列选择器。",
       "keyProps": [
         "options: CascaderOption[]",
@@ -419,7 +420,7 @@
     {
       "name": "form",
       "type": "registry:ui",
-      "title": "Form",
+      "title": "表单 Form",
       "description": "可组合的表单字段，协调标签、校验提示与动效反馈。",
       "keyProps": [
         "animated: boolean",

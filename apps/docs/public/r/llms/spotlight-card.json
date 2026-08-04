@@ -28,7 +28,7 @@
       "type": "ReactNode",
       "required": true,
       "control": "text",
-      "description": "Content rendered above the pointer spotlight."
+      "description": "显示在指针聚光效果上方的内容。"
     },
     {
       "name": "radius",
@@ -36,7 +36,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "220",
-      "description": "Spotlight radius in pixels."
+      "description": "聚光区域的半径，单位为像素。"
     },
     {
       "name": "color",
@@ -44,21 +44,21 @@
       "required": false,
       "control": "text",
       "defaultValue": "color-mix(in oklab, var(--foreground) 16%, transparent)",
-      "description": "CSS color used at the center of the spotlight."
+      "description": "聚光中心使用的 CSS 颜色。"
     },
     {
       "name": "spotlightClassName",
       "type": "string",
       "required": false,
       "control": "text",
-      "description": "Classes applied to the spotlight layer."
+      "description": "应用于聚光图层的 CSS 类名。"
     }
   ],
-  "usage": "`SpotlightCard` 记录指针相对组件的位置，用径向背景显露局部色彩。它不引入第三方运行时依赖，适合作品目录、定价区域或需要轻微空间反馈的表面。",
+  "usage": "通过 `radius` 调整影响范围，通过 `color` 使用与当前内容有关的低透明度颜色。聚光不能承载唯一的状态或操作提示；\n触摸输入下没有指针位置，内容仍必须完整可读。",
   "examples": [
     {
       "name": "spotlight-card-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     }
   ],
   "files": [

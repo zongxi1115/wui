@@ -31,7 +31,7 @@
       "type": "ReactNode",
       "required": false,
       "control": "text",
-      "description": "Foreground content rendered above the aurora layers."
+      "description": "显示在极光图层上方的前景内容。"
     },
     {
       "name": "colors",
@@ -39,7 +39,7 @@
       "required": false,
       "control": "text",
       "defaultValue": "[\"var(--info)\", \"var(--success)\", \"var(--warning)\"]",
-      "description": "Three CSS colors used by the moving light fields."
+      "description": "移动光场使用的三个 CSS 颜色。"
     },
     {
       "name": "duration",
@@ -47,7 +47,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "18",
-      "description": "Seconds for one complete movement cycle."
+      "description": "完整移动一轮所需的时间，单位为秒。"
     },
     {
       "name": "blur",
@@ -55,21 +55,21 @@
       "required": false,
       "control": "number",
       "defaultValue": "56",
-      "description": "Blur strength in pixels."
+      "description": "光场的模糊强度，单位为像素。"
     },
     {
       "name": "layerClassName",
       "type": "string",
       "required": false,
       "control": "text",
-      "description": "Classes applied to every aurora layer."
+      "description": "应用于每个极光图层的 CSS 类名。"
     }
   ],
-  "usage": "`AuroraBackground` 叠加三个径向色场，并以不同周期缓慢移动和缩放。内容固定渲染在背景上层，颜色、模糊强度和周期都可以调整。",
+  "usage": "极光背景应占据较大区域并保持低频运动，避免在多个相邻卡片中重复使用。优先选择对比明确、色相数量有限的三色组合，\n并检查前景文字在整个运动周期中的对比度。用户开启“减少动态效果”时色场保持静止。",
   "examples": [
     {
       "name": "aurora-background-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     }
   ],
   "files": [

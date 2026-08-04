@@ -4,7 +4,7 @@ description: 在紧凑弹层中选择、格式化和清除日期。
 component: date-picker
 ---
 
-## 基础示例
+## 基础用法
 
 <ComponentPreview name="date-picker-demo" />
 
@@ -12,18 +12,23 @@ component: date-picker
 
 <ComponentSource name="date-picker" title="components/ui/date-picker.tsx" />
 
-## 组件作用
+## 使用场景
 
-`DatePicker` 用于表单中的单日期输入，并复用 Calendar 的日期规则与键盘能力。需要连续日期、多个日期或时间范围时，应组合专门的范围选择器，而不是在单值接口中塞入数组。
+`DatePicker` 用于表单中的单日期输入，并复用 Calendar 的禁用规则和键盘操作。需要连续日期、多个日期或时间范围时，
+应使用对应的范围或多选组件，不要把数组塞进单日期接口。
 
-## 组件属性
+日期值由调用方保存和提交。展示格式可以本地化，但接口层应使用明确的日期格式，避免把面向用户的文案直接当作后端值。
+
+## 属性
 
 <PropsTable name="date-picker" />
 
 ## 事件
 
-`onValueChange(date | undefined)` 在选择或清空日期后触发。选中日期后弹层自动关闭；点击清除按钮不会打开弹层。
+`onValueChange(date | undefined)` 在选择或清空日期后触发。选中日期后弹层会自动关闭；点击清除按钮不会重新打开弹层。
+受控用法下，回调需要同步更新 `value`，否则触发器仍会显示旧日期。
 
-## 扩展使用
+## 扩展用法
 
-使用 `locale` 与 `formatOptions` 控制触发器文案；`min`、`max` 和 `disabledDate` 会原样传递给内部 Calendar。表单校验信息应放在触发器下方，而不是放进弹层。
+使用 `locale` 和 `formatOptions` 控制触发器文案；`min`、`max` 和 `disabledDate` 会传递给内部 Calendar。
+表单校验信息应放在触发器下方，并通过字段结构关联，不要把重要错误文字只放在弹层里。

@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "message",
   "type": "registry:ui",
-  "title": "Message",
-  "description": "Portal-based transient messages with animated status icons and configurable motion.",
+  "title": "消息 Message",
+  "description": "用于在操作后提供短暂、轻量的全局反馈。",
   "dependencies": [
     "radix-ui",
     "lucide-react",

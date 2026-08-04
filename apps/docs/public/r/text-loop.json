@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "text-loop",
   "type": "registry:ui",
-  "title": "Text Loop",
-  "description": "Cycles through an array of text or inline content.",
+  "title": "文本循环 Text Loop",
+  "description": "在多段文本或行内内容之间自动循环切换。",
   "dependencies": [
     "motion"
   ],

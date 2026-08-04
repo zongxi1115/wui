@@ -31,14 +31,14 @@
       "required": false,
       "control": "text",
       "defaultValue": "Drop files here or click to browse",
-      "description": "Main instruction displayed inside the drop zone."
+      "description": "拖放区域内显示的主要操作提示。"
     },
     {
       "name": "description",
       "type": "string",
       "required": false,
       "control": "text",
-      "description": "Supporting copy displayed under the main instruction."
+      "description": "主要提示下方显示的补充说明。"
     },
     {
       "name": "status",
@@ -52,7 +52,7 @@
         "uploading"
       ],
       "defaultValue": "\"idle\"",
-      "description": "Visual lifecycle state."
+      "description": "上传流程的当前状态。"
     },
     {
       "name": "progress",
@@ -60,7 +60,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "0",
-      "description": "Determinate upload progress from 0 to 100."
+      "description": "确定进度的上传进度，取值范围为 0 到 100。"
     },
     {
       "name": "size",
@@ -72,7 +72,7 @@
         "default"
       ],
       "defaultValue": "default",
-      "description": "Height and spacing preset."
+      "description": "控件的高度和间距尺寸。"
     },
     {
       "name": "multiple",
@@ -80,43 +80,42 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "false",
-      "description": "Allows more than one file to be selected."
+      "description": "是否允许一次选择多个文件。"
     },
     {
       "name": "accept",
       "type": "string",
       "required": false,
       "control": "text",
-      "description": "Comma-separated list of accepted MIME types or file extensions."
+      "description": "允许选择的 MIME 类型或文件扩展名，多个值用逗号分隔。"
     },
     {
       "name": "onFilesChange",
       "type": "((files: File[]) => void)",
       "required": false,
       "control": "text",
-      "description": "Called whenever files are selected or dropped."
+      "description": "选择或拖入文件时触发。"
     },
     {
       "name": "onUpload",
       "type": "((files: File[]) => void | Promise<void>)",
       "required": false,
       "control": "text",
-      "description": "Called after file selection and reflected in the internal lifecycle state."
+      "description": "文件选择完成并更新内部上传状态后触发。"
     },
     {
       "name": "disabled",
       "type": "boolean",
       "required": false,
-      "control": "boolean"
+      "control": "boolean",
+      "description": "是否禁用组件。"
     }
   ],
-  "usage": "`Upload` 将文件选择、拖拽区域和上传反馈放在同一个入口中，适合附件、媒体资源和批量文件上传。示例在上传完成后用 `Download` 展示文件，形成从提交到取回的完整文件流。\r\n\r\n组件负责文件选择与交互状态，不预设请求方式。使用 `onFilesChange` 只获取文件，或通过 `onUpload` 返回 Promise，让组件自动展示上传中、完成与失败状态。",
-  "extended": "### 尺寸与状态\r\n\r\n\r\n\r\n`status` 支持 `idle`、`uploading`、`complete` 与 `error`；传入 `progress` 可显示 0–100 的确定进度。使用 `accept` 限制系统文件选择器中的类型，使用 `multiple` 开启多选。",
-  "events": "- `onFilesChange(files)`：用户选择或拖入文件后立即调用。\r\n- `onUpload(files)`：选择文件后调用；返回 Promise 时，非受控模式会跟随其生命周期更新状态。\r\n- 原生表单属性以及 `onFocus`、`onBlur` 等输入事件会继续透传到隐藏的文件输入框。",
+  "events": "- `onFilesChange(files)`：用户选择或拖入文件后立即调用，适合由业务层自行上传。\n- `onUpload(files)`：选择文件后调用；返回 Promise 时，非受控模式会跟随 Promise 更新上传中、完成或失败状态。\n- 原生表单属性以及 `onFocus`、`onBlur` 等输入事件会继续透传到隐藏的文件输入框。",
   "examples": [
     {
       "name": "upload-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     },
     {
       "name": "upload-states",

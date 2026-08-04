@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "scroll-snap",
   "type": "registry:ui",
-  "title": "Scroll Snap",
-  "description": "A native CSS scroll-snap container for page-like or horizontal sections.",
+  "title": "滚动吸附 Scroll Snap",
+  "description": "用原生 CSS Scroll Snap 构建整屏或横向吸附章节。",
   "registryDependencies": [
     "utils"
   ],

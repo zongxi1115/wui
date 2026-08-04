@@ -30,7 +30,7 @@
       "type": "ReactNode",
       "required": true,
       "control": "text",
-      "description": "Steps displayed one at a time in the pinned viewport."
+      "description": "固定视口中按顺序逐个显示的步骤内容。"
     },
     {
       "name": "stepLength",
@@ -38,14 +38,14 @@
       "required": false,
       "control": "number",
       "defaultValue": "0.65",
-      "description": "Scroll distance per transition, in viewport-height units."
+      "description": "每次切换占用的滚动距离，以视口高度为单位。"
     },
     {
       "name": "container",
       "type": "RefObject<HTMLElement | null>",
       "required": false,
       "control": "text",
-      "description": "Scrollable element to observe instead of the page."
+      "description": "要监听的滚动容器；未设置时监听页面。"
     },
     {
       "name": "showProgress",
@@ -53,36 +53,36 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "true",
-      "description": "Show a compact step indicator."
+      "description": "是否显示紧凑的步骤指示器。"
     },
     {
       "name": "onStepChange",
       "type": "((index: number) => void)",
       "required": false,
       "control": "text",
-      "description": "Called when the active step changes."
+      "description": "当前步骤变化时触发。"
     },
     {
       "name": "viewportClassName",
       "type": "string",
       "required": false,
       "control": "text",
-      "description": "Classes applied to the pinned viewport."
+      "description": "应用于固定视口的 CSS 类名。"
     },
     {
       "name": "stepClassName",
       "type": "string",
       "required": false,
       "control": "text",
-      "description": "Classes applied to the active step wrapper."
+      "description": "应用于当前步骤包装元素的 CSS 类名。"
     }
   ],
-  "usage": "`ScrollSequence` 把每个直接子元素视为一个步骤，在固定视口中根据滚动进度切换。它适合 feature 分步演示、流程解释和一个主体视觉配合多段说明的场景。",
-  "events": "`onStepChange(index)` 在活动步骤改变时触发，可用于同步外部导航、媒体时间点或分析事件。不要在回调中反向修改滚动位置，以免造成循环更新。",
+  "usage": "每个步骤应表达一个独立状态，内容高度尽量稳定。`stepLength` 决定两个状态之间的滚动距离。用户开启“减少动态效果”时，\n所有步骤会恢复为普通纵向内容，避免用户必须依赖滚动动画才能读取信息。",
+  "events": "`onStepChange(index)` 在活动步骤改变时触发，可用于同步外部导航、媒体时间点或分析事件。不要在回调中反向修改滚动位置，\n以免滚动位置和步骤状态互相触发更新。",
   "examples": [
     {
       "name": "scroll-sequence-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     }
   ],
   "files": [

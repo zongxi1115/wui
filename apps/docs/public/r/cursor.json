@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "cursor",
   "type": "registry:ui",
-  "title": "Cursor",
-  "description": "A spring-following custom cursor for the page or a parent region.",
+  "title": "自定义光标 Cursor",
+  "description": "可全局使用或附着到局部区域的弹簧跟随光标。",
   "dependencies": [
     "motion"
   ],

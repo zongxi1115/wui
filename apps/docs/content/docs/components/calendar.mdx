@@ -4,7 +4,7 @@ description: 用可访问的月视图浏览并选择单个日期。
 component: calendar
 ---
 
-## 基础示例
+## 基础用法
 
 <ComponentPreview name="calendar-demo" />
 
@@ -12,26 +12,31 @@ component: calendar
 
 <ComponentSource name="calendar" title="components/ui/calendar.tsx" />
 
-## 组件作用
+## 使用场景
 
-`Calendar` 适合需要直接呈现月份上下文的日期选择、排期和预约场景。它内置相邻月份日期、今天标记、禁用区间和方向键导航；如果界面空间有限，应使用由它组合而成的 DatePicker。
+`Calendar` 适合需要直接呈现整个月份上下文的日期选择、排期和预约场景。它提供相邻月份日期、今天标记、禁用规则和方向键导航。
+如果界面空间有限，使用由它组合而成的 DatePicker，把月份视图放进弹层中。
 
-## 组件属性
+## 属性
 
 <PropsTable name="calendar" />
 
 ## 事件
 
-`onValueChange(date)` 在选择日期后触发；`onMonthChange(month)` 在切换月份时触发。组件同时支持受控与非受控模式。
+`onValueChange(date)` 在选择日期后触发；`onMonthChange(month)` 在切换月份时触发。组件同时支持受控和非受控模式。
+需要从服务端加载月份数据时，应在 `onMonthChange` 中请求并处理加载状态；Calendar 不会自动请求日程数据。
 
-选中背景会在日期之间弹性移动；当天的小圆点在被选中时原地展开为完整背景。鼠标经过日期网格时，轻量悬停层会在格子之间平滑跟随，并在系统开启“减少动态效果”时自动降级。
+选中背景会在日期之间移动；当天的小圆点在被选中时展开为完整背景。鼠标经过日期网格时，悬停层会跟随当前格子，
+用户开启“减少动态效果”后会直接呈现最终状态。
 
-## 扩展使用
+## 扩展用法
 
-通过 `min`、`max` 或 `disabled(date)` 限制可选范围；将 `showOutsideDays` 设为 `false` 可隐藏相邻月份日期。
+通过 `min`、`max` 或 `disabled(date)` 限制可选范围；将 `showOutsideDays` 设为 `false` 可以隐藏相邻月份日期。
+禁用规则应与提交校验保持一致，避免用户在日历中选得到、提交时却被服务端拒绝。
 
 ### 大型日历面板
 
 <ComponentPreview name="calendar-panel" />
 
-`CalendarPanel` 面向排期、项目节奏和团队日程等需要完整月份上下文的场景。它支持受控日期与月份、日程语义色、单日数量折叠和事件点击，并以水平滚动保留窄屏下的日期密度。
+`CalendarPanel` 面向排期、项目节奏和团队日程等需要完整月份上下文的场景。它支持受控日期和月份、日程颜色、
+单日数量折叠和事件点击，并通过横向滚动保留窄屏下的日期密度。日程数据和事件详情由业务层提供。

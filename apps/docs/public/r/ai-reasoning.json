@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "ai-reasoning",
   "type": "registry:ui",
-  "title": "AI Reasoning",
-  "description": "Collapsible model-provided reasoning summaries and progress steps.",
+  "title": "AI 推理过程 AI Reasoning",
+  "description": "用可折叠的思考链展示模型推理摘要与执行进度。",
   "dependencies": [
     "radix-ui",
     "class-variance-authority",

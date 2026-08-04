@@ -4,7 +4,7 @@ description: 按行、单词或字符拆分并播放文本入场效果。
 component: text-effect
 ---
 
-## 基础示例
+## 基础用法
 
 <ComponentPreview name="text-effect-demo" />
 
@@ -12,18 +12,21 @@ component: text-effect
 
 <ComponentSource name="text-effect" title="components/ui/text-effect.tsx" />
 
-## 组件作用
+## 使用场景
 
-`TextEffect` 提供 `fade`、`blur-sm`、`fade-in-blur`、`scale` 和 `slide` 五种预设，也可以传入容器与片段 `variants`。它适合标题、短说明和状态提示，不应对长篇正文逐字播放。
+`TextEffect` 提供 `fade`、`blur-sm`、`fade-in-blur`、`scale` 和 `slide` 五种预设，也可以传入容器和片段 `variants`。
+它适合标题、短说明和状态提示；长篇正文应一次性显示，不要逐字播放。
 
-## 组件属性
+## 属性
 
 <PropsTable name="text-effect" />
 
 ## 事件
 
-`onAnimationStart` 和 `onAnimationComplete` 分别在整段动画开始、完成时触发。用 `trigger` 控制进入和退出；底层元素的其他原生事件会继续透传。
+`onAnimationStart` 和 `onAnimationComplete` 分别在整段动画开始和完成时触发。用 `trigger` 控制进入和退出；
+底层元素的其他原生事件会继续透传。
 
-## 扩展使用
+## 扩展用法
 
-`per="line"` 按换行符拆分，`per="word"` 保留空格，`per="char"` 适合短标题。`speedReveal` 控制片段间隔，`speedSegment` 控制单个片段速度。
+`per="line"` 按换行符拆分，`per="word"` 保留空格，`per="char"` 适合短标题。`speedReveal` 控制片段之间的间隔，
+`speedSegment` 控制单个片段的播放速度。动画关闭时，完整文本仍应立即可见。

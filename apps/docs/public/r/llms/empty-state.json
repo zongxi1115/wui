@@ -47,16 +47,14 @@
         "lg"
       ],
       "defaultValue": "default",
-      "description": "Vertical density preset."
+      "description": "空状态内容的垂直密度。"
     }
   ],
-  "usage": "`EmptyState` 用于首次使用、筛选无结果和内容被清空后的页面区域。标题应说明发生了什么，描述解释原因或价值，主操作只保留最合理的下一步；加载中应使用 Skeleton，错误反馈应使用 Message。",
-  "extended": "使用 `size` 控制纵向留白；简单语义图标使用 `EmptyStateIcon`，复杂插画使用 `EmptyStateMedia` 与 `EmptyStateIllustration`。`EmptyStateHint` 用于放置快捷键、拖放提示等低优先级信息。",
   "events": "容器本身不产生业务事件。操作由 `EmptyStateActions` 中组合的 Button 或链接承担，原生容器事件仍会透传。",
   "examples": [
     {
       "name": "empty-state-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     },
     {
       "name": "empty-state-illustrations",

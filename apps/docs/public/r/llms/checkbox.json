@@ -35,28 +35,28 @@
         "lg"
       ],
       "defaultValue": "default",
-      "description": "Physical size of the checkbox."
+      "description": "复选框的尺寸。"
     },
     {
       "name": "disabled",
       "type": "boolean",
       "required": false,
-      "control": "boolean"
+      "control": "boolean",
+      "description": "是否禁用组件。"
     },
     {
       "name": "asChild",
       "type": "boolean",
       "required": false,
-      "control": "boolean"
+      "control": "boolean",
+      "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
     }
   ],
-  "usage": "`Checkbox` 用于在一组互不排斥的选项中选择零项或多项，也适用于同意条款等需要明确提交的布尔选择。全局主色填充、紧凑圆角与路径绘制勾号提供清晰且丝滑的反馈。",
-  "extended": "使用 `checked=\"indeterminate\"` 表示一组子选项仅部分选中，横线和勾号都会使用路径动画进入；取消选择时则轻柔缩回。使用 `size=\"sm | default | lg\"` 调整控件尺寸，文字标签应通过原生 `label` 与控件关联。",
-  "events": "`onCheckedChange(checked)` 在状态变化后触发，值可能是 `true`、`false` 或 `\"indeterminate\"`。其余键盘、焦点与表单属性会透传到底层 Radix Root。",
+  "events": "`onCheckedChange(checked)` 在状态变化后触发，值可能是 `true`、`false` 或 `\"indeterminate\"`。受控用法下，\n回调需要同步更新 `checked`，否则点击后界面不会保持新状态。其余键盘、焦点与表单属性会透传到底层 Radix Root。",
   "examples": [
     {
       "name": "checkbox-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     }
   ],
   "files": [

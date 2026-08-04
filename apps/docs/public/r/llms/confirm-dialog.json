@@ -25,21 +25,21 @@
       "type": "ReactNode",
       "required": true,
       "control": "text",
-      "description": "The element that opens the dialog. Rendered inside the trigger via `asChild`."
+      "description": "打开对话框的触发元素。使用 asChild 时会直接渲染为该元素。"
     },
     {
       "name": "title",
       "type": "string",
       "required": true,
       "control": "text",
-      "description": "Heading shown at the top of the dialog."
+      "description": "对话框顶部显示的标题。"
     },
     {
       "name": "description",
       "type": "string",
       "required": false,
       "control": "text",
-      "description": "Optional supporting text under the title."
+      "description": "标题下方显示的补充说明。"
     },
     {
       "name": "confirmLabel",
@@ -47,7 +47,7 @@
       "required": false,
       "control": "text",
       "defaultValue": "Confirm",
-      "description": "Label for the confirm button."
+      "description": "确认按钮的文字。"
     },
     {
       "name": "cancelLabel",
@@ -55,7 +55,7 @@
       "required": false,
       "control": "text",
       "defaultValue": "Cancel",
-      "description": "Label for the cancel button."
+      "description": "取消按钮的文字。"
     },
     {
       "name": "variant",
@@ -67,22 +67,20 @@
         "destructive"
       ],
       "defaultValue": "default",
-      "description": "Visual style of the confirm button."
+      "description": "确认按钮的视觉样式。"
     },
     {
       "name": "onConfirm",
       "type": "(() => void)",
       "required": false,
       "control": "text",
-      "description": "Called when the user clicks the confirm button."
+      "description": "用户点击确认按钮时触发。"
     }
   ],
-  "usage": "`ConfirmDialog` 将常见的“确定要继续吗？”交互封装成一个声明式组件，免去每次需要确认操作时\r\n重复组合 `Dialog` 和 `Button`。它适合用于删除等具有破坏性或不可逆的操作。",
-  "extended": "组件源码会直接保存在你的项目中，你可以自由扩展，例如为确认按钮添加异步加载状态、\r\n透传 `onOpenChange`，或调整底部操作区域的布局。",
   "examples": [
     {
       "name": "confirm-dialog-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     }
   ],
   "files": [

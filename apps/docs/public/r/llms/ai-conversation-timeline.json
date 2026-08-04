@@ -30,21 +30,21 @@
       "type": "readonly AiConversationTimelineItem[]",
       "required": true,
       "control": "text",
-      "description": "Ordered conversation turns."
+      "description": "按对话发生顺序排列的轮次数据。"
     },
     {
       "name": "activeId",
       "type": "string",
       "required": false,
       "control": "text",
-      "description": "Controlled active item."
+      "description": "当前激活轮次的受控 ID。"
     },
     {
       "name": "defaultActiveId",
       "type": "string",
       "required": false,
       "control": "text",
-      "description": "Initial active item in uncontrolled mode."
+      "description": "非受控模式下初始激活轮次的 ID。"
     },
     {
       "name": "previewSide",
@@ -56,7 +56,7 @@
         "left"
       ],
       "defaultValue": "right",
-      "description": "Side on which the hover preview appears."
+      "description": "悬停预览卡片显示在时间线的哪一侧。"
     },
     {
       "name": "preview",
@@ -64,29 +64,28 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "true",
-      "description": "Render the hover preview card."
+      "description": "是否显示悬停预览卡片。"
     },
     {
       "name": "onActiveChange",
       "type": "((id: string) => void)",
       "required": false,
       "control": "text",
-      "description": "Called when a marker becomes active."
+      "description": "时间线标记变为激活状态时触发。"
     },
     {
       "name": "onNavigate",
       "type": "((item: AiConversationTimelineItem, index: number) => void)",
       "required": false,
       "control": "text",
-      "description": "Called when the user selects a marker."
+      "description": "用户选择某个时间线标记时触发。"
     }
   ],
-  "usage": "`AiConversationTimeline` 用于内容较长的 AI 对话、Agent 执行记录和连续工作流。静止时全部轮次聚拢成一列等距、同色的灰刻度，只用 `level` 区分层级长度，不抢内容注意力；指针靠近时，光标所在刻度与相邻刻度按高斯衰减依次变长、变清晰（类似 Dock 放大），并在旁边浮出该轮对话摘要卡片。\n\n它是导航控件，不是用于展示审计日志的普通 [`Timeline`](/docs/components/timeline)。页面只有少量消息、不需要跨段定位时，不应额外加入时间线。",
-  "events": "使用 `activeId` 与 `onActiveChange` 同步当前阅读轮次。用户点击刻度时，`onNavigate` 会返回完整条目和序号，业务层可以调用 `scrollIntoView`、虚拟列表定位或路由跳转。\n\n组件不会接管滚动容器，也不假设消息 DOM 结构。这样既可以接入 `AiChatMessages`，也可以用于已有聊天页面或 Agent 运行记录。",
+  "events": "使用 `activeId` 和 `onActiveChange` 同步当前阅读轮次。用户点击刻度时，`onNavigate` 会返回完整条目和序号；\n业务层可以在回调中调用 `scrollIntoView`、虚拟列表定位或路由跳转。\n\n组件不会接管滚动容器，也不假设消息 DOM 结构。它既可以接入 `AiChatMessages`，也可以用于已有聊天页面或 Agent 运行记录。",
   "examples": [
     {
       "name": "ai-conversation-timeline-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     }
   ],
   "files": [

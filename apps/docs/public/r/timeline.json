@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "timeline",
   "type": "registry:ui",
-  "title": "Timeline",
-  "description": "Composable chronological events with semantic status markers.",
+  "title": "时间轴 Timeline",
+  "description": "以清晰的时间顺序展示事件、状态与说明。",
   "dependencies": [
     "class-variance-authority",
     "motion"

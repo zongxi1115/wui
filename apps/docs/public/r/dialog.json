@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "dialog",
   "type": "registry:ui",
-  "title": "Dialog",
-  "description": "A window overlaid on the primary window, built on Radix UI.",
+  "title": "对话框 Dialog",
+  "description": "基于 Radix UI 构建、覆盖在主窗口之上的浮层窗口。",
   "dependencies": [
     "radix-ui",
     "lucide-react",

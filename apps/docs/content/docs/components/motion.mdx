@@ -4,7 +4,7 @@ description: 基于 motion 构建的可选动画基础组件和预设库。
 component: motion
 ---
 
-## 基础示例
+## 基础用法
 
 <ComponentPreview name="motion-demo" />
 
@@ -12,21 +12,19 @@ component: motion
 
 <ComponentSource name="motion" title="components/ui/motion.tsx" />
 
-## 组件作用
+## 使用场景
 
-`Motion` 是 wui 的可选动画层。你可以包裹任意内容，为其添加自然的入场动画；也可以使用
-`asChild` 为现有组件（如 `Button`）添加动画，而不增加额外的包装节点。组件内置一组命名
-`presets` 和 `transitions`，以确保应用中的动画风格一致。当用户偏好减少动态效果时，
-它会**自动禁用动画**。
+`Motion` 是 wui 的可选动画层。你可以包裹任意内容，为其添加入场动画；也可以使用 `asChild` 为现有组件（如 `Button`）
+添加动画，而不增加额外包装节点。组件内置命名的 `presets` 和 `transitions`，用于保持应用中的动画风格一致。
+用户开启“减少动态效果”时会自动禁用动画。
 
-由于 Motion 是独立的 registry 条目，不使用动画的组件不会引入相关依赖；只有需要动画时
-才会拉取 `motion`。
+由于 Motion 是独立的 registry 条目，不使用动画的组件不会引入相关依赖；只有需要动画时才会拉取 `motion`。
 
-## 组件属性
+## 属性
 
 <PropsTable name="motion" />
 
-它还接受 `motion.div` 的所有属性，例如 `whileHover`、`whileTap` 和 `style`。
+它还接受 `motion.div` 的所有属性，例如 `whileHover`、`whileTap` 和 `style`。使用 `asChild` 时，子元素必须能接收 ref 和相关事件。
 
 ## 事件
 
@@ -37,7 +35,7 @@ component: motion
   ]}
 />
 
-## 扩展使用
+## 扩展用法
 
 ### 动画预设
 
@@ -52,6 +50,5 @@ component: motion
 <ComponentPreview name="motion-as-child" />
 
 <Callout title="减少动态效果">
-  `Motion` 会读取 `prefers-reduced-motion`，当用户要求减少动态效果时静态渲染子元素，
-  无需额外处理。
+  `Motion` 会读取 `prefers-reduced-motion`，当用户要求减少动态效果时静态渲染子元素，无需额外处理。
 </Callout>

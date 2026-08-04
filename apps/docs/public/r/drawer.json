@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "drawer",
   "type": "registry:ui",
-  "title": "Drawer",
-  "description": "A focus-managed edge panel with spring-based enter and exit motion.",
+  "title": "抽屉 Drawer",
+  "description": "从视口边缘平滑进入、用于承载补充任务的焦点面板。",
   "dependencies": [
     "radix-ui",
     "lucide-react",

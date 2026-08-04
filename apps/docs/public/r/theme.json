@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "theme",
   "type": "registry:theme",
-  "title": "WUI Theme",
-  "description": "Semantic design tokens shared by every WUI component.",
+  "title": "WUI 主题",
+  "description": "供所有 WUI 组件共享的语义化设计令牌。",
   "files": [],
   "cssVars": {
     "light": {

@@ -31,7 +31,7 @@
       "type": "string",
       "required": true,
       "control": "text",
-      "description": "Text split into scroll-controlled segments."
+      "description": "要按滚动进度控制显示效果的文字。"
     },
     {
       "name": "mode",
@@ -43,7 +43,7 @@
         "reveal"
       ],
       "defaultValue": "highlight",
-      "description": "Reveal style. `highlight` progressively changes muted text to foreground."
+      "description": "文字揭示方式。highlight 会将文字从弱化色逐步变为前景色。"
     },
     {
       "name": "per",
@@ -55,7 +55,7 @@
         "word"
       ],
       "defaultValue": "word",
-      "description": "Segment granularity."
+      "description": "文字拆分的粒度：行、单词或字符。"
     },
     {
       "name": "as",
@@ -63,7 +63,7 @@
       "required": false,
       "control": "text",
       "defaultValue": "p",
-      "description": "HTML element rendered by the component."
+      "description": "组件实际渲染的 HTML 元素。"
     },
     {
       "name": "range",
@@ -71,7 +71,7 @@
       "required": false,
       "control": "text",
       "defaultValue": "[0, 1]",
-      "description": "Portion of the total scroll progress assigned across all segments."
+      "description": "分配给全部文字片段的滚动进度范围。"
     },
     {
       "name": "overlap",
@@ -79,14 +79,14 @@
       "required": false,
       "control": "number",
       "defaultValue": "0.35",
-      "description": "Overlap between neighboring segment ranges."
+      "description": "相邻文字片段之间重叠的进度范围。"
     },
     {
       "name": "container",
       "type": "RefObject<HTMLElement | null>",
       "required": false,
       "control": "text",
-      "description": "Scrollable element to observe instead of the page."
+      "description": "要监听的滚动容器；未设置时监听页面。"
     },
     {
       "name": "offset",
@@ -94,21 +94,21 @@
       "required": false,
       "control": "text",
       "defaultValue": "[\"start 0.85\", \"end 0.35\"]",
-      "description": "Motion scroll offsets for the text block."
+      "description": "文字区块使用的 Motion 滚动偏移范围。"
     },
     {
       "name": "segmentClassName",
       "type": "string",
       "required": false,
       "control": "text",
-      "description": "Classes applied to every text segment."
+      "description": "应用于每个文字片段的 CSS 类名。"
     }
   ],
-  "usage": "`mode=\"highlight\"` 将一段文字按词从弱化色逐步过渡到前景色，适合叙事型大段文案；`mode=\"reveal\"` 把单词或显式换行放入遮罩，随滚动向上揭示。与一次性播放的 `TextEffect` 不同，它的状态始终由当前滚动位置控制，可以正向或反向回放。",
+  "usage": "按行揭示时在字符串中插入换行并设置 `per=\"line\"`。`range` 控制整组片段占用的进度区间，`overlap` 控制相邻片段同时过渡的程度。\n逐词高亮更适合短段落，不要用于正文的每一个自然段，也不要把关键信息设置为必须滚动才能看到。",
   "examples": [
     {
       "name": "scroll-text-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     }
   ],
   "files": [

@@ -29,7 +29,7 @@
       "type": "ReactNode",
       "required": false,
       "control": "text",
-      "description": "Content rendered above the pattern."
+      "description": "显示在网格图案上方的内容。"
     },
     {
       "name": "pattern",
@@ -41,7 +41,7 @@
         "dots"
       ],
       "defaultValue": "grid",
-      "description": "Background pattern."
+      "description": "要显示的背景图案。"
     },
     {
       "name": "size",
@@ -49,7 +49,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "28",
-      "description": "Pattern cell size in pixels."
+      "description": "图案单元格的尺寸，单位为像素。"
     },
     {
       "name": "radius",
@@ -57,7 +57,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "240",
-      "description": "Radius of the revealed pointer spotlight in pixels."
+      "description": "指针聚光区域的半径，单位为像素。"
     },
     {
       "name": "patternColor",
@@ -65,7 +65,7 @@
       "required": false,
       "control": "text",
       "defaultValue": "currentColor",
-      "description": "CSS color used by the pattern."
+      "description": "图案使用的 CSS 颜色。"
     },
     {
       "name": "baseOpacity",
@@ -73,21 +73,21 @@
       "required": false,
       "control": "number",
       "defaultValue": "0.1",
-      "description": "Opacity of the always-visible pattern."
+      "description": "始终显示的基础图案不透明度。"
     },
     {
       "name": "patternClassName",
       "type": "string",
       "required": false,
       "control": "text",
-      "description": "Classes applied to both pattern layers."
+      "description": "应用于两层图案的 CSS 类名。"
     }
   ],
-  "usage": "`SpotlightGrid` 渲染一层弱化的基础图案和一层通过径向 mask 显露的清晰图案。`pattern=\"dots\"` 可切换为点阵；组件只使用 CSS 背景和指针事件，没有第三方运行时依赖。",
+  "usage": "`baseOpacity` 应足够低，让聚光前后的差异可被感知但不影响正文。`size` 控制图案密度，`radius` 控制显露范围。\n网格更适合技术、结构和空间语义明确的区块，不应作为无意义的全站装饰；没有指针时，基础图案仍应保持不干扰内容。",
   "examples": [
     {
       "name": "spotlight-grid-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     }
   ],
   "files": [

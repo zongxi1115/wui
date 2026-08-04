@@ -30,14 +30,14 @@
       "type": "ReactNode",
       "required": true,
       "control": "text",
-      "description": "Wide content translated horizontally while the section is pinned."
+      "description": "区块固定时沿水平方向移动的宽内容。"
     },
     {
       "name": "container",
       "type": "RefObject<HTMLElement | null>",
       "required": false,
       "control": "text",
-      "description": "Scrollable element to observe instead of the page."
+      "description": "要监听的滚动容器；未设置时监听页面。"
     },
     {
       "name": "scrollPadding",
@@ -45,28 +45,28 @@
       "required": false,
       "control": "number",
       "defaultValue": "0",
-      "description": "Extra vertical scrolling distance in pixels."
+      "description": "额外增加的垂直滚动距离，单位为像素。"
     },
     {
       "name": "viewportClassName",
       "type": "string",
       "required": false,
       "control": "text",
-      "description": "Classes applied to the pinned viewport."
+      "description": "应用于固定视口的 CSS 类名。"
     },
     {
       "name": "trackClassName",
       "type": "string",
       "required": false,
       "control": "text",
-      "description": "Classes applied to the horizontally translated track."
+      "description": "应用于水平移动轨道的 CSS 类名。"
     }
   ],
-  "usage": "`HorizontalScroll` 测量轨道溢出宽度，将同等距离加入页面高度，并在区块经过时固定视口、移动内部轨道。它适合案例画廊、时间线和横向章节，不会改变子元素的结构。",
+  "usage": "直接子内容需要明确宽度并设置 `shrink-0`。不要把表单、长文本或需要大量垂直浏览的内容放进横向轨道。\n用户开启“减少动态效果”后，组件回退为普通的横向可滚动容器，内容仍然可访问。",
   "examples": [
     {
       "name": "horizontal-scroll-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     }
   ],
   "files": [

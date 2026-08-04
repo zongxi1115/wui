@@ -4,7 +4,7 @@ description: 展示 Agent 计划、执行进度与任务说明。
 component: ai-todo
 ---
 
-## 基础示例
+## 基础用法
 
 <ComponentPreview name="ai-todo-demo" />
 
@@ -12,26 +12,30 @@ component: ai-todo
 
 <ComponentSource name="ai-todo" title="components/ui/ai-todo.tsx" />
 
-## 组件作用
+## 使用场景
 
-`AiTodo` 用于展示 Agent 已形成的计划和实时执行进度，让用户知道当前完成了什么、正在处理什么、还剩什么。它适合短到中等长度的工作流，不负责排序、持久化或任务依赖。
+`AiTodo` 用于展示 Agent 已形成的计划和实时执行进度，让用户知道已经完成什么、正在处理什么、还剩什么。
+它适合短到中等长度的工作流，不负责排序、持久化、任务依赖或真正执行任务。
 
-需要拖拽流转的团队任务应使用 [`Kanban`](/docs/components/kanban)，需要按时间说明事件则使用 [`Timeline`](/docs/components/timeline)。
+需要拖拽流转的团队任务使用 [`Kanban`](/docs/components/kanban)；需要按时间说明事件使用 [`Timeline`](/docs/components/timeline)。
 
-## 组件属性
+## 属性
 
 <PropsTable name="ai-todo" />
 
 ## 事件
 
-为 `AiTodoItem` 传入 `onStatusChange` 后，状态图标会成为可交互按钮，并在点击时在 `completed` 与 `pending` 之间切换建议状态。实际状态仍由调用方控制，便于接入消息流或后端任务数据。
+为 `AiTodoItem` 传入 `onStatusChange` 后，状态图标会成为可交互按钮，点击时在 `completed` 和 `pending` 之间切换建议状态。
+实际状态仍由调用方控制，回调中的新状态需要写回消息流或后端任务数据；没有回调时，任务项保持只读。
 
-## 扩展使用
+## 扩展用法
 
 ### 只读执行计划
 
-省略 `onStatusChange` 即得到只读任务行，适合展示模型生成的计划。`in-progress` 用于唯一的当前任务；同时出现多个执行中状态时，应确认 Agent 是否真的并行工作。
+省略 `onStatusChange` 即得到只读任务行，适合展示模型生成的计划。`in-progress` 表示当前任务；如果同时出现多个执行中状态，
+应确认 Agent 是否真的并行工作，或者改用更明确的并行分组。
 
 ### 进度汇总
 
-在 `AiTodoHeader` 右侧放入“已完成 / 总数”，即可提供稳定的总体进度。取消任务使用 `cancelled`，不要把取消和失败混成同一个状态。
+在 `AiTodoHeader` 右侧放入“已完成 / 总数”，即可提供稳定的总体进度。取消任务使用 `cancelled`，不要把取消和失败混成同一个状态，
+因为两者对应的后续操作不同。

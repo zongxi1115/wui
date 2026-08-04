@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "text-effect",
   "type": "registry:ui",
-  "title": "Text Effect",
-  "description": "Reveals text by line, word or character with configurable presets.",
+  "title": "文本入场 Text Effect",
+  "description": "按行、单词或字符拆分并播放文本入场效果。",
   "dependencies": [
     "motion"
   ],

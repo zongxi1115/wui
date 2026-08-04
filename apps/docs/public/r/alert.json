@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "alert",
   "type": "registry:ui",
-  "title": "Alert",
-  "description": "Persistent inline feedback with semantic variants, actions, and dismissal.",
+  "title": "警告提示 Alert",
+  "description": "用于展示需要保留在页面中的状态、说明和操作建议。",
   "dependencies": [
     "lucide-react",
     "class-variance-authority"

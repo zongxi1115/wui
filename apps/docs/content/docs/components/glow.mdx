@@ -4,7 +4,7 @@ description: 让多色渐变光线沿内容四周持续环绕，并提供单色�
 component: glow
 ---
 
-## 基础示例
+## 基础用法
 
 <ComponentPreview name="glow-demo" />
 
@@ -12,14 +12,16 @@ component: glow
 
 <ComponentSource name="glow" title="components/ui/glow.tsx" />
 
-## 组件作用
+## 使用场景
 
-`Glow` 默认让一条多色渐变光线沿内容四周持续环绕，并用同一条边缘生成柔和光晕。装饰层不会遮挡内容或拦截指针事件，适合重点入口、功能展示和需要短暂吸引注意的区域。
+`Glow` 默认让一条多色渐变光线沿内容四周环绕，并用同一条边缘生成柔和光晕。装饰层不会遮挡内容或拦截指针事件，
+适合重点入口、功能展示和需要短暂吸引注意的区域。它不应作为唯一的焦点、错误或选中状态提示。
 
-## 组件属性
+## 属性
 
 <PropsTable name="glow" />
 
-## 使用建议
+## 使用说明
 
-默认的 `rainbow` 变体通过 `colors`、`spread` 和 `duration` 调整环绕效果。使用 `variant="solid"` 可切换到原来的单色呼吸光晕，并通过 `color`、`glowOpacity` 和 `pulse` 控制外观。用户启用“减少动态效果”时，两种变体都会自动停止动画。
+默认的 `rainbow` 变体通过 `colors`、`spread` 和 `duration` 调整环绕效果。使用 `variant="solid"` 可以切换到单色呼吸光晕，
+并通过 `color`、`glowOpacity` 和 `pulse` 控制外观。用户开启“减少动态效果”时，两种变体都会停止动画。

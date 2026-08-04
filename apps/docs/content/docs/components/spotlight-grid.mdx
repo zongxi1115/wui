@@ -4,7 +4,7 @@ description: 用鼠标聚光显露网格或点阵背景的局部结构。
 component: spotlight-grid
 ---
 
-## 基础示例
+## 基础用法
 
 <ComponentPreview name="spotlight-grid-demo" />
 
@@ -15,14 +15,16 @@ component: spotlight-grid
   title="components/ui/spotlight-grid.tsx"
 />
 
-## 组件作用
+## 使用场景
 
-`SpotlightGrid` 渲染一层弱化的基础图案和一层通过径向 mask 显露的清晰图案。`pattern="dots"` 可切换为点阵；组件只使用 CSS 背景和指针事件，没有第三方运行时依赖。
+`SpotlightGrid` 渲染一层弱化的基础图案和一层通过径向 mask 显露的清晰图案。`pattern="dots"` 可以切换为点阵；
+组件只使用 CSS 背景和指针事件，没有第三方运行时依赖。它是装饰背景，不会改变内容的阅读顺序。
 
-## 组件属性
+## 属性
 
 <PropsTable name="spotlight-grid" />
 
-## 使用建议
+## 使用说明
 
-`baseOpacity` 应足够低，让聚光前后的差异可被感知但不影响正文。`size` 控制图案密度，`radius` 控制显露范围。网格更适合技术、结构与空间语义明确的区块，不应作为无意义的全站装饰。
+`baseOpacity` 应足够低，让聚光前后的差异可被感知但不影响正文。`size` 控制图案密度，`radius` 控制显露范围。
+网格更适合技术、结构和空间语义明确的区块，不应作为无意义的全站装饰；没有指针时，基础图案仍应保持不干扰内容。

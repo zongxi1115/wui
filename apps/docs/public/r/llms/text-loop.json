@@ -30,7 +30,7 @@
       "type": "ReactNode[]",
       "required": true,
       "control": "text",
-      "description": "Content items displayed one after another."
+      "description": "按顺序逐个显示的文本或行内内容。"
     },
     {
       "name": "interval",
@@ -38,7 +38,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "2.5",
-      "description": "Seconds between item changes."
+      "description": "两项内容之间的切换间隔，单位为秒。"
     },
     {
       "name": "transition",
@@ -46,7 +46,7 @@
       "required": false,
       "control": "text",
       "defaultValue": "{ duration: 0.35, ease: \"easeOut\" }",
-      "description": "Motion transition for each item."
+      "description": "每项内容使用的 Motion 过渡动画。"
     },
     {
       "name": "variants",
@@ -54,14 +54,14 @@
       "required": false,
       "control": "text",
       "defaultValue": "{\n  initial: { y: 12, opacity: 0, filter: \"blur(4px)\" },\n  animate: { y: 0, opacity: 1, filter: \"blur(0px)\" },\n  exit: { y: -12, opacity: 0, filter: \"blur(4px)\" },\n}",
-      "description": "Initial, animate and exit states."
+      "description": "内容的初始、播放中和离场动画状态。"
     },
     {
       "name": "onIndexChange",
       "type": "((index: number) => void)",
       "required": false,
       "control": "text",
-      "description": "Called after the active index changes."
+      "description": "当前内容索引变化后触发。"
     },
     {
       "name": "trigger",
@@ -69,7 +69,7 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "true",
-      "description": "Start or pause automatic changes."
+      "description": "是否自动开始循环切换。"
     },
     {
       "name": "mode",
@@ -82,16 +82,14 @@
         "wait"
       ],
       "defaultValue": "popLayout",
-      "description": "AnimatePresence sequencing mode."
+      "description": "AnimatePresence 使用的动画排队模式。"
     }
   ],
-  "usage": "`TextLoop` 用于一句话中轮换关键词、功能标签或短状态。子项可以是任意 React 节点，但应保持相近尺寸，避免页面布局不断跳动。",
-  "extended": "可通过 `variants` 自定义切换方向，通过 `mode` 调整新旧内容的排序策略。持续循环的文字不应承载必须被读屏即时获知的重要状态。",
   "events": "`onIndexChange` 在索引切换后返回新索引。`trigger={false}` 会暂停自动轮换，原生 `<span>` 事件照常透传。",
   "examples": [
     {
       "name": "text-loop-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     }
   ],
   "files": [

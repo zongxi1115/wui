@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "notification-badge",
   "type": "registry:ui",
-  "title": "Notification Badge",
-  "description": "A count or dot indicator positioned over an icon, avatar, or control.",
+  "title": "消息提示 Notification Badge",
+  "description": "在图标、头像或控件边缘展示未读数量与提示红点。",
   "dependencies": [
     "class-variance-authority"
   ],

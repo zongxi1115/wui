@@ -32,7 +32,7 @@
         "underline"
       ],
       "defaultValue": "default",
-      "description": "Surface treatment of the input."
+      "description": "输入框的外观样式。"
     },
     {
       "name": "visualSize",
@@ -45,50 +45,49 @@
         "lg"
       ],
       "defaultValue": "default",
-      "description": "Visual height preset."
+      "description": "输入框的视觉尺寸。"
     },
     {
       "name": "label",
       "type": "ReactNode",
       "required": false,
       "control": "text",
-      "description": "Floating label shown inside the field until focus or input."
+      "description": "输入框获得焦点或有值前显示在输入区域内的浮动标签。"
     },
     {
       "name": "startContent",
       "type": "ReactNode",
       "required": false,
       "control": "text",
-      "description": "Decorative or actionable content before the input."
+      "description": "显示在输入内容前的装饰或操作内容。"
     },
     {
       "name": "endContent",
       "type": "ReactNode",
       "required": false,
       "control": "text",
-      "description": "Decorative or actionable content after the input."
+      "description": "显示在输入内容后的装饰或操作内容。"
     },
     {
       "name": "wrapperClassName",
       "type": "string",
       "required": false,
       "control": "text",
-      "description": "Extra classes applied to the outer surface."
+      "description": "应用于最外层容器的额外 CSS 类名。"
     },
     {
       "name": "disabled",
       "type": "boolean",
       "required": false,
-      "control": "boolean"
+      "control": "boolean",
+      "description": "是否禁用组件。"
     }
   ],
-  "usage": "`Input` 用于录入单行文本、邮箱、密码或搜索内容。它保留原生 input 的全部语义，并用 `startContent`、`endContent` 承载图标、快捷键提示或清除按钮。聚焦反馈只改变边框与焦点环，不移动组件本身，避免页面产生跳动。",
-  "extended": "### 图标、错误与禁用态\r\n\r\n\r\n\r\n### 浮动标签\r\n\r\n传入 `label` 后，标签初始位于输入区域中部；聚焦或输入内容时会缩小并移动到左上角。\r\n\r\n\r\n\r\n### 下划线样式\r\n\r\n`variant=\"underline\"` 适合密度更高、容器边界已经明确的表单区域。\r\n\r\n\r\n\r\n使用 `visualSize=\"sm | default | lg\"` 调整视觉尺寸，原生 `size` 属性仍保留其 HTML 含义。",
-  "events": "所有原生输入事件均会透传，包括 `onChange`、`onInput`、`onFocus`、`onBlur` 与键盘事件。传入 `aria-invalid=\"true\"` 会同步显示错误边框与光晕。",
+  "events": "所有原生输入事件都会透传，包括 `onChange`、`onInput`、`onFocus`、`onBlur` 和键盘事件。传入 `aria-invalid=\"true\"`\n会同步显示错误边框和错误状态；错误原因仍应通过表单说明文字提供，不能只依赖颜色。",
   "examples": [
     {
       "name": "input-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     },
     {
       "name": "input-states",

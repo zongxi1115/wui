@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "card",
   "type": "registry:ui",
-  "title": "Card",
-  "description": "A composable surface for grouping related content, context, and actions.",
+  "title": "卡片 Card",
+  "description": "将同一主题的内容、状态与操作组织在一个清晰的表面中。",
   "dependencies": [],
   "registryDependencies": [
     "utils"

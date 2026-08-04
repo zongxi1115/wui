@@ -38,7 +38,7 @@
         "info"
       ],
       "defaultValue": "default",
-      "description": "Visual treatment of the badge."
+      "description": "徽章的视觉样式，用于区分状态或语义。"
     },
     {
       "name": "size",
@@ -51,7 +51,7 @@
         "lg"
       ],
       "defaultValue": "default",
-      "description": "Height and horizontal padding preset."
+      "description": "徽章的高度和左右内边距。"
     },
     {
       "name": "asChild",
@@ -59,14 +59,13 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "false",
-      "description": "Render as the single child element via Radix Slot."
+      "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
     }
   ],
-  "usage": "`Badge` 适合展示状态、分类、版本和其他短文本。语义色使用主题中的 `info`、`success`、`warning` 与 `destructive` token；仅表达分类而非状态时，优先使用 `default`、`secondary` 或 `outline`。\n\n通过 `asChild` 可以把样式合并到链接等单个子元素上，同时保留子元素原有语义。",
   "examples": [
     {
       "name": "badge-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     }
   ],
   "files": [

@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "ai-todo",
   "type": "registry:ui",
-  "title": "AI Todo",
-  "description": "Agent task plans with readable progress and optional status interaction.",
+  "title": "AI 任务清单 AI Todo",
+  "description": "展示 Agent 计划、执行进度与任务说明。",
   "dependencies": [
     "class-variance-authority",
     "lucide-react"

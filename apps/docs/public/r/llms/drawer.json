@@ -38,7 +38,7 @@
       "type": "boolean",
       "required": false,
       "control": "boolean",
-      "description": "Controlled visibility state."
+      "description": "受控模式下抽屉是否打开。"
     },
     {
       "name": "defaultOpen",
@@ -46,14 +46,14 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "false",
-      "description": "Initial visibility in uncontrolled mode."
+      "description": "非受控模式下抽屉的初始打开状态。"
     },
     {
       "name": "onOpenChange",
       "type": "((open: boolean) => void)",
       "required": false,
       "control": "text",
-      "description": "Called whenever the drawer requests a visibility change."
+      "description": "抽屉请求改变显示状态时触发。"
     },
     {
       "name": "modal",
@@ -61,16 +61,14 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "true",
-      "description": "Trap focus and disable interaction outside the panel."
+      "description": "是否锁定焦点并禁止与抽屉外部内容交互。"
     }
   ],
-  "usage": "`Drawer` 适合在不离开当前页面的情况下查看详情、编辑设置或完成一段短流程。它保留底层页面上下文，并提供焦点圈定、Esc 关闭和遮罩点击；需要用户集中确认的高风险操作应使用 Dialog。",
-  "extended": "使用 `DrawerHeader`、`DrawerBody` 和 `DrawerFooter` 建立稳定的滚动区域。移动端的长表单建议使用 `side=\"bottom\"` 或 `size=\"full\"`，桌面详情面板通常从右侧进入。",
-  "events": "根组件沿用 Radix Dialog 的 `open`、`defaultOpen` 与 `onOpenChange`。进出场由同一组大面板弹簧驱动，关闭时按原路径返回；减少动态效果开启后直接呈现最终位置。",
+  "events": "根组件沿用 Radix Dialog 的 `open`、`defaultOpen` 和 `onOpenChange`。受控模式下，`onOpenChange` 需要同步更新 `open`。\n面板从指定边缘进入，关闭时沿同一路径返回；用户开启“减少动态效果”后直接呈现最终位置。",
   "examples": [
     {
       "name": "drawer-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     }
   ],
   "files": [

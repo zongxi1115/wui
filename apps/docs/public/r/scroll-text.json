@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "scroll-text",
   "type": "registry:ui",
-  "title": "Scroll Text",
-  "description": "Reveals lines or progressively highlights words according to scroll progress.",
+  "title": "滚动文字 Scroll Text",
+  "description": "让段落随滚动逐词变亮，或按行从遮罩中揭示。",
   "dependencies": [
     "motion"
   ],

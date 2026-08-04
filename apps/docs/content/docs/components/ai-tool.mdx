@@ -4,7 +4,7 @@ description: 展示 AI 工具的执行状态、参数、结果与错误。
 component: ai-tool
 ---
 
-## 基础示例
+## 基础用法
 
 <ComponentPreview name="ai-tool-demo" />
 
@@ -12,26 +12,30 @@ component: ai-tool
 
 <ComponentSource name="ai-tool" title="components/ui/ai-tool.tsx" />
 
-## 组件作用
+## 使用场景
 
-`AiTool` 用于把一次工具调用压缩成可扫描的状态行，并在需要时展开参数、结果或错误。它适合搜索、读文件、数据库查询和生成任务，不负责真正调用工具，也不应把敏感参数直接展示给最终用户。
+`AiTool` 用于把一次工具调用压缩成可扫描的状态行，并在需要时展开参数、结果或错误。它适合搜索、读文件、数据库查询和生成任务；
+组件只展示状态，不负责真正调用工具，也不应把密钥、内部路径或其他敏感参数直接展示给最终用户。
 
-普通后台任务状态更适合进度条或时间轴；只有当“哪个工具做了什么”对理解 Agent 行为有帮助时才使用该组件。
+普通后台任务状态更适合 Progress 或 Timeline；只有当“哪个工具做了什么”有助于用户理解 Agent 行为时，才使用 `AiTool`。
 
-## 组件属性
+## 属性
 
 <PropsTable name="ai-tool" />
 
 ## 事件
 
-组件透传 Radix Collapsible 的 `open`、`defaultOpen` 与 `onOpenChange`，支持受控和非受控展开。工具批准、拒绝与重试按钮由业务层放入 `AiToolSection`，并自行绑定请求事件。
+组件透传 Radix Collapsible 的 `open`、`defaultOpen` 和 `onOpenChange`，支持受控和非受控展开。工具批准、拒绝和重试按钮
+由业务层放入 `AiToolSection`，并自行绑定请求事件；按钮的显示条件应与当前工具状态保持一致。
 
-## 扩展使用
+## 扩展用法
 
 ### 状态映射
 
-使用 `pending`、`approval`、`running`、`success`、`error` 与 `denied` 映射工具协议状态。颜色、图标和文字会共同表达状态，不依赖单一颜色；`running` 图标会在系统开启“减少动态效果”时停止旋转。
+使用 `pending`、`approval`、`running`、`success`、`error` 和 `denied` 映射工具协议状态。颜色、图标和文字共同表达状态，
+不要依赖单一颜色；`running` 图标会在用户开启“减少动态效果”后停止旋转。
 
 ### 自定义输出
 
-JSON 参数可放入 `AiToolCode`，普通文本、表格、文件列表或图片可以直接组合在 `AiToolSection` 内。失败信息使用 `AiToolError`，避免把堆栈和内部路径直接暴露给不需要调试信息的用户。
+JSON 参数可以放入 `AiToolCode`，普通文本、表格、文件列表或图片可以直接组合在 `AiToolSection` 内。失败信息使用 `AiToolError`；
+面向普通用户时只展示可理解的原因和下一步，不要直接暴露堆栈或内部路径。

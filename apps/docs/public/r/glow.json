@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "glow",
   "type": "registry:ui",
-  "title": "Glow",
-  "description": "Adds an illuminated border and soft light around all four sides of content.",
+  "title": "渐变环绕发光 Glow",
+  "description": "让多色渐变光线沿内容四周持续环绕，并提供单色发光变体。",
   "dependencies": [
     "motion"
   ],

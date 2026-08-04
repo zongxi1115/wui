@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "velocity-marquee",
   "type": "registry:ui",
-  "title": "Velocity Marquee",
-  "description": "Accelerates and changes a seamless marquee direction with scrolling.",
+  "title": "滚动速度跑马灯 Velocity Marquee",
+  "description": "跑马灯根据滚动速度加速，并随滚动方向反转。",
   "dependencies": [
     "motion"
   ],

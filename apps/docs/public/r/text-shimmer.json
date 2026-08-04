@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "text-shimmer",
   "type": "registry:ui",
-  "title": "Text Shimmer",
-  "description": "Sweeps a theme-aware highlight across text.",
+  "title": "文本扫光 Text Shimmer",
+  "description": "在文字表面循环扫过的主题感知高光。",
   "dependencies": [
     "motion"
   ],

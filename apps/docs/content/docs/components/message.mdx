@@ -4,7 +4,7 @@ description: 用于在操作后提供短暂、轻量的全局反馈。
 component: message
 ---
 
-## 基础示例
+## 基础用法
 
 <ComponentPreview name="message-demo" />
 
@@ -12,15 +12,17 @@ component: message
 
 <ComponentSource name="message" title="components/ui/message.tsx" />
 
-## 组件作用
+## 使用场景
 
-`MessageProvider` 与 `useMessage()` 用于由按钮或业务事件触发全局轻提示。Message 通过 Portal 渲染，适合保存成功、复制完成、轻量警告和可恢复错误等短反馈。
+`MessageProvider` 与 `useMessage()` 用于由按钮或业务事件触发全局轻提示。Message 通过 Portal 渲染，
+适合保存成功、复制完成、轻量警告和可恢复错误等短反馈。它不应该承载用户必须阅读或必须操作的内容。
 
-Message 只承载一行紧凑内容；需要标题、较长说明、尾部操作或长期保留的页面内反馈时，请使用 Alert。
+Message 只承载一条紧凑消息；需要标题、较长说明、尾部操作或长期保留的页面内反馈时，请使用 Alert。
 
-默认状态图标来自 `@animateicons/react`，消息出现时会自动播放一次：信息使用 `InfoIcon`、成功使用 `CircleCheckIcon`、警告使用 `TriangleAlertIcon`、错误使用 `XIcon`。
+默认状态图标来自 `@animateicons/react`，消息出现时会播放一次：信息使用 `InfoIcon`、成功使用 `CircleCheckIcon`、
+警告使用 `TriangleAlertIcon`、错误使用 `XIcon`。图标只是状态提示，文字仍应说明发生了什么。
 
-## 组件属性
+## 属性
 
 <PropsTable name="message" />
 
@@ -32,20 +34,21 @@ Message 只承载一行紧凑内容；需要标题、较长说明、尾部操作
 </MessageProvider>
 ```
 
-在任意子组件中触发：
+在任意 Provider 子组件中触发：
 
 ```tsx
 const message = useMessage()
 
-message.success("Changes saved")
-message.error("Connection failed", { duration: 5000 })
+message.success("保存成功")
+message.error("连接失败", { duration: 5000 })
 ```
 
 ## 自定义透明度与动效
 
 <ComponentPreview name="message-motion" />
 
-Provider 的 `motion` 用于统一设置位移、缩放、模糊和弹簧参数；单条消息可以覆盖这些设置，并通过 `opacity` 调整最终透明度。
+Provider 的 `motion` 用于统一设置位移、缩放、模糊和弹簧参数；单条消息可以覆盖这些设置，并通过 `opacity` 调整透明度。
+参数只影响视觉过渡，不会改变消息的显示时长或关闭时机。
 
 ```tsx
 <MessageProvider
@@ -54,7 +57,7 @@ Provider 的 `motion` 用于统一设置位移、缩放、模糊和弹簧参数�
   <App />
 </MessageProvider>
 
-message.success("Uploaded", {
+message.success("上传成功", {
   opacity: 0.82,
   motion: { initialOpacity: 0.2, exitOpacity: 0.1 },
 })
@@ -64,11 +67,13 @@ message.success("Uploaded", {
 
 <ComponentPreview name="message-stack" />
 
-多条消息默认会像一叠卡片一样重合：最新消息位于最前，后续消息按 `gap` 逐层露出边缘，并按 `scaleFactor` 逐层缩小。鼠标移入消息堆或键盘焦点进入时，可见消息会展开成完整列表；移出或失焦后重新折叠。通过 `expandOnHover={false}` 可以关闭自动展开。
+多条消息默认会层叠显示：最新消息位于最前，后续消息按 `gap` 逐层露出边缘，并按 `scaleFactor` 逐层缩小。
+鼠标移入消息堆或键盘焦点进入时，可见消息会展开成完整列表；移出或失焦后重新折叠。通过 `expandOnHover={false}` 可以关闭自动展开。
 
-超过 `maxVisibleMessages` 的层仍保留在队列中，但不会显示或参与交互。设置 `stacked={false}` 可以恢复始终展开的普通纵向列表。
+超过 `maxVisibleMessages` 的消息仍保留在队列中，但不会显示或参与交互。设置 `stacked={false}` 可以恢复始终展开的普通纵向列表。
 
-最前面的消息支持水平拖动移除，通过 `dragThreshold` 设置触发距离；移除后下一层会自然移动到最前。也可以在 Provider 或单条消息上关闭 `dragToDismiss`。
+最前面的消息支持水平拖动移除，通过 `dragThreshold` 设置触发距离；移除后下一条消息会移动到最前。
+如果产品不希望手势关闭消息，可以在 Provider 或单条消息上关闭 `dragToDismiss`。
 
 ```tsx
 <MessageProvider
@@ -84,14 +89,14 @@ message.success("Uploaded", {
 </MessageProvider>
 ```
 
-## API
+## 方法
 
-- `info` / `success` / `warning` / `error`：弹出对应语义的消息并返回 id。
-- `open(options)`：完整配置一条消息。
-- `dismiss(id)` / `clear()`：关闭单条消息或清空当前队列。
-- `stacked` / `maxVisibleMessages`：控制消息是否层叠及最大可见层数。
+- `info` / `success` / `warning` / `error`：弹出对应状态的消息并返回 id。
+- `open(options)`：使用完整配置打开一条消息。
+- `dismiss(id)` / `clear()`：关闭一条消息或清空当前队列。
+- `stacked` / `maxVisibleMessages`：控制是否层叠以及最多显示多少条消息。
 - `expandOnHover`：控制鼠标移入或键盘聚焦时是否展开消息堆。
-- `gap` / `scaleFactor`：控制每层露出的距离与缩放幅度。
-- `dragToDismiss` / `dragThreshold`：控制水平拖动移除及触发距离。
+- `gap` / `scaleFactor`：控制每层露出的距离和缩放幅度。
+- `dragToDismiss` / `dragThreshold`：控制是否允许水平拖动移除以及触发距离。
 - `onClose()`：消息因超时、手动关闭或数量限制被移除时触发。
-- `prefers-reduced-motion` 开启时会移除位移、缩放与模糊动画。
+- 用户开启 `prefers-reduced-motion` 时会移除位移、缩放和模糊动画。

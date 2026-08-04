@@ -4,7 +4,7 @@ description: 从触发器原位展开成轻量交互面板的弹出层。
 component: morphing-popover
 ---
 
-## 基础示例
+## 基础用法
 
 <ComponentPreview name="morphing-popover-demo" />
 
@@ -15,13 +15,15 @@ component: morphing-popover
   title="components/ui/morphing-popover.tsx"
 />
 
-## 组件作用
+## 使用场景
 
-`MorphingPopover` 让触发器的背景表面自然扩展为锚定面板，适合快速编辑、筛选器、简短表单和上下文操作。它不会像 Dialog 一样阻断页面其余区域，因此不适合必须完成或明确取消的关键流程。
+`MorphingPopover` 让触发器的背景表面自然扩展为锚定面板，适合快速编辑、筛选器、简短表单和上下文操作。
+它不会像 Dialog 一样阻断页面其他区域，因此不适合必须完成或明确取消的关键流程。
 
-面板与触发器处在同一个相对定位容器内，因此 shared layout 始终使用同一套坐标，不会受到 Portal 浮动定位的临时 transform 干扰。组件支持点外关闭、`Esc` 和焦点归还。
+面板与触发器处在同一个相对定位容器内，因此共享布局始终使用同一套坐标，不会受到 Portal 浮动定位的临时 transform 干扰。
+组件支持点击外部关闭、`Esc` 和焦点归还。
 
-## 组件属性
+## 属性
 
 <PropsTable name="morphing-popover" />
 
@@ -29,8 +31,9 @@ component: morphing-popover
 
 ## 事件
 
-`onOpenChange(open)` 在打开状态变化时调用。受控模式使用 `open`，非受控模式使用 `defaultOpen`。
+`onOpenChange(open)` 在打开状态变化时调用。受控模式使用 `open`，非受控模式使用 `defaultOpen`；受控模式下要在回调中同步更新 `open`。
 
-## 扩展使用
+## 扩展用法
 
-通过根组件的 `transition` 调整形变手感，通过 `variants` 自定义内部内容的出现方式。对于尺寸差异特别大的触发器与面板，应保持弹簧阻尼较高，避免边缘过度回弹。
+通过根组件的 `transition` 调整形变手感，通过 `variants` 自定义内部内容的出现方式。对于尺寸差异特别大的触发器和面板，
+应保持较高的弹簧阻尼，避免边缘过度回弹。

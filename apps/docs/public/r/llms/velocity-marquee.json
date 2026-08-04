@@ -30,7 +30,7 @@
       "type": "ReactNode",
       "required": true,
       "control": "text",
-      "description": "Items repeated across the seamless track."
+      "description": "在无缝轨道中重复显示的内容。"
     },
     {
       "name": "baseSpeed",
@@ -38,7 +38,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "36",
-      "description": "Idle track speed in pixels per second."
+      "description": "静止滚动时轨道的速度，单位为每秒像素数。"
     },
     {
       "name": "sensitivity",
@@ -46,7 +46,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "0.08",
-      "description": "Added speed for each pixel per second of scroll velocity."
+      "description": "滚动速度每增加一个单位时，轨道额外增加的速度。"
     },
     {
       "name": "maxBoost",
@@ -54,7 +54,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "180",
-      "description": "Maximum velocity-driven speed boost in pixels per second."
+      "description": "由滚动速度带来的最大加速值，单位为每秒像素数。"
     },
     {
       "name": "gap",
@@ -62,7 +62,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "32",
-      "description": "Gap between repeated groups in pixels."
+      "description": "重复内容组之间的间距。"
     },
     {
       "name": "reverse",
@@ -70,28 +70,28 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "false",
-      "description": "Invert the base and scroll-driven direction."
+      "description": "是否反转基础滚动方向和跟随滚动的方向。"
     },
     {
       "name": "container",
       "type": "RefObject<HTMLElement | null>",
       "required": false,
       "control": "text",
-      "description": "Scrollable element to observe instead of the page."
+      "description": "要监听的滚动容器；未设置时监听页面。"
     },
     {
       "name": "groupClassName",
       "type": "string",
       "required": false,
       "control": "text",
-      "description": "Classes applied to each repeated group."
+      "description": "应用于每个重复内容组的 CSS 类名。"
     }
   ],
-  "usage": "`VelocityMarquee` 保留持续的基础速度，同时读取页面或指定容器的滚动速度来增加推进量和改变方向。内部只渲染两个无缝组，第二组从辅助技术中隐藏。",
+  "usage": "`sensitivity` 决定滚动反馈强度，`maxBoost` 防止触控板快速滑动造成不可读的速度。斜置效果应在组件外通过小角度 `rotate` 完成。\n组件离开视口或用户开启“减少动态效果”时会停止动画；后者回退为可横向滚动内容。",
   "examples": [
     {
       "name": "velocity-marquee-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     }
   ],
   "files": [

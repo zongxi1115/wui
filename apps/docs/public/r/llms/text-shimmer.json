@@ -30,7 +30,7 @@
       "type": "string",
       "required": true,
       "control": "text",
-      "description": "Text carrying the shimmer."
+      "description": "承载扫光效果的文字。"
     },
     {
       "name": "as",
@@ -38,7 +38,7 @@
       "required": false,
       "control": "text",
       "defaultValue": "span",
-      "description": "HTML element rendered by the component."
+      "description": "组件实际渲染的 HTML 元素。"
     },
     {
       "name": "duration",
@@ -46,7 +46,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "2",
-      "description": "Seconds for one shimmer pass."
+      "description": "高光完整扫过一次所需的时间，单位为秒。"
     },
     {
       "name": "spread",
@@ -54,16 +54,14 @@
       "required": false,
       "control": "number",
       "defaultValue": "2",
-      "description": "Gradient width relative to the text."
+      "description": "高光渐变相对文字宽度的范围。"
     }
   ],
-  "usage": "`TextShimmer` 适合生成中、加载中等短暂状态。默认颜色来自 `foreground` 与 `muted-foreground`，因此自动适配明暗主题。",
-  "extended": "通过 `duration` 控制扫过速度，通过 `spread` 调整高光宽度。可以在 `className` 中覆盖 `--shimmer-base` 与 `--shimmer-highlight` 两个 CSS 变量。",
-  "events": "组件没有自有事件并透传底层元素事件。动画会持续循环，减少动态效果时停留在静态渐变状态。",
+  "events": "组件没有自有事件，并透传底层元素事件。动画会持续循环；用户开启“减少动态效果”时停留在静态渐变状态。",
   "examples": [
     {
       "name": "text-shimmer-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     },
     {
       "name": "text-shimmer-wave-demo"

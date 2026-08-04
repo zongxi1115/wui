@@ -10,12 +10,12 @@ export const metadata: Metadata = {
     default: "wui",
     template: "%s — wui",
   },
-  description: "A shadcn-style React component library you own.",
+  description: "一套源码归你所有、可自由组合和修改的 shadcn 风格 React 组件库。",
 }
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="zh-CN" suppressHydrationWarning>
       <body className="flex min-h-screen flex-col">
         <RootProvider>
           <TokenThemeRuntime />

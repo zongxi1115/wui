@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "kanban",
   "type": "registry:ui",
-  "title": "Kanban",
-  "description": "A composable task board with native cross-column dragging.",
+  "title": "看板 Kanban",
+  "description": "用可组合列和原生拖放组织任务流转。",
   "dependencies": [
     "lucide-react"
   ],

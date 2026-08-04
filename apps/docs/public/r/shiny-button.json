@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "shiny-button",
   "type": "registry:ui",
-  "title": "Shiny Button",
-  "description": "A filled button with a light sweep that glides across it.",
+  "title": "闪光按钮 Shiny Button",
+  "description": "带有流动扫光效果的填充按钮。",
   "dependencies": [
     "motion"
   ],

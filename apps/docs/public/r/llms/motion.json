@@ -40,7 +40,7 @@
         "blur"
       ],
       "defaultValue": "fade",
-      "description": "Named enter animation."
+      "description": "入场动画的预设名称。"
     },
     {
       "name": "transition",
@@ -48,14 +48,14 @@
       "required": false,
       "control": "text",
       "defaultValue": "smooth",
-      "description": "A named transition preset or a custom motion Transition."
+      "description": "预设过渡动画，或自定义的 Motion Transition 配置。"
     },
     {
       "name": "delay",
       "type": "number",
       "required": false,
       "control": "number",
-      "description": "Delay before animating, in seconds."
+      "description": "开始播放动画前等待的时间，单位为秒。"
     },
     {
       "name": "inView",
@@ -63,7 +63,7 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "false",
-      "description": "Animate when scrolled into view instead of on mount."
+      "description": "是否在内容进入视口时播放动画，而不是挂载后立即播放。"
     },
     {
       "name": "once",
@@ -71,7 +71,7 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "true",
-      "description": "Only animate the first time it enters the viewport."
+      "description": "是否只在内容第一次进入视口时播放动画。"
     },
     {
       "name": "asChild",
@@ -79,15 +79,13 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "false",
-      "description": "Merge motion onto the single child element instead of rendering a div."
+      "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
     }
   ],
-  "usage": "`Motion` 是 wui 的可选动画层。你可以包裹任意内容，为其添加自然的入场动画；也可以使用\r\n`asChild` 为现有组件（如 `Button`）添加动画，而不增加额外的包装节点。组件内置一组命名\r\n`presets` 和 `transitions`，以确保应用中的动画风格一致。当用户偏好减少动态效果时，\r\n它会**自动禁用动画**。\r\n\r\n由于 Motion 是独立的 registry 条目，不使用动画的组件不会引入相关依赖；只有需要动画时\r\n才会拉取 `motion`。",
-  "extended": "### 动画预设\r\n\r\n\r\n\r\n### 滚动进入视口时播放（`inView`）\r\n\r\n\r\n\r\n### 为现有组件添加动画（`asChild`）\r\n\r\n\r\n\r\n\r\n  `Motion` 会读取 `prefers-reduced-motion`，当用户要求减少动态效果时静态渲染子元素，\r\n  无需额外处理。",
   "examples": [
     {
       "name": "motion-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     },
     {
       "name": "motion-presets",

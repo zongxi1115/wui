@@ -29,7 +29,7 @@
       "type": "ReactNode",
       "required": true,
       "control": "text",
-      "description": "Items displayed in the continuously looping track."
+      "description": "在持续循环轨道中显示的内容。"
     },
     {
       "name": "gap",
@@ -37,7 +37,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "16",
-      "description": "Space between items in pixels."
+      "description": "各项内容之间的间距，单位为像素。"
     },
     {
       "name": "speed",
@@ -45,14 +45,14 @@
       "required": false,
       "control": "number",
       "defaultValue": "64",
-      "description": "Track speed in pixels per second."
+      "description": "轨道移动速度，单位为每秒像素数。"
     },
     {
       "name": "speedOnHover",
       "type": "number",
       "required": false,
       "control": "number",
-      "description": "Track speed while hovered. Set to `0` to pause on hover."
+      "description": "鼠标悬停时的轨道速度。设置为 0 可在悬停时暂停。"
     },
     {
       "name": "direction",
@@ -64,7 +64,7 @@
         "vertical"
       ],
       "defaultValue": "horizontal",
-      "description": "Slider axis."
+      "description": "滑块移动的方向。"
     },
     {
       "name": "reverse",
@@ -72,16 +72,14 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "false",
-      "description": "Move in the opposite direction."
+      "description": "是否反转移动方向。"
     }
   ],
-  "usage": "`InfiniteSlider` 用于品牌列表、合作伙伴、标签或轻量媒体带。它按像素速度持续移动，并复制一组内容形成无缝循环；减少动态效果时会停止并只保留一组内容。",
-  "extended": "### 垂直与反向\r\n\r\n\r\n\r\n使用纵向模式时必须给外层设置明确高度。内容应保持简短，且不要把需要键盘操作的控件放入会持续移动的轨道。",
-  "events": "组件透传容器的鼠标、指针与焦点事件。`speedOnHover` 用来改变悬停速度，设为 `0` 即可暂停。",
+  "events": "组件透传容器的鼠标、指针和焦点事件。`speedOnHover` 用来改变悬停速度，设为 `0` 即可暂停；如果轨道中有链接，\n仍需保证用户可以通过键盘稳定访问每一项。",
   "examples": [
     {
       "name": "infinite-slider-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     },
     {
       "name": "infinite-slider-vertical",

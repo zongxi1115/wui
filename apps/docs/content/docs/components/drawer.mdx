@@ -4,7 +4,7 @@ description: 从视口边缘平滑进入、用于承载补充任务的焦点面�
 component: drawer
 ---
 
-## 基础示例
+## 基础用法
 
 <ComponentPreview name="drawer-demo" />
 
@@ -12,20 +12,24 @@ component: drawer
 
 <ComponentSource name="drawer" title="components/ui/drawer.tsx" />
 
-## 组件作用
+## 使用场景
 
-`Drawer` 适合在不离开当前页面的情况下查看详情、编辑设置或完成一段短流程。它保留底层页面上下文，并提供焦点圈定、Esc 关闭和遮罩点击；需要用户集中确认的高风险操作应使用 Dialog。
+`Drawer` 适合在不离开当前页面的情况下查看详情、编辑设置或完成一段短流程。它保留底层页面上下文，
+同时提供焦点圈定、Esc 关闭和遮罩点击关闭。需要用户集中确认的高风险操作，或内容很短且必须立刻决定的操作，应使用 Dialog。
 
-## 组件属性
+## 属性
 
 <PropsTable name="drawer" />
 
-`DrawerContent` 提供 `side`（`top`、`right`、`bottom`、`left`）、`size`（`sm`、`default`、`lg`、`full`）与 `hideClose`。
+`DrawerContent` 提供 `side`（`top`、`right`、`bottom`、`left`）、`size`（`sm`、`default`、`lg`、`full`）和 `hideClose`。
+隐藏关闭按钮时，必须在内容中提供其他明确的关闭方式。
 
 ## 事件
 
-根组件沿用 Radix Dialog 的 `open`、`defaultOpen` 与 `onOpenChange`。进出场由同一组大面板弹簧驱动，关闭时按原路径返回；减少动态效果开启后直接呈现最终位置。
+根组件沿用 Radix Dialog 的 `open`、`defaultOpen` 和 `onOpenChange`。受控模式下，`onOpenChange` 需要同步更新 `open`。
+面板从指定边缘进入，关闭时沿同一路径返回；用户开启“减少动态效果”后直接呈现最终位置。
 
-## 扩展使用
+## 扩展用法
 
-使用 `DrawerHeader`、`DrawerBody` 和 `DrawerFooter` 建立稳定的滚动区域。移动端的长表单建议使用 `side="bottom"` 或 `size="full"`，桌面详情面板通常从右侧进入。
+使用 `DrawerHeader`、`DrawerBody` 和 `DrawerFooter` 建立稳定的标题、滚动内容和操作区域。移动端的长表单建议使用
+`side="bottom"` 或 `size="full"`；桌面详情面板通常从右侧进入。底部操作区应保持可见，不要随着长内容一起滚出视口。

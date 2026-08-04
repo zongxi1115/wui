@@ -30,7 +30,7 @@
       "type": "string",
       "required": true,
       "control": "text",
-      "description": "Final text revealed by the scramble."
+      "description": "通过扰码效果最终显示的目标文字。"
     },
     {
       "name": "as",
@@ -38,7 +38,7 @@
       "required": false,
       "control": "text",
       "defaultValue": "p",
-      "description": "HTML element rendered by the component."
+      "description": "组件实际渲染的 HTML 元素。"
     },
     {
       "name": "duration",
@@ -46,7 +46,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "0.8",
-      "description": "Total reveal duration in seconds."
+      "description": "完整揭示文字所需的时间，单位为秒。"
     },
     {
       "name": "speed",
@@ -54,7 +54,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "0.04",
-      "description": "Seconds between scramble frames."
+      "description": "两次扰码帧之间的间隔，单位为秒。"
     },
     {
       "name": "characterSet",
@@ -62,7 +62,7 @@
       "required": false,
       "control": "text",
       "defaultValue": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&*",
-      "description": "Characters sampled while scrambling."
+      "description": "扰码过程中随机抽取的字符集合。"
     },
     {
       "name": "trigger",
@@ -70,23 +70,21 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "true",
-      "description": "Start the effect. Toggling false then true replays it."
+      "description": "是否播放扰码效果。先切换为 false 再切换为 true 可重新播放。"
     },
     {
       "name": "onScrambleComplete",
       "type": "(() => void)",
       "required": false,
       "control": "text",
-      "description": "Called after every character reaches its final value."
+      "description": "每个字符都解析为最终值后触发。"
     }
   ],
-  "usage": "`TextScramble` 适合生成、解码或终端语义的短状态。随机字符只作为视觉层，读屏始终获得最终文本。避免对正文和重要错误信息使用。",
-  "extended": "通过 `characterSet` 限制随机字符风格，例如仅用 `01` 营造二进制效果。`duration` 控制总时长，`speed` 控制随机字符刷新间隔。",
-  "events": "`onScrambleComplete` 在最终文本完全解析后触发。将 `trigger` 从 `false` 切换为 `true` 可以重播。",
+  "events": "`onScrambleComplete` 在最终文本完全显示后触发。将 `trigger` 从 `false` 切换为 `true` 可以重播；\n业务层不要把完成回调当作请求完成回调，两者的生命周期应分别维护。",
   "examples": [
     {
       "name": "text-scramble-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     }
   ],
   "files": [

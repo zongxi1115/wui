@@ -30,11 +30,12 @@ export function PropsTable({ name, data }: { name?: string; data?: PropDef[] }) 
           description: clean(p.description),
         }))
       : []
+  const hasRequired = rows.some((row) => row.prop.endsWith(" *"))
 
   if (rows.length === 0) {
     return (
       <p className="text-sm text-muted-foreground">
-        No documented props{name ? ` for "${name}"` : ""}.
+        该组件没有自定义属性{name ? `（${name}）` : ""}，支持透传底层元素的原生属性。
       </p>
     )
   }
@@ -44,10 +45,10 @@ export function PropsTable({ name, data }: { name?: string; data?: PropDef[] }) 
       <table className="w-full border-collapse text-sm">
         <thead>
           <tr className="border-b text-left">
-            <th className="py-2 pr-4 font-medium">Prop</th>
-            <th className="py-2 pr-4 font-medium">Type</th>
-            <th className="py-2 pr-4 font-medium">Default</th>
-            <th className="py-2 font-medium">Description</th>
+            <th className="py-2 pr-4 font-medium">属性</th>
+            <th className="py-2 pr-4 font-medium">类型</th>
+            <th className="py-2 pr-4 font-medium">默认值</th>
+            <th className="py-2 font-medium">说明</th>
           </tr>
         </thead>
         <tbody>
@@ -69,6 +70,11 @@ export function PropsTable({ name, data }: { name?: string; data?: PropDef[] }) 
           ))}
         </tbody>
       </table>
+      {hasRequired ? (
+        <p className="mt-2 text-xs text-muted-foreground">
+          属性名后的 * 表示必填。
+        </p>
+      ) : null}
     </div>
   )
 }

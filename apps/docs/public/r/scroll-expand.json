@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "scroll-expand",
   "type": "registry:ui",
-  "title": "Scroll Expand",
-  "description": "Pins media while scroll progress expands it to full bleed or collapses it away.",
+  "title": "滚动扩展 Scroll Expand",
+  "description": "将图片、视频或首屏从小画框滚动扩展到满屏，也可反向收拢。",
   "dependencies": [
     "motion"
   ],

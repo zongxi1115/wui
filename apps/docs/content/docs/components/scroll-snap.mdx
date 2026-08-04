@@ -4,7 +4,7 @@ description: 用原生 CSS Scroll Snap 构建整屏或横向吸附章节。
 component: scroll-snap
 ---
 
-## 基础示例
+## 基础用法
 
 <ComponentPreview name="scroll-snap-demo" />
 
@@ -12,11 +12,12 @@ component: scroll-snap
 
 <ComponentSource name="scroll-snap" title="components/ui/scroll-snap.tsx" />
 
-## 组件作用
+## 使用场景
 
-`ScrollSnap` 是原生滚动容器的轻量封装，`ScrollSnapItem` 提供语义化吸附点。组件没有第三方运行时依赖，浏览器负责惯性、触控和吸附结算。
+`ScrollSnap` 是原生滚动容器的轻量封装，`ScrollSnapItem` 提供语义化吸附点。组件没有第三方运行时依赖，
+浏览器负责惯性、触控和吸附结算。它适合整屏章节或横向卡片带，不适合用户需要自由停留在任意位置的长文阅读。
 
-## 组件属性
+## 属性
 
 <PropsTable name="scroll-snap" />
 
@@ -39,6 +40,7 @@ component: scroll-snap
   ]}
 />
 
-## 使用建议
+## 使用说明
 
-整屏叙事可使用纵向 `mandatory`，自由浏览的卡片轨道更适合横向 `proximity`。`stop` 会阻止快速手势跳过某一节，只应给必须经过的关键步骤使用。即使隐藏滚动条，也应通过截断内容、章节计数或邻近元素提示当前区域仍可滚动。
+整屏叙事可以使用纵向 `mandatory`，自由浏览的卡片轨道更适合横向 `proximity`。`stop` 会阻止快速手势跳过某一节，
+只应给必须经过的关键步骤使用。即使隐藏滚动条，也应通过截断内容、章节计数或邻近元素提示当前区域仍可滚动。

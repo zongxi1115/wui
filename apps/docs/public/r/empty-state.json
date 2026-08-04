@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "empty-state",
   "type": "registry:ui",
-  "title": "Empty State",
-  "description": "A focused zero-data state with optional icon, actions, and 150 bundled illustrations.",
+  "title": "空状态 Empty State",
+  "description": "在没有数据或结果时解释现状并引导下一步。",
   "dependencies": [
     "class-variance-authority"
   ],

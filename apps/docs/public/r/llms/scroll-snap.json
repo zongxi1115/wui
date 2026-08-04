@@ -34,7 +34,7 @@
         "y"
       ],
       "defaultValue": "y",
-      "description": "Snap axis."
+      "description": "滚动吸附的方向。"
     },
     {
       "name": "strictness",
@@ -46,7 +46,7 @@
         "proximity"
       ],
       "defaultValue": "mandatory",
-      "description": "Whether the browser must always settle on a snap point."
+      "description": "浏览器是否必须最终停在某个吸附点上。"
     },
     {
       "name": "hideScrollbar",
@@ -54,14 +54,14 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "false",
-      "description": "Hide native scrollbars while preserving scrolling."
+      "description": "是否隐藏原生滚动条，同时保留滚动能力。"
     }
   ],
-  "usage": "`ScrollSnap` 是原生滚动容器的轻量封装，`ScrollSnapItem` 提供语义化吸附点。组件没有第三方运行时依赖，浏览器负责惯性、触控和吸附结算。",
+  "usage": "整屏叙事可以使用纵向 `mandatory`，自由浏览的卡片轨道更适合横向 `proximity`。`stop` 会阻止快速手势跳过某一节，\n只应给必须经过的关键步骤使用。即使隐藏滚动条，也应通过截断内容、章节计数或邻近元素提示当前区域仍可滚动。",
   "examples": [
     {
       "name": "scroll-snap-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     }
   ],
   "files": [

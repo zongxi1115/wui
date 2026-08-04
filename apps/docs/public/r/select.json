@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "select",
   "type": "registry:ui",
-  "title": "Select",
-  "description": "An accessible option picker with a polished floating panel.",
+  "title": "下拉框 Select",
+  "description": "支持分组、禁用项和键盘导航的选项选择器。",
   "dependencies": [
     "radix-ui",
     "lucide-react",

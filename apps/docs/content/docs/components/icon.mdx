@@ -4,7 +4,7 @@ description: 基于 Lucide 的可搜索图标集合与无障碍渲染组件。
 component: icon
 ---
 
-## 基础示例
+## 基础用法
 
 <ComponentPreview name="icon-demo" />
 
@@ -48,7 +48,8 @@ pnpm add lucide-react
 
 ## 图标库
 
-这里收录当前 `lucide-react` 版本提供的全部图标。输入英文名称筛选，点击任意图标即可复制按需导入语句。图标按页加载，避免一次渲染整个集合。
+这里收录当前 `lucide-react` 版本提供的全部图标。输入英文名称筛选，点击图标即可复制按需导入语句。
+图标按页加载，避免一次渲染整个集合；筛选不到时请尝试图标的英文名称或同义词。
 
 <IconLibrary />
 
@@ -62,7 +63,7 @@ Lucide 采用 ISC 许可，可用于个人和商业项目。它不收录品牌�
 - [AnimateIcons](https://animateicons.in/icons/lucide)：动态主库，收录 248 个独立编排的逐路径动画。
 - [ItsHover](https://www.itshover.com/icons)：去重后本地化 207 个补充图标，与主库合计 455 个。
 
-## 使用方式
+## 使用说明
 
 ```tsx
 import { SearchIcon } from "lucide-react"
@@ -74,16 +75,19 @@ import { Icon } from "@/components/ui/icon"
 <Icon icon={SearchIcon} label="搜索" />
 ```
 
-`label` 为空时，图标会被视为装饰并对辅助技术隐藏。如果图标单独传达含义，请提供 `label`；如果图标位于已有文字或 `aria-label` 的按钮内，保持装饰状态即可。
+`label` 为空时，图标会被视为装饰并对辅助技术隐藏。如果图标单独传达含义，请提供 `label`；如果图标位于已经有文字
+或 `aria-label` 的按钮内，则保持装饰状态，避免读屏器把同一名称读两遍。
 
 ## 尺寸
 
-`xs`、`sm`、`md`、`lg`、`xl` 分别对应 12、16、20、24、32px，也可以直接传入像素数值。统一尺寸令图标在按钮、输入框和菜单中的密度保持一致。
+`xs`、`sm`、`md`、`lg`、`xl` 分别对应 12、16、20、24、32px，也可以直接传入像素值。
+按钮、输入框和菜单应优先使用预设尺寸，让图标与同一控件中的文字保持稳定对齐。
 
 ## 动态图标
 
-需要图标内部路径随交互运动时，使用 [`AnimatedIcon`](/docs/components/animated-icon)。动态图标采用独立组件，因为铃铛、复制、菜单等图形需要不同的路径编排，无法由一个通用 SVG 包装器生成。
+需要图标内部路径随交互运动时，使用 [`AnimatedIcon`](/docs/components/animated-icon)。动态组件会为铃铛、复制、菜单等图形
+保留各自的路径动画；普通图标不应为了装饰性效果强行替换为动态图标。
 
-## 组件属性
+## 属性
 
 <PropsTable name="icon" />

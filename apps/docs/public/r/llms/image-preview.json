@@ -28,35 +28,35 @@
       "type": "string",
       "required": true,
       "control": "text",
-      "description": "Image URL used by both the thumbnail and full-size preview."
+      "description": "缩略图和大图预览共用的图片地址。"
     },
     {
       "name": "alt",
       "type": "string",
       "required": true,
       "control": "text",
-      "description": "Accessible description of the image."
+      "description": "图片的无障碍描述。"
     },
     {
       "name": "previewSrc",
       "type": "string",
       "required": false,
       "control": "text",
-      "description": "Optional higher-resolution URL used only in the preview."
+      "description": "仅用于大图预览的高清图片地址。"
     },
     {
       "name": "caption",
       "type": "ReactNode",
       "required": false,
       "control": "text",
-      "description": "Caption shown below the expanded image."
+      "description": "展开预览后显示在图片下方的说明文字。"
     },
     {
       "name": "open",
       "type": "boolean",
       "required": false,
       "control": "boolean",
-      "description": "Controlled open state."
+      "description": "受控模式下预览是否打开。"
     },
     {
       "name": "defaultOpen",
@@ -64,14 +64,14 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "false",
-      "description": "Initial open state when uncontrolled."
+      "description": "非受控模式下预览的初始打开状态。"
     },
     {
       "name": "onOpenChange",
       "type": "((open: boolean) => void)",
       "required": false,
       "control": "text",
-      "description": "Called whenever the preview opens or closes."
+      "description": "预览打开或关闭时触发。"
     },
     {
       "name": "minZoom",
@@ -79,7 +79,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "0.5",
-      "description": "Smallest available zoom level."
+      "description": "允许使用的最小缩放比例。"
     },
     {
       "name": "maxZoom",
@@ -87,7 +87,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "3",
-      "description": "Largest available zoom level."
+      "description": "允许使用的最大缩放比例。"
     },
     {
       "name": "zoomStep",
@@ -95,7 +95,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "0.25",
-      "description": "Amount added or removed by each zoom action."
+      "description": "每次缩放增加或减少的比例。"
     },
     {
       "name": "showToolbar",
@@ -103,43 +103,42 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "true",
-      "description": "Show zoom, rotate, reset, and optional download actions."
+      "description": "是否显示缩放、旋转、重置和可选的下载操作。"
     },
     {
       "name": "downloadName",
       "type": "string",
       "required": false,
       "control": "text",
-      "description": "Download filename. Supplying it adds a download action."
+      "description": "下载时使用的文件名。设置后会显示下载操作。"
     },
     {
       "name": "thumbnailClassName",
       "type": "string",
       "required": false,
       "control": "text",
-      "description": "Classes applied to the thumbnail image."
+      "description": "应用于缩略图的额外 CSS 类名。"
     },
     {
       "name": "previewClassName",
       "type": "string",
       "required": false,
       "control": "text",
-      "description": "Classes applied to the expanded image."
+      "description": "应用于展开图片的额外 CSS 类名。"
     },
     {
       "name": "disabled",
       "type": "boolean",
       "required": false,
-      "control": "boolean"
+      "control": "boolean",
+      "description": "是否禁用组件。"
     }
   ],
-  "usage": "`ImagePreview` 用于在不离开当前页面的情况下查看图片细节。缩略图本身是可聚焦按钮，全屏预览通过 Dialog 管理焦点、Escape 关闭和无障碍标题。它适合相册、附件、设计稿与商品图；需要编辑、裁剪或批注时，应使用专门的图片编辑器。",
-  "extended": "### 简洁预览\r\n\r\n\r\n\r\n设置 `showToolbar={false}` 可隐藏变换操作，仅保留查看与关闭能力。传入 `downloadName` 时才会显示下载按钮，避免在不允许保存图片的场景中暴露无效操作。",
-  "events": "- `onOpenChange(open)`：预览打开或关闭时触发，支持受控与非受控状态。\r\n- 缩放按钮也可使用 `+`、`-` 快捷键，按 `0` 重置缩放和旋转。\r\n- Escape、背景点击和焦点管理会关闭或约束预览；放大后可拖动图片查看边缘细节。\r\n- 其余按钮属性会透传给缩略图触发器。",
+  "events": "- `onOpenChange(open)`：预览打开或关闭时触发，支持受控和非受控状态。\n- 缩放按钮也支持 `+`、`-` 快捷键，按 `0` 重置缩放和旋转。\n- Escape、背景点击和焦点管理会关闭或约束预览；放大后可以拖动图片查看边缘细节。\n- 其余按钮属性会透传给缩略图触发器。",
   "examples": [
     {
       "name": "image-preview-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     },
     {
       "name": "image-preview-minimal",

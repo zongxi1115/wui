@@ -4,7 +4,7 @@ description: 将图片、视频或首屏从小画框滚动扩展到满屏，也�
 component: scroll-expand
 ---
 
-## 基础示例
+## 基础用法
 
 <ComponentPreview name="scroll-expand-demo" />
 
@@ -14,14 +14,16 @@ component: scroll-expand
 
 <ComponentSource name="scroll-expand" title="components/ui/scroll-expand.tsx" />
 
-## 组件作用
+## 使用场景
 
-`ScrollExpand` 在指定滚动长度内固定一个视口，通过 `clip-path` 和内部缩放把媒体从留白画框展开到满屏。设置 `direction="collapse"` 可用于首屏缩小、圆角化退场的 Sticky Scale Hero 手法。
+`ScrollExpand` 在指定滚动长度内固定一个视口，通过 `clip-path` 和内部缩放把媒体从留白画框展开到满屏。
+设置 `direction="collapse"` 可以实现首屏缩小、圆角化退场的 Sticky Scale Hero 效果。它适合首屏视觉叙事，不适合用来隐藏重要信息。
 
-## 组件属性
+## 属性
 
 <PropsTable name="scroll-expand" />
 
-## 使用建议
+## 使用说明
 
-子元素应填满组件尺寸，并自行使用 `object-cover` 或等价布局。`inset` 控制紧凑状态留白，`radius` 控制该状态的圆角，`scrollLength` 决定变化节奏。若内容中包含视频，仍需提供原生播放控制和字幕能力。
+子元素应填满组件尺寸，并自行使用 `object-cover` 或等价布局。`inset` 控制紧凑状态留白，`radius` 控制该状态的圆角，
+`scrollLength` 决定变化节奏。若内容中包含视频，仍需提供原生播放控制、字幕和暂停方式，不能只依靠滚动驱动播放。

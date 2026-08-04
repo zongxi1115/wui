@@ -4,7 +4,7 @@ description: 面向设计 Token 的 OKLCH 颜色选择器，支持感知色彩�
 component: color-picker
 ---
 
-## 基础示例
+## 基础用法
 
 <ComponentPreview name="color-picker-demo" />
 
@@ -12,14 +12,21 @@ component: color-picker
 
 <ComponentSource name="color-picker" title="components/ui/color-picker.tsx" />
 
-## 组件作用
+## 使用场景
 
-`ColorPicker` 默认提供面向普通用户的基础 RGB 模式，可直接打开系统色板或输入 R、G、B 数值。专业 OKLCH 模式将明度、色度和色相拆开控制，更适合精细配置设计 Token。
+`ColorPicker` 适合需要让用户配置主题色、背景色或可视化颜色的场景。基础 RGB 模式适合普通表单，用户可以打开系统色板
+或直接输入 R、G、B 数值；OKLCH 模式把明度、色度和色相分开控制，更适合设计工具和 Token 编辑器。
 
-## 组件属性
+颜色值由组件以 CSS 颜色值保存。展示给用户的色板只是编辑方式，业务层应使用 `onValueChange` 得到的值持久化，
+不要依赖输入框中显示的格式。
+
+## 属性
 
 <PropsTable name="color-picker" />
 
 ## 使用说明
 
-组件接受受控的 `value` 与 `onValueChange`，RGB 与 OKLCH 会在切换模式时自动转换。通过 `showAlpha` 控制透明度通道，通过 `swatches` 提供产品自己的常用色板；弹层底部始终保留 CSS 原始值输入。
+组件接受受控的 `value` 与 `onValueChange`，在 RGB 与 OKLCH 模式之间切换时会自动转换。通过 `showAlpha` 显示或隐藏透明度通道，
+通过 `swatches` 提供产品自己的常用色板；弹层底部保留 CSS 原始值输入，便于复制和粘贴精确颜色。
+
+如果颜色会影响文字与背景的可读性，应在业务层额外做对比度检查；颜色选择器不会替你判断是否满足产品的可访问性要求。

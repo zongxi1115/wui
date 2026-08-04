@@ -27,7 +27,7 @@
       "type": "ReactNode",
       "required": false,
       "control": "text",
-      "description": "Content displayed in the indicator. Numeric values respect `max`."
+      "description": "提示标记中显示的内容。传入数字时会受 max 限制。"
     },
     {
       "name": "max",
@@ -35,7 +35,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "99",
-      "description": "Highest numeric value shown before using a trailing plus sign."
+      "description": "显示数字前允许的最大值，超过后显示带加号的最大值。"
     },
     {
       "name": "showZero",
@@ -43,7 +43,7 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "false",
-      "description": "Keep a numeric zero visible."
+      "description": "数值为 0 时是否仍显示标记。"
     },
     {
       "name": "dot",
@@ -51,7 +51,7 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "false",
-      "description": "Render a small presence dot instead of count content."
+      "description": "是否显示小圆点，而不是显示 count 内容。"
     },
     {
       "name": "visible",
@@ -59,7 +59,7 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "true",
-      "description": "Controlled indicator visibility."
+      "description": "受控模式下提示标记是否显示。"
     },
     {
       "name": "variant",
@@ -74,7 +74,7 @@
         "info"
       ],
       "defaultValue": "destructive",
-      "description": "Semantic color of the indicator."
+      "description": "提示标记使用的语义颜色。"
     },
     {
       "name": "offset",
@@ -82,21 +82,20 @@
       "required": false,
       "control": "text",
       "defaultValue": "[0, 0]",
-      "description": "Pixel offset from the top-right anchor."
+      "description": "标记相对右上角锚点的像素偏移量。"
     },
     {
       "name": "label",
       "type": "string",
       "required": false,
       "control": "text",
-      "description": "Accessible name for the indicator."
+      "description": "提示标记的无障碍名称。"
     }
   ],
-  "usage": "`NotificationBadge` 将数字或提示点定位在任意子元素的右上角，适合未读消息、待办数量和新状态提醒。数字 `count` 支持 `max` 封顶，零值默认隐藏；使用 `dot` 时只显示提示点。\n\n`count` 也可以传入 React 节点，因此示例直接组合了 `SlidingNumber`，让未读数变化时产生逐位滑动效果。",
   "examples": [
     {
       "name": "notification-badge-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     }
   ],
   "files": [

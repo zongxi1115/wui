@@ -4,7 +4,7 @@ description: 在悬停或键盘聚焦时，为控件补充简短的上下文说�
 component: tooltip
 ---
 
-## 基础示例
+## 基础用法
 
 <ComponentPreview name="tooltip-demo" />
 
@@ -12,18 +12,21 @@ component: tooltip
 
 <ComponentSource name="tooltip" title="components/ui/tooltip.tsx" />
 
-## 组件作用
+## 使用场景
 
-`Tooltip` 用于解释图标按钮、不熟悉的控件或被截断的内容。它是辅助信息，不能承载完成任务所必需的内容，也不能替代可见标签、错误提示或 Popover 中的可交互内容。基于 Radix 的实现同时支持指针悬停、键盘聚焦、触屏行为与碰撞检测。
+`Tooltip` 用于解释图标按钮、不熟悉的控件或被截断的短文本。它只是辅助信息，不能承载完成任务所必需的内容，
+也不能替代可见标签、错误提示或 Popover 中的可交互内容。基于 Radix 的实现支持指针悬停、键盘聚焦、触屏行为和碰撞检测。
 
-## 组件属性
+图标按钮必须先有可访问名称，再使用 Tooltip 补充说明；对于需要用户复制、选择或点击的内容，应使用 Popover 或 Dialog。
+
+## 属性
 
 <PropsTable name="tooltip" />
 
 - `TooltipProvider` 通过 `delayDuration` 和 `skipDelayDuration` 协调一组提示的打开节奏。
 - `Tooltip` 支持 `open`、`defaultOpen`、`onOpenChange` 和单实例的 `delayDuration`。
-- `TooltipTrigger` 支持 `asChild`，可将触发能力附加到现有按钮或链接。
-- `TooltipContent` 提供 `side`、`align`、`sideOffset`、`size="sm | default"` 与 `showArrow`。
+- `TooltipTrigger` 支持 `asChild`，可以将触发能力附加到现有按钮或链接。
+- `TooltipContent` 提供 `side`、`align`、`sideOffset`、`size="sm | default"` 和 `showArrow`。
 
 ## 事件
 
@@ -33,12 +36,13 @@ component: tooltip
 
 其余指针、焦点和无障碍属性会透传给对应的 Radix 部件。
 
-## 拓展使用
+## 扩展用法
 
 ### 定位、尺寸与箭头
 
 <ComponentPreview name="tooltip-placement" />
 
-通过 `side="top | right | bottom | left"` 指定首选方向；空间不足时 Radix 会自动避让。密集工具栏可使用 `size="sm"`，无须方向强调时可设置 `showArrow={false}`。
+通过 `side="top | right | bottom | left"` 指定首选方向；空间不足时 Radix 会自动避让。密集工具栏可使用 `size="sm"`，
+不需要方向指向时可设置 `showArrow={false}`。
 
 一组相邻提示应共享同一个 `TooltipProvider`，这样用户从一个触发器移动到另一个触发器时，不必重复等待完整的打开延迟。

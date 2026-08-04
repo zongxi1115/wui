@@ -4,7 +4,7 @@ description: 由可自由组合的小组件构成，支持播放、进度、音�
 component: video-player
 ---
 
-## 完整示例
+## 基础用法
 
 <ComponentPreview name="video-player-demo" previewClassName="min-h-0 p-0" />
 
@@ -12,13 +12,14 @@ component: video-player
 
 <ComponentSource name="video-player" title="components/ui/video-player.tsx" />
 
-## 组件作用
+## 使用场景
 
-`VideoPlayer` 只负责共享媒体状态和键盘交互，其余界面由独立积木组合。可以替换控制栏布局、隐藏音量、加入业务按钮，或直接只使用媒体节点与播放按钮，而不需要修改组件内部。
+`VideoPlayer` 负责共享媒体状态和键盘交互，界面由多个独立部件组合而成。可以替换控制栏布局、隐藏音量、加入业务按钮，
+也可以只使用媒体节点和播放按钮，不需要修改组件内部实现。播放源、封面和媒体权限仍由业务层提供。
 
 ## 组合结构
 
-- `VideoPlayer`：状态容器与可聚焦的播放器根节点。
+- `VideoPlayer`：状态容器和可聚焦的播放器根节点。
 - `VideoPlayerVideo`：连接状态容器的原生 `<video>`，其余媒体属性会透传。
 - `VideoPlayerControls`：贴在视频底部的控制区域。
 - `VideoPlayerControlBar`、`VideoPlayerControlGroup`：控制按钮的布局积木。
@@ -26,12 +27,14 @@ component: video-player
 - `VideoPlayerSeek`、`VideoPlayerVolume`：复用 Slider 的进度和音量控制。
 - `VideoPlayerTime`：当前时间与总时长。
 
-## 组件属性
+## 属性
 
 <PropsTable name="video-player" />
 
-所有组件都接受对应原生元素或基础组件的属性，可通过 `className` 调整布局。`VideoPlayerVideo` 支持 `src`、`poster`、`crossOrigin`、`preload`、`playsInline` 等原生视频属性。
+所有组件都接受对应原生元素或基础组件的属性，可以通过 `className` 调整布局。`VideoPlayerVideo` 支持 `src`、`poster`、
+`crossOrigin`、`preload`、`playsInline` 等原生视频属性。自动播放是否成功仍取决于浏览器的媒体策略。
 
 ## 键盘操作
 
-播放器根节点聚焦后，可使用空格或 `K` 播放/暂停，`M` 静音，`F` 切换全屏，左右方向键前后跳转 5 秒。聚焦在按钮或滑杆时，按键仍由对应控件自行处理。
+播放器根节点聚焦后，可以使用空格或 `K` 播放 / 暂停、`M` 静音、`F` 切换全屏，左右方向键前后跳转 5 秒。
+焦点位于按钮或滑杆时，按键由对应控件处理，不会被播放器根节点重复消费。

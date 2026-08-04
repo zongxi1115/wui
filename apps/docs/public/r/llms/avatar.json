@@ -43,22 +43,21 @@
         "xs"
       ],
       "defaultValue": "default",
-      "description": "Physical avatar size."
+      "description": "头像尺寸。"
     },
     {
       "name": "asChild",
       "type": "boolean",
       "required": false,
-      "control": "boolean"
+      "control": "boolean",
+      "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
     }
   ],
-  "usage": "`Avatar` 用于显示用户、团队、机器人或其他可识别实体。它将图片加载、回退内容和尺寸规则统一在一个稳定的圆形容器中；不应把头像当作无语义的装饰图标使用。\r\n\r\n`AvatarBadge` 表示在线、离开、忙碌或离线状态，`AvatarGroup` 用于紧凑展示少量成员。",
-  "extended": "### 头像组\r\n\r\n\r\n\r\n头像组只显示需要被快速识别的少量成员，剩余数量使用 `AvatarGroupCount` 汇总，避免横向堆叠过长。",
-  "events": "`AvatarImage` 透传图片的加载事件与 `ref`；`Avatar`、`AvatarFallback` 和分组部件透传对应原生元素属性。在线状态由业务层传给 `AvatarBadge status`，组件不会自行轮询用户状态。",
+  "events": "`AvatarImage` 会透传图片的加载事件和 `ref`；`Avatar`、`AvatarFallback` 以及分组部件会透传对应原生元素属性。\n在线状态由业务层传给 `AvatarBadge status`，组件不会请求接口或自行轮询用户状态。",
   "examples": [
     {
       "name": "avatar-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     },
     {
       "name": "avatar-group",

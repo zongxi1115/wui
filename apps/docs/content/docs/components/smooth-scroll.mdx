@@ -4,7 +4,7 @@ description: 用 Lenis 为页面或自定义容器提供惯性平滑滚动基座
 component: smooth-scroll
 ---
 
-## 基础示例
+## 基础用法
 
 <ComponentPreview name="smooth-scroll-demo" />
 
@@ -14,9 +14,10 @@ component: smooth-scroll
 
 <ComponentSource name="smooth-scroll" title="components/ui/smooth-scroll.tsx" />
 
-## 组件作用
+## 使用场景
 
-`SmoothScroll` 封装 Lenis 官方 React Provider。默认 `root` 模式接管文档滚动；设置 `root={false}` 可渲染独立滚动容器。`options` 会直接传给 Lenis，并默认开启 `autoRaf`。
+`SmoothScroll` 封装 Lenis 的 React Provider。默认 `root` 模式接管文档滚动；设置 `root={false}` 可以创建独立滚动容器。
+`options` 会直接传给 Lenis，并默认开启 `autoRaf`。页面级平滑滚动和局部内容滚动应分别选择一种，不要重复包裹同一滚动区域。
 
 按照 Lenis 官方建议，在应用入口引入配套样式：
 
@@ -24,12 +25,13 @@ component: smooth-scroll
 import "lenis/dist/lenis.css"
 ```
 
-## 组件属性
+## 属性
 
 <PropsTable name="smooth-scroll" />
 
-## 使用建议
+## 使用说明
 
-平滑滚动应作为页面级能力只挂载一次，不要在普通卡片中层层嵌套。模态框、代码编辑器和需要原生滚动的区域可使用 Lenis 的 `data-lenis-prevent` 属性。组件默认尊重减少动态效果偏好，此时保留内容并停止滚动插值。
+平滑滚动应作为页面级能力只挂载一次，不要在普通卡片中层层嵌套。模态框、代码编辑器和需要原生滚动的区域可使用 Lenis 的
+`data-lenis-prevent` 属性。组件会尊重用户的“减少动态效果”偏好，此时保留内容并停止滚动插值，恢复为普通滚动行为。
 
 Lenis 的完整选项、推荐 CSS 和集成方式请参考[官方 React 文档](https://github.com/darkroomengineering/lenis/tree/main/packages/react)。

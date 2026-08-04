@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "video-player",
   "type": "registry:ui",
-  "title": "Video Player",
-  "description": "A composable video player with playback, seek, volume, keyboard, and fullscreen controls.",
+  "title": "视频播放器 Video Player",
+  "description": "由可自由组合的小组件构成，支持播放、进度、音量、快捷键和全屏的视频播放器。",
   "dependencies": [
     "lucide-react"
   ],

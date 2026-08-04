@@ -28,22 +28,22 @@
       "name": "disabled",
       "type": "boolean",
       "required": false,
-      "control": "boolean"
+      "control": "boolean",
+      "description": "是否禁用组件。"
     },
     {
       "name": "asChild",
       "type": "boolean",
       "required": false,
-      "control": "boolean"
+      "control": "boolean",
+      "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
     }
   ],
-  "usage": "`RadioGroup` 用于从两个或更多互斥选项中选择一项。环形边框与全局主色实心圆点保持清晰的选中反馈，同时保留方向键切换、焦点管理与表单语义。",
-  "extended": "通过 `orientation` 控制键盘导航方向，通过 `disabled` 禁用整组或单项。`RadioGroupItem` 支持 `size=\"sm | default | lg\"`，标签应使用原生 `label` 包裹或通过 `htmlFor` 关联。",
-  "events": "`onValueChange(value)` 在选择变化后触发。`RadioGroupItem` 接收必需的 `value`，原生焦点、禁用与表单属性会继续透传。",
+  "events": "`onValueChange(value)` 在选择变化后触发，参数是当前选项的 `value`。`RadioGroupItem` 必须设置唯一的 `value`；\n原生焦点、禁用与表单属性会继续透传。受控模式下，回调需要同步更新外部 `value`。",
   "examples": [
     {
       "name": "radio-group-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     }
   ],
   "files": [

@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "ai-chat",
   "type": "registry:ui",
-  "title": "AI Chat",
-  "description": "Composable AI messages, follow-scroll behavior, and prompt input.",
+  "title": "AI 对话 AI Chat",
+  "description": "可组合的 AI 消息、滚动容器与提示输入框。",
   "dependencies": [
     "class-variance-authority",
     "lucide-react"

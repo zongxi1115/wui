@@ -26,14 +26,14 @@
       "type": "ReactNode",
       "required": false,
       "control": "text",
-      "description": "Heading rendered above the description list."
+      "description": "描述列表上方显示的标题。"
     },
     {
       "name": "extra",
       "type": "ReactNode",
       "required": false,
       "control": "text",
-      "description": "Action rendered opposite the heading."
+      "description": "显示在标题相对位置的操作内容。"
     },
     {
       "name": "columns",
@@ -41,7 +41,7 @@
       "required": false,
       "control": "text",
       "defaultValue": "3",
-      "description": "Number of item groups per row."
+      "description": "每行显示的描述项组数。"
     },
     {
       "name": "bordered",
@@ -49,7 +49,7 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "false",
-      "description": "Draw a structured border around labels and values."
+      "description": "是否为标签和值绘制结构化边框。"
     },
     {
       "name": "layout",
@@ -61,7 +61,7 @@
         "vertical"
       ],
       "defaultValue": "horizontal",
-      "description": "Place labels beside or above their values."
+      "description": "标签显示在值的旁边还是上方。"
     },
     {
       "name": "size",
@@ -73,7 +73,7 @@
         "sm"
       ],
       "defaultValue": "default",
-      "description": "Vertical density."
+      "description": "描述列表的垂直密度。"
     },
     {
       "name": "labelWidth",
@@ -81,16 +81,14 @@
       "required": false,
       "control": "text",
       "defaultValue": "7rem",
-      "description": "Fixed width of every horizontal label cell."
+      "description": "横向布局中每个标签单元格的固定宽度。"
     }
   ],
-  "usage": "`Descriptions` 用于只读地呈现项目、订单、账户或设备等单个对象的属性。它使用语义化描述列表，适合“字段—值”阅读；大量同构记录的横向比较应使用 Table。",
-  "extended": "`bordered` 适合信息密度较高的管理页面，默认分隔线样式更轻；`layout=\"vertical\"` 适合标签较长或窄容器。`columns` 与 `span` 应配合使用，跨列总数不要超过当前行容量。",
-  "events": "描述列表本身不产生事件。通过 `extra` 放置编辑、复制等轻量操作；字段值中的链接或按钮仍保留各自的原生事件。",
+  "events": "描述列表本身不产生业务事件。通过 `extra` 放置编辑、复制等轻量操作；字段值中的链接或按钮仍保留各自的原生事件。",
   "examples": [
     {
       "name": "descriptions-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     }
   ],
   "files": [

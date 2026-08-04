@@ -4,7 +4,7 @@ description: 用可折叠的思考链展示模型推理摘要与执行进度。
 component: ai-reasoning
 ---
 
-## 基础示例
+## 基础用法
 
 <ComponentPreview name="ai-reasoning-demo" />
 
@@ -12,27 +12,33 @@ component: ai-reasoning
 
 <ComponentSource name="ai-reasoning" title="components/ui/ai-reasoning.tsx" />
 
-## 组件作用
+## 使用场景
 
-`AiReasoning` 用于把模型明确返回、允许展示的推理摘要组织成连续的思考链。`AiReasoningContent` 接受任意 React 元素；推荐使用 `AiReasoningStep` 表示搜索、读取、分析或整理动作，并通过连接线表达前后顺序。步骤的 `children` 同样不限制内容类型，可以放链接、代码、结果摘要或其他组合组件；`icon` 可区分动作类型，`meta` 可补充结果数、文件数等简短信息。
+`AiReasoning` 用于把模型明确返回、且允许展示的过程摘要组织成连续步骤。`AiReasoningContent` 接受任意 React 元素；
+推荐使用 `AiReasoningStep` 表示搜索、读取、分析或整理动作，并用连接线表达先后顺序。步骤可以放链接、代码、结果摘要或其他组合组件；
+`icon` 区分动作类型，`meta` 补充结果数、文件数等简短信息。
 
-组件在 `isStreaming` 期间自动展开，完成后自动收起。每个新加入的 `AiReasoningStep` 会执行一次短距离位移、轻微模糊和透明度淡入；展开与收起不缩放内容，所有动效都会响应系统的“减少动态效果”设置。
+组件在 `isStreaming` 期间自动展开，完成后自动收起。每个新加入的 `AiReasoningStep` 只执行一次短距离位移、轻微模糊和淡入；
+展开与收起不会缩放正文，用户开启“减少动态效果”后会直接显示最终状态。
 
-不要用它暴露系统提示词、隐藏思维链、密钥、内部策略或模型未明确返回的推理内容。面向用户时优先展示简洁的“正在搜索”“正在读取文件”“正在形成方案”等过程摘要。
+不要用它暴露系统提示词、隐藏思维链、密钥、内部策略或模型未明确返回的推理内容。面向用户时优先展示简洁的过程摘要，
+例如“正在搜索”“正在读取文件”“正在形成方案”，并在输出前过滤不应展示的内部内容。
 
-## 组件属性
+## 属性
 
 <PropsTable name="ai-reasoning" />
 
 ## 事件
 
-组件透传 Radix Collapsible 的 `open` 与 `onOpenChange`。非受控模式下，`isStreaming` 变为 `true` 时自动展开，从 `true` 变为 `false` 时自动收起；受控模式由调用方决定展开策略。内容区域在流式阶段使用 `aria-live` 和 `aria-busy` 通知辅助技术。
+组件透传 Radix Collapsible 的 `open` 和 `onOpenChange`。非受控模式下，`isStreaming` 变为 `true` 时自动展开，
+从 `true` 变为 `false` 时自动收起；受控模式由调用方决定展开策略。内容区域在流式阶段使用 `aria-live` 和 `aria-busy` 通知辅助技术。
 
-## 扩展使用
+## 扩展用法
 
 ### 综合示例
 
-下面的示例使用受控展开状态，依次追加带 Motion 入场的思考步骤，并在步骤 body 中组合 `Badge`、代码、文件结果与 `AiTool`。思考结束后，再交给 `AiStream` 输出最终回答。
+下面的示例使用受控展开状态，依次追加带入场动画的思考步骤，并在步骤内容中组合 `Badge`、代码、文件结果和 `AiTool`。
+过程结束后，再交给 `AiStream` 输出最终回答。
 
 <ComponentPreview
   name="ai-reasoning-advanced"
@@ -41,10 +47,12 @@ component: ai-reasoning
 
 ### 接入流式进度
 
-将模型或业务层返回的可展示步骤依次追加为 `AiReasoningStep`。当前步骤使用 `active`，已完成步骤使用 `complete`，尚未开始的步骤使用 `pending`。可以通过 `getLabel` 自定义“正在思考”和完成用时文案。
+将模型或业务层返回的可展示步骤依次追加为 `AiReasoningStep`。当前步骤使用 `active`，已完成步骤使用 `complete`，
+尚未开始的步骤使用 `pending`。可以通过 `getLabel` 自定义“正在处理”和完成用时等文案。
 
 文本级的累计流式输出与 Delta 分段淡入属于 [`AiStream`](/docs/components/ai-stream) 的能力，不由推理过程组件重复封装。
 
 ### 与工具状态配合
 
-思考链适合展示简洁的过程摘要；需要展开输入、输出、代码或错误详情时，应交给 [`AiTool`](/docs/components/ai-tool)。不要暴露隐藏思维链、系统提示词或内部策略。
+思考链适合展示简洁的过程摘要；需要展开输入、输出、代码或错误详情时，应交给 [`AiTool`](/docs/components/ai-tool)。
+不要在步骤中直接暴露隐藏思维链、系统提示词或内部策略。

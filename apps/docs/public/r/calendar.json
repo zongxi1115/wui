@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "calendar",
   "type": "registry:ui",
-  "title": "Calendar",
-  "description": "An accessible single-month date grid with controlled selection.",
+  "title": "日历 Calendar",
+  "description": "用可访问的月视图浏览并选择单个日期。",
   "dependencies": [
     "lucide-react",
     "motion"

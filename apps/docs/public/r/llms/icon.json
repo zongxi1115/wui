@@ -28,7 +28,7 @@
       "type": "LucideIcon",
       "required": true,
       "control": "text",
-      "description": "Lucide icon component to render."
+      "description": "要渲染的 Lucide 图标组件。"
     },
     {
       "name": "size",
@@ -36,7 +36,7 @@
       "required": false,
       "control": "text",
       "defaultValue": "md",
-      "description": "Named size token or an exact pixel size."
+      "description": "图标尺寸名称，或精确的像素值。"
     },
     {
       "name": "variant",
@@ -54,28 +54,28 @@
         "muted"
       ],
       "defaultValue": "default",
-      "description": "Semantic text color token."
+      "description": "图标使用的语义文字颜色。"
     },
     {
       "name": "color",
       "type": "Color",
       "required": false,
       "control": "text",
-      "description": "Custom CSS/SVG color. Overrides the semantic color when provided."
+      "description": "自定义 CSS/SVG 颜色。设置后会覆盖 variant。"
     },
     {
       "name": "label",
       "type": "string",
       "required": false,
       "control": "text",
-      "description": "Accessible name. Omit it when the icon is purely decorative."
+      "description": "图标的无障碍名称。纯装饰图标无需设置。"
     }
   ],
-  "usage": "```tsx\nimport { SearchIcon } from \"lucide-react\"\n\nimport { Icon } from \"@/components/ui/icon\"\n\n<Icon icon={SearchIcon} />\n<Icon icon={SearchIcon} size=\"lg\" strokeWidth={1.75} />\n<Icon icon={SearchIcon} label=\"搜索\" />\n```\n\n`label` 为空时，图标会被视为装饰并对辅助技术隐藏。如果图标单独传达含义，请提供 `label`；如果图标位于已有文字或 `aria-label` 的按钮内，保持装饰状态即可。",
+  "usage": "```tsx\nimport { SearchIcon } from \"lucide-react\"\n\nimport { Icon } from \"@/components/ui/icon\"\n\n<Icon icon={SearchIcon} />\n<Icon icon={SearchIcon} size=\"lg\" strokeWidth={1.75} />\n<Icon icon={SearchIcon} label=\"搜索\" />\n```\n\n`label` 为空时，图标会被视为装饰并对辅助技术隐藏。如果图标单独传达含义，请提供 `label`；如果图标位于已经有文字\n或 `aria-label` 的按钮内，则保持装饰状态，避免读屏器把同一名称读两遍。",
   "examples": [
     {
       "name": "icon-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     },
     {
       "name": "icon-colors",

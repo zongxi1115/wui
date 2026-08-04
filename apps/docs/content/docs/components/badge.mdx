@@ -4,7 +4,7 @@ description: 用紧凑的标签展示状态、分类或简短元数据。
 component: badge
 ---
 
-## 基础示例
+## 基础用法
 
 <ComponentPreview name="badge-demo" />
 
@@ -12,16 +12,20 @@ component: badge
 
 <ComponentSource name="badge" title="components/ui/badge.tsx" />
 
-## 组件作用
+## 使用场景
 
-`Badge` 适合展示状态、分类、版本和其他短文本。语义色使用主题中的 `info`、`success`、`warning` 与 `destructive` token；仅表达分类而非状态时，优先使用 `default`、`secondary` 或 `outline`。
+`Badge` 适合展示状态、分类、版本号和其他短文本。它是信息标签，不负责触发操作，也不适合放置一段完整说明。
 
-通过 `asChild` 可以把样式合并到链接等单个子元素上，同时保留子元素原有语义。
+表示结果或风险时，使用 `info`、`success`、`warning` 和 `destructive`；只表示分类时，使用 `default`、
+`secondary` 或 `outline`，避免让用户误以为标签代表告警状态。
 
-## 组件属性
+需要让标签本身可以跳转时，可通过 `asChild` 将样式组合到链接等单个子元素上，同时保留子元素原有语义。
+
+## 属性
 
 <PropsTable name="badge" />
 
 ## 可访问性
 
-徽章默认是无额外语义的行内容器。表达无法从邻近文本判断的状态时，请提供可读文本；不要只依赖颜色传达含义。
+徽章默认只是一个行内容器，不会自动向读屏器宣布状态。表达无法从附近文字判断的信息时，请使用清晰的文本，
+不要只依赖颜色；例如不要只显示红色圆点，而应同时写出“失败”或“有 3 条未读消息”。

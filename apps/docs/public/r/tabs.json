@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "tabs",
   "type": "registry:ui",
-  "title": "Tabs",
-  "description": "A tabbed interface with a fluid shared-layout indicator.",
+  "title": "标签栏 Tabs",
+  "description": "使用共享布局动效平滑切换内容分区。",
   "dependencies": [
     "radix-ui",
     "class-variance-authority",

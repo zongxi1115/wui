@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "badge",
   "type": "registry:ui",
-  "title": "Badge",
-  "description": "A compact label for status, category, or short metadata.",
+  "title": "徽章 Badge",
+  "description": "用紧凑的标签展示状态、分类或简短元数据。",
   "dependencies": [
     "radix-ui",
     "class-variance-authority"

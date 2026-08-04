@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "bubble",
   "type": "registry:ui",
-  "title": "Bubble",
-  "description": "Composable message bubble with direction, metadata, avatars, and actions.",
+  "title": "气泡 Bubble",
+  "description": "可组合头像、署名、正文、时间与操作区的通用消息气泡。",
   "dependencies": [
     "class-variance-authority"
   ],

@@ -4,7 +4,7 @@ description: 用紧凑、克制的按键样式展示快捷键与键盘操作。
 component: kbd
 ---
 
-## 基础示例
+## 基础用法
 
 <ComponentPreview name="kbd-demo" />
 
@@ -12,23 +12,27 @@ component: kbd
 
 <ComponentSource name="kbd" title="components/ui/kbd.tsx" />
 
-## 组件作用
+## 使用场景
 
-`Kbd` 用于展示单个键位，`KbdGroup` 用于对齐组合快捷键。它是说明性内容，不可点击，也不应该承担 Button 的交互职责。组件只使用细边框和语义底色，不添加内高光或厚重拟物阴影。
+`Kbd` 用于展示单个键位，`KbdGroup` 用于排列组合快捷键。它只负责说明操作方式，不可点击，也不应替代 Button。
+例如“保存”是操作按钮，“Ctrl + S”是对该操作的键盘提示，两者应分别承担交互和说明职责。
 
-## 组件属性
+## 属性
 
 <PropsTable name="kbd" />
 
 `Kbd` 继承原生 `<kbd>` 属性，并提供 `size="sm | default"`；`KbdGroup` 继承原生 `<span>` 属性。
+快捷键文本由业务层决定，组件不会根据操作系统自动把 `Ctrl` 转换为 `⌘`。
 
 ## 事件
 
-键盘提示本身不触发操作，但原生指针、焦点及数据属性仍会透传。需要响应快捷键时，应在页面或功能逻辑中单独注册键盘事件。
+键盘提示本身不触发操作，但原生属性仍会透传。需要响应快捷键时，应在页面或功能逻辑中注册键盘事件，
+并同时处理输入框、编辑器等不应拦截快捷键的场景。
 
-## 拓展使用
+## 扩展用法
 
-组合键使用多个 `Kbd` 包裹在 `KbdGroup` 中，并为仅由符号组成的组合提供清晰的 `aria-label`。
+组合键使用多个 `Kbd` 放入 `KbdGroup` 中。组合只显示符号时，应为容器提供清晰的 `aria-label`，
+让读屏器能读出完整操作。
 
 ```tsx
 <KbdGroup aria-label="Shortcut: Control K">

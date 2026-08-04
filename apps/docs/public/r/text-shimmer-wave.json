@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "text-shimmer-wave",
   "type": "registry:ui",
-  "title": "Text Shimmer Wave",
-  "description": "Sends a shimmer-like 3D wave through text one character at a time.",
+  "title": "文本波光 Text Shimmer Wave",
+  "description": "逐字符传播的立体位移与高光波浪。",
   "dependencies": [
     "motion"
   ],

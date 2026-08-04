@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "infinite-slider",
   "type": "registry:ui",
-  "title": "Infinite Slider",
-  "description": "A continuously looping horizontal or vertical content track.",
+  "title": "无限滑动 Infinite Slider",
+  "description": "平滑循环内容的水平或垂直滑动轨道。",
   "dependencies": [
     "motion"
   ],

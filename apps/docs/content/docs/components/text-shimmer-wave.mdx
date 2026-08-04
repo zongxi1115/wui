@@ -4,7 +4,7 @@ description: 逐字符传播的立体位移与高光波浪。
 component: text-shimmer-wave
 ---
 
-## 基础示例
+## 基础用法
 
 <ComponentPreview name="text-shimmer-wave-demo" />
 
@@ -15,18 +15,20 @@ component: text-shimmer-wave
   title="components/ui/text-shimmer-wave.tsx"
 />
 
-## 组件作用
+## 使用场景
 
-`TextShimmerWave` 把颜色、位移、缩放与轻微旋转组合成逐字符波浪。它比普通扫光更醒目，适合短暂生成状态或单一展示焦点。
+`TextShimmerWave` 把颜色、位移、缩放和轻微旋转组合成逐字符波浪。它比普通扫光更醒目，适合短暂生成状态或单一展示焦点；
+不要在同一视口放置多个波浪文本。
 
-## 组件属性
+## 属性
 
 <PropsTable name="text-shimmer-wave" />
 
 ## 事件
 
-组件没有自有事件，底层元素事件继续透传。减少动态效果时只显示静态文字。
+组件没有自有事件，底层元素事件继续透传。用户开启“减少动态效果”时只显示静态文字。
 
-## 扩展使用
+## 扩展用法
 
-`xDistance`、`yDistance`、`zDistance` 控制空间位移，`scaleDistance` 和 `rotateYDistance` 控制形变。使用自定义 `transition` 时仍建议保留循环，确保波浪持续传播。
+`xDistance`、`yDistance`、`zDistance` 控制空间位移，`scaleDistance` 和 `rotateYDistance` 控制形变。使用自定义 `transition` 时，
+建议保持较小的位移和旋转，避免文字难以阅读。

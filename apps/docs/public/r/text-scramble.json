@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "text-scramble",
   "type": "registry:ui",
-  "title": "Text Scramble",
-  "description": "Resolves randomized characters into the supplied text.",
+  "title": "文本扰码 Text Scramble",
+  "description": "随机字符逐步解析为目标文本的扰码效果。",
   "dependencies": [
     "motion"
   ],

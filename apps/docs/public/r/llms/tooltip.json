@@ -33,7 +33,7 @@
       "type": "boolean",
       "required": false,
       "control": "boolean",
-      "description": "Controlled open state."
+      "description": "受控模式下提示内容是否打开。"
     },
     {
       "name": "defaultOpen",
@@ -41,21 +41,21 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "false",
-      "description": "Initial open state when uncontrolled."
+      "description": "非受控模式下提示内容的初始打开状态。"
     },
     {
       "name": "onOpenChange",
       "type": "((open: boolean) => void)",
       "required": false,
       "control": "text",
-      "description": "Called whenever the open state changes."
+      "description": "提示内容打开状态变化时触发。"
     },
     {
       "name": "delayDuration",
       "type": "number",
       "required": false,
       "control": "number",
-      "description": "Hover delay in milliseconds for this tooltip."
+      "description": "鼠标悬停后显示提示的延迟时间，单位为毫秒。"
     },
     {
       "name": "disableHoverableContent",
@@ -63,16 +63,14 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "false",
-      "description": "Close when the pointer leaves the trigger instead of allowing content hover."
+      "description": "指针离开触发元素后是否立即关闭提示，而不允许指针移入提示内容。"
     }
   ],
-  "usage": "`Tooltip` 用于解释图标按钮、不熟悉的控件或被截断的内容。它是辅助信息，不能承载完成任务所必需的内容，也不能替代可见标签、错误提示或 Popover 中的可交互内容。基于 Radix 的实现同时支持指针悬停、键盘聚焦、触屏行为与碰撞检测。",
-  "extended": "### 定位、尺寸与箭头\r\n\r\n\r\n\r\n通过 `side=\"top | right | bottom | left\"` 指定首选方向；空间不足时 Radix 会自动避让。密集工具栏可使用 `size=\"sm\"`，无须方向强调时可设置 `showArrow={false}`。\r\n\r\n一组相邻提示应共享同一个 `TooltipProvider`，这样用户从一个触发器移动到另一个触发器时，不必重复等待完整的打开延迟。",
-  "events": "- `onOpenChange(open)`：提示因悬停、焦点或关闭操作改变状态时触发。\r\n- `onEscapeKeyDown(event)`：内容打开时按下 Escape 触发，可调用 `event.preventDefault()` 阻止默认关闭行为。\r\n- `onPointerDownOutside(event)`：在提示范围外按下指针时触发。\r\n\r\n其余指针、焦点和无障碍属性会透传给对应的 Radix 部件。",
+  "events": "- `onOpenChange(open)`：提示因悬停、焦点或关闭操作改变状态时触发。\n- `onEscapeKeyDown(event)`：内容打开时按下 Escape 触发，可调用 `event.preventDefault()` 阻止默认关闭行为。\r\n- `onPointerDownOutside(event)`：在提示范围外按下指针时触发。\r\n\r\n其余指针、焦点和无障碍属性会透传给对应的 Radix 部件。",
   "examples": [
     {
       "name": "tooltip-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     },
     {
       "name": "tooltip-placement",

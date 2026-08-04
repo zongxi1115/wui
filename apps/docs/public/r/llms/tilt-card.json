@@ -31,7 +31,7 @@
       "type": "ReactNode",
       "required": true,
       "control": "text",
-      "description": "Content rendered on the tilting plane."
+      "description": "显示在 3D 倾斜平面上的内容。"
     },
     {
       "name": "maxTilt",
@@ -39,7 +39,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "9",
-      "description": "Maximum rotation on either axis in degrees."
+      "description": "任一方向允许的最大旋转角度，单位为度。"
     },
     {
       "name": "perspective",
@@ -47,7 +47,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "900",
-      "description": "Perspective depth in pixels."
+      "description": "透视深度，单位为像素。"
     },
     {
       "name": "hoverScale",
@@ -55,7 +55,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "1.015",
-      "description": "Scale applied while the pointer is over the card."
+      "description": "指针悬停在卡片上时使用的缩放比例。"
     },
     {
       "name": "glare",
@@ -63,21 +63,21 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "false",
-      "description": "Show a pointer-position glare layer."
+      "description": "是否显示随指针移动的高光图层。"
     },
     {
       "name": "glareClassName",
       "type": "string",
       "required": false,
       "control": "text",
-      "description": "Classes applied to the optional glare layer."
+      "description": "应用于可选高光图层的 CSS 类名。"
     }
   ],
-  "usage": "`TiltCard` 将指针在卡片中的归一化位置映射为 X/Y 轴旋转，并用弹簧回到静止状态。内部内容可以通过 `translateZ` 建立少量前后层级，`glare` 则提供可选的光照反馈。",
+  "usage": "`maxTilt` 建议保持在 4–10 度，`perspective` 越大透视越平缓。不要给密集列表中的每个操作控件都添加倾斜，\n否则会增加视觉噪声和跟踪成本。触摸输入以及用户开启“减少动态效果”时会保持静止。",
   "examples": [
     {
       "name": "tilt-card-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     }
   ],
   "files": [

@@ -4,7 +4,7 @@ description: 基于 Radix UI 构建、覆盖在主窗口之上的浮层窗口。
 component: dialog
 ---
 
-## 基础示例
+## 基础用法
 
 <ComponentPreview name="dialog-demo" />
 
@@ -12,30 +12,28 @@ component: dialog
 
 <ComponentSource name="dialog" title="components/ui/dialog.tsx" />
 
-## 组件作用
+## 使用场景
 
-`Dialog` 用于暂时打断当前流程，展示需要聚焦的内容或请求用户确认。它会锁定焦点，支持完整的
-键盘操作，并可通过 `Esc` 或点击遮罩关闭，这些能力均由 Radix 提供。它适合模态流程；
-对于轻量的非模态消息，请优先使用 toast。
+`Dialog` 用于暂时打断当前流程，展示需要用户聚焦的内容或请求用户确认。它会锁定焦点，支持完整的键盘操作，
+并可通过 `Esc` 或点击遮罩关闭。它适合模态流程；轻量的非模态反馈应使用 Message，需要保留在页面中的说明应使用 Alert。
 
-该组件由一组可组合的部分构成：`Dialog`、`DialogTrigger`、`DialogContent`、
-`DialogHeader`、`DialogTitle`、`DialogDescription`、`DialogFooter` 和 `DialogClose`。
+组件由一组可组合的部分构成：`Dialog`、`DialogTrigger`、`DialogContent`、`DialogHeader`、`DialogTitle`、
+`DialogDescription`、`DialogFooter` 和 `DialogClose`。每个对话框都应设置标题；有补充说明时再提供描述。
 
 <Callout title="从触发元素展开">
-  `DialogContent` 不只是简单淡入，而是会从打开它的按钮位置**生长出来**。打开时，面板从
-  触发元素的位置开始，以缩小且透明的状态弹性过渡到屏幕中央；关闭时则收缩回触发元素。
-  该效果由 [`motion`](/docs/components/motion) 提供。当用户偏好减少动态效果时，形变动画
-  会替换为纯淡入淡出。如果通过代码打开对话框且页面上没有触发元素，则从中心缩放。
+  `DialogContent` 会从打开它的按钮位置生长出来。打开时，面板从触发元素的位置以缩小且透明的状态过渡到屏幕中央；
+  关闭时则收缩回触发元素。该效果由 [`motion`](/docs/components/motion) 提供；用户开启“减少动态效果”后，
+  会改为纯淡入淡出。如果通过代码打开对话框，且页面上没有触发元素，则从中心缩放。
 </Callout>
 
-## 组件属性
+## 属性
 
 <PropsTable
   data={[
     { prop: "open", type: "boolean", description: "受控的打开状态，需与 onOpenChange 配合使用。" },
     { prop: "defaultOpen", type: "boolean", default: "false", description: "非受控模式下的初始打开状态。" },
     { prop: "modal", type: "boolean", default: "true", description: "是否阻止与对话框外部内容交互。" },
-    { prop: "variant", type: '"modal" | "inline"', default: '"modal"', description: "居中弹出，或在文档流原位置进行 shared layout 变换。" },
+    { prop: "variant", type: '"modal" | "inline"', default: '"modal"', description: "使用居中模态窗口，或在原位置进行布局变换。" },
   ]}
 />
 
@@ -53,20 +51,19 @@ component: dialog
   ]}
 />
 
-## 扩展使用
+## 扩展用法
 
 ### 原地布局变换（非模态）
 
-设置 `variant="inline"` 后，Trigger 与 Content 各自包含一个没有文字的共享背景表面。Motion 只在
-这两个背景表面之间进行 `layoutId` 形变，因此面板可以从按钮轮廓自然长大，而按钮文字、表单和
-操作区只进行淡入淡出，不会参与缩放或被压扁。面板不会 Portal 到页面中央，也不会显示遮罩；
-`DialogHeader`、`DialogClose` 等其余组合 API 保持不变。
+设置 `variant="inline"` 后，Trigger 与 Content 各自包含一个没有文字的共享背景表面。Motion 只在这两个背景表面之间
+进行布局变换，因此面板可以从按钮轮廓自然长大，而按钮文字、表单和操作区只进行淡入淡出，不会参与缩放或被压扁。
+面板不会 Portal 到页面中央，也不会显示遮罩；`DialogHeader`、`DialogClose` 等组合 API 保持不变。
 
 <ComponentPreview name="dialog-layout" />
 
 <Callout title="它不是无障碍模态框">
-  这种模式适合轻量设置、详情和编辑面板，不会锁定焦点或阻止页面其他区域交互。需要用户必须先
-  完成或取消的流程时，仍应使用上面的 Radix `Dialog`。
+  这种模式适合轻量设置、详情和编辑面板，不会锁定焦点，也不会阻止页面其他区域交互。需要用户必须先完成或取消的流程时，
+  仍应使用上面的 Radix `Dialog`。
 </Callout>
 
 如需开箱即用的确认流程，请查看由 `Dialog` 和 `Button` 组合而成的

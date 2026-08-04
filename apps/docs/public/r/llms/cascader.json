@@ -1,7 +1,7 @@
 {
   "name": "cascader",
   "type": "registry:ui",
-  "title": "Cascader",
+  "title": "级联选择 Cascader",
   "description": "用于浏览和选择层级值的多列选择器。",
   "import": "import { Cascader } from \"@/components/ui/cascader\"",
   "exports": [
@@ -29,14 +29,14 @@
       "type": "CascaderOption[]",
       "required": true,
       "control": "text",
-      "description": "层级选项树。"
+      "description": "级联选项树。"
     },
     {
       "name": "value",
       "type": "string[]",
       "required": false,
       "control": "text",
-      "description": "受控模式下的选中值路径。"
+      "description": "受控模式下当前选中的完整路径。"
     },
     {
       "name": "defaultValue",
@@ -44,14 +44,14 @@
       "required": false,
       "control": "text",
       "defaultValue": "[]",
-      "description": "非受控模式下的初始值路径。"
+      "description": "非受控模式下初始选中的完整路径。"
     },
     {
       "name": "onValueChange",
       "type": "((value: string[], options: CascaderOption[]) => void)",
       "required": false,
       "control": "text",
-      "description": "当前路径发生变化时调用。"
+      "description": "选中路径变化时触发，并返回当前路径及对应选项。"
     },
     {
       "name": "placeholder",
@@ -59,7 +59,7 @@
       "required": false,
       "control": "text",
       "defaultValue": "请选择地区",
-      "description": "未选中完整路径时展示的占位文本。@default \"请选择地区\""
+      "description": "未选择完整路径时显示的占位文本。"
     },
     {
       "name": "separator",
@@ -67,7 +67,7 @@
       "required": false,
       "control": "text",
       "defaultValue": "/",
-      "description": "选中标签之间的分隔符。@default \" / \""
+      "description": "已选路径各层级之间显示的分隔符。"
     },
     {
       "name": "closeOnSelect",
@@ -75,7 +75,7 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "true",
-      "description": "选中叶子节点后是否关闭面板。@default true"
+      "description": "选择叶子节点后是否自动关闭选项面板。"
     },
     {
       "name": "panelLabel",
@@ -83,34 +83,35 @@
       "required": false,
       "control": "text",
       "defaultValue": "级联选项",
-      "description": "选项面板的无障碍标签。@default \"级联选项\""
+      "description": "选项面板的无障碍名称。"
     },
     {
       "name": "contentClassName",
       "type": "string",
       "required": false,
       "control": "text",
-      "description": "应用于浮层面板的额外类名。"
+      "description": "应用于浮层面板的额外 CSS 类名。"
     },
     {
       "name": "renderValue",
       "type": "((options: CascaderOption[]) => ReactNode)",
       "required": false,
       "control": "text",
-      "description": "自定义触发器的选中值渲染。"
+      "description": "自定义触发器中已选路径的渲染方式。"
     },
     {
       "name": "disabled",
       "type": "boolean",
       "required": false,
-      "control": "boolean"
+      "control": "boolean",
+      "description": "是否禁用组件。"
     }
   ],
-  "events": "- `onValueChange(value, options)` 会在任一级发生变化后触发，并返回稳定值路径与已解析的选项对象。\r\n- `onOpenChange` 由组件内部的触发器管理；默认选中叶子节点后关闭面板。\r\n- 标准按钮的聚焦和键盘激活事件会透传给触发器。",
+  "events": "- `onValueChange(value, options)` 会在选择变化后触发，返回稳定的值路径和已解析的选项对象。\n- `onOpenChange` 由组件内部的触发器管理；默认选中叶子节点后关闭面板。\n- 触发器会透传标准按钮的聚焦和键盘激活事件。",
   "examples": [
     {
       "name": "cascader-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     }
   ],
   "files": [

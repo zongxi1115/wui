@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "ai-tool",
   "type": "registry:ui",
-  "title": "AI Tool",
-  "description": "Collapsible AI tool invocation states, inputs, outputs, and errors.",
+  "title": "AI 工具调用 AI Tool",
+  "description": "展示 AI 工具的执行状态、参数、结果与错误。",
   "dependencies": [
     "radix-ui",
     "class-variance-authority",

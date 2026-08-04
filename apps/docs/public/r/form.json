@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "form",
   "type": "registry:ui",
-  "title": "Form",
-  "description": "Composable form fields with animated validation feedback.",
+  "title": "表单 Form",
+  "description": "可组合的表单字段，协调标签、校验提示与动效反馈。",
   "dependencies": [
     "motion"
   ],

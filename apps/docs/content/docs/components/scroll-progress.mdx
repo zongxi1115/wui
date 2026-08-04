@@ -4,7 +4,7 @@ description: 用顶部进度条或环形指示器显示页面、容器或区块�
 component: scroll-progress
 ---
 
-## 基础示例
+## 基础用法
 
 <ComponentPreview name="scroll-progress-demo" />
 
@@ -17,14 +17,16 @@ component: scroll-progress
   title="components/ui/scroll-progress.tsx"
 />
 
-## 组件作用
+## 使用场景
 
-`ScrollProgress` 可以观察整个页面、指定滚动容器，或通过 `target` 只计算某个内容区块的经过进度。`variant="bar"` 适合全局阅读位置，`variant="circle"` 适合文章工具栏和沉浸式章节。
+`ScrollProgress` 可以观察整个页面、指定滚动容器，或通过 `target` 只计算某个内容区块的阅读进度。
+`variant="bar"` 适合显示全局阅读位置，`variant="circle"` 适合文章工具栏和沉浸式章节。它只说明“读到哪里”，不代替章节导航。
 
-## 组件属性
+## 属性
 
 <PropsTable name="scroll-progress" />
 
-## 使用建议
+## 使用说明
 
-在嵌套滚动区域中同时传入 `container` 与 `target`。`offset` 使用 Motion 的滚动偏移语法；例如 `["start start", "end end"]` 表示目标顶部到达容器顶部时从 0 开始，目标底部到达容器底部时到 1。进度属于辅助导航，不应替代章节标题和明确的页面结构。
+在嵌套滚动区域中同时传入 `container` 和 `target`。`offset` 使用 Motion 的滚动偏移语法；例如 `["start start", "end end"]`
+表示目标顶部到达容器顶部时从 0 开始，目标底部到达容器底部时到 1。进度属于辅助导航，应同时提供章节标题和明确的页面结构。

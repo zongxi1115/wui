@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "horizontal-scroll",
   "type": "registry:ui",
-  "title": "Horizontal Scroll",
-  "description": "Converts vertical section progress into a pinned horizontal track.",
+  "title": "横向滚动区块 Horizontal Scroll",
+  "description": "将垂直滚动距离映射为钉住内容轨道的水平移动。",
   "dependencies": [
     "motion"
   ],

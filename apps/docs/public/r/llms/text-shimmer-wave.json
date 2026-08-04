@@ -30,7 +30,7 @@
       "type": "string",
       "required": true,
       "control": "text",
-      "description": "Text animated as a traveling character wave."
+      "description": "按字符播放立体波浪动画的文字。"
     },
     {
       "name": "as",
@@ -38,7 +38,7 @@
       "required": false,
       "control": "text",
       "defaultValue": "span",
-      "description": "HTML element rendered by the component."
+      "description": "组件实际渲染的 HTML 元素。"
     },
     {
       "name": "duration",
@@ -46,7 +46,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "1.5",
-      "description": "Seconds for one full wave."
+      "description": "完整波浪动画循环的时长，单位为秒。"
     },
     {
       "name": "zDistance",
@@ -54,7 +54,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "10",
-      "description": "Z-axis travel in pixels."
+      "description": "字符沿 Z 轴移动的距离，单位为像素。"
     },
     {
       "name": "xDistance",
@@ -62,7 +62,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "2",
-      "description": "Horizontal travel in pixels."
+      "description": "字符沿水平方向移动的距离，单位为像素。"
     },
     {
       "name": "yDistance",
@@ -70,7 +70,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "-2",
-      "description": "Vertical travel in pixels."
+      "description": "字符沿垂直方向移动的距离，单位为像素。"
     },
     {
       "name": "spread",
@@ -78,7 +78,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "1",
-      "description": "Distance between character wave phases."
+      "description": "相邻字符波浪相位之间的距离。"
     },
     {
       "name": "scaleDistance",
@@ -86,7 +86,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "1.1",
-      "description": "Peak character scale."
+      "description": "字符达到的最大缩放比例。"
     },
     {
       "name": "rotateYDistance",
@@ -94,23 +94,21 @@
       "required": false,
       "control": "number",
       "defaultValue": "10",
-      "description": "Peak Y-axis rotation in degrees."
+      "description": "字符达到的最大 Y 轴旋转角度，单位为度。"
     },
     {
       "name": "transition",
       "type": "Transition",
       "required": false,
       "control": "text",
-      "description": "Motion transition merged into every character."
+      "description": "合并到每个字符上的过渡动画。"
     }
   ],
-  "usage": "`TextShimmerWave` 把颜色、位移、缩放与轻微旋转组合成逐字符波浪。它比普通扫光更醒目，适合短暂生成状态或单一展示焦点。",
-  "extended": "`xDistance`、`yDistance`、`zDistance` 控制空间位移，`scaleDistance` 和 `rotateYDistance` 控制形变。使用自定义 `transition` 时仍建议保留循环，确保波浪持续传播。",
-  "events": "组件没有自有事件，底层元素事件继续透传。减少动态效果时只显示静态文字。",
+  "events": "组件没有自有事件，底层元素事件继续透传。用户开启“减少动态效果”时只显示静态文字。",
   "examples": [
     {
       "name": "text-shimmer-wave-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     }
   ],
   "files": [

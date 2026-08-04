@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "descriptions",
   "type": "registry:ui",
-  "title": "Descriptions",
-  "description": "A semantic key-value list for records, profiles, and object summaries.",
+  "title": "描述列表 Descriptions",
+  "description": "以清晰的键值结构展示对象、记录与档案信息。",
   "dependencies": [],
   "registryDependencies": [
     "utils"

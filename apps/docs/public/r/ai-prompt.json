@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "ai-prompt",
   "type": "registry:ui",
-  "title": "AI Prompt",
-  "description": "Composable AI prompt input with mentions, models, attachments, quotes, and optional capabilities.",
+  "title": "AI 输入框 AI Prompt",
+  "description": "支持提及、模型选择、附件、引用和可选能力的组合式 AI 输入框。",
   "dependencies": [
     "class-variance-authority",
     "lucide-react"

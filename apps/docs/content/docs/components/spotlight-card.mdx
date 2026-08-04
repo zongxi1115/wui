@@ -4,7 +4,7 @@ description: 根据鼠标位置在内容表面显露一层局部光照。
 component: spotlight-card
 ---
 
-## 基础示例
+## 基础用法
 
 <ComponentPreview name="spotlight-card-demo" />
 
@@ -15,14 +15,16 @@ component: spotlight-card
   title="components/ui/spotlight-card.tsx"
 />
 
-## 组件作用
+## 使用场景
 
-`SpotlightCard` 记录指针相对组件的位置，用径向背景显露局部色彩。它不引入第三方运行时依赖，适合作品目录、定价区域或需要轻微空间反馈的表面。
+`SpotlightCard` 记录指针相对组件的位置，用径向背景显露局部色彩。它不引入第三方运行时依赖，
+适合作品目录、定价区域或需要轻微空间反馈的表面。光照只增强已有层级，不会改变卡片内容或点击行为。
 
-## 组件属性
+## 属性
 
 <PropsTable name="spotlight-card" />
 
-## 使用建议
+## 使用说明
 
-通过 `radius` 调整影响范围，通过 `color` 使用与当前内容有关的低透明度语义色。聚光只应强化现有层级，不能承载唯一的状态或操作提示；触摸输入下内容必须仍然完整可读。
+通过 `radius` 调整影响范围，通过 `color` 使用与当前内容有关的低透明度颜色。聚光不能承载唯一的状态或操作提示；
+触摸输入下没有指针位置，内容仍必须完整可读。

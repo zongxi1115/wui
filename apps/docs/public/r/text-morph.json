@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "text-morph",
   "type": "registry:ui",
-  "title": "Text Morph",
-  "description": "Morphs shared characters into their new positions when text changes.",
+  "title": "文本变形 Text Morph",
+  "description": "在文字变化时让共享字符流畅地移动到新位置。",
   "dependencies": [
     "motion"
   ],

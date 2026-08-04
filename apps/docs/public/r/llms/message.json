@@ -44,7 +44,7 @@
         "bottom-right"
       ],
       "defaultValue": "top",
-      "description": "Default screen position."
+      "description": "消息默认显示在屏幕上的位置。"
     },
     {
       "name": "duration",
@@ -52,7 +52,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "3000",
-      "description": "Default time before dismissal in milliseconds."
+      "description": "消息默认显示时长，单位为毫秒。"
     },
     {
       "name": "maxCount",
@@ -60,7 +60,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "5",
-      "description": "Maximum number of visible messages. Older messages are dismissed first."
+      "description": "同时显示的消息数量上限。超出后优先移除较早的消息。"
     },
     {
       "name": "offset",
@@ -68,7 +68,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "20",
-      "description": "Distance between the viewport and the window edge, in pixels."
+      "description": "消息与视口边缘的距离，单位为像素。"
     },
     {
       "name": "gap",
@@ -76,7 +76,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "10",
-      "description": "Space between stacked messages, in pixels."
+      "description": "堆叠消息之间的间距，单位为像素。"
     },
     {
       "name": "stacked",
@@ -84,7 +84,7 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "true",
-      "description": "Stack messages as overlapping layers instead of a vertical list."
+      "description": "是否将消息重叠堆叠显示，而不是显示为纵向列表。"
     },
     {
       "name": "maxVisibleMessages",
@@ -92,7 +92,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "3",
-      "description": "Maximum number of visible layers in a stacked queue."
+      "description": "堆叠队列中同时显示的最大层数。"
     },
     {
       "name": "scaleFactor",
@@ -100,7 +100,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "0.05",
-      "description": "Scale reduction applied to each successive stacked layer."
+      "description": "每增加一层时应用的缩放幅度。"
     },
     {
       "name": "expandOnHover",
@@ -108,7 +108,7 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "true",
-      "description": "Expand stacked messages into a list on hover or keyboard focus."
+      "description": "鼠标悬停或键盘聚焦时是否展开消息堆。"
     },
     {
       "name": "dragToDismiss",
@@ -116,7 +116,7 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "true",
-      "description": "Allow messages to be dismissed by dragging horizontally."
+      "description": "是否允许通过水平拖动移除消息。"
     },
     {
       "name": "dragThreshold",
@@ -124,7 +124,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "72",
-      "description": "Horizontal drag distance required to dismiss, in pixels."
+      "description": "触发拖动移除所需的水平距离，单位为像素。"
     },
     {
       "name": "motion",
@@ -132,14 +132,13 @@
       "required": false,
       "control": "text",
       "defaultValue": "{}",
-      "description": "Motion defaults shared by all messages."
+      "description": "所有消息共用的动效配置。"
     }
   ],
-  "usage": "`MessageProvider` 与 `useMessage()` 用于由按钮或业务事件触发全局轻提示。Message 通过 Portal 渲染，适合保存成功、复制完成、轻量警告和可恢复错误等短反馈。\n\nMessage 只承载一行紧凑内容；需要标题、较长说明、尾部操作或长期保留的页面内反馈时，请使用 Alert。\n\n默认状态图标来自 `@animateicons/react`，消息出现时会自动播放一次：信息使用 `InfoIcon`、成功使用 `CircleCheckIcon`、警告使用 `TriangleAlertIcon`、错误使用 `XIcon`。",
   "examples": [
     {
       "name": "message-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     },
     {
       "name": "message-motion",

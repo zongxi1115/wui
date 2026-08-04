@@ -4,7 +4,7 @@ description: 支持提及、模型选择、附件、引用和可选能力的组�
 component: ai-prompt
 ---
 
-## 基础示例
+## 基础用法
 
 <ComponentPreview name="ai-prompt-demo" />
 
@@ -12,34 +12,40 @@ component: ai-prompt
 
 <ComponentSource name="ai-prompt" title="components/ui/ai-prompt.tsx" />
 
-## 组件作用
+## 使用场景
 
-`AiPrompt` 是可独立放在页面、侧栏或 [`AiChat`](/docs/components/ai-chat) 底部的提示输入框。它负责输入区结构、提及选择、模型入口、附件展示和发送状态，不绑定具体 AI SDK、上传接口或模型列表。
+`AiPrompt` 是可以独立放在页面、侧栏或 [`AiChat`](/docs/components/ai-chat) 底部的 AI 输入框。它负责输入区结构、提及选择、
+模型入口、附件展示和发送状态，不绑定具体 AI SDK、上传接口或模型列表。
 
-普通搜索框、评论输入和传统表单不应使用 `AiPrompt`。只有输入会触发模型能力，且确实需要模型、上下文或工具选项时，才使用这些附加部件。
+普通搜索框、评论输入和传统表单不应使用 `AiPrompt`。只有输入会触发模型能力，并且确实需要模型、上下文或工具选项时，
+才启用这些附加部件；简单的单行问题不需要把所有能力入口都展示出来。
 
-## 组件属性
+## 属性
 
 <PropsTable name="ai-prompt" />
 
 ## 事件
 
-- `AiPrompt` 透传表单 `onSubmit`，业务层负责发送请求。
-- `AiPromptTextarea` 默认随内容自动增高，到达 `maxHeight` 后切换为内部滚动；放在 `AiPromptMention` 中时，Provider 通过 `onValueChange` 统一处理普通输入和提及插入。
-- `AiPromptMention onMentionSelect` 在候选项插入后触发；菜单支持方向键、Enter、Tab 与 Escape。
-- `AiPromptAttachmentButton onFilesChange` 返回本地 `File[]`，不预设上传请求。
-- `AiModelSelector onValueChange` 返回模型值；简单布尔能力使用 `AiPromptAction`，存在模式与强度层级的能力使用 `AiPromptCapabilitySelector`。
+- `AiPrompt` 透传表单 `onSubmit`，业务层负责读取内容、发送请求和处理错误。
+- `AiPromptTextarea` 默认随内容自动增高，达到 `maxHeight` 后切换为内部滚动；放在 `AiPromptMention` 中时，Provider 通过 `onValueChange`
+  统一处理普通输入和提及插入。
+- `AiPromptMention onMentionSelect` 在候选项插入后触发；菜单支持方向键、Enter、Tab 和 Escape。
+- `AiPromptAttachmentButton onFilesChange` 返回本地 `File[]`，不预设上传请求和文件校验。
+- `AiModelSelector onValueChange` 返回模型值；简单布尔能力使用 `AiPromptAction`，有模式或强度层级的能力使用 `AiPromptCapabilitySelector`。
 
-## 扩展使用
+## 扩展用法
 
 ### 提及与引用上下文
 
 <ComponentPreview name="ai-prompt-mentions" />
 
-将输入框包在 `AiPromptMention` 中即可启用 `@` 检测、过滤、键盘导航与插入。引用内容放在 `AiPromptHeader`，与正文保持明确层级，不把引用拼进 placeholder。
+将输入框包在 `AiPromptMention` 中即可启用 `@` 检测、过滤、键盘导航和插入。引用内容放在 `AiPromptHeader`，
+与正文保持明确层级；不要把引用对象拼进 placeholder，因为 placeholder 不能替代真实输入内容。
 
 ### 模型、附件与可选能力
 
 <ComponentPreview name="ai-prompt-advanced" />
 
-模型选择器复用通用 `Select`，通过 `provider` 自动显示 OpenAI、Anthropic 或 xAI 厂商标识，并以主模型名、当前模式和能力说明建立两级信息层次。已选文件使用 `AiPromptAttachment` 呈现；联网搜索等布尔能力使用 `AiPromptAction active`，深度思考则通过复用 `Cascader` 的 `AiPromptCapabilitySelector` 继续选择 effort。
+模型选择器复用通用 `Select`，通过 `provider` 显示厂商标识，并以模型名称、当前模式和能力说明建立信息层次。
+已选文件使用 `AiPromptAttachment` 呈现；联网搜索等布尔能力使用 `AiPromptAction active`，深度思考等有层级的能力，
+使用复用 Cascader 交互的 `AiPromptCapabilitySelector` 继续选择 effort。

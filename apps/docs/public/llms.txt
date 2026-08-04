@@ -14,7 +14,7 @@
 - [头像 Avatar](https://ui.wzx.wang/docs/components/avatar): 带图片回退、在线状态和头像组的通用身份组件。
 - [徽章 Badge](https://ui.wzx.wang/docs/components/badge): 用紧凑的标签展示状态、分类或简短元数据。
 - [气泡 Bubble](https://ui.wzx.wang/docs/components/bubble): 可组合头像、署名、正文、时间与操作区的通用消息气泡。
-- [cn utility](https://ui.wzx.wang/docs/components/utils): Tailwind class merge helper used by every component.
+- [cn 工具函数](https://ui.wzx.wang/docs/components/utils): 供所有组件使用的 Tailwind 类名合并工具函数。
 - [按钮 Button](https://ui.wzx.wang/docs/components/button): 显示一个按钮，或显示一个外观类似按钮的组件。
 - [对话框 Dialog](https://ui.wzx.wang/docs/components/dialog): 基于 Radix UI 构建、覆盖在主窗口之上的浮层窗口。
 - [形变对话框 Morphing Dialog](https://ui.wzx.wang/docs/components/morphing-dialog): 从触发元素平滑变形成聚焦内容的模态对话框。
@@ -25,17 +25,17 @@
 - [动效 Motion](https://ui.wzx.wang/docs/components/motion): 基于 motion 构建的可选动画基础组件和预设库。
 - [图标 Icon](https://ui.wzx.wang/docs/components/icon): 基于 Lucide 的可搜索图标集合与无障碍渲染组件。
 - [动态图标 Animated Icon](https://ui.wzx.wang/docs/components/animated-icon): 图标内部路径会随交互运动的 Lucide 动态图标集合。
-- [Animated Icon Collection](https://ui.wzx.wang/docs/components/animated-icon-collection): The complete deduplicated AnimateIcons, ItsHover, and SVGlide path-animated icon collection.
+- [动态图标集合 Animated Icon Collection](https://ui.wzx.wang/docs/components/animated-icon-collection): 去重后的 AnimateIcons、ItsHover 和 SVGlide 路径动态图标完整集合。
 - [闪光按钮 Shiny Button](https://ui.wzx.wang/docs/components/shiny-button): 带有流动扫光效果的填充按钮。
 - [开关 Switch](https://ui.wzx.wang/docs/components/switch): 带弹簧滑块与完整无障碍语义的二元状态控件。
 - [进度条 Progress](https://ui.wzx.wang/docs/components/progress): 细腻、克制并支持确定与不确定状态的进度指示器。
-- [滑动输入 Slider](https://ui.wzx.wang/docs/components/slider): 悬浮时展开轨道、数值标签实时跟随的可调输入控件。
+- [滑动输入 Slider](https://ui.wzx.wang/docs/components/slider): 粗轨道、小圆点滑块与数值标签组合的可调输入控件。
 - [颜色选择器 Color Picker](https://ui.wzx.wang/docs/components/color-picker): 面向设计 Token 的 OKLCH 颜色选择器，支持感知色彩通道、透明度和精确 CSS 值。
 - [单选框 Radio Group](https://ui.wzx.wang/docs/components/radio-group): 用于互斥选项的轻量单选控件组。
 - [多选框 Checkbox](https://ui.wzx.wang/docs/components/checkbox): 支持选中、未选中与不确定状态的多选控件。
-- [下拉框 Select](https://ui.wzx.wang/docs/components/select): 带景深入场、分组与键盘导航的选项选择器。
-- [Cascader](https://ui.wzx.wang/docs/components/cascader): 用于浏览和选择层级值的多列选择器。
-- [Form](https://ui.wzx.wang/docs/components/form): 可组合的表单字段，协调标签、校验提示与动效反馈。
+- [下拉框 Select](https://ui.wzx.wang/docs/components/select): 支持分组、禁用项和键盘导航的选项选择器。
+- [级联选择 Cascader](https://ui.wzx.wang/docs/components/cascader): 用于浏览和选择层级值的多列选择器。
+- [表单 Form](https://ui.wzx.wang/docs/components/form): 可组合的表单字段，协调标签、校验提示与动效反馈。
 - [标签栏 Tabs](https://ui.wzx.wang/docs/components/tabs): 使用共享布局动效平滑切换内容分区。
 - [导航栏 Navbar](https://ui.wzx.wang/docs/components/navbar): 适用于页面顶部与应用左侧的可组合导航栏。
 - [折叠面板 Collapsible](https://ui.wzx.wang/docs/components/collapsible): 按需展开一段补充内容，并保留清晰的状态与键盘交互。

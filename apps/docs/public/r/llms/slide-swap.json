@@ -29,7 +29,7 @@
       "type": "ReactNode",
       "required": true,
       "control": "text",
-      "description": "Content duplicated for the outgoing and incoming layers."
+      "description": "同时用于离场和入场图层的内容。"
     },
     {
       "name": "direction",
@@ -41,14 +41,14 @@
         "down"
       ],
       "defaultValue": "up",
-      "description": "Direction the visible layer leaves."
+      "description": "当前可见图层离场的方向。"
     },
     {
       "name": "active",
       "type": "boolean",
       "required": false,
       "control": "boolean",
-      "description": "Force the swapped state from outside the component."
+      "description": "是否从组件外部强制切换到交换状态。"
     },
     {
       "name": "transition",
@@ -56,14 +56,14 @@
       "required": false,
       "control": "text",
       "defaultValue": "{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }",
-      "description": "Transition shared by both content layers."
+      "description": "两个内容图层共用的过渡动画。"
     }
   ],
-  "usage": "`SlideSwap` 与逐字符动画不同，它把文字、图标或其他组合内容作为完整的一层进行交换。默认在鼠标浮入时让当前层向上离开，并让副本从下方进入，适合导航链接、按钮标签和目录入口。",
+  "usage": "组件只负责视觉内容，实际链接或按钮语义应放在外层。通过 `direction=\"down\"` 可以反转方向，也可以传入 `active` 由外部状态控制交换。\n如果内容变化会影响操作含义，应同时更新外层元素的可访问名称，不能只改变视觉文字。",
   "examples": [
     {
       "name": "slide-swap-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     }
   ],
   "files": [

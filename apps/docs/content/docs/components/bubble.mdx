@@ -4,7 +4,7 @@ description: 可组合头像、署名、正文、时间与操作区的通用消�
 component: bubble
 ---
 
-## 基础示例
+## 基础用法
 
 <ComponentPreview name="bubble-demo" />
 
@@ -12,24 +12,28 @@ component: bubble
 
 <ComponentSource name="bubble" title="components/ui/bubble.tsx" />
 
-## 组件作用
+## 使用场景
 
-`Bubble` 用于聊天、评论、协作记录和活动流中的单条消息。它只负责一条消息的方向、表面和元信息布局，不负责消息列表滚动、发送状态或数据请求。
+`Bubble` 用于聊天、评论、协作记录和活动流中的单条消息。它负责消息的左右方向、表面、头像、署名、时间和操作区布局，
+但不负责消息列表滚动、发送状态、分页或数据请求。
 
-头像通过通用 [`Avatar`](/docs/components/avatar) 组合，操作按钮继续使用 `Button`，避免气泡内部重复定义身份和交互组件。长篇 AI 回答可以使用 `variant="ghost"`，减少大块底色对阅读的干扰。
+头像可以组合通用的 [`Avatar`](/docs/components/avatar)，操作按钮继续使用 `Button`，避免在气泡内部重复定义身份和交互组件。
+长篇 AI 回答可以使用 `variant="ghost"`，减少大块底色对连续阅读的干扰；短消息则更适合有边界的默认样式。
 
-## 组件属性
+## 属性
 
 <PropsTable name="bubble" />
 
 ## 事件
 
-所有部件透传对应原生元素事件。`side` 只控制视觉方向；消息菜单、复制、重试、已读回执等行为由业务层绑定到 `BubbleActions` 中的按钮。
+所有部件都会透传对应原生元素事件。`side` 只控制视觉方向，不会判断消息发送者；消息菜单、复制、重试和已读回执等行为，
+应由业务层绑定到 `BubbleActions` 中的按钮。
 
-## 扩展使用
+## 扩展用法
 
 ### 表面样式
 
 <ComponentPreview name="bubble-variants" />
 
-`default`、`primary` 和 `outline` 适合短消息，`ghost` 适合长文本或富内容。不要仅靠颜色区分发送者，仍应保留方向、署名或其他可识别信息。
+`default`、`primary` 和 `outline` 适合短消息，`ghost` 适合长文本或富内容。不要只靠颜色区分发送者，
+仍应保留方向、署名或其他可识别信息。错误、发送中等状态也应通过文字或图标补充说明。

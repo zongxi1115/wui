@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "ai-stream",
   "type": "registry:ui",
-  "title": "AI Stream",
-  "description": "Reusable streamed text for answers, reasoning, and other AI content.",
+  "title": "AI 流式文本 AI Stream",
+  "description": "可用于普通回答与思考过程的通用流式文本动效。",
   "dependencies": [
     "motion"
   ],

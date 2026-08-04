@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "sliding-number",
   "type": "registry:ui",
-  "title": "Sliding Number",
-  "description": "Displays each numeric digit on an independently sliding reel.",
+  "title": "滑动数字 Sliding Number",
+  "description": "用独立数字轮平滑过渡数值变化。",
   "dependencies": [
     "motion"
   ],

@@ -28,14 +28,14 @@
       "type": "string",
       "required": true,
       "control": "text",
-      "description": "CSS OKLCH color value."
+      "description": "当前颜色的 CSS OKLCH 值。"
     },
     {
       "name": "onValueChange",
       "type": "(value: string) => void",
       "required": true,
       "control": "text",
-      "description": "Called continuously while a channel or exact value changes."
+      "description": "颜色通道或完整颜色值变化时持续触发。"
     },
     {
       "name": "label",
@@ -43,7 +43,7 @@
       "required": false,
       "control": "text",
       "defaultValue": "选择颜色",
-      "description": "Accessible name for the trigger."
+      "description": "颜色选择器触发按钮的无障碍名称。"
     },
     {
       "name": "showAlpha",
@@ -51,7 +51,7 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "true",
-      "description": "Show the alpha channel control."
+      "description": "是否显示透明度通道。"
     },
     {
       "name": "swatches",
@@ -59,20 +59,21 @@
       "required": false,
       "control": "text",
       "defaultValue": "[\n  \"oklch(0.546 0.245 262.881)\", // wui-token-audit-allow -- picker color data\n  \"oklch(0.585 0.233 277.117)\", // wui-token-audit-allow -- picker color data\n  \"oklch(0.577 0.245 27.325)\", // wui-token-audit-allow -- picker color data\n  \"oklch(0.666 0.179 58.318)\", // wui-token-audit-allow -- picker color data\n  \"oklch(0.527 0.154 150.069)\", // wui-token-audit-allow -- picker color data\n  \"oklch(0.6 0.118 184.704)\", // wui-token-audit-allow -- picker color data\n]",
-      "description": "Quick-pick OKLCH swatches."
+      "description": "可供快速选择的 OKLCH 颜色。"
     },
     {
       "name": "disabled",
       "type": "boolean",
       "required": false,
-      "control": "boolean"
+      "control": "boolean",
+      "description": "是否禁用组件。"
     }
   ],
-  "usage": "`ColorPicker` 默认提供面向普通用户的基础 RGB 模式，可直接打开系统色板或输入 R、G、B 数值。专业 OKLCH 模式将明度、色度和色相拆开控制，更适合精细配置设计 Token。",
+  "usage": "组件接受受控的 `value` 与 `onValueChange`，在 RGB 与 OKLCH 模式之间切换时会自动转换。通过 `showAlpha` 显示或隐藏透明度通道，\n通过 `swatches` 提供产品自己的常用色板；弹层底部保留 CSS 原始值输入，便于复制和粘贴精确颜色。\n\n如果颜色会影响文字与背景的可读性，应在业务层额外做对比度检查；颜色选择器不会替你判断是否满足产品的可访问性要求。",
   "examples": [
     {
       "name": "color-picker-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     }
   ],
   "files": [

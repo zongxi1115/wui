@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "grain-overlay",
   "type": "registry:ui",
-  "title": "Grain Overlay",
-  "description": "Adds a scalable SVG fractal-noise texture over a positioned surface.",
+  "title": "颗粒遮罩 Grain Overlay",
+  "description": "用可缩放 SVG 噪声为任意表面增加克制的胶片颗粒质感。",
   "registryDependencies": [
     "utils"
   ],

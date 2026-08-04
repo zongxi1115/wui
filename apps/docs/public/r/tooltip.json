@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "tooltip",
   "type": "registry:ui",
-  "title": "Tooltip",
-  "description": "An accessible contextual label shown on hover or keyboard focus.",
+  "title": "文字提示 Tooltip",
+  "description": "在悬停或键盘聚焦时，为控件补充简短的上下文说明。",
   "dependencies": [
     "radix-ui",
     "class-variance-authority"

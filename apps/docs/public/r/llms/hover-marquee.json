@@ -31,14 +31,14 @@
       "type": "ReactNode",
       "required": true,
       "control": "text",
-      "description": "Content shown while the row is idle."
+      "description": "列表行未激活时显示的内容。"
     },
     {
       "name": "marquee",
       "type": "ReactNode",
       "required": true,
       "control": "text",
-      "description": "Content repeated inside the moving preview track."
+      "description": "浮入预览轨道中循环显示的内容。"
     },
     {
       "name": "speed",
@@ -46,7 +46,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "96",
-      "description": "Track speed in pixels per second."
+      "description": "预览轨道移动速度，单位为每秒像素数。"
     },
     {
       "name": "gap",
@@ -54,7 +54,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "32",
-      "description": "Space between repeated preview items in pixels."
+      "description": "重复预览项之间的间距，单位为像素。"
     },
     {
       "name": "reverse",
@@ -62,28 +62,28 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "false",
-      "description": "Move the preview track in the opposite direction."
+      "description": "是否反转预览轨道的移动方向。"
     },
     {
       "name": "active",
       "type": "boolean",
       "required": false,
       "control": "boolean",
-      "description": "Force the preview open from outside the component."
+      "description": "是否从组件外部强制打开预览。"
     },
     {
       "name": "marqueeClassName",
       "type": "string",
       "required": false,
       "control": "text",
-      "description": "Classes applied to the moving preview layer."
+      "description": "应用于移动预览层的 CSS 类名。"
     }
   ],
-  "usage": "`HoverMarquee` 默认展示普通目录行，鼠标浮入或键盘焦点进入时，以横向循环的预览带替换原内容。它适合作品索引、案例目录、分类导航和视觉化菜单。\n\n组件内部复用 `InfiniteSlider`，安装时会自动带上对应依赖。启用“减少动态效果”时仍会显示预览内容，但不会持续滚动。",
+  "usage": "将目录行放在 `children`，把需要重复滚动的内容放在 `marquee`。通过 `speed` 调整速度，并交替设置 `reverse`，可以形成左右错向的目录节奏。\n内容较长时应控制重复数量，避免用户焦点进入后需要等待很久才能看到完整信息。",
   "examples": [
     {
       "name": "hover-marquee-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     }
   ],
   "files": [

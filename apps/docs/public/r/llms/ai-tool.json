@@ -51,28 +51,28 @@
         "denied"
       ],
       "defaultValue": "pending",
-      "description": "Tool execution state."
+      "description": "工具调用的当前状态，例如执行中、成功或失败。"
     },
     {
       "name": "disabled",
       "type": "boolean",
       "required": false,
-      "control": "boolean"
+      "control": "boolean",
+      "description": "是否禁用组件。"
     },
     {
       "name": "asChild",
       "type": "boolean",
       "required": false,
-      "control": "boolean"
+      "control": "boolean",
+      "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
     }
   ],
-  "usage": "`AiTool` 用于把一次工具调用压缩成可扫描的状态行，并在需要时展开参数、结果或错误。它适合搜索、读文件、数据库查询和生成任务，不负责真正调用工具，也不应把敏感参数直接展示给最终用户。\n\n普通后台任务状态更适合进度条或时间轴；只有当“哪个工具做了什么”对理解 Agent 行为有帮助时才使用该组件。",
-  "extended": "### 状态映射\n\n使用 `pending`、`approval`、`running`、`success`、`error` 与 `denied` 映射工具协议状态。颜色、图标和文字会共同表达状态，不依赖单一颜色；`running` 图标会在系统开启“减少动态效果”时停止旋转。\n\n### 自定义输出\n\nJSON 参数可放入 `AiToolCode`，普通文本、表格、文件列表或图片可以直接组合在 `AiToolSection` 内。失败信息使用 `AiToolError`，避免把堆栈和内部路径直接暴露给不需要调试信息的用户。",
-  "events": "组件透传 Radix Collapsible 的 `open`、`defaultOpen` 与 `onOpenChange`，支持受控和非受控展开。工具批准、拒绝与重试按钮由业务层放入 `AiToolSection`，并自行绑定请求事件。",
+  "events": "组件透传 Radix Collapsible 的 `open`、`defaultOpen` 和 `onOpenChange`，支持受控和非受控展开。工具批准、拒绝和重试按钮\n由业务层放入 `AiToolSection`，并自行绑定请求事件；按钮的显示条件应与当前工具状态保持一致。",
   "examples": [
     {
       "name": "ai-tool-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     }
   ],
   "files": [

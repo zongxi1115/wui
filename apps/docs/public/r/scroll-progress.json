@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "scroll-progress",
   "type": "registry:ui",
-  "title": "Scroll Progress",
-  "description": "Shows page, container, or section scroll completion as a bar or ring.",
+  "title": "滚动进度 Scroll Progress",
+  "description": "用顶部进度条或环形指示器显示页面、容器或区块的阅读进度。",
   "dependencies": [
     "motion"
   ],

@@ -4,7 +4,7 @@ description: 用小时、分钟与时制分栏快速设定时间。
 component: time-picker
 ---
 
-## 基础示例
+## 基础用法
 
 <ComponentPreview name="time-picker-demo" />
 
@@ -12,18 +12,21 @@ component: time-picker
 
 <ComponentSource name="time-picker" title="components/ui/time-picker.tsx" />
 
-## 组件作用
+## 使用场景
 
-`TimePicker` 适合会议、预约和提醒等需要精确时间点的表单。值始终使用稳定的 24 小时 `HH:mm` 格式，展示层可选择 12 或 24 小时制；只需要粗粒度时段时，Select 通常更直接。
+`TimePicker` 适合会议、预约和提醒等需要精确时间点的表单。值始终使用稳定的 24 小时 `HH:mm` 格式，
+展示层可以选择 12 或 24 小时制；只需要“上午 / 下午”或粗粒度时段时，Select 更直接。
 
-## 组件属性
+## 属性
 
 <PropsTable name="time-picker" />
 
 ## 事件
 
-点击“确定”后触发 `onValueChange(value)` 并关闭弹层。受控模式由调用方更新 `value`，非受控模式使用 `defaultValue`。
+点击“确定”后触发 `onValueChange(value)` 并关闭弹层。受控模式由调用方更新 `value`；非受控模式使用 `defaultValue`。
+用户只修改了弹层中的临时值但没有点击确认时，不会提交新值。
 
-## 扩展使用
+## 扩展用法
 
-使用 `minuteStep` 在 1、5、10、15、30 分钟步进间选择。`hourCycle={12}` 会增加 AM/PM 分栏，但回调值仍保持 24 小时格式，便于存储与提交。
+使用 `minuteStep` 设置分钟步进，例如 5、10、15 或 30 分钟。`hourCycle={12}` 会增加 AM / PM 分栏，
+但回调值仍保持 24 小时格式，便于存储、比较和提交。

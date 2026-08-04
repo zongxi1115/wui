@@ -4,7 +4,7 @@ description: 支持选中、未选中与不确定状态的多选控件。
 component: checkbox
 ---
 
-## 基础示例
+## 基础用法
 
 <ComponentPreview name="checkbox-demo" />
 
@@ -12,18 +12,24 @@ component: checkbox
 
 <ComponentSource name="checkbox" title="components/ui/checkbox.tsx" />
 
-## 组件作用
+## 使用场景
 
-`Checkbox` 用于在一组互不排斥的选项中选择零项或多项，也适用于同意条款等需要明确提交的布尔选择。全局主色填充、紧凑圆角与路径绘制勾号提供清晰且丝滑的反馈。
+`Checkbox` 用于在一组互不排斥的选项中选择零项或多项，也适合表示“同意条款”这类需要用户明确确认的布尔值。
+多个选项可以同时选中；如果用户只能从多个选项中选择一项，应使用 `RadioGroup`。
 
-## 组件属性
+勾选状态由调用方保存。将多个复选框放入表单时，标签应说明具体选项，不能只依赖选中颜色区分状态。
+
+## 属性
 
 <PropsTable name="checkbox" />
 
 ## 事件
 
-`onCheckedChange(checked)` 在状态变化后触发，值可能是 `true`、`false` 或 `"indeterminate"`。其余键盘、焦点与表单属性会透传到底层 Radix Root。
+`onCheckedChange(checked)` 在状态变化后触发，值可能是 `true`、`false` 或 `"indeterminate"`。受控用法下，
+回调需要同步更新 `checked`，否则点击后界面不会保持新状态。其余键盘、焦点与表单属性会透传到底层 Radix Root。
 
-## 拓展使用
+## 扩展用法
 
-使用 `checked="indeterminate"` 表示一组子选项仅部分选中，横线和勾号都会使用路径动画进入；取消选择时则轻柔缩回。使用 `size="sm | default | lg"` 调整控件尺寸，文字标签应通过原生 `label` 与控件关联。
+使用 `checked="indeterminate"` 表示一组子选项只选中了其中一部分，适合“全选”复选框。父项变为不确定状态时，
+应在子项数量变化后重新计算，而不是把它当成第三个永久状态。使用 `size="sm | default | lg"` 调整控件尺寸，
+文字标签应通过原生 `label` 与控件关联。

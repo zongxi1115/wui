@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "radio-group",
   "type": "registry:ui",
-  "title": "Radio Group",
-  "description": "An accessible option group for mutually exclusive choices.",
+  "title": "单选框 Radio Group",
+  "description": "用于互斥选项的轻量单选控件组。",
   "dependencies": [
     "radix-ui",
     "class-variance-authority"

@@ -30,7 +30,7 @@
       "type": "string",
       "required": true,
       "control": "text",
-      "description": "Text rolled character by character."
+      "description": "按字符逐个翻滚显示的文字。"
     },
     {
       "name": "duration",
@@ -38,7 +38,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "0.45",
-      "description": "Duration of each character roll in seconds."
+      "description": "每个字符完成一次翻滚所需的时间，单位为秒。"
     },
     {
       "name": "getEnterDelay",
@@ -46,7 +46,7 @@
       "required": false,
       "control": "text",
       "defaultValue": "(index) => index * 0.025",
-      "description": "Delay for each character entering the roll."
+      "description": "计算每个字符进入翻滚状态延迟的函数。"
     },
     {
       "name": "getExitDelay",
@@ -54,14 +54,14 @@
       "required": false,
       "control": "text",
       "defaultValue": "(index) => index * 0.02",
-      "description": "Delay for each character returning to rest."
+      "description": "计算每个字符回到静止状态延迟的函数。"
     },
     {
       "name": "transition",
       "type": "Transition",
       "required": false,
       "control": "text",
-      "description": "Motion transition merged into every character."
+      "description": "合并到每个字符上的过渡动画。"
     },
     {
       "name": "variants",
@@ -69,7 +69,7 @@
       "required": false,
       "control": "text",
       "defaultValue": "{\n  rest: { y: \"0%\" },\n  hover: { y: \"-50%\" },\n}",
-      "description": "Rest and hover states for each character track."
+      "description": "每个字符轨道的静止和悬停状态。"
     },
     {
       "name": "trigger",
@@ -81,16 +81,14 @@
         "mount"
       ],
       "defaultValue": "hover",
-      "description": "Play on hover or immediately on mount."
+      "description": "是否在悬停时播放，或在挂载后立即播放。"
     }
   ],
-  "usage": "`TextRoll` 复制每个字符并纵向滚动第二份内容，适合导航链接、简短按钮和展示标题。默认悬停触发，不会持续争夺注意力。",
-  "extended": "使用 `trigger=\"mount\"` 可在挂载时播放，`getEnterDelay` 和 `getExitDelay` 用来改变字符波次。自定义 `variants` 时保留 `rest` 与 `hover` 两个状态名。",
-  "events": "组件使用鼠标进入和离开控制默认效果，其余 `<span>` 事件继续透传。减少动态效果时保留静态文字。",
+  "events": "组件使用鼠标进入和离开控制默认效果，其余 `<span>` 事件继续透传。用户开启“减少动态效果”时保留静态文字。",
   "examples": [
     {
       "name": "text-roll-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     }
   ],
   "files": [

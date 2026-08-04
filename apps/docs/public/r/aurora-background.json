@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "aurora-background",
   "type": "registry:ui",
-  "title": "Aurora Background",
-  "description": "Layers slow, blurred color fields behind content.",
+  "title": "极光背景 Aurora Background",
+  "description": "用缓慢移动的模糊色场构建低频氛围背景。",
   "dependencies": [
     "motion"
   ],

@@ -1,10 +1,10 @@
 ---
-title: Cascader
+title: 级联选择 Cascader
 description: 用于浏览和选择层级值的多列选择器。
 component: cascader
 ---
 
-## 基础示例
+## 基础用法
 
 <ComponentPreview name="cascader-demo" />
 
@@ -12,9 +12,12 @@ component: cascader
 
 <ComponentSource name="cascader" title="components/ui/cascader.tsx" />
 
-## 适用场景
+## 使用场景
 
-当选项具有明确层级时使用 `Cascader`，例如省份 / 城市、部门 / 团队或分类 / 子分类。每次选择都会展开下一列，帮助用户在深入选择时保持上下文。单层选项使用 `Select`，大规模无结构数据则适合可搜索的命令菜单。
+当选项具有明确的父子层级时使用 `Cascader`，例如省份 / 城市、部门 / 团队或分类 / 子分类。用户选择父级后，
+组件展开下一列，让用户在深入选择时始终看得到当前路径。单层选项使用 `Select`；数据量很大或需要搜索时，使用可搜索的命令菜单。
+
+级联结果通常是一条路径，而不是单个选项。提交时应保存完整路径或叶子节点 ID，并根据后端接口要求决定具体格式。
 
 ## 属性
 
@@ -22,10 +25,11 @@ component: cascader
 
 ## 事件
 
-- `onValueChange(value, options)` 会在任一级发生变化后触发，并返回稳定值路径与已解析的选项对象。
+- `onValueChange(value, options)` 会在选择变化后触发，返回稳定的值路径和已解析的选项对象。
 - `onOpenChange` 由组件内部的触发器管理；默认选中叶子节点后关闭面板。
-- 标准按钮的聚焦和键盘激活事件会透传给触发器。
+- 触发器会透传标准按钮的聚焦和键盘激活事件。
 
 ## 扩展用法
 
-设置 `closeOnSelect={false}` 可在选择叶子节点后保持面板打开。通过 `contentClassName` 调整面板宽度而不影响触发器；当选中路径需要不同分隔符时，传入自定义 `separator`。
+设置 `closeOnSelect={false}` 可以在选中叶子节点后保持面板打开，适合需要连续查看或修改路径的场景。
+通过 `contentClassName` 调整面板宽度而不影响触发器；路径需要使用其他分隔符时，传入自定义 `separator`。

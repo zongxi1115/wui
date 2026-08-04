@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "download",
   "type": "registry:ui",
-  "title": "Download",
-  "description": "A file download action with progress and completion states.",
+  "title": "下载 Download",
+  "description": "同时表达文件信息、下载进度与完成反馈的下载操作组件。",
   "dependencies": [
     "lucide-react",
     "class-variance-authority",

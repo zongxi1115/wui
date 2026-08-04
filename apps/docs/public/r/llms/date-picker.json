@@ -28,21 +28,21 @@
       "type": "Date",
       "required": false,
       "control": "text",
-      "description": "Selected date."
+      "description": "当前选中的日期。"
     },
     {
       "name": "defaultValue",
       "type": "Date",
       "required": false,
       "control": "text",
-      "description": "Initially selected date in uncontrolled mode."
+      "description": "非受控模式下初始选中的日期。"
     },
     {
       "name": "onValueChange",
       "type": "((date: Date) => void)",
       "required": false,
       "control": "text",
-      "description": "Called after a date is selected or cleared."
+      "description": "选择或清除日期后触发。"
     },
     {
       "name": "placeholder",
@@ -50,7 +50,7 @@
       "required": false,
       "control": "text",
       "defaultValue": "选择日期",
-      "description": "Placeholder shown without a value."
+      "description": "没有选中日期时显示的占位文本。"
     },
     {
       "name": "locale",
@@ -58,14 +58,14 @@
       "required": false,
       "control": "text",
       "defaultValue": "zh-CN",
-      "description": "Date formatting locale."
+      "description": "格式化日期时使用的地区设置。"
     },
     {
       "name": "formatOptions",
       "type": "DateTimeFormatOptions",
       "required": false,
       "control": "text",
-      "description": "Intl date formatting options."
+      "description": "传递给 Intl.DateTimeFormat 的日期格式化选项。"
     },
     {
       "name": "clearable",
@@ -73,43 +73,42 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "true",
-      "description": "Allow clearing the current selection."
+      "description": "是否允许清除当前日期。"
     },
     {
       "name": "min",
       "type": "Date",
       "required": false,
       "control": "text",
-      "description": "Earliest selectable day."
+      "description": "允许选择的最早日期。"
     },
     {
       "name": "max",
       "type": "Date",
       "required": false,
       "control": "text",
-      "description": "Latest selectable day."
+      "description": "允许选择的最晚日期。"
     },
     {
       "name": "disabledDate",
       "type": "((date: Date) => boolean)",
       "required": false,
       "control": "text",
-      "description": "Custom disabled-day matcher."
+      "description": "用于判断日期是否禁用的匹配函数。"
     },
     {
       "name": "disabled",
       "type": "boolean",
       "required": false,
-      "control": "boolean"
+      "control": "boolean",
+      "description": "是否禁用组件。"
     }
   ],
-  "usage": "`DatePicker` 用于表单中的单日期输入，并复用 Calendar 的日期规则与键盘能力。需要连续日期、多个日期或时间范围时，应组合专门的范围选择器，而不是在单值接口中塞入数组。",
-  "extended": "使用 `locale` 与 `formatOptions` 控制触发器文案；`min`、`max` 和 `disabledDate` 会原样传递给内部 Calendar。表单校验信息应放在触发器下方，而不是放进弹层。",
-  "events": "`onValueChange(date | undefined)` 在选择或清空日期后触发。选中日期后弹层自动关闭；点击清除按钮不会打开弹层。",
+  "events": "`onValueChange(date | undefined)` 在选择或清空日期后触发。选中日期后弹层会自动关闭；点击清除按钮不会重新打开弹层。\n受控用法下，回调需要同步更新 `value`，否则触发器仍会显示旧日期。",
   "examples": [
     {
       "name": "date-picker-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     }
   ],
   "files": [

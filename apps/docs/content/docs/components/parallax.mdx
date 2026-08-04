@@ -4,7 +4,7 @@ description: 让内容层在经过视口时以不同速度平移或缩放。
 component: parallax
 ---
 
-## 基础示例
+## 基础用法
 
 <ComponentPreview name="parallax-demo" />
 
@@ -14,14 +14,16 @@ component: parallax
 
 <ComponentSource name="parallax" title="components/ui/parallax.tsx" />
 
-## 组件作用
+## 使用场景
 
-`Parallax` 将目标经过视口的进度映射为水平或垂直位移。`distance` 决定起止位置，`scale` 可叠加轻微缩放，适合图片内层视差、标题层级和前后景分离。
+`Parallax` 将目标经过视口的进度映射为水平或垂直位移。`distance` 决定起止位置，`scale` 可以叠加轻微缩放，
+适合图片内层视差、标题层级和前后景分离。它只改变视觉位置，不改变内容在文档中的阅读顺序。
 
-## 组件属性
+## 属性
 
 <PropsTable name="parallax" />
 
-## 使用建议
+## 使用说明
 
-图片内层视差应把 `Parallax` 放在 `overflow-hidden` 的固定画框内，并给内容预留超出画框的尺寸。建议从 `[-32, 32]` 到 `[-72, 72]` 的小范围开始；移动距离过大会让内容显得脱离布局。组件在减少动态效果偏好下保持静止。
+图片内层视差应把 `Parallax` 放在 `overflow-hidden` 的固定画框内，并给内容预留超出画框的尺寸。建议从 `[-32, 32]`
+到 `[-72, 72]` 的小范围开始；移动距离过大会让内容显得脱离布局或被裁切。用户开启“减少动态效果”后内容保持静止。

@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "annotation",
   "type": "registry:ui",
-  "title": "Annotation",
-  "description": "Draws animated arrows, marker strokes, and custom paths around content.",
+  "title": "动态标注 Annotation",
+  "description": "用路径箭头、荧光笔和自定义手绘轨迹强调页面内容。",
   "dependencies": [
     "motion"
   ],

@@ -30,28 +30,28 @@
       "type": "string",
       "required": true,
       "control": "text",
-      "description": "Main file label shown in the control."
+      "description": "控件中显示的文件名称。"
     },
     {
       "name": "meta",
       "type": "string",
       "required": false,
       "control": "text",
-      "description": "Secondary metadata such as file type and size."
+      "description": "文件类型、大小等补充信息。"
     },
     {
       "name": "fileIcon",
       "type": "ReactNode",
       "required": false,
       "control": "text",
-      "description": "File type icon inferred from the filename. Pass a node to override it or false to hide it."
+      "description": "根据文件名推断的文件类型图标。传入节点可覆盖默认图标，传入 false 可隐藏图标。"
     },
     {
       "name": "href",
       "type": "string",
       "required": false,
       "control": "text",
-      "description": "Direct URL downloaded when the control is activated."
+      "description": "激活控件后下载的文件地址。"
     },
     {
       "name": "status",
@@ -65,7 +65,7 @@
         "downloading"
       ],
       "defaultValue": "\"idle\"",
-      "description": "Visual lifecycle state."
+      "description": "下载流程的当前状态。"
     },
     {
       "name": "progress",
@@ -73,7 +73,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "0",
-      "description": "Determinate progress from 0 to 100."
+      "description": "确定进度的下载进度，取值范围为 0 到 100。"
     },
     {
       "name": "size",
@@ -85,29 +85,28 @@
         "default"
       ],
       "defaultValue": "default",
-      "description": "Height and spacing preset."
+      "description": "控件的高度和间距尺寸。"
     },
     {
       "name": "onDownload",
       "type": "(() => void | Promise<void>)",
       "required": false,
       "control": "text",
-      "description": "Called when the user requests the download."
+      "description": "用户请求下载时触发。"
     },
     {
       "name": "disabled",
       "type": "boolean",
       "required": false,
-      "control": "boolean"
+      "control": "boolean",
+      "description": "是否禁用组件。"
     }
   ],
-  "usage": "`Download` 将文件身份、体积、进度和操作反馈收拢到一个明确的下载入口。它适合资源包、报告、媒体与导出文件；只有一个简单小文件时，普通 Button 搭配下载图标通常更合适。\r\n\r\n传入 `href` 可直接触发浏览器下载；需要请求接口或生成文件时使用 `onDownload`。业务方可通过 `status` 与 `progress` 精确控制下载生命周期。\r\n\r\n组件默认根据 `filename` 的后缀显示对应的 Lucide 文件图标。通过 `fileIcon` 可传入自定义图标，或传入 `false` 隐藏图标。",
-  "extended": "### 紧凑尺寸与状态\r\n\r\n\r\n\r\n`status` 支持 `idle`、`downloading`、`complete` 与 `error`；`progress` 接受 0–100 的数值。",
-  "events": "- `onDownload()`：用户激活下载时调用，可返回 Promise。\r\n- 原生 `onFocus`、`onBlur` 等按钮事件会继续透传。",
+  "events": "- `onDownload()`：用户激活下载时调用，可返回 Promise；异步任务应在 Promise 结束后更新状态。\n- 原生 `onFocus`、`onBlur` 等按钮事件会继续透传。",
   "examples": [
     {
       "name": "download-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     },
     {
       "name": "download-states",

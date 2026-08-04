@@ -33,16 +33,14 @@
         "sm"
       ],
       "defaultValue": "default",
-      "description": "Physical size of the key hint."
+      "description": "键盘按键提示的尺寸。"
     }
   ],
-  "usage": "`Kbd` 用于展示单个键位，`KbdGroup` 用于对齐组合快捷键。它是说明性内容，不可点击，也不应该承担 Button 的交互职责。组件只使用细边框和语义底色，不添加内高光或厚重拟物阴影。",
-  "extended": "组合键使用多个 `Kbd` 包裹在 `KbdGroup` 中，并为仅由符号组成的组合提供清晰的 `aria-label`。\r\n\r\n```tsx\r\n<KbdGroup aria-label=\"Shortcut: Control K\">\r\n  <Kbd>Ctrl</Kbd>\r\n  <Kbd>K</Kbd>\r\n</KbdGroup>\r\n```",
-  "events": "键盘提示本身不触发操作，但原生指针、焦点及数据属性仍会透传。需要响应快捷键时，应在页面或功能逻辑中单独注册键盘事件。",
+  "events": "键盘提示本身不触发操作，但原生属性仍会透传。需要响应快捷键时，应在页面或功能逻辑中注册键盘事件，\n并同时处理输入框、编辑器等不应拦截快捷键的场景。",
   "examples": [
     {
       "name": "kbd-demo",
-      "title": "基础示例"
+      "title": "基础用法"
     }
   ],
   "files": [

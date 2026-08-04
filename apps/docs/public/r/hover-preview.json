@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "hover-preview",
   "type": "registry:ui",
-  "title": "Hover Preview",
-  "description": "Displays a spring-following visual preview for a hovered or focused row.",
+  "title": "悬停预览 Hover Preview",
+  "description": "列表项浮入或聚焦时显示跟随指针的作品预览。",
   "dependencies": [
     "motion"
   ],

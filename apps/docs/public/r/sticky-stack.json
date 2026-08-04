@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "sticky-stack",
   "type": "registry:ui",
-  "title": "Sticky Stack",
-  "description": "Pins, layers, and scales cards as the next item arrives.",
+  "title": "粘性卡片堆叠 Sticky Stack",
+  "description": "让卡片依次钉住、缩放，并被后续内容覆盖。",
   "dependencies": [
     "motion"
   ],
