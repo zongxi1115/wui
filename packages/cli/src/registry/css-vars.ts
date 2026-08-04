@@ -33,8 +33,24 @@ export function mergeRegistryCssVars(items: RegistryItem[]): CssVarMap {
   return merged
 }
 
+// Tailwind v4 resolves bare `border`/`outline` utilities to `currentColor`
+// instead of a neutral grey, so any component that relies on a plain `border`
+// would render a near-black edge. This canonical base reset maps those bare
+// utilities back to the theme tokens (matching shadcn's default globals.css),
+// which is what keeps unstyled borders subtle across every component.
+const BASE_LAYER = [
+  "@layer base {",
+  "  * {",
+  "    @apply border-border outline-ring/50;",
+  "  }",
+  "  body {",
+  "    @apply bg-background text-foreground;",
+  "  }",
+  "}",
+].join("\n")
+
 export function renderRegistryCssVars(cssVars: CssVarMap): string {
-  return [
+  const parts = [
     TOKEN_BLOCK_START,
     "@custom-variant dark (&:is(.dark *));",
     "",
@@ -43,8 +59,14 @@ export function renderRegistryCssVars(cssVars: CssVarMap): string {
     renderRule(".dark", cssVars.dark),
     "",
     renderRule("@theme inline", cssVars.theme),
-    TOKEN_BLOCK_END,
-  ].join("\n")
+  ]
+  // Only emit the reset when the theme registers the color mappings it applies;
+  // a partial theme without them would otherwise fail to compile.
+  if (cssVars.theme["color-border"]) {
+    parts.push("", BASE_LAYER)
+  }
+  parts.push(TOKEN_BLOCK_END)
+  return parts.join("\n")
 }
 
 export function upsertRegistryCssVars(content: string, block: string): string {
