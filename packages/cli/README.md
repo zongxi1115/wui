@@ -28,8 +28,8 @@ wui add @wui/button @wui/card
 | `wui add [components...]` | Opens a component picker when no names are supplied, then resolves dependencies and writes the files                   |
 | `wui theme init`          | Applies the default WUI theme to the configured global CSS file                                                        |
 | `wui theme create [name]` | Creates an editable local theme scaffold and optionally applies it                                                     |
-| `wui theme list`          | Lists theme scaffolds in the local `themes/` directory                                                                 |
-| `wui theme apply <theme>` | Applies a local theme name or Registry theme address                                                                   |
+| `wui theme list`          | Lists the built-in presets and local theme scaffolds                                                                   |
+| `wui theme apply <theme>` | Applies a built-in preset, local theme name, or Registry theme address                                                 |
 | `wui list`                | Lists the components available in a registry                                                                           |
 | `wui view <component>`    | Shows the details of a single registry item                                                                            |
 | `wui build`               | Compiles a `registry.json` manifest into distributable JSON (for publishing your own registry)                         |
@@ -46,14 +46,32 @@ wui add button --skip-install   # don't touch package.json
 wui init --registry https://your-host/r/{name}.json   # point at your own registry
 ```
 
-## Theme scaffolds
+## Preset themes
 
-Create a named theme from the WUI Registry theme, edit the generated JSON, and
-apply it again whenever needed:
+The CLI ships with ready-made preset themes you can apply without any registry
+access. Run `wui theme list` to see them, then apply one:
 
 ```bash
-wui theme create ocean
-wui theme apply ocean
+wui theme apply ocean     # deep blue
+wui theme apply violet    # vivid purple
+wui theme apply emerald   # fresh green
+wui theme apply rose      # warm pink-red
+wui theme apply amber     # bright gold
+wui theme apply slate     # muted blue-grey
+```
+
+Each preset carries the full light + dark token surface, so applying one swaps
+the managed WUI token block in place. You can also use a preset as the starting
+point for a custom scaffold with `wui theme create <name> --base <preset>`.
+
+## Theme scaffolds
+
+Create a named theme from a preset (or the WUI Registry theme), edit the
+generated JSON, and apply it again whenever needed:
+
+```bash
+wui theme create my-brand --base ocean
+wui theme apply my-brand
 ```
 
 Theme scaffolds live in `themes/<name>.json` and use the same `cssVars` contract

@@ -122,14 +122,17 @@ theme
 
 theme
   .command("list")
-  .description("List local theme scaffolds")
+  .description("List built-in presets and local theme scaffolds")
   .option("-c, --cwd <dir>", "working directory", process.cwd())
   .action((opts) => themeListCommand({ cwd: opts.cwd }))
 
 theme
   .command("apply")
-  .description("Apply a local or registry theme")
-  .argument("<theme>", "local name, @namespace/name, URL, or local JSON")
+  .description("Apply a preset, local, or registry theme")
+  .argument(
+    "<theme>",
+    "preset (ocean, violet, …), local name, @namespace/name, URL, or local JSON"
+  )
   .option("-c, --cwd <dir>", "working directory", process.cwd())
   .action((selectedTheme, opts) =>
     themeApplyCommand(selectedTheme, { cwd: opts.cwd })

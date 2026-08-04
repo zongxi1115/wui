@@ -3,6 +3,7 @@ import path from "node:path"
 
 import { applyRegistryCssVars } from "../registry/css-vars"
 import { fetchItem, isLocalJson } from "../registry/fetcher"
+import { getPreset, listPresets } from "../registry/presets"
 import {
   registryItemSchema,
   type Config,
@@ -173,13 +174,18 @@ export async function themeListCommand(opts: ThemeOptions): Promise<void> {
   } catch (error) {
     if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error
   }
+  logger.info("Built-in presets:")
+  for (const preset of listPresets())
+    logger.info(`  ${preset.name.padEnd(10)} ${preset.description}`)
+  logger.dim(`\nApply one with: wui theme apply <name>`)
+
   if (entries.length === 0) {
     logger.dim(
-      `No local themes found. Create one with: wui theme create <name>`
+      `\nNo local themes found. Create one with: wui theme create <name>`
     )
     return
   }
-  logger.info("Local themes:")
+  logger.info("\nLocal themes:")
   for (const entry of entries.sort())
     logger.info(`  ${path.basename(entry, ".json")}`)
 }
@@ -191,10 +197,13 @@ export async function themeApplyCommand(
   const { cwd, config } = await requireConfig(opts.cwd)
   const localPath = path.join(cwd, THEMES_DIR, `${theme}.json`)
   let item: RegistryItem
+  const preset = getPreset(theme)
   if (await fileExists(localPath)) {
     item = registryItemSchema.parse(
       JSON.parse(await fs.readFile(localPath, "utf8"))
     )
+  } else if (preset) {
+    item = preset
   } else {
     item = await loadTheme(theme, cwd, config)
   }
@@ -233,6 +242,8 @@ async function loadTheme(
     const file = path.isAbsolute(address) ? address : path.resolve(cwd, address)
     return registryItemSchema.parse(JSON.parse(await fs.readFile(file, "utf8")))
   }
+  const preset = getPreset(address)
+  if (preset) return preset
   return fetchItem(address, config)
 }
 
