@@ -64,6 +64,13 @@
       ]
     },
     {
+      "name": "use-ai-stream",
+      "type": "registry:hook",
+      "title": "AI 流协议 Hook useAiStream",
+      "description": "消费 Vercel AI SDK UI Message Stream，并兼容 Zonix 的流式事件。",
+      "registryDependencies": []
+    },
+    {
       "name": "ai-reasoning",
       "type": "registry:ui",
       "title": "AI 推理过程 AI Reasoning",

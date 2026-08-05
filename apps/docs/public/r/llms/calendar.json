@@ -108,7 +108,7 @@
       "description": "格式化月份标题时使用的地区设置。"
     }
   ],
-  "events": "`onValueChange(date)` 在选择日期后触发；`onMonthChange(month)` 在切换月份时触发。组件同时支持受控和非受控模式。\n需要从服务端加载月份数据时，应在 `onMonthChange` 中请求并处理加载状态；Calendar 不会自动请求日程数据。\n\r\n选中背景会在日期之间移动；当天的小圆点在被选中时展开为完整背景。鼠标经过日期网格时，悬停层会跟随当前格子，\n用户开启“减少动态效果”后会直接呈现最终状态。",
+  "events": "`onValueChange(date)` 在选择日期后触发；`onMonthChange(month)` 在切换月份时触发。组件同时支持受控和非受控模式。\n需要从服务端加载月份数据时，应在 `onMonthChange` 中请求并处理加载状态；Calendar 不会自动请求日程数据。\n\n选中背景会在日期之间移动；当天的小圆点在被选中时展开为完整背景。鼠标经过日期网格时，悬停层会跟随当前格子，\n用户开启“减少动态效果”后会直接呈现最终状态。",
   "examples": [
     {
       "name": "calendar-demo",

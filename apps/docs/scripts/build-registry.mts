@@ -66,7 +66,12 @@ type RegistryItem = z.infer<typeof registryItemSchema>
 // ---------------------------------------------------------------------------
 async function readSource(relPath: string): Promise<string> {
   const abs = path.join(ROOT, relPath)
-  return fs.readFile(abs, "utf8")
+  const source = await fs.readFile(abs, "utf8")
+  // Vendored animated icons are shipped byte-for-byte with their upstream
+  // line endings; normalize authored registry files for stable Windows builds.
+  return relPath.startsWith("registry/icons/animated/")
+    ? source
+    : source.replace(/\r\n/g, "\n")
 }
 
 function toPosix(p: string): string {

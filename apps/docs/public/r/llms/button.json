@@ -86,7 +86,7 @@
       "description": "是否禁用组件。"
     }
   ],
-  "events": "`Button` 会将 `{...props}` 展开到底层元素，因此支持所有原生按钮事件。\r\n\r\n\r\n\r\n\r\n  启用 `asChild` 后，事件会绑定到你渲染的子元素（例如 `<a>`），而不是 `<button>`。",
+  "events": "`Button` 会将 `{...props}` 展开到底层元素，因此支持所有原生按钮事件。\n\n  启用 `asChild` 后，事件会绑定到你渲染的子元素（例如 `<a>`），而不是 `<button>`。",
   "examples": [
     {
       "name": "button-demo",

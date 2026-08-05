@@ -23,10 +23,14 @@ const ROOT = process.cwd() // apps/docs
 const REGISTRY_JSON = path.join(ROOT, "registry.json")
 const PROPS_JSON = path.join(ROOT, "registry", "__props__.json")
 const OVERVIEW_MD = path.join(ROOT, "llms", "overview.md")
-const MDX_DIR = path.join(ROOT, "content", "docs", "components")
+const DOCS_DIR = path.join(ROOT, "content", "docs")
 const EXAMPLES_DIR = path.join(ROOT, "registry", "examples")
 const OUT_DIR = path.join(ROOT, "public", "r", "llms")
 const LLMS_TXT = path.join(ROOT, "public", "llms.txt")
+
+async function readText(file: string): Promise<string> {
+  return (await fs.readFile(file, "utf8")).replace(/\r\n/g, "\n")
+}
 
 // ---------------------------------------------------------------------------
 // Types
@@ -202,6 +206,10 @@ function importPath(item: RegistryItem): string | undefined {
   return `${dir}/${path.basename(file.path).replace(/\.[jt]sx?$/, "")}`
 }
 
+function docsSection(item: RegistryItem): "components" | "hooks" {
+  return item.type === "registry:hook" ? "hooks" : "components"
+}
+
 // ---------------------------------------------------------------------------
 // Main
 // ---------------------------------------------------------------------------
@@ -215,7 +223,7 @@ async function main() {
     string,
     PropMeta[]
   >
-  const overviewMd = await fs.readFile(OVERVIEW_MD, "utf8")
+  const overviewMd = await readText(OVERVIEW_MD)
 
   const site = (process.env.WUI_SITE_URL ?? registry.homepage ?? "").replace(
     /\/$/,
@@ -238,11 +246,12 @@ async function main() {
     // The theme item carries tokens, not a component API — handled separately.
     if (item.type === "registry:theme") continue
 
-    const mdxPath = path.join(MDX_DIR, `${item.name}.mdx`)
+    const sectionName = docsSection(item)
+    const mdxPath = path.join(DOCS_DIR, sectionName, `${item.name}.mdx`)
     let front: Record<string, string> = {}
     let body = ""
     try {
-      const parsed = splitFrontmatter(await fs.readFile(mdxPath, "utf8"))
+      const parsed = splitFrontmatter(await readText(mdxPath))
       front = parsed.data
       body = parsed.body
     } catch {
@@ -264,10 +273,7 @@ async function main() {
 
     const examples: Array<{ name: string; title?: string }> = []
     for (const name of exampleNames) {
-      const code = await fs.readFile(
-        path.join(EXAMPLES_DIR, `${name}.tsx`),
-        "utf8"
-      )
+      const code = await readText(path.join(EXAMPLES_DIR, `${name}.tsx`))
       exampleBank[name] = {
         name,
         component: item.name,
@@ -279,9 +285,7 @@ async function main() {
 
     const sourceFile = item.files[0]
     const { values, types } = sourceFile
-      ? parseExports(
-          await fs.readFile(path.join(ROOT, sourceFile.path), "utf8")
-        )
+      ? parseExports(await readText(path.join(ROOT, sourceFile.path)))
       : { values: [], types: [] }
     const imp = importPath(item)
 
@@ -311,7 +315,7 @@ async function main() {
       events: section(body, "事件"),
       examples,
       files: item.files.map((f) => f.path),
-      docsUrl: site ? `${site}/docs/components/${item.name}` : undefined,
+      docsUrl: site ? `${site}/docs/${sectionName}/${item.name}` : undefined,
       sourceUrl: site ? `${site}/r/${item.name}.json` : undefined,
     }
 
@@ -340,7 +344,7 @@ async function main() {
 
     txtLines.push(
       site
-        ? `- [${title}](${site}/docs/components/${item.name}): ${description}`
+        ? `- [${title}](${site}/docs/${sectionName}/${item.name}): ${description}`
         : `- ${title} (${item.name}): ${description}`
     )
   }

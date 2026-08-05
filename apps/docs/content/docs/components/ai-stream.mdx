@@ -16,6 +16,7 @@ component: ai-stream
 
 `AiStream` 是与消息类型无关的流式文本组件。普通助手回答可以直接使用；需要展示模型返回的可展示摘要时，
 也可以把它放进 [`AiReasoning`](/docs/components/ai-reasoning)。它只负责文本出现时的视觉过渡，不负责拼接服务端数据。
+需要直接消费 Vercel AI SDK UI Message Stream 或 Zonix SSE 时，使用独立的 [`useAiStream`](/docs/hooks/use-ai-stream) Hook。
 
 传入当前累计文本和 `isStreaming` 状态即可。生成期间只有最新文字的最右侧边缘羽化，已稳定的正文不会重复执行动画；
 生成结束后立即恢复完整文字。请求失败时，应由业务层先展示错误信息，再将 `isStreaming` 设为 `false`。

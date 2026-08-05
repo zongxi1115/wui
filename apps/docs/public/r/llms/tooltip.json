@@ -66,7 +66,7 @@
       "description": "指针离开触发元素后是否立即关闭提示，而不允许指针移入提示内容。"
     }
   ],
-  "events": "- `onOpenChange(open)`：提示因悬停、焦点或关闭操作改变状态时触发。\n- `onEscapeKeyDown(event)`：内容打开时按下 Escape 触发，可调用 `event.preventDefault()` 阻止默认关闭行为。\r\n- `onPointerDownOutside(event)`：在提示范围外按下指针时触发。\r\n\r\n其余指针、焦点和无障碍属性会透传给对应的 Radix 部件。",
+  "events": "- `onOpenChange(open)`：提示因悬停、焦点或关闭操作改变状态时触发。\n- `onEscapeKeyDown(event)`：内容打开时按下 Escape 触发，可调用 `event.preventDefault()` 阻止默认关闭行为。\n- `onPointerDownOutside(event)`：在提示范围外按下指针时触发。\n\n其余指针、焦点和无障碍属性会透传给对应的 Radix 部件。",
   "examples": [
     {
       "name": "tooltip-demo",
