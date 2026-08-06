@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "area-chart",
+  "type": "registry:component",
+  "title": "面积图 Area Chart",
+  "description": "在折线趋势下增加克制填充，用于强调连续数值的规模。",
+  "registryDependencies": [
+    "line-chart"
+  ],
+  "files": [
+    {
+      "path": "registry/charts/area-chart.tsx",
+      "type": "registry:component",
+      "target": "@components/charts/area-chart.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { LineChart, type LineChartProps } from \"./line-chart\"\n\nexport interface AreaChartProps extends Omit<\n  LineChartProps,\n  \"fillOpacity\" | \"showDots\"\n> {\n  /** 面积填充的不透明度。 @default 0.14 */\n  fillOpacity?: number\n  /** 是否显示数据节点。 @default false */\n  showDots?: boolean\n}\n\n/** 在折线趋势下方增加克制填充，用于强调连续数值的规模。 */\nfunction AreaChart({\n  fillOpacity = 0.14,\n  showDots = false,\n  ...props\n}: AreaChartProps) {\n  return <LineChart fillOpacity={fillOpacity} showDots={showDots} {...props} />\n}\n\nexport { AreaChart }\n"
+    }
+  ],
+  "categories": [
+    "charts",
+    "trend"
+  ]
+}

@@ -1,0 +1,32 @@
+---
+title: 散点图 Scatter Chart
+description: 展示两个数值变量之间的关系、聚类与离群点。
+component: scatter-chart
+---
+
+## 基础用法
+
+<ComponentPreview
+  name="scatter-chart-demo"
+  previewClassName="min-h-0 p-6 sm:p-8"
+/>
+
+<CodeTabs command="@wui-design/cli@latest add @wui/scatter-chart" />
+
+<ComponentSource
+  name="scatter-chart"
+  title="components/charts/scatter-chart.tsx"
+/>
+
+## 使用场景
+
+`ScatterChart` 用于判断两个同口径数值变量之间是否存在关系、聚类或离群点。所有数据行应保持相同粒度，通常至少需要 12–20 个有效观测点。
+`groupKey` 只应用于有解释意义的分组，不要用唯一 ID 给每个点制造一种颜色。
+
+## 属性
+
+<PropsTable name="scatter-chart" />
+
+## 事件
+
+每个点支持指针悬停和键盘聚焦读取，不产生业务事件。需要点击钻取时可在业务层组合数据表或筛选控件。

@@ -1,0 +1,171 @@
+{
+  "name": "time-series-chart",
+  "type": "registry:component",
+  "title": "时间序列图 Time Series Chart",
+  "description": "按真实时间间隔绘制趋势，并支持线性与对数纵轴。",
+  "categories": [
+    "charts",
+    "trend"
+  ],
+  "import": "import { TimeSeriesChart } from \"@/components/charts/time-series-chart\"",
+  "exports": [
+    "TimeSeriesChart"
+  ],
+  "typeExports": [
+    "ChartDatum",
+    "ChartSeries",
+    "ChartValueFormatter",
+    "TimeSeriesChartProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/time-series-chart",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/time-series-chart.json",
+    "npmDependencies": [],
+    "registryDependencies": [
+      "chart-core"
+    ]
+  },
+  "props": [
+    {
+      "name": "title",
+      "type": "ReactNode",
+      "required": true,
+      "control": "text",
+      "description": "图表标题，用于说明时间趋势指标。"
+    },
+    {
+      "name": "description",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "补充单位、日期范围或筛选口径的副标题。"
+    },
+    {
+      "name": "actions",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "标题右侧的操作区。"
+    },
+    {
+      "name": "data",
+      "type": "ChartDatum[]",
+      "required": true,
+      "control": "text",
+      "description": "每行代表一个时间观测点的数据。"
+    },
+    {
+      "name": "timeKey",
+      "type": "string",
+      "required": true,
+      "control": "text",
+      "description": "ISO 日期、时间戳或可解析日期字段。"
+    },
+    {
+      "name": "series",
+      "type": "ChartSeries[]",
+      "required": true,
+      "control": "text",
+      "description": "要绘制的数值序列。"
+    },
+    {
+      "name": "scale",
+      "type": "\"log\" | \"linear\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "log",
+        "linear"
+      ],
+      "defaultValue": "linear",
+      "description": "纵轴尺度。"
+    },
+    {
+      "name": "height",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "300",
+      "description": "图表绘图区高度，单位为像素。"
+    },
+    {
+      "name": "domain",
+      "type": "[number, number]",
+      "required": false,
+      "control": "text",
+      "description": "手动指定纵轴范围；对数轴必须为正数。"
+    },
+    {
+      "name": "showGrid",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否显示水平参考网格。"
+    },
+    {
+      "name": "showDots",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "是否显示数据节点。"
+    },
+    {
+      "name": "showLegend",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否显示图例。"
+    },
+    {
+      "name": "dateParser",
+      "type": "((value: string | number, datum: ChartDatum) => number)",
+      "required": false,
+      "control": "text",
+      "defaultValue": "(value) =>\n    typeof value === \"number\" ? value : new Date(value).getTime()",
+      "description": "自定义日期值到时间戳的转换。"
+    },
+    {
+      "name": "dateFormatter",
+      "type": "((timestamp: number, datum?: ChartDatum) => ReactNode)",
+      "required": false,
+      "control": "text",
+      "defaultValue": "(timestamp) =>\n    new Intl.DateTimeFormat(\"zh-CN\", {\n      month: \"short\",\n      day: \"numeric\",\n    }).format(timestamp)",
+      "description": "自定义横轴日期格式。"
+    },
+    {
+      "name": "valueFormatter",
+      "type": "ChartValueFormatter",
+      "required": false,
+      "control": "text",
+      "defaultValue": "(value) => defaultValueFormatter(value)",
+      "description": "自定义数值格式。"
+    },
+    {
+      "name": "renderLegend",
+      "type": "((series: ChartSeries[]) => ReactNode)",
+      "required": false,
+      "control": "text",
+      "description": "完全替换默认图例内容。"
+    },
+    {
+      "name": "renderTooltip",
+      "type": "((datum: ChartDatum, index: number) => ReactNode)",
+      "required": false,
+      "control": "text",
+      "description": "完全替换当前数据点的默认提示内容。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "time-series-chart-demo"
+    }
+  ],
+  "files": [
+    "registry/charts/time-series-chart.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/charts/time-series-chart",
+  "sourceUrl": "https://ui.wzx.wang/r/time-series-chart.json"
+}

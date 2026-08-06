@@ -1,0 +1,169 @@
+{
+  "name": "scatter-chart",
+  "type": "registry:component",
+  "title": "散点图 Scatter Chart",
+  "description": "展示两个数值变量之间的关系、聚类与离群点。",
+  "categories": [
+    "charts",
+    "relationship"
+  ],
+  "import": "import { ScatterChart } from \"@/components/charts/scatter-chart\"",
+  "exports": [
+    "ScatterChart"
+  ],
+  "typeExports": [
+    "ChartDatum",
+    "ScatterChartProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/scatter-chart",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/scatter-chart.json",
+    "npmDependencies": [],
+    "registryDependencies": [
+      "chart-core"
+    ]
+  },
+  "props": [
+    {
+      "name": "title",
+      "type": "ReactNode",
+      "required": true,
+      "control": "text",
+      "description": "图表标题，用于说明正在分析的两个变量。"
+    },
+    {
+      "name": "description",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "补充样本量、时间范围或数据口径的副标题。"
+    },
+    {
+      "name": "actions",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "标题右侧的操作区，适合组合 Button、Select 或业务工具栏。"
+    },
+    {
+      "name": "data",
+      "type": "ChartDatum[]",
+      "required": true,
+      "control": "text",
+      "description": "每行代表一个同粒度观测对象的数据。"
+    },
+    {
+      "name": "xKey",
+      "type": "string",
+      "required": true,
+      "control": "text",
+      "description": "横轴数值字段。"
+    },
+    {
+      "name": "yKey",
+      "type": "string",
+      "required": true,
+      "control": "text",
+      "description": "纵轴数值字段。"
+    },
+    {
+      "name": "labelKey",
+      "type": "string",
+      "required": true,
+      "control": "text",
+      "description": "提示框和直接标签使用的名称字段。"
+    },
+    {
+      "name": "groupKey",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "可选的分组字段，用颜色和图例区分。"
+    },
+    {
+      "name": "xLabel",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "横轴显示名称。"
+    },
+    {
+      "name": "yLabel",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "纵轴显示名称。"
+    },
+    {
+      "name": "height",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "300",
+      "description": "图表绘图区高度，单位为像素。"
+    },
+    {
+      "name": "xDomain",
+      "type": "[number, number]",
+      "required": false,
+      "control": "text",
+      "description": "手动指定横轴范围。"
+    },
+    {
+      "name": "yDomain",
+      "type": "[number, number]",
+      "required": false,
+      "control": "text",
+      "description": "手动指定纵轴范围。"
+    },
+    {
+      "name": "showGrid",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否显示参考网格。"
+    },
+    {
+      "name": "showLabels",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "是否在点旁显示名称。"
+    },
+    {
+      "name": "pointSize",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "4",
+      "description": "数据点半径，单位为像素。"
+    },
+    {
+      "name": "xFormatter",
+      "type": "((value: number, datum?: ChartDatum) => ReactNode)",
+      "required": false,
+      "control": "text",
+      "description": "自定义横轴数值的显示格式。"
+    },
+    {
+      "name": "yFormatter",
+      "type": "((value: number, datum?: ChartDatum) => ReactNode)",
+      "required": false,
+      "control": "text",
+      "description": "自定义纵轴数值的显示格式。"
+    }
+  ],
+  "events": "每个点支持指针悬停和键盘聚焦读取，不产生业务事件。需要点击钻取时可在业务层组合数据表或筛选控件。",
+  "examples": [
+    {
+      "name": "scatter-chart-demo"
+    }
+  ],
+  "files": [
+    "registry/charts/scatter-chart.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/charts/scatter-chart",
+  "sourceUrl": "https://ui.wzx.wang/r/scatter-chart.json"
+}

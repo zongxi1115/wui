@@ -1,0 +1,28 @@
+---
+title: 组合图 Composed Chart
+description: 在共享横轴上组合柱形与折线，并支持双纵轴和对数尺度。
+component: composed-chart
+---
+
+## 基础用法
+
+<ComponentPreview
+  name="composed-chart-demo"
+  previewClassName="min-h-0 p-6 sm:p-8"
+/>
+
+<CodeTabs command="@wui-design/cli@latest add @wui/composed-chart" />
+
+<ComponentSource
+  name="composed-chart"
+  title="components/charts/composed-chart.tsx"
+/>
+
+## 使用场景
+
+`ComposedChart` 只在两个不同单位确实共享横轴、且关系值得并置时使用双轴。左右轴都必须在副标题中明确单位，避免读者把不同尺度的形状误认为直接相关。
+每个序列通过 `type` 选择柱形或折线，通过 `axis` 选择纵轴。
+
+## 属性
+
+<PropsTable name="composed-chart" />

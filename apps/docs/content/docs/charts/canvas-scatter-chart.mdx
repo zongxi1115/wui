@@ -1,0 +1,28 @@
+---
+title: Canvas 散点图 Canvas Scatter Chart
+description: 面向大批量关系数据的 Canvas 渲染，并保留 DOM 提示与表格语义。
+component: canvas-scatter-chart
+---
+
+## 基础用法
+
+<ComponentPreview
+  name="canvas-scatter-chart-demo"
+  previewClassName="min-h-0 p-6 sm:p-8"
+/>
+
+<CodeTabs command="@wui-design/cli@latest add @wui/canvas-scatter-chart" />
+
+<ComponentSource
+  name="canvas-scatter-chart"
+  title="components/charts/canvas-scatter-chart.tsx"
+/>
+
+## 使用场景
+
+数据达到数百或数千点、SVG 节点开始影响交互时使用 `CanvasScatterChart`。提示框仍使用 DOM 渲染，原始数据仍输出到辅助技术可见表格。
+需要精确键盘逐点浏览时继续使用 SVG `ScatterChart`；Canvas 版本更适合形状、密度和离群点扫描。
+
+## 属性
+
+<PropsTable name="canvas-scatter-chart" />

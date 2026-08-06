@@ -1,0 +1,129 @@
+{
+  "name": "histogram",
+  "type": "registry:component",
+  "title": "直方图 Histogram",
+  "description": "将连续数值自动分箱，用于观察分布形状与集中区间。",
+  "categories": [
+    "charts",
+    "distribution"
+  ],
+  "import": "import { Histogram } from \"@/components/charts/histogram\"",
+  "exports": [
+    "Histogram"
+  ],
+  "typeExports": [
+    "HistogramProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/histogram",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/histogram.json",
+    "npmDependencies": [],
+    "registryDependencies": [
+      "bar-chart"
+    ]
+  },
+  "props": [
+    {
+      "name": "title",
+      "type": "ReactNode",
+      "required": true,
+      "control": "text",
+      "description": "图表标题，用于说明正在观察的数值分布。"
+    },
+    {
+      "name": "description",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "补充单位、样本范围或筛选条件的副标题。"
+    },
+    {
+      "name": "actions",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "标题右侧的操作区，适合组合 Button、Select 或业务工具栏。"
+    },
+    {
+      "name": "data",
+      "type": "ChartDatum[]",
+      "required": true,
+      "control": "text",
+      "description": "每行代表一个观测值的数据。"
+    },
+    {
+      "name": "valueKey",
+      "type": "string",
+      "required": true,
+      "control": "text",
+      "description": "要统计分布的数值字段。"
+    },
+    {
+      "name": "bins",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "8",
+      "description": "等宽分箱数量。"
+    },
+    {
+      "name": "domain",
+      "type": "[number, number]",
+      "required": false,
+      "control": "text",
+      "description": "手动指定统计范围。"
+    },
+    {
+      "name": "height",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "280",
+      "description": "图表绘图区高度，单位为像素。"
+    },
+    {
+      "name": "showGrid",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否显示水平参考网格。"
+    },
+    {
+      "name": "showValues",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "是否在柱形末端显示频数。"
+    },
+    {
+      "name": "binFormatter",
+      "type": "((min: number, max: number, index: number) => string)",
+      "required": false,
+      "control": "text",
+      "defaultValue": "(min, max) =>\n    `${defaultValueFormatter(min)}–${defaultValueFormatter(max)}`",
+      "description": "自定义分箱边界的显示格式。"
+    },
+    {
+      "name": "frequencyFormatter",
+      "type": "((value: number) => ReactNode)",
+      "required": false,
+      "control": "text",
+      "defaultValue": "(value) => `${value}`",
+      "description": "自定义频数的显示格式。"
+    }
+  ],
+  "events": "图表不产生业务事件。通过 `bins` 调整分箱数量，通过 `domain` 固定多个直方图之间的可比范围。",
+  "examples": [
+    {
+      "name": "histogram-demo",
+      "title": "基础用法"
+    }
+  ],
+  "files": [
+    "registry/charts/histogram.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/charts/histogram",
+  "sourceUrl": "https://ui.wzx.wang/r/histogram.json"
+}

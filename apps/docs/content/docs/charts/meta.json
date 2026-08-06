@@ -1,0 +1,24 @@
+{
+  "title": "图表",
+  "pages": [
+    "---Trend · 趋势---",
+    "line-chart",
+    "area-chart",
+    "time-series-chart",
+    "stacked-area-chart",
+    "---Comparison · 比较---",
+    "bar-chart",
+    "horizontal-bar-chart",
+    "stacked-bar-chart",
+    "composed-chart",
+    "---Composition · 构成---",
+    "pie-chart",
+    "---Relationship · 关系---",
+    "scatter-chart",
+    "canvas-scatter-chart",
+    "---Distribution · 分布---",
+    "histogram",
+    "---Interaction · 交互---",
+    "chart-brush"
+  ]
+}

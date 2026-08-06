@@ -11,6 +11,7 @@ export function fixImportsForDisplay(code: string): string {
   return code
     .replaceAll("@/registry/lib/utils", "@/lib/utils")
     .replaceAll("@/registry/ui/", "@/components/ui/")
+    .replaceAll("@/registry/charts/", "@/components/charts/")
     .replaceAll("@/registry/hooks/", "@/hooks/")
     .replaceAll("@/registry/components/", "@/components/")
 }

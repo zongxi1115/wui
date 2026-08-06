@@ -1,0 +1,35 @@
+---
+title: 条形图 Bar Chart
+description: 从零基线比较分类数值，并支持分组序列与精确标签。
+component: bar-chart
+---
+
+## 基础用法
+
+<ComponentPreview name="bar-chart-demo" previewClassName="min-h-0 p-6 sm:p-8" />
+
+<CodeTabs command="@wui-design/cli@latest add @wui/bar-chart" />
+
+<ComponentSource name="bar-chart" title="components/charts/bar-chart.tsx" />
+
+## 使用场景
+
+`BarChart` 用于比较同一指标在不同分类之间的差异。单序列时使用一种颜色即可；只有确实存在第二个分组维度时，才添加多个 `series`。
+默认纵轴包含零，避免夸大分类之间的绝对差异。
+
+多序列会在同一分类内并排展示。悬停可以读取整组数值；聚焦图表后，也可以通过左右方向键切换分类。
+通过 `actions` 可直接组合现有 Button、Select 或业务工具栏；`referenceLines` 用于目标值、均值和阈值。
+
+## 属性
+
+<PropsTable name="bar-chart" />
+
+## 事件
+
+图表不产生业务事件，指针与键盘交互只用于读取数据。根元素会透传原生 `div` 属性，数据本身同时输出为仅辅助技术可见的表格。
+
+## 使用说明
+
+- 分类名称较短时使用默认纵向布局；分类很多时应减少数据或拆分视图，避免把横轴文字压缩到不可读。
+- `showValues` 适合少量柱形的精确比较，密集数据应保留提示框，避免标签互相碰撞。
+- `domain` 应包含零；只有比例变化、差值等明确语义的图表才应考虑其他尺度。

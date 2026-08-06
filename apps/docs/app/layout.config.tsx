@@ -16,6 +16,11 @@ export const baseOptions: BaseLayoutProps = {
       active: "nested-url",
     },
     {
+      text: "图表",
+      url: "/docs/charts/line-chart",
+      active: "nested-url",
+    },
+    {
       text: "主题",
       url: "/docs/theme",
       active: "url",

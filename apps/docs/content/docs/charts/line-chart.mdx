@@ -1,0 +1,38 @@
+---
+title: 折线图 Line Chart
+description: 展示有序数据趋势，并支持多序列比较与键盘浏览。
+component: line-chart
+---
+
+## 基础用法
+
+<ComponentPreview
+  name="line-chart-demo"
+  previewClassName="min-h-0 p-6 sm:p-8"
+/>
+
+<CodeTabs command="@wui-design/cli@latest add @wui/line-chart" />
+
+<ComponentSource name="line-chart" title="components/charts/line-chart.tsx" />
+
+## 使用场景
+
+`LineChart` 用于时间或其他有序轴上的连续趋势。趋势图应尽量提供足够的数据点来呈现形状；只有少量离散周期时，优先改用条形图。
+标题负责说明指标，`description` 应补充单位、时间范围、筛选条件或样本口径。
+
+多序列默认同时使用颜色和虚实线区分，悬停可以读取同一横轴节点的全部数值；聚焦图表后，也可以通过左右方向键逐点浏览。
+通过 `actions` 可直接组合现有 Button、Select 或业务工具栏；`referenceLines` 用于目标值、均值和阈值，不需要在图表外另画覆盖层。
+
+## 属性
+
+<PropsTable name="line-chart" />
+
+## 事件
+
+图表不产生业务事件，指针与键盘交互只用于读取数据。根元素会透传原生 `div` 属性，数据本身同时输出为仅辅助技术可见的表格。
+
+## 使用说明
+
+- `data` 中的横轴字段可为字符串或数字，序列字段应为有限数值；`null` 会在对应序列中形成断点。
+- 纵轴默认根据数据范围生成易读刻度，不强制包含零；需要跨图保持一致时通过 `domain` 明确指定范围。
+- 用 `valueFormatter` 统一处理数值、单位和提示框显示，用 `labelFormatter` 处理横轴标签。

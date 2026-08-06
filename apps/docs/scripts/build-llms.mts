@@ -179,6 +179,7 @@ function parseExports(source: string): { values: string[]; types: string[] } {
 const IMPORT_REWRITES: Array<[string, string]> = [
   ["@/registry/lib/utils", "@/lib/utils"],
   ["@/registry/ui/", "@/components/ui/"],
+  ["@/registry/charts/", "@/components/charts/"],
   ["@/registry/hooks/", "@/hooks/"],
   ["@/registry/components/", "@/components/"],
   ["@/registry/lib/", "@/lib/"],
@@ -201,12 +202,16 @@ const TARGET_DIR: Record<string, string> = {
 function importPath(item: RegistryItem): string | undefined {
   const file = item.files[0]
   if (!file) return undefined
+  if (file.target?.startsWith("@components/")) {
+    return `@/components/${file.target.slice(12).replace(/\.[jt]sx?$/, "")}`
+  }
   const dir = TARGET_DIR[file.type] ?? TARGET_DIR[item.type]
   if (!dir) return undefined
   return `${dir}/${path.basename(file.path).replace(/\.[jt]sx?$/, "")}`
 }
 
-function docsSection(item: RegistryItem): "components" | "hooks" {
+function docsSection(item: RegistryItem): "charts" | "components" | "hooks" {
+  if (item.categories?.includes("charts")) return "charts"
   return item.type === "registry:hook" ? "hooks" : "components"
 }
 
@@ -240,7 +245,8 @@ async function main() {
 
   const discovery: unknown[] = []
   const exampleBank: Record<string, unknown> = {}
-  const txtLines: string[] = []
+  const componentTxtLines: string[] = []
+  const chartTxtLines: string[] = []
 
   for (const item of registry.items) {
     // The theme item carries tokens, not a component API — handled separately.
@@ -342,11 +348,11 @@ async function main() {
       exampleCount: examples.length,
     })
 
-    txtLines.push(
-      site
-        ? `- [${title}](${site}/docs/${sectionName}/${item.name}): ${description}`
-        : `- ${title} (${item.name}): ${description}`
-    )
+    const txtLine = site
+      ? `- [${title}](${site}/docs/${sectionName}/${item.name}): ${description}`
+      : `- ${title} (${item.name}): ${description}`
+    if (sectionName === "charts") chartTxtLines.push(txtLine)
+    else componentTxtLines.push(txtLine)
   }
 
   // --- Overview: authored rules + the live token list ------------------------
@@ -390,7 +396,11 @@ async function main() {
     "",
     "## 组件",
     "",
-    ...txtLines,
+    ...componentTxtLines,
+    "",
+    "## 图表",
+    "",
+    ...chartTxtLines,
     "",
     "## 说明",
     "",

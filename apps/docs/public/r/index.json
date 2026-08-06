@@ -108,6 +108,142 @@
       ]
     },
     {
+      "name": "toolbar",
+      "type": "registry:ui",
+      "title": "工具栏 Toolbar",
+      "description": "为一组紧凑操作提供排列、分组与方向键导航，并复用现有按钮外观。",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "chart-core",
+      "type": "registry:lib",
+      "title": "图表基础 Chart Core",
+      "description": "折线图与条形图共享的尺寸、坐标、图例、提示框和无障碍基础能力。",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "line-chart",
+      "type": "registry:component",
+      "title": "折线图 Line Chart",
+      "description": "展示有序数据趋势，并支持多序列比较与键盘浏览。",
+      "registryDependencies": [
+        "chart-core"
+      ]
+    },
+    {
+      "name": "area-chart",
+      "type": "registry:component",
+      "title": "面积图 Area Chart",
+      "description": "在折线趋势下增加克制填充，用于强调连续数值的规模。",
+      "registryDependencies": [
+        "line-chart"
+      ]
+    },
+    {
+      "name": "time-series-chart",
+      "type": "registry:component",
+      "title": "时间序列图 Time Series Chart",
+      "description": "按真实时间间隔绘制趋势，并支持线性或对数数值轴。",
+      "registryDependencies": [
+        "chart-core"
+      ]
+    },
+    {
+      "name": "stacked-area-chart",
+      "type": "registry:component",
+      "title": "堆叠面积图 Stacked Area Chart",
+      "description": "比较多个连续序列的累计规模或百分比构成。",
+      "registryDependencies": [
+        "chart-core"
+      ]
+    },
+    {
+      "name": "bar-chart",
+      "type": "registry:component",
+      "title": "条形图 Bar Chart",
+      "description": "从零基线比较分类数值，并支持分组序列与精确标签。",
+      "registryDependencies": [
+        "chart-core"
+      ]
+    },
+    {
+      "name": "horizontal-bar-chart",
+      "type": "registry:component",
+      "title": "横向条形图 Horizontal Bar Chart",
+      "description": "横向比较长分类名称对应的单序列或多序列数值。",
+      "registryDependencies": [
+        "stacked-bar-chart"
+      ]
+    },
+    {
+      "name": "stacked-bar-chart",
+      "type": "registry:component",
+      "title": "堆叠条形图 Stacked Bar Chart",
+      "description": "支持纵向、横向、绝对值与百分比堆叠的分类比较。",
+      "registryDependencies": [
+        "chart-core"
+      ]
+    },
+    {
+      "name": "composed-chart",
+      "type": "registry:component",
+      "title": "组合图 Composed Chart",
+      "description": "在同一分类轴上组合条形与折线，并为量级不同的指标提供双轴。",
+      "registryDependencies": [
+        "chart-core"
+      ]
+    },
+    {
+      "name": "pie-chart",
+      "type": "registry:component",
+      "title": "饼图 Pie Chart",
+      "description": "展示少量类别的部分与整体关系，并支持饼图和环图形态。",
+      "registryDependencies": [
+        "chart-core"
+      ]
+    },
+    {
+      "name": "scatter-chart",
+      "type": "registry:component",
+      "title": "散点图 Scatter Chart",
+      "description": "展示两个数值变量之间的关系、聚类与离群点。",
+      "registryDependencies": [
+        "chart-core"
+      ]
+    },
+    {
+      "name": "canvas-scatter-chart",
+      "type": "registry:component",
+      "title": "Canvas 散点图 Canvas Scatter Chart",
+      "description": "使用 Canvas 绘制较大规模散点，同时保留图例、提示与可访问数据表。",
+      "registryDependencies": [
+        "chart-core"
+      ]
+    },
+    {
+      "name": "histogram",
+      "type": "registry:component",
+      "title": "直方图 Histogram",
+      "description": "将连续数值自动分箱，用于观察分布形状与集中区间。",
+      "registryDependencies": [
+        "bar-chart"
+      ]
+    },
+    {
+      "name": "chart-brush",
+      "type": "registry:component",
+      "title": "图表范围选择 Chart Brush",
+      "description": "复用 Slider 为图表提供受控的范围筛选与缩放。",
+      "registryDependencies": [
+        "slider",
+        "chart-core"
+      ]
+    },
+    {
       "name": "theme",
       "type": "registry:theme",
       "title": "WUI 主题",

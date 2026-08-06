@@ -1,0 +1,31 @@
+---
+title: 面积图 Area Chart
+description: 在折线趋势下增加克制填充，用于强调连续数值的规模。
+component: area-chart
+---
+
+## 基础用法
+
+<ComponentPreview
+  name="area-chart-demo"
+  previewClassName="min-h-0 p-6 sm:p-8"
+/>
+
+<CodeTabs command="@wui-design/cli@latest add @wui/area-chart" />
+
+<ComponentSource name="area-chart" title="components/charts/area-chart.tsx" />
+
+## 使用场景
+
+`AreaChart` 复用 [`LineChart`](/docs/charts/line-chart) 的坐标、提示框、参考线和无障碍能力，只增加面积填充。
+适合强调单个连续指标的规模变化；比较多个轨迹时优先使用折线图，表达组成随时间变化时再引入堆叠面积能力。
+
+示例通过 `actions` 组合已有的 `Select` 与 `Button`。图表不重复实现工具栏控件，也不会接管筛选状态。
+
+## 属性
+
+<PropsTable name="area-chart" />
+
+## 事件
+
+图表不产生业务事件。工具区中的筛选、下载和刷新行为由传入 `actions` 的现有组件负责。

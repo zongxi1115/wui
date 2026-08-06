@@ -1,0 +1,28 @@
+---
+title: 横向条形图 Horizontal Bar Chart
+description: 为长分类标签和排名比较保留充足的水平阅读空间。
+component: horizontal-bar-chart
+---
+
+## 基础用法
+
+<ComponentPreview
+  name="horizontal-bar-chart-demo"
+  previewClassName="min-h-0 p-6 sm:p-8"
+/>
+
+<CodeTabs command="@wui-design/cli@latest add @wui/horizontal-bar-chart" />
+
+<ComponentSource
+  name="horizontal-bar-chart"
+  title="components/charts/horizontal-bar-chart.tsx"
+/>
+
+## 使用场景
+
+`HorizontalBarChart` 是 `StackedBarChart` 的横向薄封装，适合排序后的排名、长产品名称和 5–10 个分类比较。
+单指标时只传一个序列，不要为了给每行制造不同颜色而重复分类维度。
+
+## 属性
+
+<PropsTable name="horizontal-bar-chart" />

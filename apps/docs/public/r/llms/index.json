@@ -146,6 +146,277 @@
       "exampleCount": 2
     },
     {
+      "name": "toolbar",
+      "type": "registry:ui",
+      "title": "工具栏 Toolbar",
+      "description": "为一组紧凑操作提供排列、分组与方向键导航，并复用现有按钮外观。",
+      "keyProps": [
+        "asChild: boolean",
+        "orientation: horizontal|vertical"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "chart-core",
+      "type": "registry:lib",
+      "title": "图表基础 Chart Core",
+      "description": "折线图与条形图共享的尺寸、坐标、图例、提示框和无障碍基础能力。",
+      "categories": [
+        "charts"
+      ],
+      "keyProps": [],
+      "exampleCount": 0
+    },
+    {
+      "name": "line-chart",
+      "type": "registry:component",
+      "title": "折线图 Line Chart",
+      "description": "展示有序数据趋势，并支持多序列比较与键盘浏览。",
+      "categories": [
+        "charts",
+        "trend"
+      ],
+      "keyProps": [
+        "title: ReactNode",
+        "description: ReactNode",
+        "actions: ReactNode",
+        "data: ChartDatum[]",
+        "xKey: string",
+        "series: ChartSeries[]"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "area-chart",
+      "type": "registry:component",
+      "title": "面积图 Area Chart",
+      "description": "在折线趋势下增加克制填充，用于强调连续数值的规模。",
+      "categories": [
+        "charts",
+        "trend"
+      ],
+      "keyProps": [
+        "fillOpacity: number",
+        "showDots: boolean",
+        "data: ChartDatum[]",
+        "title: ReactNode",
+        "height: number",
+        "description: ReactNode"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "time-series-chart",
+      "type": "registry:component",
+      "title": "时间序列图 Time Series Chart",
+      "description": "按真实时间间隔绘制趋势，并支持线性与对数纵轴。",
+      "categories": [
+        "charts",
+        "trend"
+      ],
+      "keyProps": [
+        "title: ReactNode",
+        "description: ReactNode",
+        "actions: ReactNode",
+        "data: ChartDatum[]",
+        "timeKey: string",
+        "series: ChartSeries[]"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "stacked-area-chart",
+      "type": "registry:component",
+      "title": "堆叠面积图 Stacked Area Chart",
+      "description": "展示总量及其组成随有序轴变化，支持绝对值与百分比模式。",
+      "categories": [
+        "charts",
+        "trend",
+        "composition"
+      ],
+      "keyProps": [
+        "title: ReactNode",
+        "description: ReactNode",
+        "actions: ReactNode",
+        "data: ChartDatum[]",
+        "xKey: string",
+        "series: ChartSeries[]"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "bar-chart",
+      "type": "registry:component",
+      "title": "条形图 Bar Chart",
+      "description": "从零基线比较分类数值，并支持分组序列与精确标签。",
+      "categories": [
+        "charts",
+        "comparison"
+      ],
+      "keyProps": [
+        "title: ReactNode",
+        "description: ReactNode",
+        "actions: ReactNode",
+        "data: ChartDatum[]",
+        "xKey: string",
+        "series: ChartSeries[]"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "horizontal-bar-chart",
+      "type": "registry:component",
+      "title": "横向条形图 Horizontal Bar Chart",
+      "description": "为长分类标签和排名比较保留充足的水平阅读空间。",
+      "categories": [
+        "charts",
+        "comparison"
+      ],
+      "keyProps": [
+        "data: ChartDatum[]",
+        "title: ReactNode",
+        "height: number",
+        "description: ReactNode",
+        "actions: ReactNode",
+        "series: ChartSeries[]"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "stacked-bar-chart",
+      "type": "registry:component",
+      "title": "堆叠条形图 Stacked Bar Chart",
+      "description": "比较分类总量及其组成，支持横向、纵向与百分比堆叠。",
+      "categories": [
+        "charts",
+        "comparison",
+        "composition"
+      ],
+      "keyProps": [
+        "title: ReactNode",
+        "description: ReactNode",
+        "actions: ReactNode",
+        "data: ChartDatum[]",
+        "categoryKey: string",
+        "series: ChartSeries[]"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "composed-chart",
+      "type": "registry:component",
+      "title": "组合图 Composed Chart",
+      "description": "在共享横轴上组合柱形与折线，并支持双纵轴和对数尺度。",
+      "categories": [
+        "charts",
+        "comparison"
+      ],
+      "keyProps": [
+        "title: ReactNode",
+        "description: ReactNode",
+        "actions: ReactNode",
+        "data: ChartDatum[]",
+        "xKey: string",
+        "series: ComposedSeries[]"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "pie-chart",
+      "type": "registry:component",
+      "title": "饼图 Pie Chart",
+      "description": "展示少量类别的部分与整体关系，并支持饼图和环图形态。",
+      "categories": [
+        "charts",
+        "composition"
+      ],
+      "keyProps": [
+        "title: ReactNode",
+        "description: ReactNode",
+        "actions: ReactNode",
+        "data: ChartDatum[]",
+        "nameKey: string",
+        "valueKey: string"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "scatter-chart",
+      "type": "registry:component",
+      "title": "散点图 Scatter Chart",
+      "description": "展示两个数值变量之间的关系、聚类与离群点。",
+      "categories": [
+        "charts",
+        "relationship"
+      ],
+      "keyProps": [
+        "title: ReactNode",
+        "description: ReactNode",
+        "actions: ReactNode",
+        "data: ChartDatum[]",
+        "xKey: string",
+        "yKey: string"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "canvas-scatter-chart",
+      "type": "registry:component",
+      "title": "Canvas 散点图 Canvas Scatter Chart",
+      "description": "面向大批量关系数据的 Canvas 渲染，并保留 DOM 提示与表格语义。",
+      "categories": [
+        "charts",
+        "relationship"
+      ],
+      "keyProps": [
+        "title: ReactNode",
+        "description: ReactNode",
+        "actions: ReactNode",
+        "data: ChartDatum[]",
+        "xKey: string",
+        "yKey: string"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "histogram",
+      "type": "registry:component",
+      "title": "直方图 Histogram",
+      "description": "将连续数值自动分箱，用于观察分布形状与集中区间。",
+      "categories": [
+        "charts",
+        "distribution"
+      ],
+      "keyProps": [
+        "title: ReactNode",
+        "description: ReactNode",
+        "actions: ReactNode",
+        "data: ChartDatum[]",
+        "valueKey: string",
+        "bins: number"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "chart-brush",
+      "type": "registry:component",
+      "title": "图表范围选择 Chart Brush",
+      "description": "复用 Slider 为趋势图提供受控范围选择和缩放窗口。",
+      "categories": [
+        "charts",
+        "interaction"
+      ],
+      "keyProps": [
+        "data: ChartDatum[]",
+        "labelKey: string",
+        "value: [number, number]",
+        "defaultValue: [number, number]",
+        "onValueChange: ((value: [number, number]) => void)",
+        "minPoints: number"
+      ],
+      "exampleCount": 1
+    },
+    {
       "name": "utils",
       "type": "registry:lib",
       "title": "cn 工具函数",

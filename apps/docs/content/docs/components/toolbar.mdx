@@ -1,0 +1,26 @@
+---
+title: 工具栏 Toolbar
+description: 为一组紧凑操作提供排列、分组与方向键导航，并复用现有按钮外观。
+component: toolbar
+---
+
+## 基础用法
+
+<ComponentPreview name="toolbar-demo" />
+
+<CodeTabs command="@wui-design/cli@latest add @wui/toolbar" />
+
+<ComponentSource name="toolbar" title="components/ui/toolbar.tsx" />
+
+## 使用场景
+
+`Toolbar` 用于编辑器、数据表和图表标题旁的一组相关操作。`ToolbarButton` 通过 `asChild` 把已有 `Button` 接入 Radix Toolbar 的方向键导航，
+不会再造一套按钮尺寸、颜色或焦点样式。下拉选择器等复杂控件可以直接与 `ToolbarButton` 并列组合。
+
+## 属性
+
+<PropsTable name="toolbar" />
+
+## 事件
+
+工具栏只协调布局和键盘导航，各个按钮、链接和选择器继续处理自己的业务事件。

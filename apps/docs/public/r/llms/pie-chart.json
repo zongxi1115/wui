@@ -1,0 +1,152 @@
+{
+  "name": "pie-chart",
+  "type": "registry:component",
+  "title": "饼图 Pie Chart",
+  "description": "展示少量类别的部分与整体关系，并支持饼图和环图形态。",
+  "categories": [
+    "charts",
+    "composition"
+  ],
+  "import": "import { PieChart } from \"@/components/charts/pie-chart\"",
+  "exports": [
+    "PieChart"
+  ],
+  "typeExports": [
+    "ChartDatum",
+    "PieChartProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/pie-chart",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/pie-chart.json",
+    "npmDependencies": [],
+    "registryDependencies": [
+      "chart-core"
+    ]
+  },
+  "props": [
+    {
+      "name": "title",
+      "type": "ReactNode",
+      "required": true,
+      "control": "text",
+      "description": "图表标题，用于说明正在展示的构成指标。"
+    },
+    {
+      "name": "description",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "补充总体、时间范围或数据口径的副标题。"
+    },
+    {
+      "name": "actions",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "标题右侧的操作区，适合组合 Button、Select 或业务工具栏。"
+    },
+    {
+      "name": "data",
+      "type": "ChartDatum[]",
+      "required": true,
+      "control": "text",
+      "description": "每行代表一个构成类别的数据。"
+    },
+    {
+      "name": "nameKey",
+      "type": "string",
+      "required": true,
+      "control": "text",
+      "description": "类别名称字段。"
+    },
+    {
+      "name": "valueKey",
+      "type": "string",
+      "required": true,
+      "control": "text",
+      "description": "类别数值字段。"
+    },
+    {
+      "name": "colorKey",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "可选的类别颜色字段。"
+    },
+    {
+      "name": "height",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "320",
+      "description": "图表绘图区高度，单位为像素。"
+    },
+    {
+      "name": "innerRadius",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0",
+      "description": "内圈相对外圈的比例；大于零时显示为环图。"
+    },
+    {
+      "name": "padAngle",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "1",
+      "description": "扇区之间的角度间隔。"
+    },
+    {
+      "name": "showLabels",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否显示类别和占比标签。"
+    },
+    {
+      "name": "showLegend",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否显示类别图例。"
+    },
+    {
+      "name": "centerContent",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "环图中心显示的内容。"
+    },
+    {
+      "name": "valueFormatter",
+      "type": "((value: number, datum: ChartDatum) => ReactNode)",
+      "required": false,
+      "control": "text",
+      "defaultValue": "(value) => defaultValueFormatter(value)",
+      "description": "自定义数值的显示格式。"
+    },
+    {
+      "name": "labelFormatter",
+      "type": "((name: string, value: number, percentage: number, datum: ChartDatum) => ReactNode)",
+      "required": false,
+      "control": "text",
+      "defaultValue": "(name, _value, percentage) =>\n    `${name} ${Math.round(percentage * 100)}%`",
+      "description": "自定义类别标签。"
+    }
+  ],
+  "events": "扇区支持指针悬停和键盘聚焦读取，不产生业务事件。每个类别仍会输出到辅助技术可见的数据表。",
+  "examples": [
+    {
+      "name": "pie-chart-demo",
+      "title": "基础用法"
+    }
+  ],
+  "files": [
+    "registry/charts/pie-chart.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/charts/pie-chart",
+  "sourceUrl": "https://ui.wzx.wang/r/pie-chart.json"
+}

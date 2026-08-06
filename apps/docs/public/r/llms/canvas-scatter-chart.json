@@ -1,0 +1,166 @@
+{
+  "name": "canvas-scatter-chart",
+  "type": "registry:component",
+  "title": "Canvas 散点图 Canvas Scatter Chart",
+  "description": "面向大批量关系数据的 Canvas 渲染，并保留 DOM 提示与表格语义。",
+  "categories": [
+    "charts",
+    "relationship"
+  ],
+  "import": "import { CanvasScatterChart } from \"@/components/charts/canvas-scatter-chart\"",
+  "exports": [
+    "CanvasScatterChart"
+  ],
+  "typeExports": [
+    "CanvasScatterChartProps",
+    "ChartDatum"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/canvas-scatter-chart",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/canvas-scatter-chart.json",
+    "npmDependencies": [],
+    "registryDependencies": [
+      "chart-core"
+    ]
+  },
+  "props": [
+    {
+      "name": "title",
+      "type": "ReactNode",
+      "required": true,
+      "control": "text",
+      "description": "图表标题，用于说明正在分析的两个变量。"
+    },
+    {
+      "name": "description",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "补充样本量、时间范围或数据口径的副标题。"
+    },
+    {
+      "name": "actions",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "标题右侧的操作区。"
+    },
+    {
+      "name": "data",
+      "type": "ChartDatum[]",
+      "required": true,
+      "control": "text",
+      "description": "大批量同粒度观测数据。"
+    },
+    {
+      "name": "xKey",
+      "type": "string",
+      "required": true,
+      "control": "text",
+      "description": "横轴数值字段。"
+    },
+    {
+      "name": "yKey",
+      "type": "string",
+      "required": true,
+      "control": "text",
+      "description": "纵轴数值字段。"
+    },
+    {
+      "name": "labelKey",
+      "type": "string",
+      "required": true,
+      "control": "text",
+      "description": "提示框使用的名称字段。"
+    },
+    {
+      "name": "groupKey",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "可选的分组字段。"
+    },
+    {
+      "name": "xLabel",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "横轴显示名称。"
+    },
+    {
+      "name": "yLabel",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "纵轴显示名称。"
+    },
+    {
+      "name": "height",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "340",
+      "description": "图表绘图区高度，单位为像素。"
+    },
+    {
+      "name": "xDomain",
+      "type": "[number, number]",
+      "required": false,
+      "control": "text",
+      "description": "手动指定横轴范围。"
+    },
+    {
+      "name": "yDomain",
+      "type": "[number, number]",
+      "required": false,
+      "control": "text",
+      "description": "手动指定纵轴范围。"
+    },
+    {
+      "name": "pointSize",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "2",
+      "description": "数据点半径，单位为像素。"
+    },
+    {
+      "name": "xFormatter",
+      "type": "((value: number, datum?: ChartDatum) => ReactNode)",
+      "required": false,
+      "control": "text",
+      "description": "自定义横轴数值格式。"
+    },
+    {
+      "name": "yFormatter",
+      "type": "((value: number, datum?: ChartDatum) => ReactNode)",
+      "required": false,
+      "control": "text",
+      "description": "自定义纵轴数值格式。"
+    },
+    {
+      "name": "onPointSelect",
+      "type": "((datum: ChartDatum, index: number) => void)",
+      "required": false,
+      "control": "text",
+      "description": "点击最近的数据点时触发。"
+    },
+    {
+      "name": "renderTooltip",
+      "type": "((datum: ChartDatum, index: number) => ReactNode)",
+      "required": false,
+      "control": "text",
+      "description": "完全替换当前数据点的默认提示内容。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "canvas-scatter-chart-demo"
+    }
+  ],
+  "files": [
+    "registry/charts/canvas-scatter-chart.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/charts/canvas-scatter-chart",
+  "sourceUrl": "https://ui.wzx.wang/r/canvas-scatter-chart.json"
+}

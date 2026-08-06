@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "toolbar",
+  "type": "registry:ui",
+  "title": "工具栏 Toolbar",
+  "description": "为一组紧凑操作提供排列、分组与方向键导航，并复用现有按钮外观。",
+  "dependencies": [
+    "radix-ui"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/toolbar.tsx",
+      "type": "registry:ui",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { Toolbar as ToolbarPrimitive } from \"radix-ui\"\n\nimport { cn } from \"@/registry/lib/utils\"\n\nexport interface ToolbarProps extends React.ComponentProps<\n  typeof ToolbarPrimitive.Root\n> {\n  /** 是否将 Toolbar 的行为合并到唯一的子元素上。 @default false */\n  asChild?: boolean\n  /** 工具项的排列方向。 @default \"horizontal\" */\n  orientation?: \"horizontal\" | \"vertical\"\n}\n\n/** 协调一组紧凑操作的方向键导航与排列，不重复实现按钮外观。 */\nfunction Toolbar({\n  className,\n  orientation = \"horizontal\",\n  ...props\n}: ToolbarProps) {\n  return (\n    <ToolbarPrimitive.Root\n      data-slot=\"toolbar\"\n      orientation={orientation}\n      className={cn(\n        \"border-border bg-background shadow-xs inline-flex w-fit items-center gap-1 rounded-lg border p-1\",\n        orientation === \"vertical\" && \"flex-col items-stretch\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nfunction ToolbarGroup({\n  className,\n  ...props\n}: React.ComponentProps<typeof ToolbarPrimitive.ToggleGroup>) {\n  return (\n    <ToolbarPrimitive.ToggleGroup\n      data-slot=\"toolbar-group\"\n      className={cn(\"flex items-center gap-0.5\", className)}\n      {...props}\n    />\n  )\n}\n\nexport interface ToolbarButtonProps extends Omit<\n  React.ComponentProps<typeof ToolbarPrimitive.Button>,\n  \"asChild\"\n> {\n  /** 已有的 Button、链接按钮或其他单一交互元素。 */\n  children: React.ReactElement\n}\n\n/** 将已有按钮接入 Toolbar 的 roving focus，不接管按钮视觉。 */\nfunction ToolbarButton({ children, ...props }: ToolbarButtonProps) {\n  return (\n    <ToolbarPrimitive.Button asChild data-slot=\"toolbar-button\" {...props}>\n      {children}\n    </ToolbarPrimitive.Button>\n  )\n}\n\nfunction ToolbarSeparator({\n  className,\n  ...props\n}: React.ComponentProps<typeof ToolbarPrimitive.Separator>) {\n  return (\n    <ToolbarPrimitive.Separator\n      data-slot=\"toolbar-separator\"\n      className={cn(\n        \"bg-border mx-1 h-5 w-px shrink-0 data-[orientation=vertical]:mx-0 data-[orientation=vertical]:my-1 data-[orientation=vertical]:h-px data-[orientation=vertical]:w-full\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nexport { Toolbar, ToolbarButton, ToolbarGroup, ToolbarSeparator }\n"
+    }
+  ]
+}

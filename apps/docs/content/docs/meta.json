@@ -1,3 +1,11 @@
 {
-  "pages": ["index", "installation", "theme", "mcp", "hooks", "components"]
+  "pages": [
+    "index",
+    "installation",
+    "theme",
+    "mcp",
+    "hooks",
+    "charts",
+    "components"
+  ]
 }

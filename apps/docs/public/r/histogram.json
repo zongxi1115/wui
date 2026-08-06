@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "histogram",
+  "type": "registry:component",
+  "title": "直方图 Histogram",
+  "description": "将连续数值自动分箱，用于观察分布形状与集中区间。",
+  "registryDependencies": [
+    "bar-chart"
+  ],
+  "files": [
+    {
+      "path": "registry/charts/histogram.tsx",
+      "type": "registry:component",
+      "target": "@components/charts/histogram.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { BarChart } from \"./bar-chart\"\nimport { defaultValueFormatter, type ChartDatum } from \"./chart-core\"\n\nexport interface HistogramProps extends Omit<\n  React.HTMLAttributes<HTMLDivElement>,\n  \"children\" | \"title\"\n> {\n  /** 图表标题，用于说明正在观察的数值分布。 */\n  title: React.ReactNode\n  /** 补充单位、样本范围或筛选条件的副标题。 */\n  description?: React.ReactNode\n  /** 标题右侧的操作区，适合组合 Button、Select 或业务工具栏。 */\n  actions?: React.ReactNode\n  /** 每行代表一个观测值的数据。 */\n  data: ChartDatum[]\n  /** 要统计分布的数值字段。 */\n  valueKey: string\n  /** 等宽分箱数量。 @default 8 */\n  bins?: number\n  /** 手动指定统计范围。 */\n  domain?: [number, number]\n  /** 图表绘图区高度，单位为像素。 @default 280 */\n  height?: number\n  /** 是否显示水平参考网格。 @default true */\n  showGrid?: boolean\n  /** 是否在柱形末端显示频数。 @default false */\n  showValues?: boolean\n  /** 自定义分箱边界的显示格式。 */\n  binFormatter?: (min: number, max: number, index: number) => string\n  /** 自定义频数的显示格式。 */\n  frequencyFormatter?: (value: number) => React.ReactNode\n}\n\n/** 将连续数值自动分箱，并复用 BarChart 展示频数分布。 */\nfunction Histogram({\n  title,\n  description,\n  actions,\n  data,\n  valueKey,\n  bins = 8,\n  domain,\n  height = 280,\n  showGrid = true,\n  showValues = false,\n  binFormatter = (min, max) =>\n    `${defaultValueFormatter(min)}–${defaultValueFormatter(max)}`,\n  frequencyFormatter = (value) => `${value}`,\n  ...props\n}: HistogramProps) {\n  const values = data.map((datum) => datum[valueKey] as number)\n  const min = domain?.[0] ?? Math.min(...values)\n  const max = domain?.[1] ?? Math.max(...values)\n  const step = (max - min) / bins\n  const distribution = Array.from({ length: bins }, (_, index) => ({\n    range: binFormatter(min + index * step, min + (index + 1) * step, index),\n    frequency: 0,\n  }))\n\n  values.forEach((value) => {\n    const index = Math.min(bins - 1, Math.floor((value - min) / step))\n    distribution[index].frequency += 1\n  })\n\n  return (\n    <BarChart\n      title={title}\n      description={description}\n      actions={actions}\n      data={distribution}\n      xKey=\"range\"\n      series={[{ key: \"frequency\", label: \"频数\" }]}\n      height={height}\n      showGrid={showGrid}\n      showValues={showValues}\n      showLegend={false}\n      gap={0}\n      radius={0}\n      valueFormatter={(value) => frequencyFormatter(value)}\n      yAxisFormatter={frequencyFormatter}\n      {...props}\n    />\n  )\n}\n\nexport { Histogram }\n"
+    }
+  ],
+  "categories": [
+    "charts",
+    "distribution"
+  ]
+}

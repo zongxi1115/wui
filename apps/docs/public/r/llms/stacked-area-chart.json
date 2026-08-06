@@ -1,0 +1,132 @@
+{
+  "name": "stacked-area-chart",
+  "type": "registry:component",
+  "title": "堆叠面积图 Stacked Area Chart",
+  "description": "展示总量及其组成随有序轴变化，支持绝对值与百分比模式。",
+  "categories": [
+    "charts",
+    "trend",
+    "composition"
+  ],
+  "import": "import { StackedAreaChart } from \"@/components/charts/stacked-area-chart\"",
+  "exports": [
+    "StackedAreaChart"
+  ],
+  "typeExports": [
+    "ChartDatum",
+    "ChartLabelFormatter",
+    "ChartSeries",
+    "ChartValueFormatter",
+    "StackedAreaChartProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/stacked-area-chart",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/stacked-area-chart.json",
+    "npmDependencies": [],
+    "registryDependencies": [
+      "chart-core"
+    ]
+  },
+  "props": [
+    {
+      "name": "title",
+      "type": "ReactNode",
+      "required": true,
+      "control": "text",
+      "description": "图表标题，用于说明总量及其组成。"
+    },
+    {
+      "name": "description",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "补充单位、时间范围或分母口径的副标题。"
+    },
+    {
+      "name": "actions",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "标题右侧的操作区。"
+    },
+    {
+      "name": "data",
+      "type": "ChartDatum[]",
+      "required": true,
+      "control": "text",
+      "description": "每行代表一个有序横轴节点的数据。"
+    },
+    {
+      "name": "xKey",
+      "type": "string",
+      "required": true,
+      "control": "text",
+      "description": "横轴标签字段。"
+    },
+    {
+      "name": "series",
+      "type": "ChartSeries[]",
+      "required": true,
+      "control": "text",
+      "description": "参与堆叠的数值序列。"
+    },
+    {
+      "name": "normalize",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "是否把每个横轴节点归一化为百分比。"
+    },
+    {
+      "name": "height",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "300",
+      "description": "图表绘图区高度，单位为像素。"
+    },
+    {
+      "name": "showGrid",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否显示水平参考网格。"
+    },
+    {
+      "name": "showLegend",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否显示图例。"
+    },
+    {
+      "name": "valueFormatter",
+      "type": "ChartValueFormatter",
+      "required": false,
+      "control": "text",
+      "defaultValue": "(value) => defaultValueFormatter(value)",
+      "description": "自定义原始数值的显示格式。"
+    },
+    {
+      "name": "labelFormatter",
+      "type": "ChartLabelFormatter",
+      "required": false,
+      "control": "text",
+      "defaultValue": "(value) => String(value)",
+      "description": "自定义横轴标签。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "stacked-area-chart-demo"
+    }
+  ],
+  "files": [
+    "registry/charts/stacked-area-chart.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/charts/stacked-area-chart",
+  "sourceUrl": "https://ui.wzx.wang/r/stacked-area-chart.json"
+}
