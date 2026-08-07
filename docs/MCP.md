@@ -27,15 +27,19 @@ claude mcp add wui -- pnpm dlx @wui-design/mcp@latest
 ```
 
 ```json
-{ "mcpServers": { "wui": { "command": "pnpm", "args": ["dlx", "@wui-design/mcp@latest"] } } }
+{
+  "mcpServers": {
+    "wui": { "command": "pnpm", "args": ["dlx", "@wui-design/mcp@latest"] }
+  }
+}
 ```
 
 可选参数：
 
-| 参数 | 环境变量 | 说明 |
-| --- | --- | --- |
-| `--registry <url>` | `WUI_REGISTRY_URL` | 指向自建 registry 的 `/r` 目录 |
-| `--dir <path>` | `WUI_REGISTRY_DIR` | 直接读本地 `apps/docs/public/r`，开发本库时用 |
+| 参数               | 环境变量           | 说明                                          |
+| ------------------ | ------------------ | --------------------------------------------- |
+| `--registry <url>` | `WUI_REGISTRY_URL` | 指向自建 registry 的 `/r` 目录                |
+| `--dir <path>`     | `WUI_REGISTRY_DIR` | 直接读本地 `apps/docs/public/r`，开发本库时用 |
 
 在本仓库里调试：
 
@@ -53,16 +57,16 @@ node packages/mcp/dist/index.js --dir apps/docs/public/r
 
 分层设计，让模型按需取用而不是一次塞满上下文：
 
-| 工具 | 用途 | 典型体积 |
-| --- | --- | --- |
-| `wui_overview` | 技术栈、导入路径、token 约定、硬性规则 | ~600 token |
-| `wui_list_components` | 组件清单，支持关键词过滤 | ~1.5k token（全量） |
-| `wui_get_component` | 单组件完整 props + 何时使用 + 示例名 | ~500–900 token |
-| `wui_get_example` | 单个示例的完整代码 | ~200 token |
-| `wui_get_component_source` | 组件实现源码（按需，较大） | 1k–8k token |
-| `wui_get_theme_tokens` | 语义 token 及明暗色值 | ~1.5k token |
+| 工具                       | 用途                                   | 典型体积       |
+| -------------------------- | -------------------------------------- | -------------- |
+| `wui_overview`             | 技术栈、导入路径、token 约定、硬性规则 | ~600 token     |
+| `wui_search_components`    | 按关键词搜索组件，默认最多 12 条       | 取决于结果数   |
+| `wui_get_component`        | 单组件完整 props + 何时使用 + 示例名   | ~500–900 token |
+| `wui_get_example`          | 单个示例的完整代码                     | ~200 token     |
+| `wui_get_component_source` | 组件实现源码（按需，较大）             | 1k–8k token    |
+| `wui_get_theme_tokens`     | 语义 token 及明暗色值                  | ~1.5k token    |
 
-建议调用链：`wui_list_components` → `wui_get_component` → `wui_get_example`，
+建议调用链：`wui_search_components` → `wui_get_component` → `wui_get_example`，
 只有需要理解或修改实现时才调 `wui_get_component_source`。
 
 ## 数据来源

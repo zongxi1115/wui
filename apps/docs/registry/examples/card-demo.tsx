@@ -42,17 +42,21 @@ export default function CardDemo() {
           </div>
           <Progress value={72} aria-label="完成进度" />
         </div>
-        <dl className="bg-muted/50 grid grid-cols-2 gap-4 rounded-xl px-4 py-3">
+        <dl className="border-border/60 grid grid-cols-2 divide-x border-y py-3">
           {facts.map((fact) => (
-            <div key={fact.label}>
+            <div key={fact.label} className="first:pr-4 last:pl-4">
               <dt className="text-muted-foreground text-xs">{fact.label}</dt>
-              <dd className="mt-1 text-sm font-medium">{fact.value}</dd>
+              <dd className="mt-1.5 text-sm font-medium tracking-[-0.01em]">
+                {fact.value}
+              </dd>
             </div>
           ))}
         </dl>
       </CardContent>
-      <CardFooter className="justify-between">
-        <span className="text-muted-foreground text-xs">最近更新于 2 小时前</span>
+      <CardFooter className="justify-between pt-0.5">
+        <span className="text-muted-foreground text-xs">
+          最近更新于 2 小时前
+        </span>
         <Button size="sm">打开项目</Button>
       </CardFooter>
     </Card>

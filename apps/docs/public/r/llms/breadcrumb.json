@@ -1,0 +1,49 @@
+{
+  "name": "breadcrumb",
+  "type": "registry:ui",
+  "title": "面包屑 Breadcrumb",
+  "description": "显示当前页面在信息层级中的位置，并提供返回上级页面的入口。",
+  "categories": [
+    "navigation"
+  ],
+  "import": "import { Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from \"@/components/ui/breadcrumb\"",
+  "exports": [
+    "Breadcrumb",
+    "BreadcrumbEllipsis",
+    "BreadcrumbItem",
+    "BreadcrumbLink",
+    "BreadcrumbList",
+    "BreadcrumbPage",
+    "BreadcrumbSeparator"
+  ],
+  "typeExports": [
+    "BreadcrumbLinkProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/breadcrumb",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/breadcrumb.json",
+    "npmDependencies": [
+      "lucide-react",
+      "radix-ui"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [],
+  "examples": [
+    {
+      "name": "breadcrumb-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "breadcrumb-collapsed",
+      "title": "折叠路径与自定义分隔符"
+    }
+  ],
+  "files": [
+    "registry/ui/breadcrumb.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/breadcrumb",
+  "sourceUrl": "https://ui.wzx.wang/r/breadcrumb.json"
+}

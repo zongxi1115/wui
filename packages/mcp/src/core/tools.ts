@@ -9,7 +9,10 @@ export interface ToolDefinition {
     properties: Record<string, unknown>
     required?: string[]
   }
-  handler: (args: Record<string, unknown>, registry: Registry) => Promise<string>
+  handler: (
+    args: Record<string, unknown>,
+    registry: Registry
+  ) => Promise<string>
 }
 
 // ---------------------------------------------------------------------------
@@ -33,7 +36,9 @@ function renderComponent(d: ComponentDigest): string {
     out.push(`**npm 依赖**：${d.install.npmDependencies.join("、")}`)
   }
   if (d.install.registryDependencies.length) {
-    out.push(`**registry 依赖**：${d.install.registryDependencies.join("、")}（会自动一起安装）`)
+    out.push(
+      `**registry 依赖**：${d.install.registryDependencies.join("、")}（会自动一起安装）`
+    )
   }
   if (d.docsUrl) out.push(`**文档**：${d.docsUrl}`)
   out.push("")
@@ -45,7 +50,9 @@ function renderComponent(d: ComponentDigest): string {
       : "_该组件没有自定义 props，所有属性透传到底层元素。_"
   )
   out.push("")
-  out.push("> 只使用上面列出的 props。其余属性会展开到底层 DOM 元素，因此原生属性可直接传。")
+  out.push(
+    "> 只使用上面列出的 props。其余属性会展开到底层 DOM 元素，因此原生属性可直接传。"
+  )
   out.push("")
 
   if (d.usage) out.push("## 何时使用", "", d.usage, "")
@@ -70,7 +77,13 @@ function renderIndexEntry(i: IndexEntry): string {
 }
 
 function matches(entry: IndexEntry, q: string): boolean {
-  const hay = [entry.name, entry.title, entry.description, ...(entry.categories ?? []), ...entry.keyProps]
+  const hay = [
+    entry.name,
+    entry.title,
+    entry.description,
+    ...(entry.categories ?? []),
+    ...entry.keyProps,
+  ]
     .join(" ")
     .toLowerCase()
   // Every whitespace-separated term must appear somewhere.
@@ -99,7 +112,7 @@ export const tools: ToolDefinition[] = [
         "",
         `## 可用组件`,
         "",
-        `共 ${o.componentCount} 个，用 \`wui_list_components\` 查看。`,
+        `共 ${o.componentCount} 个，用 \`wui_search_components\` 按关键词查找。`,
         "",
         `## 语义 token（${groups.join(" / ")}）`,
         "",
@@ -111,31 +124,47 @@ export const tools: ToolDefinition[] = [
   },
 
   {
-    name: "wui_list_components",
+    name: "wui_search_components",
     description:
-      "列出 wui 中所有可用组件（名称、标题、简介、关键 props）。传 query 可按关键词过滤，例如 \"dialog\"、\"表格\"、\"文字动效\"。用它来确认某个组件是否存在、该用哪一个。",
+      '按关键词搜索 wui 组件，返回名称、标题、简介和关键 props，例如搜索 "dialog"、"表格"、"文字动效"。不会返回全量组件清单，用它确认某个组件是否存在、该用哪一个。',
     inputSchema: {
       type: "object",
       properties: {
         query: {
           type: "string",
-          description: "可选的关键词过滤，支持中英文，多个词以空格分隔（需全部命中）。",
+          description:
+            "搜索关键词，支持中英文，多个词以空格分隔（需全部命中）。",
+        },
+        limit: {
+          type: "number",
+          description: "最多返回多少条结果，默认 12，最大 30。",
         },
       },
+      required: ["query"],
     },
     async handler(args, registry) {
       const { items } = await registry.index()
       const q = typeof args.query === "string" ? args.query.trim() : ""
-      const hits = q ? items.filter((i) => matches(i, q)) : items
+      if (!q)
+        return "请提供组件名称、用途或类别关键词，例如 `dialog`、`表格`、`输入`。"
+
+      const requestedLimit =
+        typeof args.limit === "number" && Number.isFinite(args.limit)
+          ? Math.floor(args.limit)
+          : 12
+      const limit = Math.min(Math.max(requestedLimit, 1), 30)
+      const matchesAll = items.filter((i) => matches(i, q))
+      const hits = matchesAll.slice(0, limit)
       if (!hits.length) {
-        return `没有匹配 "${q}" 的组件。库里共有 ${items.length} 个组件：\n${items
-          .map((i) => `\`${i.name}\``)
-          .join("、")}`
+        return `没有匹配 "${q}" 的组件。请尝试更短的名称、用途或类别关键词。`
       }
       return [
-        q ? `匹配 "${q}" 的组件（${hits.length}/${items.length}）：` : `wui 组件（共 ${items.length}）：`,
+        `匹配 "${q}" 的组件（返回 ${hits.length} 条，共 ${matchesAll.length} 条匹配）：`,
         "",
         ...hits.map(renderIndexEntry),
+        matchesAll.length > hits.length
+          ? `\n结果已截断，可缩小关键词范围或把 limit 调高至最多 30。`
+          : "",
         "",
         "用 `wui_get_component` 获取某个组件完整的 props 和用法。",
       ].join("\n")
@@ -145,11 +174,14 @@ export const tools: ToolDefinition[] = [
   {
     name: "wui_get_component",
     description:
-      "获取单个 wui 组件的完整 API：props（类型、默认值、说明）、导入语句、安装命令、依赖、何时使用的约束，以及可用示例列表。写用到该组件的代码前必须先调用，不要凭记忆猜 props。",
+      "获取单个 wui 组件的完整 API：props（类型、默认值、说明）、导入语句、安装命令、依赖、何时使用的约束，以及可用示例列表。组件名可先通过 wui_search_components 查找；写代码前不要凭记忆猜 props。",
     inputSchema: {
       type: "object",
       properties: {
-        name: { type: "string", description: "组件名，例如 button、morphing-dialog。" },
+        name: {
+          type: "string",
+          description: "组件名，例如 button、morphing-dialog。",
+        },
       },
       required: ["name"],
     },
@@ -245,7 +277,8 @@ export async function callTool(
   try {
     return { text: await tool.handler(args, registry), isError: false }
   } catch (err) {
-    if (err instanceof NotFoundError) return { text: err.message, isError: true }
+    if (err instanceof NotFoundError)
+      return { text: err.message, isError: true }
     return {
       text: `调用 ${name} 失败：${err instanceof Error ? err.message : String(err)}`,
       isError: true,

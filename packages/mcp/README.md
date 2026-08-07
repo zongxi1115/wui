@@ -33,14 +33,14 @@ claude mcp add wui -- pnpm dlx @wui-design/mcp@latest
 
 ## Tools
 
-| Tool | Returns |
-| --- | --- |
-| `wui_overview` | The rules an agent must follow when writing wui code |
-| `wui_list_components` | Every component, with its description and categories |
-| `wui_get_component` | One component's props, variants, and usage notes |
-| `wui_get_component_source` | The full source files, as the CLI would write them |
-| `wui_get_example` | A named, runnable example |
-| `wui_get_theme_tokens` | The design-token contract (CSS variables) |
+| Tool                       | Returns                                                                 |
+| -------------------------- | ----------------------------------------------------------------------- |
+| `wui_overview`             | The rules an agent must follow when writing wui code                    |
+| `wui_search_components`    | Search components by name, purpose, or category (12 results by default) |
+| `wui_get_component`        | One component's props, variants, and usage notes                        |
+| `wui_get_component_source` | The full source files, as the CLI would write them                      |
+| `wui_get_example`          | A named, runnable example                                               |
+| `wui_get_theme_tokens`     | The design-token contract (CSS variables)                               |
 
 ## Pointing it elsewhere
 
@@ -51,10 +51,10 @@ pnpm dlx @wui-design/mcp@latest --registry https://your-host/r     # a self-host
 pnpm dlx @wui-design/mcp@latest --dir ./apps/docs/public/r         # a local checkout
 ```
 
-| Flag | Env var |
-| --- | --- |
+| Flag               | Env var            |
+| ------------------ | ------------------ |
 | `--registry <url>` | `WUI_REGISTRY_URL` |
-| `--dir <path>` | `WUI_REGISTRY_DIR` |
+| `--dir <path>`     | `WUI_REGISTRY_DIR` |
 
 ## Note on `@wui-design/mcp/core`
 

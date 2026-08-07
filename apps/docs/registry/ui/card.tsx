@@ -3,10 +3,10 @@ import * as React from "react"
 import { cn } from "@/registry/lib/utils"
 
 const cardSurface = {
-  /** Lifts the card off the page so it reads as a surface, not an outline. */
-  elevated: "border-border/60 border shadow-md",
+  /** Lifts the card with a quiet ambient shadow and a low-contrast edge. */
+  elevated: "border-border/50 border shadow-md",
   /** Flat treatment for dense grids where stacked shadows would be noisy. */
-  outline: "border",
+  outline: "border-border/70 border shadow-none",
 } as const
 
 /** A composable surface that groups related content and actions. */
@@ -26,16 +26,16 @@ function Card({
       data-slot="card"
       data-variant={variant}
       className={cn(
-        "bg-card text-card-foreground relative flex flex-col gap-4 rounded-2xl pb-6 pt-5",
+        "bg-card text-card-foreground relative isolate flex flex-col gap-5 rounded-[1.25rem] py-5",
         cardSurface[variant],
         interactive && [
-          "focus-visible:ring-ring/35 cursor-pointer outline-none focus-visible:ring-[3px]",
-          "transition-[box-shadow,transform] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]",
-          "hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.995] active:duration-100",
+          "focus-visible:ring-ring/30 cursor-pointer outline-none focus-visible:ring-[3px] focus-visible:ring-offset-2",
+          "transition-[border-color,box-shadow,transform] duration-300 ease-[cubic-bezier(0.2,0.8,0.2,1)]",
+          "hover:-translate-y-px active:translate-y-0 active:scale-[0.997] active:duration-100",
           "motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:active:scale-100",
           variant === "elevated"
-            ? "hover:shadow-lg"
-            : "hover:border-foreground/20",
+            ? "hover:border-border/80 hover:shadow-lg"
+            : "hover:border-foreground/25",
         ],
         className
       )}
@@ -50,7 +50,7 @@ function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="card-header"
       className={cn(
-        "has-data-[slot=card-action]:grid-cols-[minmax(0,1fr)_auto] grid gap-1 px-6",
+        "has-data-[slot=card-action]:grid-cols-[minmax(0,1fr)_auto] grid gap-x-4 gap-y-1 px-5 sm:px-6",
         className
       )}
       {...props}
@@ -64,7 +64,7 @@ function CardTitle({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="card-title"
       className={cn(
-        "text-[1.0625rem] font-semibold leading-6 tracking-[-0.012em]",
+        "text-balance text-[1.0625rem] font-semibold leading-6 tracking-[-0.015em]",
         className
       )}
       {...props}
@@ -77,7 +77,10 @@ function CardDescription({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="card-description"
-      className={cn("text-muted-foreground text-sm leading-normal", className)}
+      className={cn(
+        "text-muted-foreground max-w-prose text-pretty text-sm leading-[1.45]",
+        className
+      )}
       {...props}
     />
   )
@@ -89,7 +92,7 @@ function CardAction({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="card-action"
       className={cn(
-        "col-start-2 row-span-2 row-start-1 -mr-2 self-start",
+        "col-start-2 row-span-2 row-start-1 -mr-1 -mt-1 self-start",
         className
       )}
       {...props}
@@ -100,7 +103,11 @@ function CardAction({ className, ...props }: React.ComponentProps<"div">) {
 /** Contains the card's main content. */
 function CardContent({ className, ...props }: React.ComponentProps<"div">) {
   return (
-    <div data-slot="card-content" className={cn("px-6", className)} {...props} />
+    <div
+      data-slot="card-content"
+      className={cn("px-5 sm:px-6", className)}
+      {...props}
+    />
   )
 }
 
@@ -113,7 +120,7 @@ function CardMedia({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="card-media"
       className={cn(
-        "-mt-5 overflow-hidden rounded-t-2xl [&_img]:block [&_img]:size-full [&_img]:object-cover",
+        "-mt-5 overflow-hidden rounded-t-[calc(1.25rem-1px)] [&_img]:block [&_img]:size-full [&_img]:object-cover",
         className
       )}
       {...props}
@@ -126,7 +133,7 @@ function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="card-footer"
-      className={cn("flex items-center gap-3 px-6", className)}
+      className={cn("flex items-center gap-2.5 px-5 sm:px-6", className)}
       {...props}
     />
   )

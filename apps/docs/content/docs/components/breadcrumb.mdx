@@ -1,0 +1,43 @@
+---
+title: 面包屑 Breadcrumb
+description: 显示当前页面在信息层级中的位置，并提供返回上级页面的入口。
+component: breadcrumb
+---
+
+## 基础用法
+
+<ComponentPreview name="breadcrumb-demo" />
+
+<CodeTabs command="@wui-design/cli@latest add @wui/breadcrumb" />
+
+<ComponentSource name="breadcrumb" title="components/ui/breadcrumb.tsx" />
+
+## 使用场景
+
+`Breadcrumb` 适合页面层级较深、用户需要快速返回上级时使用。当前页面使用 `BreadcrumbPage`，前面的层级使用真实链接；不要用面包屑替代应用的主导航。
+
+## 属性
+
+所有子组件都会透传对应原生元素的属性。`BreadcrumbLink` 额外提供 `asChild`，可与 Next.js `Link` 或其他路由链接组合。
+
+<PropsTable name="breadcrumb" />
+
+## 扩展用法
+
+### 折叠路径与自定义分隔符
+
+路径过长时可用 `BreadcrumbEllipsis` 折叠中间层级，并向 `BreadcrumbSeparator` 传入自定义图标。
+
+<ComponentPreview name="breadcrumb-collapsed" />
+
+### 与路由链接组合
+
+启用 `asChild` 后，组件不会额外生成 `<a>`，而是把样式和可访问属性合并到路由链接：
+
+```tsx
+<BreadcrumbLink asChild>
+  <Link href="/projects">项目</Link>
+</BreadcrumbLink>
+```
+
+每个分隔符都属于装饰内容，不会被读屏软件重复朗读；当前页面会自动带有 `aria-current="page"`。

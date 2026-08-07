@@ -20,7 +20,8 @@
       "motion"
     ],
     "registryDependencies": [
-      "utils"
+      "utils",
+      "input"
     ]
   },
   "props": [
@@ -100,6 +101,29 @@
       "description": "自定义触发器中已选路径的渲染方式。"
     },
     {
+      "name": "searchable",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "在面板顶部显示路径搜索框。@default false"
+    },
+    {
+      "name": "searchPlaceholder",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "defaultValue": "搜索选项",
+      "description": "搜索框占位文本。@default \"搜索选项\""
+    },
+    {
+      "name": "filterOption",
+      "type": "((query: string, path: CascaderOption[]) => boolean)",
+      "required": false,
+      "control": "text",
+      "description": "自定义路径匹配逻辑。"
+    },
+    {
       "name": "disabled",
       "type": "boolean",
       "required": false,
@@ -112,6 +136,10 @@
     {
       "name": "cascader-demo",
       "title": "基础用法"
+    },
+    {
+      "name": "cascader-search",
+      "title": "模糊搜索"
     }
   ],
   "files": [

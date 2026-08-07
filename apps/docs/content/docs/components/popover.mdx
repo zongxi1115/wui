@@ -1,0 +1,37 @@
+---
+title: 气泡浮层 Popover
+description: 在触发器附近展示可交互的补充信息或轻量操作。
+component: popover
+---
+
+## 基础用法
+
+<ComponentPreview name="popover-demo" />
+
+<CodeTabs command="@wui-design/cli@latest add @wui/popover" />
+
+<ComponentSource name="popover" title="components/ui/popover.tsx" />
+
+## 使用场景
+
+`Popover` 适合承载说明、筛选器和少量表单操作。它会管理焦点、Escape 关闭、点击外部关闭与视口碰撞避让。只展示一句辅助说明时应使用 Tooltip；需要用户确认重要决定或完成复杂任务时应使用 Dialog。
+
+触发器推荐通过 `asChild` 复用 Button，避免额外的嵌套按钮。浮层内有标题或说明时，应使用 `PopoverTitle` 与 `PopoverDescription` 建立清晰的无障碍语义。
+
+## 属性
+
+<PropsTable name="popover" />
+
+- `Popover` 支持 `open`、`defaultOpen` 与 `onOpenChange`。
+- `PopoverContent` 支持 `side`、`align`、`sideOffset`、`collisionPadding` 与 `showArrow`。
+- `PopoverTrigger`、`PopoverClose` 均支持 `asChild`。
+
+## 扩展用法
+
+### 受控表单
+
+<ComponentPreview name="popover-form" />
+
+通过 `open` 与 `onOpenChange` 控制浮层，并在操作完成后主动关闭。表单内容应保持轻量；若需要校验多个字段或呈现较长流程，改用 Dialog 会更合适。
+
+`align="start | center | end"` 用于调整浮层和触发器的对齐关系。默认启用碰撞检测，在视口空间不足时会自动翻转或移动。

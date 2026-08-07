@@ -1,0 +1,31 @@
+---
+title: 命令列表 Command
+description: 支持模糊搜索、键盘导航、分组与空状态的命令列表。
+component: command
+---
+
+## 基础用法
+
+<ComponentPreview name="command-demo" />
+
+<CodeTabs command="@wui-design/cli@latest add @wui/command" />
+
+<ComponentSource name="command" title="components/ui/command.tsx" />
+
+## 使用场景
+
+`Command` 适合命令面板、资源检索和可搜索选择器。它只负责本地过滤、上下方向键导航、回车选择与空状态；弹窗、快捷键和异步数据由业务层组合。
+
+每个 `CommandItem` 都应提供稳定的 `value`。可将拼音、首字母或业务别名写入 `keywords`，这些内容会参与默认的模糊匹配，但不会显示在界面中。
+
+## 属性
+
+<PropsTable name="command" />
+
+## 扩展用法
+
+### 分组、别名与禁用项
+
+<ComponentPreview name="command-groups" />
+
+使用 `CommandGroup` 建立语义分组，使用 `CommandSeparator` 分隔操作区域。禁用项不会响应点击、方向键或回车。需要服务端搜索时设置 `shouldFilter={false}`，再通过 `query` 与 `onQueryChange` 接管搜索状态和数据请求。

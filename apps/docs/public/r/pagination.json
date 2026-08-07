@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "pagination",
+  "type": "registry:ui",
+  "title": "分页 Pagination",
+  "description": "在分页数据之间导航，并清晰标记当前页和省略的页码区间。",
+  "dependencies": [
+    "lucide-react",
+    "radix-ui"
+  ],
+  "registryDependencies": [
+    "utils",
+    "button"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/pagination.tsx",
+      "type": "registry:ui",
+      "content": "import * as React from \"react\"\nimport {\n  ChevronLeftIcon,\n  ChevronRightIcon,\n  MoreHorizontalIcon,\n} from \"lucide-react\"\nimport { Slot } from \"radix-ui\"\n\nimport { cn } from \"@/registry/lib/utils\"\nimport { buttonVariants } from \"@/registry/ui/button\"\n\n/** 分页导航容器。 */\nfunction Pagination({ className, ...props }: React.ComponentProps<\"nav\">) {\n  return (\n    <nav\n      aria-label=\"分页导航\"\n      data-slot=\"pagination\"\n      className={cn(\"mx-auto flex w-full justify-center\", className)}\n      {...props}\n    />\n  )\n}\n\n/** 分页项目列表。 */\nfunction PaginationContent({\n  className,\n  ...props\n}: React.ComponentProps<\"ul\">) {\n  return (\n    <ul\n      data-slot=\"pagination-content\"\n      className={cn(\"flex flex-row items-center gap-1\", className)}\n      {...props}\n    />\n  )\n}\n\n/** 单个分页项目。 */\nfunction PaginationItem(props: React.ComponentProps<\"li\">) {\n  return <li data-slot=\"pagination-item\" {...props} />\n}\n\nexport interface PaginationLinkProps extends React.ComponentProps<\"a\"> {\n  /** 当前链接是否对应正在查看的页面。 */\n  isActive?: boolean\n  /** 分页按钮尺寸。 */\n  size?: \"default\" | \"sm\" | \"lg\" | \"icon\"\n  /** 将样式与属性合并到唯一子元素，适合组合路由链接。 */\n  asChild?: boolean\n}\n\n/** 页码链接，激活时自动添加当前页语义。 */\nfunction PaginationLink({\n  className,\n  isActive,\n  size = \"icon\",\n  asChild = false,\n  ...props\n}: PaginationLinkProps) {\n  const Comp = asChild ? Slot.Root : \"a\"\n\n  return (\n    <Comp\n      aria-current={isActive ? \"page\" : undefined}\n      data-slot=\"pagination-link\"\n      data-active={isActive || undefined}\n      className={cn(\n        buttonVariants({ variant: isActive ? \"outline\" : \"ghost\", size }),\n        isActive && \"pointer-events-none\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\n/** 上一页链接。 */\nfunction PaginationPrevious({\n  className,\n  children,\n  ...props\n}: React.ComponentProps<typeof PaginationLink>) {\n  return (\n    <PaginationLink\n      aria-label=\"前往上一页\"\n      size=\"default\"\n      className={cn(\"gap-1 px-2.5 sm:pr-3\", className)}\n      {...props}\n    >\n      <ChevronLeftIcon />\n      {children ?? <span className=\"hidden sm:inline\">上一页</span>}\n    </PaginationLink>\n  )\n}\n\n/** 下一页链接。 */\nfunction PaginationNext({\n  className,\n  children,\n  ...props\n}: React.ComponentProps<typeof PaginationLink>) {\n  return (\n    <PaginationLink\n      aria-label=\"前往下一页\"\n      size=\"default\"\n      className={cn(\"gap-1 px-2.5 sm:pl-3\", className)}\n      {...props}\n    >\n      {children ?? <span className=\"hidden sm:inline\">下一页</span>}\n      <ChevronRightIcon />\n    </PaginationLink>\n  )\n}\n\n/** 表示一段页码被折叠。 */\nfunction PaginationEllipsis({\n  className,\n  ...props\n}: React.ComponentProps<\"span\">) {\n  return (\n    <span\n      aria-hidden=\"true\"\n      data-slot=\"pagination-ellipsis\"\n      className={cn(\"flex size-9 items-center justify-center\", className)}\n      {...props}\n    >\n      <MoreHorizontalIcon className=\"size-4\" />\n      <span className=\"sr-only\">更多页面</span>\n    </span>\n  )\n}\n\nexport {\n  Pagination,\n  PaginationContent,\n  PaginationEllipsis,\n  PaginationItem,\n  PaginationLink,\n  PaginationNext,\n  PaginationPrevious,\n}\n"
+    }
+  ],
+  "categories": [
+    "navigation"
+  ]
+}

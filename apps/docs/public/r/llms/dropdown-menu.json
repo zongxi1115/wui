@@ -1,0 +1,57 @@
+{
+  "name": "dropdown-menu",
+  "type": "registry:ui",
+  "title": "下拉菜单 Dropdown Menu",
+  "description": "通过按钮展开一组操作，支持分组、状态项和多级菜单。",
+  "categories": [
+    "navigation"
+  ],
+  "import": "import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger } from \"@/components/ui/dropdown-menu\"",
+  "exports": [
+    "DropdownMenu",
+    "DropdownMenuCheckboxItem",
+    "DropdownMenuContent",
+    "DropdownMenuGroup",
+    "DropdownMenuItem",
+    "DropdownMenuLabel",
+    "DropdownMenuPortal",
+    "DropdownMenuRadioGroup",
+    "DropdownMenuRadioItem",
+    "DropdownMenuSeparator",
+    "DropdownMenuShortcut",
+    "DropdownMenuSub",
+    "DropdownMenuSubContent",
+    "DropdownMenuSubTrigger",
+    "DropdownMenuTrigger"
+  ],
+  "typeExports": [
+    "DropdownMenuItemProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/dropdown-menu",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/dropdown-menu.json",
+    "npmDependencies": [
+      "radix-ui",
+      "lucide-react"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [],
+  "examples": [
+    {
+      "name": "dropdown-menu-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "dropdown-menu-advanced",
+      "title": "状态项与子菜单"
+    }
+  ],
+  "files": [
+    "registry/ui/dropdown-menu.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/dropdown-menu",
+  "sourceUrl": "https://ui.wzx.wang/r/dropdown-menu.json"
+}

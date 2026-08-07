@@ -1,0 +1,46 @@
+{
+  "name": "popover",
+  "type": "registry:ui",
+  "title": "气泡浮层 Popover",
+  "description": "在触发器附近展示可交互的补充信息或轻量操作。",
+  "import": "import { Popover, PopoverAnchor, PopoverClose, PopoverContent, PopoverDescription, PopoverPortal, PopoverTitle, PopoverTrigger } from \"@/components/ui/popover\"",
+  "exports": [
+    "Popover",
+    "PopoverAnchor",
+    "PopoverClose",
+    "PopoverContent",
+    "PopoverDescription",
+    "PopoverPortal",
+    "PopoverTitle",
+    "PopoverTrigger"
+  ],
+  "typeExports": [
+    "PopoverContentProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/popover",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/popover.json",
+    "npmDependencies": [
+      "radix-ui"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [],
+  "examples": [
+    {
+      "name": "popover-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "popover-form",
+      "title": "受控表单"
+    }
+  ],
+  "files": [
+    "registry/ui/popover.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/popover",
+  "sourceUrl": "https://ui.wzx.wang/r/popover.json"
+}

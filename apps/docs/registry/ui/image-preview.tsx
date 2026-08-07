@@ -19,8 +19,10 @@ import {
 
 import { cn } from "@/registry/lib/utils"
 
-export interface ImagePreviewProps
-  extends Omit<React.ComponentProps<"button">, "children"> {
+export interface ImagePreviewProps extends Omit<
+  React.ComponentProps<"button">,
+  "children"
+> {
   /** Image URL used by both the thumbnail and full-size preview. */
   src: string
   /** Accessible description of the image. */
@@ -75,10 +77,61 @@ function ImagePreview({
   const [zoom, setZoom] = React.useState(1)
   const [rotation, setRotation] = React.useState(0)
   const viewportRef = React.useRef<HTMLDivElement>(null)
+  const imageRef = React.useRef<HTMLImageElement>(null)
   const imageX = useMotionValue(0)
   const imageY = useMotionValue(0)
+  const [dragConstraints, setDragConstraints] = React.useState({
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+  })
   const open = openProp ?? internalOpen
   const fullSizeSrc = previewSrc ?? src
+  const canDrag =
+    dragConstraints.left < 0 ||
+    dragConstraints.right > 0 ||
+    dragConstraints.top < 0 ||
+    dragConstraints.bottom > 0
+
+  const updateDragConstraints = React.useCallback(() => {
+    const viewport = viewportRef.current
+    const image = imageRef.current
+    if (!viewport || !image) return
+
+    const quarterTurns = Math.abs(Math.round(rotation / 90)) % 2
+    const imageWidth = quarterTurns ? image.offsetHeight : image.offsetWidth
+    const imageHeight = quarterTurns ? image.offsetWidth : image.offsetHeight
+    const overflowX = Math.max(
+      0,
+      (imageWidth * zoom - viewport.clientWidth) / 2
+    )
+    const overflowY = Math.max(
+      0,
+      (imageHeight * zoom - viewport.clientHeight) / 2
+    )
+    const nextConstraints = {
+      left: -overflowX,
+      right: overflowX,
+      top: -overflowY,
+      bottom: overflowY,
+    }
+
+    setDragConstraints(nextConstraints)
+    imageX.set(Math.min(overflowX, Math.max(-overflowX, imageX.get())))
+    imageY.set(Math.min(overflowY, Math.max(-overflowY, imageY.get())))
+  }, [imageX, imageY, rotation, zoom])
+
+  React.useLayoutEffect(() => {
+    if (!open) return
+
+    updateDragConstraints()
+    const observer = new ResizeObserver(updateDragConstraints)
+    if (viewportRef.current) observer.observe(viewportRef.current)
+    if (imageRef.current) observer.observe(imageRef.current)
+
+    return () => observer.disconnect()
+  }, [open, updateDragConstraints])
 
   function handleOpenChange(next: boolean) {
     if (openProp === undefined) setInternalOpen(next)
@@ -130,7 +183,7 @@ function ImagePreview({
           data-slot="image-preview-trigger"
           aria-label={`Preview ${alt}`}
           className={cn(
-            "group relative block overflow-hidden rounded-md outline-none focus-visible:ring-[3px] focus-visible:ring-ring/40",
+            "focus-visible:ring-ring/40 group relative block overflow-hidden rounded-md outline-none focus-visible:ring-[3px]",
             className
           )}
           {...props}
@@ -153,7 +206,7 @@ function ImagePreview({
             <DialogPrimitive.Overlay asChild forceMount>
               <motion.div
                 data-slot="image-preview-overlay"
-                className="fixed inset-0 z-50 bg-overlay/90"
+                className="bg-overlay/90 fixed inset-0 z-50"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -178,7 +231,7 @@ function ImagePreview({
                 {showToolbar ? (
                   <div
                     data-slot="image-preview-toolbar"
-                    className="flex items-center gap-1 rounded-md border bg-background p-1 shadow-sm"
+                    className="bg-background flex items-center gap-1 rounded-md border p-1 shadow-sm"
                   >
                     <PreviewAction
                       label="Zoom out"
@@ -187,7 +240,7 @@ function ImagePreview({
                     >
                       <MinusIcon />
                     </PreviewAction>
-                    <span className="min-w-12 px-1 text-center text-xs tabular-nums text-muted-foreground">
+                    <span className="text-muted-foreground min-w-12 px-1 text-center text-xs tabular-nums">
                       {Math.round(zoom * 100)}%
                     </span>
                     <PreviewAction
@@ -197,7 +250,7 @@ function ImagePreview({
                     >
                       <PlusIcon />
                     </PreviewAction>
-                    <span className="mx-1 h-5 w-px bg-border" />
+                    <span className="bg-border mx-1 h-5 w-px" />
                     <PreviewAction
                       label="Rotate counterclockwise"
                       onClick={() => setRotation((current) => current - 90)}
@@ -214,7 +267,10 @@ function ImagePreview({
                       <span className="text-[11px] font-semibold">1:1</span>
                     </PreviewAction>
                     {downloadName ? (
-                      <PreviewAction label="Download image" onClick={handleDownload}>
+                      <PreviewAction
+                        label="Download image"
+                        onClick={handleDownload}
+                      >
                         <DownloadIcon />
                       </PreviewAction>
                     ) : null}
@@ -232,21 +288,27 @@ function ImagePreview({
                 ref={viewportRef}
                 className="flex min-h-0 flex-1 items-center justify-center overflow-hidden p-6 pt-2"
                 onPointerDown={(event) => {
-                  if (event.target === event.currentTarget) handleOpenChange(false)
+                  if (event.target === event.currentTarget)
+                    handleOpenChange(false)
                 }}
               >
                 <motion.img
+                  ref={imageRef}
                   data-slot="image-preview-image"
                   src={fullSizeSrc}
                   alt={alt}
+                  draggable={false}
+                  onLoad={updateDragConstraints}
                   className={cn(
                     "max-h-full max-w-full select-none object-contain shadow-lg",
-                    zoom > 1 ? "cursor-grab active:cursor-grabbing" : "cursor-default",
+                    canDrag
+                      ? "cursor-grab touch-none active:cursor-grabbing"
+                      : "cursor-default",
                     previewClassName
                   )}
                   style={{ x: imageX, y: imageY }}
-                  drag={zoom > 1}
-                  dragConstraints={viewportRef}
+                  drag={canDrag}
+                  dragConstraints={dragConstraints}
                   dragElastic={0.08}
                   dragMomentum={false}
                   initial={reduceMotion ? false : { opacity: 0, scale: 0.92 }}
@@ -255,7 +317,12 @@ function ImagePreview({
                   transition={
                     reduceMotion
                       ? { duration: 0 }
-                      : { type: "spring", stiffness: 360, damping: 32, mass: 0.7 }
+                      : {
+                          type: "spring",
+                          stiffness: 360,
+                          damping: 32,
+                          mass: 0.7,
+                        }
                   }
                 />
               </div>
@@ -263,7 +330,7 @@ function ImagePreview({
               {caption ? (
                 <div
                   data-slot="image-preview-caption"
-                  className="relative z-10 shrink-0 px-6 pb-5 text-center text-sm text-background"
+                  className="text-background relative z-10 shrink-0 px-6 pb-5 text-center text-sm"
                 >
                   {caption}
                 </div>
@@ -289,7 +356,7 @@ function PreviewAction({
       aria-label={label}
       title={label}
       className={cn(
-        "inline-flex size-8 items-center justify-center rounded-sm bg-background text-foreground outline-none transition-colors hover:bg-accent focus-visible:ring-[3px] focus-visible:ring-ring/35 disabled:pointer-events-none disabled:opacity-40 [&_svg]:size-4",
+        "bg-background text-foreground hover:bg-accent focus-visible:ring-ring/35 inline-flex size-8 items-center justify-center rounded-sm outline-none transition-colors focus-visible:ring-[3px] disabled:pointer-events-none disabled:opacity-40 [&_svg]:size-4",
         className
       )}
       {...props}

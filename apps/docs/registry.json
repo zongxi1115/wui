@@ -819,7 +819,7 @@
       "title": "级联选择 Cascader",
       "description": "用于浏览和选择层级值的多列选择器。",
       "dependencies": ["radix-ui", "lucide-react", "motion"],
-      "registryDependencies": ["utils"],
+      "registryDependencies": ["utils", "input"],
       "files": [
         {
           "path": "registry/ui/cascader.tsx",
@@ -871,6 +871,36 @@
       ]
     },
     {
+      "name": "breadcrumb",
+      "type": "registry:ui",
+      "title": "面包屑 Breadcrumb",
+      "description": "显示当前页面在信息层级中的位置，并提供返回上级页面的入口。",
+      "categories": ["navigation"],
+      "dependencies": ["lucide-react", "radix-ui"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/breadcrumb.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "pagination",
+      "type": "registry:ui",
+      "title": "分页 Pagination",
+      "description": "在分页数据之间导航，并清晰标记当前页和省略的页码区间。",
+      "categories": ["navigation"],
+      "dependencies": ["lucide-react", "radix-ui"],
+      "registryDependencies": ["utils", "button"],
+      "files": [
+        {
+          "path": "registry/ui/pagination.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "collapsible",
       "type": "registry:ui",
       "title": "折叠面板 Collapsible",
@@ -886,6 +916,35 @@
       ]
     },
     {
+      "name": "popover",
+      "type": "registry:ui",
+      "title": "气泡浮层 Popover",
+      "description": "在触发器附近展示可交互的补充信息或轻量操作。",
+      "dependencies": ["radix-ui"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/popover.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "dropdown-menu",
+      "type": "registry:ui",
+      "title": "下拉菜单 Dropdown Menu",
+      "description": "通过按钮展开一组操作，支持分组、状态项和多级菜单。",
+      "categories": ["navigation"],
+      "dependencies": ["radix-ui", "lucide-react"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/dropdown-menu.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "input",
       "type": "registry:ui",
       "title": "输入框 Input",
@@ -895,6 +954,47 @@
       "files": [
         {
           "path": "registry/ui/input.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "textarea",
+      "type": "registry:ui",
+      "title": "文本域 Textarea",
+      "description": "用于输入较长的多行文本，支持字符计数与缩放方向约束。",
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/textarea.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "command",
+      "type": "registry:ui",
+      "title": "命令列表 Command",
+      "description": "通过模糊搜索与键盘导航快速定位并执行选项。",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/command.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "combobox",
+      "type": "registry:ui",
+      "title": "组合框 Combobox",
+      "description": "从可搜索的单选列表中选择并回填一个值。",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["utils", "command", "popover"],
+      "files": [
+        {
+          "path": "registry/ui/combobox.tsx",
           "type": "registry:ui"
         }
       ]

@@ -1,0 +1,43 @@
+---
+title: 分页 Pagination
+description: 在分页数据之间导航，并清晰标记当前页和省略的页码区间。
+component: pagination
+---
+
+## 基础用法
+
+<ComponentPreview name="pagination-demo" />
+
+<CodeTabs command="@wui-design/cli@latest add @wui/pagination" />
+
+<ComponentSource name="pagination" title="components/ui/pagination.tsx" />
+
+## 使用场景
+
+`Pagination` 适用于数据总量和页数明确的列表或表格。页码应使用真实链接以支持打开新标签页、复制地址和服务端渲染；只有数据不具备独立 URL 时，才使用点击事件更新本地状态。
+
+## 属性
+
+`PaginationLink` 继承原生链接属性，并提供 `isActive`、`size` 与 `asChild`。`isActive` 会切换视觉状态，同时添加 `aria-current="page"`。
+
+<PropsTable name="pagination" />
+
+## 扩展用法
+
+### 受控页码与省略项
+
+分页规则由业务数据决定，组件只负责链接语义和视觉组合。下面的示例展示本地受控状态、边界禁用以及 `PaginationEllipsis`。
+
+<ComponentPreview name="pagination-advanced" />
+
+### 与路由链接组合
+
+通过 `asChild` 可直接复用框架路由组件：
+
+```tsx
+<PaginationLink asChild isActive={page === 2}>
+  <Link href="/articles?page=2">2</Link>
+</PaginationLink>
+```
+
+禁用上一页或下一页时，应同时设置 `aria-disabled="true"`、`tabIndex={-1}` 并阻止交互。分页省略号是装饰内容，不会进入读屏软件的导航序列。

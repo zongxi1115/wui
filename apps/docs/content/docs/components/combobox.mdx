@@ -1,0 +1,36 @@
+---
+title: 组合选择器 Combobox
+description: 将输入搜索与单选列表组合在一起的可搜索选择器。
+component: combobox
+---
+
+## 基础用法
+
+<ComponentPreview name="combobox-demo" />
+
+<CodeTabs command="@wui-design/cli@latest add @wui/combobox" />
+
+<ComponentSource name="combobox" title="components/ui/combobox.tsx" />
+
+## 使用场景
+
+`Combobox` 用于从较多的单层选项中搜索并选择一个值。它由 `Popover` 与 `Command` 组合而成，保留输入搜索语义，并避免与 `Select` 自带的字符定位和焦点管理冲突。
+
+固定选项较少且不需要搜索时使用 `Select`；具有父子层级的数据使用 `Cascader`。`Combobox` 当前只接收已有选项，不用于创建自由文本值。
+
+## 属性
+
+<PropsTable name="combobox" />
+
+## 事件
+
+- `onValueChange(value)` 在选中或清空时触发，清空时返回空字符串。
+- 传入 `value` 后组件进入受控模式；仅需要初始值时使用 `defaultValue`。
+
+## 扩展用法
+
+### 受控值、拼音搜索与禁用项
+
+<ComponentPreview name="combobox-controlled" />
+
+通过 `keywords` 提供拼音、首字母或业务别名。`disabled` 可以禁用整个选择器，也可以在单个选项上阻止选择；默认开启 `clearable`，适合非必填字段。

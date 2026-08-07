@@ -1,0 +1,39 @@
+---
+title: 下拉菜单 Dropdown Menu
+description: 通过按钮展开一组操作，支持分组、状态项和多级菜单。
+component: dropdown-menu
+---
+
+## 基础用法
+
+<ComponentPreview name="dropdown-menu-demo" />
+
+<CodeTabs command="@wui-design/cli@latest add @wui/dropdown-menu" />
+
+<ComponentSource name="dropdown-menu" title="components/ui/dropdown-menu.tsx" />
+
+## 使用场景
+
+`DropdownMenu` 用于收纳与当前对象或页面相关的操作，例如列表项的“更多”菜单和账户菜单。菜单项应使用简短、可执行的动词；高频操作应直接显示在界面上，而不是全部隐藏到菜单中。
+
+危险操作可设置 `destructive`，但对于不可逆操作仍应在执行前使用 ConfirmDialog 确认。菜单由 Radix 提供方向键导航、字符查找、焦点恢复和碰撞避让能力。
+
+## 属性
+
+<PropsTable name="dropdown-menu" />
+
+- `DropdownMenu` 支持 `open`、`defaultOpen`、`onOpenChange` 与 `modal`。
+- `DropdownMenuContent` 支持 `side`、`align`、`sideOffset` 和碰撞检测配置。
+- `DropdownMenuItem` 支持 `disabled`、`onSelect`、`destructive` 与 `inset`。
+- `DropdownMenuCheckboxItem` 使用 `checked` 和 `onCheckedChange` 管理开关状态。
+- `DropdownMenuRadioGroup` 与 `DropdownMenuRadioItem` 用于互斥选项。
+
+## 扩展用法
+
+### 状态项与子菜单
+
+<ComponentPreview name="dropdown-menu-advanced" />
+
+复选项适合切换独立设置，单选组适合从互斥选项中选择一个值。子菜单只应用于不常用的次级选项；层级较多时，应改用独立的设置页面或 Popover。
+
+`DropdownMenuShortcut` 仅展示快捷键提示，实际键盘事件仍需由业务层注册。图标用于增强辨识度，不应代替可见的文字标签。

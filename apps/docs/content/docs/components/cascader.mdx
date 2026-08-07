@@ -31,5 +31,17 @@ component: cascader
 
 ## 扩展用法
 
+### 模糊搜索
+
+<ComponentPreview name="cascader-search" />
+
+设置 `searchable` 后，面板顶部会显示由 `Input` 组合而成的搜索框。默认匹配完整路径中的文本标签与
+`keywords`，因此可以把拼音、首字母或业务别名写入选项；选择搜索结果后仍会返回完整的值路径。
+
+复杂匹配规则可以通过 `filterOption(query, path)` 接管。`Select` 保持固定选项选择语义；需要搜索单层选项或允许输入新值时，
+应使用独立的 Combobox，而不是在 `SelectContent` 中嵌入输入框。
+
+### 面板行为
+
 设置 `closeOnSelect={false}` 可以在选中叶子节点后保持面板打开，适合需要连续查看或修改路径的场景。
 通过 `contentClassName` 调整面板宽度而不影响触发器；路径需要使用其他分隔符时，传入自定义 `separator`。

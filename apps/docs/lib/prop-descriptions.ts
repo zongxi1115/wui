@@ -214,6 +214,13 @@ export const PropDescriptions: Record<string, Record<string, string>> = {
     wrapperClassName: "应用于最外层容器的额外 CSS 类名。",
     ...common,
   },
+  textarea: {
+    showCount: "是否在文本域右下角显示当前字符数。",
+    resize: "用户可以拖动调整文本域尺寸的方向。",
+    wrapperClassName: "应用于最外层容器的额外 CSS 类名。",
+    ...common,
+  },
+  combobox: { ...common },
   download: {
     filename: "控件中显示的文件名称。",
     meta: "文件类型、大小等补充信息。",

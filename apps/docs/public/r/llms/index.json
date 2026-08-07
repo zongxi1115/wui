@@ -716,7 +716,7 @@
         "placeholder: string",
         "separator: ReactNode"
       ],
-      "exampleCount": 1
+      "exampleCount": 2
     },
     {
       "name": "form",
@@ -760,6 +760,28 @@
       "exampleCount": 2
     },
     {
+      "name": "breadcrumb",
+      "type": "registry:ui",
+      "title": "面包屑 Breadcrumb",
+      "description": "显示当前页面在信息层级中的位置，并提供返回上级页面的入口。",
+      "categories": [
+        "navigation"
+      ],
+      "keyProps": [],
+      "exampleCount": 2
+    },
+    {
+      "name": "pagination",
+      "type": "registry:ui",
+      "title": "分页 Pagination",
+      "description": "在分页数据之间导航，并清晰标记当前页和省略的页码区间。",
+      "categories": [
+        "navigation"
+      ],
+      "keyProps": [],
+      "exampleCount": 2
+    },
+    {
       "name": "collapsible",
       "type": "registry:ui",
       "title": "折叠面板 Collapsible",
@@ -771,6 +793,25 @@
         "disabled: boolean",
         "asChild: boolean"
       ],
+      "exampleCount": 2
+    },
+    {
+      "name": "popover",
+      "type": "registry:ui",
+      "title": "气泡浮层 Popover",
+      "description": "在触发器附近展示可交互的补充信息或轻量操作。",
+      "keyProps": [],
+      "exampleCount": 2
+    },
+    {
+      "name": "dropdown-menu",
+      "type": "registry:ui",
+      "title": "下拉菜单 Dropdown Menu",
+      "description": "通过按钮展开一组操作，支持分组、状态项和多级菜单。",
+      "categories": [
+        "navigation"
+      ],
+      "keyProps": [],
       "exampleCount": 2
     },
     {
@@ -787,6 +828,48 @@
         "wrapperClassName: string"
       ],
       "exampleCount": 4
+    },
+    {
+      "name": "textarea",
+      "type": "registry:ui",
+      "title": "文本域 Textarea",
+      "description": "用于输入较长的多行文本，支持字符计数与缩放方向约束。",
+      "keyProps": [
+        "showCount: boolean",
+        "resize: none|both|horizontal|vertical",
+        "wrapperClassName: string",
+        "disabled: boolean"
+      ],
+      "exampleCount": 3
+    },
+    {
+      "name": "command",
+      "type": "registry:ui",
+      "title": "命令列表 Command",
+      "description": "支持模糊搜索、键盘导航、分组与空状态的命令列表。",
+      "keyProps": [
+        "query: string",
+        "defaultQuery: string",
+        "onQueryChange: ((query: string) => void)",
+        "shouldFilter: boolean",
+        "filter: ((value: string, query: string, keywords: string[]) => boolean)"
+      ],
+      "exampleCount": 2
+    },
+    {
+      "name": "combobox",
+      "type": "registry:ui",
+      "title": "组合选择器 Combobox",
+      "description": "将输入搜索与单选列表组合在一起的可搜索选择器。",
+      "keyProps": [
+        "options: ComboboxOption[]",
+        "value: string",
+        "defaultValue: string",
+        "onValueChange: ((value: string) => void)",
+        "placeholder: string",
+        "searchPlaceholder: string"
+      ],
+      "exampleCount": 2
     },
     {
       "name": "download",

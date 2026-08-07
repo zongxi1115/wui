@@ -41,8 +41,15 @@
 - [表单 Form](https://ui.wzx.wang/docs/components/form): 可组合的表单字段，协调标签、校验提示与动效反馈。
 - [标签栏 Tabs](https://ui.wzx.wang/docs/components/tabs): 使用共享布局动效平滑切换内容分区。
 - [导航栏 Navbar](https://ui.wzx.wang/docs/components/navbar): 适用于页面顶部与应用左侧的可组合导航栏。
+- [面包屑 Breadcrumb](https://ui.wzx.wang/docs/components/breadcrumb): 显示当前页面在信息层级中的位置，并提供返回上级页面的入口。
+- [分页 Pagination](https://ui.wzx.wang/docs/components/pagination): 在分页数据之间导航，并清晰标记当前页和省略的页码区间。
 - [折叠面板 Collapsible](https://ui.wzx.wang/docs/components/collapsible): 按需展开一段补充内容，并保留清晰的状态与键盘交互。
+- [气泡浮层 Popover](https://ui.wzx.wang/docs/components/popover): 在触发器附近展示可交互的补充信息或轻量操作。
+- [下拉菜单 Dropdown Menu](https://ui.wzx.wang/docs/components/dropdown-menu): 通过按钮展开一组操作，支持分组、状态项和多级菜单。
 - [输入框 Input](https://ui.wzx.wang/docs/components/input): 支持前后内容、浮动标签、下划线和错误态的输入框。
+- [文本域 Textarea](https://ui.wzx.wang/docs/components/textarea): 用于输入较长的多行文本，支持字符计数与缩放方向约束。
+- [命令列表 Command](https://ui.wzx.wang/docs/components/command): 支持模糊搜索、键盘导航、分组与空状态的命令列表。
+- [组合选择器 Combobox](https://ui.wzx.wang/docs/components/combobox): 将输入搜索与单选列表组合在一起的可搜索选择器。
 - [下载 Download](https://ui.wzx.wang/docs/components/download): 同时表达文件信息、下载进度与完成反馈的下载操作组件。
 - [上传 Upload](https://ui.wzx.wang/docs/components/upload): 支持点击选择、拖拽放置与上传状态反馈的文件上传组件。
 - [键盘提示 Kbd](https://ui.wzx.wang/docs/components/kbd): 用紧凑、克制的按键样式展示快捷键与键盘操作。
@@ -139,11 +146,11 @@ pnpm dlx @wui-design/cli@latest add @wui/<name>     # 或者：pnpm dlx shadcn@l
 
 组件落盘到使用者项目后的默认位置（由其 `wui.json` 的 aliases 决定，默认如下）：
 
-| registry 类型 | 落盘目录 | 导入写法 |
-| --- | --- | --- |
-| `registry:ui` | `components/ui/` | `import { Button } from "@/components/ui/button"` |
-| `registry:component` | `components/` | `import { ConfirmDialog } from "@/components/confirm-dialog"` |
-| `registry:lib` | `lib/` | `import { cn } from "@/lib/utils"` |
+| registry 类型        | 落盘目录         | 导入写法                                                      |
+| -------------------- | ---------------- | ------------------------------------------------------------- |
+| `registry:ui`        | `components/ui/` | `import { Button } from "@/components/ui/button"`             |
+| `registry:component` | `components/`    | `import { ConfirmDialog } from "@/components/confirm-dialog"` |
+| `registry:lib`       | `lib/`           | `import { cn } from "@/lib/utils"`                            |
 
 ## 硬性规则
 
@@ -161,6 +168,6 @@ pnpm dlx @wui-design/cli@latest add @wui/<name>     # 或者：pnpm dlx shadcn@l
 
 ## 建议的调用顺序
 
-`wui_list_components`（找组件） → `wui_get_component`（拿 props 和用法约束）
+`wui_search_components`（按关键词找组件） → `wui_get_component`（拿 props 和用法约束）
 → `wui_get_example`（拿可参考的写法） → 只有需要理解/修改实现时才调
 `wui_get_component_source`（源码较长）。

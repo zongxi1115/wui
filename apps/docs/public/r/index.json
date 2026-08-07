@@ -441,7 +441,8 @@
       "title": "级联选择 Cascader",
       "description": "用于浏览和选择层级值的多列选择器。",
       "registryDependencies": [
-        "utils"
+        "utils",
+        "input"
       ]
     },
     {
@@ -472,10 +473,47 @@
       ]
     },
     {
+      "name": "breadcrumb",
+      "type": "registry:ui",
+      "title": "面包屑 Breadcrumb",
+      "description": "显示当前页面在信息层级中的位置，并提供返回上级页面的入口。",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "pagination",
+      "type": "registry:ui",
+      "title": "分页 Pagination",
+      "description": "在分页数据之间导航，并清晰标记当前页和省略的页码区间。",
+      "registryDependencies": [
+        "utils",
+        "button"
+      ]
+    },
+    {
       "name": "collapsible",
       "type": "registry:ui",
       "title": "折叠面板 Collapsible",
       "description": "按需展开一段补充内容，并保留清晰的状态与键盘交互。",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "popover",
+      "type": "registry:ui",
+      "title": "气泡浮层 Popover",
+      "description": "在触发器附近展示可交互的补充信息或轻量操作。",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "dropdown-menu",
+      "type": "registry:ui",
+      "title": "下拉菜单 Dropdown Menu",
+      "description": "通过按钮展开一组操作，支持分组、状态项和多级菜单。",
       "registryDependencies": [
         "utils"
       ]
@@ -487,6 +525,35 @@
       "description": "支持前后内容、浮动标签、下划线和错误态的输入框。",
       "registryDependencies": [
         "utils"
+      ]
+    },
+    {
+      "name": "textarea",
+      "type": "registry:ui",
+      "title": "文本域 Textarea",
+      "description": "用于输入较长的多行文本，支持字符计数与缩放方向约束。",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "command",
+      "type": "registry:ui",
+      "title": "命令列表 Command",
+      "description": "通过模糊搜索与键盘导航快速定位并执行选项。",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "combobox",
+      "type": "registry:ui",
+      "title": "组合框 Combobox",
+      "description": "从可搜索的单选列表中选择并回填一个值。",
+      "registryDependencies": [
+        "utils",
+        "command",
+        "popover"
       ]
     },
     {

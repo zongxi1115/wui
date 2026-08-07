@@ -1,0 +1,79 @@
+{
+  "name": "textarea",
+  "type": "registry:ui",
+  "title": "文本域 Textarea",
+  "description": "用于输入较长的多行文本，支持字符计数与缩放方向约束。",
+  "import": "import { Textarea } from \"@/components/ui/textarea\"",
+  "exports": [
+    "Textarea"
+  ],
+  "typeExports": [
+    "TextareaProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/textarea",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/textarea.json",
+    "npmDependencies": [],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "showCount",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "是否在文本域右下角显示当前字符数。"
+    },
+    {
+      "name": "resize",
+      "type": "\"none\" | \"both\" | \"horizontal\" | \"vertical\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "none",
+        "both",
+        "horizontal",
+        "vertical"
+      ],
+      "defaultValue": "vertical",
+      "description": "用户可以拖动调整文本域尺寸的方向。"
+    },
+    {
+      "name": "wrapperClassName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "应用于最外层容器的额外 CSS 类名。"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "是否禁用组件。"
+    }
+  ],
+  "events": "组件透传原生 `textarea` 的输入、聚焦和键盘事件。`onChange` 同时驱动字符计数；原生 `maxLength` 会负责阻止继续输入，\n表单校验仍应通过 `aria-invalid` 和对应的说明文字表达。",
+  "examples": [
+    {
+      "name": "textarea-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "textarea-count",
+      "title": "字符计数与最大长度"
+    },
+    {
+      "name": "textarea-resize",
+      "title": "限制缩放方向"
+    }
+  ],
+  "files": [
+    "registry/ui/textarea.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/textarea",
+  "sourceUrl": "https://ui.wzx.wang/r/textarea.json"
+}

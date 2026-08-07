@@ -22,11 +22,11 @@ pnpm dlx @wui-design/cli@latest add @wui/<name>     # 或者：pnpm dlx shadcn@l
 
 组件落盘到使用者项目后的默认位置（由其 `wui.json` 的 aliases 决定，默认如下）：
 
-| registry 类型 | 落盘目录 | 导入写法 |
-| --- | --- | --- |
-| `registry:ui` | `components/ui/` | `import { Button } from "@/components/ui/button"` |
-| `registry:component` | `components/` | `import { ConfirmDialog } from "@/components/confirm-dialog"` |
-| `registry:lib` | `lib/` | `import { cn } from "@/lib/utils"` |
+| registry 类型        | 落盘目录         | 导入写法                                                      |
+| -------------------- | ---------------- | ------------------------------------------------------------- |
+| `registry:ui`        | `components/ui/` | `import { Button } from "@/components/ui/button"`             |
+| `registry:component` | `components/`    | `import { ConfirmDialog } from "@/components/confirm-dialog"` |
+| `registry:lib`       | `lib/`           | `import { cn } from "@/lib/utils"`                            |
 
 ## 硬性规则
 
@@ -44,6 +44,6 @@ pnpm dlx @wui-design/cli@latest add @wui/<name>     # 或者：pnpm dlx shadcn@l
 
 ## 建议的调用顺序
 
-`wui_list_components`（找组件） → `wui_get_component`（拿 props 和用法约束）
+`wui_search_components`（按关键词找组件） → `wui_get_component`（拿 props 和用法约束）
 → `wui_get_example`（拿可参考的写法） → 只有需要理解/修改实现时才调
 `wui_get_component_source`（源码较长）。

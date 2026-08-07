@@ -10,3 +10,4 @@
 - 实现新组件前先检查组件库已有能力；已有的基础组件应直接复用并通过组合扩展，避免重复实现相同控件。
 - 文档中的 `ComponentPreview` 默认带有 `min-h-[350px] p-10`；示例需要贴边展示或使用不同高度时，通过 `previewClassName` 覆盖（如 `min-h-0 p-0`），不要误用只作用于外层的 `className`。除非组件交互确实依赖固定视口，不要在 demo 中随意写死高度。
 - 组件或 UI 实现完成后，默认无需主动打开浏览器、运行 Playwright 或进行浏览器视觉验收，由用户直接查看效果；仅在用户明确要求时执行。
+- 组件相关提交的 Conventional Commit scope 必须使用对应组件名称（例如 `feat(markdown): ...`），不要使用笼统的 `docs` 作为 scope。

@@ -10,7 +10,8 @@ wui 通过 [MCP](https://modelcontextprotocol.io)（Model Context Protocol）把
 真实 props、使用约束、示例代码和设计 token 直接暴露给 AI 工具，让它按需查询而不是猜。
 
 <Callout title="不需要改你的项目">
-  MCP 只是给 AI 工具增加一个查询数据源，不会往你的仓库里写任何东西，也不影响构建。
+  MCP 只是给 AI
+  工具增加一个查询数据源，不会往你的仓库里写任何东西，也不影响构建。
 </Callout>
 
 ## 接入方式一：远程（推荐）
@@ -129,14 +130,14 @@ TypeScript 类型，不是模型的记忆。
 
 ## 提供了哪些工具
 
-| 工具 | 作用 |
-| --- | --- |
-| `wui_overview` | 技术栈、导入路径、设计 token 约定和硬性规则 |
-| `wui_list_components` | 列出全部组件，支持关键词过滤 |
-| `wui_get_component` | 单个组件的完整属性、使用场景和可用示例 |
-| `wui_get_example` | 取某个示例的完整代码 |
-| `wui_get_component_source` | 组件实现源码（需要改实现时才用） |
-| `wui_get_theme_tokens` | 语义 token 及明暗色值 |
+| 工具                       | 作用                                        |
+| -------------------------- | ------------------------------------------- |
+| `wui_overview`             | 技术栈、导入路径、设计 token 约定和硬性规则 |
+| `wui_search_components`    | 按中英文关键词搜索组件，默认最多返回 12 条  |
+| `wui_get_component`        | 单个组件的完整属性、使用场景和可用示例      |
+| `wui_get_example`          | 取某个示例的完整代码                        |
+| `wui_get_component_source` | 组件实现源码（需要改实现时才用）            |
+| `wui_get_theme_tokens`     | 语义 token 及明暗色值                       |
 
 这些工具是分层的：模型先列清单、再取 props、需要时才拉源码，避免一次性占满上下文。
 
@@ -146,7 +147,7 @@ TypeScript 类型，不是模型的记忆。
 `CLAUDE.md`、`.cursorrules` 或等价的规则文件里加一句效果最明显：
 
 ```md
-本项目使用 wui 组件库。编写任何 UI 代码前，先调用 wui_list_components 确认
+本项目使用 wui 组件库。编写任何 UI 代码前，先调用 wui_search_components 按用途确认
 组件是否存在，再用 wui_get_component 获取准确的 props——不要凭记忆猜 API。
 颜色一律使用语义 token（bg-primary、text-muted-foreground），不要用
 bg-blue-500 这类调色板色值。
@@ -166,6 +167,7 @@ bg-blue-500 这类调色板色值。
 或作为项目规则文件的一部分。
 
 <Callout title="给组件库维护者">
-  MCP 的数据全部由 `registry:build` 从组件源码、文档 MDX 和示例自动生成，新增组件不需要
-  任何额外维护。实现细节见仓库中的 `docs/MCP.md`。
+  MCP 的数据全部由 `registry:build` 从组件源码、文档 MDX
+  和示例自动生成，新增组件不需要 任何额外维护。实现细节见仓库中的
+  `docs/MCP.md`。
 </Callout>

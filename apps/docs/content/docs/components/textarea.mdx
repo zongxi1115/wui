@@ -1,0 +1,43 @@
+---
+title: 文本域 Textarea
+description: 用于输入较长的多行文本，支持字符计数与缩放方向约束。
+component: textarea
+---
+
+## 基础用法
+
+<ComponentPreview name="textarea-demo" />
+
+<CodeTabs command="@wui-design/cli@latest add @wui/textarea" />
+
+<ComponentSource name="textarea" title="components/ui/textarea.tsx" />
+
+## 使用场景
+
+`Textarea` 用于备注、描述、反馈和其他多行文本。单行内容使用 Input；需要富文本结构、提及或附件时，
+应使用专门的编辑器或组合式输入组件，而不是继续扩展原生文本域。
+
+## 属性
+
+<PropsTable name="textarea" />
+
+## 事件
+
+组件透传原生 `textarea` 的输入、聚焦和键盘事件。`onChange` 同时驱动字符计数；原生 `maxLength` 会负责阻止继续输入，
+表单校验仍应通过 `aria-invalid` 和对应的说明文字表达。
+
+## 扩展用法
+
+### 字符计数与最大长度
+
+<ComponentPreview name="textarea-count" />
+
+同时设置 `showCount` 与 `maxLength`，右下角会显示“当前字符数 / 最大字符数”。计数区域会自动预留空间，
+不会覆盖输入内容。
+
+### 限制缩放方向
+
+<ComponentPreview name="textarea-resize" />
+
+`resize="none"` 适合尺寸固定的表单；`resize="vertical"` 允许用户增加可视区域，又不会挤压横向布局。
+还可以通过 `min-h-*` 与 `max-h-*` 对最终范围进行约束。

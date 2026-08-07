@@ -1,0 +1,84 @@
+{
+  "name": "command",
+  "type": "registry:ui",
+  "title": "命令列表 Command",
+  "description": "支持模糊搜索、键盘导航、分组与空状态的命令列表。",
+  "import": "import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator } from \"@/components/ui/command\"",
+  "exports": [
+    "Command",
+    "CommandEmpty",
+    "CommandGroup",
+    "CommandInput",
+    "CommandItem",
+    "CommandList",
+    "CommandSeparator"
+  ],
+  "typeExports": [
+    "CommandInputProps",
+    "CommandItemProps",
+    "CommandProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/command",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/command.json",
+    "npmDependencies": [
+      "lucide-react"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "query",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "受控模式下的搜索词。"
+    },
+    {
+      "name": "defaultQuery",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "非受控模式下的初始搜索词。"
+    },
+    {
+      "name": "onQueryChange",
+      "type": "((query: string) => void)",
+      "required": false,
+      "control": "text",
+      "description": "搜索词变化时触发。"
+    },
+    {
+      "name": "shouldFilter",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否由组件过滤选项。关闭后可接入服务端搜索。@default true"
+    },
+    {
+      "name": "filter",
+      "type": "((value: string, query: string, keywords: string[]) => boolean)",
+      "required": false,
+      "control": "text",
+      "description": "自定义选项匹配规则。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "command-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "command-groups",
+      "title": "分组、别名与禁用项"
+    }
+  ],
+  "files": [
+    "registry/ui/command.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/command",
+  "sourceUrl": "https://ui.wzx.wang/r/command.json"
+}

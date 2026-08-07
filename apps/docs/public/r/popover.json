@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "popover",
+  "type": "registry:ui",
+  "title": "气泡浮层 Popover",
+  "description": "在触发器附近展示可交互的补充信息或轻量操作。",
+  "dependencies": [
+    "radix-ui"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/popover.tsx",
+      "type": "registry:ui",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { Popover as PopoverPrimitive } from \"radix-ui\"\n\nimport { cn } from \"@/registry/lib/utils\"\n\n/** 管理浮层的受控或非受控打开状态。 */\nfunction Popover(props: React.ComponentProps<typeof PopoverPrimitive.Root>) {\n  return <PopoverPrimitive.Root data-slot=\"popover\" {...props} />\n}\n\n/** 将浮层定位到指定容器，默认挂载到 document.body。 */\nfunction PopoverPortal(\n  props: React.ComponentProps<typeof PopoverPrimitive.Portal>\n) {\n  return <PopoverPrimitive.Portal data-slot=\"popover-portal\" {...props} />\n}\n\n/** 触发浮层打开或关闭，通常配合 asChild 复用现有按钮。 */\nfunction PopoverTrigger(\n  props: React.ComponentProps<typeof PopoverPrimitive.Trigger>\n) {\n  return <PopoverPrimitive.Trigger data-slot=\"popover-trigger\" {...props} />\n}\n\n/** 可访问性友好的浮层标题。 */\nfunction PopoverTitle({ className, ...props }: React.ComponentProps<\"h2\">) {\n  return (\n    <h2\n      data-slot=\"popover-title\"\n      className={cn(\"text-sm font-semibold leading-none\", className)}\n      {...props}\n    />\n  )\n}\n\n/** 浮层的辅助说明文本。 */\nfunction PopoverDescription({\n  className,\n  ...props\n}: React.ComponentProps<\"p\">) {\n  return (\n    <p\n      data-slot=\"popover-description\"\n      className={cn(\"text-muted-foreground text-sm leading-5\", className)}\n      {...props}\n    />\n  )\n}\n\n/** 关闭当前浮层，可通过 asChild 附着到现有控件。 */\nfunction PopoverClose(\n  props: React.ComponentProps<typeof PopoverPrimitive.Close>\n) {\n  return <PopoverPrimitive.Close data-slot=\"popover-close\" {...props} />\n}\n\nexport interface PopoverContentProps extends React.ComponentProps<\n  typeof PopoverPrimitive.Content\n> {\n  /** 浮层与触发器之间的距离，单位为像素。@default 6 */\n  sideOffset?: number\n  /** 是否显示指向触发器的箭头。@default false */\n  showArrow?: boolean\n}\n\n/** 承载可交互内容的浮层面板，并自动处理碰撞避让与焦点。 */\nfunction PopoverContent({\n  className,\n  align = \"center\",\n  sideOffset = 6,\n  showArrow = false,\n  children,\n  ...props\n}: PopoverContentProps) {\n  return (\n    <PopoverPortal>\n      <PopoverPrimitive.Content\n        data-slot=\"popover-content\"\n        align={align}\n        sideOffset={sideOffset}\n        className={cn(\n          \"bg-popover text-popover-foreground data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-1 data-[side=left]:slide-in-from-right-1 data-[side=right]:slide-in-from-left-1 data-[side=top]:slide-in-from-bottom-1 z-50 w-72 rounded-lg border p-4 shadow-md outline-none will-change-[transform,opacity] motion-reduce:animate-none\",\n          className\n        )}\n        {...props}\n      >\n        {children}\n        {showArrow ? (\n          <PopoverPrimitive.Arrow\n            data-slot=\"popover-arrow\"\n            className=\"fill-popover stroke-border\"\n            width={10}\n            height={5}\n          />\n        ) : null}\n      </PopoverPrimitive.Content>\n    </PopoverPortal>\n  )\n}\n\n/** 为嵌套浮层指定定位锚点。 */\nfunction PopoverAnchor(\n  props: React.ComponentProps<typeof PopoverPrimitive.Anchor>\n) {\n  return <PopoverPrimitive.Anchor data-slot=\"popover-anchor\" {...props} />\n}\n\nexport {\n  Popover,\n  PopoverAnchor,\n  PopoverClose,\n  PopoverContent,\n  PopoverDescription,\n  PopoverPortal,\n  PopoverTitle,\n  PopoverTrigger,\n}\n"
+    }
+  ]
+}
