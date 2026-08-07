@@ -2536,6 +2536,133 @@
           "type": "registry:ui"
         }
       ]
+    },
+    {
+      "name": "toggle",
+      "type": "registry:ui",
+      "title": "切换按钮 Toggle",
+      "description": "用一个按钮切换并保持某项功能的开启或关闭状态。",
+      "dependencies": ["radix-ui", "class-variance-authority"],
+      "registryDependencies": ["utils"],
+      "files": [{ "path": "registry/ui/toggle.tsx", "type": "registry:ui" }]
+    },
+    {
+      "name": "toggle-group",
+      "type": "registry:ui",
+      "title": "切换按钮组 Toggle Group",
+      "description": "将多个双态按钮组织为互斥选择或并列多选。",
+      "dependencies": ["radix-ui", "class-variance-authority"],
+      "registryDependencies": ["utils", "toggle"],
+      "files": [
+        { "path": "registry/ui/toggle-group.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "carousel",
+      "type": "registry:ui",
+      "title": "轮播 Carousel",
+      "description": "使用原生滚动与吸附逐项浏览一组相关内容。",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["utils", "button"],
+      "files": [{ "path": "registry/ui/carousel.tsx", "type": "registry:ui" }]
+    },
+    {
+      "name": "typography",
+      "type": "registry:ui",
+      "title": "排版 Typography",
+      "description": "为标题、正文、列表、引用和辅助文字提供一致的阅读层级。",
+      "dependencies": ["radix-ui", "class-variance-authority"],
+      "registryDependencies": ["utils"],
+      "files": [{ "path": "registry/ui/typography.tsx", "type": "registry:ui" }]
+    },
+    {
+      "name": "input-number",
+      "type": "registry:ui",
+      "title": "数字输入框 InputNumber",
+      "description": "支持范围约束、精确步进和键盘操作的数字输入控件。",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["utils"],
+      "files": [
+        { "path": "registry/ui/input-number.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "input-otp",
+      "type": "registry:ui",
+      "title": "验证码输入框 InputOTP",
+      "description": "支持粘贴、键盘移动和完成回调的分格验证码输入控件。",
+      "registryDependencies": ["utils"],
+      "files": [{ "path": "registry/ui/input-otp.tsx", "type": "registry:ui" }]
+    },
+    {
+      "name": "button-group",
+      "type": "registry:ui",
+      "title": "按钮组 ButtonGroup",
+      "description": "将一组紧密相关的按钮连接为方向明确的操作单元。",
+      "registryDependencies": ["utils", "button"],
+      "files": [
+        { "path": "registry/ui/button-group.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "context-menu",
+      "type": "registry:ui",
+      "title": "右键菜单 Context Menu",
+      "description": "在对象或指定区域上通过右键或长按提供就地操作。",
+      "dependencies": ["radix-ui", "lucide-react"],
+      "registryDependencies": ["utils"],
+      "files": [
+        { "path": "registry/ui/context-menu.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "resizable",
+      "type": "registry:ui",
+      "title": "可调整面板 Resizable",
+      "description": "通过指针或键盘在两个工作区之间调整可用空间。",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["utils"],
+      "files": [{ "path": "registry/ui/resizable.tsx", "type": "registry:ui" }]
+    },
+    {
+      "name": "aspect-ratio",
+      "type": "registry:ui",
+      "title": "宽高比 Aspect Ratio",
+      "description": "在响应式布局中为图片、视频或占位内容维持稳定比例。",
+      "dependencies": ["radix-ui"],
+      "registryDependencies": ["utils"],
+      "files": [
+        { "path": "registry/ui/aspect-ratio.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "steps",
+      "type": "registry:ui",
+      "title": "步骤 Steps",
+      "description": "清晰呈现任务流程、当前进度与各阶段状态。",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["utils"],
+      "files": [{ "path": "registry/ui/steps.tsx", "type": "registry:ui" }]
+    },
+    {
+      "name": "tree",
+      "type": "registry:ui",
+      "title": "树 Tree",
+      "description": "展示和选择文件、组织架构与分类等嵌套数据。",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["utils"],
+      "files": [{ "path": "registry/ui/tree.tsx", "type": "registry:ui" }]
+    },
+    {
+      "name": "tree-select",
+      "type": "registry:ui",
+      "title": "树选择 TreeSelect",
+      "description": "在紧凑浮层中搜索并选择一个层级节点。",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["utils", "input", "popover", "tree"],
+      "files": [
+        { "path": "registry/ui/tree-select.tsx", "type": "registry:ui" }
+      ]
     }
   ]
 }

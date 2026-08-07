@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "toggle-group",
+  "type": "registry:ui",
+  "title": "切换按钮组 Toggle Group",
+  "description": "将多个双态按钮组织为互斥选择或并列多选。",
+  "dependencies": [
+    "radix-ui",
+    "class-variance-authority"
+  ],
+  "registryDependencies": [
+    "utils",
+    "toggle"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/toggle-group.tsx",
+      "type": "registry:ui",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { ToggleGroup as ToggleGroupPrimitive } from \"radix-ui\"\nimport type { VariantProps } from \"class-variance-authority\"\n\nimport { cn } from \"@/registry/lib/utils\"\nimport { toggleVariants } from \"@/registry/ui/toggle\"\n\ntype ToggleGroupStyle = VariantProps<typeof toggleVariants>\n\nconst ToggleGroupContext = React.createContext<ToggleGroupStyle>({})\n\nexport type ToggleGroupProps = React.ComponentProps<\n  typeof ToggleGroupPrimitive.Root\n> &\n  ToggleGroupStyle\n\n/** 将一组双态按钮组织为单选或多选控件。 */\nfunction ToggleGroup({\n  className,\n  variant = \"default\",\n  size = \"default\",\n  children,\n  ...props\n}: ToggleGroupProps) {\n  return (\n    <ToggleGroupPrimitive.Root\n      data-slot=\"toggle-group\"\n      className={cn(\"flex w-fit items-center gap-1\", className)}\n      {...props}\n    >\n      <ToggleGroupContext.Provider value={{ variant, size }}>\n        {children}\n      </ToggleGroupContext.Provider>\n    </ToggleGroupPrimitive.Root>\n  )\n}\n\nexport interface ToggleGroupItemProps\n  extends\n    React.ComponentProps<typeof ToggleGroupPrimitive.Item>,\n    ToggleGroupStyle {}\n\n/** ToggleGroup 中的单个可选项。 */\nfunction ToggleGroupItem({\n  className,\n  variant,\n  size,\n  ...props\n}: ToggleGroupItemProps) {\n  const context = React.useContext(ToggleGroupContext)\n\n  return (\n    <ToggleGroupPrimitive.Item\n      data-slot=\"toggle-group-item\"\n      className={cn(\n        toggleVariants({\n          variant: variant ?? context.variant,\n          size: size ?? context.size,\n        }),\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nexport { ToggleGroup, ToggleGroupItem }\n"
+    }
+  ]
+}

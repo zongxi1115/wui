@@ -1,0 +1,34 @@
+---
+title: 切换按钮组 Toggle Group
+description: 将多个双态按钮组织为互斥选择或并列多选。
+component: toggle-group
+---
+
+## 基础用法
+
+<ComponentPreview name="toggle-group-demo" />
+
+<CodeTabs command="@wui-design/cli@latest add @wui/toggle-group" />
+
+<ComponentSource name="toggle-group" title="components/ui/toggle-group.tsx" />
+
+## 使用场景
+
+`ToggleGroup` 适合视图模式、文字格式和同层级筛选。`type="single"` 表达互斥选择，`type="multiple"` 表达可以同时开启的设置；
+如果每个操作都会立即执行且不保留状态，应使用 ButtonGroup。
+
+## 属性
+
+<PropsTable name="toggle-group" />
+
+## 事件
+
+单选模式通过 `value` / `onValueChange` 管理字符串值，多选模式管理字符串数组。每个 `ToggleGroupItem` 的 `value` 必须稳定且唯一。
+
+## 扩展用法
+
+### 多选格式
+
+<ComponentPreview name="toggle-group-multiple" />
+
+组级 `variant` 与 `size` 会传递给所有项目，单个项目仍可覆盖。图标项目需要独立的 `aria-label`，不能依赖工具提示代替名称。

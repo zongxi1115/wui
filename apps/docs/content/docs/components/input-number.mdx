@@ -1,0 +1,44 @@
+---
+title: 数字输入框 InputNumber
+description: 支持范围约束、精确步进和键盘操作的数字输入控件。
+component: input-number
+---
+
+## 基础用法
+
+<ComponentPreview name="input-number-demo" />
+
+<CodeTabs command="@wui-design/cli@latest add @wui/input-number" />
+
+<ComponentSource name="input-number" title="components/ui/input-number.tsx" />
+
+## 使用场景
+
+`InputNumber` 用于数量、金额、比例等需要数值语义和步进操作的字段。它允许直接键入数值，也可以通过加减按钮或键盘方向键调整。
+
+普通文本、电话或证件编号不应使用 `InputNumber`，因为这些内容虽然由数字组成，但并不参与数值计算。
+
+## 属性
+
+<PropsTable name="input-number" />
+
+## 受控与非受控
+
+传入 `value` 与 `onValueChange` 使用受控模式；只传入 `defaultValue` 时，状态由组件内部维护。清空字段时 `onValueChange` 返回 `null`。
+
+`min`、`max` 会在失焦和步进操作时限制最终值。输入过程中不会立即截断内容，以便正常录入负号和小数。
+
+## 键盘操作
+
+- `ArrowUp`：按 `step` 增大数值。
+- `ArrowDown`：按 `step` 减小数值。
+
+组件使用 `spinbutton` 语义，并同步提供 `aria-valuemin`、`aria-valuemax` 与 `aria-valuenow`。
+
+## 扩展用法
+
+### 小数步进与范围约束
+
+<ComponentPreview name="input-number-advanced" />
+
+小数精度根据 `step`、`min` 和 `max` 推导，避免连续点击步进按钮时出现常见的浮点尾数。

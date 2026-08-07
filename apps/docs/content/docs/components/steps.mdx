@@ -1,0 +1,40 @@
+---
+title: 步骤 Steps
+description: 清晰呈现任务流程、当前进度与各阶段状态。
+component: steps
+---
+
+## 基础用法
+
+<ComponentPreview name="steps-demo" />
+
+<CodeTabs command="@wui-design/cli@latest add @wui/steps" />
+
+<ComponentSource name="steps" title="components/ui/steps.tsx" />
+
+## 使用场景
+
+`Steps` 用于展示具有明确先后顺序的流程，例如创建向导、订单处理或审批进度。组件使用有序列表表达步骤关系，并通过 `aria-current="step"` 标识当前阶段。
+
+步骤数量较少且空间充足时使用横向排列；标题较长、带有详细说明或位于侧栏时使用纵向排列。它只负责流程导航和状态呈现，具体页面内容应由外部状态控制。
+
+## 属性
+
+<PropsTable name="steps" />
+
+## 状态
+
+- `wait` 表示尚未开始。
+- `process` 表示当前步骤。
+- `finish` 表示已经完成。
+- `error` 表示步骤需要用户处理。
+
+未指定 `status` 时，组件会根据 `current` 自动推导状态；单个步骤传入 `status` 可以覆盖推导结果。
+
+## 扩展用法
+
+### 纵向与可交互步骤
+
+<ComponentPreview name="steps-vertical" />
+
+提供 `onCurrentChange` 后，可用步骤会渲染为按钮。是否允许跳过未完成步骤属于业务规则，可以在回调中决定是否更新 `current`。

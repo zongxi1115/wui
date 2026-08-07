@@ -1,0 +1,41 @@
+---
+title: 可调整面板 Resizable
+description: 通过指针或键盘在两个工作区之间调整可用空间。
+component: resizable
+---
+
+## 基础用法
+
+<ComponentPreview name="resizable-demo" previewClassName="min-h-0" />
+
+<CodeTabs command="@wui-design/cli@latest add @wui/resizable" />
+
+<ComponentSource name="resizable" title="components/ui/resizable.tsx" />
+
+## 使用场景
+
+`Resizable` 适合编辑器、文件管理器、预览器等需要由用户分配空间的双面板工作区。它不适合普通内容页，也不应替代响应式断点：窄屏下通常应切换为抽屉或上下布局。
+
+组件聚焦于两个直接面板。请按 `ResizablePanel → ResizableHandle → ResizablePanel` 的顺序组合，并为面板组提供明确高度；面板内容默认可独立滚动。
+
+## 属性
+
+<PropsTable name="resizable" />
+
+- `size`、`defaultSize` 与 `onSizeChange` 管理首个面板的百分比尺寸。
+- `minSize` 与 `maxSize` 限制首个面板可调整范围。
+- `orientation` 支持 `horizontal` 与 `vertical`。
+- `step` 控制方向键单次调整幅度。
+- `ResizableHandle` 的 `withHandle` 用于显示可抓取指示器。
+
+## 扩展用法
+
+### 受控的纵向面板
+
+<ComponentPreview name="resizable-advanced" previewClassName="min-h-0" />
+
+受控模式适合显示当前比例、保存用户偏好或与其他布局状态同步。拖动过程中会连续触发 `onSizeChange`，业务层如需持久化，建议在外部进行节流或仅在交互结束后保存。
+
+## 无障碍
+
+手柄使用 `separator` 角色并暴露当前、最小与最大值。聚焦手柄后，方向键按 `step` 调整，`Home` 与 `End` 分别移动到最小和最大尺寸。禁用时手柄会从 Tab 顺序中移除。

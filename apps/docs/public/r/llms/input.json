@@ -100,6 +100,18 @@
     {
       "name": "input-underline",
       "title": "下划线样式"
+    },
+    {
+      "name": "input-number-advanced"
+    },
+    {
+      "name": "input-number-demo"
+    },
+    {
+      "name": "input-otp-advanced"
+    },
+    {
+      "name": "input-otp-demo"
     }
   ],
   "files": [

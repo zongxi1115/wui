@@ -123,6 +123,12 @@
     {
       "name": "button-ripple",
       "title": "涟漪（可选）"
+    },
+    {
+      "name": "button-group-advanced"
+    },
+    {
+      "name": "button-group-demo"
     }
   ],
   "files": [

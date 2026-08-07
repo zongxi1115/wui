@@ -1,0 +1,133 @@
+{
+  "name": "tree-select",
+  "type": "registry:ui",
+  "title": "树选择 TreeSelect",
+  "description": "在紧凑浮层中搜索并选择一个层级节点。",
+  "import": "import { TreeSelect } from \"@/components/ui/tree-select\"",
+  "exports": [
+    "TreeSelect"
+  ],
+  "typeExports": [
+    "TreeSelectProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/tree-select",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/tree-select.json",
+    "npmDependencies": [
+      "lucide-react"
+    ],
+    "registryDependencies": [
+      "utils",
+      "input",
+      "popover",
+      "tree"
+    ]
+  },
+  "props": [
+    {
+      "name": "items",
+      "type": "TreeNode[]",
+      "required": true,
+      "control": "text",
+      "description": "树形选项数据。"
+    },
+    {
+      "name": "value",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "受控模式下的选中值。"
+    },
+    {
+      "name": "defaultValue",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "非受控模式下的初始选中值。"
+    },
+    {
+      "name": "onValueChange",
+      "type": "((value: string, node?: TreeNode) => void)",
+      "required": false,
+      "control": "text",
+      "description": "选中值变化或清空时触发。"
+    },
+    {
+      "name": "placeholder",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "defaultValue": "请选择",
+      "description": "未选中时显示的文本。@default \"请选择\""
+    },
+    {
+      "name": "clearable",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否允许清空已选值。@default true"
+    },
+    {
+      "name": "searchable",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否显示搜索框。@default true"
+    },
+    {
+      "name": "searchPlaceholder",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "defaultValue": "搜索节点",
+      "description": "搜索框占位文本。@default \"搜索节点\""
+    },
+    {
+      "name": "emptyText",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "defaultValue": "没有匹配的节点",
+      "description": "没有匹配节点时显示的文本。@default \"没有匹配的节点\""
+    },
+    {
+      "name": "contentClassName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "应用于浮层面板的额外类名。"
+    },
+    {
+      "name": "filterNode",
+      "type": "((query: string, node: TreeNode) => boolean)",
+      "required": false,
+      "control": "text",
+      "description": "自定义节点搜索逻辑。"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "是否禁用组件。"
+    }
+  ],
+  "events": "- `onValueChange(value, node)` 在选择节点或清空时触发；清空时返回空字符串，`node` 为 `undefined`。\n- 传入 `value` 后组件进入受控模式；仅设置初始值时使用 `defaultValue`。",
+  "examples": [
+    {
+      "name": "tree-select-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "tree-select-search",
+      "title": "拼音与首字母搜索"
+    }
+  ],
+  "files": [
+    "registry/ui/tree-select.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/tree-select",
+  "sourceUrl": "https://ui.wzx.wang/r/tree-select.json"
+}

@@ -1,0 +1,79 @@
+{
+  "name": "toggle",
+  "type": "registry:ui",
+  "title": "切换按钮 Toggle",
+  "description": "用一个按钮切换并保持某项功能的开启或关闭状态。",
+  "import": "import { Toggle, toggleVariants } from \"@/components/ui/toggle\"",
+  "exports": [
+    "Toggle",
+    "toggleVariants"
+  ],
+  "typeExports": [
+    "ToggleProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/toggle",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/toggle.json",
+    "npmDependencies": [
+      "radix-ui",
+      "class-variance-authority"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "是否禁用组件。"
+    },
+    {
+      "name": "asChild",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
+    },
+    {
+      "name": "size",
+      "type": "\"default\" | \"sm\" | \"lg\" | null",
+      "required": false,
+      "control": "text",
+      "defaultValue": "default",
+      "description": "切换按钮的高度与内边距尺寸。"
+    },
+    {
+      "name": "variant",
+      "type": "\"default\" | \"outline\" | null",
+      "required": false,
+      "control": "text",
+      "defaultValue": "default",
+      "description": "切换按钮的视觉样式。"
+    }
+  ],
+  "events": "`onPressedChange(pressed)` 在状态变化后触发。受控模式使用 `pressed`，仅设置初始状态时使用 `defaultPressed`。\n只有图标的 Toggle 必须提供 `aria-label`。",
+  "examples": [
+    {
+      "name": "toggle-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "toggle-sizes",
+      "title": "尺寸与描边"
+    },
+    {
+      "name": "toggle-group-demo"
+    },
+    {
+      "name": "toggle-group-multiple"
+    }
+  ],
+  "files": [
+    "registry/ui/toggle.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/toggle",
+  "sourceUrl": "https://ui.wzx.wang/r/toggle.json"
+}

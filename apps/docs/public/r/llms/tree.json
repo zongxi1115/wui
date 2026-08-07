@@ -1,0 +1,98 @@
+{
+  "name": "tree",
+  "type": "registry:ui",
+  "title": "树 Tree",
+  "description": "展示和选择文件、组织架构与分类等嵌套数据。",
+  "import": "import { Tree } from \"@/components/ui/tree\"",
+  "exports": [
+    "Tree"
+  ],
+  "typeExports": [
+    "TreeNode",
+    "TreeProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/tree",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/tree.json",
+    "npmDependencies": [
+      "lucide-react"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "items",
+      "type": "TreeNode[]",
+      "required": true,
+      "control": "text",
+      "description": "树形节点数据。"
+    },
+    {
+      "name": "value",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "受控模式下的选中值。"
+    },
+    {
+      "name": "defaultValue",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "非受控模式下的初始选中值。"
+    },
+    {
+      "name": "onValueChange",
+      "type": "((value: string, node: TreeNode) => void)",
+      "required": false,
+      "control": "text",
+      "description": "节点被选中时触发。"
+    },
+    {
+      "name": "expanded",
+      "type": "string[]",
+      "required": false,
+      "control": "text",
+      "description": "受控模式下已展开的节点值。"
+    },
+    {
+      "name": "defaultExpanded",
+      "type": "string[]",
+      "required": false,
+      "control": "text",
+      "defaultValue": "[]",
+      "description": "非受控模式下初始展开的节点值。"
+    },
+    {
+      "name": "onExpandedChange",
+      "type": "((expanded: string[]) => void)",
+      "required": false,
+      "control": "text",
+      "description": "展开集合变化时触发。"
+    }
+  ],
+  "events": "- `onValueChange(value, node)` 在选择可用节点时触发。\n- `onExpandedChange(expanded)` 在展开集合变化时触发。\n- `value` 与 `expanded` 分别控制选择和展开；只需初始状态时使用对应的 `defaultValue` 与 `defaultExpanded`。",
+  "examples": [
+    {
+      "name": "tree-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "tree-controlled",
+      "title": "受控展开与禁用节点"
+    },
+    {
+      "name": "tree-select-demo"
+    },
+    {
+      "name": "tree-select-search"
+    }
+  ],
+  "files": [
+    "registry/ui/tree.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/tree",
+  "sourceUrl": "https://ui.wzx.wang/r/tree.json"
+}

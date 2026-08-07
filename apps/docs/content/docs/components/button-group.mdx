@@ -1,0 +1,37 @@
+---
+title: 按钮组 ButtonGroup
+description: 将一组紧密相关的按钮连接为方向明确的操作单元。
+component: button-group
+---
+
+## 基础用法
+
+<ComponentPreview name="button-group-demo" />
+
+<CodeTabs command="@wui-design/cli@latest add @wui/button-group" />
+
+<ComponentSource name="button-group" title="components/ui/button-group.tsx" />
+
+## 使用场景
+
+`ButtonGroup` 用于文本对齐、时间范围和紧密关联的批量操作。它不重新实现按钮样式，而是组合现有 `Button`，统一处理相邻边界、圆角和焦点层级。
+
+彼此无关或风险等级不同的操作应保持适当间距，不要为了节省空间强行放入同一组。
+
+## 属性
+
+<PropsTable name="button-group" />
+
+## 无障碍
+
+组件默认使用 `role="group"`。应通过 `aria-label` 或 `aria-labelledby` 描述整组用途；仅包含图标的子按钮还需要各自的 `aria-label`。
+
+`orientation` 只控制布局与相邻边界。若按钮表达互斥选择状态，还应在业务层同步 `aria-pressed`，或使用更适合单选语义的 ToggleGroup。
+
+## 扩展用法
+
+### 横向与纵向组合
+
+<ComponentPreview name="button-group-advanced" />
+
+使用 `orientation="vertical"` 创建纵向按钮组。相邻按钮会共享边界，但仍保留每个 `Button` 原有的禁用、变体和焦点行为。

@@ -1,0 +1,51 @@
+{
+  "name": "button-group",
+  "type": "registry:ui",
+  "title": "按钮组 ButtonGroup",
+  "description": "将一组紧密相关的按钮连接为方向明确的操作单元。",
+  "import": "import { ButtonGroup } from \"@/components/ui/button-group\"",
+  "exports": [
+    "ButtonGroup"
+  ],
+  "typeExports": [
+    "ButtonGroupProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/button-group",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/button-group.json",
+    "npmDependencies": [],
+    "registryDependencies": [
+      "utils",
+      "button"
+    ]
+  },
+  "props": [
+    {
+      "name": "orientation",
+      "type": "\"horizontal\" | \"vertical\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "horizontal",
+        "vertical"
+      ],
+      "defaultValue": "horizontal",
+      "description": "按钮排列方向。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "button-group-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "button-group-advanced",
+      "title": "横向与纵向组合"
+    }
+  ],
+  "files": [
+    "registry/ui/button-group.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/button-group",
+  "sourceUrl": "https://ui.wzx.wang/r/button-group.json"
+}

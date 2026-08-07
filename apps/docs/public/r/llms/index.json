@@ -456,7 +456,7 @@
         "ripple: boolean",
         "disabled: boolean"
       ],
-      "exampleCount": 9
+      "exampleCount": 11
     },
     {
       "name": "dialog",
@@ -827,7 +827,7 @@
         "endContent: ReactNode",
         "wrapperClassName: string"
       ],
-      "exampleCount": 4
+      "exampleCount": 8
     },
     {
       "name": "textarea",
@@ -1751,6 +1751,169 @@
       "keyProps": [
         "variant: outline|elevated",
         "interactive: boolean"
+      ],
+      "exampleCount": 2
+    },
+    {
+      "name": "toggle",
+      "type": "registry:ui",
+      "title": "切换按钮 Toggle",
+      "description": "用一个按钮切换并保持某项功能的开启或关闭状态。",
+      "keyProps": [
+        "disabled: boolean",
+        "asChild: boolean",
+        "size: \"default\" | \"sm\" | \"lg\" | null",
+        "variant: \"default\" | \"outline\" | null"
+      ],
+      "exampleCount": 4
+    },
+    {
+      "name": "toggle-group",
+      "type": "registry:ui",
+      "title": "切换按钮组 Toggle Group",
+      "description": "将多个双态按钮组织为互斥选择或并列多选。",
+      "keyProps": [
+        "disabled: boolean",
+        "asChild: boolean",
+        "size: \"default\" | \"sm\" | \"lg\" | null",
+        "variant: \"default\" | \"outline\" | null"
+      ],
+      "exampleCount": 2
+    },
+    {
+      "name": "carousel",
+      "type": "registry:ui",
+      "title": "轮播 Carousel",
+      "description": "使用原生滚动与吸附逐项浏览一组相关内容。",
+      "keyProps": [
+        "orientation: horizontal|vertical",
+        "loop: boolean",
+        "defaultIndex: number",
+        "onIndexChange: ((index: number) => void)"
+      ],
+      "exampleCount": 2
+    },
+    {
+      "name": "typography",
+      "type": "registry:ui",
+      "title": "排版 Typography",
+      "description": "为标题、正文、列表、引用和辅助文字提供一致的阅读层级。",
+      "keyProps": [
+        "as: ElementType<any, keyof IntrinsicElements>",
+        "asChild: boolean",
+        "variant: \"blockquote\" | \"body\" | \"code\" | \"h1\" | \"h2\" | \"h3\" | \"h4\" | \"small\" | \"muted\" | \"lead\" | null"
+      ],
+      "exampleCount": 2
+    },
+    {
+      "name": "input-number",
+      "type": "registry:ui",
+      "title": "数字输入框 InputNumber",
+      "description": "支持范围约束、精确步进和键盘操作的数字输入控件。",
+      "keyProps": [
+        "value: number | null",
+        "defaultValue: number",
+        "onValueChange: ((value: number | null) => void)",
+        "min: number",
+        "max: number",
+        "step: number"
+      ],
+      "exampleCount": 2
+    },
+    {
+      "name": "input-otp",
+      "type": "registry:ui",
+      "title": "验证码输入框 InputOTP",
+      "description": "支持粘贴、键盘移动和完成回调的分格验证码输入控件。",
+      "keyProps": [
+        "value: string",
+        "defaultValue: string",
+        "length: number",
+        "onValueChange: ((value: string) => void)",
+        "onComplete: ((value: string) => void)",
+        "numeric: boolean"
+      ],
+      "exampleCount": 2
+    },
+    {
+      "name": "button-group",
+      "type": "registry:ui",
+      "title": "按钮组 ButtonGroup",
+      "description": "将一组紧密相关的按钮连接为方向明确的操作单元。",
+      "keyProps": [
+        "orientation: horizontal|vertical"
+      ],
+      "exampleCount": 2
+    },
+    {
+      "name": "context-menu",
+      "type": "registry:ui",
+      "title": "右键菜单 Context Menu",
+      "description": "在对象或指定区域上通过右键或长按提供就地操作。",
+      "keyProps": [],
+      "exampleCount": 2
+    },
+    {
+      "name": "resizable",
+      "type": "registry:ui",
+      "title": "可调整面板 Resizable",
+      "description": "通过指针或键盘在两个工作区之间调整可用空间。",
+      "keyProps": [
+        "withHandle: boolean"
+      ],
+      "exampleCount": 2
+    },
+    {
+      "name": "aspect-ratio",
+      "type": "registry:ui",
+      "title": "宽高比 Aspect Ratio",
+      "description": "在响应式布局中为图片、视频或占位内容维持稳定比例。",
+      "keyProps": [
+        "ratio: number",
+        "asChild: boolean"
+      ],
+      "exampleCount": 2
+    },
+    {
+      "name": "steps",
+      "type": "registry:ui",
+      "title": "步骤 Steps",
+      "description": "清晰呈现任务流程、当前进度与各阶段状态。",
+      "keyProps": [
+        "items: StepItem[]",
+        "current: number",
+        "orientation: horizontal|vertical",
+        "onCurrentChange: ((current: number) => void)"
+      ],
+      "exampleCount": 2
+    },
+    {
+      "name": "tree",
+      "type": "registry:ui",
+      "title": "树 Tree",
+      "description": "展示和选择文件、组织架构与分类等嵌套数据。",
+      "keyProps": [
+        "items: TreeNode[]",
+        "value: string",
+        "defaultValue: string",
+        "onValueChange: ((value: string, node: TreeNode) => void)",
+        "expanded: string[]",
+        "defaultExpanded: string[]"
+      ],
+      "exampleCount": 4
+    },
+    {
+      "name": "tree-select",
+      "type": "registry:ui",
+      "title": "树选择 TreeSelect",
+      "description": "在紧凑浮层中搜索并选择一个层级节点。",
+      "keyProps": [
+        "items: TreeNode[]",
+        "value: string",
+        "defaultValue: string",
+        "onValueChange: ((value: string, node?: TreeNode) => void)",
+        "placeholder: string",
+        "clearable: boolean"
       ],
       "exampleCount": 2
     }

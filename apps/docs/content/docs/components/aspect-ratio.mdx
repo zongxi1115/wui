@@ -1,0 +1,39 @@
+---
+title: 宽高比 Aspect Ratio
+description: 在响应式布局中为图片、视频或占位内容维持稳定比例。
+component: aspect-ratio
+---
+
+## 基础用法
+
+<ComponentPreview name="aspect-ratio-demo" />
+
+<CodeTabs command="@wui-design/cli@latest add @wui/aspect-ratio" />
+
+<ComponentSource name="aspect-ratio" title="components/ui/aspect-ratio.tsx" />
+
+## 使用场景
+
+`AspectRatio` 适合媒体封面、视频播放器、缩略图和加载占位。容器宽度随布局变化时，高度会依照 `ratio` 自动计算，从而避免图片加载前后产生布局跳动。
+
+比例应来自内容语义：视频常用 `16 / 9`，商品或头像可用 `1`，竖版内容可用 `4 / 5`。不要为了填满卡片而随意裁切需要完整阅读的信息图。
+
+## 属性
+
+<PropsTable name="aspect-ratio" />
+
+- `ratio` 表示宽度除以高度，默认为 `1`。
+- `className` 用于设置背景、边界与溢出表现。
+- 其余原生 `div` 属性会传给比例容器。
+
+## 扩展用法
+
+### 多种媒体比例
+
+<ComponentPreview name="aspect-ratio-advanced" />
+
+同一内容流可以使用不同比例，但同一列表或同一级别的媒体通常应保持一致，以建立稳定节奏。媒体使用 `size-full object-cover` 填充容器；需要完整展示时改用 `object-contain`。
+
+## 无障碍
+
+`AspectRatio` 只负责布局，不会为内容补充语义。图片仍需提供准确的 `alt`；纯装饰图片使用空 `alt`。视频和交互内容也应保留各自原生的键盘与标签能力。

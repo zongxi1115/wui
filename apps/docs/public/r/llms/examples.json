@@ -252,6 +252,18 @@
     "title": "涟漪（可选）",
     "code": "import { Button } from \"@/components/ui/button\"\n\nexport default function ButtonRipple() {\n  return (\n    <div className=\"flex flex-wrap items-center gap-2\">\n      <Button ripple>Click for ripple</Button>\n      <Button ripple variant=\"secondary\">\n        Secondary\n      </Button>\n      <Button ripple motion variant=\"outline\">\n        Ripple + motion\n      </Button>\n    </div>\n  )\n}\n"
   },
+  "button-group-advanced": {
+    "name": "button-group-advanced",
+    "component": "button-group",
+    "title": "横向与纵向组合",
+    "code": "import { Button } from \"@/components/ui/button\"\nimport { ButtonGroup } from \"@/components/ui/button-group\"\n\nexport default function ButtonGroupAdvanced() {\n  return (\n    <div className=\"flex flex-wrap items-start gap-8\">\n      <ButtonGroup aria-label=\"时间范围\">\n        <Button variant=\"outline\">今天</Button>\n        <Button variant=\"outline\">本周</Button>\n        <Button variant=\"outline\">本月</Button>\n      </ButtonGroup>\n\n      <ButtonGroup orientation=\"vertical\" aria-label=\"发布操作\">\n        <Button variant=\"outline\">保存草稿</Button>\n        <Button variant=\"outline\">预览内容</Button>\n        <Button variant=\"outline\" disabled>\n          定时发布\n        </Button>\n      </ButtonGroup>\n    </div>\n  )\n}\n"
+  },
+  "button-group-demo": {
+    "name": "button-group-demo",
+    "component": "button-group",
+    "title": "基础用法",
+    "code": "import { AlignCenter, AlignLeft, AlignRight } from \"lucide-react\"\n\nimport { Button } from \"@/components/ui/button\"\nimport { ButtonGroup } from \"@/components/ui/button-group\"\n\nexport default function ButtonGroupDemo() {\n  return (\n    <ButtonGroup aria-label=\"文本对齐方式\">\n      <Button variant=\"outline\" size=\"icon\" aria-label=\"左对齐\">\n        <AlignLeft />\n      </Button>\n      <Button variant=\"outline\" size=\"icon\" aria-label=\"居中对齐\">\n        <AlignCenter />\n      </Button>\n      <Button variant=\"outline\" size=\"icon\" aria-label=\"右对齐\">\n        <AlignRight />\n      </Button>\n    </ButtonGroup>\n  )\n}\n"
+  },
   "dialog-demo": {
     "name": "dialog-demo",
     "component": "dialog",
@@ -551,6 +563,30 @@
     "component": "input",
     "title": "下划线样式",
     "code": "import { Input } from \"@/components/ui/input\"\n\nexport default function InputUnderline() {\n  return (\n    <div className=\"grid w-full max-w-sm gap-5\">\n      <Input variant=\"underline\" placeholder=\"Project name\" />\n      <Input variant=\"underline\" label=\"Workspace URL\" />\n    </div>\n  )\n}\n"
+  },
+  "input-number-advanced": {
+    "name": "input-number-advanced",
+    "component": "input-number",
+    "title": "小数步进与范围约束",
+    "code": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { InputNumber } from \"@/components/ui/input-number\"\n\nexport default function InputNumberAdvanced() {\n  const [price, setPrice] = React.useState<number | null>(19.9)\n\n  return (\n    <div className=\"grid w-full max-w-sm gap-5 sm:grid-cols-2\">\n      <div className=\"grid gap-2\">\n        <label htmlFor=\"price\" className=\"text-sm font-medium\">\n          单价\n        </label>\n        <InputNumber\n          id=\"price\"\n          value={price}\n          onValueChange={setPrice}\n          min={0}\n          max={99.9}\n          step={0.1}\n          aria-describedby=\"price-help\"\n        />\n        <p id=\"price-help\" className=\"text-muted-foreground text-xs\">\n          每次调整 0.1，范围 0–99.9\n        </p>\n      </div>\n      <div className=\"grid content-start gap-2\">\n        <label htmlFor=\"stock\" className=\"text-sm font-medium\">\n          库存上限\n        </label>\n        <InputNumber id=\"stock\" defaultValue={100} min={0} step={10} />\n        <p className=\"text-muted-foreground text-xs\">可用 ↑ / ↓ 快速调整</p>\n      </div>\n    </div>\n  )\n}\n"
+  },
+  "input-number-demo": {
+    "name": "input-number-demo",
+    "component": "input-number",
+    "title": "基础用法",
+    "code": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { InputNumber } from \"@/components/ui/input-number\"\n\nexport default function InputNumberDemo() {\n  const [value, setValue] = React.useState<number | null>(2)\n\n  return (\n    <div className=\"grid w-full max-w-xs gap-2\">\n      <label htmlFor=\"quantity\" className=\"text-sm font-medium\">\n        购买数量\n      </label>\n      <InputNumber\n        id=\"quantity\"\n        value={value}\n        onValueChange={setValue}\n        min={1}\n        max={10}\n      />\n      <p className=\"text-muted-foreground text-xs\">\n        当前数量：{value ?? \"未填写\"}\n      </p>\n    </div>\n  )\n}\n"
+  },
+  "input-otp-advanced": {
+    "name": "input-otp-advanced",
+    "component": "input-otp",
+    "title": "自定义长度与完成状态",
+    "code": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { InputOTP } from \"@/components/ui/input-otp\"\n\nexport default function InputOTPAdvanced() {\n  const [message, setMessage] = React.useState(\"可以直接粘贴完整验证码\")\n\n  return (\n    <div className=\"grid gap-3 text-center\">\n      <InputOTP\n        length={4}\n        defaultValue=\"12\"\n        onValueChange={() => setMessage(\"继续输入剩余位数\")}\n        onComplete={(value) => setMessage(`已完成：${value}`)}\n        aria-describedby=\"otp-status\"\n        className=\"justify-center\"\n        inputClassName=\"size-12 text-lg\"\n      />\n      <p\n        id=\"otp-status\"\n        aria-live=\"polite\"\n        className=\"text-muted-foreground text-xs\"\n      >\n        {message}\n      </p>\n    </div>\n  )\n}\n"
+  },
+  "input-otp-demo": {
+    "name": "input-otp-demo",
+    "component": "input-otp",
+    "title": "基础用法",
+    "code": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { InputOTP } from \"@/components/ui/input-otp\"\n\nexport default function InputOTPDemo() {\n  const [code, setCode] = React.useState(\"\")\n\n  return (\n    <div className=\"grid gap-3 text-center\">\n      <div>\n        <p className=\"text-sm font-medium\">输入验证码</p>\n        <p className=\"text-muted-foreground mt-1 text-xs\">\n          验证码已发送至尾号 2048 的手机\n        </p>\n      </div>\n      <InputOTP\n        value={code}\n        onValueChange={setCode}\n        aria-label=\"短信验证码\"\n        className=\"justify-center\"\n      />\n    </div>\n  )\n}\n"
   },
   "textarea-demo": {
     "name": "textarea-demo",
@@ -1055,5 +1091,125 @@
     "component": "card",
     "title": "紧凑组合",
     "code": "import { Button } from \"@/components/ui/button\"\nimport {\n  Card,\n  CardContent,\n  CardDescription,\n  CardFooter,\n  CardHeader,\n  CardTitle,\n} from \"@/components/ui/card\"\n\nexport default function CardComposition() {\n  return (\n    <Card className=\"w-full max-w-sm gap-4\">\n      <CardHeader>\n        <CardTitle>团队空间</CardTitle>\n        <CardDescription>邀请成员共同管理项目与组件资源。</CardDescription>\n      </CardHeader>\n      <CardContent>\n        <div className=\"border-border/60 flex items-center justify-between border-y py-3 text-sm\">\n          <span>当前成员</span>\n          <span className=\"font-medium tabular-nums\">8 / 12</span>\n        </div>\n      </CardContent>\n      <CardFooter className=\"justify-end pt-1\">\n        <Button variant=\"ghost\" size=\"sm\">\n          管理权限\n        </Button>\n        <Button size=\"sm\">邀请成员</Button>\n      </CardFooter>\n    </Card>\n  )\n}\n"
+  },
+  "toggle-demo": {
+    "name": "toggle-demo",
+    "component": "toggle",
+    "title": "基础用法",
+    "code": "\"use client\"\n\nimport * as React from \"react\"\nimport { BoldIcon } from \"lucide-react\"\n\nimport { Toggle } from \"@/components/ui/toggle\"\n\nexport default function ToggleDemo() {\n  const [pressed, setPressed] = React.useState(false)\n\n  return (\n    <Toggle\n      pressed={pressed}\n      onPressedChange={setPressed}\n      variant=\"outline\"\n      aria-label=\"切换粗体\"\n    >\n      <BoldIcon />\n      粗体\n    </Toggle>\n  )\n}\n"
+  },
+  "toggle-sizes": {
+    "name": "toggle-sizes",
+    "component": "toggle",
+    "title": "尺寸与描边",
+    "code": "import { ItalicIcon } from \"lucide-react\"\n\nimport { Toggle } from \"@/components/ui/toggle\"\n\nexport default function ToggleSizes() {\n  return (\n    <div className=\"flex items-center gap-3\">\n      <Toggle size=\"sm\" aria-label=\"小号斜体\">\n        <ItalicIcon />\n      </Toggle>\n      <Toggle aria-label=\"默认斜体\">\n        <ItalicIcon />\n      </Toggle>\n      <Toggle size=\"lg\" variant=\"outline\" aria-label=\"大号斜体\">\n        <ItalicIcon />\n      </Toggle>\n    </div>\n  )\n}\n"
+  },
+  "toggle-group-demo": {
+    "name": "toggle-group-demo",
+    "component": "toggle-group",
+    "title": "基础用法",
+    "code": "\"use client\"\n\nimport * as React from \"react\"\nimport { Grid2X2Icon, ListIcon, Rows3Icon } from \"lucide-react\"\n\nimport { ToggleGroup, ToggleGroupItem } from \"@/components/ui/toggle-group\"\n\nexport default function ToggleGroupDemo() {\n  const [view, setView] = React.useState(\"grid\")\n\n  return (\n    <ToggleGroup\n      type=\"single\"\n      value={view}\n      onValueChange={(value) => value && setView(value)}\n      variant=\"outline\"\n      aria-label=\"切换视图\"\n    >\n      <ToggleGroupItem value=\"grid\" aria-label=\"网格视图\">\n        <Grid2X2Icon />\n      </ToggleGroupItem>\n      <ToggleGroupItem value=\"comfortable\" aria-label=\"舒适列表\">\n        <Rows3Icon />\n      </ToggleGroupItem>\n      <ToggleGroupItem value=\"compact\" aria-label=\"紧凑列表\">\n        <ListIcon />\n      </ToggleGroupItem>\n    </ToggleGroup>\n  )\n}\n"
+  },
+  "toggle-group-multiple": {
+    "name": "toggle-group-multiple",
+    "component": "toggle-group",
+    "title": "多选格式",
+    "code": "import { AlignCenterIcon, BoldIcon, ItalicIcon } from \"lucide-react\"\n\nimport { ToggleGroup, ToggleGroupItem } from \"@/components/ui/toggle-group\"\n\nexport default function ToggleGroupMultiple() {\n  return (\n    <ToggleGroup type=\"multiple\" defaultValue={[\"bold\"]} aria-label=\"文本格式\">\n      <ToggleGroupItem value=\"bold\" aria-label=\"粗体\">\n        <BoldIcon />\n      </ToggleGroupItem>\n      <ToggleGroupItem value=\"italic\" aria-label=\"斜体\">\n        <ItalicIcon />\n      </ToggleGroupItem>\n      <ToggleGroupItem value=\"center\" aria-label=\"居中\">\n        <AlignCenterIcon />\n      </ToggleGroupItem>\n    </ToggleGroup>\n  )\n}\n"
+  },
+  "carousel-demo": {
+    "name": "carousel-demo",
+    "component": "carousel",
+    "title": "基础用法",
+    "code": "import {\n  Carousel,\n  CarouselContent,\n  CarouselItem,\n  CarouselNext,\n  CarouselPrevious,\n} from \"@/components/ui/carousel\"\n\nconst slides = [\n  { eyebrow: \"本周重点\", title: \"统一结算流程\", meta: \"3 个任务进行中\" },\n  { eyebrow: \"设计系统\", title: \"补齐基础组件\", meta: \"完成度 76%\" },\n  { eyebrow: \"用户反馈\", title: \"优化图片预览\", meta: \"12 条反馈已处理\" },\n]\n\nexport default function CarouselDemo() {\n  return (\n    <Carousel className=\"w-full max-w-xl\" aria-label=\"项目摘要\">\n      <CarouselContent className=\"rounded-xl border\">\n        {slides.map((slide, index) => (\n          <CarouselItem key={slide.title}>\n            <div className=\"flex min-h-64 flex-col justify-between p-8 sm:p-10\">\n              <span className=\"text-muted-foreground text-sm\">\n                {slide.eyebrow}\n              </span>\n              <div>\n                <p className=\"text-2xl font-semibold tracking-tight\">\n                  {slide.title}\n                </p>\n                <p className=\"text-muted-foreground mt-2 text-sm\">\n                  {slide.meta} · {index + 1} / {slides.length}\n                </p>\n              </div>\n            </div>\n          </CarouselItem>\n        ))}\n      </CarouselContent>\n      <CarouselPrevious />\n      <CarouselNext />\n    </Carousel>\n  )\n}\n"
+  },
+  "carousel-vertical": {
+    "name": "carousel-vertical",
+    "component": "carousel",
+    "title": "垂直循环",
+    "code": "import {\n  Carousel,\n  CarouselContent,\n  CarouselItem,\n  CarouselNext,\n  CarouselPrevious,\n} from \"@/components/ui/carousel\"\n\nexport default function CarouselVertical() {\n  return (\n    <Carousel\n      orientation=\"vertical\"\n      loop\n      className=\"w-full max-w-sm\"\n      aria-label=\"更新记录\"\n    >\n      <CarouselContent className=\"h-72 rounded-xl border\">\n        {[\"建立组件清单\", \"实现基础能力\", \"同步 registry\"].map(\n          (item, index) => (\n            <CarouselItem key={item}>\n              <div className=\"flex h-full items-center justify-center px-12 text-center\">\n                <div>\n                  <span className=\"text-muted-foreground text-xs tabular-nums\">\n                    0{index + 1}\n                  </span>\n                  <p className=\"mt-2 text-lg font-semibold\">{item}</p>\n                </div>\n              </div>\n            </CarouselItem>\n          )\n        )}\n      </CarouselContent>\n      <CarouselPrevious />\n      <CarouselNext />\n    </Carousel>\n  )\n}\n"
+  },
+  "typography-demo": {
+    "name": "typography-demo",
+    "component": "typography",
+    "title": "基础用法",
+    "code": "import { Typography, TypographyLink } from \"@/components/ui/typography\"\n\nexport default function TypographyDemo() {\n  return (\n    <article className=\"w-full max-w-2xl space-y-5\">\n      <Typography variant=\"h1\">为复杂产品建立清晰层级</Typography>\n      <Typography variant=\"lead\">\n        一套稳定的排版比例，比不断增加装饰更容易建立可靠的阅读体验。\n      </Typography>\n      <Typography>\n        标题说明页面主题，正文承载完整信息，辅助文字只补充必要上下文。查看\n        <TypographyLink href=\"#\">排版规范</TypographyLink>了解更多。\n      </Typography>\n    </article>\n  )\n}\n"
+  },
+  "typography-elements": {
+    "name": "typography-elements",
+    "component": "typography",
+    "title": "列表、引用和行内代码",
+    "code": "import { Typography, TypographyList } from \"@/components/ui/typography\"\n\nexport default function TypographyElements() {\n  return (\n    <article className=\"w-full max-w-xl space-y-4\">\n      <Typography variant=\"h3\">发布前检查</Typography>\n      <TypographyList>\n        <li>标题准确描述页面内容</li>\n        <li>正文保持适合连续阅读的行高</li>\n        <li>\n          代码参数使用 <Typography variant=\"code\">inline code</Typography>\n        </li>\n      </TypographyList>\n      <Typography variant=\"blockquote\">\n        排版的目标不是展示字体，而是帮助用户理解内容。\n      </Typography>\n      <Typography variant=\"muted\">最后更新于今天 14:20</Typography>\n    </article>\n  )\n}\n"
+  },
+  "context-menu-demo": {
+    "name": "context-menu-demo",
+    "component": "context-menu",
+    "title": "基础用法",
+    "code": "import { CopyIcon, PencilIcon, Trash2Icon } from \"lucide-react\"\n\nimport {\n  ContextMenu,\n  ContextMenuContent,\n  ContextMenuItem,\n  ContextMenuSeparator,\n  ContextMenuShortcut,\n  ContextMenuTrigger,\n} from \"@/components/ui/context-menu\"\n\nexport default function ContextMenuDemo() {\n  return (\n    <ContextMenu>\n      <ContextMenuTrigger className=\"border-border bg-muted/30 text-muted-foreground flex h-52 w-full max-w-md select-none items-center justify-center border border-dashed text-sm\">\n        在此区域右键\n      </ContextMenuTrigger>\n      <ContextMenuContent className=\"w-52\">\n        <ContextMenuItem>\n          <PencilIcon />\n          重命名\n          <ContextMenuShortcut>F2</ContextMenuShortcut>\n        </ContextMenuItem>\n        <ContextMenuItem>\n          <CopyIcon />\n          创建副本\n          <ContextMenuShortcut>⌘D</ContextMenuShortcut>\n        </ContextMenuItem>\n        <ContextMenuSeparator />\n        <ContextMenuItem destructive>\n          <Trash2Icon />\n          移到废纸篓\n          <ContextMenuShortcut>⌘⌫</ContextMenuShortcut>\n        </ContextMenuItem>\n      </ContextMenuContent>\n    </ContextMenu>\n  )\n}\n"
+  },
+  "context-menu-advanced": {
+    "name": "context-menu-advanced",
+    "component": "context-menu",
+    "title": "状态项与子菜单",
+    "code": "\"use client\"\n\nimport * as React from \"react\"\nimport { LayoutGridIcon, ListIcon, Share2Icon } from \"lucide-react\"\n\nimport {\n  ContextMenu,\n  ContextMenuCheckboxItem,\n  ContextMenuContent,\n  ContextMenuItem,\n  ContextMenuLabel,\n  ContextMenuRadioGroup,\n  ContextMenuRadioItem,\n  ContextMenuSeparator,\n  ContextMenuSub,\n  ContextMenuSubContent,\n  ContextMenuSubTrigger,\n  ContextMenuTrigger,\n} from \"@/components/ui/context-menu\"\n\nexport default function ContextMenuAdvanced() {\n  const [showDetails, setShowDetails] = React.useState(true)\n  const [view, setView] = React.useState(\"grid\")\n\n  return (\n    <ContextMenu>\n      <ContextMenuTrigger className=\"border-border bg-background grid h-56 w-full max-w-lg place-items-center border\">\n        <div className=\"text-center\">\n          <p className=\"font-medium\">设计资源</p>\n          <p className=\"text-muted-foreground mt-1 text-sm\">\n            右键调整视图或共享\n          </p>\n        </div>\n      </ContextMenuTrigger>\n      <ContextMenuContent className=\"w-56\">\n        <ContextMenuLabel>显示方式</ContextMenuLabel>\n        <ContextMenuRadioGroup value={view} onValueChange={setView}>\n          <ContextMenuRadioItem value=\"grid\">\n            <LayoutGridIcon className=\"mr-2 size-4\" />\n            网格\n          </ContextMenuRadioItem>\n          <ContextMenuRadioItem value=\"list\">\n            <ListIcon className=\"mr-2 size-4\" />\n            列表\n          </ContextMenuRadioItem>\n        </ContextMenuRadioGroup>\n        <ContextMenuSeparator />\n        <ContextMenuCheckboxItem\n          checked={showDetails}\n          onCheckedChange={(checked) => setShowDetails(checked === true)}\n        >\n          显示详细信息\n        </ContextMenuCheckboxItem>\n        <ContextMenuSub>\n          <ContextMenuSubTrigger>\n            <Share2Icon />\n            共享\n          </ContextMenuSubTrigger>\n          <ContextMenuSubContent>\n            <ContextMenuItem>复制链接</ContextMenuItem>\n            <ContextMenuItem>发送给团队</ContextMenuItem>\n            <ContextMenuItem disabled>发布到社区</ContextMenuItem>\n          </ContextMenuSubContent>\n        </ContextMenuSub>\n      </ContextMenuContent>\n    </ContextMenu>\n  )\n}\n"
+  },
+  "resizable-demo": {
+    "name": "resizable-demo",
+    "component": "resizable",
+    "title": "基础用法",
+    "code": "import {\n  ResizableHandle,\n  ResizablePanel,\n  ResizablePanelGroup,\n} from \"@/components/ui/resizable\"\n\nexport default function ResizableDemo() {\n  return (\n    <ResizablePanelGroup\n      defaultSize={36}\n      minSize={24}\n      maxSize={64}\n      className=\"border-border h-64 w-full max-w-2xl border\"\n    >\n      <ResizablePanel className=\"bg-muted/30 p-5\">\n        <p className=\"font-medium\">导航</p>\n        <p className=\"text-muted-foreground mt-1 text-sm\">拖动分隔线调整宽度</p>\n      </ResizablePanel>\n      <ResizableHandle withHandle />\n      <ResizablePanel className=\"p-5\">\n        <p className=\"font-medium\">内容</p>\n        <p className=\"text-muted-foreground mt-1 text-sm\">\n          手柄也支持方向键、Home 与 End\n        </p>\n      </ResizablePanel>\n    </ResizablePanelGroup>\n  )\n}\n"
+  },
+  "resizable-advanced": {
+    "name": "resizable-advanced",
+    "component": "resizable",
+    "title": "受控的纵向面板",
+    "code": "\"use client\"\n\nimport * as React from \"react\"\n\nimport {\n  ResizableHandle,\n  ResizablePanel,\n  ResizablePanelGroup,\n} from \"@/components/ui/resizable\"\n\nexport default function ResizableAdvanced() {\n  const [size, setSize] = React.useState(58)\n\n  return (\n    <div className=\"w-full max-w-2xl space-y-3\">\n      <div className=\"text-muted-foreground flex justify-between text-xs\">\n        <span>预览区域</span>\n        <span>{Math.round(size)}%</span>\n      </div>\n      <ResizablePanelGroup\n        orientation=\"vertical\"\n        size={size}\n        onSizeChange={setSize}\n        minSize={30}\n        maxSize={75}\n        step={5}\n        className=\"border-border h-80 border\"\n      >\n        <ResizablePanel className=\"grid place-items-center p-5\">\n          <div className=\"text-center\">\n            <p className=\"font-medium\">实时预览</p>\n            <p className=\"text-muted-foreground mt-1 text-sm\">\n              纵向面板同样支持键盘调整\n            </p>\n          </div>\n        </ResizablePanel>\n        <ResizableHandle withHandle />\n        <ResizablePanel className=\"bg-muted/30 p-5\">\n          <p className=\"font-medium\">控制台</p>\n          <p className=\"text-muted-foreground mt-1 font-mono text-xs\">\n            等待下一次更新…\n          </p>\n        </ResizablePanel>\n      </ResizablePanelGroup>\n    </div>\n  )\n}\n"
+  },
+  "aspect-ratio-demo": {
+    "name": "aspect-ratio-demo",
+    "component": "aspect-ratio",
+    "title": "基础用法",
+    "code": "import { AspectRatio } from \"@/components/ui/aspect-ratio\"\n\nexport default function AspectRatioDemo() {\n  return (\n    <div className=\"w-full max-w-xl\">\n      <AspectRatio ratio={16 / 9} className=\"bg-muted\">\n        <img\n          src=\"/wui/demo/field-notes/coastal-hill.jpg\"\n          alt=\"海岸山丘\"\n          className=\"size-full object-cover\"\n        />\n      </AspectRatio>\n    </div>\n  )\n}\n"
+  },
+  "aspect-ratio-advanced": {
+    "name": "aspect-ratio-advanced",
+    "component": "aspect-ratio",
+    "title": "多种媒体比例",
+    "code": "import { AspectRatio } from \"@/components/ui/aspect-ratio\"\n\nconst media = [\n  {\n    ratio: 4 / 5,\n    src: \"/wui/demo/field-notes/silver-grass.jpg\",\n    alt: \"银色草地\",\n    label: \"4:5 竖幅\",\n  },\n  {\n    ratio: 1,\n    src: \"/wui/demo/field-notes/concrete-stairs.jpg\",\n    alt: \"混凝土楼梯\",\n    label: \"1:1 方形\",\n  },\n  {\n    ratio: 3 / 2,\n    src: \"/wui/demo/field-notes/cliff-horizon.jpg\",\n    alt: \"悬崖地平线\",\n    label: \"3:2 横幅\",\n  },\n]\n\nexport default function AspectRatioAdvanced() {\n  return (\n    <div className=\"grid w-full max-w-3xl items-end gap-5 sm:grid-cols-3\">\n      {media.map((item) => (\n        <figure key={item.label}>\n          <AspectRatio ratio={item.ratio} className=\"bg-muted\">\n            <img\n              src={item.src}\n              alt={item.alt}\n              className=\"size-full object-cover\"\n            />\n          </AspectRatio>\n          <figcaption className=\"text-muted-foreground mt-2 text-xs\">\n            {item.label}\n          </figcaption>\n        </figure>\n      ))}\n    </div>\n  )\n}\n"
+  },
+  "steps-demo": {
+    "name": "steps-demo",
+    "component": "steps",
+    "title": "基础用法",
+    "code": "import { Steps } from \"@/components/ui/steps\"\n\nconst items = [\n  { title: \"填写信息\", description: \"联系人与配送地址\" },\n  { title: \"确认订单\", description: \"核对商品与优惠\" },\n  { title: \"完成支付\", description: \"选择付款方式\" },\n]\n\nexport default function StepsDemo() {\n  return <Steps className=\"max-w-2xl\" current={1} items={items} />\n}\n"
+  },
+  "steps-vertical": {
+    "name": "steps-vertical",
+    "component": "steps",
+    "title": "纵向与可交互步骤",
+    "code": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { Steps } from \"@/components/ui/steps\"\n\nconst items = [\n  { title: \"创建项目\", description: \"设置名称与所属团队\" },\n  { title: \"连接数据源\", description: \"授权生产数据库的只读访问\" },\n  { title: \"邀请成员\", description: \"为协作者分配角色\" },\n  { title: \"发布\", description: \"检查配置并开放访问\" },\n]\n\nexport default function StepsVertical() {\n  const [current, setCurrent] = React.useState(1)\n\n  return (\n    <div className=\"w-full max-w-sm\">\n      <Steps\n        items={items}\n        current={current}\n        orientation=\"vertical\"\n        onCurrentChange={setCurrent}\n      />\n    </div>\n  )\n}\n"
+  },
+  "tree-demo": {
+    "name": "tree-demo",
+    "component": "tree",
+    "title": "基础用法",
+    "code": "\"use client\"\n\nimport * as React from \"react\"\nimport { FileTextIcon, FolderIcon } from \"lucide-react\"\n\nimport { Tree, type TreeNode } from \"@/components/ui/tree\"\n\nconst files: TreeNode[] = [\n  {\n    value: \"src\",\n    label: \"src\",\n    icon: <FolderIcon className=\"size-4\" />,\n    children: [\n      {\n        value: \"components\",\n        label: \"components\",\n        icon: <FolderIcon className=\"size-4\" />,\n        children: [\n          {\n            value: \"button\",\n            label: \"button.tsx\",\n            icon: <FileTextIcon className=\"size-4\" />,\n          },\n          {\n            value: \"tree\",\n            label: \"tree.tsx\",\n            icon: <FileTextIcon className=\"size-4\" />,\n          },\n        ],\n      },\n      {\n        value: \"app\",\n        label: \"app.tsx\",\n        icon: <FileTextIcon className=\"size-4\" />,\n      },\n    ],\n  },\n  {\n    value: \"readme\",\n    label: \"README.md\",\n    icon: <FileTextIcon className=\"size-4\" />,\n  },\n]\n\nexport default function TreeDemo() {\n  const [value, setValue] = React.useState(\"tree\")\n\n  return (\n    <div className=\"w-full max-w-sm space-y-3\">\n      <Tree\n        items={files}\n        value={value}\n        defaultExpanded={[\"src\", \"components\"]}\n        onValueChange={setValue}\n        aria-label=\"项目文件\"\n      />\n      <p className=\"text-muted-foreground text-xs\">当前节点：{value}</p>\n    </div>\n  )\n}\n"
+  },
+  "tree-controlled": {
+    "name": "tree-controlled",
+    "component": "tree",
+    "title": "受控展开与禁用节点",
+    "code": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { Tree, type TreeNode } from \"@/components/ui/tree\"\n\nconst departments: TreeNode[] = [\n  {\n    value: \"product\",\n    label: \"产品中心\",\n    children: [\n      { value: \"design\", label: \"设计团队\" },\n      { value: \"research\", label: \"用户研究\" },\n    ],\n  },\n  {\n    value: \"engineering\",\n    label: \"研发中心\",\n    children: [\n      { value: \"frontend\", label: \"前端团队\" },\n      { value: \"backend\", label: \"服务端团队\" },\n      { value: \"legacy\", label: \"归档团队\", disabled: true },\n    ],\n  },\n]\n\nexport default function TreeControlled() {\n  const [value, setValue] = React.useState(\"frontend\")\n  const [expanded, setExpanded] = React.useState([\"engineering\"])\n\n  return (\n    <div className=\"w-full max-w-sm space-y-3\">\n      <Tree\n        items={departments}\n        value={value}\n        expanded={expanded}\n        onValueChange={setValue}\n        onExpandedChange={setExpanded}\n        aria-label=\"组织架构\"\n      />\n      <p className=\"text-muted-foreground text-xs\">\n        已展开 {expanded.length} 组，当前值：{value}\n      </p>\n    </div>\n  )\n}\n"
+  },
+  "tree-select-demo": {
+    "name": "tree-select-demo",
+    "component": "tree-select",
+    "title": "基础用法",
+    "code": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { TreeSelect } from \"@/components/ui/tree-select\"\n\nconst categories = [\n  {\n    value: \"design\",\n    label: \"设计资源\",\n    children: [\n      { value: \"icons\", label: \"图标\" },\n      { value: \"illustrations\", label: \"插画\" },\n    ],\n  },\n  {\n    value: \"development\",\n    label: \"开发资源\",\n    children: [\n      { value: \"components\", label: \"组件\" },\n      { value: \"templates\", label: \"模板\" },\n    ],\n  },\n]\n\nexport default function TreeSelectDemo() {\n  const [value, setValue] = React.useState(\"\")\n\n  return (\n    <div className=\"grid w-full max-w-sm gap-2\">\n      <label className=\"text-sm font-medium\">资源分类</label>\n      <TreeSelect\n        items={categories}\n        value={value}\n        onValueChange={setValue}\n        placeholder=\"选择分类\"\n      />\n      <p className=\"text-muted-foreground text-xs\">\n        {value ? `当前值：${value}` : \"尚未选择\"}\n      </p>\n    </div>\n  )\n}\n"
+  },
+  "tree-select-search": {
+    "name": "tree-select-search",
+    "component": "tree-select",
+    "title": "拼音与首字母搜索",
+    "code": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { TreeSelect } from \"@/components/ui/tree-select\"\n\nconst regions = [\n  {\n    value: \"east\",\n    label: \"华东区域\",\n    children: [\n      { value: \"hangzhou\", label: \"杭州\" },\n      { value: \"shanghai\", label: \"上海\" },\n    ],\n  },\n  {\n    value: \"south\",\n    label: \"华南区域\",\n    children: [\n      { value: \"guangzhou\", label: \"广州\" },\n      { value: \"shenzhen\", label: \"深圳\" },\n    ],\n  },\n]\n\nconst aliases: Record<string, string[]> = {\n  east: [\"east\"],\n  hangzhou: [\"hangzhou\", \"hz\"],\n  shanghai: [\"shanghai\", \"sh\"],\n  south: [\"south\"],\n  guangzhou: [\"guangzhou\", \"gz\"],\n  shenzhen: [\"shenzhen\", \"sz\"],\n}\n\nexport default function TreeSelectSearch() {\n  const [value, setValue] = React.useState(\"hangzhou\")\n\n  return (\n    <TreeSelect\n      className=\"max-w-sm\"\n      items={regions}\n      value={value}\n      onValueChange={setValue}\n      searchPlaceholder=\"搜索城市、拼音或首字母\"\n      filterNode={(query, node) => {\n        const normalized = query.toLocaleLowerCase()\n        return (\n          (typeof node.label === \"string\" && node.label.includes(query)) ||\n          (aliases[node.value] ?? []).some((alias) =>\n            alias.includes(normalized)\n          )\n        )\n      }}\n    />\n  )\n}\n"
   }
 }

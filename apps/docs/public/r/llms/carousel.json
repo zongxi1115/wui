@@ -1,0 +1,81 @@
+{
+  "name": "carousel",
+  "type": "registry:ui",
+  "title": "轮播 Carousel",
+  "description": "使用原生滚动与吸附逐项浏览一组相关内容。",
+  "import": "import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from \"@/components/ui/carousel\"",
+  "exports": [
+    "Carousel",
+    "CarouselContent",
+    "CarouselItem",
+    "CarouselNext",
+    "CarouselPrevious"
+  ],
+  "typeExports": [
+    "CarouselProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/carousel",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/carousel.json",
+    "npmDependencies": [
+      "lucide-react"
+    ],
+    "registryDependencies": [
+      "utils",
+      "button"
+    ]
+  },
+  "props": [
+    {
+      "name": "orientation",
+      "type": "\"horizontal\" | \"vertical\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "horizontal",
+        "vertical"
+      ],
+      "defaultValue": "horizontal",
+      "description": "轮播内容的滚动方向。@default \"horizontal\""
+    },
+    {
+      "name": "loop",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "到达末端后是否允许循环到另一端。@default false"
+    },
+    {
+      "name": "defaultIndex",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0",
+      "description": "初次渲染时显示的项目索引。@default 0"
+    },
+    {
+      "name": "onIndexChange",
+      "type": "((index: number) => void)",
+      "required": false,
+      "control": "text",
+      "description": "当前项目变化时触发。"
+    }
+  ],
+  "events": "`onIndexChange(index)` 在吸附到新的项目后触发。前后按钮会根据边界自动禁用；开启 `loop` 后，末项可以回到首项。\n内容本身仍可接收原生滚动事件。",
+  "examples": [
+    {
+      "name": "carousel-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "carousel-vertical",
+      "title": "垂直循环"
+    }
+  ],
+  "files": [
+    "registry/ui/carousel.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/carousel",
+  "sourceUrl": "https://ui.wzx.wang/r/carousel.json"
+}

@@ -1,0 +1,97 @@
+{
+  "name": "input-number",
+  "type": "registry:ui",
+  "title": "数字输入框 InputNumber",
+  "description": "支持范围约束、精确步进和键盘操作的数字输入控件。",
+  "import": "import { InputNumber } from \"@/components/ui/input-number\"",
+  "exports": [
+    "InputNumber"
+  ],
+  "typeExports": [
+    "InputNumberProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/input-number",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/input-number.json",
+    "npmDependencies": [
+      "lucide-react"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "value",
+      "type": "number | null",
+      "required": false,
+      "control": "text",
+      "description": "当前数值；传入后组件进入受控模式。"
+    },
+    {
+      "name": "defaultValue",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "description": "非受控模式下的初始数值。"
+    },
+    {
+      "name": "onValueChange",
+      "type": "((value: number | null) => void)",
+      "required": false,
+      "control": "text",
+      "description": "数值变化时触发，清空输入时返回 `null`。"
+    },
+    {
+      "name": "min",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "description": "允许输入的最小值。"
+    },
+    {
+      "name": "max",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "description": "允许输入的最大值。"
+    },
+    {
+      "name": "step",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "1",
+      "description": "点击按钮或按方向键时的步进值。"
+    },
+    {
+      "name": "wrapperClassName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "输入框外层样式。"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "是否禁用组件。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "input-number-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "input-number-advanced",
+      "title": "小数步进与范围约束"
+    }
+  ],
+  "files": [
+    "registry/ui/input-number.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/input-number",
+  "sourceUrl": "https://ui.wzx.wang/r/input-number.json"
+}

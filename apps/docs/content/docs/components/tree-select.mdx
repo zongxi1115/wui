@@ -1,0 +1,36 @@
+---
+title: 树选择 TreeSelect
+description: 在紧凑浮层中搜索并选择一个层级节点。
+component: tree-select
+---
+
+## 基础用法
+
+<ComponentPreview name="tree-select-demo" />
+
+<CodeTabs command="@wui-design/cli@latest add @wui/tree-select" />
+
+<ComponentSource name="tree-select" title="components/ui/tree-select.tsx" />
+
+## 使用场景
+
+`TreeSelect` 将 `Popover`、`Input` 与 `Tree` 组合在一个紧凑字段中，适合从部门、地区或分类层级中选择单个节点。需要持续浏览和管理树结构时直接使用 `Tree`；必须按完整路径逐列选择时使用 `Cascader`。
+
+搜索会保留匹配节点的祖先路径并自动展开结果。默认按字符串标签进行包含匹配；复杂业务可以通过 `filterNode` 接入拼音、编码或其他别名。
+
+## 属性
+
+<PropsTable name="tree-select" />
+
+## 事件
+
+- `onValueChange(value, node)` 在选择节点或清空时触发；清空时返回空字符串，`node` 为 `undefined`。
+- 传入 `value` 后组件进入受控模式；仅设置初始值时使用 `defaultValue`。
+
+## 扩展用法
+
+### 拼音与首字母搜索
+
+<ComponentPreview name="tree-select-search" />
+
+通过 `filterNode(query, node)` 自定义节点匹配规则。设置 `searchable={false}` 可以隐藏搜索框；非必填字段默认显示清空按钮，可通过 `clearable={false}` 关闭。

@@ -159,7 +159,7 @@ function MessageStatusIcon({ variant }: { variant: MessageVariant }) {
     return () => cancelAnimationFrame(frame)
   }, [])
 
-  const props = { ref, size: 18, color: "currentColor" }
+  const props = { ref, size: 20, color: "currentColor" }
 
   if (variant === "success") return <CircleCheckIcon {...props} />
   if (variant === "warning") return <TriangleAlertIcon {...props} />
@@ -293,7 +293,7 @@ function MessageItem({
           : "status"
       }
       className={cn(
-        "pointer-events-auto flex min-h-10 max-w-full items-center gap-2.5 rounded-md border border-border/80 bg-popover px-3.5 py-2.5 text-sm text-popover-foreground shadow-md",
+        "pointer-events-auto flex min-h-12 max-w-full items-center gap-3 rounded-md border border-border/80 bg-popover px-4 py-3 text-sm text-popover-foreground shadow-md",
         stacked && "absolute inset-x-0",
         stacked && message.position.startsWith("top") && "top-0",
         stacked && message.position.startsWith("bottom") && "bottom-0",
@@ -526,7 +526,7 @@ function MessageProvider({
             : positionedMessages
           const frontMessage = renderedMessages[0]
           const frontHeight = frontMessage
-            ? (messageHeights[frontMessage.id] ?? 40)
+            ? (messageHeights[frontMessage.id] ?? 48)
             : 0
           const visibleLayerCount = Math.min(
             renderedMessages.length,

@@ -1,0 +1,75 @@
+{
+  "name": "toggle-group",
+  "type": "registry:ui",
+  "title": "切换按钮组 Toggle Group",
+  "description": "将多个双态按钮组织为互斥选择或并列多选。",
+  "import": "import { ToggleGroup, ToggleGroupItem } from \"@/components/ui/toggle-group\"",
+  "exports": [
+    "ToggleGroup",
+    "ToggleGroupItem"
+  ],
+  "typeExports": [
+    "ToggleGroupItemProps",
+    "ToggleGroupProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/toggle-group",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/toggle-group.json",
+    "npmDependencies": [
+      "radix-ui",
+      "class-variance-authority"
+    ],
+    "registryDependencies": [
+      "utils",
+      "toggle"
+    ]
+  },
+  "props": [
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "是否禁用组件。"
+    },
+    {
+      "name": "asChild",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
+    },
+    {
+      "name": "size",
+      "type": "\"default\" | \"sm\" | \"lg\" | null",
+      "required": false,
+      "control": "text",
+      "defaultValue": "default",
+      "description": "组内切换按钮统一使用的高度与内边距尺寸。"
+    },
+    {
+      "name": "variant",
+      "type": "\"default\" | \"outline\" | null",
+      "required": false,
+      "control": "text",
+      "defaultValue": "default",
+      "description": "组内切换按钮统一使用的视觉样式。"
+    }
+  ],
+  "events": "单选模式通过 `value` / `onValueChange` 管理字符串值，多选模式管理字符串数组。每个 `ToggleGroupItem` 的 `value` 必须稳定且唯一。",
+  "examples": [
+    {
+      "name": "toggle-group-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "toggle-group-multiple",
+      "title": "多选格式"
+    }
+  ],
+  "files": [
+    "registry/ui/toggle-group.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/toggle-group",
+  "sourceUrl": "https://ui.wzx.wang/r/toggle-group.json"
+}

@@ -1,0 +1,37 @@
+---
+title: 树 Tree
+description: 展示和选择文件、组织架构与分类等嵌套数据。
+component: tree
+---
+
+## 基础用法
+
+<ComponentPreview name="tree-demo" />
+
+<CodeTabs command="@wui-design/cli@latest add @wui/tree" />
+
+<ComponentSource name="tree" title="components/ui/tree.tsx" />
+
+## 使用场景
+
+`Tree` 适合展示需要逐层展开的嵌套数据，例如文件目录、组织架构、权限节点或分类体系。仅用于选择层级路径时可使用 `Cascader`；需要在有限空间内选择单个节点时使用 `TreeSelect`。
+
+组件采用 `tree` / `treeitem` 语义，并支持 `↑`、`↓` 在可见节点间移动，`→` 展开或进入子节点，`←` 收起或返回父节点，`Home`、`End` 跳转，以及 `Enter`、空格选择。
+
+## 属性
+
+<PropsTable name="tree" />
+
+## 事件
+
+- `onValueChange(value, node)` 在选择可用节点时触发。
+- `onExpandedChange(expanded)` 在展开集合变化时触发。
+- `value` 与 `expanded` 分别控制选择和展开；只需初始状态时使用对应的 `defaultValue` 与 `defaultExpanded`。
+
+## 扩展用法
+
+### 受控展开与禁用节点
+
+<ComponentPreview name="tree-controlled" />
+
+受控展开适合需要从路由、权限或外部筛选器同步树状态的场景。禁用节点保留在层级中，但不可选择或展开。

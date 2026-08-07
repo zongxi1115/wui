@@ -1,0 +1,44 @@
+---
+title: 验证码输入框 InputOTP
+description: 支持粘贴、键盘移动和完成回调的分格验证码输入控件。
+component: input-otp
+---
+
+## 基础用法
+
+<ComponentPreview name="input-otp-demo" />
+
+<CodeTabs command="@wui-design/cli@latest add @wui/input-otp" />
+
+<ComponentSource name="input-otp" title="components/ui/input-otp.tsx" />
+
+## 使用场景
+
+`InputOTP` 适合短信验证码、邮箱验证码和短位数安全校验码。每一位都拥有独立焦点，但整体通过 `group` 暴露为同一个字段。
+
+密码、恢复码或长度不固定的安全凭据应使用普通 `Input`，不要强制拆成多个输入位。
+
+## 属性
+
+<PropsTable name="input-otp" />
+
+## 事件
+
+- `onValueChange(value)` 在任意输入位变化时触发。
+- `onComplete(value)` 在所有输入位填满时触发。
+- 传入 `value` 后进入受控模式；仅需初始内容时使用 `defaultValue`。
+
+## 键盘与粘贴
+
+- 输入字符后自动移动至下一位。
+- `Backspace` 清除当前位；当前位为空时返回并清除上一位。
+- `ArrowLeft` / `ArrowRight` 在输入位之间移动。
+- 在任意输入位粘贴完整验证码时，内容会从当前位置依次填充。
+
+默认仅接受数字。需要字母与数字混合时设置 `numeric={false}`。请为组件提供能说明验证码来源的 `aria-label`，状态反馈可通过 `aria-live` 区域播报。
+
+## 扩展用法
+
+### 自定义长度与完成状态
+
+<ComponentPreview name="input-otp-advanced" />

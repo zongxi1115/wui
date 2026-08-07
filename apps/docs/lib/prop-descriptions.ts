@@ -221,6 +221,22 @@ export const PropDescriptions: Record<string, Record<string, string>> = {
     ...common,
   },
   combobox: { ...common },
+  toggle: {
+    variant: "切换按钮的视觉样式。",
+    size: "切换按钮的高度与内边距尺寸。",
+    ...common,
+  },
+  "toggle-group": {
+    variant: "组内切换按钮统一使用的视觉样式。",
+    size: "组内切换按钮统一使用的高度与内边距尺寸。",
+    ...common,
+  },
+  typography: {
+    variant: "文本元素使用的语义层级与排版样式。",
+  },
+  "input-number": { ...common },
+  "aspect-ratio": { ...common },
+  "tree-select": { ...common },
   download: {
     filename: "控件中显示的文件名称。",
     meta: "文件类型、大小等补充信息。",

@@ -1,0 +1,54 @@
+{
+  "name": "context-menu",
+  "type": "registry:ui",
+  "title": "右键菜单 Context Menu",
+  "description": "在对象或指定区域上通过右键或长按提供就地操作。",
+  "import": "import { ContextMenu, ContextMenuCheckboxItem, ContextMenuContent, ContextMenuGroup, ContextMenuItem, ContextMenuLabel, ContextMenuPortal, ContextMenuRadioGroup, ContextMenuRadioItem, ContextMenuSeparator, ContextMenuShortcut, ContextMenuSub, ContextMenuSubContent, ContextMenuSubTrigger, ContextMenuTrigger } from \"@/components/ui/context-menu\"",
+  "exports": [
+    "ContextMenu",
+    "ContextMenuCheckboxItem",
+    "ContextMenuContent",
+    "ContextMenuGroup",
+    "ContextMenuItem",
+    "ContextMenuLabel",
+    "ContextMenuPortal",
+    "ContextMenuRadioGroup",
+    "ContextMenuRadioItem",
+    "ContextMenuSeparator",
+    "ContextMenuShortcut",
+    "ContextMenuSub",
+    "ContextMenuSubContent",
+    "ContextMenuSubTrigger",
+    "ContextMenuTrigger"
+  ],
+  "typeExports": [
+    "ContextMenuItemProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/context-menu",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/context-menu.json",
+    "npmDependencies": [
+      "radix-ui",
+      "lucide-react"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [],
+  "examples": [
+    {
+      "name": "context-menu-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "context-menu-advanced",
+      "title": "状态项与子菜单"
+    }
+  ],
+  "files": [
+    "registry/ui/context-menu.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/context-menu",
+  "sourceUrl": "https://ui.wzx.wang/r/context-menu.json"
+}

@@ -1,0 +1,36 @@
+---
+title: 切换按钮 Toggle
+description: 用一个按钮切换并保持某项功能的开启或关闭状态。
+component: toggle
+---
+
+## 基础用法
+
+<ComponentPreview name="toggle-demo" />
+
+<CodeTabs command="@wui-design/cli@latest add @wui/toggle" />
+
+<ComponentSource name="toggle" title="components/ui/toggle.tsx" />
+
+## 使用场景
+
+`Toggle` 适合粗体、固定、收藏或视图选项等可以独立保持状态的操作。只执行一次且不保留状态的动作使用 Button；
+需要在多个互斥或并列选项间切换时使用 ToggleGroup。
+
+## 属性
+
+<PropsTable name="toggle" />
+
+## 事件
+
+`onPressedChange(pressed)` 在状态变化后触发。受控模式使用 `pressed`，仅设置初始状态时使用 `defaultPressed`。
+只有图标的 Toggle 必须提供 `aria-label`。
+
+## 扩展用法
+
+### 尺寸与描边
+
+<ComponentPreview name="toggle-sizes" />
+
+`size` 调整点击区域和密度，`variant="outline"` 用于需要更明确边界的独立控件。状态差异不能只依赖颜色，
+应同时保留 Radix 提供的按压语义。

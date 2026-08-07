@@ -1,0 +1,38 @@
+---
+title: 轮播 Carousel
+description: 使用原生滚动与吸附逐项浏览一组相关内容。
+component: carousel
+---
+
+## 基础用法
+
+<ComponentPreview name="carousel-demo" />
+
+<CodeTabs command="@wui-design/cli@latest add @wui/carousel" />
+
+<ComponentSource name="carousel" title="components/ui/carousel.tsx" />
+
+## 使用场景
+
+`Carousel` 用于在有限空间中依次浏览同类内容，例如项目摘要、媒体或更新记录。重要信息不应只存在于后续页面；
+需要同时比较多个条目时使用列表或网格，而不是轮播。
+
+组件基于浏览器原生滚动和 `scroll-snap`，触摸板、触屏和滚轮可以直接操作，不额外接管手势。
+
+## 属性
+
+<PropsTable name="carousel" />
+
+## 事件
+
+`onIndexChange(index)` 在吸附到新的项目后触发。前后按钮会根据边界自动禁用；开启 `loop` 后，末项可以回到首项。
+内容本身仍可接收原生滚动事件。
+
+## 扩展用法
+
+### 垂直循环
+
+<ComponentPreview name="carousel-vertical" />
+
+使用 `orientation="vertical"` 切换滚动方向，并为内容设置明确高度。每个 `CarouselItem` 默认占满一个视口；
+需要一屏显示多个项目时可以覆盖其 `basis-*`，但应确保吸附位置和操作按钮仍然清晰。

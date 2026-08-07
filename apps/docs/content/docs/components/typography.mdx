@@ -1,0 +1,35 @@
+---
+title: 排版 Typography
+description: 为标题、正文、列表、引用和辅助文字提供一致的阅读层级。
+component: typography
+---
+
+## 基础用法
+
+<ComponentPreview name="typography-demo" />
+
+<CodeTabs command="@wui-design/cli@latest add @wui/typography" />
+
+<ComponentSource name="typography" title="components/ui/typography.tsx" />
+
+## 使用场景
+
+`Typography` 用于产品页面和业务内容中的标题、正文与辅助信息。它建立字号、字重和行高层级，但不负责文档布局；
+大段富文本或 Markdown 应使用对应的内容渲染组件。
+
+## 属性
+
+<PropsTable name="typography" />
+
+## 事件
+
+组件透传最终 HTML 元素的原生事件。`TypographyLink` 保留链接语义和焦点反馈，导航行为仍由浏览器或路由组件处理。
+
+## 扩展用法
+
+### 列表、引用和行内代码
+
+<ComponentPreview name="typography-elements" />
+
+标题变体会自动选择对应的 `h1` 至 `h4` 元素，正文默认使用 `p`。通过 `as` 可以覆盖元素，通过 `asChild` 可以组合框架链接；
+覆盖元素时仍应保持正确的标题层级，不能只根据视觉大小选择标题标签。

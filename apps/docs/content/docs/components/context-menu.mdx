@@ -1,0 +1,43 @@
+---
+title: 右键菜单 Context Menu
+description: 在对象或指定区域上通过右键或长按提供就地操作。
+component: context-menu
+---
+
+## 基础用法
+
+<ComponentPreview name="context-menu-demo" />
+
+<CodeTabs command="@wui-design/cli@latest add @wui/context-menu" />
+
+<ComponentSource name="context-menu" title="components/ui/context-menu.tsx" />
+
+## 使用场景
+
+`ContextMenu` 适合文件、画布、表格行等具有明确操作对象的区域。菜单项应与当前对象直接相关，高频操作仍应在界面中保持可见，不能把右键菜单作为唯一入口。
+
+触发区域支持鼠标右键和触屏长按。键盘用户可聚焦触发区域后使用系统菜单键或 `Shift + F10`，因此自定义触发元素时应确保其可聚焦并提供清楚的标签。
+
+## 属性
+
+<PropsTable name="context-menu" />
+
+- `ContextMenu` 支持 `onOpenChange` 与 `modal`。
+- `ContextMenuContent` 支持碰撞检测和循环键盘导航配置。
+- `ContextMenuItem` 支持 `disabled`、`onSelect`、`destructive` 与 `inset`。
+- `ContextMenuCheckboxItem` 使用 `checked` 与 `onCheckedChange` 管理独立状态。
+- `ContextMenuRadioGroup` 与 `ContextMenuRadioItem` 用于互斥选项。
+
+## 扩展用法
+
+### 状态项与子菜单
+
+<ComponentPreview name="context-menu-advanced" />
+
+复选项适合开关独立偏好，单选组适合切换互斥视图。子菜单只用于低频的次级操作；层级过多时，应改用独立设置界面。
+
+`destructive` 只负责建立警示层级，不替代确认流程。删除等不可逆操作应继续搭配 ConfirmDialog。
+
+## 无障碍
+
+菜单由 Radix 提供焦点恢复、方向键导航、字符查找与 Escape 关闭。`ContextMenuShortcut` 仅展示快捷键提示，实际快捷键仍需业务层注册；图标不能替代可见文字标签。

@@ -1,0 +1,105 @@
+{
+  "name": "input-otp",
+  "type": "registry:ui",
+  "title": "验证码输入框 InputOTP",
+  "description": "支持粘贴、键盘移动和完成回调的分格验证码输入控件。",
+  "import": "import { InputOTP } from \"@/components/ui/input-otp\"",
+  "exports": [
+    "InputOTP"
+  ],
+  "typeExports": [
+    "InputOTPProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/input-otp",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/input-otp.json",
+    "npmDependencies": [],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "value",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "验证码内容；传入后组件进入受控模式。"
+    },
+    {
+      "name": "defaultValue",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "非受控模式下的初始内容。"
+    },
+    {
+      "name": "length",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "6",
+      "description": "输入位数。"
+    },
+    {
+      "name": "onValueChange",
+      "type": "((value: string) => void)",
+      "required": false,
+      "control": "text",
+      "description": "内容变化时触发。"
+    },
+    {
+      "name": "onComplete",
+      "type": "((value: string) => void)",
+      "required": false,
+      "control": "text",
+      "description": "所有输入位填满时触发。"
+    },
+    {
+      "name": "numeric",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否只接受数字。"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "是否禁用全部输入位。"
+    },
+    {
+      "name": "inputClassName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "单个输入框的样式。"
+    },
+    {
+      "name": "aria-label",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "defaultValue": "验证码",
+      "description": "验证码输入组的无障碍名称。"
+    }
+  ],
+  "events": "- `onValueChange(value)` 在任意输入位变化时触发。\n- `onComplete(value)` 在所有输入位填满时触发。\n- 传入 `value` 后进入受控模式；仅需初始内容时使用 `defaultValue`。",
+  "examples": [
+    {
+      "name": "input-otp-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "input-otp-advanced",
+      "title": "自定义长度与完成状态"
+    }
+  ],
+  "files": [
+    "registry/ui/input-otp.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/input-otp",
+  "sourceUrl": "https://ui.wzx.wang/r/input-otp.json"
+}

@@ -1,0 +1,55 @@
+{
+  "name": "aspect-ratio",
+  "type": "registry:ui",
+  "title": "宽高比 Aspect Ratio",
+  "description": "在响应式布局中为图片、视频或占位内容维持稳定比例。",
+  "import": "import { AspectRatio } from \"@/components/ui/aspect-ratio\"",
+  "exports": [
+    "AspectRatio"
+  ],
+  "typeExports": [
+    "AspectRatioProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/aspect-ratio",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/aspect-ratio.json",
+    "npmDependencies": [
+      "radix-ui"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "ratio",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "1",
+      "description": "宽度与高度的比例，例如 16 / 9。@default 1"
+    },
+    {
+      "name": "asChild",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "aspect-ratio-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "aspect-ratio-advanced",
+      "title": "多种媒体比例"
+    }
+  ],
+  "files": [
+    "registry/ui/aspect-ratio.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/aspect-ratio",
+  "sourceUrl": "https://ui.wzx.wang/r/aspect-ratio.json"
+}

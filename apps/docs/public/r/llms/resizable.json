@@ -1,0 +1,51 @@
+{
+  "name": "resizable",
+  "type": "registry:ui",
+  "title": "可调整面板 Resizable",
+  "description": "通过指针或键盘在两个工作区之间调整可用空间。",
+  "import": "import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from \"@/components/ui/resizable\"",
+  "exports": [
+    "ResizableHandle",
+    "ResizablePanel",
+    "ResizablePanelGroup"
+  ],
+  "typeExports": [
+    "ResizableHandleProps",
+    "ResizablePanelGroupProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/resizable",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/resizable.json",
+    "npmDependencies": [
+      "lucide-react"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "withHandle",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "在手柄中央显示抓取指示器。@default false"
+    }
+  ],
+  "examples": [
+    {
+      "name": "resizable-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "resizable-advanced",
+      "title": "受控的纵向面板"
+    }
+  ],
+  "files": [
+    "registry/ui/resizable.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/resizable",
+  "sourceUrl": "https://ui.wzx.wang/r/resizable.json"
+}

@@ -104,6 +104,19 @@
 - [抽屉 Drawer](https://ui.wzx.wang/docs/components/drawer): 从视口边缘平滑进入、用于承载补充任务的焦点面板。
 - [描述列表 Descriptions](https://ui.wzx.wang/docs/components/descriptions): 以清晰的键值结构展示对象、记录与档案信息。
 - [卡片 Card](https://ui.wzx.wang/docs/components/card): 将同一主题的内容、状态与操作组织在一个清晰的表面中。
+- [切换按钮 Toggle](https://ui.wzx.wang/docs/components/toggle): 用一个按钮切换并保持某项功能的开启或关闭状态。
+- [切换按钮组 Toggle Group](https://ui.wzx.wang/docs/components/toggle-group): 将多个双态按钮组织为互斥选择或并列多选。
+- [轮播 Carousel](https://ui.wzx.wang/docs/components/carousel): 使用原生滚动与吸附逐项浏览一组相关内容。
+- [排版 Typography](https://ui.wzx.wang/docs/components/typography): 为标题、正文、列表、引用和辅助文字提供一致的阅读层级。
+- [数字输入框 InputNumber](https://ui.wzx.wang/docs/components/input-number): 支持范围约束、精确步进和键盘操作的数字输入控件。
+- [验证码输入框 InputOTP](https://ui.wzx.wang/docs/components/input-otp): 支持粘贴、键盘移动和完成回调的分格验证码输入控件。
+- [按钮组 ButtonGroup](https://ui.wzx.wang/docs/components/button-group): 将一组紧密相关的按钮连接为方向明确的操作单元。
+- [右键菜单 Context Menu](https://ui.wzx.wang/docs/components/context-menu): 在对象或指定区域上通过右键或长按提供就地操作。
+- [可调整面板 Resizable](https://ui.wzx.wang/docs/components/resizable): 通过指针或键盘在两个工作区之间调整可用空间。
+- [宽高比 Aspect Ratio](https://ui.wzx.wang/docs/components/aspect-ratio): 在响应式布局中为图片、视频或占位内容维持稳定比例。
+- [步骤 Steps](https://ui.wzx.wang/docs/components/steps): 清晰呈现任务流程、当前进度与各阶段状态。
+- [树 Tree](https://ui.wzx.wang/docs/components/tree): 展示和选择文件、组织架构与分类等嵌套数据。
+- [树选择 TreeSelect](https://ui.wzx.wang/docs/components/tree-select): 在紧凑浮层中搜索并选择一个层级节点。
 
 ## 图表
 

@@ -1,0 +1,68 @@
+{
+  "name": "typography",
+  "type": "registry:ui",
+  "title": "排版 Typography",
+  "description": "为标题、正文、列表、引用和辅助文字提供一致的阅读层级。",
+  "import": "import { Typography, TypographyLink, TypographyList, typographyVariants } from \"@/components/ui/typography\"",
+  "exports": [
+    "Typography",
+    "TypographyLink",
+    "TypographyList",
+    "typographyVariants"
+  ],
+  "typeExports": [
+    "TypographyProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/typography",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/typography.json",
+    "npmDependencies": [
+      "radix-ui",
+      "class-variance-authority"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "as",
+      "type": "ElementType<any, keyof IntrinsicElements>",
+      "required": false,
+      "control": "text",
+      "description": "覆盖当前排版变体默认使用的 HTML 元素。"
+    },
+    {
+      "name": "asChild",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "将排版样式合并到唯一子元素。@default false"
+    },
+    {
+      "name": "variant",
+      "type": "\"blockquote\" | \"body\" | \"code\" | \"h1\" | \"h2\" | \"h3\" | \"h4\" | \"small\" | \"muted\" | \"lead\" | null",
+      "required": false,
+      "control": "text",
+      "defaultValue": "body",
+      "description": "文本元素使用的语义层级与排版样式。"
+    }
+  ],
+  "events": "组件透传最终 HTML 元素的原生事件。`TypographyLink` 保留链接语义和焦点反馈，导航行为仍由浏览器或路由组件处理。",
+  "examples": [
+    {
+      "name": "typography-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "typography-elements",
+      "title": "列表、引用和行内代码"
+    }
+  ],
+  "files": [
+    "registry/ui/typography.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/typography",
+  "sourceUrl": "https://ui.wzx.wang/r/typography.json"
+}
