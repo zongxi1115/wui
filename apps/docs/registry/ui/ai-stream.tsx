@@ -5,8 +5,31 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react"
 
 import { cn } from "@/registry/lib/utils"
 
-export interface AiStreamProps
-  extends Omit<React.ComponentProps<"div">, "children"> {
+export interface AiStreamEdgeProps extends React.ComponentProps<"span"> {}
+
+/** Renders the shared feather treatment used by streaming text edges. */
+function AiStreamEdge({ className, style, ...props }: AiStreamEdgeProps) {
+  return (
+    <span
+      data-slot="ai-stream-edge"
+      className={cn("box-decoration-clone", className)}
+      style={{
+        backgroundImage:
+          "linear-gradient(90deg, currentColor 0%, currentColor 42%, transparent 100%)",
+        backgroundClip: "text",
+        WebkitBackgroundClip: "text",
+        WebkitTextFillColor: "transparent",
+        ...style,
+      }}
+      {...props}
+    />
+  )
+}
+
+export interface AiStreamProps extends Omit<
+  React.ComponentProps<"div">,
+  "children"
+> {
   /** The complete text received so far. */
   children: string
   /** Whether more text is expected. @default false */
@@ -38,27 +61,15 @@ function AiStream({
       {...props}
     >
       {stableText}
-      {liveEdge ? (
-        <span
-          data-slot="ai-stream-edge"
-          className="box-decoration-clone"
-          style={{
-            backgroundImage:
-              "linear-gradient(90deg, currentColor 0%, currentColor 42%, transparent 100%)",
-            backgroundClip: "text",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-          }}
-        >
-          {liveEdge}
-        </span>
-      ) : null}
+      {liveEdge ? <AiStreamEdge>{liveEdge}</AiStreamEdge> : null}
     </div>
   )
 }
 
-export interface AiStreamDeltasProps
-  extends Omit<React.ComponentProps<"div">, "children"> {
+export interface AiStreamDeltasProps extends Omit<
+  React.ComponentProps<"div">,
+  "children"
+> {
   /** Ordered delta segments. Append entries without rewriting previous ones. */
   deltas: readonly string[]
   /** Whether more deltas are expected. @default false */
@@ -88,9 +99,7 @@ function AiStreamDeltas({
             key={index}
             data-slot="ai-stream-delta"
             initial={
-              reduceMotion
-                ? false
-                : { opacity: 0, y: 3, filter: "blur(3px)" }
+              reduceMotion ? false : { opacity: 0, y: 3, filter: "blur(3px)" }
             }
             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             transition={
@@ -107,4 +116,4 @@ function AiStreamDeltas({
   )
 }
 
-export { AiStream, AiStreamDeltas }
+export { AiStream, AiStreamDeltas, AiStreamEdge }

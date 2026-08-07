@@ -4,8 +4,7 @@
  */
 const common = {
   disabled: "是否禁用组件。",
-  asChild:
-    "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。",
+  asChild: "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。",
 }
 
 export const PropDescriptions: Record<string, Record<string, string>> = {
@@ -30,6 +29,23 @@ export const PropDescriptions: Record<string, Record<string, string>> = {
     isStreaming: "是否仍在接收后续文本。",
     featherLength: "实时渐隐效果覆盖的末尾字符数量。",
   },
+  markdown: {
+    children: "要解析并渲染的 Markdown 源文本。",
+    isStreaming: "源文本是否仍在接收后续内容。",
+    featherLength: "流式羽化效果覆盖的末尾字符数量。",
+    components: "覆盖指定 Markdown 元素的 React 渲染器。",
+    allowElement: "根据元素、位置和父节点决定是否保留当前元素。",
+    allowedElements:
+      "只允许渲染的 HTML 元素名称。不能与 disallowedElements 同时使用。",
+    disallowedElements:
+      "不允许渲染的 HTML 元素名称。不能与 allowedElements 同时使用。",
+    remarkPlugins: "追加在内置 GFM 支持之后的 remark 插件。",
+    rehypePlugins: "处理解析后 HTML 抽象语法树的 rehype 插件。",
+    remarkRehypeOptions: "传递给 remark-rehype 的转换选项。",
+    skipHtml: "是否完全忽略 Markdown 中的原始 HTML。",
+    unwrapDisallowed: "是否保留被过滤元素的子内容，而只移除元素本身。",
+    urlTransform: "在链接或图片 URL 写入元素前对其进行转换或过滤。",
+  },
   "ai-reasoning": {
     isStreaming: "是否仍在接收推理过程。",
     duration: "已完成的推理耗时，单位为秒。",
@@ -51,8 +67,10 @@ export const PropDescriptions: Record<string, Record<string, string>> = {
     variant: "按钮的视觉样式。",
     size: "按钮的高度和内边距。设置为 icon 时用于仅显示图标的方形按钮。",
     ...common,
-    motion: "是否启用轻微的弹性按压和悬停动效。开启 prefers-reduced-motion 时会自动停用。",
-    ripple: "是否启用从指针位置向外扩散的点击涟漪效果。开启 prefers-reduced-motion 时会自动停用。",
+    motion:
+      "是否启用轻微的弹性按压和悬停动效。开启 prefers-reduced-motion 时会自动停用。",
+    ripple:
+      "是否启用从指针位置向外扩散的点击涟漪效果。开启 prefers-reduced-motion 时会自动停用。",
   },
   dialog: {
     variant: "显示为居中的模态对话框，或在文档流中从触发元素原地展开。",
@@ -199,7 +217,8 @@ export const PropDescriptions: Record<string, Record<string, string>> = {
   download: {
     filename: "控件中显示的文件名称。",
     meta: "文件类型、大小等补充信息。",
-    fileIcon: "根据文件名推断的文件类型图标。传入节点可覆盖默认图标，传入 false 可隐藏图标。",
+    fileIcon:
+      "根据文件名推断的文件类型图标。传入节点可覆盖默认图标，传入 false 可隐藏图标。",
     href: "激活控件后下载的文件地址。",
     status: "下载流程的当前状态。",
     progress: "确定进度的下载进度，取值范围为 0 到 100。",
@@ -225,7 +244,8 @@ export const PropDescriptions: Record<string, Record<string, string>> = {
     defaultOpen: "非受控模式下提示内容的初始打开状态。",
     onOpenChange: "提示内容打开状态变化时触发。",
     delayDuration: "鼠标悬停后显示提示的延迟时间，单位为毫秒。",
-    disableHoverableContent: "指针离开触发元素后是否立即关闭提示，而不允许指针移入提示内容。",
+    disableHoverableContent:
+      "指针离开触发元素后是否立即关闭提示，而不允许指针移入提示内容。",
   },
   "image-preview": {
     src: "缩略图和大图预览共用的图片地址。",
@@ -648,6 +668,8 @@ export function getPropDescription(
   sourceDescription?: string
 ): string | undefined {
   return (
-    PropDescriptions[component]?.[prop] ?? sourceDescription?.trim() ?? undefined
+    PropDescriptions[component]?.[prop] ??
+    sourceDescription?.trim() ??
+    undefined
   )
 }

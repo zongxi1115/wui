@@ -1,0 +1,139 @@
+{
+  "name": "markdown",
+  "type": "registry:ui",
+  "title": "Markdown",
+  "description": "将 CommonMark 与 GFM 文本解析为可组合、带默认样式的 React 内容。",
+  "categories": [
+    "data-display",
+    "ai"
+  ],
+  "import": "import { Markdown } from \"@/components/ui/markdown\"",
+  "exports": [
+    "Markdown"
+  ],
+  "typeExports": [
+    "MarkdownProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/markdown",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/markdown.json",
+    "npmDependencies": [
+      "react-markdown",
+      "remark-gfm"
+    ],
+    "registryDependencies": [
+      "utils",
+      "ai-stream"
+    ]
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "string",
+      "required": true,
+      "control": "text",
+      "description": "要解析并渲染的 Markdown 源文本。"
+    },
+    {
+      "name": "isStreaming",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "源文本是否仍在接收后续内容。"
+    },
+    {
+      "name": "featherLength",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "18",
+      "description": "流式羽化效果覆盖的末尾字符数量。"
+    },
+    {
+      "name": "components",
+      "type": "Components",
+      "required": false,
+      "control": "text",
+      "description": "覆盖指定 Markdown 元素的 React 渲染器。"
+    },
+    {
+      "name": "allowElement",
+      "type": "AllowElement | null",
+      "required": false,
+      "control": "text",
+      "description": "根据元素、位置和父节点决定是否保留当前元素。"
+    },
+    {
+      "name": "allowedElements",
+      "type": "readonly string[] | null",
+      "required": false,
+      "control": "text",
+      "description": "只允许渲染的 HTML 元素名称。不能与 disallowedElements 同时使用。"
+    },
+    {
+      "name": "disallowedElements",
+      "type": "readonly string[] | null",
+      "required": false,
+      "control": "text",
+      "description": "不允许渲染的 HTML 元素名称。不能与 allowedElements 同时使用。"
+    },
+    {
+      "name": "rehypePlugins",
+      "type": "PluggableList | null",
+      "required": false,
+      "control": "text",
+      "description": "处理解析后 HTML 抽象语法树的 rehype 插件。"
+    },
+    {
+      "name": "remarkPlugins",
+      "type": "PluggableList | null",
+      "required": false,
+      "control": "text",
+      "description": "追加在内置 GFM 支持之后的 remark 插件。"
+    },
+    {
+      "name": "remarkRehypeOptions",
+      "type": "Readonly<Options> | null",
+      "required": false,
+      "control": "text",
+      "description": "传递给 remark-rehype 的转换选项。"
+    },
+    {
+      "name": "skipHtml",
+      "type": "boolean | null",
+      "required": false,
+      "control": "text",
+      "description": "是否完全忽略 Markdown 中的原始 HTML。"
+    },
+    {
+      "name": "unwrapDisallowed",
+      "type": "boolean | null",
+      "required": false,
+      "control": "text",
+      "description": "是否保留被过滤元素的子内容，而只移除元素本身。"
+    },
+    {
+      "name": "urlTransform",
+      "type": "UrlTransform | null",
+      "required": false,
+      "control": "text",
+      "description": "在链接或图片 URL 写入元素前对其进行转换或过滤。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "markdown-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "markdown-stream-demo",
+      "title": "与流式输出组合"
+    }
+  ],
+  "files": [
+    "registry/ui/markdown.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/markdown",
+  "sourceUrl": "https://ui.wzx.wang/r/markdown.json"
+}

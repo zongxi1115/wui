@@ -86,6 +86,25 @@
       "exampleCount": 2
     },
     {
+      "name": "markdown",
+      "type": "registry:ui",
+      "title": "Markdown",
+      "description": "将 CommonMark 与 GFM 文本解析为可组合、带默认样式的 React 内容。",
+      "categories": [
+        "data-display",
+        "ai"
+      ],
+      "keyProps": [
+        "children: string",
+        "isStreaming: boolean",
+        "featherLength: number",
+        "components: Components",
+        "allowElement: AllowElement | null",
+        "allowedElements: readonly string[] | null"
+      ],
+      "exampleCount": 2
+    },
+    {
       "name": "use-ai-stream",
       "type": "registry:hook",
       "title": "AI 流协议 Hook useAiStream",

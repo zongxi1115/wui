@@ -6,13 +6,15 @@
   "categories": [
     "ai"
   ],
-  "import": "import { AiStream, AiStreamDeltas } from \"@/components/ui/ai-stream\"",
+  "import": "import { AiStream, AiStreamDeltas, AiStreamEdge } from \"@/components/ui/ai-stream\"",
   "exports": [
     "AiStream",
-    "AiStreamDeltas"
+    "AiStreamDeltas",
+    "AiStreamEdge"
   ],
   "typeExports": [
     "AiStreamDeltasProps",
+    "AiStreamEdgeProps",
     "AiStreamProps"
   ],
   "install": {

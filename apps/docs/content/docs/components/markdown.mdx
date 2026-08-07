@@ -1,0 +1,40 @@
+---
+title: Markdown
+description: 将 CommonMark 与 GFM 文本解析为可组合、带默认样式的 React 内容。
+component: markdown
+---
+
+## 基础用法
+
+<ComponentPreview name="markdown-demo" />
+
+<CodeTabs command="@wui-design/cli@latest add @wui/markdown" />
+
+<ComponentSource name="markdown" title="components/ui/markdown.tsx" />
+
+`Markdown` 使用 `react-markdown` 生成 React 元素，不依赖 `dangerouslySetInnerHTML`。默认支持 CommonMark，并通过
+`remark-gfm` 增加自动链接、删除线、表格、任务列表等 GFM 语法；Markdown 中的原始 HTML 默认不会作为页面 HTML 执行。
+
+通过 `components` 可以覆盖单个元素的渲染方式，`remarkPlugins` 与 `rehypePlugins` 会继续传给解析器。
+自定义 `remarkPlugins` 会追加在内置的 GFM 插件之后。
+
+## 与流式输出组合
+
+<ComponentPreview name="markdown-stream-demo" />
+
+流式接口通常返回当前已经生成的累计文本。将 `useAiStream` 的 `text` 直接传给 `Markdown`，每个分片到达时都会重新解析当前内容：
+
+```tsx
+const { text, isStreaming } = useAiStream({ api: "/api/assistant" })
+
+return <Markdown isStreaming={isStreaming}>{text}</Markdown>
+```
+
+生成期间，`isStreaming` 会复用 `AiStreamEdge`，为解析结果的最后一段文字应用与 `AiStream` 相同的尾部羽化，同时为容器补充
+`aria-live`、`aria-busy` 和 `data-streaming` 状态。`featherLength` 可以调整羽化覆盖的末尾字符数量。
+
+不完整的 Markdown 标记会先按当前可解析状态展示，后续分片补齐后自然更新为最终结构；已经稳定的标题、列表、代码块等内容不会重复羽化。
+
+## 属性
+
+<PropsTable name="markdown" />

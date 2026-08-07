@@ -100,6 +100,21 @@
       ]
     },
     {
+      "name": "markdown",
+      "type": "registry:ui",
+      "title": "Markdown",
+      "description": "将 CommonMark 与 GFM 文本解析为可组合、带默认样式的 React 内容。",
+      "categories": ["data-display", "ai"],
+      "dependencies": ["react-markdown", "remark-gfm"],
+      "registryDependencies": ["utils", "ai-stream"],
+      "files": [
+        {
+          "path": "registry/ui/markdown.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "use-ai-stream",
       "type": "registry:hook",
       "title": "AI 流协议 Hook useAiStream",
