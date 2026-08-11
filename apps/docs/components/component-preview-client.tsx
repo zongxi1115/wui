@@ -26,7 +26,7 @@ export function ComponentPreviewClient({
   const Comp = Components[name]
 
   return (
-    <div className={cn("my-6", className)}>
+    <div className={cn("not-prose my-6", className)}>
       <div className="flex items-center gap-1 border-b">
         <TabButton active={tab === "preview"} onClick={() => setTab("preview")}>
           Preview

@@ -15,7 +15,7 @@ function BreadcrumbList({ className, ...props }: React.ComponentProps<"ol">) {
     <ol
       data-slot="breadcrumb-list"
       className={cn(
-        "text-muted-foreground flex flex-wrap items-center gap-1.5 text-sm sm:gap-2.5",
+        "text-muted-foreground m-0 flex list-none flex-wrap items-center gap-1.5 p-0 text-sm sm:gap-2.5",
         className
       )}
       {...props}
@@ -28,7 +28,10 @@ function BreadcrumbItem({ className, ...props }: React.ComponentProps<"li">) {
   return (
     <li
       data-slot="breadcrumb-item"
-      className={cn("inline-flex min-w-0 items-center gap-1.5", className)}
+      className={cn(
+        "m-0 inline-flex min-w-0 items-center gap-1.5 p-0",
+        className
+      )}
       {...props}
     />
   )
@@ -51,7 +54,7 @@ function BreadcrumbLink({
     <Comp
       data-slot="breadcrumb-link"
       className={cn(
-        "hover:text-foreground focus-visible:ring-ring/40 rounded-sm outline-none transition-colors focus-visible:ring-[3px]",
+        "hover:text-foreground focus-visible:ring-ring/40 rounded-sm no-underline outline-none transition-colors focus-visible:ring-[3px]",
         className
       )}
       {...props}
@@ -82,7 +85,7 @@ function BreadcrumbSeparator({
       aria-hidden="true"
       data-slot="breadcrumb-separator"
       role="presentation"
-      className={cn("[&>svg]:size-3.5", className)}
+      className={cn("m-0 p-0 [&>svg]:size-3.5", className)}
       {...props}
     >
       {children ?? <ChevronRightIcon />}

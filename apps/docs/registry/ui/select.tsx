@@ -63,7 +63,7 @@ function SelectContent({
         position={position}
         sideOffset={sideOffset}
         className={cn(
-          "relative z-50 max-h-[var(--radix-select-content-available-height)] min-w-[10rem] overflow-hidden rounded-lg border bg-popover text-popover-foreground shadow-md outline-none",
+          "relative z-50 max-h-72 min-w-[10rem] overflow-hidden rounded-lg border bg-popover text-popover-foreground shadow-md outline-none",
           position === "popper" && "w-[var(--radix-select-trigger-width)]",
           className
         )}

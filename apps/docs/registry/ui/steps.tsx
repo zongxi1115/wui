@@ -142,7 +142,7 @@ function Steps({
               <button
                 type="button"
                 data-slot="step-trigger"
-                className="focus-visible:ring-ring flex min-w-0 items-start gap-3 rounded-md text-left outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+                className="focus-visible:ring-ring bg-background relative z-10 flex min-w-0 items-start gap-3 pr-3 text-left outline-none focus-visible:rounded-md focus-visible:ring-2 focus-visible:ring-offset-2"
                 onClick={() => onCurrentChange?.(index)}
               >
                 {content}
@@ -150,7 +150,7 @@ function Steps({
             ) : (
               <div
                 data-slot="step-content"
-                className="flex min-w-0 items-start gap-3"
+                className="bg-background relative z-10 flex min-w-0 items-start gap-3 pr-3"
               >
                 {content}
               </div>
