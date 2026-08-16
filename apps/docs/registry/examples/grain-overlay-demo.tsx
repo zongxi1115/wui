@@ -1,31 +1,74 @@
+import { ArrowUpRight, BookOpen, Clock, Sparkles } from "lucide-react"
+
+import { Badge } from "@/registry/ui/badge"
+import { Button } from "@/registry/ui/button"
 import { GrainOverlay } from "@/registry/ui/grain-overlay"
 
 export default function GrainOverlayDemo() {
   return (
-    <div className="relative min-h-[29rem] w-full max-w-3xl overflow-hidden bg-[#9d4b31] text-[#f3eadb]">
-      <img
-        src="/wui/demo/field-notes/cliff-horizon.jpg"
-        alt="Sun-washed cliffs printed with grain"
-        className="absolute inset-0 size-full object-cover mix-blend-multiply"
-      />
-      <div className="absolute inset-0 bg-[#a64f33]/35" />
-      <GrainOverlay opacity={0.3} blendMode="multiply" />
-      <div className="relative flex min-h-[29rem] flex-col justify-between p-6 sm:p-9">
-        <div className="flex justify-between text-[10px] uppercase tracking-[0.26em]">
-          <span>Field print</span>
-          <span>No. 08</span>
+    <div className="relative w-full overflow-hidden rounded-2xl border border-border bg-card text-card-foreground shadow-lg">
+      <div className="relative h-64 w-full overflow-hidden sm:h-80">
+        <img
+          src="https://picsum.photos/seed/arch-grain/1200/600"
+          alt="Modern Architecture"
+          className="size-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-card via-card/40 to-transparent" />
+        {/* Grain overlay on top of photo */}
+        <GrainOverlay opacity={0.35} blendMode="overlay" />
+
+        <div className="absolute left-6 top-6 flex items-center gap-2">
+          <Badge
+            variant="outline"
+            className="border-white/30 bg-black/40 text-xs text-white backdrop-blur-md"
+          >
+            <Sparkles className="size-3 text-amber-300" />
+            ESSAY № 04
+          </Badge>
         </div>
-        <div className="grid items-end gap-6 sm:grid-cols-[1.2fr_0.8fr]">
-          <h3 className="font-serif text-6xl leading-[0.82] tracking-[-0.06em] sm:text-7xl">
-            Salt,
-            <br />
-            stone,
-            <br />
-            <span className="italic">signal.</span>
-          </h3>
-          <p className="border-current/50 border-l pl-4 text-sm leading-6">
-            Grain makes the photograph feel handled, printed, and carried home.
-          </p>
+      </div>
+
+      <div className="relative z-10 -mt-10 p-6 sm:p-8">
+        <div className="flex items-center justify-between border-b border-border/80 pb-4">
+          <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+            Design Systems Lab
+          </span>
+          <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+            <Clock className="size-3.5" />
+            <span>5 min read</span>
+          </div>
+        </div>
+
+        <h3 className="mt-4 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+          Tactile Digitality: When Noise Becomes Atmosphere
+        </h3>
+
+        <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
+          Digital photography and UI surfaces often look flat without texture.
+          By introducing a subtle SVG fractal grain overlay, surfaces acquire
+          tactile depth, material presence, and cinematic warmth across high-density layouts.
+        </p>
+
+        <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-border/80 pt-4">
+          <div className="flex items-center gap-3">
+            <div className="flex size-9 items-center justify-center rounded-full bg-muted font-mono text-xs font-bold text-foreground">
+              WL
+            </div>
+            <div>
+              <div className="text-xs font-medium text-foreground">
+                WUI Editorial
+              </div>
+              <div className="text-[11px] text-muted-foreground">
+                Visual Research Team
+              </div>
+            </div>
+          </div>
+
+          <Button size="sm" variant="outline" className="gap-1.5 text-xs">
+            <BookOpen className="size-3.5" />
+            Read Full Piece
+            <ArrowUpRight className="size-3.5 text-muted-foreground" />
+          </Button>
         </div>
       </div>
     </div>

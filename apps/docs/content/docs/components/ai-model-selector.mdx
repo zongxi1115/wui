@@ -1,0 +1,38 @@
+---
+title: AI 模型选择器 AI Model Selector
+description: 用于多模型切换下拉弹层、模型特性与参数标签展示，以及上下文 Token / Context Window 消耗进度指示。
+component: ai-model-selector
+---
+
+## 基础示例 · Basic example
+
+<ComponentPreview name="ai-model-selector-demo" previewClassName="min-h-0 p-6 flex justify-center" />
+
+<CodeTabs command="@wui-design/cli@latest add @wui/ai-model-selector" />
+
+<ComponentSource name="ai-model-selector" title="components/ui/ai-model-selector.tsx" />
+
+## 组件作用 · What it's for
+
+`AiModelSelector` 帮助用户或开发者在不同大语言模型（如 Claude 3.5 Sonnet、DeepSeek R1、GPT-4o）之间快速切换，并清晰感知当前对话的上下文 Token 消耗。
+
+### 适用场景
+- **模型与推理档位切换**：展示模型名称、提供商图标、速度与能力 Tags（如 `Vision`、`Reasoning`、`200k`）。
+- **分组归类 (`AiModelGroup`)**：区分主力推理模型与轻量高速模型。
+- **上下文窗口用量 (`AiTokenUsage`)**：以彩色进度条展示当前已占用的 Token 数与最大 Context Window 限制。
+
+### 何时不建议使用
+- 如果应用固定绑定单一模型后端且不暴露给终端用户调节，无需放置切换器。
+
+## 组件属性 · Props
+
+<PropsTable name="ai-model-selector" />
+
+## 事件 · Events
+
+- 透传 Radix Popover 的 `open` 与 `onOpenChange` 受控属性。
+- `AiModelItem` 支持标准原生 `onClick` 点击事件。
+
+## 拓展使用 · Extended usage
+
+可将 `AiModelSelector` 嵌套置于 `AiPrompt` 或 `AiChatPromptTools` 工具栏中，作为输入区域的紧凑配置项。

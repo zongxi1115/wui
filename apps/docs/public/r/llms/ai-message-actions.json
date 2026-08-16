@@ -1,0 +1,66 @@
+{
+  "name": "ai-message-actions",
+  "type": "registry:ui",
+  "title": "AI 消息操作 AI Message Actions",
+  "description": "用于 AI 回答底部的标准化快捷操作栏，包含反馈评价、分支版本切换、一键复制与重新生成。",
+  "categories": [
+    "ai"
+  ],
+  "import": "import { AiMessageAction, AiMessageActions, AiMessageBranch, AiMessageCopy, AiMessageEdit, AiMessageFeedback, AiMessageRetry, aiMessageActionsVariants } from \"@/components/ui/ai-message-actions\"",
+  "exports": [
+    "AiMessageAction",
+    "AiMessageActions",
+    "AiMessageBranch",
+    "AiMessageCopy",
+    "AiMessageEdit",
+    "AiMessageFeedback",
+    "AiMessageRetry",
+    "aiMessageActionsVariants"
+  ],
+  "typeExports": [
+    "AiMessageActionProps",
+    "AiMessageActionsProps",
+    "AiMessageBranchProps",
+    "AiMessageCopyProps",
+    "AiMessageFeedbackProps",
+    "AiMessageFeedbackValue",
+    "AiMessageRetryProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/ai-message-actions",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/ai-message-actions.json",
+    "npmDependencies": [
+      "class-variance-authority",
+      "lucide-react",
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "variant",
+      "type": "\"ghost\" | \"bordered\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "ghost",
+        "bordered"
+      ],
+      "defaultValue": "\"ghost\"",
+      "description": "外观样式变体。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "ai-message-actions-demo",
+      "title": "基础示例 · Basic example"
+    }
+  ],
+  "files": [
+    "registry/ui/ai-message-actions.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/ai-message-actions",
+  "sourceUrl": "https://ui.wzx.wang/r/ai-message-actions.json"
+}

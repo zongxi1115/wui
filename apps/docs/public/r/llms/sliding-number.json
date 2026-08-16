@@ -53,7 +53,7 @@
       "type": "Transition",
       "required": false,
       "control": "text",
-      "defaultValue": "{\n  type: \"spring\",\n  stiffness: 260,\n  damping: 28,\n}",
+      "defaultValue": "{\r\n  type: \"spring\",\r\n  stiffness: 260,\r\n  damping: 28,\r\n}",
       "description": "每个数字滚轮使用的过渡动画。"
     }
   ],

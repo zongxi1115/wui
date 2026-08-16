@@ -1,0 +1,130 @@
+{
+  "name": "ai-artifact",
+  "type": "registry:ui",
+  "title": "AI 生成物 AI Artifact",
+  "description": "类似 Claude Artifacts / v0 的侧边与分屏工作区容器，支持代码与实时预览无缝切换。",
+  "categories": [
+    "ai"
+  ],
+  "import": "import { AiArtifact, AiArtifactAction, AiArtifactActions, AiArtifactBody, AiArtifactCode, AiArtifactCopy, AiArtifactDescription, AiArtifactFullscreenToggle, AiArtifactHeader, AiArtifactPanel, AiArtifactPreview, AiArtifactTabList, AiArtifactTabTrigger, AiArtifactTitle, aiArtifactVariants, useAiArtifact } from \"@/components/ui/ai-artifact\"",
+  "exports": [
+    "AiArtifact",
+    "AiArtifactAction",
+    "AiArtifactActions",
+    "AiArtifactBody",
+    "AiArtifactCode",
+    "AiArtifactCopy",
+    "AiArtifactDescription",
+    "AiArtifactFullscreenToggle",
+    "AiArtifactHeader",
+    "AiArtifactPanel",
+    "AiArtifactPreview",
+    "AiArtifactTabList",
+    "AiArtifactTabTrigger",
+    "AiArtifactTitle",
+    "aiArtifactVariants",
+    "useAiArtifact"
+  ],
+  "typeExports": [
+    "AiArtifactActionProps",
+    "AiArtifactCodeProps",
+    "AiArtifactCopyProps",
+    "AiArtifactHeaderProps",
+    "AiArtifactPanelProps",
+    "AiArtifactProps",
+    "AiArtifactTabTriggerProps",
+    "AiArtifactTitleProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/ai-artifact",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/ai-artifact.json",
+    "npmDependencies": [
+      "class-variance-authority",
+      "lucide-react",
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils",
+      "badge",
+      "button"
+    ]
+  },
+  "props": [
+    {
+      "name": "activeTab",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "当前激活的标签页标识（受控模式）。"
+    },
+    {
+      "name": "defaultTab",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "defaultValue": "preview",
+      "description": "默认激活的标签页标识（非受控模式）。"
+    },
+    {
+      "name": "onTabChange",
+      "type": "((tab: string) => void)",
+      "required": false,
+      "control": "text",
+      "description": "标签页切换时的回调函数。"
+    },
+    {
+      "name": "isFullscreen",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "是否处于全屏沉浸模式（受控）。"
+    },
+    {
+      "name": "defaultFullscreen",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "默认是否全屏（非受控）。"
+    },
+    {
+      "name": "onFullscreenChange",
+      "type": "((fullscreen: boolean) => void)",
+      "required": false,
+      "control": "text",
+      "description": "全屏状态切换时的回调函数。"
+    },
+    {
+      "name": "isStreaming",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "是否处于正在流式生成或运行中。"
+    },
+    {
+      "name": "variant",
+      "type": "\"default\" | \"ghost\" | \"bordered\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "default",
+        "ghost",
+        "bordered"
+      ],
+      "defaultValue": "\"default\"",
+      "description": "外观样式变体。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "ai-artifact-demo",
+      "title": "基础示例 · Basic example"
+    }
+  ],
+  "files": [
+    "registry/ui/ai-artifact.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/ai-artifact",
+  "sourceUrl": "https://ui.wzx.wang/r/ai-artifact.json"
+}

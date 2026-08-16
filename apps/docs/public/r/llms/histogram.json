@@ -102,7 +102,7 @@
       "type": "((min: number, max: number, index: number) => string)",
       "required": false,
       "control": "text",
-      "defaultValue": "(min, max) =>\n    `${defaultValueFormatter(min)}–${defaultValueFormatter(max)}`",
+      "defaultValue": "(min, max) =>\r\n    `${defaultValueFormatter(min)}–${defaultValueFormatter(max)}`",
       "description": "自定义分箱边界的显示格式。"
     },
     {

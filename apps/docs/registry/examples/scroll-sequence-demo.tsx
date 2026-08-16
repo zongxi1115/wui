@@ -1,30 +1,45 @@
 "use client"
 
 import * as React from "react"
+import {
+  ArrowDown,
+  CheckCircle2,
+  GitBranch,
+  Globe,
+  Rocket,
+  ShieldCheck,
+} from "lucide-react"
 
+import { Badge } from "@/registry/ui/badge"
 import { ScrollSequence } from "@/registry/ui/scroll-sequence"
 
-const steps = [
+const workflowSteps = [
   {
-    number: "01",
-    title: "Ascend",
-    copy: "Leave the road and take the concrete line upward.",
-    image: "/wui/demo/field-notes/white-stairs.jpg",
-    position: "object-center",
+    step: "01",
+    tag: "SOURCE REPO",
+    title: "Connect & Auto-Configure",
+    description:
+      "Link your Git repository with one click. Frameworks, environment variables, and build flags are detected automatically.",
+    image: "https://picsum.photos/seed/workflow-git/600/350",
+    icon: GitBranch,
   },
   {
-    number: "02",
-    title: "Cross",
-    copy: "The structure bends; the horizon stays level.",
-    image: "/wui/demo/field-notes/concrete-stairs.jpg",
-    position: "object-center",
+    step: "02",
+    tag: "BUILD & VALIDATE",
+    title: "Automated Enclave Compilation",
+    description:
+      "Parallel isolated edge runners compile, bundle, and run end-to-end security audits in under two seconds with zero cold-start penalty.",
+    image: "https://picsum.photos/seed/workflow-build/600/350",
+    icon: ShieldCheck,
   },
   {
-    number: "03",
-    title: "Arrive",
-    copy: "At the edge, architecture finally yields to weather.",
-    image: "/wui/demo/field-notes/concrete-forest.jpg",
-    position: "object-center",
+    step: "03",
+    tag: "INSTANT ROLLOUT",
+    title: "Global Edge Live Deployment",
+    description:
+      "Artifacts are distributed to 320+ edge locations worldwide within 400ms. Traffic shifts seamlessly with automated instant rollbacks.",
+    image: "https://picsum.photos/seed/workflow-deploy/600/350",
+    icon: Globe,
   },
 ]
 
@@ -34,44 +49,81 @@ export default function ScrollSequenceDemo() {
   return (
     <div
       ref={container}
-      className="h-[32rem] w-full max-w-4xl overflow-y-auto bg-[#20231f]"
+      className="relative h-[32rem] w-full overflow-y-auto rounded-2xl border border-border bg-card text-card-foreground shadow-lg [scrollbar-width:thin]"
     >
+      <div className="p-6 sm:p-8">
+        <div className="flex items-center justify-between border-b border-border pb-4">
+          <div className="flex items-center gap-2">
+            <Badge variant="outline" className="text-xs">
+              <Rocket className="size-3 text-sky-500" />
+              DEPLOYMENT WORKFLOW
+            </Badge>
+          </div>
+          <div className="flex items-center gap-1.5 text-xs text-sky-600 dark:text-sky-400">
+            <span>Scroll to progress steps</span>
+            <ArrowDown className="size-3.5 animate-bounce" />
+          </div>
+        </div>
+
+        <div className="my-4">
+          <h3 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+            Deploy in 3 Automated Steps
+          </h3>
+          <p className="mt-1 text-xs text-muted-foreground">
+            Scroll down to watch workflow steps transition sequentially.
+          </p>
+        </div>
+      </div>
+
       <ScrollSequence
         container={container}
-        viewportClassName="bg-[#dedbd1] text-[#20211d]"
-        stepClassName="p-0"
+        stepLength={0.75}
+        viewportClassName="bg-muted/30 mx-6 sm:mx-8 rounded-2xl border border-border p-6 sm:p-8 min-h-[19rem]"
       >
-        {steps.map((step, index) => (
-          <article
-            key={step.number}
-            className="grid h-full w-full sm:grid-cols-[0.85fr_1.15fr]"
-          >
-            <div className="flex flex-col justify-between p-6 sm:p-9">
-              <div className="flex items-center gap-3 text-[10px] uppercase tracking-[0.26em]">
-                <span>{step.number} / 03</span>
-                <span className="h-px w-10 bg-current" />
-                <span>Passage</span>
-              </div>
-              <div>
-                <h3 className="font-serif text-5xl leading-none tracking-[-0.05em] sm:text-6xl">
-                  {step.title}
-                </h3>
-                <p className="mt-4 max-w-xs text-sm leading-6 text-[#55594f]">
-                  {step.copy}
-                </p>
-              </div>
-            </div>
+        {workflowSteps.map((item) => {
+          const Icon = item.icon
+          return (
             <div
-              className={`m-4 overflow-hidden sm:m-6 ${index === 0 ? "rounded-t-[10rem]" : index === 1 ? "rounded-[50%]" : "rounded-bl-[10rem]"}`}
+              key={item.step}
+              className="grid h-full w-full gap-6 sm:grid-cols-2 items-center"
             >
-              <img
-                src={step.image}
-                alt={`${step.title} architectural passage`}
-                className={`size-full object-cover ${step.position}`}
-              />
+              <div className="flex flex-col justify-between h-full">
+                <div>
+                  <div className="flex items-center justify-between">
+                    <Badge variant="outline" className="text-xs">
+                      <Icon className="size-3 text-sky-500" />
+                      {item.tag}
+                    </Badge>
+                    <span className="font-mono text-xs text-muted-foreground">
+                      STEP {item.step} / 03
+                    </span>
+                  </div>
+
+                  <h4 className="mt-4 text-xl font-semibold text-foreground sm:text-2xl">
+                    {item.title}
+                  </h4>
+
+                  <p className="mt-2 text-xs leading-relaxed text-muted-foreground sm:text-sm">
+                    {item.description}
+                  </p>
+                </div>
+
+                <div className="mt-4 flex items-center gap-2 text-xs font-medium text-emerald-600 dark:text-emerald-400">
+                  <CheckCircle2 className="size-4" />
+                  <span>Verified Pipeline</span>
+                </div>
+              </div>
+
+              <div className="relative h-48 w-full overflow-hidden rounded-xl border border-border shadow-md">
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className="size-full object-cover"
+                />
+              </div>
             </div>
-          </article>
-        ))}
+          )
+        })}
       </ScrollSequence>
     </div>
   )

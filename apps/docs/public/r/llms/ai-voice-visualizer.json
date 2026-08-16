@@ -1,0 +1,97 @@
+{
+  "name": "ai-voice-visualizer",
+  "type": "registry:ui",
+  "title": "AI 语音波形 AI Voice Visualizer",
+  "description": "专用于实时语音对话模式（Voice Mode / TTS / STT）的动态音频声浪与状态光环。",
+  "categories": [
+    "ai"
+  ],
+  "import": "import { AiVoiceVisualizer, aiVoiceVisualizerVariants } from \"@/components/ui/ai-voice-visualizer\"",
+  "exports": [
+    "AiVoiceVisualizer",
+    "aiVoiceVisualizerVariants"
+  ],
+  "typeExports": [
+    "AiVoiceVisualizerProps",
+    "AiVoiceVisualizerState"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/ai-voice-visualizer",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/ai-voice-visualizer.json",
+    "npmDependencies": [
+      "class-variance-authority",
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "variant",
+      "type": "\"bars\" | \"orb\" | \"wave\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "bars",
+        "orb",
+        "wave"
+      ],
+      "defaultValue": "bars",
+      "description": "可视化声波形态（柱状、呼吸光环或正弦曲线）。"
+    },
+    {
+      "name": "state",
+      "type": "\"idle\" | \"listening\" | \"thinking\" | \"speaking\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "idle",
+        "listening",
+        "thinking",
+        "speaking"
+      ],
+      "defaultValue": "idle",
+      "description": "语音会话当前所处的生命周期状态。"
+    },
+    {
+      "name": "audioLevel",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "description": "实时音频电平归一化数值 [0.0 ~ 1.0]。"
+    },
+    {
+      "name": "barCount",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "5",
+      "description": "柱状声波模式下的柱子数量。"
+    },
+    {
+      "name": "size",
+      "type": "\"sm\" | \"lg\" | \"md\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "sm",
+        "lg",
+        "md"
+      ],
+      "defaultValue": "\"md\"",
+      "description": "尺寸大小。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "ai-voice-visualizer-demo",
+      "title": "基础示例 · Basic example"
+    }
+  ],
+  "files": [
+    "registry/ui/ai-voice-visualizer.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/ai-voice-visualizer",
+  "sourceUrl": "https://ui.wzx.wang/r/ai-voice-visualizer.json"
+}

@@ -92,6 +92,14 @@
     {
       "name": "annotation-demo",
       "title": "基础用法"
+    },
+    {
+      "name": "annotation-variants",
+      "title": "笔触变体"
+    },
+    {
+      "name": "annotation-shapes",
+      "title": "路径与形态扩展"
     }
   ],
   "files": [

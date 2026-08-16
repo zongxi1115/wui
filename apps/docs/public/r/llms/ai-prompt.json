@@ -94,6 +94,9 @@
     {
       "name": "ai-prompt-advanced",
       "title": "模型、附件与可选能力"
+    },
+    {
+      "name": "ai-prompt-suggestions-demo"
     }
   ],
   "files": [

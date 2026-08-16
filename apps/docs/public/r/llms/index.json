@@ -13,7 +13,7 @@
       "keyProps": [
         "size: compact|default"
       ],
-      "exampleCount": 3
+      "exampleCount": 4
     },
     {
       "name": "ai-chat",
@@ -130,6 +130,100 @@
         "asChild: boolean"
       ],
       "exampleCount": 2
+    },
+    {
+      "name": "ai-artifact",
+      "type": "registry:ui",
+      "title": "AI 生成物 AI Artifact",
+      "description": "类似 Claude Artifacts / v0 的侧边与分屏工作区容器，支持代码与实时预览无缝切换。",
+      "categories": [
+        "ai"
+      ],
+      "keyProps": [
+        "activeTab: string",
+        "defaultTab: string",
+        "onTabChange: ((tab: string) => void)",
+        "isFullscreen: boolean",
+        "defaultFullscreen: boolean",
+        "onFullscreenChange: ((fullscreen: boolean) => void)"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "ai-sources",
+      "type": "registry:ui",
+      "title": "AI 来源引用 AI Sources",
+      "description": "用于展示 AI 联网检索（SearchGPT / Perplexity）或 RAG 知识库问答参考来源的折叠卡片组与行内悬停角标。",
+      "categories": [
+        "ai"
+      ],
+      "keyProps": [
+        "count: number",
+        "defaultOpen: boolean",
+        "open: boolean",
+        "onOpenChange: ((open: boolean) => void)",
+        "disabled: boolean"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "ai-message-actions",
+      "type": "registry:ui",
+      "title": "AI 消息操作 AI Message Actions",
+      "description": "用于 AI 回答底部的标准化快捷操作栏，包含反馈评价、分支版本切换、一键复制与重新生成。",
+      "categories": [
+        "ai"
+      ],
+      "keyProps": [
+        "variant: ghost|bordered"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "ai-voice-visualizer",
+      "type": "registry:ui",
+      "title": "AI 语音波形 AI Voice Visualizer",
+      "description": "专用于实时语音对话模式（Voice Mode / TTS / STT）的动态音频声浪与状态光环。",
+      "categories": [
+        "ai"
+      ],
+      "keyProps": [
+        "variant: bars|orb|wave",
+        "state: idle|listening|thinking|speaking",
+        "audioLevel: number",
+        "barCount: number",
+        "size: sm|lg|md"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "ai-prompt-suggestions",
+      "type": "registry:ui",
+      "title": "AI 快捷提问建议 AI Prompt Suggestions",
+      "description": "用于新对话启动页、空状态或输入框上方的引导式提问卡片与预设 Prompt 标签。",
+      "categories": [
+        "ai"
+      ],
+      "keyProps": [
+        "layout: grid|scroll|chips"
+      ],
+      "exampleCount": 1
+    },
+    {
+      "name": "ai-model-selector",
+      "type": "registry:ui",
+      "title": "AI 模型选择器 AI Model Selector",
+      "description": "用于多模型切换下拉弹层、模型特性与参数标签展示，以及上下文 Token / Context Window 消耗进度指示。",
+      "categories": [
+        "ai"
+      ],
+      "keyProps": [
+        "defaultOpen: boolean",
+        "open: boolean",
+        "onOpenChange: ((open: boolean) => void)",
+        "modal: boolean"
+      ],
+      "exampleCount": 1
     },
     {
       "name": "avatar",
@@ -568,7 +662,7 @@
       "description": "基于 Lucide 的可搜索图标集合与无障碍渲染组件。",
       "keyProps": [
         "icon: LucideIcon",
-        "size: number | \"sm\" | \"lg\" | \"xs\" | \"md\" | \"xl\"",
+        "size: number | \"sm\" | \"lg\" | \"md\" | \"xs\" | \"xl\"",
         "variant: default|secondary|destructive|success|warning|info|primary|muted",
         "color: Color",
         "label: string"
@@ -611,7 +705,7 @@
         "gap: number",
         "disabled: boolean"
       ],
-      "exampleCount": 1
+      "exampleCount": 3
     },
     {
       "name": "switch",
@@ -726,8 +820,8 @@
       "keyProps": [
         "animated: boolean",
         "autoComplete: string",
-        "method: string",
         "target: string",
+        "method: string",
         "acceptCharset: string",
         "action: string | ((formData: FormData) => void | Promise<void>)"
       ],
@@ -1260,7 +1354,7 @@
         "spread: number",
         "borderWidth: number"
       ],
-      "exampleCount": 1
+      "exampleCount": 2
     },
     {
       "name": "annotation",
@@ -1279,7 +1373,7 @@
         "delay: number",
         "inView: boolean"
       ],
-      "exampleCount": 1
+      "exampleCount": 3
     },
     {
       "name": "slide-swap",
@@ -1314,7 +1408,7 @@
         "reverse: boolean",
         "active: boolean"
       ],
-      "exampleCount": 1
+      "exampleCount": 2
     },
     {
       "name": "spotlight-card",

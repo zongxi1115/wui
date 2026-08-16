@@ -47,18 +47,18 @@
       "description": "是否启用浏览器的表单自动填充。"
     },
     {
-      "name": "method",
-      "type": "string",
-      "required": false,
-      "control": "text",
-      "description": "提交表单时使用的 HTTP 方法。"
-    },
-    {
       "name": "target",
       "type": "string",
       "required": false,
       "control": "text",
       "description": "提交结果打开的浏览上下文。"
+    },
+    {
+      "name": "method",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "提交表单时使用的 HTTP 方法。"
     },
     {
       "name": "acceptCharset",

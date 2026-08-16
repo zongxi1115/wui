@@ -1,23 +1,30 @@
 "use client"
 
 import * as React from "react"
+import { ArrowDown, Cpu, Gauge, Zap } from "lucide-react"
 
+import { Badge } from "@/registry/ui/badge"
 import { VelocityMarquee } from "@/registry/ui/velocity-marquee"
 
-function MarqueeContent({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="flex items-center gap-8 whitespace-nowrap font-serif text-3xl italic tracking-tight sm:text-4xl">
-      <span>{children}</span>
-      <span aria-hidden className="text-lg not-italic">
-        ✦
-      </span>
-      <span>Notes from the Atlantic edge</span>
-      <span aria-hidden className="text-lg not-italic">
-        ✦
-      </span>
-    </div>
-  )
-}
+const techTags = [
+  "Next.js 15",
+  "TypeScript",
+  "Tailwind CSS v4",
+  "WebAssembly",
+  "Rust Core Engine",
+  "Motion 12",
+  "PostgreSQL",
+  "Distributed Edge",
+]
+
+const benchmarkTags = [
+  "✦ 99.999% SLA",
+  "✦ Sub-10ms Latency",
+  "✦ Zero-Config CLI",
+  "✦ Hardware Enclave",
+  "✦ 120 FPS Rendering",
+  "✦ Type-Safe APIs",
+]
 
 export default function VelocityMarqueeDemo() {
   const container = React.useRef<HTMLDivElement>(null)
@@ -25,44 +32,74 @@ export default function VelocityMarqueeDemo() {
   return (
     <div
       ref={container}
-      className="relative h-[32rem] w-full max-w-4xl overflow-y-auto bg-[#18201c] text-[#f4eddf]"
+      className="relative h-[30rem] w-full overflow-y-auto rounded-2xl border border-border bg-card p-6 text-card-foreground shadow-lg [scrollbar-width:thin] sm:p-10"
     >
-      <div className="relative h-[30rem] overflow-hidden">
-        <img
-          src="/wui/demo/field-notes/dune-figure.jpg"
-          alt="Figures walking through dune grass"
-          className="size-full object-cover object-center"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#18201c] via-black/5 to-transparent" />
-        <div className="absolute inset-x-6 top-6 flex justify-between text-[10px] uppercase tracking-[0.26em] sm:inset-x-9">
-          <span>Walk / 04</span>
-          <span>38°57′N</span>
+      <div className="flex items-center justify-between border-b border-border pb-4">
+        <div className="flex items-center gap-2">
+          <Badge variant="outline" className="text-xs">
+            <Gauge className="size-3 text-sky-500" />
+            VELOCITY OBSERVER
+          </Badge>
         </div>
-        <h3 className="absolute bottom-8 left-6 max-w-md font-serif text-5xl leading-[0.9] tracking-[-0.05em] sm:left-9 sm:text-6xl">
-          Move at the speed of weather.
-        </h3>
+        <div className="flex items-center gap-1.5 text-xs text-sky-600 dark:text-sky-400">
+          <span>Scroll to accelerate velocity</span>
+          <ArrowDown className="size-3.5 animate-bounce" />
+        </div>
       </div>
-      <div className="relative z-10 -mt-5 space-y-3 overflow-hidden py-5">
+
+      <div className="my-8 text-center">
+        <h3 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+          Dynamic Scroll-Driven Marquee
+        </h3>
+        <p className="mx-auto mt-2 max-w-md text-xs leading-relaxed text-muted-foreground sm:text-sm">
+          Marquee tracks continuously glide at idle speed and dynamically boost
+          velocity in real-time when scroll events occur.
+        </p>
+      </div>
+
+      <div className="my-8 space-y-3.5 overflow-hidden rounded-xl border border-border bg-muted/30 py-5">
+        {/* Forward Track */}
         <VelocityMarquee
           container={container}
-          className="-rotate-2 bg-[#c6d0b8] py-3 text-[#18201c]"
+          baseSpeed={40}
+          sensitivity={0.12}
+          maxBoost={240}
+          gap={20}
         >
-          <MarqueeContent>Wind changes the route</MarqueeContent>
+          {techTags.map((tag) => (
+            <span
+              key={tag}
+              className="inline-flex items-center gap-1.5 rounded-full border border-sky-500/30 bg-sky-500/10 px-3.5 py-1 font-mono text-xs font-medium text-sky-700 dark:text-sky-300 shadow-xs"
+            >
+              <Cpu className="size-3 text-sky-500" />
+              {tag}
+            </span>
+          ))}
         </VelocityMarquee>
+
+        {/* Reverse Track */}
         <VelocityMarquee
           container={container}
           reverse
-          baseSpeed={28}
-          className="rotate-1 border-y border-[#f4eddf]/40 py-3"
+          baseSpeed={36}
+          sensitivity={0.12}
+          maxBoost={240}
+          gap={20}
         >
-          <MarqueeContent>The horizon keeps its distance</MarqueeContent>
+          {benchmarkTags.map((tag) => (
+            <span
+              key={tag}
+              className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-1 font-mono text-xs font-medium text-emerald-700 dark:text-emerald-300 shadow-xs"
+            >
+              <Zap className="size-3 text-emerald-500" />
+              {tag}
+            </span>
+          ))}
         </VelocityMarquee>
       </div>
-      <div className="flex h-72 items-start justify-end px-7 pt-20">
-        <p className="max-w-xs text-sm leading-7 text-[#bfc3b9]">
-          Direction follows the gesture: scroll down to press forward, reverse
-          to pull the landscape back.
-        </p>
+
+      <div className="h-40 flex items-center justify-center text-xs text-muted-foreground">
+        Scroll faster inside to see maximum speed boost and directional inertia
       </div>
     </div>
   )

@@ -58,7 +58,7 @@
       "type": "string[]",
       "required": false,
       "control": "text",
-      "defaultValue": "[\n  \"oklch(0.546 0.245 262.881)\", // wui-token-audit-allow -- picker color data\n  \"oklch(0.585 0.233 277.117)\", // wui-token-audit-allow -- picker color data\n  \"oklch(0.577 0.245 27.325)\", // wui-token-audit-allow -- picker color data\n  \"oklch(0.666 0.179 58.318)\", // wui-token-audit-allow -- picker color data\n  \"oklch(0.527 0.154 150.069)\", // wui-token-audit-allow -- picker color data\n  \"oklch(0.6 0.118 184.704)\", // wui-token-audit-allow -- picker color data\n]",
+      "defaultValue": "[\r\n  \"oklch(0.546 0.245 262.881)\", // wui-token-audit-allow -- picker color data\r\n  \"oklch(0.585 0.233 277.117)\", // wui-token-audit-allow -- picker color data\r\n  \"oklch(0.577 0.245 27.325)\", // wui-token-audit-allow -- picker color data\r\n  \"oklch(0.666 0.179 58.318)\", // wui-token-audit-allow -- picker color data\r\n  \"oklch(0.527 0.154 150.069)\", // wui-token-audit-allow -- picker color data\r\n  \"oklch(0.6 0.118 184.704)\", // wui-token-audit-allow -- picker color data\r\n]",
       "description": "可供快速选择的 OKLCH 颜色。"
     },
     {

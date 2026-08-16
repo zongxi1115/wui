@@ -68,7 +68,7 @@
       "type": "Variants",
       "required": false,
       "control": "text",
-      "defaultValue": "{\n  rest: { y: \"0%\" },\n  hover: { y: \"-50%\" },\n}",
+      "defaultValue": "{\r\n  rest: { y: \"0%\" },\r\n  hover: { y: \"-50%\" },\r\n}",
       "description": "每个字符轨道的静止和悬停状态。"
     },
     {

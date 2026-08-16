@@ -124,7 +124,7 @@
       "type": "((value: string | number, datum: ChartDatum) => number)",
       "required": false,
       "control": "text",
-      "defaultValue": "(value) =>\n    typeof value === \"number\" ? value : new Date(value).getTime()",
+      "defaultValue": "(value) =>\r\n    typeof value === \"number\" ? value : new Date(value).getTime()",
       "description": "自定义日期值到时间戳的转换。"
     },
     {
@@ -132,7 +132,7 @@
       "type": "((timestamp: number, datum?: ChartDatum) => ReactNode)",
       "required": false,
       "control": "text",
-      "defaultValue": "(timestamp) =>\n    new Intl.DateTimeFormat(\"zh-CN\", {\n      month: \"short\",\n      day: \"numeric\",\n    }).format(timestamp)",
+      "defaultValue": "(timestamp) =>\r\n    new Intl.DateTimeFormat(\"zh-CN\", {\r\n      month: \"short\",\r\n      day: \"numeric\",\r\n    }).format(timestamp)",
       "description": "自定义横轴日期格式。"
     },
     {

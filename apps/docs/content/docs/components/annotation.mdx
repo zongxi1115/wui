@@ -36,6 +36,20 @@ component: annotation
 | `inView`   | `boolean`             | `true`     | 是否进入视口后播放。     |
 | `once`     | `boolean`             | `true`     | 是否只播放一次。         |
 
+## 扩展用法
+
+### 笔触变体
+
+支持平整的 `smooth` 与带有自然手绘双重笔触的 `rough` 样式，并可自由配置高光色值：
+
+<ComponentPreview name="annotation-variants" />
+
+### 路径与形态扩展
+
+除了默认的指向箭头外，通过自定义 `path` 可以实现手绘圈选、强调下划线和连线指示：
+
+<ComponentPreview name="annotation-shapes" />
+
 ## 使用说明
 
 路径坐标需要与 `viewBox` 使用同一套坐标系；自定义轨迹时建议保留少量外围空间，避免笔触或箭头被裁切。两种组件默认在进入视口时播放一次，

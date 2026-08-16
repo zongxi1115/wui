@@ -13,6 +13,12 @@
 - [Markdown](https://ui.wzx.wang/docs/components/markdown): 将 CommonMark 与 GFM 文本解析为可组合、带默认样式的 React 内容。
 - [AI 流协议 Hook useAiStream](https://ui.wzx.wang/docs/hooks/use-ai-stream): 消费 Vercel AI SDK UI Message Stream，并兼容 Zonix 的流式事件。
 - [AI 推理过程 AI Reasoning](https://ui.wzx.wang/docs/components/ai-reasoning): 用可折叠的思考链展示模型推理摘要与执行进度。
+- [AI 生成物 AI Artifact](https://ui.wzx.wang/docs/components/ai-artifact): 类似 Claude Artifacts / v0 的侧边与分屏工作区容器，支持代码与实时预览无缝切换。
+- [AI 来源引用 AI Sources](https://ui.wzx.wang/docs/components/ai-sources): 用于展示 AI 联网检索（SearchGPT / Perplexity）或 RAG 知识库问答参考来源的折叠卡片组与行内悬停角标。
+- [AI 消息操作 AI Message Actions](https://ui.wzx.wang/docs/components/ai-message-actions): 用于 AI 回答底部的标准化快捷操作栏，包含反馈评价、分支版本切换、一键复制与重新生成。
+- [AI 语音波形 AI Voice Visualizer](https://ui.wzx.wang/docs/components/ai-voice-visualizer): 专用于实时语音对话模式（Voice Mode / TTS / STT）的动态音频声浪与状态光环。
+- [AI 快捷提问建议 AI Prompt Suggestions](https://ui.wzx.wang/docs/components/ai-prompt-suggestions): 用于新对话启动页、空状态或输入框上方的引导式提问卡片与预设 Prompt 标签。
+- [AI 模型选择器 AI Model Selector](https://ui.wzx.wang/docs/components/ai-model-selector): 用于多模型切换下拉弹层、模型特性与参数标签展示，以及上下文 Token / Context Window 消耗进度指示。
 - [头像 Avatar](https://ui.wzx.wang/docs/components/avatar): 带图片回退、在线状态和头像组的通用身份组件。
 - [徽章 Badge](https://ui.wzx.wang/docs/components/badge): 用紧凑的标签展示状态、分类或简短元数据。
 - [气泡 Bubble](https://ui.wzx.wang/docs/components/bubble): 可组合头像、署名、正文、时间与操作区的通用消息气泡。

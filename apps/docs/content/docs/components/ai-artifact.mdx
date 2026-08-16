@@ -1,0 +1,38 @@
+---
+title: AI 生成物 AI Artifact
+description: 类似 Claude Artifacts / v0 的侧边与分屏工作区容器，支持代码与实时预览无缝切换。
+component: ai-artifact
+---
+
+## 基础示例 · Basic example
+
+<ComponentPreview name="ai-artifact-demo" previewClassName="min-h-0 p-6 flex justify-center" />
+
+<CodeTabs command="@wui-design/cli@latest add @wui/ai-artifact" />
+
+<ComponentSource name="ai-artifact" title="components/ui/ai-artifact.tsx" />
+
+## 组件作用 · What it's for
+
+`AiArtifact` 用于在 AI 对话或工作流中独立展示模型生成的代码文件、HTML 页面、SVG 图表或 React 组件原型。
+
+### 适用场景
+- **AI 编码与原型生成**：类似 Claude Artifacts 或 v0，将生成的独立文件提取到卡片/侧边栏中渲染。
+- **代码与预览双模切换**：支持在一键切换源代码视图与真实 DOM 渲染预览。
+- **全屏聚焦与操作**：提供全屏沉浸预览、一键复制代码、下载等实用操作动作。
+
+### 何时不建议使用
+- 如果仅仅是普通问答中的短代码段，建议直接使用内联 Markdown 代码块，而非完整的 Artifact 容器。
+
+## 组件属性 · Props
+
+<PropsTable name="ai-artifact" />
+
+## 事件 · Events
+
+- `onTabChange?: (tab: string) => void`：当激活的标签页（如 "preview" 或 "code"）发生改变时触发。
+- `onFullscreenChange?: (fullscreen: boolean) => void`：当全屏状态切换时触发。
+
+## 拓展使用 · Extended usage
+
+`AiArtifact` 采用组合式设计，支持自由装配操作按钮与自定义 Tab 面板（例如 Console、Diff、Markdown 等视图）。

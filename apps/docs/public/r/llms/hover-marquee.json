@@ -84,6 +84,10 @@
     {
       "name": "hover-marquee-demo",
       "title": "基础用法"
+    },
+    {
+      "name": "hover-marquee-catalog",
+      "title": "技能与特性目录"
     }
   ],
   "files": [

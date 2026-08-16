@@ -1,61 +1,99 @@
+import { ArrowRightIcon, SparklesIcon } from "lucide-react"
+
 import { AnnotationHighlight, AnnotationPath } from "@/registry/ui/annotation"
+import { Badge } from "@/registry/ui/badge"
+import { Button } from "@/registry/ui/button"
 
 export default function AnnotationDemo() {
   return (
-    <div className="flex min-h-[430px] w-full items-center justify-center px-6 py-12 sm:px-12">
+    <div className="flex w-full items-center justify-center px-4 py-8 sm:px-8">
       <div className="relative w-full max-w-xl">
-        <p className="text-muted-foreground text-xs font-medium uppercase tracking-[0.18em]">
-          Product update · 03
-        </p>
-        <h3 className="mt-4 max-w-lg text-3xl font-semibold leading-[1.18] tracking-tight sm:text-4xl">
-          Make the important part feel{" "}
-          <AnnotationHighlight>obvious</AnnotationHighlight>, not louder.
-        </h3>
-        <p className="text-muted-foreground mt-5 max-w-md text-sm leading-6">
-          Draw attention with a path, a marker sweep, or a shape that follows
-          the content you want people to notice.
-        </p>
-
-        <div className="mt-12 flex items-end justify-between gap-8 border-t pt-7">
-          <div>
-            <p className="text-muted-foreground text-xs">Hand-drawn marker</p>
-            <p className="mt-2 text-lg font-medium">
-              Ready for{" "}
-              <AnnotationHighlight
-                variant="rough"
-                color="oklch(0.78 0.16 155 / 0.5)"
-                delay={0.2}
-              >
-                review
-              </AnnotationHighlight>
-            </p>
-          </div>
-
-          <div className="relative pb-1">
-            <AnnotationPath
-              className="text-foreground absolute bottom-5 right-[88%] h-20 w-40"
-              delay={0.35}
-            />
-            <button className="bg-foreground text-background px-4 py-2 text-sm font-medium">
-              Continue
-            </button>
-          </div>
+        <div className="flex items-center gap-2">
+          <Badge variant="outline" className="font-mono text-xs">
+            v4.2 Update
+          </Badge>
+          <span className="text-muted-foreground text-xs font-medium tracking-wide">
+            Design Systems & UX
+          </span>
         </div>
 
-        <div className="mt-9 flex justify-center">
-          <span className="relative px-4 py-1.5 text-xs font-medium uppercase tracking-wide">
-            Custom path
-            <AnnotationPath
-              path="M8 24C12 5 108 2 132 18C151 31 122 43 69 42C25 42 1 35 8 24Z"
-              viewBox="0 0 140 48"
-              arrow={false}
-              color="oklch(0.65 0.2 25)"
-              strokeWidth={2}
-              duration={1}
-              delay={0.55}
-              className="absolute inset-0 h-full w-full"
-            />
-          </span>
+        <h3 className="mt-4 text-2xl font-semibold leading-snug tracking-tight sm:text-3xl">
+          Make key actions feel{" "}
+          <AnnotationHighlight>intuitive</AnnotationHighlight>, not complicated.
+        </h3>
+
+        <p className="text-muted-foreground mt-3 text-sm leading-relaxed">
+          Guide user focus naturally with animated vector paths, marker sweeps,
+          and{" "}
+          <AnnotationHighlight
+            variant="rough"
+            color="oklch(0.85 0.15 155 / 0.45)"
+            delay={0.25}
+          >
+            hand-drawn accents
+          </AnnotationHighlight>{" "}
+          that emphasize without overwhelming.
+        </p>
+
+        {/* Feature showcase card */}
+        <div className="border-border/80 bg-muted/20 mt-8 rounded-2xl border p-5 sm:p-6">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="flex items-center gap-2.5">
+              <div className="bg-primary/10 text-primary flex size-8 items-center justify-center rounded-lg">
+                <SparklesIcon className="size-4" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold">Adaptive Engine</p>
+                <p className="text-muted-foreground text-xs">
+                  Zero-latency inference pipeline
+                </p>
+              </div>
+            </div>
+
+            {/* Custom circled badge */}
+            <div className="relative inline-flex items-center">
+              <span className="relative z-10 px-3 py-1 font-mono text-[11px] font-semibold uppercase tracking-wider text-amber-600 dark:text-amber-400">
+                2.4x Speedup
+              </span>
+              <AnnotationPath
+                path="M6 16C12 4 78 2 108 12C124 21 105 32 55 31C18 31 1 25 6 16Z"
+                viewBox="0 0 116 36"
+                arrow={false}
+                color="oklch(0.75 0.18 55)"
+                strokeWidth={2}
+                duration={0.9}
+                delay={0.4}
+                className="absolute inset-0 size-full"
+              />
+            </div>
+          </div>
+
+          <div className="border-border/60 mt-6 flex flex-col justify-between gap-4 border-t pt-5 sm:flex-row sm:items-center">
+            <div className="text-muted-foreground text-xs">
+              <span className="text-foreground font-medium">99.98%</span> uptime
+              verified across 12 clusters
+            </div>
+
+            {/* CTA action with pointing arrow */}
+            <div className="relative flex items-center self-end sm:self-auto">
+              <span className="text-muted-foreground absolute -top-5 right-20 hidden font-mono text-[11px] sm:inline-block">
+                Start here
+              </span>
+              <AnnotationPath
+                path="M5 45C22 45 28 16 68 18"
+                viewBox="0 0 75 52"
+                strokeWidth={2.5}
+                color="oklch(0.6 0.18 25)"
+                delay={0.5}
+                duration={0.7}
+                className="absolute -top-4 right-[92%] hidden h-10 w-16 sm:block"
+              />
+              <Button size="sm" className="gap-2">
+                Deploy Node
+                <ArrowRightIcon className="size-3.5" />
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

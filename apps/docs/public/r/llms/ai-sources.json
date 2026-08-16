@@ -1,0 +1,86 @@
+{
+  "name": "ai-sources",
+  "type": "registry:ui",
+  "title": "AI 来源引用 AI Sources",
+  "description": "用于展示 AI 联网检索（SearchGPT / Perplexity）或 RAG 知识库问答参考来源的折叠卡片组与行内悬停角标。",
+  "categories": [
+    "ai"
+  ],
+  "import": "import { AiCitation, AiSourceItem, AiSources, AiSourcesContent, AiSourcesHeader, AiSourcesList } from \"@/components/ui/ai-sources\"",
+  "exports": [
+    "AiCitation",
+    "AiSourceItem",
+    "AiSources",
+    "AiSourcesContent",
+    "AiSourcesHeader",
+    "AiSourcesList"
+  ],
+  "typeExports": [
+    "AiCitationProps",
+    "AiSourceItemProps",
+    "AiSourcesHeaderProps",
+    "AiSourcesProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/ai-sources",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/ai-sources.json",
+    "npmDependencies": [
+      "radix-ui",
+      "class-variance-authority",
+      "lucide-react",
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "count",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "description": "检索到的参考来源总数。"
+    },
+    {
+      "name": "defaultOpen",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "默认是否展开参考来源列表。"
+    },
+    {
+      "name": "open",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "是否展开参考来源列表（受控）。"
+    },
+    {
+      "name": "onOpenChange",
+      "type": "((open: boolean) => void)",
+      "required": false,
+      "control": "text",
+      "description": "展开/折叠状态改变时的回调函数。"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "是否禁用折叠展开交互。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "ai-sources-demo",
+      "title": "基础示例 · Basic example"
+    }
+  ],
+  "files": [
+    "registry/ui/ai-sources.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/ai-sources",
+  "sourceUrl": "https://ui.wzx.wang/r/ai-sources.json"
+}

@@ -53,6 +53,14 @@
     {
       "name": "shiny-button-demo",
       "title": "基础用法"
+    },
+    {
+      "name": "shiny-button-variants",
+      "title": "尺寸与形态"
+    },
+    {
+      "name": "shiny-button-card",
+      "title": "行动召唤横幅"
     }
   ],
   "files": [

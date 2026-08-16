@@ -133,7 +133,7 @@
       "type": "((name: string, value: number, percentage: number, datum: ChartDatum) => ReactNode)",
       "required": false,
       "control": "text",
-      "defaultValue": "(name, _value, percentage) =>\n    `${name} ${Math.round(percentage * 100)}%`",
+      "defaultValue": "(name, _value, percentage) =>\r\n    `${name} ${Math.round(percentage * 100)}%`",
       "description": "自定义类别标签。"
     }
   ],

@@ -34,7 +34,7 @@
       "type": "Variants",
       "required": false,
       "control": "text",
-      "defaultValue": "{\n  hidden: { opacity: 0, y: 16 },\n  visible: { opacity: 1, y: 0 },\n}",
+      "defaultValue": "{\r\n  hidden: { opacity: 0, y: 16 },\r\n  visible: { opacity: 1, y: 0 },\r\n}",
       "description": "内容隐藏和显示时使用的动画变体。"
     },
     {

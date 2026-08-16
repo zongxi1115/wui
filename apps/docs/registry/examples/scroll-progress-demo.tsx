@@ -1,7 +1,9 @@
 "use client"
 
 import * as React from "react"
+import { BookOpen, Clock } from "lucide-react"
 
+import { Badge } from "@/registry/ui/badge"
 import { ScrollProgress } from "@/registry/ui/scroll-progress"
 
 export default function ScrollProgressDemo() {
@@ -11,73 +13,98 @@ export default function ScrollProgressDemo() {
   return (
     <div
       ref={container}
-      className="relative h-[32rem] w-full max-w-3xl overflow-y-auto bg-[#e8e4d9] text-[#1e211d]"
+      className="relative h-[32rem] w-full overflow-y-auto rounded-2xl border border-border bg-card text-card-foreground shadow-lg [scrollbar-width:thin]"
     >
+      {/* Top linear progress bar */}
       <ScrollProgress
         container={container}
         target={article}
         position="inline"
-        className="sticky top-0 z-30"
+        className="sticky top-0 z-30 h-1 bg-muted"
+        indicatorClassName="bg-primary"
         offset={["start start", "end end"]}
       />
-      <div className="sticky top-5 z-20 flex justify-end px-5">
-        <ScrollProgress
-          container={container}
-          target={article}
-          variant="circle"
-          size={44}
-          className="bg-[#e8e4d9]"
-          offset={["start start", "end end"]}
-        />
+
+      {/* Floating circular progress indicator */}
+      <div className="sticky top-4 z-20 flex justify-end px-5 pointer-events-none">
+        <div className="flex items-center gap-2 rounded-full border border-border bg-background/90 px-3 py-1 text-xs text-foreground shadow-lg backdrop-blur-md">
+          <span className="text-[11px] text-muted-foreground">Read</span>
+          <ScrollProgress
+            container={container}
+            target={article}
+            variant="circle"
+            size={28}
+            strokeWidth={3}
+            className="text-foreground"
+            trackClassName="text-muted"
+            indicatorClassName="text-primary"
+            offset={["start start", "end end"]}
+          />
+        </div>
       </div>
 
-      <article ref={article} className="pb-24">
-        <header className="relative -mt-11 min-h-[29rem] overflow-hidden">
+      <article ref={article} className="space-y-8 px-6 pb-20 pt-2 sm:px-10">
+        <div className="relative h-56 w-full overflow-hidden rounded-xl sm:h-64">
           <img
-            src="/wui/demo/field-notes/coastal-hill.jpg"
-            alt="A lone walker on a coastal hill"
-            className="absolute inset-0 size-full object-cover object-center"
+            src="https://picsum.photos/seed/editorial-motion/1000/500"
+            alt="Engineering Motion"
+            className="size-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#e8e4d9]" />
-          <div className="relative flex min-h-[29rem] flex-col justify-end px-6 pb-8 sm:px-10">
-            <p className="text-[10px] uppercase tracking-[0.3em]">
-              Field notes 07 · 6 min
-            </p>
-            <h3 className="mt-3 max-w-xl font-serif text-5xl leading-[0.9] tracking-[-0.05em] sm:text-7xl">
-              The long way to the water.
-            </h3>
-          </div>
-        </header>
-
-        <div className="mx-auto grid max-w-2xl gap-10 px-6 pt-8 sm:grid-cols-[7rem_1fr] sm:px-10">
-          <aside className="text-[10px] uppercase leading-5 tracking-[0.22em]">
-            38°57′N
-            <br />
-            Four days
-            <br />
-            On foot
-          </aside>
-          <div className="space-y-12">
-            {["Arrival", "Weather", "The last ridge", "At the water"].map(
-              (title, index) => (
-                <section
-                  key={title}
-                  className="border-t border-[#1e211d]/25 pt-4"
-                >
-                  <p className="font-serif text-2xl italic">{title}</p>
-                  <p className="mt-3 text-sm leading-7 text-[#44483f]">
-                    The path disappears into grass, then returns as a pale line
-                    above the sea. Distance is measured here by weather, not
-                    kilometres.
-                    {index === 3
-                      ? " By dusk, the cliffs hold the last light."
-                      : " Each turn edits the horizon again."}
-                  </p>
-                </section>
-              )
-            )}
-          </div>
+          <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent" />
         </div>
+
+        <div>
+          <div className="flex items-center gap-2">
+            <Badge variant="outline" className="text-xs">
+              <BookOpen className="size-3" />
+              Engineering Guide
+            </Badge>
+            <span className="flex items-center gap-1 text-xs text-muted-foreground">
+              <Clock className="size-3" /> 4 min read
+            </span>
+          </div>
+
+          <h3 className="mt-3 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+            Zero-Jank Motion Pipelines
+          </h3>
+          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+            A comprehensive study on coordinating GPU transforms, passive scroll
+            observers, and spring physics for stutter-free web animations.
+          </p>
+        </div>
+
+        <section className="space-y-2.5 rounded-xl border border-border bg-muted/40 p-5">
+          <h4 className="text-sm font-semibold text-foreground">
+            01. Spring Physics in the Render Loop
+          </h4>
+          <p className="text-xs leading-relaxed text-muted-foreground">
+            Traditional linear transitions often feel artificial and abrupt. By
+            employing critically damped harmonic oscillator springs, motion
+            adapts naturally to user gesture velocity and direction changes.
+          </p>
+        </section>
+
+        <section className="space-y-2.5 rounded-xl border border-border bg-muted/40 p-5">
+          <h4 className="text-sm font-semibold text-foreground">
+            02. GPU Compositing & Off-Thread Layers
+          </h4>
+          <p className="text-xs leading-relaxed text-muted-foreground">
+            Isolating animated elements into dedicated compositor layers
+            prevents expensive layout reflows and repaints. We leverage 3D matrix
+            transforms to maintain a rock-solid 120 FPS.
+          </p>
+        </section>
+
+        <section className="space-y-2.5 rounded-xl border border-border bg-muted/40 p-5">
+          <h4 className="text-sm font-semibold text-foreground">
+            03. Layout Containment & Resize Observability
+          </h4>
+          <p className="text-xs leading-relaxed text-muted-foreground">
+            Dynamic content injection often breaks scroll calculations. Using
+            isolated resize observers attached directly to container boundaries
+            ensures offset precision across all device viewports.
+          </p>
+        </section>
       </article>
     </div>
   )

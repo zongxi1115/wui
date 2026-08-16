@@ -1,30 +1,36 @@
 "use client"
 
 import * as React from "react"
+import { ArrowRight, Sparkles } from "lucide-react"
 
+import { Badge } from "@/registry/ui/badge"
+import { Button } from "@/registry/ui/button"
 import { HorizontalScroll } from "@/registry/ui/horizontal-scroll"
 
-const chapters = [
+const caseStudies = [
   {
-    number: "01",
-    place: "Dunes",
-    title: "A pale road through silver grass.",
-    image: "/wui/demo/field-notes/silver-grass.jpg",
-    className: "bg-[#d6d7cf] text-[#18201c]",
+    tag: "FINTECH",
+    title: "High-Frequency Settlement Engine",
+    company: "Apex Global Capital",
+    metric: "80k tx/sec",
+    image: "https://picsum.photos/seed/fintech-trading/700/400",
+    desc: "Migrated mission-critical trading pipeline with zero packet drop and sub-millisecond edge resolution.",
   },
   {
-    number: "02",
-    place: "Headland",
-    title: "The sea begins where certainty ends.",
-    image: "/wui/demo/field-notes/coastal-hill.jpg",
-    className: "bg-[#a34f31] text-[#f4eddf]",
+    tag: "AI RESEARCH",
+    title: "Autonomous Agent Clusters",
+    company: "Synthetix AI Lab",
+    metric: "16x faster",
+    image: "https://picsum.photos/seed/neural-agent/700/400",
+    desc: "Parallelized multi-step reasoning models with dynamic vector caching and instant state hydration.",
   },
   {
-    number: "03",
-    place: "Shelter",
-    title: "Geometry holds its ground.",
-    image: "/wui/demo/field-notes/concrete-stairs.jpg",
-    className: "bg-[#20231f] text-[#f4eddf]",
+    tag: "MEDIA STREAMING",
+    title: "Low-Latency Global Distribution",
+    company: "Vortex Media Cloud",
+    metric: "150M viewers",
+    image: "https://picsum.photos/seed/media-stream/700/400",
+    desc: "Synchronized live 4K video canvas and interactive chat streams across 320+ edge point-of-presence nodes.",
   },
 ]
 
@@ -34,43 +40,80 @@ export default function HorizontalScrollDemo() {
   return (
     <div
       ref={container}
-      className="h-[32rem] w-full max-w-4xl overflow-y-auto bg-[#d6d7cf]"
+      className="relative h-[32rem] w-full overflow-y-auto rounded-2xl border border-border bg-card text-card-foreground shadow-lg [scrollbar-width:thin]"
     >
-      <HorizontalScroll container={container} trackClassName="items-stretch">
-        <section className="flex h-full w-[18rem] shrink-0 flex-col justify-between p-6 sm:w-[24rem] sm:p-9">
-          <p className="text-[10px] uppercase leading-5 tracking-[0.28em]">
-            Atlantic field notes
-            <br />
-            Westward, 2026
-          </p>
-          <h3 className="font-serif text-5xl leading-[0.88] tracking-[-0.055em] sm:text-6xl">
-            Three landscapes, one line of travel.
-          </h3>
-          <p className="text-[10px] uppercase tracking-[0.28em]">
-            Scroll to cross →
-          </p>
+      <HorizontalScroll container={container} trackClassName="items-stretch gap-6 p-6 sm:p-8">
+        {/* Intro Section */}
+        <section className="flex h-full w-[20rem] shrink-0 flex-col justify-between rounded-2xl border border-border bg-muted/40 p-6 sm:w-[22rem]">
+          <div>
+            <Badge variant="outline" className="text-xs">
+              <Sparkles className="size-3 text-sky-500" />
+              CASE STUDIES
+            </Badge>
+            <h3 className="mt-4 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+              Proven at Global Scale
+            </h3>
+            <p className="mt-3 text-xs leading-relaxed text-muted-foreground sm:text-sm">
+              Scroll down inside this box to glide horizontally through featured
+              enterprise deployments.
+            </p>
+          </div>
+
+          <div className="flex items-center gap-2 text-xs font-medium text-sky-600 dark:text-sky-400">
+            <span>Scroll vertically to slide</span>
+            <ArrowRight className="size-4 animate-pulse" />
+          </div>
         </section>
-        {chapters.map((chapter, index) => (
+
+        {/* Case Study Cards */}
+        {caseStudies.map((item, idx) => (
           <article
-            key={chapter.number}
-            className={`relative flex h-full w-[23rem] shrink-0 overflow-hidden sm:w-[31rem] ${chapter.className}`}
+            key={item.title}
+            className="relative flex h-full w-[24rem] shrink-0 flex-col justify-between overflow-hidden rounded-2xl border border-border bg-card p-6 shadow-md sm:w-[26rem]"
           >
-            <img
-              src={chapter.image}
-              alt={`${chapter.place} landscape`}
-              className="absolute inset-0 size-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/5 to-black/10" />
-            <div className="relative flex w-full flex-col justify-between p-6 text-white sm:p-8">
-              <div className="flex justify-between text-[10px] uppercase tracking-[0.25em]">
-                <span>{chapter.place}</span>
-                <span>{chapter.number} / 03</span>
+            <div>
+              <div className="relative h-40 w-full overflow-hidden rounded-xl">
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className="size-full object-cover"
+                />
+                <div className="absolute left-3 top-3">
+                  <Badge
+                    variant="outline"
+                    className="border-white/30 bg-black/40 text-[10px] text-white backdrop-blur-md"
+                  >
+                    {item.tag}
+                  </Badge>
+                </div>
+                <span className="absolute bottom-2 right-3 font-mono text-xs text-white drop-shadow">
+                  0{idx + 1} / 03
+                </span>
               </div>
-              <h4
-                className={`max-w-sm font-serif text-4xl leading-[0.94] tracking-[-0.045em] ${index === 1 ? "ml-auto text-right" : ""}`}
-              >
-                {chapter.title}
+
+              <div className="mt-3 text-xs font-medium text-muted-foreground">
+                {item.company}
+              </div>
+              <h4 className="mt-1 text-lg font-semibold text-foreground">
+                {item.title}
               </h4>
+              <p className="mt-2 text-xs leading-relaxed text-muted-foreground sm:text-sm">
+                {item.desc}
+              </p>
+            </div>
+
+            <div className="mt-4 flex items-center justify-between border-t border-border pt-3">
+              <div>
+                <div className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                  Impact Benchmark
+                </div>
+                <div className="text-base font-bold tracking-tight text-foreground">
+                  {item.metric}
+                </div>
+              </div>
+              <Button size="sm" variant="outline">
+                View Report
+              </Button>
             </div>
           </article>
         ))}

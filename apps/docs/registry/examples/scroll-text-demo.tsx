@@ -1,7 +1,9 @@
 "use client"
 
 import * as React from "react"
+import { ArrowDown, Sparkles } from "lucide-react"
 
+import { Badge } from "@/registry/ui/badge"
 import { ScrollText } from "@/registry/ui/scroll-text"
 
 export default function ScrollTextDemo() {
@@ -10,59 +12,75 @@ export default function ScrollTextDemo() {
   return (
     <div
       ref={container}
-      className="h-[32rem] w-full max-w-3xl overflow-y-auto bg-[#171b18] text-[#f2eee3]"
+      className="relative h-[32rem] w-full overflow-y-auto rounded-2xl border border-border bg-card p-6 text-card-foreground shadow-lg [scrollbar-width:thin] sm:p-10"
     >
-      <div className="relative h-[16rem] overflow-hidden">
+      <div className="flex items-center justify-between border-b border-border pb-4">
+        <div className="flex items-center gap-2">
+          <Badge variant="outline" className="text-xs">
+            <Sparkles className="size-3 text-sky-500" />
+            DESIGN MANIFESTO
+          </Badge>
+        </div>
+        <div className="flex items-center gap-1.5 text-xs text-sky-600 dark:text-sky-400">
+          <span>Scroll to illuminate</span>
+          <ArrowDown className="size-3.5 animate-bounce" />
+        </div>
+      </div>
+
+      <div className="relative my-6 h-40 w-full overflow-hidden rounded-xl sm:h-52">
         <img
-          src="/wui/demo/field-notes/cliff-horizon.jpg"
-          alt="Rocky cliffs meeting the ocean"
+          src="https://picsum.photos/seed/sculpture-minimal/1000/400"
+          alt="Design Architecture"
           className="size-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#171b18] via-[#171b18]/20 to-black/10" />
-        <div className="absolute inset-x-6 bottom-6 flex items-end justify-between sm:inset-x-10">
-          <p className="text-[10px] uppercase tracking-[0.28em]">
-            Scroll this panel to reveal
-          </p>
-          <span className="font-serif text-4xl italic">I</span>
+        <div className="absolute inset-0 bg-gradient-to-t from-card via-card/20 to-transparent" />
+      </div>
+
+      <div className="space-y-20 py-6">
+        {/* Highlight Mode Showcase */}
+        <div>
+          <span className="text-[11px] font-mono uppercase tracking-wider text-sky-600 dark:text-sky-400">
+            01 / Progressive Word Highlight
+          </span>
+          <div className="mt-4">
+            <ScrollText
+              container={container}
+              mode="highlight"
+              per="word"
+              offset={["start 0.8", "end 0.4"]}
+              overlap={0.4}
+              className="text-2xl font-medium leading-relaxed tracking-tight text-foreground sm:text-4xl"
+            >
+              We believe great software is not merely functional. Every
+              interaction should feel instantaneous, intuitive, and remarkably
+              crafted with obsessive attention to detail.
+            </ScrollText>
+          </div>
+        </div>
+
+        {/* Reveal Mode Showcase */}
+        <div className="rounded-xl border border-border bg-muted/40 p-6 sm:p-8">
+          <span className="text-[11px] font-mono uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+            02 / Line-by-Line Spatial Reveal
+          </span>
+          <div className="mt-4">
+            <ScrollText
+              container={container}
+              mode="reveal"
+              per="line"
+              offset={["start 0.85", "end 0.35"]}
+              overlap={0.5}
+              className="text-2xl font-semibold leading-snug tracking-tight text-foreground sm:text-3xl"
+            >
+              {
+                "Fast by default.\nAccessible by design.\nEngineered for modern builders."
+              }
+            </ScrollText>
+          </div>
         </div>
       </div>
 
-      <div className="px-6 py-16 sm:px-10">
-        <p className="mb-5 text-[10px] uppercase tracking-[0.24em] text-[#9ca69d]">
-          Muted → bright, line by line
-        </p>
-        <ScrollText
-          container={container}
-          per="line"
-          offset={["start 0.8", "end 0.35"]}
-          overlap={0.65}
-          segmentClassName="text-[#f2eee3]/20 [&>span]:text-[#f2eee3] leading-[1.02]"
-          className="max-w-2xl font-serif text-4xl tracking-[-0.04em] sm:text-5xl"
-        >
-          {
-            "The coast is never still.\nWind edits the grass.\nSalt redraws the stone.\nEvery tide leaves a new sentence."
-          }
-        </ScrollText>
-
-        <div className="ml-auto mt-32 max-w-md border-l border-[#f2eee3]/30 pl-6">
-          <p className="mb-4 text-[10px] uppercase tracking-[0.24em] text-[#9ca69d]">
-            Rise into view
-          </p>
-          <ScrollText
-            container={container}
-            mode="reveal"
-            per="line"
-            offset={["start 0.82", "end 0.32"]}
-            overlap={0.6}
-            className="font-serif text-3xl italic leading-tight"
-          >
-            {
-              "Walk until the road thins.\nWait until the weather turns.\nLook again."
-            }
-          </ScrollText>
-        </div>
-      </div>
-      <div className="h-48" />
+      <div className="h-16" />
     </div>
   )
 }

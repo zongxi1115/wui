@@ -1,0 +1,58 @@
+{
+  "name": "ai-prompt-suggestions",
+  "type": "registry:ui",
+  "title": "AI 快捷提问建议 AI Prompt Suggestions",
+  "description": "用于新对话启动页、空状态或输入框上方的引导式提问卡片与预设 Prompt 标签。",
+  "categories": [
+    "ai"
+  ],
+  "import": "import { AiPromptSuggestionItem, AiPromptSuggestions, aiPromptSuggestionItemVariants, aiPromptSuggestionsVariants } from \"@/components/ui/ai-prompt-suggestions\"",
+  "exports": [
+    "AiPromptSuggestionItem",
+    "AiPromptSuggestions",
+    "aiPromptSuggestionItemVariants",
+    "aiPromptSuggestionsVariants"
+  ],
+  "typeExports": [
+    "AiPromptSuggestionItemProps",
+    "AiPromptSuggestionsProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/ai-prompt-suggestions",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/ai-prompt-suggestions.json",
+    "npmDependencies": [
+      "class-variance-authority",
+      "lucide-react"
+    ],
+    "registryDependencies": [
+      "utils",
+      "badge"
+    ]
+  },
+  "props": [
+    {
+      "name": "layout",
+      "type": "\"grid\" | \"scroll\" | \"chips\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "grid",
+        "scroll",
+        "chips"
+      ],
+      "defaultValue": "grid",
+      "description": "快捷提示词组的排版布局方式（网格、横向滚动或胶囊标签）。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "ai-prompt-suggestions-demo",
+      "title": "基础示例 · Basic example"
+    }
+  ],
+  "files": [
+    "registry/ui/ai-prompt-suggestions.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/ai-prompt-suggestions",
+  "sourceUrl": "https://ui.wzx.wang/r/ai-prompt-suggestions.json"
+}

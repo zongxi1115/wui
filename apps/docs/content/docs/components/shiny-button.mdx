@@ -37,8 +37,17 @@ component: shiny-button
 
 ## 扩展用法
 
-组件源码位于你的项目中，可以自由调整外观：修改 `speed` 和 `gap` 控制扫光的速度和密度，
-将 `bg-primary` 表面替换为渐变，或修改 `linear-gradient` 实现彩色高光。修改时应保留按钮的文字对比度和焦点样式。
+### 尺寸与形态
+
+支持配置各种标准尺寸与圆角预设：
+
+<ComponentPreview name="shiny-button-variants" />
+
+### 行动召唤横幅
+
+在产品升级、早鸟体验或核心转化区域，使用 `ShinyButton` 作为主要操作按钮：
+
+<ComponentPreview name="shiny-button-card" />
 
 <Callout title="添加自己的效果组件">
   新效果组件遵循标准的[组件规范](/docs)，并在 `registry.json` 中添加 `"categories": ["fancy"]`，

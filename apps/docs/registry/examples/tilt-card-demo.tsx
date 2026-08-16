@@ -1,35 +1,78 @@
+import { ArrowUpRight, Camera } from "lucide-react"
+
+import { Badge } from "@/registry/ui/badge"
 import { TiltCard } from "@/registry/ui/tilt-card"
+
+const cards = [
+  {
+    tag: "ARCHITECTURAL",
+    title: "The Concrete Monolith",
+    series: "№ 01 / 03",
+    image: "https://picsum.photos/seed/arch-monolith/600/700",
+  },
+  {
+    tag: "AERIAL COAST",
+    title: "The Azure Horizon",
+    series: "№ 02 / 03",
+    image: "https://picsum.photos/seed/azure-horizon/600/700",
+  },
+  {
+    tag: "SPATIAL STUDIO",
+    title: "Kinetic Geometry",
+    series: "№ 03 / 03",
+    image: "https://picsum.photos/seed/kinetic-geo/600/700",
+  },
+]
 
 export default function TiltCardDemo() {
   return (
-    <div className="grid min-h-[430px] w-full place-items-center bg-[#d9d5ca] [perspective:1000px]">
-      <TiltCard
-        maxTilt={8}
-        hoverScale={1.025}
-        glare
-        className="relative h-[22rem] w-64 overflow-hidden rounded-t-[8rem] bg-[#1b211d] text-white"
-      >
-        <img
-          src="/wui/demo/field-notes/coastal-hill.jpg"
-          alt="A figure crossing a coastal hill"
-          className="absolute inset-0 size-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/10" />
-        <div className="relative flex h-full flex-col justify-between p-5 [transform:translateZ(30px)]">
-          <div className="flex justify-between text-[10px] uppercase tracking-[0.22em]">
-            <span>Westward</span>
-            <span>04 / 26</span>
+    <div className="grid w-full grid-cols-1 gap-6 [perspective:1000px] md:grid-cols-3">
+      {cards.map((card) => (
+        <TiltCard
+          key={card.title}
+          maxTilt={10}
+          hoverScale={1.03}
+          glare
+          className="relative h-80 w-full overflow-hidden rounded-2xl border border-border bg-card text-card-foreground shadow-lg"
+          glareClassName="mix-blend-overlay opacity-40"
+        >
+          <img
+            src={card.image}
+            alt={card.title}
+            className="absolute inset-0 size-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-black/20" />
+
+          {/* 3D Floating Layers */}
+          <div className="relative flex h-full flex-col justify-between p-6 text-white [transform:translateZ(32px)]">
+            <div className="flex items-center justify-between">
+              <Badge
+                variant="outline"
+                className="border-white/30 bg-black/40 text-[10px] text-white backdrop-blur-md"
+              >
+                <Camera className="size-3 text-sky-300" />
+                {card.tag}
+              </Badge>
+
+              <span className="font-mono text-xs text-white/70">
+                {card.series}
+              </span>
+            </div>
+
+            <div>
+              <div className="flex items-center justify-between">
+                <h4 className="text-xl font-semibold tracking-tight text-white">
+                  {card.title}
+                </h4>
+                <ArrowUpRight className="size-4 text-white/80" />
+              </div>
+              <p className="mt-1 text-[11px] text-white/70">
+                Hover to tilt perspective in 3D space
+              </p>
+            </div>
           </div>
-          <div>
-            <p className="font-serif text-4xl italic leading-none">
-              The last ridge.
-            </p>
-            <p className="mt-3 text-[10px] uppercase tracking-[0.22em] text-white/70">
-              Move across the terrain
-            </p>
-          </div>
-        </div>
-      </TiltCard>
+        </TiltCard>
+      ))}
     </div>
   )
 }

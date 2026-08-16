@@ -1,0 +1,37 @@
+---
+title: AI 快捷提问建议 AI Prompt Suggestions
+description: 用于新对话启动页、空状态或输入框上方的引导式提问卡片与预设 Prompt 标签。
+component: ai-prompt-suggestions
+---
+
+## 基础示例 · Basic example
+
+<ComponentPreview name="ai-prompt-suggestions-demo" previewClassName="min-h-0 p-6 flex justify-center" />
+
+<CodeTabs command="@wui-design/cli@latest add @wui/ai-prompt-suggestions" />
+
+<ComponentSource name="ai-prompt-suggestions" title="components/ui/ai-prompt-suggestions.tsx" />
+
+## 组件作用 · What it's for
+
+`AiPromptSuggestions` 帮助用户快速开启对话、降低打字门槛，并引导用户体验 Agent 的特色能力。
+
+### 适用场景
+- **新会话空状态页面**：在对话界面初始呈现推荐提问网格（Card 模式）。
+- **输入框上方快捷建议**：以胶囊药丸（Chip 模式）或横向滚动条展示上下文相关的快捷补全。
+- **一键填入与执行**：提供 `onSelectPrompt` 回调，便于一键将内容注入 `AiPromptTextarea` 或直接发送。
+
+### 何时不建议使用
+- 如果用户已经在长对话的交流过程中，建议隐藏初始建议卡片以保持界面清爽。
+
+## 组件属性 · Props
+
+<PropsTable name="ai-prompt-suggestions" />
+
+## 事件 · Events
+
+- `AiPromptSuggestionItem.onSelectPrompt?: (prompt: string) => void`：用户点击建议卡片/胶囊时触发，返回完整的提示词文本。
+
+## 拓展使用 · Extended usage
+
+可通过 `layout="scroll"` 配合移动端横向滑动，或者在每张卡片中嵌入特色 `Badge` 与专属图标。

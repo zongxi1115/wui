@@ -1,0 +1,38 @@
+---
+title: AI 来源引用 AI Sources
+description: 用于展示 AI 联网检索（SearchGPT / Perplexity）或 RAG 知识库问答参考来源的折叠卡片组与行内悬停角标。
+component: ai-sources
+---
+
+## 基础示例 · Basic example
+
+<ComponentPreview name="ai-sources-demo" previewClassName="min-h-0 p-6 flex justify-center" />
+
+<CodeTabs command="@wui-design/cli@latest add @wui/ai-sources" />
+
+<ComponentSource name="ai-sources" title="components/ui/ai-sources.tsx" />
+
+## 组件作用 · What it's for
+
+`AiSources` 与 `AiCitation` 专为 AI 联网搜索、Agent 工具检索和 RAG 知识库问答场景设计。
+
+### 适用场景
+- **行内角标溯源 (`AiCitation`)**：在正文中通过 `[1]`、`[2]` 标记引用点，鼠标悬停即展示带标题、摘要、网站图标的预览卡片（Hover Card），点击直达源网页。
+- **可折叠来源列表 (`AiSources`)**：在回答底部聚合展示所有参考网址或文档来源卡片，支持一键展开与收起。
+- **防虚假信息与可信度展示**：让大模型的生成过程有迹可循、来源清晰。
+
+### 何时不建议使用
+- 如果回答内容完全基于模型内置参数知识且无外部检索检索工具参与，无需添加引用源。
+
+## 组件属性 · Props
+
+<PropsTable name="ai-sources" />
+
+## 事件 · Events
+
+- `AiSources` 透传 Radix Collapsible 的 `onOpenChange` 事件。
+- `AiSourceItem` 和 `AiCitation` 均为原生超链接或悬停卡片触发器，支持标准的 `onClick` 事件。
+
+## 拓展使用 · Extended usage
+
+可通过 `AiSourceItem` 自定义 `favicon`、`domain`、`snippet` 和外部跳转逻辑，轻松适配企业私有知识库文件或公网搜索结果。

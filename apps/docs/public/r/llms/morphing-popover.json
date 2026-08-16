@@ -59,7 +59,7 @@
       "type": "Transition",
       "required": false,
       "control": "text",
-      "defaultValue": "{\n  type: \"spring\",\n  stiffness: 460,\n  damping: 36,\n  mass: 0.65,\n} as const",
+      "defaultValue": "{\r\n  type: \"spring\",\r\n  stiffness: 460,\r\n  damping: 36,\r\n  mass: 0.65,\r\n} as const",
       "description": "控制触发元素与弹出层之间形变过程的弹簧或补间动画。"
     },
     {

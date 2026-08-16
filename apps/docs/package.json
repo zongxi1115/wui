@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "predev": "pnpm registry:build",
     "dev": "next dev",
     "dev:turbo": "next dev --turbopack",
     "prebuild": "pnpm registry:build",

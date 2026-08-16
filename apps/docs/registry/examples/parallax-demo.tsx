@@ -1,7 +1,9 @@
 "use client"
 
 import * as React from "react"
+import { Activity, ArrowDown, Compass, Radio, Satellite } from "lucide-react"
 
+import { Badge } from "@/registry/ui/badge"
 import { Parallax } from "@/registry/ui/parallax"
 
 export default function ParallaxDemo() {
@@ -10,76 +12,98 @@ export default function ParallaxDemo() {
   return (
     <div
       ref={container}
-      className="h-[32rem] w-full max-w-3xl overflow-y-auto bg-[#101412] text-[#edf0e9]"
+      className="relative h-[32rem] w-full overflow-y-auto rounded-2xl border border-border bg-card text-card-foreground shadow-lg [scrollbar-width:thin]"
     >
-      <div className="flex min-h-56 flex-col justify-between px-6 py-7 sm:px-10 sm:py-9">
-        <div className="flex items-center justify-between border-b border-white/15 pb-3 text-[10px] uppercase tracking-[0.22em] text-white/60">
-          <span>Field study / 03</span>
-          <span className="flex items-center gap-2 text-[#d5e2bd]">
-            Scroll inside <span aria-hidden="true">↓</span>
-          </span>
+      <div className="p-6 sm:p-8">
+        <div className="flex items-center justify-between border-b border-border pb-4">
+          <div className="flex items-center gap-2">
+            <Radio className="size-4 text-sky-500 animate-pulse" />
+            <span className="text-xs font-semibold text-foreground">
+              Orbital Telemetry Stream
+            </span>
+          </div>
+          <div className="flex items-center gap-1.5 text-xs text-sky-600 dark:text-sky-400">
+            <span>Scroll for multi-layer parallax</span>
+            <ArrowDown className="size-3.5 animate-bounce" />
+          </div>
         </div>
-        <div className="max-w-xl">
-          <h3 className="font-serif text-4xl leading-[0.9] tracking-[-0.05em] sm:text-5xl">
-            One scroll.
-            <br />Three different speeds.
+
+        <div className="my-5">
+          <Badge variant="outline" className="text-xs">
+            <Satellite className="size-3 text-sky-500" />
+            DEEP SPACE EXPLORATION
+          </Badge>
+          <h3 className="mt-3 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+            Multi-Speed Spatial Depth
           </h3>
+          <p className="mt-1 text-xs text-muted-foreground">
+            Each layer below translates with independent velocities relative to
+            container scrolling.
+          </p>
         </div>
       </div>
 
-      <div className="relative mx-5 h-[28rem] overflow-hidden border-y border-white/20 sm:mx-10">
+      {/* Visual Parallax Stage */}
+      <div className="relative mx-6 my-2 h-96 overflow-hidden rounded-xl border border-border bg-muted/40 sm:mx-8">
+        {/* Layer 1: Background Landscape / Space Photo (Slow Drift) */}
         <Parallax
           container={container}
-          distance={[-150, 150]}
-          scale={[1.18, 1.3]}
-          className="absolute -inset-x-20 -inset-y-40"
+          distance={[-100, 100]}
+          scale={[1.1, 1.25]}
+          className="absolute -inset-12"
         >
           <img
-            src="/wui/demo/field-notes/cliff-horizon.jpg"
-            alt="A distant cliff above a calm sea"
+            src="https://picsum.photos/seed/space-station/1100/700"
+            alt="Space Landscape"
             className="size-full object-cover"
           />
+          <div className="absolute inset-0 bg-black/40" />
         </Parallax>
-        <div className="pointer-events-none absolute inset-0 bg-[#07100e]/35" />
 
-        <div className="pointer-events-none absolute inset-5 z-10 border border-white/45">
-          <span className="absolute -left-px top-1/2 h-px w-12 bg-white/60" />
-          <span className="absolute -right-px top-1/2 h-px w-12 bg-white/60" />
-          <span className="absolute left-1/2 top-3 -translate-x-1/2 text-[9px] uppercase tracking-[0.24em] text-white/65">
-            Fixed frame
-          </span>
+        {/* Fixed HUD frame overlay */}
+        <div className="pointer-events-none absolute inset-4 z-10 rounded-lg border border-white/30 flex flex-col justify-between p-3">
+          <div className="flex justify-between text-[10px] font-mono text-white/80 uppercase">
+            <span>[ TARGET: ORBIT-04 ]</span>
+            <span>[ LOCK: STABLE ]</span>
+          </div>
+          <div className="flex justify-between text-[10px] font-mono text-white/80 uppercase">
+            <span>FIXED HUD FRAME</span>
+            <span>FREQ: 1420.4 MHZ</span>
+          </div>
         </div>
 
+        {/* Layer 2: Fast Horizontal Layer (Top) */}
         <Parallax
           container={container}
           axis="x"
-          distance={[140, -140]}
-          className="absolute inset-x-0 top-16 z-20 flex items-center gap-3 px-5 text-[10px] uppercase tracking-[0.24em] text-[#e8f2d3] sm:px-8"
+          distance={[120, -120]}
+          className="absolute inset-x-0 top-10 z-20 flex justify-center px-4"
         >
-          <span className="h-px w-16 bg-current" />
-          <span>Foreground →</span>
+          <div className="flex items-center gap-2 rounded-full border border-white/30 bg-black/60 px-4 py-1.5 text-xs font-medium text-white shadow-xl backdrop-blur-md">
+            <Activity className="size-3.5 text-sky-400" />
+            <span>Velocity: 7.82 km/s (Fast Layer →)</span>
+          </div>
         </Parallax>
 
+        {/* Layer 3: Slower Horizontal Layer (Bottom) */}
         <Parallax
           container={container}
           axis="x"
-          distance={[-72, 72]}
-          className="absolute inset-x-0 bottom-14 z-20 px-5 sm:px-8"
+          distance={[-80, 80]}
+          className="absolute inset-x-0 bottom-10 z-20 flex justify-center px-4"
         >
-          <p className="max-w-[15rem] font-serif text-4xl leading-[0.88] tracking-[-0.05em] text-white sm:text-5xl">
-            ← The slower layer
-          </p>
+          <div className="flex items-center gap-2 rounded-full border border-white/30 bg-black/60 px-4 py-1.5 text-xs font-medium text-white shadow-xl backdrop-blur-md">
+            <Compass className="size-3.5 text-indigo-400" />
+            <span>Altitude: 418 km (← Counter Vector)</span>
+          </div>
         </Parallax>
       </div>
 
-      <div className="grid min-h-64 gap-8 px-6 py-12 sm:grid-cols-[1.1fr_0.9fr] sm:px-10">
-        <p className="font-serif text-2xl leading-tight tracking-[-0.025em] text-[#d8e2cf]">
-          The border stays fixed while the image and two labels travel at
-          clearly different rates.
-        </p>
-        <p className="border-l border-[#b9c9a6]/55 pl-4 text-sm leading-7 text-white/60">
-          The scroll container is passed to every layer, so the effect stays
-          contained to this demo instead of following the whole document.
+      <div className="p-6 pb-24 text-xs leading-relaxed text-muted-foreground sm:p-8 sm:pb-28">
+        <p className="rounded-xl border border-border bg-muted/40 p-4">
+          Notice how the fixed HUD outline stays anchored while the background
+          imagery expands and the two telemetry badges glide horizontally in
+          opposing directions.
         </p>
       </div>
     </div>

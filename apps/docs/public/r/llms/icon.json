@@ -32,7 +32,7 @@
     },
     {
       "name": "size",
-      "type": "number | \"sm\" | \"lg\" | \"xs\" | \"md\" | \"xl\"",
+      "type": "number | \"sm\" | \"lg\" | \"md\" | \"xs\" | \"xl\"",
       "required": false,
       "control": "text",
       "defaultValue": "md",

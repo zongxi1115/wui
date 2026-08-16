@@ -1,30 +1,42 @@
 "use client"
 
 import * as React from "react"
+import { ArrowDown, Bot, Check, Globe, Layers, ShieldCheck } from "lucide-react"
 
+import { Badge } from "@/registry/ui/badge"
+import { Button } from "@/registry/ui/button"
 import { StickyStack, StickyStackItem } from "@/registry/ui/sticky-stack"
 
-const chapters = [
+const pillars = [
   {
-    index: "01",
-    label: "Dune",
-    title: "A path written in wind.",
-    image: "/wui/demo/field-notes/dune-figure.jpg",
-    tone: "bg-[#d9d0bd] text-[#20211d]",
+    number: "01",
+    tag: "ORCHESTRATION",
+    title: "Autonomous Agent Graph",
+    description:
+      "Coordinate multi-agent workflows with real-time token streaming, parallel tool synthesis, and dynamic fallback pipelines.",
+    stat: "10M+ daily runs",
+    image: "https://picsum.photos/seed/agent-stack/800/350",
+    icon: Bot,
   },
   {
-    index: "02",
-    label: "Fault",
-    title: "The continent breaks open.",
-    image: "/wui/demo/field-notes/aerial-coast.jpg",
-    tone: "bg-[#bb5c35] text-[#f5eee2]",
+    number: "02",
+    tag: "SECURITY",
+    title: "Zero-Trust Enclave Guard",
+    description:
+      "Hardware-enforced encryption with sub-millisecond cryptographic verification and automated compliance auditing.",
+    stat: "SOC-2 Type II Verified",
+    image: "https://picsum.photos/seed/security-stack/800/350",
+    icon: ShieldCheck,
   },
   {
-    index: "03",
-    label: "Shelter",
-    title: "A hard line in soft weather.",
-    image: "/wui/demo/field-notes/concrete-forest.jpg",
-    tone: "bg-[#1b211c] text-[#f5eee2]",
+    number: "03",
+    tag: "INFRASTRUCTURE",
+    title: "Global Low-Latency Mesh",
+    description:
+      "Distribute state and serverless compute across 320+ edge data centers worldwide with sub-14ms median round-trip times.",
+    stat: "320+ Edge Pops",
+    image: "https://picsum.photos/seed/cloud-stack/800/350",
+    icon: Globe,
   },
 ]
 
@@ -34,53 +46,72 @@ export default function StickyStackDemo() {
   return (
     <div
       ref={container}
-      className="h-[32rem] w-full max-w-3xl overflow-y-auto bg-[#dedbd1] px-4 text-[#20211d] sm:px-8"
+      className="relative h-[32rem] w-full overflow-y-auto rounded-2xl border border-border bg-card px-6 py-8 text-card-foreground shadow-lg [scrollbar-width:thin] sm:px-10"
     >
-      <div className="flex h-56 items-end justify-between pb-8">
-        <h3 className="max-w-sm font-serif text-5xl leading-[0.92] tracking-[-0.05em]">
-          Three ways to meet the edge.
-        </h3>
-        <p className="hidden text-[10px] uppercase leading-5 tracking-[0.25em] sm:block">
-          Field index
-          <br />
-          01—03
-        </p>
+      <div className="mb-8 flex items-center justify-between border-b border-border pb-4">
+        <div>
+          <div className="flex items-center gap-2">
+            <Layers className="size-4 text-sky-500" />
+            <h3 className="font-semibold text-foreground">Platform Pillars</h3>
+          </div>
+          <p className="mt-1 text-xs text-muted-foreground">
+            Scroll down to watch capabilities stack and scale dynamically
+          </p>
+        </div>
+        <ArrowDown className="size-4 animate-bounce text-sky-500" />
       </div>
-      <StickyStack container={container} top={16} gap={12} className="pb-36">
-        {chapters.map((chapter, index) => (
-          <StickyStackItem
-            key={chapter.index}
-            className={`overflow-hidden ${chapter.tone}`}
-          >
-            <article className="grid min-h-[18rem] grid-cols-[0.9fr_1.1fr] sm:min-h-[20rem]">
-              <div className="flex flex-col justify-between p-5 sm:p-7">
-                <div className="flex items-center gap-3 text-[10px] uppercase tracking-[0.24em]">
-                  <span>{chapter.index}</span>
-                  <span className="h-px w-8 bg-current" />
-                  <span>{chapter.label}</span>
+
+      <StickyStack container={container} top={20} gap={14} className="pb-32">
+        {pillars.map((pillar) => {
+          const Icon = pillar.icon
+          return (
+            <StickyStackItem
+              key={pillar.number}
+              className="overflow-hidden rounded-2xl border border-border bg-card p-6 shadow-xl sm:p-8"
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Badge variant="outline" className="text-xs">
+                    <Icon className="size-3 text-sky-500" />
+                    {pillar.tag}
+                  </Badge>
+                  <span className="text-xs text-muted-foreground font-mono">
+                    PILLAR {pillar.number}
+                  </span>
                 </div>
-                <h4 className="font-serif text-3xl leading-[0.98] tracking-[-0.04em] sm:text-4xl">
-                  {chapter.title}
-                </h4>
+                <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+                  {pillar.stat}
+                </span>
               </div>
-              <div
-                className={
-                  index === 1
-                    ? "m-4 overflow-hidden rounded-[50%]"
-                    : index === 2
-                      ? "overflow-hidden rounded-tl-[8rem]"
-                      : "overflow-hidden rounded-bl-[8rem]"
-                }
-              >
+
+              <div className="my-4 relative h-36 w-full overflow-hidden rounded-xl sm:h-44">
                 <img
-                  src={chapter.image}
-                  alt={`${chapter.label} field study`}
+                  src={pillar.image}
+                  alt={pillar.title}
                   className="size-full object-cover"
                 />
               </div>
-            </article>
-          </StickyStackItem>
-        ))}
+
+              <h4 className="text-xl font-semibold text-foreground sm:text-2xl">
+                {pillar.title}
+              </h4>
+
+              <p className="mt-2 text-xs leading-relaxed text-muted-foreground sm:text-sm">
+                {pillar.description}
+              </p>
+
+              <div className="mt-5 flex items-center justify-between border-t border-border pt-4">
+                <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                  <Check className="size-3.5 text-emerald-500" />
+                  <span>Enterprise Ready</span>
+                </div>
+                <Button size="sm" variant="outline">
+                  Explore Architecture
+                </Button>
+              </div>
+            </StickyStackItem>
+          )
+        })}
       </StickyStack>
     </div>
   )
