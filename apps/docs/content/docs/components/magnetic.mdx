@@ -1,26 +1,132 @@
 ---
-title: 鼠标跟随 Magnetic
-description: 让内容轻微跟随指针位移，并在离开时自然回弹。
+title: 鼠标跟随磁吸 Magnetic
+description: 让按钮与图标在光标悬停时产生朝向指针的物理吸附微位移，并在光标移出后通过弹簧平滑回正。
 component: magnetic
 ---
 
 ## 基础用法
 
+最简单的磁吸用法。将交互按钮包裹在 `Magnetic` 容器内即可拥有物理磁力吸附交互：
+
 <ComponentPreview name="magnetic-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/magnetic" />
 
+<Steps>
+
+<Step>安装动效依赖与工具库</Step>
+
+```bash
+pnpm add motion clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/magnetic.tsx`</Step>
+
 <ComponentSource name="magnetic" title="components/ui/magnetic.tsx" />
 
-## 使用场景
+</Steps>
 
-`Magnetic` 根据指针相对组件中心的位置产生少量位移，适合按钮、图标入口和单个行动项。离开组件后会通过弹簧回到原位；
-触摸输入和用户的“减少动态效果”偏好不会触发位移。按钮的点击区域应保持稳定，不能依赖位移后的视觉位置判断命中范围。
+## 属性 Props
 
-## 属性
+`Magnetic` 接受以下物理吸附参数配置，并继承 `motion.div` 的全部 HTML 属性：
 
-<PropsTable name="magnetic" />
+<PropsTable
+  data={[
+    {
+      prop: "children",
+      type: "React.ReactNode",
+      description: "受磁吸影响的子元素（如按钮、图标、浮动徽标等）。",
+    },
+    {
+      prop: "strength",
+      type: "number",
+      default: "0.18",
+      description: "磁吸跟随强度系数（0~1）。数值越大吸附越灵敏，推荐在 0.15~0.3 之间。",
+    },
+    {
+      prop: "maxDistance",
+      type: "number",
+      default: "12",
+      description: "X / Y 轴方向上的最大允许偏移距离（像素 px）。",
+    },
+    {
+      prop: "springConfig",
+      type: "SpringOptions",
+      default: "{ stiffness: 260, damping: 22, mass: 0.35 }",
+      description: "Motion 物理弹簧参数配置对象（刚度、阻尼与质量）。",
+    },
+    {
+      prop: "disabled",
+      type: "boolean",
+      default: "false",
+      description: "是否禁用磁吸效果。禁用时元素归零静止且不响应指针位移。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于磁吸外层容器的额外 CSS 类名（默认包含 inline-flex）。",
+    },
+  ]}
+/>
 
-## 使用说明
+## 事件 Events
 
-`strength` 控制跟随比例，`maxDistance` 限制最大位移。建议从较小数值开始，让反馈可以被感知但不影响点击目标的位置判断。
+`Magnetic` 透传底层的指针跟踪事件：
+
+<PropsTable
+  data={[
+    {
+      prop: "onPointerMove",
+      type: "(event: React.PointerEvent<HTMLDivElement>) => void",
+      description: "指针在元素内移动时触发，内部通过 MotionValue 计算坐标偏移并驱动 Spring 弹簧。",
+    },
+    {
+      prop: "onPointerLeave",
+      type: "(event: React.PointerEvent<HTMLDivElement>) => void",
+      description: "指针离开元素边界时触发，内部自动平滑回弹归零。",
+    },
+    {
+      prop: "onPointerCancel",
+      type: "(event: React.PointerEvent<HTMLDivElement>) => void",
+      description: "指针事件被系统中断时触发，自动回弹归零。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`Magnetic` 能够赋予静态按钮生动的物理反馈，极大地提升用户的点击意愿。
+
+- **使用场景**：
+  - **社交媒体与快捷操作浮动栏（Dock）**：导航坞、工具条中的图标吸附反馈。
+  - **首屏主操作 CTA（Hero CTA）**：官网头部的核心操作按钮。
+  - **创意交互与展示项**：作品展示、浮动联系小球（Floating Action Button）。
+- **设计规范与克制原则**：
+  - **位移幅度控制**：`maxDistance` 建议设置在 `8px~16px` 以内。过大的位移会造成光标“追逐”按钮的糟糕体验，导致用户难以精准点击。
+  - **移动端与触控**：触控设备（Touch）由于没有持续光标位置，组件内部会自动忽略位移计算，防止页面滚动卡顿。
+- **与 Button 组合**：
+  - 内部子组件通常搭配 `Button` 或可点击的链接，磁吸容器不会影响原生点击事件触发。
+
+## 场景示例
+
+### 浮动社交操作栏（Dock）
+
+在悬浮操作栏中将每个图标单独赋予微磁吸动效：
+
+<ComponentPreview name="magnetic-social-dock" />
+
+### 首屏核心行动点（Hero CTA）
+
+在官网顶部主视觉区域为操作按钮配置磁吸反馈：
+
+<ComponentPreview name="magnetic-hero-cta" />
+
+## 无障碍与交互 Accessibility
+
+- **减少动态效果降级**：内置 `useReducedMotion` 监听。当用户系统设置了“减少动态效果（prefers-reduced-motion）”时，磁吸位移自动清零并停止监听，保证元素处于静止状态。
+- **键盘导航兼容**：磁吸包装层不会干扰子元素的 Tab 焦点流与屏幕阅读器朗读，键盘用户可以正常聚焦与激活。
+- **触摸屏兼容**：触摸屏上自动静止，避免干扰手势上下滑动。

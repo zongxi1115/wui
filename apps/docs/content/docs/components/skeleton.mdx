@@ -1,39 +1,146 @@
 ---
 title: 骨架屏 Skeleton
-description: 在内容加载期间维持页面结构，降低布局跳动与等待的不确定感。
+description: 在内容异步加载期间维持页面版式结构，降低累积布局偏移（CLS）与用户等待的不确定感。
 component: skeleton
 ---
 
 ## 基础用法
 
+最基础的骨架屏用法。组合圆角块、圆形头像占位与多行文本占位：
+
 <ComponentPreview name="skeleton-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/skeleton" />
 
+<Steps>
+
+<Step>安装基础依赖与工具函数</Step>
+
+```bash
+pnpm add class-variance-authority clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/skeleton.tsx`</Step>
+
 <ComponentSource name="skeleton" title="components/ui/skeleton.tsx" />
 
-## 使用场景
+</Steps>
 
-`Skeleton` 在内容尚未到达时保留大致形状和空间，适合首屏资料、列表、图片和文字区域。骨架布局应接近真实内容，
-这样数据到达后不会大幅跳动，但不需要复刻每个细节。操作完成后的反馈使用 Progress 或 Message，不要继续显示 Skeleton。
+## 属性 Props
 
-## 属性
+### Skeleton
 
-<PropsTable name="skeleton" />
+单体骨架占位块：
 
-`shape="default | circle | text"` 分别适合图片或容器、头像和文字行。`SkeletonText` 通过 `lines` 快速生成多行占位，
-并使用 `lastLineWidth` 调整最后一行长度，让最后一行看起来像真实段落。
+<PropsTable
+  data={[
+    {
+      prop: "shape",
+      type: '"default" | "circle" | "text"',
+      default: '"default"',
+      description: "占位块的几何轮廓形态。default 具有圆角，circle 用于头像与图标，text 用于单行文本。",
+    },
+    {
+      prop: "animation",
+      type: '"pulse" | "none"',
+      default: '"pulse"',
+      description: "骨架屏背景明暗呼吸动画。pulse 为平滑呼吸闪烁，none 为静态纯色。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于骨架屏元素的额外 CSS 类名（用于控制宽高与对齐）。",
+    },
+  ]}
+/>
 
-## 事件
+### SkeletonText
 
-骨架屏是非交互元素，不触发事件，并默认对辅助技术隐藏。加载区域应在父容器设置 `aria-busy="true"`，
-并通过 `aria-label` 或邻近状态文本说明正在加载的内容；不要把每一条灰色占位块都暴露给读屏器。
+多行文本占位组件，快速生成模拟真实段落排版的文本骨架组：
 
-## 扩展用法
+<PropsTable
+  data={[
+    {
+      prop: "lines",
+      type: "number",
+      default: "3",
+      description: "渲染的文本占位行数。",
+    },
+    {
+      prop: "lastLineWidth",
+      type: "React.CSSProperties['width']",
+      default: '"70%"',
+      description: "最后一行文本占位的宽度比例或长度，用于逼真还原段落自然的末行缩进。",
+    },
+    {
+      prop: "animation",
+      type: '"pulse" | "none"',
+      default: '"pulse"',
+      description: "应用于所有文本行的呼吸闪烁动画。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于文本骨架外层容器的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-### 内容布局
+## 事件 Events
+
+骨架屏属于纯视觉占位元素，不响应任何交互事件，并默认挂载 `aria-hidden="true"` 对辅助技术隐藏内部 DOM。父级加载容器应统一管理无障碍加载属性：
+
+<PropsTable
+  data={[
+    {
+      prop: "aria-busy",
+      type: "boolean",
+      description: "建议在骨架屏的外部父容器上声明 aria-busy='true'，通知辅助技术当前区域正在加载。",
+    },
+    {
+      prop: "aria-label",
+      type: "string",
+      description: "在父容器上提供通报文案（如 aria-label='正在加载个人资料'）。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+骨架屏是缓解首屏白屏焦虑和防止布局剧烈跳动的核心利器。
+
+- **布局保真度适中**：骨架屏的核心目标是**预占空间与大致形态**（如卡片宽高比、头像位置、标题与段落行数）。切忌过细刻画（不要为图标的每个微小分支都画独立骨架），保持克制干净。
+- **防止累积布局偏移（CLS）**：图片占位需显式声明 `aspect-ratio`（如 `aspect-[16/9]` 或 `aspect-square`），确保真实图像在网络载入完毕后不会将页面下方内容突兀下推。
+- **与 Spin 的取舍**：
+  - **初次渲染或大块区域加载**：使用 `Skeleton`。
+  - **用户操作后局部数据重载或刷新**：使用 `Spin` 遮罩或局部按钮加载态，避免整块内容被瞬间替换为骨架屏导致画面闪烁。
+
+## 场景示例
+
+### 图文资讯卡片布局
+
+在资讯流、博客文章或媒体库中，模拟左图右文或上图下文的内容加载：
 
 <ComponentPreview name="skeleton-layout" />
 
-使用真实页面的 Grid 或 Flex 布局组合多个 Skeleton，可以在数据到达前稳定保留版面。设置 `animation="none"` 可以关闭脉冲效果；
-用户开启“减少动态效果”时，动画也会自动停用。
+### 数据表格加载骨架
+
+在管理后台异步获取表格数据时，预先渲染表头与各列对应的数据占位行：
+
+<ComponentPreview name="skeleton-table" />
+
+### 复杂数据分析仪表盘
+
+在监控看板中，为指标卡片、趋势图表与侧边明细区域同时搭建完整的骨架版面：
+
+<ComponentPreview name="skeleton-dashboard" />
+
+## 无障碍与交互 Accessibility
+
+- **自动对读屏器隐藏内部细节**：`Skeleton` 与 `SkeletonText` 均内置 `aria-hidden="true"`，防止屏幕阅读器逐个读出无意义的“空白块”或“未命名图形”。
+- **父级区域语义提示**：推荐在承载骨架屏的外部容器上设置 `aria-busy="true"` 并配合 `aria-label="正在加载..."`，使无障碍设备能准确理解当前状态。
+- **系统动效偏好适配**：`pulse` 动画类内置 `motion-reduce:animate-none`。当用户在操作系统中开启了“减少动态效果（prefers-reduced-motion）”时，闪烁脉冲动画会自动停用，改为静态灰色色块。

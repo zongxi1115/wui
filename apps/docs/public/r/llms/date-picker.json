@@ -1,11 +1,12 @@
 {
   "name": "date-picker",
   "type": "registry:ui",
-  "title": "日期选择器 Date Picker",
-  "description": "在紧凑弹层中选择、格式化和清除日期。",
-  "import": "import { DatePicker } from \"@/components/ui/date-picker\"",
+  "title": "日期选择器 DatePicker",
+  "description": "基于日历弹层的现代化单日期选择控件，支持多语言本地化、日期范围约束、自定义禁用规则与快捷清空。",
+  "import": "import { DatePicker, datePickerVariants } from \"@/components/ui/date-picker\"",
   "exports": [
-    "DatePicker"
+    "DatePicker",
+    "datePickerVariants"
   ],
   "typeExports": [
     "DatePickerProps"
@@ -97,6 +98,19 @@
       "description": "用于判断日期是否禁用的匹配函数。"
     },
     {
+      "name": "size",
+      "type": "\"default\" | \"sm\" | \"lg\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "default",
+        "sm",
+        "lg"
+      ],
+      "defaultValue": "default",
+      "description": "尺寸密度。@default \"default\""
+    },
+    {
       "name": "disabled",
       "type": "boolean",
       "required": false,
@@ -104,11 +118,30 @@
       "description": "是否禁用组件。"
     }
   ],
-  "events": "`onValueChange(date | undefined)` 在选择或清空日期后触发。选中日期后弹层会自动关闭；点击清除按钮不会重新打开弹层。\n受控用法下，回调需要同步更新 `value`，否则触发器仍会显示旧日期。",
   "examples": [
     {
       "name": "date-picker-demo",
       "title": "基础用法"
+    },
+    {
+      "name": "date-picker-controlled",
+      "title": "受控模式与快捷预设"
+    },
+    {
+      "name": "date-picker-sizes",
+      "title": "尺寸规格"
+    },
+    {
+      "name": "date-picker-disabled-dates",
+      "title": "禁用特定日期与日期范围"
+    },
+    {
+      "name": "date-picker-custom-format",
+      "title": "国际化与自定义格式化"
+    },
+    {
+      "name": "date-picker-form",
+      "title": "任务日程表单集成"
     }
   ],
   "files": [

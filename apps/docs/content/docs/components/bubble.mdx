@@ -1,39 +1,134 @@
 ---
 title: 气泡 Bubble
-description: 可组合头像、署名、正文、时间与操作区的通用消息气泡。
+description: 用于在即时通讯、AI 对话流、评论列表与活动时间线中组合展示头像、昵称、正文内容、时间戳与快捷操作的通用消息气泡。
 component: bubble
 ---
 
 ## 基础用法
 
+双向聊天对话气泡。通过 `side="start" | "end"` 区分发送者与接收者：
+
 <ComponentPreview name="bubble-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/bubble" />
 
+<Steps>
+
+<Step>安装基础依赖与图标库</Step>
+
+```bash
+pnpm add class-variance-authority lucide-react clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/bubble.tsx`</Step>
+
 <ComponentSource name="bubble" title="components/ui/bubble.tsx" />
 
-## 使用场景
+</Steps>
 
-`Bubble` 用于聊天、评论、协作记录和活动流中的单条消息。它负责消息的左右方向、表面、头像、署名、时间和操作区布局，
-但不负责消息列表滚动、发送状态、分页或数据请求。
+## 属性 Props
 
-头像可以组合通用的 [`Avatar`](/docs/components/avatar)，操作按钮继续使用 `Button`，避免在气泡内部重复定义身份和交互组件。
-长篇 AI 回答可以使用 `variant="ghost"`，减少大块底色对连续阅读的干扰；短消息则更适合有边界的默认样式。
+### Bubble (根组件)
 
-## 属性
+继承原生 `<article>` 元素的全部 HTML 属性：
 
-<PropsTable name="bubble" />
+<PropsTable
+  data={[
+    {
+      prop: "side",
+      type: '"start" | "end"',
+      default: '"start"',
+      description: "消息气泡的水平对齐方向。'start' 靠左对齐（通常代表对方/AI 助手）；'end' 靠右对齐（代表当前登录用户）。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于外层气泡容器的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-## 事件
+### BubbleContent
 
-所有部件都会透传对应原生元素事件。`side` 只控制视觉方向，不会判断消息发送者；消息菜单、复制、重试和已读回执等行为，
-应由业务层绑定到 `BubbleActions` 中的按钮。
+<PropsTable
+  data={[
+    {
+      prop: "variant",
+      type: '"default" | "primary" | "outline" | "ghost"',
+      default: '"default"',
+      description: "气泡主体的视觉质感风格。'primary' 适合当前用户消息；'outline' 适合 AI 回答卡片；'ghost' 适合超长 markdown 流式正文。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于消息气泡内容盒子的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-## 扩展用法
+### BubbleAvatar / BubbleBody / BubbleHeader / BubbleFooter / BubbleActions
 
-### 表面样式
+用于灵活拼装消息各个功能区域的子组件：
+
+<PropsTable
+  data={[
+    {
+      prop: "children",
+      type: "React.ReactNode",
+      description: "各子容器内部的内容展示（如 `<Avatar>`、时间标签 `<time>`、操作按钮组）。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于子容器的额外 CSS 类名。",
+    },
+  ]}
+/>
+
+## 事件 Events
+
+继承原生 `<article>`、`<div>` 与各子容器的标准 HTML 事件：
+
+<PropsTable
+  data={[
+    {
+      prop: "onClick",
+      type: "(event: React.MouseEvent) => void",
+      description: "点击气泡容器或内部操作按钮时触发。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`Bubble` 是现代 IM 协作与 AI 智能体产品最核心的基础呈现单元：
+
+- **左右对齐规范**：
+  - `side="start"`：接收到的消息、AI 模型回答、客服接待语。
+  - `side="end"`：当前用户自己发送的消息。
+- **长文本排版优化**：对于 AI 回答的长篇 Markdown、代码块或富表格，推荐使用 `variant="outline"` 或 `variant="ghost"`，避免深底色带来的阅读疲劳。
+- **操作栏微交互**：`BubbleActions` 中的复制、重试、点赞操作建议设置适当的 `hover` 显隐反馈，避免常驻过多小图标干扰文本浏览。
+
+## 场景示例
+
+### AI 智能体对话与代码块
+
+结合模型标签、代码块高亮、Token 消耗统计与点赞/复制操作：
+
+<ComponentPreview name="bubble-ai-chat" />
+
+### 四种表面质感 (Variants)
+
+提供 `default`（灰底）、`primary`（品牌主色）、`outline`（带边框）与 `ghost`（纯净无底）四种视觉样式：
 
 <ComponentPreview name="bubble-variants" />
 
-`default`、`primary` 和 `outline` 适合短消息，`ghost` 适合长文本或富内容。不要只靠颜色区分发送者，
-仍应保留方向、署名或其他可识别信息。错误、发送中等状态也应通过文字或图标补充说明。
+## 无障碍与交互 Accessibility
+
+- **独立语义容器**：根组件自动渲染为 `<article data-slot="bubble">`，向辅助技术清晰传达每一条消息作为独立语义片段的存在。
+- **时间可读性**：时间戳建议采用标准的 `<time dateTime="...">` 标签，确保机器与屏幕阅读器能够正确解析 ISO 时间格式。
+- **动作按钮无障碍命名**：`BubbleActions` 中的图标按钮（如复制、重试）必须提供 `aria-label` 属性，方便键盘焦点播报。

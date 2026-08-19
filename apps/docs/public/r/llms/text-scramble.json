@@ -1,8 +1,8 @@
 {
   "name": "text-scramble",
   "type": "registry:ui",
-  "title": "文本扰码 Text Scramble",
-  "description": "随机字符逐步解析为目标文本的扰码效果。",
+  "title": "文本扰动解码 Text Scramble",
+  "description": "通过随机字符的高频采样闪烁并按时序平滑收敛，营造黑客终端、密码破译与数字解密质感的文本动效组件。",
   "categories": [
     "motion",
     "text-effect"
@@ -80,11 +80,22 @@
       "description": "每个字符都解析为最终值后触发。"
     }
   ],
-  "events": "`onScrambleComplete` 在最终文本完全显示后触发。将 `trigger` 从 `false` 切换为 `true` 可以重播；\n业务层不要把完成回调当作请求完成回调，两者的生命周期应分别维护。",
   "examples": [
     {
       "name": "text-scramble-demo",
       "title": "基础用法"
+    },
+    {
+      "name": "text-scramble-character-sets",
+      "title": "自定义字符采样集"
+    },
+    {
+      "name": "text-scramble-auth-token",
+      "title": "密钥解密与一键复制"
+    },
+    {
+      "name": "text-scramble-status-card",
+      "title": "集群遥测状态解码"
     }
   ],
   "files": [

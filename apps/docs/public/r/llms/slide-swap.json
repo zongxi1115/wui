@@ -1,8 +1,8 @@
 {
   "name": "slide-swap",
   "type": "registry:ui",
-  "title": "内容滑动交换 Slide Swap",
-  "description": "整块内容从上方移出，同时由下方滑入相同内容。",
+  "title": "滑动替换 Slide Swap",
+  "description": "悬停或激活时将当前内容向上/向下平移滑出，同时无缝滑入相同形态副本的微动效组件。",
   "categories": [
     "motion"
   ],
@@ -59,11 +59,18 @@
       "description": "两个内容图层共用的过渡动画。"
     }
   ],
-  "usage": "组件只负责视觉内容，实际链接或按钮语义应放在外层。通过 `direction=\"down\"` 可以反转方向，也可以传入 `active` 由外部状态控制交换。\n如果内容变化会影响操作含义，应同时更新外层元素的可访问名称，不能只改变视觉文字。",
   "examples": [
     {
       "name": "slide-swap-demo",
       "title": "基础用法"
+    },
+    {
+      "name": "slide-swap-button",
+      "title": "多形态按钮组合"
+    },
+    {
+      "name": "slide-swap-badge",
+      "title": "顶部通知药丸徽章"
     }
   ],
   "files": [

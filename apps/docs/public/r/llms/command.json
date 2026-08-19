@@ -1,9 +1,9 @@
 {
   "name": "command",
   "type": "registry:ui",
-  "title": "命令列表 Command",
-  "description": "支持模糊搜索、键盘导航、分组与空状态的命令列表。",
-  "import": "import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator } from \"@/components/ui/command\"",
+  "title": "命令菜单 Command",
+  "description": "快速可组合的命令调色板与全局资源搜索列表，支持拼音与关键词模糊检索、全键盘上下导航、分类分组及空状态。",
+  "import": "import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator, CommandShortcut } from \"@/components/ui/command\"",
   "exports": [
     "Command",
     "CommandEmpty",
@@ -11,7 +11,8 @@
     "CommandInput",
     "CommandItem",
     "CommandList",
-    "CommandSeparator"
+    "CommandSeparator",
+    "CommandShortcut"
   ],
   "typeExports": [
     "CommandInputProps",
@@ -70,6 +71,10 @@
     {
       "name": "command-demo",
       "title": "基础用法"
+    },
+    {
+      "name": "command-palette",
+      "title": "⌘K 全局调色板弹窗 (Command Palette)"
     },
     {
       "name": "command-groups",

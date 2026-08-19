@@ -1,7 +1,6 @@
 "use client"
 
 import * as React from "react"
-
 import { Textarea } from "@/registry/ui/textarea"
 
 export default function TextareaCount() {
@@ -9,17 +8,21 @@ export default function TextareaCount() {
 
   return (
     <div className="w-full max-w-md space-y-2">
-      <label htmlFor="release-summary" className="text-sm font-medium">
-        更新摘要
-      </label>
+      <div className="flex items-center justify-between">
+        <label htmlFor="release-summary" className="text-xs font-medium text-muted-foreground">
+          版本发布摘要 (Release Notes)
+        </label>
+        <span className="text-[11px] text-muted-foreground">最多 140 字符</span>
+      </div>
       <Textarea
         id="release-summary"
         value={value}
         onChange={(event) => setValue(event.target.value)}
-        maxLength={120}
+        maxLength={140}
         showCount
         resize="none"
-        placeholder="用一句话说明这次更新…"
+        rows={4}
+        placeholder="简要概括本次版本包含的核心特性、优化项与修复的已知问题..."
       />
     </div>
   )

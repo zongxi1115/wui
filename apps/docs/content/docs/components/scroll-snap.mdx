@@ -1,27 +1,68 @@
 ---
 title: 滚动吸附 Scroll Snap
-description: 用原生 CSS Scroll Snap 构建整屏或横向吸附章节。
+description: 基于原生 CSS Scroll Snap 规范构建的高性能全屏或横向分段吸附容器组件。
 component: scroll-snap
 ---
 
 ## 基础用法
 
+垂直全屏翻页吸附，每次轻推滚轮即可精准对齐到下一张幻灯片卡片：
+
 <ComponentPreview name="scroll-snap-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/scroll-snap" />
 
+<Steps>
+
+<Step>安装基础依赖与动效库</Step>
+
+```bash
+pnpm add lucide-react class-variance-authority clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/scroll-snap.tsx`</Step>
+
 <ComponentSource name="scroll-snap" title="components/ui/scroll-snap.tsx" />
 
-## 使用场景
+</Steps>
 
-`ScrollSnap` 是原生滚动容器的轻量封装，`ScrollSnapItem` 提供语义化吸附点。组件没有第三方运行时依赖，
-浏览器负责惯性、触控和吸附结算。它适合整屏章节或横向卡片带，不适合用户需要自由停留在任意位置的长文阅读。
+## 属性 Props
 
-## 属性
+### ScrollSnap
 
-<PropsTable name="scroll-snap" />
+<PropsTable
+  data={[
+    {
+      prop: "axis",
+      type: '"x" | "y"',
+      default: '"y"',
+      description: "吸附主轴方向。`y` 为垂直分屏吸附，`x` 为横向卡片吸附。",
+    },
+    {
+      prop: "strictness",
+      type: '"mandatory" | "proximity"',
+      default: '"mandatory"',
+      description: "吸附严格程度。`mandatory` 强制每次滚动停靠在吸附点；`proximity` 仅在接近吸附点时发生吸附。",
+    },
+    {
+      prop: "hideScrollbar",
+      type: "boolean",
+      default: "false",
+      description: "是否隐藏原生滚动条 UI，同时保留完整的滚轮与触摸滑动能力。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于吸附滚动容器的 CSS 类名。",
+    },
+  ]}
+/>
 
-`ScrollSnapItem` 透传原生 `section` 属性，并提供：
+### ScrollSnapItem
 
 <PropsTable
   data={[
@@ -29,18 +70,50 @@ component: scroll-snap
       prop: "align",
       type: '"start" | "center" | "end"',
       default: '"start"',
-      description: "元素成为活动吸附点时的对齐位置。",
+      description: "当前卡片在对齐到吸附容器时的对齐锚点。",
     },
     {
       prop: "stop",
       type: "boolean",
       default: "false",
-      description: "是否阻止快速滚动跳过该吸附点。",
+      description: "是否防止快速快速滑动时跳过当前吸附点（开启后 `scroll-snap-stop: always`）。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于单张吸附子项的 CSS 类名。",
     },
   ]}
 />
 
-## 使用说明
+## 事件 Events
 
-整屏叙事可以使用纵向 `mandatory`，自由浏览的卡片轨道更适合横向 `proximity`。`stop` 会阻止快速手势跳过某一节，
-只应给必须经过的关键步骤使用。即使隐藏滚动条，也应通过截断内容、章节计数或邻近元素提示当前区域仍可滚动。
+<PropsTable
+  data={[
+    {
+      prop: "onScroll",
+      type: "(event: React.UIEvent<HTMLDivElement>) => void",
+      description: "原生滚动事件监听函数。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`ScrollSnap` 适用于**全屏幻灯片、移动端横向滑块、财务仪表盘指标卡轮播**：
+
+- **纯原生性能 0 JS 开销**：底层完全由浏览器原生 CSS `scroll-snap-type` 与 `overscroll-behavior` 处理，无需加载庞大的第三方滑块库，触控与惯性极其丝滑。
+- **防止过冲（scroll-snap-stop: always）**：对关键章节配置 `stop={true}`，确保用户即使用力猛滑也不会漏掉核心信息。
+
+## 场景示例
+
+### 横向财务指标卡吸附
+
+水平滑动浏览多个指标卡，滑动结束时自动对齐到左侧边缘：
+
+<ComponentPreview name="scroll-snap-horizontal" />
+
+## 无障碍与交互 Accessibility
+
+- **键盘导航友好**：用户可以使用键盘方向键 <kbd>↑</kbd> / <kbd>↓</kbd> / <kbd>←</kbd> / <kbd>→</kbd> 以及 <kbd>PageUp</kbd> / <kbd>PageDown</kbd> 逐页对齐切换。
+- **触控手势原生支持**：在 iOS 与 Android 触控屏上完美保留弹性回弹（Rubber-banding）物理直觉。

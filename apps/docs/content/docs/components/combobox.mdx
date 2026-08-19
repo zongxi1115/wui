@@ -1,36 +1,237 @@
 ---
 title: 组合选择器 Combobox
-description: 将输入搜索与单选列表组合在一起的可搜索选择器。
+description: 融合文本输入搜索与下拉单选列表的复合选择控件，支持拼音模糊检索、别名过滤、一键清空与丰富的自定义选项渲染。
 component: combobox
 ---
 
 ## 基础用法
 
+最简单的组合选择器用法。点击展开下拉面板并在搜索框中键入关键词，列表将实时过滤匹配项：
+
 <ComponentPreview name="combobox-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/combobox" />
 
+<Steps>
+
+<Step>安装依赖组件与图标库</Step>
+
+```bash
+pnpm add radix-ui cmdk lucide-react class-variance-authority clsx tailwind-merge
+```
+
+<Step>确保已添加 Popover 与 Command 基础组件，并将源码复制到 `components/ui/combobox.tsx`</Step>
+
 <ComponentSource name="combobox" title="components/ui/combobox.tsx" />
 
-## 使用场景
+</Steps>
 
-`Combobox` 用于从较多的单层选项中搜索并选择一个值。它由 `Popover` 与 `Command` 组合而成，保留输入搜索语义，并避免与 `Select` 自带的字符定位和焦点管理冲突。
+## 属性 Props
 
-固定选项较少且不需要搜索时使用 `Select`；具有父子层级的数据使用 `Cascader`。`Combobox` 当前只接收已有选项，不用于创建自由文本值。
+### Combobox (主组件)
 
-## 属性
+<PropsTable
+  data={[
+    {
+      prop: "options",
+      type: "ComboboxOption[]",
+      description: "可供检索与选择的选项数据集合（必填）。",
+    },
+    {
+      prop: "value",
+      type: "string",
+      description: "受控模式下的当前选中值，对应选项的 value 属性。",
+    },
+    {
+      prop: "defaultValue",
+      type: "string",
+      default: '""',
+      description: "非受控模式下的初始选中值。",
+    },
+    {
+      prop: "onValueChange",
+      type: "(value: string) => void",
+      description: "选项发生改变或点击清空按钮时触发的回调函数，清空时返回空字符串。",
+    },
+    {
+      prop: "placeholder",
+      type: "string",
+      default: '"请选择"',
+      description: "未选中任何选项时在触发器中显示的占位文案。",
+    },
+    {
+      prop: "searchPlaceholder",
+      type: "string",
+      default: '"搜索选项"',
+      description: "下拉搜索输入框内的提示占位文案。",
+    },
+    {
+      prop: "emptyText",
+      type: "React.ReactNode",
+      default: '"没有匹配的选项"',
+      description: "输入关键词过滤后无任何匹配项时展示的空状态提示。",
+    },
+    {
+      prop: "clearable",
+      type: "boolean",
+      default: "true",
+      description: "在已有选中项时是否在触发器右侧显示快速清空图标按钮。",
+    },
+    {
+      prop: "size",
+      type: '"sm" | "default" | "lg"',
+      default: '"default"',
+      description: "触发器的物理高度与内边距尺寸密度。",
+    },
+    {
+      prop: "disabled",
+      type: "boolean",
+      default: "false",
+      description: "是否禁用整个选择器交互与弹层展开。",
+    },
+    {
+      prop: "contentClassName",
+      type: "string",
+      description: "应用于浮层容器的额外 CSS 类名。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于触发器外层容器的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-<PropsTable name="combobox" />
+### ComboboxOption (选项对象结构)
 
-## 事件
+<PropsTable
+  data={[
+    {
+      prop: "value",
+      type: "string",
+      description: "选项的唯一键值标识，在表单与状态中使用（必填）。",
+    },
+    {
+      prop: "label",
+      type: "React.ReactNode",
+      description: "在触发器和选项列表中呈现给用户的主要显示内容（必填）。",
+    },
+    {
+      prop: "description",
+      type: "React.ReactNode",
+      description: "在下拉列表中展示在标题下方的辅助说明文案。",
+    },
+    {
+      prop: "keywords",
+      type: "string[]",
+      description: "用于模糊检索的隐藏别名数组，如拼音全拼、首字母简拼或业务同义词。",
+    },
+    {
+      prop: "disabled",
+      type: "boolean",
+      default: "false",
+      description: "是否禁止选择该特定选项。",
+    },
+  ]}
+/>
 
-- `onValueChange(value)` 在选中或清空时触发，清空时返回空字符串。
-- 传入 `value` 后组件进入受控模式；仅需要初始值时使用 `defaultValue`。
+## 事件 Events
 
-## 扩展用法
+<PropsTable
+  data={[
+    {
+      prop: "onValueChange",
+      type: "(value: string) => void",
+      description: "用户通过点击选项、键盘确认或点击清除图标时触发，传入最新选中的 value 字符串或空字符串。",
+    },
+    {
+      prop: "onFocus",
+      type: "(event: React.FocusEvent<HTMLButtonElement>) => void",
+      description: "触发按钮获得焦点时触发。",
+    },
+    {
+      prop: "onBlur",
+      type: "(event: React.FocusEvent<HTMLButtonElement>) => void",
+      description: "触发按钮失去焦点时触发。",
+    },
+    {
+      prop: "onKeyDown",
+      type: "(event: React.KeyboardEvent<HTMLButtonElement>) => void",
+      description: "焦点位于触发器时按下键盘按键触发。",
+    },
+  ]}
+/>
 
-### 受控值、拼音搜索与禁用项
+## 使用场景与设计规范
+
+`Combobox` 专为**数据量较多、需要快速搜索定位**的单选场景设计：
+
+- **Combobox vs Select**：当选项数量不多（如 10 项以内），且用户熟悉所有可能选项时，优先使用 [`Select`](/docs/components/select)；当选项数量超过 10–15 项，或者用户习惯直接敲击拼音/英文缩写快速找人或找资源时，优先使用 `Combobox`。
+- **Combobox vs Command**：`Combobox` 主要作为表单中的“带搜索单选输入框”，选中后浮层关闭并将值回填到触发器；[`Command`](/docs/components/command) 通常作为全屏全局命令面板（如 <kbd>Cmd</kbd> + <kbd>K</kbd>）或悬浮快捷操作菜单。
+- **提供拼音与别名（Keywords）**：中文环境下，强烈建议在 `keywords` 中注入中文姓名或专业术语的全拼与首字母缩写（例如 `keywords: ["zhangsan", "zs"]`），大幅提升重度键盘用户的录入效率。
+- **非受控 vs 受控**：常规表单中可直接使用 `defaultValue`，组件内部自行管理选中状态与搜索输入；若需要通过外部按钮联动切换或重置，请传入 `value` 与 `onValueChange`。
+
+## 场景示例
+
+### 受控模式与外部联动
+
+通过受控的 `value` 与 `onValueChange` 实现与外部状态的精确双向绑定，支持通过外部快捷按钮直接切换指派人：
 
 <ComponentPreview name="combobox-controlled" />
 
-通过 `keywords` 提供拼音、首字母或业务别名。`disabled` 可以禁用整个选择器，也可以在单个选项上阻止选择；默认开启 `clearable`，适合非必填字段。
+```tsx
+const [assignee, setAssignee] = React.useState("chen")
+
+return (
+  <Combobox
+    options={members}
+    value={assignee}
+    onValueChange={setAssignee}
+    placeholder="搜索团队成员…"
+  />
+)
+```
+
+### 尺寸规格
+
+组件提供 `sm`（32px）、`default`（40px）和 `lg`（48px）三种物理尺寸密度：
+
+<ComponentPreview name="combobox-sizes" />
+
+- `sm`：紧凑尺寸，适合嵌入数据表格行筛选栏或紧凑工具栏。
+- `default`：标准尺寸，适用于常规业务表单与配置卡片。
+- `lg`：大尺寸，适用于突出型首屏筛选或触控移动端界面。
+
+### 自定义选项渲染与副标题
+
+选项支持配置图标和 `description` 副标题，在下拉面板中呈现层次分明的云资源或资产信息：
+
+<ComponentPreview name="combobox-custom-option" />
+
+### 清空与自定义空状态
+
+通过 `clearable` 属性控制是否允许一键清空；通过 `emptyText` 自定义无匹配项时的提示文案：
+
+<ComponentPreview name="combobox-clearable" />
+
+### 复杂表单集成
+
+在云服务集群配置与生产环境部署等企业级表单中集成多个组合选择器：
+
+<ComponentPreview name="combobox-form" />
+
+## 无障碍与交互 Accessibility
+
+- **ARIA 规范**：
+  - 触发器元素声明 `role="combobox"`、`aria-haspopup="dialog"` 并实时同步 `aria-expanded`。
+  - 浮层展开后内部搜索框自动聚焦（`autoFocus`），屏幕阅读器会实时朗读当前候选匹配项数量。
+- **键盘导航**：
+  - <kbd>Space</kbd> / <kbd>Enter</kbd>：在聚焦触发器时打开下拉搜索面板。
+  - <kbd>↓</kbd> / <kbd>↑</kbd>：在搜索过滤出的选项列表间上下移动高亮光标。
+  - <kbd>Enter</kbd>：确认选中当前高亮的选项，自动关闭下拉面板并将焦点归还至触发器。
+  - <kbd>Escape</kbd>：关闭下拉面板并不作选择。
+- **清空操作隔离**：清空按钮内置事件冒泡拦截（`stopPropagation`），点击清空时不会误触打开下拉浮层。

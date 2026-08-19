@@ -1,39 +1,236 @@
 ---
 title: 头像 Avatar
-description: 带图片回退、在线状态和头像组的通用身份组件。
+description: 用于展示用户、团队或机器人身份的图形元素，内置图片加载回退、在线状态徽章与多头像重叠组能力。
 component: avatar
 ---
 
 ## 基础用法
 
+基础头像由图片与备选回退文本（Fallback）组成，可按需叠加在线状态指示标：
+
 <ComponentPreview name="avatar-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/avatar" />
 
+<Steps>
+
+<Step>安装依赖库</Step>
+
+```bash
+pnpm add radix-ui class-variance-authority clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/avatar.tsx`</Step>
+
 <ComponentSource name="avatar" title="components/ui/avatar.tsx" />
 
-## 使用场景
+</Steps>
 
-`Avatar` 用于显示用户、团队、机器人或其他可识别实体。组件负责图片加载失败时的回退内容、尺寸和裁剪，
-因此页面不需要为每个头像重复编写占位逻辑。作为装饰使用的图片不要套用头像组件。
+## 属性 Props
 
-`AvatarBadge` 用于显示在线、离开、忙碌或离线状态；`AvatarGroup` 用于紧凑展示少量成员。成员数量较多时，
-应使用 `AvatarGroupCount` 汇总剩余数量，避免把整行空间都占满。
+### Avatar
 
-## 属性
+根容器组件，继承 `radix-ui` Avatar Root 的全部属性：
 
-<PropsTable name="avatar" />
+<PropsTable
+  data={[
+    {
+      prop: "size",
+      type: '"xs" | "sm" | "default" | "lg"',
+      default: '"default"',
+      description: "头像的尺寸规格。对应直径分别为 24px、32px、40px、48px。",
+    },
+    {
+      prop: "asChild",
+      type: "boolean",
+      default: "false",
+      description: "是否将属性与行为合并到唯一的子元素上渲染。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于头像根容器的额外 CSS 类名。",
+    },
+    {
+      prop: "children",
+      type: "React.ReactNode",
+      description: "子元素集合，通常包含 AvatarImage、AvatarFallback 和 AvatarBadge。",
+    },
+  ]}
+/>
 
-## 事件
+### AvatarImage
 
-`AvatarImage` 会透传图片的加载事件和 `ref`；`Avatar`、`AvatarFallback` 以及分组部件会透传对应原生元素属性。
-在线状态由业务层传给 `AvatarBadge status`，组件不会请求接口或自行轮询用户状态。
+负责展示头像图片：
 
-## 扩展用法
+<PropsTable
+  data={[
+    {
+      prop: "src",
+      type: "string",
+      description: "头像图片的资源地址链接。",
+    },
+    {
+      prop: "alt",
+      type: "string",
+      description: "图片的替代文本描述，用于屏幕阅读器及无障碍识别。",
+    },
+    {
+      prop: "onLoadingStatusChange",
+      type: '(status: "idle" | "loading" | "loaded" | "error") => void',
+      description: "图片加载状态变更时的回调函数。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于图片元素的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-### 头像组
+### AvatarFallback
+
+当图片加载中或加载失败时显示的占位内容：
+
+<PropsTable
+  data={[
+    {
+      prop: "delayMs",
+      type: "number",
+      description: "延迟显示占位内容的毫秒数，避免快速加载时产生闪烁。",
+    },
+    {
+      prop: "children",
+      type: "React.ReactNode",
+      description: "占位显示的内容，通常为用户姓名缩写、图标或首字母。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于回退容器的额外 CSS 类名。",
+    },
+  ]}
+/>
+
+### AvatarBadge
+
+位于头像右下角的状态指示标：
+
+<PropsTable
+  data={[
+    {
+      prop: "status",
+      type: '"online" | "away" | "busy" | "offline"',
+      default: '"online"',
+      description: "用户在线或当前工作状态的色彩语义。",
+    },
+    {
+      prop: "size",
+      type: '"sm" | "default"',
+      default: '"default"',
+      description: "状态指示徽标的物理直径大小。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于状态徽标的额外 CSS 类名。",
+    },
+  ]}
+/>
+
+### AvatarGroup / AvatarGroupCount
+
+多头像重叠组及剩余数量标签容器：
+
+<PropsTable
+  data={[
+    {
+      prop: "size",
+      type: '"xs" | "sm" | "default" | "lg"',
+      default: '"default"',
+      description: "应用于 AvatarGroupCount 的尺寸规格，需与组内头像保持一致。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于头像组容器或剩余计数标签的额外 CSS 类名。",
+    },
+  ]}
+/>
+
+## 事件 Events
+
+<PropsTable
+  data={[
+    {
+      prop: "onLoadingStatusChange",
+      type: '(status: "idle" | "loading" | "loaded" | "error") => void',
+      description: "当 AvatarImage 图片加载状态变化时触发，返回当前的加载阶段标识。",
+    },
+    {
+      prop: "onClick",
+      type: "(event: React.MouseEvent<HTMLSpanElement>) => void",
+      description: "当头像容器被点击时触发（例如点击打开用户资料抽屉或卡片）。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`Avatar` 用于代表真实用户、团队实体或系统助理（Bot），在界面中建立清晰的视觉身份感知。
+
+- **始终提供 Fallback**：网络延迟或图片失效在真实业务中极常见。必须在每个 `Avatar` 内部提供有意义的 `AvatarFallback`（如姓名简写或通用用户图标），绝不要留空。
+- **状态语义规范**：
+  - `online`（绿色）：活跃/在线。
+  - `away`（黄色/橙色）：离开/挂起。
+  - `busy`（红色）：忙碌/请勿打扰/通话中。
+  - `offline`（灰色）：离线/未登入。
+- **头像组截断**：当协作成员超过 3~5 人时，应当使用 `AvatarGroupCount` 进行聚合收起（如 `+5`），避免横向排版挤占过多操作区域。
+
+## 场景示例
+
+### 尺寸规格
+
+组件提供 `xs` (24px)、`sm` (32px)、`default` (40px)、`lg` (48px) 四种尺寸：
+
+<ComponentPreview name="avatar-sizes" />
+
+- `xs` (24px)：适合密集表格行、行内协作成员微标。
+- `sm` (32px)：适合导航栏右上角个人中心、评论列表子楼层。
+- `default` (40px)：通用标准尺寸，适用于列表项、卡片头部与聊天界面。
+- `lg` (48px)：适合个人中心资料页大头像、详细信息展示卡片。
+
+### 在线状态指示
+
+通过 `AvatarBadge` 搭配不同状态，展示即时通讯与协作状态：
+
+<ComponentPreview name="avatar-status" />
+
+### 回退策略与自定义占位
+
+当头像图片因网络错误无法加载时，`AvatarFallback` 会自动平滑展现。支持文字缩写、品牌底色、系统图标等多种形式：
+
+<ComponentPreview name="avatar-fallback" />
+
+### 头像重叠组 (AvatarGroup)
+
+在任务看板、项目协作或权限管理中，使用 `AvatarGroup` 紧凑展示团队参与者：
 
 <ComponentPreview name="avatar-group" />
 
-头像组只展示需要被快速识别的少量成员。剩余成员使用 `AvatarGroupCount` 汇总，并为数字提供上下文，
-例如显示“还有 8 位成员”，不要让用户只能从一个孤立数字猜测含义。
+### 业务场景：协作者管理面板
+
+在项目设置或工作区成员列表中，结合头像、状态徽章、身份角色标签与操作按钮构建完整的成员信息卡：
+
+<ComponentPreview name="avatar-business" />
+
+## 无障碍与交互 Accessibility
+
+- **替代文本 (Alt Text)**：始终在 `AvatarImage` 上传入准确描述用户名称的 `alt` 属性（如 `alt="张三"`），读屏器会自动朗读。
+- **状态播报**：`AvatarBadge` 默认带有对应的 `aria-label`（如 `aria-label="online"`），确保视障用户也能感知当前实体的在线状态。
+- **分组语义**：`AvatarGroup` 自带 `role="group"`，方便屏幕阅读器将一系列关联头像理解为一个整体团队单元。
+- **平滑过渡**：内置图片加载与回退逻辑支持 `delayMs` 防抖，避免在快速网络环境下出现 Fallback 瞬时闪烁现象。

@@ -2,13 +2,47 @@
 
 import * as React from "react"
 import { Minus, Plus } from "lucide-react"
+import { cva } from "class-variance-authority"
 
 import { cn } from "@/registry/lib/utils"
 
-export interface InputNumberProps extends Omit<
-  React.ComponentProps<"input">,
-  "defaultValue" | "onChange" | "type" | "value"
-> {
+const inputNumberVariants = cva(
+  "border-input bg-background shadow-xs focus-within:border-ring focus-within:ring-ring/30 flex w-full items-center rounded-md border transition-[border-color,box-shadow] focus-within:ring-[3px] has-[:disabled]:cursor-not-allowed has-[:disabled]:opacity-50",
+  {
+    variants: {
+      size: {
+        sm: "h-8 text-xs",
+        default: "h-10 text-sm",
+        lg: "h-12 text-base",
+      },
+    },
+    defaultVariants: {
+      size: "default",
+    },
+  }
+)
+
+const controlBtnVariants = cva(
+  "text-muted-foreground hover:bg-accent hover:text-foreground inline-flex items-center justify-center outline-none transition-colors disabled:pointer-events-none disabled:opacity-40",
+  {
+    variants: {
+      size: {
+        sm: "w-7",
+        default: "w-9",
+        lg: "w-11",
+      },
+    },
+    defaultVariants: {
+      size: "default",
+    },
+  }
+)
+
+export interface InputNumberProps
+  extends Omit<
+    React.ComponentProps<"input">,
+    "defaultValue" | "onChange" | "type" | "value" | "prefix" | "size"
+  > {
   /** 当前数值；传入后组件进入受控模式。 */
   value?: number | null
   /** 非受控模式下的初始数值。 */
@@ -21,7 +55,13 @@ export interface InputNumberProps extends Omit<
   max?: number
   /** 点击按钮或按方向键时的步进值。 @default 1 */
   step?: number
-  /** 输入框外层样式。 */
+  /** 前缀插槽（如货币符号 ¥、$）。 */
+  prefix?: React.ReactNode
+  /** 后缀插槽（如单位 kg、%、GiB）。 */
+  suffix?: React.ReactNode
+  /** 尺寸密度。@default "default" */
+  size?: "sm" | "default" | "lg"
+  /** 输入框外层容器样式。 */
   wrapperClassName?: string
 }
 
@@ -33,6 +73,9 @@ function InputNumber({
   min,
   max,
   step = 1,
+  prefix,
+  suffix,
+  size = "default",
   disabled,
   readOnly,
   className,
@@ -87,10 +130,11 @@ function InputNumber({
     [controlled, onValueChange]
   )
 
-  const stepBy = (direction: 1 | -1) => {
+  const stepBy = (direction: 1 | -1, multiplier = 1) => {
     if (disabled || readOnly) return
+    const currentStep = step * multiplier
     const base = currentValue ?? (direction > 0 ? (min ?? 0) : (max ?? 0))
-    commit(clamp(base + direction * step))
+    commit(clamp(base + direction * currentStep))
   }
 
   const atMin =
@@ -107,11 +151,14 @@ function InputNumber({
   return (
     <div
       data-slot="input-number"
-      className={cn(
-        "border-input bg-background shadow-xs focus-within:border-ring focus-within:ring-ring/30 flex h-10 w-full items-center rounded-md border transition-[border-color,box-shadow] focus-within:ring-[3px] has-[:disabled]:cursor-not-allowed has-[:disabled]:opacity-50",
-        wrapperClassName
-      )}
+      className={cn(inputNumberVariants({ size }), wrapperClassName)}
     >
+      {prefix ? (
+        <span className="text-muted-foreground pl-3 pr-1 select-none shrink-0 font-medium">
+          {prefix}
+        </span>
+      ) : null}
+
       <input
         data-slot="input-number-input"
         type="text"
@@ -124,7 +171,9 @@ function InputNumber({
         disabled={disabled}
         readOnly={readOnly}
         className={cn(
-          "placeholder:text-muted-foreground h-full min-w-0 flex-1 bg-transparent px-3 text-sm outline-none disabled:cursor-not-allowed",
+          "placeholder:text-muted-foreground h-full min-w-0 flex-1 bg-transparent px-3 outline-none disabled:cursor-not-allowed",
+          prefix && "pl-1",
+          suffix && "pr-1",
           className
         )}
         onChange={(event) => {
@@ -150,12 +199,20 @@ function InputNumber({
         onKeyDown={(event) => {
           if (event.key === "ArrowUp" || event.key === "ArrowDown") {
             event.preventDefault()
-            stepBy(event.key === "ArrowUp" ? 1 : -1)
+            const multiplier = event.shiftKey ? 10 : 1
+            stepBy(event.key === "ArrowUp" ? 1 : -1, multiplier)
           }
           onKeyDown?.(event)
         }}
         {...props}
       />
+
+      {suffix ? (
+        <span className="text-muted-foreground pl-1 pr-2.5 select-none shrink-0 font-normal">
+          {suffix}
+        </span>
+      ) : null}
+
       <div
         data-slot="input-number-controls"
         className="flex h-full shrink-0 border-l"
@@ -166,7 +223,7 @@ function InputNumber({
           aria-label="减小数值"
           tabIndex={-1}
           disabled={disabled || readOnly || atMin}
-          className="text-muted-foreground hover:bg-accent hover:text-foreground inline-flex w-9 items-center justify-center outline-none transition-colors disabled:pointer-events-none disabled:opacity-40"
+          className={cn(controlBtnVariants({ size }))}
           onClick={() => stepBy(-1)}
         >
           <Minus className="size-3.5" />
@@ -177,7 +234,7 @@ function InputNumber({
           aria-label="增大数值"
           tabIndex={-1}
           disabled={disabled || readOnly || atMax}
-          className="text-muted-foreground hover:bg-accent hover:text-foreground inline-flex w-9 items-center justify-center border-l outline-none transition-colors disabled:pointer-events-none disabled:opacity-40"
+          className={cn(controlBtnVariants({ size }), "border-l")}
           onClick={() => stepBy(1)}
         >
           <Plus className="size-3.5" />
@@ -187,4 +244,4 @@ function InputNumber({
   )
 }
 
-export { InputNumber }
+export { InputNumber, inputNumberVariants }

@@ -2,7 +2,7 @@
   "name": "typography",
   "type": "registry:ui",
   "title": "排版 Typography",
-  "description": "为标题、正文、列表、引用和辅助文字提供一致的阅读层级。",
+  "description": "为标题、引言、正文、列表、引用和代码提供严格且优美的一致性阅读层级系统。",
   "import": "import { Typography, TypographyLink, TypographyList, typographyVariants } from \"@/components/ui/typography\"",
   "exports": [
     "Typography",
@@ -49,7 +49,6 @@
       "description": "文本元素使用的语义层级与排版样式。"
     }
   ],
-  "events": "组件透传最终 HTML 元素的原生事件。`TypographyLink` 保留链接语义和焦点反馈，导航行为仍由浏览器或路由组件处理。",
   "examples": [
     {
       "name": "typography-demo",
@@ -57,7 +56,11 @@
     },
     {
       "name": "typography-elements",
-      "title": "列表、引用和行内代码"
+      "title": "完整排版元素集合 (列表、引用与行内代码)"
+    },
+    {
+      "name": "typography-custom-tag",
+      "title": "多态标签与语义解耦"
     }
   ],
   "files": [

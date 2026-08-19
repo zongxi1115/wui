@@ -2,7 +2,7 @@
   "name": "ai-prompt-suggestions",
   "type": "registry:ui",
   "title": "AI 快捷提问建议 AI Prompt Suggestions",
-  "description": "用于新对话启动页、空状态或输入框上方的引导式提问卡片与预设 Prompt 标签。",
+  "description": "用于新会话空状态页面、输入框上方或追问引导的预设提问卡片与标签组。",
   "categories": [
     "ai"
   ],
@@ -47,7 +47,15 @@
   "examples": [
     {
       "name": "ai-prompt-suggestions-demo",
-      "title": "基础示例 · Basic example"
+      "title": "基础用法"
+    },
+    {
+      "name": "ai-prompt-suggestions-chips",
+      "title": "输入框上方的快捷追问胶囊"
+    },
+    {
+      "name": "ai-prompt-suggestions-scroll",
+      "title": "横向滑动的场景推荐列表"
     }
   ],
   "files": [

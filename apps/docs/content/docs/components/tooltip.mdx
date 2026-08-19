@@ -1,48 +1,221 @@
 ---
 title: 文字提示 Tooltip
-description: 在悬停或键盘聚焦时，为控件补充简短的上下文说明。
+description: 在鼠标悬停或键盘聚焦时，为图标或紧凑控件浮层展示简短的上下文说明与快捷键。
 component: tooltip
 ---
 
 ## 基础用法
 
+最基础的文字提示用法。包裹图标按钮，为纯图标交互提供明确的语义标签与快捷键说明：
+
 <ComponentPreview name="tooltip-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/tooltip" />
 
+<Steps>
+
+<Step>安装基础依赖与 Radix 原语</Step>
+
+```bash
+pnpm add radix-ui class-variance-authority clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/tooltip.tsx`</Step>
+
 <ComponentSource name="tooltip" title="components/ui/tooltip.tsx" />
 
-## 使用场景
+</Steps>
 
-`Tooltip` 用于解释图标按钮、不熟悉的控件或被截断的短文本。它只是辅助信息，不能承载完成任务所必需的内容，
-也不能替代可见标签、错误提示或 Popover 中的可交互内容。基于 Radix 的实现支持指针悬停、键盘聚焦、触屏行为和碰撞检测。
+## 属性 Props
 
-图标按钮必须先有可访问名称，再使用 Tooltip 补充说明；对于需要用户复制、选择或点击的内容，应使用 Popover 或 Dialog。
+### TooltipProvider
 
-## 属性
+用于全局或局部协调多个相邻 Tooltip 的打开与跳过延迟：
 
-<PropsTable name="tooltip" />
+<PropsTable
+  data={[
+    {
+      prop: "delayDuration",
+      type: "number",
+      default: "350",
+      description: "指针悬停到触发器后，浮层延迟显示的毫秒数。",
+    },
+    {
+      prop: "skipDelayDuration",
+      type: "number",
+      default: "200",
+      description: "在移动到下一个相邻 Tooltip 时，跳过延迟直接显示的毫秒窗口期。",
+    },
+    {
+      prop: "disableHoverableContent",
+      type: "boolean",
+      default: "false",
+      description: "当指针离开触发器时是否立即关闭提示（禁止指针移入 Tooltip 内容本身）。",
+    },
+  ]}
+/>
 
-- `TooltipProvider` 通过 `delayDuration` 和 `skipDelayDuration` 协调一组提示的打开节奏。
-- `Tooltip` 支持 `open`、`defaultOpen`、`onOpenChange` 和单实例的 `delayDuration`。
-- `TooltipTrigger` 支持 `asChild`，可以将触发能力附加到现有按钮或链接。
-- `TooltipContent` 提供 `side`、`align`、`sideOffset`、`size="sm | default"` 和 `showArrow`。
+### Tooltip
 
-## 事件
+单个提示项的根状态控制器：
 
-- `onOpenChange(open)`：提示因悬停、焦点或关闭操作改变状态时触发。
-- `onEscapeKeyDown(event)`：内容打开时按下 Escape 触发，可调用 `event.preventDefault()` 阻止默认关闭行为。
-- `onPointerDownOutside(event)`：在提示范围外按下指针时触发。
+<PropsTable
+  data={[
+    {
+      prop: "open",
+      type: "boolean",
+      description: "受控模式下的展开状态。",
+    },
+    {
+      prop: "defaultOpen",
+      type: "boolean",
+      default: "false",
+      description: "非受控模式下的初始展开状态。",
+    },
+    {
+      prop: "onOpenChange",
+      type: "(open: boolean) => void",
+      description: "展开状态发生变化时的回调函数。",
+    },
+    {
+      prop: "delayDuration",
+      type: "number",
+      description: "覆盖当前 Tooltip 单实例的悬停延迟毫秒数。",
+    },
+    {
+      prop: "disableHoverableContent",
+      type: "boolean",
+      default: "false",
+      description: "单独对当前实例禁止悬浮内容检测。",
+    },
+  ]}
+/>
 
-其余指针、焦点和无障碍属性会透传给对应的 Radix 部件。
+### TooltipTrigger
 
-## 扩展用法
+触发器组件，包裹触发 Tooltip 打开的目标元素：
 
-### 定位、尺寸与箭头
+<PropsTable
+  data={[
+    {
+      prop: "asChild",
+      type: "boolean",
+      default: "false",
+      description: "是否将触发器属性与事件直接合并到传入的单个子元素上。",
+    },
+  ]}
+/>
+
+### TooltipContent
+
+浮层面板内容容器，挂载至 Portal 门禁并在视口边缘自动计算避让：
+
+<PropsTable
+  data={[
+    {
+      prop: "size",
+      type: '"sm" | "default"',
+      default: '"default"',
+      description: "提示面板的视觉尺寸。sm 为超紧凑微提示，default 为常规提示。",
+    },
+    {
+      prop: "side",
+      type: '"top" | "right" | "bottom" | "left"',
+      default: '"top"',
+      description: "提示面板首选出现的方位。若视口空间不足会自动反转对齐。",
+    },
+    {
+      prop: "align",
+      type: '"start" | "center" | "end"',
+      default: '"center"',
+      description: "提示面板在对应侧边缘的对齐方式。",
+    },
+    {
+      prop: "sideOffset",
+      type: "number",
+      default: "6",
+      description: "提示面板与触发器之间的间距偏移量（像素）。",
+    },
+    {
+      prop: "showArrow",
+      type: "boolean",
+      default: "true",
+      description: "是否在提示面板边缘渲染指向触发器的三角形指示箭头。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于提示面板容器的额外 CSS 类名。",
+    },
+  ]}
+/>
+
+## 事件 Events
+
+<PropsTable
+  data={[
+    {
+      prop: "onOpenChange",
+      type: "(open: boolean) => void",
+      description: "提示因鼠标悬停、焦点获入/丢失或按键操作改变显隐状态时触发。",
+    },
+    {
+      prop: "onEscapeKeyDown",
+      type: "(event: KeyboardEvent) => void",
+      description: "在 Tooltip 打开状态下按下 Escape 键时触发，可通过 event.preventDefault() 阻止关闭。",
+    },
+    {
+      prop: "onPointerDownOutside",
+      type: "(event: CustomEvent) => void",
+      description: "在 Tooltip 范围外部发生指针按下事件时触发。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`Tooltip` 用于为界面中的紧凑元素（如纯图标按钮、截断缩略文本、专业术语指标）提供**非必要、轻量级的辅助说明**。
+
+- **组件选型对比**：
+  - **Tooltip**：只读纯文本或带快捷键的微提示，**不可包含可交互链接或表单按钮**。
+  - **Popover**：需要用户点击内部链接、复制大段文本或在浮层内填写简易表单时使用。
+  - **Dialog / Modal**：重大业务操作、复杂多步骤表单。
+- **共享 TooltipProvider**：建议在工具栏或页面根级使用单个 `TooltipProvider`，这样当用户快速从“复制”图标划到“剪切”图标时，第二个提示会瞬时响应而不会重复经历 350ms 的等待延迟。
+- **文案克制原则**：Tooltip 文案应极度精炼（通常 1~2 句话或若干词汇），避免大段冗长段落。
+
+## 场景示例
+
+### 弹出方位与指示箭头
+
+支持 `top`、`right`、`bottom`、`left` 四个方向定位，并内置智能防溢出碰撞检测：
 
 <ComponentPreview name="tooltip-placement" />
 
-通过 `side="top | right | bottom | left"` 指定首选方向；空间不足时 Radix 会自动避让。密集工具栏可使用 `size="sm"`，
-不需要方向指向时可设置 `showArrow={false}`。
+### 尺寸规格与快捷键徽标
 
-一组相邻提示应共享同一个 `TooltipProvider`，这样用户从一个触发器移动到另一个触发器时，不必重复等待完整的打开延迟。
+提供 `default` 与 `sm` 尺寸，并在内容中组合 `<kbd>` 标注键盘快捷键：
+
+<ComponentPreview name="tooltip-sizes" />
+
+### 丰富上下文说明（多行/状态说明）
+
+在需要辅助解释复杂系统安全机制或指标含义时使用富文本样式：
+
+<ComponentPreview name="tooltip-rich" />
+
+### 受控模式
+
+通过 `open` 与 `onOpenChange` 将提示显隐状态委托给外部 React 状态进行联动：
+
+<ComponentPreview name="tooltip-controlled" />
+
+## 无障碍与交互 Accessibility
+
+- **ARIA 关联规范**：底层自动为触发器赋予 `aria-describedby` 关联 TooltipContent 的唯一 ID，屏幕阅读器在聚焦时能即刻播报提示内容。
+- **键盘焦点感知**：当用户使用 <kbd>Tab</kbd> 键将焦点导航至触发器时，Tooltip 会自动展开；按下 <kbd>Esc</kbd> 键可立即关闭提示。
+- **视口边缘碰撞避让**：内置智能碰撞检测（Collision Detection），当触发器靠近屏幕边缘导致 Tooltip 放不下时，浮层会自动翻转至对立侧或调整轴向偏移。
+- **触控设备优化**：在移动端长按触发器时能呼出提示，松手后轻触外部任意区域即可平滑收起。

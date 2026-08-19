@@ -1,55 +1,142 @@
 ---
 title: 闪光按钮 Shiny Button
-description: 带有流动扫光效果的填充按钮。
+description: 带有连续平滑流动扫光效果的高亮展示型按钮，用于强化页面核心行动点（CTA）与转化入口。
 component: shiny-button
 ---
 
 ## 基础用法
 
+最简单的闪光按钮形态。内置流动的斜向光斑扫描动画：
+
 <ComponentPreview name="shiny-button-demo" />
 
-安装组件：
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/shiny-button" />
 
+<Steps>
+
+<Step>安装动效依赖与工具库</Step>
+
+```bash
+pnpm add motion clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/shiny-button.tsx`</Step>
+
 <ComponentSource name="shiny-button" title="components/ui/shiny-button.tsx" />
 
-## 使用场景
+</Steps>
 
-`ShinyButton` 是 **Fancy** 系列的展示型按钮。该系列包含偏视觉效果的组件，与核心 UI 共存，
-并通过相同的 `wui add` 流程按需安装。
+## 属性 Props
 
-效果组件比核心基础组件更有视觉倾向，也更醒目，因此应克制、有目的地使用：
+`ShinyButton` 接受以下配置属性，并继承 `motion.button` 的全部 HTML 属性与动画属性：
 
-- 适合用于首屏主操作、定价页的“升级”按钮或空状态等需要单一视觉焦点的位置。
-- 不要在整个表单或工具栏中铺满闪光按钮；持续动画会与内容争夺注意力并造成视觉疲劳。
-- 用户开启“减少动态效果”时，扫光会自动禁用，按钮仍保持为普通实色按钮。
+<PropsTable
+  data={[
+    {
+      prop: "speed",
+      type: "number",
+      default: "3",
+      description: "光斑扫过整个按钮所需的周期时间（秒）。数值越小扫光越快。",
+    },
+    {
+      prop: "gap",
+      type: "number",
+      default: "1.2",
+      description: "每次扫光完成后的间隔静止时间（秒）。",
+    },
+    {
+      prop: "children",
+      type: "React.ReactNode",
+      description: "按钮内部渲染的内容，通常包含文字或图标。",
+    },
+    {
+      prop: "disabled",
+      type: "boolean",
+      default: "false",
+      description: "是否禁用按钮。禁用时将自动隐藏扫光图层并阻止交互。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于按钮容器的额外 CSS 类名，可用于自定义尺寸、圆角与背景色。",
+    },
+  ]}
+/>
 
-## 属性
+## 事件 Events
 
-`ShinyButton` 继承 `motion.button` 的全部属性，并额外提供：
+`ShinyButton` 继承原生按钮及 Motion 包装层的所有事件回调：
 
-<PropsTable name="shiny-button" />
+<PropsTable
+  data={[
+    {
+      prop: "onClick",
+      type: "(event: React.MouseEvent<HTMLButtonElement>) => void",
+      description: "用户点击或通过键盘激活按钮时触发。",
+    },
+    {
+      prop: "onFocus",
+      type: "(event: React.FocusEvent<HTMLButtonElement>) => void",
+      description: "按钮获得焦点时触发。",
+    },
+    {
+      prop: "onBlur",
+      type: "(event: React.FocusEvent<HTMLButtonElement>) => void",
+      description: "按钮失去焦点时触发。",
+    },
+    {
+      prop: "onHoverStart",
+      type: "(event: MouseEvent, info: EventInfo) => void",
+      description: "鼠标指针移入按钮区域时触发（Motion 回调）。",
+    },
+    {
+      prop: "onHoverEnd",
+      type: "(event: MouseEvent, info: EventInfo) => void",
+      description: "鼠标指针离开按钮区域时触发（Motion 回调）。",
+    },
+  ]}
+/>
 
-## 事件
+## 使用场景与设计规范
 
-`ShinyButton` 会像 [`Button`](/docs/components/button) 一样，将 `onClick`、`onFocus` 等原生按钮事件透传给底层元素。
+`ShinyButton` 属于展示型组件（Fancy 系列），具有极强的视觉吸引力。
 
-## 扩展用法
+- **使用场景**：
+  - **核心转化 CTA**：官网首页首屏的“免费试用”、“即刻体验”、“快速部署”等主行动点。
+  - **付费与升级通道**：价格方案对比卡片中的“升级专业版”或限时折扣引导。
+  - **新功能与早鸟公告**：引导用户体验实验性功能的醒目标签按钮。
+- **克制使用原则**：
+  - 同一视口中切忌大面积平铺多个闪光按钮，否则会分散用户注意力造成严重视觉疲劳。
+  - 普通表单、密集表格操作列以及次要取消操作请使用基础的 `Button`。
+- **动效与色彩适配**：
+  - 光效层使用半透明渐变叠加在背景之上，在深色（Dark Mode）与浅色（Light Mode）模式下均能保持优雅的对比度。
 
-### 尺寸与形态
+## 场景示例
 
-支持配置各种标准尺寸与圆角预设：
+### 定价与方案升级对比
 
-<ComponentPreview name="shiny-button-variants" />
+在定价卡片中将核心推荐方案的操作按钮升级为 `ShinyButton`，快速建立视觉层级差异：
 
-### 行动召唤横幅
+<ComponentPreview name="shiny-button-pricing" />
 
-在产品升级、早鸟体验或核心转化区域，使用 `ShinyButton` 作为主要操作按钮：
+### 早鸟与产品宣传横幅
+
+与卡片、图标与利益点结合，构建具有高吸引力的转化模块：
 
 <ComponentPreview name="shiny-button-card" />
 
-<Callout title="添加自己的效果组件">
-  新效果组件遵循标准的[组件规范](/docs)，并在 `registry.json` 中添加 `"categories": ["fancy"]`，
-  页面放到组件侧边栏的 **Fancy** 分组下。
-</Callout>
+### 尺寸与形状变体
+
+通过 Tailwind 类名轻松调整尺寸与圆角（如胶囊型 Pill）：
+
+<ComponentPreview name="shiny-button-variants" />
+
+## 无障碍与交互 Accessibility
+
+- **动效降级保障**：组件内部使用 `useReducedMotion` 监听操作系统偏好。当用户开启了“减少动态效果”时，扫光动画自动关闭，按压缩放动效自动移除，组件退化为静态高对比度按钮。
+- **键盘焦点**：支持标准的 <kbd>Tab</kbd> 聚焦以及 <kbd>Enter</kbd> / <kbd>Space</kbd> 激活，焦点轮廓清晰可见且不会被扫光层遮盖。
+- **非侵入式光斑**：扫光层标记为 `aria-hidden="true"` 并配置 `pointer-events-none`，绝不干扰文字选区与屏幕阅读器朗读。

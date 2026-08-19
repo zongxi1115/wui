@@ -1,43 +1,173 @@
 ---
 title: 分页 Pagination
-description: 在分页数据之间导航，并清晰标记当前页和省略的页码区间。
+description: 用于在海量数据或长列表中实现按页加载与分段导航，清晰传达当前页码、总页数及折叠区间。
 component: pagination
 ---
 
 ## 基础用法
 
+标准的分页导航结构。包含上一页、数字页码按钮、折叠省略号与下一页：
+
 <ComponentPreview name="pagination-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/pagination" />
 
+<Steps>
+
+<Step>安装基础依赖与图标库</Step>
+
+```bash
+pnpm add radix-ui lucide-react clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/pagination.tsx`</Step>
+
 <ComponentSource name="pagination" title="components/ui/pagination.tsx" />
 
-## 使用场景
+</Steps>
 
-`Pagination` 适用于数据总量和页数明确的列表或表格。页码应使用真实链接以支持打开新标签页、复制地址和服务端渲染；只有数据不具备独立 URL 时，才使用点击事件更新本地状态。
+## 属性 Props
 
-## 属性
+### Pagination (根组件)
 
-`PaginationLink` 继承原生链接属性，并提供 `isActive`、`size` 与 `asChild`。`isActive` 会切换视觉状态，同时添加 `aria-current="page"`。
+继承原生 `<nav>` 元素的全部 HTML 属性：
 
-<PropsTable name="pagination" />
+<PropsTable
+  data={[
+    {
+      prop: "aria-label",
+      type: "string",
+      default: '"分页导航"',
+      description: "用于屏幕阅读器识别当前导航区域的可访问地标名称。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于分页根容器的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-## 扩展用法
+### PaginationLink
 
-### 受控页码与省略项
+继承原生 `<a>` 元素的全部 HTML 属性，并结合 Button 的样式变体：
 
-分页规则由业务数据决定，组件只负责链接语义和视觉组合。下面的示例展示本地受控状态、边界禁用以及 `PaginationEllipsis`。
+<PropsTable
+  data={[
+    {
+      prop: "isActive",
+      type: "boolean",
+      default: "false",
+      description: "当前页码是否处于选中激活态。开启后自动挂载 aria-current=\"page\" 并禁用重复点击。",
+    },
+    {
+      prop: "size",
+      type: '"default" | "sm" | "lg" | "icon"',
+      default: '"icon"',
+      description: "分页按钮的尺寸密度。",
+    },
+    {
+      prop: "asChild",
+      type: "boolean",
+      default: "false",
+      description: "启用后将样式合并到唯独的子组件（如 Next.js `<Link>`）。",
+    },
+    {
+      prop: "href",
+      type: "string",
+      description: "页面跳转的目标 URL 地址（服务端渲染或支持新标签页打开）。",
+    },
+  ]}
+/>
+
+### PaginationPrevious / PaginationNext
+
+上一页与下一页快捷按钮，继承 `PaginationLink` 的所有属性：
+
+<PropsTable
+  data={[
+    {
+      prop: "children",
+      type: "React.ReactNode",
+      description: "自定义按钮文本，在小屏下内置响应式隐藏文字只显示箭头图标。",
+    },
+    {
+      prop: "aria-disabled",
+      type: "boolean",
+      description: "到达边界（如第 1 页或最后一页）时标记禁用态。",
+    },
+  ]}
+/>
+
+### PaginationEllipsis
+
+用于表示中间被折叠的连续页码区间：
+
+<PropsTable
+  data={[
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于省略号图标容器的额外 CSS 类名。",
+    },
+  ]}
+/>
+
+## 事件 Events
+
+<PropsTable
+  data={[
+    {
+      prop: "onClick",
+      type: "(event: React.MouseEvent<HTMLAnchorElement>) => void",
+      description: "用户点击页码或翻页按钮时触发。若用于客户端受控状态，需调用 event.preventDefault() 阻止默认跳转。",
+    },
+    {
+      prop: "onKeyDown",
+      type: "(event: React.KeyboardEvent<HTMLAnchorElement>) => void",
+      description: "在页码按钮获得焦点并按下键盘按键时触发。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`Pagination` 适用于数据量明确、用户需要精准跳页或在长列表中定位特定批次数据的场景：
+
+- **URL 驱动优先**：若页面支持 SSR 或需要保留搜索条件与页码在 URL query 中（例如 `/users?page=3&size=20`），优先使用真实的 `href` 链接，方便用户分享链接或前进后退。
+- **无限滚动 vs 分页**：
+  - **分页（Pagination）**：适合后台表格、交易明细、搜索结果等需要强定位与对比的场景。
+  - **无限滚动（Infinite Scroll）**：适合社交动态 Feed、即时消息流等娱乐与探索类内容。
+- **边界禁用处理**：处于第 1 页时，上一页必须置灰并添加 `aria-disabled="true"` 与 `tabIndex={-1}`；处于末页时下一页同理。
+- **大页码智能折叠**：当总页数超过 7 页时，应动态保留首尾页与当前页周围的页码，中间插入 `PaginationEllipsis`。
+
+## 场景示例
+
+### 完整业务表格分页条
+
+结合数据总量统计、每页条数下拉选择框（10 / 20 / 50 条）、动态双侧省略号与快速跳页输入框：
+
+<ComponentPreview name="pagination-table" />
+
+### 受控模式与翻页回调
+
+在纯客户端状态下配合 `useState` 控制当前页码并实现边界安全检查：
 
 <ComponentPreview name="pagination-advanced" />
 
-### 与路由链接组合
+### 尺寸预设
 
-通过 `asChild` 可直接复用框架路由组件：
+提供 `sm`（紧凑）、`default`（标准）与 `lg`（触控友好）三种尺寸变体：
 
-```tsx
-<PaginationLink asChild isActive={page === 2}>
-  <Link href="/articles?page=2">2</Link>
-</PaginationLink>
-```
+<ComponentPreview name="pagination-sizes" />
 
-禁用上一页或下一页时，应同时设置 `aria-disabled="true"`、`tabIndex={-1}` 并阻止交互。分页省略号是装饰内容，不会进入读屏软件的导航序列。
+## 无障碍与交互 Accessibility
+
+- **地标标识**：根组件输出 `<nav aria-label="分页导航">`，读屏软件能快速定位整个分页区块。
+- **当前页播报**：激活的 `PaginationLink` 自动挂载 `aria-current="page"`，读屏器会自动播报“当前页，第 X 页”。
+- **折叠项隔离**：`PaginationEllipsis` 内置 `aria-hidden="true"` 与辅助屏幕专用的 `<span className="sr-only">更多页面</span>`。
+- **键盘遍历支持**：所有页码项均支持标准的 <kbd>Tab</kbd> 聚焦与 <kbd>Enter</kbd> 激活。

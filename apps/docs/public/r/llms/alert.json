@@ -2,7 +2,7 @@
   "name": "alert",
   "type": "registry:ui",
   "title": "警告提示 Alert",
-  "description": "用于展示需要保留在页面中的状态、说明和操作建议。",
+  "description": "用于在页面流中展示需要持久保留的状态通告、错误排查指引与操作建议。",
   "import": "import { Alert, alertVariants } from \"@/components/ui/alert\"",
   "exports": [
     "Alert",
@@ -110,15 +110,23 @@
     },
     {
       "name": "alert-action",
-      "title": "尾部操作"
+      "title": "尾部操作 (Action)"
     },
     {
       "name": "alert-dismissible",
-      "title": "可关闭与受控显示"
+      "title": "可关闭与受控显示 (Dismissible)"
     },
     {
       "name": "alert-compact",
-      "title": "紧凑尺寸"
+      "title": "紧凑单行模式 (Compact)"
+    },
+    {
+      "name": "alert-custom-icon",
+      "title": "自定义图标与隐藏图标"
+    },
+    {
+      "name": "alert-business",
+      "title": "业务场景：安全风险警报与证书预警"
     }
   ],
   "files": [

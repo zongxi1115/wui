@@ -1,8 +1,8 @@
 {
   "name": "select",
   "type": "registry:ui",
-  "title": "下拉框 Select",
-  "description": "支持分组、禁用项和键盘导航的选项选择器。",
+  "title": "下拉选择器 Select",
+  "description": "用于在有限互斥选项中进行单项选择的下拉菜单组件，支持分组、尺寸密度、自定义渲染与完整的键盘导航无障碍支持。",
   "import": "import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger, SelectValue, selectTriggerVariants } from \"@/components/ui/select\"",
   "exports": [
     "Select",
@@ -42,15 +42,34 @@
       "description": "是否禁用组件。"
     }
   ],
-  "events": "- `onValueChange(value)`：选中项变化后触发，参数是选项的 `value`。\n- `onOpenChange(open)`：浮层打开或关闭时触发。\n- `SelectItem` 支持 Radix 提供的选择、焦点和键盘事件。",
   "examples": [
     {
       "name": "select-demo",
       "title": "基础用法"
     },
     {
+      "name": "select-controlled",
+      "title": "受控模式与外部联动"
+    },
+    {
+      "name": "select-sizes",
+      "title": "尺寸规格"
+    },
+    {
       "name": "select-groups",
       "title": "分组与分隔线"
+    },
+    {
+      "name": "select-custom-item",
+      "title": "自定义选项渲染"
+    },
+    {
+      "name": "select-disabled",
+      "title": "禁用状态"
+    },
+    {
+      "name": "select-form",
+      "title": "表单与业务集成"
     }
   ],
   "files": [

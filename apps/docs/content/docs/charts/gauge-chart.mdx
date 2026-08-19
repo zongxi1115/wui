@@ -1,0 +1,37 @@
+---
+title: 仪表盘 Gauge Chart
+description: 用于直观展示单一核心指标的当前进度水平、负载状态与阈值区间的环形度量图表。
+component: gauge-chart
+---
+
+## 基础示例 · Basic example
+
+<ComponentPreview name="gauge-chart-demo" previewClassName="min-h-0 p-6 flex justify-center" />
+
+<CodeTabs command="@wui-design/cli@latest add @wui/gauge-chart" />
+
+<ComponentSource name="gauge-chart" title="charts/gauge-chart.tsx" />
+
+## 组件作用 · What it's for
+
+`GaugeChart` 模拟物理仪表盘，利用 240° 宽圆弧和分段色彩区间呈现度量指标的健康与负荷状态。
+
+### 适用场景
+- **系统硬件与服务监控**：CPU、GPU、内存使用率、请求延迟 SLA。
+- **业务完成度与达成率**：季度 KPI 达成百分比、销售配额完成率。
+- **安全与健康度评分**：代码质量评分、系统安全等级评估。
+
+### 何时不建议使用
+- 如果需要展示多维属性的对比，推荐使用 `RadarChart`；如果是多阶段转化率，推荐使用 `FunnelChart`。
+
+## 组件属性 · Props
+
+<PropsTable name="gauge-chart" />
+
+## 事件 · Events
+
+- 属于展示型度量图表，当 `value` 变化时自带流畅的 CSS 弧线插值过渡动效。
+
+## 拓展使用 · Extended usage
+
+可通过 `zones` 属性自定义多段目标阈值与警示颜色，并结合 `unit` 设定单位。

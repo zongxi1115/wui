@@ -110,6 +110,11 @@ export const PropDescriptions: Record<string, Record<string, string>> = {
     cancelLabel: "取消按钮的文字。",
     variant: "确认按钮的视觉样式。",
     onConfirm: "用户点击确认按钮时触发。",
+    open: "受控模式下对话框是否打开。",
+    defaultOpen: "非受控模式下对话框的初始打开状态。",
+    onOpenChange: "对话框打开或关闭状态变化时触发。",
+    children: "对话框主体内容区域展示的自定义子元素。",
+    loading: "是否处于异步提交中的加载状态，加载期间确认按钮展示旋转指示器并禁用操作。",
   },
   motion: {
     preset: "入场动画的预设名称。",

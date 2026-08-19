@@ -2,7 +2,7 @@
   "name": "toggle",
   "type": "registry:ui",
   "title": "切换按钮 Toggle",
-  "description": "用一个按钮切换并保持某项功能的开启或关闭状态。",
+  "description": "用于在激活（On）与未激活（Off）两种双态之间切换并持久保持状态的轻量级动作按钮。",
   "import": "import { Toggle, toggleVariants } from \"@/components/ui/toggle\"",
   "exports": [
     "Toggle",
@@ -54,18 +54,34 @@
       "description": "切换按钮的视觉样式。"
     }
   ],
-  "events": "`onPressedChange(pressed)` 在状态变化后触发。受控模式使用 `pressed`，仅设置初始状态时使用 `defaultPressed`。\n只有图标的 Toggle 必须提供 `aria-label`。",
   "examples": [
     {
       "name": "toggle-demo",
       "title": "基础用法"
     },
     {
+      "name": "toggle-bookmark",
+      "title": "收藏加星与业务状态"
+    },
+    {
+      "name": "toggle-mute",
+      "title": "音视频静音与窗口置顶"
+    },
+    {
       "name": "toggle-sizes",
-      "title": "尺寸与描边"
+      "title": "尺寸与外观风格"
+    },
+    {
+      "name": "toggle-group-alignment"
     },
     {
       "name": "toggle-group-demo"
+    },
+    {
+      "name": "toggle-group-device-preview"
+    },
+    {
+      "name": "toggle-group-filter"
     },
     {
       "name": "toggle-group-multiple"

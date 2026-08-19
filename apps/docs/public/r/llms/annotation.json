@@ -1,8 +1,8 @@
 {
   "name": "annotation",
   "type": "registry:ui",
-  "title": "动态标注 Annotation",
-  "description": "用路径箭头、荧光笔和自定义手绘轨迹强调页面内容。",
+  "title": "手绘批注与高亮 Annotation",
+  "description": "带有手绘笔触风格的动态荧光笔扫掠高亮、手绘箭头引导与路径圈注组件。",
   "categories": [
     "fancy",
     "motion"
@@ -87,19 +87,20 @@
       "description": "是否只在内容第一次进入视口时高亮。"
     }
   ],
-  "usage": "路径坐标需要与 `viewBox` 使用同一套坐标系；自定义轨迹时建议保留少量外围空间，避免笔触或箭头被裁切。两种组件默认在进入视口时播放一次，\n也可以设置 `inView={false}` 在挂载时播放，或设置 `once={false}` 在每次进入视口时重播。\n\n荧光笔更适合单行短语。需要强调多行内容时，建议拆成多个短语分别标注，避免笔触跨行后失去手写感，也避免遮挡正文。",
   "examples": [
     {
       "name": "annotation-demo",
       "title": "基础用法"
     },
     {
-      "name": "annotation-variants",
-      "title": "笔触变体"
+      "name": "annotation-callout",
+      "title": "引导发布操作按钮"
     },
     {
-      "name": "annotation-shapes",
-      "title": "路径与形态扩展"
+      "name": "annotation-shapes"
+    },
+    {
+      "name": "annotation-variants"
     }
   ],
   "files": [

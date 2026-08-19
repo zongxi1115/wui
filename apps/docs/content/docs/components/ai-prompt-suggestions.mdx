@@ -1,37 +1,147 @@
 ---
 title: AI 快捷提问建议 AI Prompt Suggestions
-description: 用于新对话启动页、空状态或输入框上方的引导式提问卡片与预设 Prompt 标签。
+description: 用于新会话空状态页面、输入框上方或追问引导的预设提问卡片与标签组。
 component: ai-prompt-suggestions
 ---
 
-## 基础示例 · Basic example
+## 基础用法
 
-<ComponentPreview name="ai-prompt-suggestions-demo" previewClassName="min-h-0 p-6 flex justify-center" />
+在新会话初始页面呈现精选推荐提问网格（Grid），帮助用户快速开启对话并直观了解 AI Agent 的能力边界：
+
+<ComponentPreview name="ai-prompt-suggestions-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/ai-prompt-suggestions" />
 
+<Steps>
+
+<Step>安装基础依赖与图标库</Step>
+
+```bash
+pnpm add lucide-react class-variance-authority clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/ai-prompt-suggestions.tsx`</Step>
+
 <ComponentSource name="ai-prompt-suggestions" title="components/ui/ai-prompt-suggestions.tsx" />
 
-## 组件作用 · What it's for
+</Steps>
 
-`AiPromptSuggestions` 帮助用户快速开启对话、降低打字门槛，并引导用户体验 Agent 的特色能力。
+## 属性 Props
 
-### 适用场景
-- **新会话空状态页面**：在对话界面初始呈现推荐提问网格（Card 模式）。
-- **输入框上方快捷建议**：以胶囊药丸（Chip 模式）或横向滚动条展示上下文相关的快捷补全。
-- **一键填入与执行**：提供 `onSelectPrompt` 回调，便于一键将内容注入 `AiPromptTextarea` 或直接发送。
+### AiPromptSuggestions Props
 
-### 何时不建议使用
-- 如果用户已经在长对话的交流过程中，建议隐藏初始建议卡片以保持界面清爽。
+<PropsTable
+  data={[
+    {
+      prop: "layout",
+      type: '"grid" | "scroll" | "chips"',
+      default: '"grid"',
+      description: "快捷建议组的整体排版模式。grid 为多列响应式网格，scroll 为横向滚动条，chips 为紧凑胶囊标签流。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于外层容器的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-## 组件属性 · Props
+### AiPromptSuggestionItem Props
 
-<PropsTable name="ai-prompt-suggestions" />
+<PropsTable
+  data={[
+    {
+      prop: "title",
+      type: "React.ReactNode",
+      required: true,
+      description: "建议项的主要标题或问题文案。",
+    },
+    {
+      prop: "description",
+      type: "React.ReactNode",
+      description: "卡片模式下的辅助描述或示例细节说明。",
+    },
+    {
+      prop: "variant",
+      type: '"card" | "chip" | "ghost"',
+      default: '"card"',
+      description: "单个条目的视觉外观变体。card 为独立卡片，chip 为紧凑圆角药丸，ghost 为扁平无边框风格。",
+    },
+    {
+      prop: "icon",
+      type: "React.ReactNode",
+      description: "左侧展示的主题图标元素。",
+    },
+    {
+      prop: "badge",
+      type: "React.ReactNode",
+      description: "右上角或末尾的标签徽章，如「热门」、「代码」等 Badge 元素。",
+    },
+    {
+      prop: "promptText",
+      type: "string",
+      description: "点击后实际发送或填充的完整提示词字符串；若缺省则默认使用 title 文本。",
+    },
+    {
+      prop: "onSelectPrompt",
+      type: "(prompt: string) => void",
+      description: "用户点击该建议项时的回调函数，参数为解析后的完整提示词。",
+    },
+  ]}
+/>
 
-## 事件 · Events
+## 事件 Events
 
-- `AiPromptSuggestionItem.onSelectPrompt?: (prompt: string) => void`：用户点击建议卡片/胶囊时触发，返回完整的提示词文本。
+<PropsTable
+  data={[
+    {
+      prop: "onSelectPrompt",
+      type: "(prompt: string) => void",
+      description: "用户点击建议卡片或按键触发时调用，返回 promptText 或 title 文本，可直接注入输入框或触发发送。",
+    },
+    {
+      prop: "onClick",
+      type: "(event: React.MouseEvent<HTMLButtonElement>) => void",
+      description: "原生按钮点击事件透传。",
+    },
+    {
+      prop: "onKeyDown",
+      type: "(event: React.KeyboardEvent<HTMLButtonElement>) => void",
+      description: "原生键盘按键事件透传。",
+    },
+  ]}
+/>
 
-## 拓展使用 · Extended usage
+## 使用场景与设计规范
 
-可通过 `layout="scroll"` 配合移动端横向滑动，或者在每张卡片中嵌入特色 `Badge` 与专属图标。
+`AiPromptSuggestions` 用于**冷启动引导与上下文追问**：
+
+- **会话初始空状态 (Empty State)**：当用户首次打开聊天页面或新建对话时，空白界面容易造成“不知道该问什么”的困惑。提供 4~6 个代表性强、覆盖主要技能的 Prompt 卡片（`layout="grid"`），可以大幅提升新用户交互转化率。
+- **对话中途的上下文追问 (Follow-up Chips)**：在 AI 助手回答完毕后，可在输入框上方推荐 2~4 个相关的快捷追问标签（`layout="chips"`），引导用户继续深入探索。
+- **文案简明有力**：卡片标题建议控制在 10 字以内，描述控制在 2 行以内，使用动宾结构（例如“生成代码架构”、“优化 SQL 查询”）。
+
+## 场景示例
+
+### 输入框上方的快捷追问胶囊
+
+在输入框上方以 `layout="chips"` 展示紧凑药丸标签，点击后自动填入输入框：
+
+<ComponentPreview name="ai-prompt-suggestions-chips" />
+
+### 横向滑动的场景推荐列表
+
+在空间受限的侧边栏或移动端界面中，使用 `layout="scroll"` 实现横向平滑滚动的提示词流：
+
+<ComponentPreview name="ai-prompt-suggestions-scroll" />
+
+## 无障碍与交互 Accessibility
+
+- **原生按钮语义**：每个 `AiPromptSuggestionItem` 均为原生 `<button type="button">`，天然具备可点击与可聚焦语义。
+- **键盘导航支持**：
+  - <kbd>Tab</kbd>：在建议项之间顺次切换焦点。
+  - <kbd>Enter</kbd> / <kbd>Space</kbd>：选中并触发提示词填充。
+- **屏幕阅读器**：内置图标采用装饰性隐藏或通过 title 提供完整语义表达。

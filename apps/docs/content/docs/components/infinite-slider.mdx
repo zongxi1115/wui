@@ -1,41 +1,121 @@
 ---
-title: 无限滑动 Infinite Slider
-description: 平滑循环内容的水平或垂直滑动轨道。
+title: 无限轮播 Infinite Slider
+description: 沿着水平或垂直轴无缝无间断循环滚动的连续内容展示轨道，支持悬停变速与暂停。
 component: infinite-slider
 ---
 
 ## 基础用法
 
+水平方向无缝循环滚动的技术栈标志流：
+
 <ComponentPreview name="infinite-slider-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/infinite-slider" />
 
-<ComponentSource
-  name="infinite-slider"
-  title="components/ui/infinite-slider.tsx"
+<Steps>
+
+<Step>安装基础依赖与动效库</Step>
+
+```bash
+pnpm add motion class-variance-authority clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/infinite-slider.tsx`</Step>
+
+<ComponentSource name="infinite-slider" title="components/ui/infinite-slider.tsx" />
+
+</Steps>
+
+## 属性 Props
+
+<PropsTable
+  data={[
+    {
+      prop: "children",
+      type: "React.ReactNode",
+      description: "在无限循环轨道中展示的子节点元素列表（如品牌 Logo、客户评价、商品卡片等）。",
+    },
+    {
+      prop: "gap",
+      type: "number",
+      default: "16",
+      description: "循环子元素之间的间距（单位：像素）。",
+    },
+    {
+      prop: "speed",
+      type: "number",
+      default: "64",
+      description: "常规滚动时的线速度（单位：像素 / 秒）。",
+    },
+    {
+      prop: "speedOnHover",
+      type: "number",
+      description: "鼠标悬停在轨道上方时的线速度。设置为 0 可实现悬停完全暂停。",
+    },
+    {
+      prop: "direction",
+      type: '"horizontal" | "vertical"',
+      default: '"horizontal"',
+      description: "滚动的物理主轴方向。",
+    },
+    {
+      prop: "reverse",
+      type: "boolean",
+      default: "false",
+      description: "是否沿反向滚动（水平模式下从左至右，垂直模式下从上至下）。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于外层视口容器的额外 CSS 类名。",
+    },
+  ]}
 />
 
-## 使用场景
+## 事件 Events
 
-`InfiniteSlider` 用于品牌列表、合作伙伴、标签或轻量媒体带。它按像素速度持续移动，并复制一组内容形成无缝循环；
-用户开启“减少动态效果”时会停止移动，并只保留一组内容。
+<PropsTable
+  data={[
+    {
+      prop: "onMouseEnter",
+      type: "(event: React.MouseEvent) => void",
+      description: "鼠标进入滚动区域时触发（若配置了 speedOnHover 则自动应用悬停速度）。",
+    },
+    {
+      prop: "onMouseLeave",
+      type: "(event: React.MouseEvent) => void",
+      description: "鼠标离开滚动区域时触发，恢复默认 speed 滚动速度。",
+    },
+  ]}
+/>
 
-它适合装饰性或可选信息，不要把必须阅读、必须操作或依赖顺序的内容放进持续移动的轨道。
+## 使用场景与设计规范
 
-## 属性
+`InfiniteSlider` 适用于**合作伙伴 Logo 墙、客户真实证言推荐流、热门标签跑马灯**：
 
-<PropsTable name="infinite-slider" />
+- **悬停暂停交互**：当展示用户评价卡片或包含可点击链接的项目时，强烈推荐配置 `speedOnHover={0}` 或更慢的慢速，方便用户阅读并进行精准点击。
+- **渐变遮罩边缘（Masking）**：配合 Tailwind 的 `[mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]` 可以实现边缘渐隐淡出，极大提升视觉平滑度。
+- **双组无缝克隆**：组件内部自动使用 `ResizeObserver` 测量第一组内容的实际几何尺寸，并生成第二组不可聚焦（`inert`）的副本以保证无限循环无卡顿。
 
-## 事件
+## 场景示例
 
-组件透传容器的鼠标、指针和焦点事件。`speedOnHover` 用来改变悬停速度，设为 `0` 即可暂停；如果轨道中有链接，
-仍需保证用户可以通过键盘稳定访问每一项。
+### 垂直方向滚动
 
-## 扩展用法
-
-### 垂直与反向
+适用于展示实时审计事件、交易通知流或侧边栏微型动态：
 
 <ComponentPreview name="infinite-slider-vertical" />
 
-使用纵向模式时必须给外层设置明确高度。内容应保持简短；需要键盘操作的控件不要放进会持续移动的轨道，
-更适合把链接放在轨道外，或在获得焦点时暂停移动。
+### 客户评价与悬停即停
+
+鼠标悬停在评价卡片上时速度归零，方便用户详细阅读内容：
+
+<ComponentPreview name="infinite-slider-hover-pause" />
+
+## 无障碍与交互 Accessibility
+
+- **克隆层惰性隔离（inert）**：复制生成的第二组轮播内容自动被标记 `aria-hidden="true"` 和 `inert`，防止键盘焦点与屏幕阅读器在无尽的重复项中循环迷失。
+- **动效减弱降级（prefers-reduced-motion）**：当系统启用减少动效时，组件会自动停止 requestAnimationFrame 动画循环，并退化为原生可横向/纵向自由滚动的滚动条容器（`overflow: auto`）。

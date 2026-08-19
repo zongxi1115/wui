@@ -1,8 +1,8 @@
 {
   "name": "aurora-background",
   "type": "registry:ui",
-  "title": "极光背景 Aurora Background",
-  "description": "用缓慢移动的模糊色场构建低频氛围背景。",
+  "title": "极光动态背景 Aurora Background",
+  "description": "融合多重径向渐变光斑、柔和高斯模糊与无限平滑缓动的现代极光氛围背景组件。",
   "categories": [
     "background",
     "motion",
@@ -65,11 +65,14 @@
       "description": "应用于每个极光图层的 CSS 类名。"
     }
   ],
-  "usage": "极光背景应占据较大区域并保持低频运动，避免在多个相邻卡片中重复使用。优先选择对比明确、色相数量有限的三色组合，\n并检查前景文字在整个运动周期中的对比度。用户开启“减少动态效果”时色场保持静止。",
   "examples": [
     {
       "name": "aurora-background-demo",
       "title": "基础用法"
+    },
+    {
+      "name": "aurora-background-card",
+      "title": "VIP 会员卡片与定价模块"
     }
   ],
   "files": [

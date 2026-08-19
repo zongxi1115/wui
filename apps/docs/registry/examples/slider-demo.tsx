@@ -1,63 +1,44 @@
 "use client"
 
-import { SunDimIcon, SunIcon } from "lucide-react"
-
+import * as React from "react"
+import { Volume2Icon, VolumeXIcon } from "lucide-react"
 import { Slider } from "@/registry/ui/slider"
 
 export default function SliderDemo() {
-  const marks = [0, 20, 40, 60, 80, 100]
+  const [volume, setVolume] = React.useState([65])
 
   return (
-    <div className="w-full max-w-xs space-y-7">
-      <Slider defaultValue={[40]} showValue="never" aria-label="基础滑块" />
-
-      <Slider
-        defaultValue={[40]}
-        marks={marks}
-        showValue="never"
-        aria-label="带刻度的滑块"
-      />
-
-      <div className="flex items-center gap-2.5">
-        <SunDimIcon className="size-4 shrink-0 text-muted-foreground" />
-        <Slider defaultValue={[50]} showValue="never" aria-label="亮度" />
-        <SunIcon className="size-4 shrink-0 fill-current" />
+    <div className="w-full max-w-sm space-y-3 rounded-lg border border-border bg-card p-4 text-card-foreground shadow-xs">
+      <div className="flex items-center justify-between">
+        <span className="text-sm font-medium">主音量调节</span>
+        <span className="text-xs font-semibold tabular-nums text-muted-foreground">
+          {volume[0]}%
+        </span>
       </div>
 
-      <div className="flex items-center gap-3 text-xs text-muted-foreground">
-        <span aria-hidden="true">A</span>
-        <Slider defaultValue={[50]} showValue="never" aria-label="字号" />
-        <span className="text-sm" aria-hidden="true">A</span>
-      </div>
+      <div className="flex items-center gap-3">
+        <button
+          type="button"
+          onClick={() => setVolume([0])}
+          className="text-muted-foreground hover:text-foreground transition-colors"
+          aria-label="静音"
+        >
+          {volume[0] === 0 ? (
+            <VolumeXIcon className="size-4 shrink-0" />
+          ) : (
+            <Volume2Icon className="size-4 shrink-0" />
+          )}
+        </button>
 
-      <div>
         <Slider
-          defaultValue={[40]}
-          marks={marks}
-          showValue="never"
-          aria-label="带数值刻度的滑块"
+          value={volume}
+          onValueChange={setVolume}
+          max={100}
+          step={1}
+          formatValue={(val) => `${val}%`}
+          aria-label="音量大小"
         />
-        <div className="flex justify-between px-px text-[9px] tabular-nums text-muted-foreground">
-          {marks.map((mark) => (
-            <span key={mark}>{mark}</span>
-          ))}
-        </div>
       </div>
-
-      <div className="space-y-2">
-        <div className="flex items-center gap-2 text-sm font-medium">
-          <SunIcon className="size-4 fill-current" />
-          <span>Title</span>
-        </div>
-        <Slider defaultValue={[40]} showValue="never" aria-label="标题滑块" />
-      </div>
-
-      <Slider
-        defaultValue={[40]}
-        showValue="always"
-        formatValue={(value) => `${value}%`}
-        aria-label="显示当前值的滑块"
-      />
     </div>
   )
 }

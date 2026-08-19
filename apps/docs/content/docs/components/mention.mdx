@@ -1,0 +1,38 @@
+---
+title: 提及输入 Mention
+description: 用于协同评论、讨论区或 AI 输入框中键入 @、# 或 / 快速匹配并插入人员、话题或指令。
+component: mention
+---
+
+## 基础示例 · Basic example
+
+<ComponentPreview name="mention-demo" previewClassName="min-h-0 p-6 flex justify-center" />
+
+<CodeTabs command="@wui-design/cli@latest add @wui/mention" />
+
+<ComponentSource name="mention" title="components/ui/mention.tsx" />
+
+## 组件作用 · What it's for
+
+`Mention` 专用于支持富交互提及场景，通过键盘打字实时捕获前缀并呈现建议浮层。
+
+### 适用场景
+- **协作任务与评论区**：键入 `@` 快速提醒团队成员或关联特定负责人。
+- **AI 助手与角色指派**：在提示词中键入 `@bot` 指定协同 Agent。
+- **键盘导航支持**：原生支持上下方向键高亮、Enter/Tab 快捷上屏与 Esc 取消。
+
+### 何时不建议使用
+- 如果仅仅是普通无特殊触发符号的单行表单输入，使用 `Input` 即可。
+
+## 组件属性 · Props
+
+<PropsTable name="mention" />
+
+## 事件 · Events
+
+- `onValueChange?: (value: string) => void`：文本内容变化时的回调。
+- `onSelectOption?: (option: MentionOption) => void`：选中某一匹配项时的回调。
+
+## 拓展使用 · Extended usage
+
+可通过 `trigger` 属性自定义触发符号，例如传入 `#` 实现话题标签自动补全，或传入 `/` 实现斜杠快捷指令。

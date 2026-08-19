@@ -1,29 +1,113 @@
 ---
-title: 视差 Parallax
-description: 让内容层在经过视口时以不同速度平移或缩放。
+title: 视差滚动 Parallax
+description: 依据页面或局部容器滚动进度，以差异化速率与缩放变换驱动图层位移的深度空间视觉组件。
 component: parallax
 ---
 
 ## 基础用法
 
+随着滚动向下推进，多层背景图、前景遥测徽章以差异化的速度与反向矢量进行视差运动：
+
 <ComponentPreview name="parallax-demo" />
 
-<DependencyBadges packages={["motion"]} />
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/parallax" />
 
+<Steps>
+
+<Step>安装基础依赖与动效库</Step>
+
+```bash
+pnpm add motion lucide-react class-variance-authority clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/parallax.tsx`</Step>
+
 <ComponentSource name="parallax" title="components/ui/parallax.tsx" />
 
-## 使用场景
+</Steps>
 
-`Parallax` 将目标经过视口的进度映射为水平或垂直位移。`distance` 决定起止位置，`scale` 可以叠加轻微缩放，
-适合图片内层视差、标题层级和前后景分离。它只改变视觉位置，不改变内容在文档中的阅读顺序。
+## 属性 Props
 
-## 属性
+<PropsTable
+  data={[
+    {
+      prop: "children",
+      type: "React.ReactNode",
+      description: "受视差滚动力度驱动变换的子图层元素（如图片、文字标语、浮动卡片）。",
+    },
+    {
+      prop: "axis",
+      type: '"x" | "y"',
+      default: '"y"',
+      description: "视差变换的位移主轴。",
+    },
+    {
+      prop: "distance",
+      type: "[number, number]",
+      default: "[-48, 48]",
+      description: "从视差起始点到结束点的位移区间（单位：像素）。例如 [-100, 100] 表示由上至下位移 200px。",
+    },
+    {
+      prop: "scale",
+      type: "[number, number]",
+      description: "伴随滚动进度同步插值的缩放比例区间，如 [1.0, 1.25] 可实现深邃的画框缩放视差。",
+    },
+    {
+      prop: "container",
+      type: "React.RefObject<HTMLElement | null>",
+      description: "局部滚动容器的 ref 引用。不传时默认监听整个全局 window 视口滚动。",
+    },
+    {
+      prop: "offset",
+      type: 'UseScrollOptions["offset"]',
+      default: '["start end", "end start"]',
+      description: "Motion useScroll 监听的视口交叉触发锚点区间。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于视差动画外层的 CSS 类名（通常配合 will-change-transform 优化渲染）。",
+    },
+  ]}
+/>
 
-<PropsTable name="parallax" />
+## 事件 Events
 
-## 使用说明
+<PropsTable
+  data={[
+    {
+      prop: "onAnimationStart",
+      type: "() => void",
+      description: "视差变换开始插值时触发。",
+    },
+    {
+      prop: "onAnimationComplete",
+      type: "() => void",
+      description: "视差图层运动到达目标终点时触发。",
+    },
+  ]}
+/>
 
-图片内层视差应把 `Parallax` 放在 `overflow-hidden` 的固定画框内，并给内容预留超出画框的尺寸。建议从 `[-32, 32]`
-到 `[-72, 72]` 的小范围开始；移动距离过大会让内容显得脱离布局或被裁切。用户开启“减少动态效果”后内容保持静止。
+## 使用场景与设计规范
+
+`Parallax` 适用于**官网 Hero 首屏、沉浸式品牌故事页、媒体图文画廊**：
+
+- **分层速率递进**：背景层使用低速慢移（如 `distance={[-30, 30]}`），中景使用标准速度，前景点缀元素使用大位移（如 `distance={[-100, 100]}`），能够营造出极强的真实 3D 纵深感。
+- **画框内裁切**：对图片外层使用 `overflow-hidden`，在内部 `Parallax` 上设置 `scale={[1.0, 1.2]}`，可避免图片在位移边缘露白。
+
+## 场景示例
+
+### 深度缩放视差
+
+在限定高度的容器内结合 scale 缩放与垂直位移：
+
+<ComponentPreview name="parallax-scale" />
+
+## 无障碍与交互 Accessibility
+
+- **自动静止降级**：当系统配置了 `prefers-reduced-motion: reduce` 时，组件将直接将 `x`、`y` 位移重置为 0，`scale` 重置为 1，完全消除晃动感。
+- **硬件加速**：自动附带 `will-change-transform` 类名，交由 GPU 独立合成图层渲染，避免重排导致的掉帧与滚动卡顿。

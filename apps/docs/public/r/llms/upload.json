@@ -2,7 +2,7 @@
   "name": "upload",
   "type": "registry:ui",
   "title": "上传 Upload",
-  "description": "支持点击选择、拖拽放置与上传状态反馈的文件上传组件。",
+  "description": "支持点击选取、文件拖拽放置、上传进度百分比展示与状态生命周期反馈的文件上传控件。",
   "import": "import { Upload, uploadVariants } from \"@/components/ui/upload\"",
   "exports": [
     "Upload",
@@ -111,15 +111,26 @@
       "description": "是否禁用组件。"
     }
   ],
-  "events": "- `onFilesChange(files)`：用户选择或拖入文件后立即调用，适合由业务层自行上传。\n- `onUpload(files)`：选择文件后调用；返回 Promise 时，非受控模式会跟随 Promise 更新上传中、完成或失败状态。\n- 原生表单属性以及 `onFocus`、`onBlur` 等输入事件会继续透传到隐藏的文件输入框。",
   "examples": [
     {
       "name": "upload-demo",
       "title": "基础用法"
     },
     {
+      "name": "upload-avatar",
+      "title": "用户头像即时预览上传"
+    },
+    {
+      "name": "upload-progress-simulated",
+      "title": "进度条百分比反馈"
+    },
+    {
+      "name": "upload-dropzone",
+      "title": "多文件批量拖拽清单"
+    },
+    {
       "name": "upload-states",
-      "title": "尺寸与状态"
+      "title": "状态与尺寸矩阵"
     }
   ],
   "files": [

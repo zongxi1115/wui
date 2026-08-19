@@ -2,7 +2,7 @@
   "name": "text-effect",
   "type": "registry:ui",
   "title": "文本入场 Text Effect",
-  "description": "按行、单词或字符拆分并播放文本入场效果。",
+  "description": "支持按字符、单词或行级粒度拆分，并提供多种高质感入场动效预设与自定义物理过渡的文本动效组件。",
   "categories": [
     "motion",
     "text-effect"
@@ -145,11 +145,26 @@
       "description": "文本揭示动画完成时触发。"
     }
   ],
-  "events": "`onAnimationStart` 和 `onAnimationComplete` 分别在整段动画开始和完成时触发。用 `trigger` 控制进入和退出；\n底层元素的其他原生事件会继续透传。",
   "examples": [
     {
       "name": "text-effect-demo",
       "title": "基础用法"
+    },
+    {
+      "name": "text-effect-presets",
+      "title": "动效预设"
+    },
+    {
+      "name": "text-effect-granularity",
+      "title": "拆分颗粒度比较"
+    },
+    {
+      "name": "text-effect-custom-variants",
+      "title": "自定义 Motion 动画变体"
+    },
+    {
+      "name": "text-effect-card",
+      "title": "业务卡片级联入场"
     }
   ],
   "files": [

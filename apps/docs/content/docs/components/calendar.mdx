@@ -1,42 +1,222 @@
 ---
 title: 日历 Calendar
-description: 用可访问的月视图浏览并选择单个日期。
+description: 具备完整月份网格、流畅悬停跟随动效、无障碍键盘移动与事件排期能力的月视图日历与面板组件。
 component: calendar
 ---
 
 ## 基础用法
 
+最简单的单月日历。支持点击日期、键盘方向键穿梭、月度翻页与今天快速标记：
+
 <ComponentPreview name="calendar-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/calendar" />
 
+<Steps>
+
+<Step>安装基础依赖与动效库</Step>
+
+```bash
+pnpm add motion lucide-react clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/calendar.tsx`</Step>
+
 <ComponentSource name="calendar" title="components/ui/calendar.tsx" />
 
-## 使用场景
+</Steps>
 
-`Calendar` 适合需要直接呈现整个月份上下文的日期选择、排期和预约场景。它提供相邻月份日期、今天标记、禁用规则和方向键导航。
-如果界面空间有限，使用由它组合而成的 DatePicker，把月份视图放进弹层中。
+## 属性 Props
 
-## 属性
+### Calendar
 
-<PropsTable name="calendar" />
+`<Calendar>` 用于标准月度日期选择：
 
-## 事件
+<PropsTable
+  data={[
+    {
+      prop: "value",
+      type: "Date",
+      description: "受控模式下的当前选中日期对象。",
+    },
+    {
+      prop: "defaultValue",
+      type: "Date",
+      description: "非受控模式下的初始选中日期对象。",
+    },
+    {
+      prop: "onValueChange",
+      type: "(date: Date) => void",
+      description: "当用户在网格中点击或通过键盘选择新日期时触发的回调函数。",
+    },
+    {
+      prop: "month",
+      type: "Date",
+      description: "受控模式下当前可见的月份（只需传入目标月份的任意一天）。",
+    },
+    {
+      prop: "defaultMonth",
+      type: "Date",
+      description: "非受控模式下初始展示的月份，默认为今天所在月或 `defaultValue` 所在月。",
+    },
+    {
+      prop: "onMonthChange",
+      type: "(month: Date) => void",
+      description: "用户点击上一月/下一月按钮或跨月键盘移动切换月份时触发。",
+    },
+    {
+      prop: "min",
+      type: "Date",
+      description: "允许选择的最早起始日期，早于此日期的格子将被禁用。",
+    },
+    {
+      prop: "max",
+      type: "Date",
+      description: "允许选择的最晚截止日期，晚于此日期的格子将被禁用。",
+    },
+    {
+      prop: "disabled",
+      type: "(date: Date) => boolean",
+      description: "自定义日期禁用判断函数，返回 true 的日期将不可交互并呈现禁用置灰样式。",
+    },
+    {
+      prop: "showOutsideDays",
+      type: "boolean",
+      default: "true",
+      description: "是否在网格中显示属于上个月末尾和下个月开头的相邻月份补齐天数。",
+    },
+    {
+      prop: "locale",
+      type: "string",
+      default: '"zh-CN"',
+      description: "月份标题与星期表头的国际化语言标识符（如 'zh-CN'、'en-US'）。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于日历根容器的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-`onValueChange(date)` 在选择日期后触发；`onMonthChange(month)` 在切换月份时触发。组件同时支持受控和非受控模式。
-需要从服务端加载月份数据时，应在 `onMonthChange` 中请求并处理加载状态；Calendar 不会自动请求日程数据。
+### CalendarPanel
 
-选中背景会在日期之间移动；当天的小圆点在被选中时展开为完整背景。鼠标经过日期网格时，悬停层会跟随当前格子，
-用户开启“减少动态效果”后会直接呈现最终状态。
+`<CalendarPanel>` 用于日程安排、排期看板与全尺寸月视图规划：
 
-## 扩展用法
+<PropsTable
+  data={[
+    {
+      prop: "events",
+      type: "CalendarEvent[]",
+      default: "[]",
+      description: "渲染在对应日期格子内的日程事件列表。",
+    },
+    {
+      prop: "maxVisibleEvents",
+      type: "number",
+      default: "3",
+      description: "每个日期格子内最多同时直接展示的事件数量，超出部分自动折叠为“还有 X 项”。",
+    },
+    {
+      prop: "onEventClick",
+      type: "(event: CalendarEvent) => void",
+      description: "用户点击特定日程事件徽章标签时触发的回调。",
+    },
+    {
+      prop: "value",
+      type: "Date",
+      description: "受控选中的激活高亮日期。",
+    },
+    {
+      prop: "onValueChange",
+      type: "(date: Date) => void",
+      description: "选中格子变化时的回调。",
+    },
+  ]}
+/>
 
-通过 `min`、`max` 或 `disabled(date)` 限制可选范围；将 `showOutsideDays` 设为 `false` 可以隐藏相邻月份日期。
-禁用规则应与提交校验保持一致，避免用户在日历中选得到、提交时却被服务端拒绝。
+### CalendarEvent 数据结构
 
-### 大型日历面板
+```typescript
+export type CalendarEventTone = "primary" | "info" | "success" | "warning" | "neutral"
+
+export interface CalendarEvent {
+  /** 日程唯一标识 */
+  id: string
+  /** 日程发生的具体日期 */
+  date: Date
+  /** 日程标题文本 */
+  title: string
+  /** 补充时间或元信息（例如 '10:00'、'全天'） */
+  meta?: string
+  /** 语义化颜色主题 */
+  tone?: CalendarEventTone
+}
+```
+
+## 事件 Events
+
+<PropsTable
+  data={[
+    {
+      prop: "onValueChange",
+      type: "(date: Date) => void",
+      description: "用户选择日期时触发，参数为最新选中的 Date 对象。",
+    },
+    {
+      prop: "onMonthChange",
+      type: "(month: Date) => void",
+      description: "月份视图翻页时触发，适合在此处发起异步日程数据请求。",
+    },
+    {
+      prop: "onEventClick",
+      type: "(event: CalendarEvent) => void",
+      description: "在 CalendarPanel 中点击具体日程条目时触发。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`Calendar` 与 `CalendarPanel` 适用于需要直观展示**整月时间维度上下文**的业务界面。
+
+- **Calendar vs DatePicker vs CalendarPanel**：
+  - **Calendar（日历）**：常驻内嵌于页面，适合表单旁直接操作选日、工作日排期、预约看板。
+  - **DatePicker（日期选择器）**：由 Input 触发并以 Popover 浮层弹出 Calendar，适合空间紧凑的标准表单。
+  - **CalendarPanel（大型月度日程面板）**：全宽大格视图，承载丰富的团队日程、待办清单与状态色块。
+- **平滑物理弹性动效**：当鼠标掠过网格时，悬停胶囊会以弹簧动力学（Spring Physics）平滑跟随；当用户选定日期或切换“今天”时，指示圆点会动态伸缩过渡为全选底色。
+- **禁用规则与边界控制**：利用 `disabled` 函数可轻松剔除周末、节假日或不可预约的历史时段。
+
+## 场景示例
+
+### 自定义禁用规则与工作日限制
+
+通过 `disabled={(date) => ...}` 禁用过去的历史日期以及所有周末，仅允许选择未来的工作日：
+
+<ComponentPreview name="calendar-disabled-dates" />
+
+### 会议与专家咨询时段预约
+
+将 `Calendar` 与右侧可选时段芯片（Time Slots）组合，构建完整的预约订购链路：
+
+<ComponentPreview name="calendar-booking" />
+
+### 大型月度日程与排期面板
+
+在运营控制台或项目管理面板中，通过 `CalendarPanel` 展示团队周会、发版冻结等关键里程碑事件：
 
 <ComponentPreview name="calendar-panel" />
 
-`CalendarPanel` 面向排期、项目节奏和团队日程等需要完整月份上下文的场景。它支持受控日期和月份、日程颜色、
-单日数量折叠和事件点击，并通过横向滚动保留窄屏下的日期密度。日程数据和事件详情由业务层提供。
+## 无障碍与交互 Accessibility
+
+- **ARIA 标准**：网格具有 `role="grid"`，星期表头具有 `role="columnheader"`，日期单元格具有 `role="gridcell"`，并在选中项上标记 `aria-selected="true"`，当天标记 `aria-current="date"`。
+- **键盘导航矩阵**：
+  - <kbd>←</kbd> / <kbd>→</kbd>：在前后一天之间移动焦点。
+  - <kbd>↑</kbd> / <kbd>↓</kbd>：在上下周（前移 7 天 / 后移 7 天）之间移动焦点，到达月份边缘时会自动触发翻月。
+  - <kbd>Enter</kbd> / <kbd>Space</kbd>：选定当前聚焦的日期。
+- **动态无障碍播报**：月份标题配有 `aria-live="polite"`，翻页时屏幕阅读器会自动播报切换后的最新年月份。
+- **动效自适应**：悬停跟随与月份滑入完全监听 `prefers-reduced-motion`，减弱动效时直接即时切换。

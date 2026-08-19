@@ -1,47 +1,171 @@
 ---
 title: 确认对话框 Confirm Dialog
-description: 由 Dialog 和 Button 组合而成的开箱即用确认对话框。
+description: 由 Dialog 和 Button 深度封装的开箱即用确认弹窗，专为危险操作、异步确认及高优先级决定设计。
 component: confirm-dialog
 ---
 
 ## 基础用法
 
+通过简洁的声明式属性即可快速完成“点击触发 -> 弹出确认弹窗 -> 确认执行”的闭环流程：
+
 <ComponentPreview name="confirm-dialog-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/confirm-dialog" />
 
-<Callout title="Registry 依赖">
-  `confirm-dialog` 将 `dialog` 和 `button` 声明为 registry 依赖，因此 CLI
-  会通过一条命令解析并安装这三个组件（以及共享的 `cn` 工具函数）。
+<Callout title="Registry 依赖说明">
+  `confirm-dialog` 声明了对 `dialog` 和 `button` 的组件依赖，CLI 会自动解析并一并安装所需的基础组件。
 </Callout>
+
+<Steps>
+
+<Step>安装基础依赖与动效库</Step>
+
+```bash
+pnpm add radix-ui motion lucide-react clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/confirm-dialog.tsx`</Step>
 
 <ComponentSource name="confirm-dialog" title="components/confirm-dialog.tsx" />
 
-## 使用场景
+</Steps>
 
-`ConfirmDialog` 将“是否继续”这类二次确认封装成一个声明式组件，避免每次都重复组合 `Dialog` 和 `Button`。
-它适合删除、移除、发布或覆盖等具有破坏性、不可逆或影响范围较大的操作。普通的成功提交不需要再增加确认步骤。
+## 属性 Props
 
-确认文案应写清楚对象和结果，例如“删除项目 A？删除后无法恢复”，确认按钮也应使用“删除”而不是模糊的“确定”。
+`ConfirmDialog` 提供开箱即用的高阶配置属性，并支持自定义扩展内容：
 
-## 属性
+<PropsTable
+  data={[
+    {
+      prop: "title",
+      type: "string",
+      description: "确认对话框顶部的主标题文本。",
+    },
+    {
+      prop: "description",
+      type: "string",
+      description: "主标题下方的补充说明与风险警示文本。",
+    },
+    {
+      prop: "trigger",
+      type: "React.ReactNode",
+      description: "触发对话框弹出的元素（如按钮），会自动通过 asChild 绑定触发逻辑。",
+    },
+    {
+      prop: "confirmLabel",
+      type: "string",
+      default: '"确认"',
+      description: "确认按钮上显示的文本标签。",
+    },
+    {
+      prop: "cancelLabel",
+      type: "string",
+      default: '"取消"',
+      description: "取消按钮上显示的文本标签。",
+    },
+    {
+      prop: "variant",
+      type: '"default" | "destructive"',
+      default: '"default"',
+      description: '确认按钮的视觉变体。"destructive" 会使用醒目的警示红色。',
+    },
+    {
+      prop: "open",
+      type: "boolean",
+      description: "受控模式下的弹窗开启状态。",
+    },
+    {
+      prop: "defaultOpen",
+      type: "boolean",
+      default: "false",
+      description: "非受控模式下的初始打开状态。",
+    },
+    {
+      prop: "loading",
+      type: "boolean",
+      description: "受控的加载中状态。处于加载中时确认按钮禁用并展示处理中文案。",
+    },
+    {
+      prop: "children",
+      type: "React.ReactNode",
+      description: "在标题描述与底部操作栏之间渲染的自定义 React 节点（如影响范围列表、预警卡片等）。",
+    },
+  ]}
+/>
 
-<PropsTable name="confirm-dialog" />
-
-## 事件
+## 事件 Events
 
 <PropsTable
   data={[
     {
       prop: "onConfirm",
-      type: "() => void",
-      description: "用户点击确认按钮时调用；异步操作的加载、成功和失败状态由业务层维护。",
+      type: "() => void | Promise<void>",
+      description: "用户点击确认按钮时调用的回调函数。若返回 Promise，组件会自动管理并展示加载状态直至完成。",
+    },
+    {
+      prop: "onOpenChange",
+      type: "(open: boolean) => void",
+      description: "弹窗打开或关闭状态变化时的回调函数（点击遮罩、按下 Esc 或点击取消按钮均会触发）。",
     },
   ]}
 />
 
-## 扩展用法
+## 使用场景与设计规范
 
-组件源码会直接保存在你的项目中，可以按业务扩展。例如，为确认按钮添加异步加载状态，
-在操作完成后关闭对话框，透传 `onOpenChange`，或调整底部操作区域的布局。确认回调失败时，应保留对话框并显示错误原因，
-不要让用户误以为操作已经完成。
+`ConfirmDialog` 将常见的“是否继续”二次确认交互抽象为高度一致的模式，避免开发者在各业务模块中重复拼装弹窗框架：
+
+- **何时使用 ConfirmDialog**：
+  - **高风险/不可逆破坏性操作**：如删除资源、注销团队、清空缓存、覆盖线上生产配置。
+  - **可能产生意外开销或中断的操作**：如大批量任务终止、重启集群、强制重置密钥。
+- **避免过度确认（Confirm Fatigue）**：
+  - 常规表单提交、轻量保存、加入收藏等安全操作**不要**增加确认弹窗，过度打断会使用户产生“确认疲劳”，在真正面临危险时习惯性点击确认。
+- **明确的文案与按钮引导**：
+  - **标题具体明确**：避免抽象的“提示”或“警告”，直接指明操作对象，如“确定要删除数据库 backup-01 吗？”。
+  - **动词匹配**：确认按钮文案应与行为动词一致（如“删除”、“强制重置”、“发布”），不要使用含糊不清的“确定”或“OK”。
+  - **说明后果**：在 `description` 中告知用户该操作是否可恢复、对关联系统有什么影响。
+
+## 场景示例
+
+### 危险破坏性确认
+
+删除资源时，配置 `variant="destructive"` 并提供明确的后果警告，帮助用户在做出不可逆决定前保持谨慎：
+
+<ComponentPreview name="confirm-dialog-demo" />
+
+### 异步请求与加载保护
+
+当确认操作需要调用远端 API 接口时，只需在 `onConfirm` 中返回一个异步 `Promise`，组件会自动进入加载中状态并阻止重复点击：
+
+<ComponentPreview name="confirm-dialog-async" />
+
+```tsx
+<ConfirmDialog
+  trigger={<Button>回滚版本</Button>}
+  title="确认回滚至上一稳定版本？"
+  description="预计需要 30 秒服务预热。"
+  confirmLabel="开始回滚"
+  onConfirm={async () => {
+    await api.rollbackCluster()
+  }}
+/>
+```
+
+### 自定义详情内容与受控状态
+
+通过 `children` 属性可插入影响评估卡片或风险条目；配合 `open` 与 `onOpenChange` 实现由外部业务状态驱动的受控弹出：
+
+<ComponentPreview name="confirm-dialog-custom" />
+
+## 无障碍与交互 Accessibility
+
+- **WAI-ARIA 规范**：底层直接复用 `Dialog` 的无障碍特性，自动挂载 `role="alertdialog"` 与语义标签。
+- **焦点控制**：
+  - 弹窗唤起后，自动将初始焦点停留在“取消”按钮或安全区域，防止用户误按 Enter 键触发破坏性确认。
+  - 确认操作进行（Loading）期间，取消与确认按钮均自动进入 `disabled` 状态，防止误操作中断异步流。
+- **键盘支持**：
+  - <kbd>Esc</kbd>：快速安全退出并关闭确认弹窗。
+  - <kbd>Tab</kbd> / <kbd>Shift</kbd> + <kbd>Tab</kbd>：在取消与确认按钮之间循环切换焦点。

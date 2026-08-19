@@ -2,7 +2,7 @@
   "name": "button-group",
   "type": "registry:ui",
   "title": "按钮组 ButtonGroup",
-  "description": "将一组紧密相关的按钮连接为方向明确的操作单元。",
+  "description": "将一组紧密相关的按钮连接为方向明确的操作单元，统一处理相邻边框折叠、圆角拼接与焦点层级。",
   "import": "import { ButtonGroup } from \"@/components/ui/button-group\"",
   "exports": [
     "ButtonGroup"
@@ -39,8 +39,16 @@
       "title": "基础用法"
     },
     {
+      "name": "button-group-split",
+      "title": "分裂按钮（Split Button）"
+    },
+    {
+      "name": "button-group-toolbar",
+      "title": "编辑器操作工具栏"
+    },
+    {
       "name": "button-group-advanced",
-      "title": "横向与纵向组合"
+      "title": "纵向与时间维度组合"
     }
   ],
   "files": [

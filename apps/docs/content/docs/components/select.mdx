@@ -1,42 +1,293 @@
 ---
-title: 下拉框 Select
-description: 支持分组、禁用项和键盘导航的选项选择器。
+title: 下拉选择器 Select
+description: 用于在有限互斥选项中进行单项选择的下拉菜单组件，支持分组、尺寸密度、自定义渲染与完整的键盘导航无障碍支持。
 component: select
 ---
 
 ## 基础用法
 
+最简单的下拉选择器用法。点击触发按钮展开选项弹层，点击选项或使用键盘上下键完成选择：
+
 <ComponentPreview name="select-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/select" />
 
+<Steps>
+
+<Step>安装底层依赖与动效库</Step>
+
+```bash
+pnpm add radix-ui motion lucide-react class-variance-authority clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/select.tsx`</Step>
+
 <ComponentSource name="select" title="components/ui/select.tsx" />
 
-## 使用场景
+</Steps>
 
-`Select` 用于从一组固定、互斥的选项中选择一个值。它适合选项数量中等、无需输入搜索的场景；选项很少且需要同时展示时，
-使用 RadioGroup 更直接。需要搜索或允许用户输入新值时，应使用 Combobox，而不是把 Select 当成输入框。
+## 属性 Props
 
-浮层会在触发器附近打开，并在空间不足时自动调整位置。组件只管理当前值和浮层交互，选项数据、加载和保存由业务层负责。
+### Select (根组件)
 
-## 属性
+`Select` 基于 Radix UI Select 构建，支持以下核心配置属性：
 
-核心部件包括 `Select`、`SelectTrigger`、`SelectValue`、`SelectContent`、`SelectItem`、`SelectGroup` 和 `SelectLabel`。
-`SelectItem` 的 `value` 必须唯一，`SelectTrigger` 额外提供 `size="sm | default | lg"`。
+<PropsTable
+  data={[
+    {
+      prop: "value",
+      type: "string",
+      description: "受控模式下的当前选中值，必须与某个 SelectItem 的 value 匹配。",
+    },
+    {
+      prop: "defaultValue",
+      type: "string",
+      description: "非受控模式下的初始选中值。",
+    },
+    {
+      prop: "onValueChange",
+      type: "(value: string) => void",
+      description: "选中项发生改变时触发的回调函数，返回选中的最新值。",
+    },
+    {
+      prop: "open",
+      type: "boolean",
+      description: "受控模式下浮层是否处于展开状态。",
+    },
+    {
+      prop: "defaultOpen",
+      type: "boolean",
+      default: "false",
+      description: "非受控模式下浮层是否默认展开。",
+    },
+    {
+      prop: "onOpenChange",
+      type: "(open: boolean) => void",
+      description: "浮层展开或收起状态改变时的回调函数。",
+    },
+    {
+      prop: "disabled",
+      type: "boolean",
+      default: "false",
+      description: "是否禁用整个选择器交互与弹层展开。",
+    },
+    {
+      prop: "required",
+      type: "boolean",
+      default: "false",
+      description: "在原生表单中提交时该字段是否为必选项。",
+    },
+    {
+      prop: "name",
+      type: "string",
+      description: "原生表单提交时对应的字段名称。",
+    },
+    {
+      prop: "dir",
+      type: '"ltr" | "rtl"',
+      default: '"ltr"',
+      description: "文字排版与弹出方向（从左至右或从右至左）。",
+    },
+  ]}
+/>
 
-<PropsTable name="select" />
+### SelectTrigger (触发器)
 
-## 事件
+<PropsTable
+  data={[
+    {
+      prop: "size",
+      type: '"sm" | "default" | "lg"',
+      default: '"default"',
+      description: "触发器的物理尺寸与内边距密度。",
+    },
+    {
+      prop: "asChild",
+      type: "boolean",
+      default: "false",
+      description: "是否将所有属性与事件委托合并到唯一的子元素上渲染。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于触发器外层按钮的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-- `onValueChange(value)`：选中项变化后触发，参数是选项的 `value`。
-- `onOpenChange(open)`：浮层打开或关闭时触发。
-- `SelectItem` 支持 Radix 提供的选择、焦点和键盘事件。
+### SelectContent (下拉弹层)
 
-## 扩展用法
+<PropsTable
+  data={[
+    {
+      prop: "position",
+      type: '"popper" | "item-aligned"',
+      default: '"popper"',
+      description: "浮层定位模式。popper 模式下宽度自动吸附触发器并支持边缘碰撞检测。",
+    },
+    {
+      prop: "sideOffset",
+      type: "number",
+      default: "6",
+      description: "弹层与触发器之间的纵向外间距（像素）。",
+    },
+    {
+      prop: "align",
+      type: '"start" | "center" | "end"',
+      default: '"start"',
+      description: "弹层相对于触发器的水平对齐方式。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于浮层容器的额外 CSS 类名。",
+    },
+  ]}
+/>
+
+### SelectItem (选项单项)
+
+<PropsTable
+  data={[
+    {
+      prop: "value",
+      type: "string",
+      description: "该选项在表单和状态中对应的唯一标识值（必填）。",
+    },
+    {
+      prop: "disabled",
+      type: "boolean",
+      default: "false",
+      description: "是否禁用该选项的选择交互。",
+    },
+    {
+      prop: "textValue",
+      type: "string",
+      description: "当子内容包含复杂 ReactNode 时，用于键盘字符首字母快速定位的纯文本别名。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于选项容器的额外 CSS 类名。",
+    },
+  ]}
+/>
+
+## 事件 Events
+
+<PropsTable
+  data={[
+    {
+      prop: "onValueChange",
+      type: "(value: string) => void",
+      description: "用户通过点击选项或键盘确认选中某项时触发，传入最新选中的 value 字符串。",
+    },
+    {
+      prop: "onOpenChange",
+      type: "(open: boolean) => void",
+      description: "浮层打开或关闭状态变化时触发，返回布尔值。",
+    },
+    {
+      prop: "onFocus",
+      type: "(event: React.FocusEvent<HTMLButtonElement>) => void",
+      description: "触发器获得焦点时触发。",
+    },
+    {
+      prop: "onBlur",
+      type: "(event: React.FocusEvent<HTMLButtonElement>) => void",
+      description: "触发器失去焦点时触发。",
+    },
+    {
+      prop: "onKeyDown",
+      type: "(event: React.KeyboardEvent<HTMLButtonElement>) => void",
+      description: "焦点位于触发器或选项时按下键盘按键触发。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`Select` 适用于从一组**已知、固定且互斥**的选项中选择单一值：
+
+- **Select vs Combobox**：当选项数量适中（如 3–15 项）且不需要用户在输入框中打字搜索时，使用 `Select`；当选项列表较长（如城市列表、用户成员池）或需要拼音/模糊关键词过滤时，请改用 [`Combobox`](/docs/components/combobox)。
+- **Select vs RadioGroup**：当选项较少（通常小于 5 项）且希望用户一眼纵览全部选项并快速比对时，优先使用 [`RadioGroup`](/docs/components/radio-group)；若页面空间极其有限或作为密集表单项，使用 `Select`。
+- **Select vs Cascader**：当选项存在“国家-省份-城市”等多层树状级联从属关系时，请使用 [`Cascader`](/docs/components/cascader) 或 [`TreeSelect`](/docs/components/tree-select)。
+- **提供有意义的占位符（Placeholder）**：当没有默认选中项时，应在 `SelectValue` 中提供明确指引文本（例如“请选择结算方式”），避免使用含糊的“请选择”。
+
+## 场景示例
+
+### 受控模式与外部联动
+
+在需要与父组件状态双向绑定或通过外部按钮重置选择时，结合 `value` 与 `onValueChange`：
+
+<ComponentPreview name="select-controlled" />
+
+```tsx
+const [theme, setTheme] = React.useState("system")
+
+return (
+  <Select value={theme} onValueChange={setTheme}>
+    <SelectTrigger>
+      <SelectValue placeholder="选择外观主题" />
+    </SelectTrigger>
+    <SelectContent>
+      <SelectItem value="light">浅色模式</SelectItem>
+      <SelectItem value="dark">深色模式</SelectItem>
+      <SelectItem value="system">跟随系统</SelectItem>
+    </SelectContent>
+  </Select>
+)
+```
+
+### 尺寸规格
+
+组件提供 `sm`（32px）、`default`（40px）和 `lg`（48px）三种尺寸，可根据所在界面的空间密度自由搭配：
+
+<ComponentPreview name="select-sizes" />
+
+- `sm`：适合数据表格行内筛选、紧凑操作工具栏或多列卡片。
+- `default`：标准尺寸，适用于常规业务表单与配置对话框。
+- `lg`：大尺寸，适用于突出型首屏设置或触控友好的移动端页面。
 
 ### 分组与分隔线
 
+当选项数量较多或具备明确的分类维度时，使用 `SelectGroup`、`SelectLabel` 和 `SelectSeparator` 组织结构：
+
 <ComponentPreview name="select-groups" />
 
-通过 `disabled` 禁用整个 Select，或在单个 `SelectItem` 上禁用特定选项。受控用法使用 `value` 和 `onValueChange`；
-只需要设置初始选项时使用 `defaultValue`。选项被禁用后，不应在业务层继续把它设置为当前值。
+### 自定义选项渲染
+
+`SelectItem` 内部支持组合图标、状态标签及两行说明文字，满足复杂的企业级业务选择需求：
+
+<ComponentPreview name="select-custom-item" />
+
+### 禁用状态
+
+支持在根组件上使用 `disabled` 禁用整个下拉框，也可以在特定的 `SelectItem` 上单独禁用无权限或已售罄的选项：
+
+<ComponentPreview name="select-disabled" />
+
+### 表单与业务集成
+
+在结算与费用配置等真实业务表单中，将多个 `Select` 与提示文案联动：
+
+<ComponentPreview name="select-form" />
+
+## 无障碍与交互 Accessibility
+
+- **ARIA 角色与状态**：
+  - 触发器自动挂载 `role="combobox"`、`aria-haspopup="listbox"` 及 `aria-expanded`。
+  - 下拉列表渲染为 `role="listbox"`，内部每个选项渲染为 `role="option"` 并同步 `aria-selected`。
+- **键盘导航**：
+  - <kbd>Tab</kbd>：将焦点移入或移出选择器触发按钮。
+  - <kbd>Space</kbd> / <kbd>Enter</kbd>：展开下拉浮层；在选项高亮时确认选中并关闭浮层。
+  - <kbd>↓</kbd> / <kbd>↑</kbd>：在展开的选项之间上下导航，自动跳过被禁用的项。
+  - <kbd>Home</kbd> / <kbd>End</kbd>：快速将焦点跳至首个或最后一个可用选项。
+  - **首字母连续输入搜索 (Typeahead)**：在浮层展开时直接键入英文字符，焦点会自动快速跳至以该字符开头的选项。
+  - <kbd>Escape</kbd>：关闭下拉浮层并将焦点重新归还给触发器。
+- **动效降级**：
+  - 浮层展开与勾选图标的弹簧微动效均内置监听 `prefers-reduced-motion`，在系统开启减弱动态效果时将瞬间呈现，确保视觉舒适度与无障碍标准合规。

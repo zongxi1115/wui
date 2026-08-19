@@ -1,8 +1,8 @@
 {
   "name": "infinite-slider",
   "type": "registry:ui",
-  "title": "无限滑动 Infinite Slider",
-  "description": "平滑循环内容的水平或垂直滑动轨道。",
+  "title": "无限轮播 Infinite Slider",
+  "description": "沿着水平或垂直轴无缝无间断循环滚动的连续内容展示轨道，支持悬停变速与暂停。",
   "categories": [
     "motion"
   ],
@@ -75,7 +75,6 @@
       "description": "是否反转移动方向。"
     }
   ],
-  "events": "组件透传容器的鼠标、指针和焦点事件。`speedOnHover` 用来改变悬停速度，设为 `0` 即可暂停；如果轨道中有链接，\n仍需保证用户可以通过键盘稳定访问每一项。",
   "examples": [
     {
       "name": "infinite-slider-demo",
@@ -83,7 +82,11 @@
     },
     {
       "name": "infinite-slider-vertical",
-      "title": "垂直与反向"
+      "title": "垂直方向滚动"
+    },
+    {
+      "name": "infinite-slider-hover-pause",
+      "title": "客户评价与悬停即停"
     }
   ],
   "files": [

@@ -1,37 +1,115 @@
 ---
 title: 按钮组 ButtonGroup
-description: 将一组紧密相关的按钮连接为方向明确的操作单元。
+description: 将一组紧密相关的按钮连接为方向明确的操作单元，统一处理相邻边框折叠、圆角拼接与焦点层级。
 component: button-group
 ---
 
 ## 基础用法
 
+最简单的按钮组形态。多个 `Button` 在横向排列下自动共享边界并融合成一个连续的控件：
+
 <ComponentPreview name="button-group-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/button-group" />
 
+<Steps>
+
+<Step>安装基础依赖与工具函数</Step>
+
+```bash
+pnpm add clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/button-group.tsx`</Step>
+
 <ComponentSource name="button-group" title="components/ui/button-group.tsx" />
 
-## 使用场景
+</Steps>
 
-`ButtonGroup` 用于文本对齐、时间范围和紧密关联的批量操作。它不重新实现按钮样式，而是组合现有 `Button`，统一处理相邻边界、圆角和焦点层级。
+## 属性 Props
 
-彼此无关或风险等级不同的操作应保持适当间距，不要为了节省空间强行放入同一组。
+`ButtonGroup` 接受以下属性，并继承原生 `<div>` 容器的所有 HTML 属性：
 
-## 属性
+<PropsTable
+  data={[
+    {
+      prop: "orientation",
+      type: '"horizontal" | "vertical"',
+      default: '"horizontal"',
+      description: "按钮组的排列方向。横向或纵向排列，自动计算首尾圆角与边框重叠样式。",
+    },
+    {
+      prop: "role",
+      type: "string",
+      default: '"group"',
+      description: "无障碍分组角色标识，向屏幕阅读器表明子按钮属于同一语义单元。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于按钮组外层容器的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-<PropsTable name="button-group" />
+## 事件 Events
 
-## 无障碍
+`ButtonGroup` 本身作为结构容器容器透传事件，通常各个交互事件直接绑定在具体的子元素 `Button` 上：
 
-组件默认使用 `role="group"`。应通过 `aria-label` 或 `aria-labelledby` 描述整组用途；仅包含图标的子按钮还需要各自的 `aria-label`。
+<PropsTable
+  data={[
+    {
+      prop: "onKeyDown",
+      type: "(event: React.KeyboardEvent<HTMLDivElement>) => void",
+      description: "在按钮组容器内发生键盘事件时触发。",
+    },
+    {
+      prop: "onFocusCapture",
+      type: "(event: React.FocusEvent<HTMLDivElement>) => void",
+      description: "当组内任意按钮获得焦点时在捕获阶段触发。",
+    },
+  ]}
+/>
 
-`orientation` 只控制布局与相邻边界。若按钮表达互斥选择状态，还应在业务层同步 `aria-pressed`，或使用更适合单选语义的 ToggleGroup。
+## 使用场景与设计规范
 
-## 扩展用法
+`ButtonGroup` 适用于需要把多个紧密关联、同频触发的操作聚合在一起的场景。
 
-### 横向与纵向组合
+- **适用场景**：
+  - **文本与视图排版**：如左中右对齐方式、网格/列表视图切换。
+  - **分裂按钮（Split Button）**：主动作（如“合并代码”）与下拉更多策略（如“压缩合并”、“变基合并”）拼接。
+  - **连续时间与状态筛选**：如“今天 / 本周 / 本月 / 本年”的时间跨度筛选。
+  - **编辑器工具栏**：撤销/重做、文字样式格式化组等。
+- **避免异质混合**：切勿将彼此无关、破坏性级别悬殊的操作（例如把“保存”和“删除账号”）硬性缝合在同一个按钮组中。
+- **边框与圆角管理**：组件内部自动通过 CSS 规则将中间子项的圆角抹平（只保留两端圆角），并通过负外边距（-1px）消除双重边框，并在按钮聚焦时自动将 `z-index` 提升，防止焦点轮廓被相邻按钮遮挡。
+
+## 场景示例
+
+### 分裂按钮（Split Button）
+
+将主要执行动作与下拉选项组合成一个紧凑的操作单元，兼顾高频单次点击与低频分支选择：
+
+<ComponentPreview name="button-group-split" />
+
+### 编辑器操作工具栏
+
+在富文本编辑器或数据面板头部，将功能分类成多个独立的按钮组：
+
+<ComponentPreview name="button-group-toolbar" />
+
+### 纵向与时间维度组合
+
+通过 `orientation="vertical"` 切换为纵向排列，适合侧边栏操作或高密度的垂直工具栏：
 
 <ComponentPreview name="button-group-advanced" />
 
-使用 `orientation="vertical"` 创建纵向按钮组。相邻按钮会共享边界，但仍保留每个 `Button` 原有的禁用、变体和焦点行为。
+## 无障碍与交互 Accessibility
+
+- **ARIA 角色与描述**：默认渲染 `role="group"`。强烈建议为 `ButtonGroup` 显式添加 `aria-label`（如 `aria-label="文本格式化"`）或 `aria-labelledby`，告知辅助技术当前按钮组的整体功能。
+- **纯图标可读性**：组内的每个纯图标 `Button` 必须单独设置 `aria-label`。
+- **状态表达**：如果组内按钮表达切换激活状态（Toggle 行为），应在被选中的 `Button` 上声明 `aria-pressed="true"`，或者对于互斥单选场景推荐使用专业的 `ToggleGroup` 组件。
+- **键盘导航**：用户可以通过 <kbd>Tab</kbd> / <kbd>Shift + Tab</kbd> 在各个按钮之间顺畅穿梭，聚焦的按钮会自动提升显示层级，焦点轮廓（Focus Ring）保持完整可见。

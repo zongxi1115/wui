@@ -1,21 +1,23 @@
-import { CheckIcon, Clock3Icon } from "lucide-react"
+import { CheckIcon, ClockIcon, SparklesIcon } from "lucide-react"
 
 import { Badge } from "@/registry/ui/badge"
 
 export default function BadgeDemo() {
   return (
-    <div className="flex flex-wrap items-center justify-center gap-3">
+    <div className="flex flex-wrap items-center justify-center gap-2.5">
       <Badge>Default</Badge>
-      <Badge variant="secondary">Draft</Badge>
-      <Badge variant="outline">Design</Badge>
-      <Badge variant="info">In review</Badge>
+      <Badge variant="secondary">Secondary</Badge>
+      <Badge variant="outline">Outline</Badge>
+      <Badge variant="info">
+        <SparklesIcon /> New Feature
+      </Badge>
       <Badge variant="success">
-        <CheckIcon /> Published
+        <CheckIcon /> Active
       </Badge>
       <Badge variant="warning">
-        <Clock3Icon /> Pending
+        <ClockIcon /> Pending
       </Badge>
-      <Badge variant="destructive">Blocked</Badge>
+      <Badge variant="destructive">Failed</Badge>
     </div>
   )
 }

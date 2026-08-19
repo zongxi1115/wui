@@ -1,47 +1,216 @@
 ---
 title: 级联选择 Cascader
-description: 用于浏览和选择层级值的多列选择器。
+description: 用于在多层级树状数据结构中逐级展开、浏览并选取特定路径的分栏级联选择器。
 component: cascader
 ---
 
 ## 基础用法
 
+最简单的级联选择器。点击输入框展开分栏浮层，逐层点击选择目标路径：
+
 <ComponentPreview name="cascader-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/cascader" />
 
+<Steps>
+
+<Step>安装基础依赖与动效库</Step>
+
+```bash
+pnpm add radix-ui motion lucide-react clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/cascader.tsx`</Step>
+
 <ComponentSource name="cascader" title="components/ui/cascader.tsx" />
 
-## 使用场景
+</Steps>
 
-当选项具有明确的父子层级时使用 `Cascader`，例如省份 / 城市、部门 / 团队或分类 / 子分类。用户选择父级后，
-组件展开下一列，让用户在深入选择时始终看得到当前路径。单层选项使用 `Select`；数据量很大或需要搜索时，使用可搜索的命令菜单。
+## 属性 Props
 
-级联结果通常是一条路径，而不是单个选项。提交时应保存完整路径或叶子节点 ID，并根据后端接口要求决定具体格式。
+`Cascader` 支持以下配置属性，并继承原生 `<button>` 的 HTML 属性：
 
-## 属性
+<PropsTable
+  data={[
+    {
+      prop: "options",
+      type: "CascaderOption[]",
+      required: true,
+      description: "多层级选项树形数据源，每个节点包含 value、label、children 等属性。",
+    },
+    {
+      prop: "value",
+      type: "string[]",
+      description: "受控模式下的选中值路径数组（例如 `['china', 'zhejiang', 'hangzhou']`）。",
+    },
+    {
+      prop: "defaultValue",
+      type: "string[]",
+      default: "[]",
+      description: "非受控模式下的初始选中值路径数组。",
+    },
+    {
+      prop: "onValueChange",
+      type: "(value: string[], options: CascaderOption[]) => void",
+      description: "选中路径变化时触发的回调函数，返回选中的值数组与完整节点对象路径。",
+    },
+    {
+      prop: "placeholder",
+      type: "string",
+      default: '"请选择地区"',
+      description: "未选中任何有效路径时输入框内展示的占位文本。",
+    },
+    {
+      prop: "separator",
+      type: "React.ReactNode",
+      default: '" / "',
+      description: "选中路径多级标签之间的连接分隔符。",
+    },
+    {
+      prop: "searchable",
+      type: "boolean",
+      default: "false",
+      description: "是否在下拉浮层顶部显示路径搜索过滤输入框。",
+    },
+    {
+      prop: "searchPlaceholder",
+      type: "string",
+      default: '"搜索选项"',
+      description: "搜索过滤输入框的占位提示文本。",
+    },
+    {
+      prop: "filterOption",
+      type: "(query: string, path: CascaderOption[]) => boolean",
+      description: "自定义搜索过滤算法，接收当前检索词和完整叶子路径节点数组。",
+    },
+    {
+      prop: "closeOnSelect",
+      type: "boolean",
+      default: "true",
+      description: "选中叶子节点（最末级节点）后是否自动关闭下拉选择面板。",
+    },
+    {
+      prop: "renderValue",
+      type: "(options: CascaderOption[]) => React.ReactNode",
+      description: "自定义触发器输入框内已选路径的渲染函数。",
+    },
+    {
+      prop: "panelLabel",
+      type: "string",
+      default: '"级联选项"',
+      description: "下拉选项浮层容器的无障碍无声标签（aria-label）。",
+    },
+    {
+      prop: "disabled",
+      type: "boolean",
+      default: "false",
+      description: "是否完全禁用级联选择器交互。",
+    },
+    {
+      prop: "contentClassName",
+      type: "string",
+      description: "应用于下拉弹出层浮动面板容器的额外 CSS 类名。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于级联选择器触发按钮本身的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-<PropsTable name="cascader" />
+### CascaderOption 数据结构
 
-## 事件
+`options` 数组中各节点的类型定义如下：
 
-- `onValueChange(value, options)` 会在选择变化后触发，返回稳定的值路径和已解析的选项对象。
-- `onOpenChange` 由组件内部的触发器管理；默认选中叶子节点后关闭面板。
-- 触发器会透传标准按钮的聚焦和键盘激活事件。
+```typescript
+export interface CascaderOption {
+  /** 节点的唯一稳定标识值 */
+  value: string
+  /** 节点在界面上展示的文本或 React 元素 */
+  label: React.ReactNode
+  /** 下一级子选项列表，若为空或未定义则视为叶子节点 */
+  children?: CascaderOption[]
+  /** 是否禁用当前节点的选择 */
+  disabled?: boolean
+  /** 参与本地搜索匹配的额外关键词（如拼音首字母、英文代码、业务别名等） */
+  keywords?: string[]
+}
+```
 
-## 扩展用法
+## 事件 Events
 
-### 模糊搜索
+<PropsTable
+  data={[
+    {
+      prop: "onValueChange",
+      type: "(value: string[], options: CascaderOption[]) => void",
+      description: "当用户在任一级点击切换节点或从搜索结果中选定路径时触发。",
+    },
+    {
+      prop: "onFocus",
+      type: "(event: React.FocusEvent<HTMLButtonElement>) => void",
+      description: "触发器按钮获取焦点时触发。",
+    },
+    {
+      prop: "onBlur",
+      type: "(event: React.FocusEvent<HTMLButtonElement>) => void",
+      description: "触发器按钮失去焦点时触发。",
+    },
+    {
+      prop: "onKeyDown",
+      type: "(event: React.KeyboardEvent<HTMLButtonElement>) => void",
+      description: "在触发器或子项获得焦点时按下键盘按键触发。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`Cascader` 适用于数据具有**清晰明确的父子层级链路**、且需要用户按层级顺序逐级深入浏览选择的业务场景。
+
+- **Cascader vs TreeSelect vs Select**：
+  - **Cascader（级联选择）**：横向多列分栏展开，用户能直观看到从顶层到底层的整条链路（如：国家 → 省份 → 城市 → 区县），选中结果通常是一条完整链路路径。
+  - **TreeSelect（树选择）**：垂直折叠树状结构，适合从具有包含关系但层级深度不定、重点在于最终选择单个节点的场景（如：组织部门架构树、文件目录）。
+  - **Select / Combobox（下拉选择 / 组合框）**：单层扁平列表，适合选项之间无从属依赖关系的枚举值选择。
+- **搜索增强设计**：对于层级深或选项量大的数据，建议开启 `searchable`，并在数据项中配置 `keywords`（如拼音缩写 `hz`、`bj`），用户无需一层层展开即可一步直达叶子选项。
+- **自定义路径呈现**：对于商品多级类目或复杂业务标签，可使用 `renderValue` 呈现为徽章（Badge）或带状态标记的精简标签，提升信息密度。
+
+## 场景示例
+
+### 拼音与关键词模糊搜索
+
+开启 `searchable` 后，面板顶部会出现搜索框。组件内置了拼音和多关键词的分词模糊匹配算法，选择搜索结果会直接定位并高亮整条路径：
 
 <ComponentPreview name="cascader-search" />
 
-设置 `searchable` 后，面板顶部会显示由 `Input` 组合而成的搜索框。默认匹配完整路径中的文本标签与
-`keywords`，因此可以把拼音、首字母或业务别名写入选项；选择搜索结果后仍会返回完整的值路径。
+### 组织架构与多级部门
 
-复杂匹配规则可以通过 `filterOption(query, path)` 接管。`Select` 保持固定选项选择语义；需要搜索单层选项或允许输入新值时，
-应使用独立的 Combobox，而不是在 `SelectContent` 中嵌入输入框。
+在企业管理系统中，通过自定义连接分隔符 `separator=" → "`，清晰呈现部门从中心到小组的层级关系：
 
-### 面板行为
+<ComponentPreview name="cascader-department" />
 
-设置 `closeOnSelect={false}` 可以在选中叶子节点后保持面板打开，适合需要连续查看或修改路径的场景。
-通过 `contentClassName` 调整面板宽度而不影响触发器；路径需要使用其他分隔符时，传入自定义 `separator`。
+### 自定义选中值渲染
+
+通过 `renderValue` 可以接管触发框内部的内容排版，例如使用不同层级的徽章（Badge）组合高亮末级类目：
+
+<ComponentPreview name="cascader-custom-render" />
+
+### 节点禁用与整控件禁用
+
+无论是整颗树中的某些分支（如维护中的可用区），还是整个控件自身处于只读状态，都可以优雅支持：
+
+<ComponentPreview name="cascader-disabled" />
+
+## 无障碍与交互 Accessibility
+
+- **ARIA 规范**：触发按钮挂载 `role="combobox"` / `aria-haspopup="listbox"` 及 `aria-expanded`；各级选项列使用 `role="option"` 与 `aria-selected` 反映当前高亮状态。
+- **键盘导航**：
+  - <kbd>Tab</kbd>：将焦点移动至级联触发按钮。
+  - <kbd>Space</kbd> / <kbd>Enter</kbd>：展开或收起级联选项弹出层。
+  - <kbd>Esc</kbd>：立即关闭弹出层并将焦点恢复至触发按钮。
+- **动效降级**：分栏列滑入动效和指示箭头旋转动效完全兼容 `prefers-reduced-motion`，用户开启系统级减少动效时将直接呈现最终状态。

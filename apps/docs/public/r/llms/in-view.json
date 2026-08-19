@@ -1,8 +1,8 @@
 {
   "name": "in-view",
   "type": "registry:ui",
-  "title": "进入视口 In View",
-  "description": "当内容进入视口时播放可配置的入场动画。",
+  "title": "视口进入动效 In View",
+  "description": "当元素滚动进入视口可见范围时，自动触发淡入、位移或自定义变体动画的交叉观察（Intersection Observer）组件。",
   "categories": [
     "motion"
   ],
@@ -69,7 +69,6 @@
       "description": "组件实际渲染的 HTML 元素。"
     }
   ],
-  "events": "组件透传底层元素的原生事件。需要获知可见状态时，可以通过自定义 `variants` 的 Motion 回调处理；`viewOptions` 支持 `margin` 和 `amount` 等观察参数。",
   "examples": [
     {
       "name": "in-view-demo",
@@ -77,7 +76,11 @@
     },
     {
       "name": "in-view-image-reveal",
-      "title": "图片遮罩揭示"
+      "title": "图片揭示"
+    },
+    {
+      "name": "in-view-stagger",
+      "title": "瀑布流/阶梯式卡片进场（Stagger）"
     }
   ],
   "files": [

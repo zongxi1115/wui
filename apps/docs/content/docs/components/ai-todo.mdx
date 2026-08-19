@@ -1,41 +1,126 @@
 ---
 title: AI 任务清单 AI Todo
-description: 展示 Agent 计划、执行进度与任务说明。
+description: 用于清晰展示 AI Agent 的执行计划分解、当前执行阶段与子任务实时进度。
 component: ai-todo
 ---
 
 ## 基础用法
 
+在 Agent 执行复杂多步骤任务时，展示结构化的待办清单与进度指示：
+
 <ComponentPreview name="ai-todo-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/ai-todo" />
 
+<Steps>
+
+<Step>安装基础依赖与图标库</Step>
+
+```bash
+pnpm add lucide-react class-variance-authority clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/ai-todo.tsx`</Step>
+
 <ComponentSource name="ai-todo" title="components/ui/ai-todo.tsx" />
 
-## 使用场景
+</Steps>
 
-`AiTodo` 用于展示 Agent 已形成的计划和实时执行进度，让用户知道已经完成什么、正在处理什么、还剩什么。
-它适合短到中等长度的工作流，不负责排序、持久化、任务依赖或真正执行任务。
+## 属性 Props
 
-需要拖拽流转的团队任务使用 [`Kanban`](/docs/components/kanban)；需要按时间说明事件使用 [`Timeline`](/docs/components/timeline)。
+### AiTodo Props
 
-## 属性
+继承原生 HTML `<section>` 元素的全部属性，支持通过 `className` 扩展样式。
 
-<PropsTable name="ai-todo" />
+### AiTodoHeader Props
 
-## 事件
+继承原生 HTML `<header>` 元素的全部属性，通常包含任务标题与右侧完成度统计。
 
-为 `AiTodoItem` 传入 `onStatusChange` 后，状态图标会成为可交互按钮，点击时在 `completed` 和 `pending` 之间切换建议状态。
-实际状态仍由调用方控制，回调中的新状态需要写回消息流或后端任务数据；没有回调时，任务项保持只读。
+### AiTodoList Props
 
-## 扩展用法
+继承原生 HTML `<ol>` 元素的全部属性，内含具体的 `AiTodoItem` 任务条目。
 
-### 只读执行计划
+### AiTodoItem Props
 
-省略 `onStatusChange` 即得到只读任务行，适合展示模型生成的计划。`in-progress` 表示当前任务；如果同时出现多个执行中状态，
-应确认 Agent 是否真的并行工作，或者改用更明确的并行分组。
+<PropsTable
+  data={[
+    {
+      prop: "title",
+      type: "React.ReactNode",
+      required: true,
+      description: "任务条目的主要标题文案。",
+    },
+    {
+      prop: "description",
+      type: "React.ReactNode",
+      description: "任务条目的补充说明、执行细节或错误信息。",
+    },
+    {
+      prop: "status",
+      type: '"pending" | "in-progress" | "completed" | "cancelled"',
+      default: '"pending"',
+      description: "任务当前的生命周期状态。pending 为待执行，in-progress 为执行中（带旋转动效），completed 为已完成，cancelled 为已取消（带删除线）。",
+    },
+    {
+      prop: "onStatusChange",
+      type: "(status: AiTodoStatus) => void",
+      description: "当传入该回调时，左侧状态图标会变成可交互按钮，点击可在 completed 与 pending 之间切换。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于任务条目外层 <li> 元素的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-### 进度汇总
+## 事件 Events
 
-在 `AiTodoHeader` 右侧放入“已完成 / 总数”，即可提供稳定的总体进度。取消任务使用 `cancelled`，不要把取消和失败混成同一个状态，
-因为两者对应的后续操作不同。
+<PropsTable
+  data={[
+    {
+      prop: "onStatusChange",
+      type: "(status: AiTodoStatus) => void",
+      description: "用户点击任务条目前置状态图标按钮时触发，返回即将切换的目标状态字符串。",
+    },
+    {
+      prop: "onClick",
+      type: "(event: React.MouseEvent<HTMLLIElement>) => void",
+      description: "整个任务行点击事件透传。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`AiTodo` 专为**大模型复杂规划与工具调度过程可视化**而生：
+
+- **减少用户黑盒等待焦虑**：当 Agent 接收到复杂指令（如“重构组件并跑通测试”）时，先输出任务规划列表，并在执行过程中将对应子任务逐一置为 `in-progress` 与 `completed`，用户能明确获知当前程序卡点或执行进度。
+- **只读 vs 可交互**：
+  - **只读模式**：省略 `onStatusChange` 属性，状态图标为纯静态展示，适用于模型自主执行流水线。
+  - **可交互模式**：传入 `onStatusChange` 属性，允许用户手动标记完成、勾选确认或干预任务流。
+- **状态语义区分**：遇到被跳过的分支步骤使用 `cancelled`（灰色删除线），不要与执行失败混淆。
+
+## 场景示例
+
+### 实时自动化执行演示
+
+模拟 Agent 逐步分析并推进任务，支持暂停、重置与用户手动切换状态：
+
+<ComponentPreview name="ai-todo-interactive" />
+
+### 只读式发布部署工作流
+
+在自动化 CI/CD 或部署流程中，通过只读任务流呈现清晰的执行轨迹与状态标识：
+
+<ComponentPreview name="ai-todo-workflow" />
+
+## 无障碍与交互 Accessibility
+
+- **有序列表语义**：底层使用 `<ol>` 与 `<li>` 构建，屏幕阅读器会自动播报“第 X 项，共 Y 项”。
+- **可交互状态指示器**：当提供 `onStatusChange` 时，状态图标渲染为原生 `<button>` 并带有动态 `aria-label`（如“标记为已完成”）。
+- **旋转动效适配**：`in-progress` 状态的旋转动画使用 `motion-safe:animate-spin`，在开启 `prefers-reduced-motion` 时自动静止。

@@ -1,30 +1,125 @@
 ---
-title: 聚光网格 Spotlight Grid
-description: 用鼠标聚光显露网格或点阵背景的局部结构。
+title: 聚光灯网格背景 Spotlight Grid
+description: 随鼠标指针移动动态照亮周围网格或点阵阵列的高交互性背景组件。
 component: spotlight-grid
 ---
 
 ## 基础用法
 
+移动鼠标，光标周围的网格线条将被径向渐变聚光灯动态点亮，突出当前交互区域：
+
 <ComponentPreview name="spotlight-grid-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/spotlight-grid" />
 
-<ComponentSource
-  name="spotlight-grid"
-  title="components/ui/spotlight-grid.tsx"
+<Steps>
+
+<Step>安装基础依赖与动效库</Step>
+
+```bash
+pnpm add lucide-react class-variance-authority clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/spotlight-grid.tsx`</Step>
+
+<ComponentSource name="spotlight-grid" title="components/ui/spotlight-grid.tsx" />
+
+</Steps>
+
+## 属性 Props
+
+<PropsTable
+  data={[
+    {
+      prop: "children",
+      type: "React.ReactNode",
+      description: "渲染在网格背景之上的业务内容（卡片、标题、指标等）。",
+    },
+    {
+      prop: "pattern",
+      type: '"grid" | "dots"',
+      default: '"grid"',
+      description: "背景几何图案类型。`grid` 为正交网格线，`dots` 为规则圆点阵列。",
+    },
+    {
+      prop: "size",
+      type: "number",
+      default: "28",
+      description: "网格单格或点阵的单元尺寸（像素）。",
+    },
+    {
+      prop: "radius",
+      type: "number",
+      default: "240",
+      description: "鼠标指针周围径向聚光灯照明的照射半径（像素）。",
+    },
+    {
+      prop: "patternColor",
+      type: "string",
+      default: '"currentColor"',
+      description: "网格与点阵所使用的 CSS 颜色值（支持 CSS 变量如 var(--primary)）。",
+    },
+    {
+      prop: "baseOpacity",
+      type: "number",
+      default: "0.1",
+      description: "未被聚光灯照射时常驻可见的底纹基础不透明度（0 到 1）。",
+    },
+    {
+      prop: "patternClassName",
+      type: "string",
+      description: "应用于背景底纹图层和聚光图层的额外 CSS 类名。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于最外层容器的 CSS 类名。",
+    },
+  ]}
 />
 
-## 使用场景
+## 事件 Events
 
-`SpotlightGrid` 渲染一层弱化的基础图案和一层通过径向 mask 显露的清晰图案。`pattern="dots"` 可以切换为点阵；
-组件只使用 CSS 背景和指针事件，没有第三方运行时依赖。它是装饰背景，不会改变内容的阅读顺序。
+<PropsTable
+  data={[
+    {
+      prop: "onPointerEnter",
+      type: "(event: React.PointerEvent) => void",
+      description: "光标移入容器并激活聚光灯时触发。",
+    },
+    {
+      prop: "onPointerMove",
+      type: "(event: React.PointerEvent) => void",
+      description: "光标在容器内移动、实时更新聚光灯 CSS 变量坐标时触发。",
+    },
+    {
+      prop: "onPointerLeave",
+      type: "(event: React.PointerEvent) => void",
+      description: "光标离开容器、聚光灯淡出时触发。",
+    },
+  ]}
+/>
 
-## 属性
+## 使用场景与设计规范
 
-<PropsTable name="spotlight-grid" />
+`SpotlightGrid` 适用于**科技感控制台卡片、开发者工具看板、产品特性介绍区**：
 
-## 使用说明
+- **CSS 变量动态驱动**：坐标直接通过 `--grid-x` 与 `--grid-y` 注入至 `mask-image`，不产生 React 状态重渲染，帧率始终保持 120 FPS。
+- **触控屏自动静默**：检测到 `touch` 触控类型时不会显示不自然的固定光斑，保持移动端清爽。
 
-`baseOpacity` 应足够低，让聚光前后的差异可被感知但不影响正文。`size` 控制图案密度，`radius` 控制显露范围。
-网格更适合技术、结构和空间语义明确的区块，不应作为无意义的全站装饰；没有指针时，基础图案仍应保持不干扰内容。
+## 场景示例
+
+### 点阵模式（Dots）
+
+切换为高精度的圆点矩阵聚光灯：
+
+<ComponentPreview name="spotlight-grid-dots" />
+
+## 无障碍与交互 Accessibility
+
+- **层级穿透**：聚光图层全部为 `pointer-events-none`，底层与内部的表单项、按钮可以正常操作。
+- **无障碍树忽略**：网格背景图层默认标记 `aria-hidden="true"`，不产生任何无障碍干扰。

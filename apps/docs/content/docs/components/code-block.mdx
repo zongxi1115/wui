@@ -1,0 +1,37 @@
+---
+title: 代码块 Code Block
+description: 用于在页面中优雅展示结构化源代码的高亮容器，内置行号、高亮行与一键复制。
+component: code-block
+---
+
+## 基础示例 · Basic example
+
+<ComponentPreview name="code-block-demo" previewClassName="min-h-0 p-6 flex justify-center" />
+
+<CodeTabs command="@wui-design/cli@latest add @wui/code-block" />
+
+<ComponentSource name="code-block" title="components/ui/code-block.tsx" />
+
+## 组件作用 · What it's for
+
+`CodeBlock` 是专为技术文档、AI 生成代码与开发工具设计的独立代码展示容器。
+
+### 适用场景
+- **行号与指定行高亮**：通过 `showLineNumbers` 和 `highlightLines={[3, 7]}` 清晰引导关键逻辑。
+- **标题栏与复制反馈**：集成文件标题、语言标签与带动效反馈的复制按钮。
+- **多风格适配**：支持 `default`（浅底通栏）、`bordered`（边框卡片）与 `ghost`（无边框透明）变体。
+
+### 何时不建议使用
+- 如果是在 Markdown 长文解析流中渲染内联语法，建议使用 `Markdown` 组件统一处理。
+
+## 组件属性 · Props
+
+<PropsTable name="code-block" />
+
+## 事件 · Events
+
+- `CodeBlockCopy.onCopy`：成功复制代码内容至系统剪贴板时的回调函数。
+
+## 拓展使用 · Extended usage
+
+可与 `Tabs` 组合实现多文件/多语言 Tab 切换，或设置 `expandable` 控制超长代码折叠。

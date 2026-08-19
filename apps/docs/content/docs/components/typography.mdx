@@ -1,35 +1,129 @@
 ---
 title: 排版 Typography
-description: 为标题、正文、列表、引用和辅助文字提供一致的阅读层级。
+description: 为标题、引言、正文、列表、引用和代码提供严格且优美的一致性阅读层级系统。
 component: typography
 ---
 
 ## 基础用法
 
+使用 `Typography` 为产品页面提供规范且具备优雅阅读节奏的标题与正文层级：
+
 <ComponentPreview name="typography-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/typography" />
 
+<Steps>
+
+<Step>安装 Radix 原语与样式辅助依赖</Step>
+
+```bash
+pnpm add radix-ui class-variance-authority clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/typography.tsx`</Step>
+
 <ComponentSource name="typography" title="components/ui/typography.tsx" />
 
-## 使用场景
+</Steps>
 
-`Typography` 用于产品页面和业务内容中的标题、正文与辅助信息。它建立字号、字重和行高层级，但不负责文档布局；
-大段富文本或 Markdown 应使用对应的内容渲染组件。
+## 属性 Props
 
-## 属性
+### Typography Props
 
-<PropsTable name="typography" />
+<PropsTable
+  data={[
+    {
+      prop: "variant",
+      type: '"h1" | "h2" | "h3" | "h4" | "body" | "lead" | "small" | "muted" | "code" | "blockquote"',
+      default: '"body"',
+      description: "排版文本的层级与视觉样式变体。自动关联默认底层 HTML 标签（如 h1 映射 <h1>，code 映射 <code>，body 映射 <p>）。",
+    },
+    {
+      prop: "as",
+      type: "React.ElementType",
+      description: "覆盖当前变体默认使用的底层 HTML 元素标签（例如希望拥有 h2 样式的 <span> 或 <h3> 标签）。",
+    },
+    {
+      prop: "asChild",
+      type: "boolean",
+      default: "false",
+      description: "是否使用 Radix Slot 将排版样式合并至唯一的子元素上。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于排版元素的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-## 事件
+### TypographyList Props
 
-组件透传最终 HTML 元素的原生事件。`TypographyLink` 保留链接语义和焦点反馈，导航行为仍由浏览器或路由组件处理。
+<PropsTable
+  data={[
+    {
+      prop: "ordered",
+      type: "boolean",
+      default: "false",
+      description: "是否渲染为数字有序列表 <ol>，默认 false 为圆点无序列表 <ul>。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于列表容器的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-## 扩展用法
+### TypographyLink Props
 
-### 列表、引用和行内代码
+继承原生 HTML `<a>` 锚点链接的全部属性，默认应用语义化焦点指示与下划线偏移。
+
+## 事件 Events
+
+<PropsTable
+  data={[
+    {
+      prop: "onClick",
+      type: "(event: React.MouseEvent<HTMLElement>) => void",
+      description: "透传原生点击事件。",
+    },
+    {
+      prop: "onMouseEnter / onMouseLeave",
+      type: "(event: React.MouseEvent<HTMLElement>) => void",
+      description: "透传原生鼠标悬停事件。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`Typography` 统一控制全站文本排版规格，避免在业务代码中随意书写杂乱的字号与行高 class：
+
+- **标题与字距（Tracking）微调**：大字号标题（h1/h2）内置负字距（tight tracking）与 `text-balance`，防止换行时出现单字掉行。
+- **行高与可读性（Leading）**：正文使用舒适的 `leading-7` 行高，辅以 `text-pretty` 算法，在长段落阅读时保持眼睛对焦稳定。
+- **语义与视觉解耦**：当页面 SEO 结构与 UI 设计规范产生冲突时（例如侧边栏需要一个语义 `<h2>` 但视觉要求 `small` 尺寸），使用 `<Typography variant="small" as="h2">` 实现无缝解耦。
+
+## 场景示例
+
+### 完整排版元素集合 (列表、引用与行内代码)
+
+展示无序列表、有序列表、块级引用与行内代码样式的组合使用：
 
 <ComponentPreview name="typography-elements" />
 
-标题变体会自动选择对应的 `h1` 至 `h4` 元素，正文默认使用 `p`。通过 `as` 可以覆盖元素，通过 `asChild` 可以组合框架链接；
-覆盖元素时仍应保持正确的标题层级，不能只根据视觉大小选择标题标签。
+### 多态标签与语义解耦
+
+通过 `as` 属性自由切换底层渲染元素，兼顾 SEO 语义权重与设计系统视觉规范：
+
+<ComponentPreview name="typography-custom-tag" />
+
+## 无障碍与交互 Accessibility
+
+- **文本换行优化**：标题使用 CSS `text-wrap: balance`，长正文使用 `text-wrap: pretty`，杜绝孤字换行（Widows/Orphans），提升排版可读性。
+- **清晰对比度**：正文、弱化文本（muted）与代码块背景颜色均符合 WCAG 2.1 AA 级对比度标准。
+- **可访问链接**：`TypographyLink` 提供明确的下划线和高亮焦点环，色盲用户亦能清晰辨识可点击区域。

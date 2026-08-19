@@ -2,7 +2,7 @@
   "name": "scroll-progress",
   "type": "registry:ui",
   "title": "滚动进度 Scroll Progress",
-  "description": "用顶部进度条或环形指示器显示页面、容器或区块的阅读进度。",
+  "description": "实时计算整页、特定滚动容器或指定 DOM 节点的滚动通过比例，支持线性条状与环形仪表两种形态，并内置弹簧滤波平滑算法。",
   "categories": [
     "scroll",
     "motion"
@@ -110,11 +110,22 @@
       "description": "应用于移动进度指示器的 CSS 类名。"
     }
   ],
-  "usage": "在嵌套滚动区域中同时传入 `container` 和 `target`。`offset` 使用 Motion 的滚动偏移语法；例如 `[\"start start\", \"end end\"]`\n表示目标顶部到达容器顶部时从 0 开始，目标底部到达容器底部时到 1。进度属于辅助导航，应同时提供章节标题和明确的页面结构。",
   "examples": [
     {
       "name": "scroll-progress-demo",
       "title": "基础用法"
+    },
+    {
+      "name": "scroll-progress-container",
+      "title": "协议条款通读验证"
+    },
+    {
+      "name": "scroll-progress-steps",
+      "title": "特定章节视口穿越追踪"
+    },
+    {
+      "name": "scroll-progress-variants",
+      "title": "自定义渐变与环形样式"
     }
   ],
   "files": [

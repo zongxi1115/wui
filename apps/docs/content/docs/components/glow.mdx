@@ -1,35 +1,156 @@
 ---
 title: 渐变环绕发光 Glow
-description: 让多色渐变光线沿内容四周持续环绕，并提供单色发光变体。
+description: 让多色彩虹渐变或单色呼吸光效沿内容边缘持续环绕流动，形成柔和漫射光晕，用于打造高视觉吸引力的重点卡片与推荐位。
 component: glow
 ---
 
 ## 基础用法
 
+最简单的发光包装用法。组件提供多色流光（Rainbow）与单色呼吸（Solid）两种光效变体：
+
 <ComponentPreview name="glow-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/glow" />
 
+<Steps>
+
+<Step>安装动效依赖与工具库</Step>
+
+```bash
+pnpm add motion clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/glow.tsx`</Step>
+
 <ComponentSource name="glow" title="components/ui/glow.tsx" />
 
-## 使用场景
+</Steps>
 
-`Glow` 默认让一条多色渐变光线沿内容四周环绕，并用同一条边缘生成柔和光晕。装饰层不会遮挡内容或拦截指针事件，
-适合重点入口、功能展示和需要短暂吸引注意的区域。它不应作为唯一的焦点、错误或选中状态提示。
+## 属性 Props
 
-## 属性
+`Glow` 支持以下流光与发光配置，并继承 `motion.div` 的全部 HTML 属性：
 
-<PropsTable name="glow" />
+<PropsTable
+  data={[
+    {
+      prop: "children",
+      type: "React.ReactNode",
+      description: "发光边框包裹的内容元素（卡片、徽标、横幅等）。",
+    },
+    {
+      prop: "variant",
+      type: '"rainbow" | "solid"',
+      default: '"rainbow"',
+      description: "发光视觉变体：rainbow（多色环绕流光）或 solid（单色脉冲呼吸光）。",
+    },
+    {
+      prop: "color",
+      type: "string",
+      default: '"oklch(0.7 0.2 260)"',
+      description: "在 solid 变体下生效的边框与发光主色（支持 OKLCH / RGB / HEX / CSS 变量）。",
+    },
+    {
+      prop: "colors",
+      type: "string[]",
+      default: '["#ff3d81", "#ffb800", "#34d399", "#38bdf8", "#8b5cf6", "#ff3d81"]',
+      description: "在 rainbow 变体下沿圆周渐变分布的色彩序列（conic-gradient）。",
+    },
+    {
+      prop: "spread",
+      type: "number",
+      default: "18",
+      description: "光晕向外扩散的模糊半径（像素 px）。数值越大漫射光越柔和广阔。",
+    },
+    {
+      prop: "borderWidth",
+      type: "number",
+      default: "1",
+      description: "发光细边框的物理粗细（像素 px）。",
+    },
+    {
+      prop: "glowOpacity",
+      type: "number",
+      default: "0.7",
+      description: "发光漫射层的最大峰值不透明度（0~1）。",
+    },
+    {
+      prop: "pulse",
+      type: "boolean",
+      default: "true",
+      description: "是否在 solid 变体下开启明暗呼吸动效。",
+    },
+    {
+      prop: "duration",
+      type: "number",
+      default: "4",
+      description: "完成一次完整旋转或呼吸循环所需的周期时间（秒）。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于外层发光容器的额外 CSS 类名（需指定圆角如 rounded-xl 以便光晕贴合）。",
+    },
+  ]}
+/>
 
-## 扩展用法
+## 事件 Events
 
-### 重点推荐卡片
+`Glow` 作为视觉展示容器透传标准的 React / Motion 容器事件：
 
-在卡片、价格方案或主推荐位外层包裹 `Glow`，可以建立高吸引力的视觉焦点：
+<PropsTable
+  data={[
+    {
+      prop: "onHoverStart",
+      type: "(event: MouseEvent, info: EventInfo) => void",
+      description: "指针进入发光容器时触发。",
+    },
+    {
+      prop: "onHoverEnd",
+      type: "(event: MouseEvent, info: EventInfo) => void",
+      description: "指针离开发光容器时触发。",
+    },
+    {
+      prop: "onClick",
+      type: "(event: React.MouseEvent<HTMLDivElement>) => void",
+      description: "点击发光卡片容器时触发。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`Glow` 属于高吸引力的视觉强调组件（Fancy 系列）。
+
+- **适用场景**：
+  - **核心推荐方案（Pro / Featured Plan）**：定价页中将“最推荐”套餐包裹 Glow，迅速建立视觉第一焦点。
+  - **旗舰功能或 AI 核心卡片**：突出具有代表性的技术亮点。
+  - **顶部醒目状态胶囊 / 公告条（Pills）**：新版本发布通知、系统运行健康状态等。
+- **色彩与层级搭配**：
+  - `Glow` 内部使用智能 CSS 遮罩（Mask exclude），光晕与边框精确贴合在内容最外缘，内部内容保持纯净背景，不会发生色彩溢出污染文字。
+  - 务必确保传递给 `Glow` 的 `className` 圆角与内部卡片保持一致（例如两者均为 `rounded-2xl`），以获得最平滑的边缘贴合。
+- **克制设计原则**：
+  - 同一屏内通常只推荐配置 1~2 个发光焦点，避免光晕泛滥导致用户无法聚焦核心内容。
+
+## 场景示例
+
+### 旗舰推荐定价卡片
+
+在价格对比表中为核心方案包裹流光边框，强化转化意图：
 
 <ComponentPreview name="glow-card" />
 
-## 使用说明
+### 状态指示与公告胶囊（Pills）
 
-默认的 `rainbow` 变体通过 `colors`、`spread` 和 `duration` 调整环绕效果。使用 `variant="solid"` 可以切换到单色呼吸光晕，
-并通过 `color`、`glowOpacity` 和 `pulse` 控制外观。用户开启“减少动态效果”时，两种变体都会停止动画。
+在小型胶囊标签或系统状态徽标上使用单色呼吸光或彩虹流光：
+
+<ComponentPreview name="glow-badge" />
+
+## 无障碍与交互 Accessibility
+
+- **自动动效降级**：当操作系统开启了“减少动态效果（prefers-reduced-motion）”时，彩虹旋转与呼吸脉冲动画自动停止，保持静态柔和光晕，杜绝视觉干扰。
+- **非侵入式光效**：发光层标注为 `aria-hidden="true"` 并配置 `pointer-events-none`，不遮挡卡片内部的文本选区与按钮点击。
+- **可读性保障**：发光位于底层外周，内容区域通过实体背景色隔绝，文字始终保持高对比度与清晰可读。

@@ -1,39 +1,120 @@
 ---
-title: 进入视口 In View
-description: 当内容进入视口时播放可配置的入场动画。
+title: 视口进入动效 In View
+description: 当元素滚动进入视口可见范围时，自动触发淡入、位移或自定义变体动画的交叉观察（Intersection Observer）组件。
 component: in-view
 ---
 
 ## 基础用法
 
+向下滚动页面，元素在进入视口交叉范围时平滑淡入并向上浮现：
+
 <ComponentPreview name="in-view-demo" />
 
-<DependencyBadges packages={["motion"]} />
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/in-view" />
 
+<Steps>
+
+<Step>安装基础依赖与动效库</Step>
+
+```bash
+pnpm add motion lucide-react class-variance-authority clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/in-view.tsx`</Step>
+
 <ComponentSource name="in-view" title="components/ui/in-view.tsx" />
 
-## 使用场景
+</Steps>
 
-`InView` 适合延后展示长页面中的说明、数据段或媒体内容。它使用浏览器的交叉观察能力判断可见性，默认只播放一次；
-用户开启“减少动态效果”时直接显示最终状态。它只改变出现方式，不应让用户必须滚动动画才能获得关键信息。
+## 属性 Props
 
-## 属性
+<PropsTable
+  data={[
+    {
+      prop: "children",
+      type: "React.ReactNode",
+      description: "受视口交叉状态触发进场动效的子内容。",
+    },
+    {
+      prop: "variants",
+      type: "Variants",
+      default: '{ hidden: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0 } }',
+      description: "包含 hidden（初始离场状态）与 visible（进场状态）的 Motion 变体对象。",
+    },
+    {
+      prop: "transition",
+      type: "Transition",
+      default: '{ duration: 0.45, ease: "easeOut" }',
+      description: "在 hidden 与 visible 状态之间过渡时所使用的动画参数。",
+    },
+    {
+      prop: "viewOptions",
+      type: "UseInViewOptions",
+      description: "IntersectionObserver 配置选项，包含 `margin`（视口边距阈值，如 `-10% 0px`）和 `amount`（可见比例，如 0.5）。",
+    },
+    {
+      prop: "once",
+      type: "boolean",
+      default: "true",
+      description: "是否仅在第一次进入视口时执行一次动画（为 false 时每次进出视口均重新触发）。",
+    },
+    {
+      prop: "as",
+      type: "React.ElementType",
+      default: '"div"',
+      description: "渲染的 HTML 标签类型（如 `div`、`section`、`article` 等）。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于外层动画容器的 CSS 类名。",
+    },
+  ]}
+/>
 
-<PropsTable name="in-view" />
+## 事件 Events
 
-## 事件
+<PropsTable
+  data={[
+    {
+      prop: "onAnimationStart",
+      type: "() => void",
+      description: "进场动效开始执行时触发。",
+    },
+    {
+      prop: "onAnimationComplete",
+      type: "() => void",
+      description: "进场动效执行完成时触发。",
+    },
+  ]}
+/>
 
-组件透传底层元素的原生事件。需要获知可见状态时，可以通过自定义 `variants` 的 Motion 回调处理；`viewOptions` 支持 `margin` 和 `amount` 等观察参数。
+## 使用场景与设计规范
 
-## 扩展用法
+`InView` 适用于**落地页特性卡片流式呈现、数据图表首屏揭示、长文章图片渐进加载**：
 
-通过 `as="section"` 调整元素类型；设置 `once={false}` 可以在每次进入视口时重播。对于很长的列表，应只为关键内容添加入场效果，
-避免大量节点同时启动动画。
+- **避免页面重入重复闪烁**：建议大多数业务展示使用默认的 `once={true}`，保证用户向上回滚时不重复触发进场动效。
+- **配置视口提前量（margin）**：通过设置 `viewOptions={{ margin: "-10% 0px" }}`，让元素在距离视口还有一定距离时就开始计算并自然进场，避免突兀。
 
-### 图片遮罩揭示
+## 场景示例
 
-`InView` 的自定义 `variants` 可以直接驱动 `clip-path`，无需为 Image Reveal 再引入一套相同的视口观察逻辑。
+### 图片揭示
+
+大图进入视口时带有圆角与轻度缩放的进场动效：
 
 <ComponentPreview name="in-view-image-reveal" />
+
+### 瀑布流/阶梯式卡片进场（Stagger）
+
+为不同卡片赋予不同的 `delay` 实现阶梯式渐进浮现：
+
+<ComponentPreview name="in-view-stagger" />
+
+## 无障碍与交互 Accessibility
+
+- **减少动效环境处理**：当系统启用 `prefers-reduced-motion: reduce` 时，组件将跳过 `hidden` 状态，直接以 `visible` 终态渲染，且 `transition` 持续时间设为 0。
+- **SEO 友好**：组件服务端渲染（SSR）默认包含完整 DOM 树与文字内容，不会对搜索引擎爬虫造成不可见问题。

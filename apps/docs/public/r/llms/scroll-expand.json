@@ -1,8 +1,8 @@
 {
   "name": "scroll-expand",
   "type": "registry:ui",
-  "title": "滚动扩展 Scroll Expand",
-  "description": "将图片、视频或首屏从小画框滚动扩展到满屏，也可反向收拢。",
+  "title": "滚动展开 Scroll Expand",
+  "description": "随着滚动进度将画框中的媒体内容平滑展开至全屏无缝铺满（或从全屏收缩为卡片）的沉浸式视差组件。",
   "categories": [
     "scroll",
     "motion"
@@ -90,11 +90,14 @@
       "description": "应用于变换内容画框的 CSS 类名。"
     }
   ],
-  "usage": "子元素应填满组件尺寸，并自行使用 `object-cover` 或等价布局。`inset` 控制紧凑状态留白，`radius` 控制该状态的圆角，\n`scrollLength` 决定变化节奏。若内容中包含视频，仍需提供原生播放控制、字幕和暂停方式，不能只依靠滚动驱动播放。",
   "examples": [
     {
       "name": "scroll-expand-demo",
       "title": "基础用法"
+    },
+    {
+      "name": "scroll-expand-collapse",
+      "title": "逆向收缩为卡片（Collapse）"
     }
   ],
   "files": [

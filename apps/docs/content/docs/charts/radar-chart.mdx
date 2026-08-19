@@ -1,0 +1,37 @@
+---
+title: 雷达图 Radar Chart
+description: 用于在极坐标系上展示多维度能力评估、多系列性能对比或平衡指标的图表。
+component: radar-chart
+---
+
+## 基础示例 · Basic example
+
+<ComponentPreview name="radar-chart-demo" previewClassName="min-h-0 p-6 flex justify-center" />
+
+<CodeTabs command="@wui-design/cli@latest add @wui/radar-chart" />
+
+<ComponentSource name="radar-chart" title="charts/radar-chart.tsx" />
+
+## 组件作用 · What it's for
+
+`RadarChart` 将多个维度的定量数据投射在从中心向外辐射的轴线上，形成多边形区域，便于一眼洞察多项指标的强弱与重叠分布。
+
+### 适用场景
+- **模型基准测试 (Benchmark)**：对比不同大模型在代码、逻辑、数学、长文等维度的得分。
+- **员工或候选人技能画像**：多维能力分布与岗位要求匹配度。
+- **产品综合指标对比**：性能、安全性、稳定性、易用性等多维度量。
+
+### 何时不建议使用
+- 如果只有一个维度或连续的时间序列变化，应使用柱状图或折线图。
+
+## 组件属性 · Props
+
+<PropsTable name="radar-chart" />
+
+## 事件 · Events
+
+- 鼠标悬停在各顶点时自动触发 `ChartTooltip` 显示各系列的准确数值。
+
+## 拓展使用 · Extended usage
+
+可通过 `gridShape="circle"` 切换为圆形同心网格，或通过 `gridLevels` 控制刻度圈数。

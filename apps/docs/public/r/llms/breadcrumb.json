@@ -2,7 +2,7 @@
   "name": "breadcrumb",
   "type": "registry:ui",
   "title": "面包屑 Breadcrumb",
-  "description": "显示当前页面在信息层级中的位置，并提供返回上级页面的入口。",
+  "description": "显示当前页面在应用信息架构中的层级路径，帮助用户快速感知位置并返回上层页面。",
   "categories": [
     "navigation"
   ],
@@ -37,8 +37,20 @@
       "title": "基础用法"
     },
     {
+      "name": "breadcrumb-with-icons",
+      "title": "搭配图标指示"
+    },
+    {
+      "name": "breadcrumb-custom-separator",
+      "title": "自定义分隔符"
+    },
+    {
+      "name": "breadcrumb-dropdown",
+      "title": "折叠长路径与下拉菜单"
+    },
+    {
       "name": "breadcrumb-collapsed",
-      "title": "折叠路径与自定义分隔符"
+      "title": "简单折叠占位"
     }
   ],
   "files": [

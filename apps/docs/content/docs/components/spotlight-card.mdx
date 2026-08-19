@@ -1,30 +1,124 @@
 ---
 title: 聚光卡片 Spotlight Card
-description: 根据鼠标位置在内容表面显露一层局部光照。
+description: 根据光标指针移动在卡片表面渲染跟随式局部径向光照，为静态卡片注入灵动的空间立体感。
 component: spotlight-card
 ---
 
 ## 基础用法
 
+最简单的聚光卡片用法。当光标在卡片上移动时，光晕会跟随指针位置实时点亮：
+
 <ComponentPreview name="spotlight-card-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/spotlight-card" />
 
-<ComponentSource
-  name="spotlight-card"
-  title="components/ui/spotlight-card.tsx"
+<Steps>
+
+<Step>安装基础依赖与工具函数</Step>
+
+```bash
+pnpm add clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/spotlight-card.tsx`</Step>
+
+<ComponentSource name="spotlight-card" title="components/ui/spotlight-card.tsx" />
+
+</Steps>
+
+## 属性 Props
+
+`SpotlightCard` 支持以下配置属性，并继承原生 `<div>` 容器的所有 HTML 属性：
+
+<PropsTable
+  data={[
+    {
+      prop: "children",
+      type: "React.ReactNode",
+      description: "卡片内部渲染的内容元素（文字、图标、封面图片等）。",
+    },
+    {
+      prop: "radius",
+      type: "number",
+      default: "220",
+      description: "聚光灯的照射光晕半径（像素 px）。",
+    },
+    {
+      prop: "color",
+      type: "string",
+      default: '"color-mix(in oklab, var(--foreground) 16%, transparent)"',
+      description: "聚光灯中心点的 CSS 颜色值，支持透明度颜色或主题变量。",
+    },
+    {
+      prop: "spotlightClassName",
+      type: "string",
+      description: "应用于内部聚光光斑图层的额外 CSS 类名。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于卡片外层容器的额外 CSS 类名。",
+    },
+  ]}
 />
 
-## 使用场景
+## 事件 Events
 
-`SpotlightCard` 记录指针相对组件的位置，用径向背景显露局部色彩。它不引入第三方运行时依赖，
-适合作品目录、定价区域或需要轻微空间反馈的表面。光照只增强已有层级，不会改变卡片内容或点击行为。
+`SpotlightCard` 继承原生容器的事件回调，并在内部优化了指针位移计算：
 
-## 属性
+<PropsTable
+  data={[
+    {
+      prop: "onPointerEnter",
+      type: "(event: React.PointerEvent<HTMLDivElement>) => void",
+      description: "光标指针进入卡片区域时触发，内部同步淡入聚光层。",
+    },
+    {
+      prop: "onPointerMove",
+      type: "(event: React.PointerEvent<HTMLDivElement>) => void",
+      description: "光标指针在卡片内移动时触发，内部实时更新光斑坐标 CSS 变量。",
+    },
+    {
+      prop: "onPointerLeave",
+      type: "(event: React.PointerEvent<HTMLDivElement>) => void",
+      description: "光标指针离开卡片区域时触发，内部自动淡出聚光层。",
+    },
+  ]}
+/>
 
-<PropsTable name="spotlight-card" />
+## 使用场景与设计规范
 
-## 使用说明
+`SpotlightCard` 是打造现代高质感 SaaS 首页与核心产品功能网格的利器。
 
-通过 `radius` 调整影响范围，通过 `color` 使用与当前内容有关的低透明度颜色。聚光不能承载唯一的状态或操作提示；
-触摸输入下没有指针位置，内容仍必须完整可读。
+- **适用场景**：
+  - **核心功能亮点网格（Features Grid）**：在产品矩阵展示中，为每个功能卡片添加低饱和度微光，增强探索欲。
+  - **作品集与案例展示（Portfolio）**：鼠标滑动时产生渐进式照明，提升视觉沉浸感。
+  - **定价与方案卡片**：突出重点套餐或企业方案。
+- **性能与渲染优势**：
+  - 内部基于 CSS 自定义属性（`--spotlight-x`, `--spotlight-y`）与原生硬件加速的 `radial-gradient` 实现，无需引入重量级 3D 渲染引擎或繁重的 React 重渲染，保持 120 FPS 极度流畅。
+- **色彩与饱和度建议**：
+  - 聚光属于辅助视觉层，光晕透明度应保持在 `10%~20%` 之间，避免过于刺眼影响卡片中文字内容的可读性。
+
+## 场景示例
+
+### 多色主题光晕
+
+根据卡片所代表的业务类型（如安全、算力、多租户）定制不同的光晕色彩：
+
+<ComponentPreview name="spotlight-card-colors" />
+
+### 产品功能展示网格
+
+结合图片封面、分类标签与性能基准数据构建完整的功能卡片：
+
+<ComponentPreview name="spotlight-card-demo" />
+
+## 无障碍与交互 Accessibility
+
+- **非阻断式视觉层**：内部的光晕图层标注为 `aria-hidden="true"` 并配置 `pointer-events-none`，绝不拦截卡片内部按钮、超链接的点击与键盘交互。
+- **移动端触控友好**：触摸（Touch）设备上不会出现生硬的光斑闪烁，保持清晰优雅的静态卡片呈现。
+- **高对比度文字保障**：卡片内部的标题与正文颜色不受光晕叠加的负面影响，始终满足 WCAG AA 级对比度要求。

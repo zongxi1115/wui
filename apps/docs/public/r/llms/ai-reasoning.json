@@ -2,7 +2,7 @@
   "name": "ai-reasoning",
   "type": "registry:ui",
   "title": "AI 推理过程 AI Reasoning",
-  "description": "用可折叠的思考链展示模型推理摘要与执行进度。",
+  "description": "用结构化的折叠步骤与连线展示大语言模型或智能体（Agent）的思考过程、决策链路与执行进度。",
   "categories": [
     "ai"
   ],
@@ -64,14 +64,18 @@
       "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
     }
   ],
-  "events": "组件透传 Radix Collapsible 的 `open` 和 `onOpenChange`。非受控模式下，`isStreaming` 变为 `true` 时自动展开，\n从 `true` 变为 `false` 时自动收起；受控模式由调用方决定展开策略。内容区域在流式阶段使用 `aria-live` 和 `aria-busy` 通知辅助技术。",
   "examples": [
     {
       "name": "ai-reasoning-demo",
       "title": "基础用法"
     },
     {
-      "name": "ai-reasoning-advanced"
+      "name": "ai-reasoning-advanced",
+      "title": "综合步骤与工具调用组合"
+    },
+    {
+      "name": "ai-reasoning-interactive",
+      "title": "实时流式推进演练"
     }
   ],
   "files": [

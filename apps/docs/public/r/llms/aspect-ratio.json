@@ -2,7 +2,7 @@
   "name": "aspect-ratio",
   "type": "registry:ui",
   "title": "宽高比 Aspect Ratio",
-  "description": "在响应式布局中为图片、视频或占位内容维持稳定比例。",
+  "description": "在响应式弹性布局中为图片、视频播放器或媒体卡片锁定固定的宽高比例，防止页面布局抖动（CLS）。",
   "import": "import { AspectRatio } from \"@/components/ui/aspect-ratio\"",
   "exports": [
     "AspectRatio"
@@ -43,8 +43,12 @@
       "title": "基础用法"
     },
     {
+      "name": "aspect-ratio-card",
+      "title": "视频媒体卡片与播放覆盖层"
+    },
+    {
       "name": "aspect-ratio-advanced",
-      "title": "多种媒体比例"
+      "title": "多比例媒体画廊 (4:5, 1:1, 3:2)"
     }
   ],
   "files": [

@@ -1,38 +1,157 @@
 ---
 title: 轮播 Carousel
-description: 使用原生滚动与吸附逐项浏览一组相关内容。
+description: 基于原生 CSS 滚动与 scroll-snap 物理吸附机制构建的高性能轮播组件，支持横向/纵向滑动、循环滚动与多列响应式排版。
 component: carousel
 ---
 
 ## 基础用法
 
+单卡片横向轮播。支持通过前后导航按钮或触控手势滑动浏览：
+
 <ComponentPreview name="carousel-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/carousel" />
 
+<Steps>
+
+<Step>安装基础依赖与图标库</Step>
+
+```bash
+pnpm add lucide-react clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/carousel.tsx`</Step>
+
 <ComponentSource name="carousel" title="components/ui/carousel.tsx" />
 
-## 使用场景
+</Steps>
 
-`Carousel` 用于在有限空间中依次浏览同类内容，例如项目摘要、媒体或更新记录。重要信息不应只存在于后续页面；
-需要同时比较多个条目时使用列表或网格，而不是轮播。
+## 属性 Props
 
-组件基于浏览器原生滚动和 `scroll-snap`，触摸板、触屏和滚轮可以直接操作，不额外接管手势。
+### Carousel (根容器)
 
-## 属性
+继承原生 `<div>` 元素的全部 HTML 属性：
 
-<PropsTable name="carousel" />
+<PropsTable
+  data={[
+    {
+      prop: "orientation",
+      type: '"horizontal" | "vertical"',
+      default: '"horizontal"',
+      description: "轮播的滚动方向。'horizontal' 为横向滑动；'vertical' 为纵向翻页。",
+    },
+    {
+      prop: "loop",
+      type: "boolean",
+      default: "false",
+      description: "到达边界末项时是否允许无限循环回到起始项。",
+    },
+    {
+      prop: "defaultIndex",
+      type: "number",
+      default: "0",
+      description: "初始化时默认定位展示的项目索引（0-indexed）。",
+    },
+    {
+      prop: "onIndexChange",
+      type: "(index: number) => void",
+      description: "当前展示的轮播卡片索引发生改变时的回调函数。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于外层轮播包裹容器的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-## 事件
+### CarouselContent
 
-`onIndexChange(index)` 在吸附到新的项目后触发。前后按钮会根据边界自动禁用；开启 `loop` 后，末项可以回到首项。
-内容本身仍可接收原生滚动事件。
+承载所有卡片的滚动视口容器：
 
-## 扩展用法
+<PropsTable
+  data={[
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于滚动视口的额外 CSS 类名（如重置边距或调整固定高度）。",
+    },
+  ]}
+/>
 
-### 垂直循环
+### CarouselItem
+
+单个轮播卡片容器：
+
+<PropsTable
+  data={[
+    {
+      prop: "className",
+      type: "string",
+      description: "通过 Tailwind 的 basis-* 类名控制一屏显示的卡片数量（例如 basis-full 为单卡片，md:basis-1/2 为一屏两卡，lg:basis-1/3 为一屏三卡）。",
+    },
+  ]}
+/>
+
+### CarouselPrevious / CarouselNext
+
+翻页控制按钮：
+
+<PropsTable
+  data={[
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于翻页按钮的额外 CSS 类名（用于覆盖默认定位或图标样式）。",
+    },
+  ]}
+/>
+
+## 事件 Events
+
+<PropsTable
+  data={[
+    {
+      prop: "onIndexChange",
+      type: "(index: number) => void",
+      description: "轮播吸附到新的卡片项目后触发，参数为最新的活动项下标索引。",
+    },
+    {
+      prop: "onScroll",
+      type: "(event: React.UIEvent<HTMLDivElement>) => void",
+      description: "视口发生原生滚动时触发。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`Carousel` 适用于在有限的视口高度内浏览同质化的系列卡片或媒体：
+
+- **原生性能与手势**：组件基于纯 CSS `scroll-snap-type` 与 `overflow-x: auto`，在触控屏、Mac 触控板双指滑动与鼠标滚轮上具备极致的原生 120fps 顺滑度，不额外劫持手势。
+- **一屏多卡展示**：通过给 `CarouselItem` 设置 `className="basis-full sm:basis-1/2 lg:basis-1/3"`，可轻松实现响应式多列轮播布局。
+- **重要信息避免隐藏**：核心关键操作或阻断性信息不建议仅放在轮播的第 2 页之后，因为多数用户可能不会主动滑动至末尾。
+
+## 场景示例
+
+### 多卡片响应式轮播 (Multi-card)
+
+结合一屏双卡（`md:basis-1/2`）、无限循环（`loop`）、封面图与底部活跃指示圆点：
+
+<ComponentPreview name="carousel-cards" />
+
+### 垂直方向轮播 (Vertical)
+
+配置 `orientation="vertical"` 切换为纵向通知头条或阶段卡片翻滚：
 
 <ComponentPreview name="carousel-vertical" />
 
-使用 `orientation="vertical"` 切换滚动方向，并为内容设置明确高度。每个 `CarouselItem` 默认占满一个视口；
-需要一屏显示多个项目时可以覆盖其 `basis-*`，但应确保吸附位置和操作按钮仍然清晰。
+## 无障碍与交互 Accessibility
+
+- **WAI-ARIA Carousel Pattern**：根容器标注 `role="region"` 与 `aria-roledescription="carousel"`；每个卡片项标注 `role="group"` 与 `aria-roledescription="slide"`。
+- **按键与焦点管理**：翻页按钮具备 `aria-label="上一项"` 与 `aria-label="下一项"`，并在到达首末边界且未开启 `loop` 时自动 `disabled`。
+- **平滑滚动保障**：视口采用 `scroll-smooth`，在支持触摸辅助设备与读屏软件跳转时能准确对齐到卡片起点。

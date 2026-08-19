@@ -2,7 +2,7 @@
   "name": "table",
   "type": "registry:ui",
   "title": "表格 Table",
-  "description": "用原生表格语义组织和比较结构化数据。",
+  "description": "保留原生语义与无障碍结构的响应式表格组件，支持紧凑密度、斑马纹、冻结表头与左右固定列。",
   "import": "import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, tableVariants } from \"@/components/ui/table\"",
   "exports": [
     "Table",
@@ -67,7 +67,6 @@
       "description": "表格容器滚动时是否保持表头可见。"
     }
   ],
-  "events": "所有原生表格事件都会透传，例如在 `TableRow` 上使用 `onClick`、`onPointerEnter` 或键盘事件。组件不内置选择逻辑；\n需要展示选中状态时，在行上设置 `data-state=\"selected\"`，并由业务状态负责更新。可点击行仍应提供清晰的键盘操作方式。",
   "examples": [
     {
       "name": "table-demo",
@@ -78,8 +77,12 @@
       "title": "紧凑密度与斑马纹"
     },
     {
+      "name": "table-selection",
+      "title": "行选择与批量操作"
+    },
+    {
       "name": "table-advanced",
-      "title": "高级数据表格"
+      "title": "复杂数据表格（固定列 / 树形 / 排序 / 筛选 / 拖拽）"
     }
   ],
   "files": [

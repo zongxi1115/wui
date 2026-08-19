@@ -2,7 +2,7 @@
   "name": "spin",
   "type": "registry:ui",
   "title": "加载中 Spin",
-  "description": "用轻量、可降级的动态指示器表达等待状态。",
+  "description": "轻量且支持无障碍降级的动态加载指示器，支持独立展示、局部内容遮罩与全屏阻塞。",
   "import": "import { Spin, spinIndicatorVariants } from \"@/components/ui/spin\"",
   "exports": [
     "Spin",
@@ -76,11 +76,26 @@
       "description": "是否覆盖整个视口，而不是在文档流中渲染。"
     }
   ],
-  "events": "组件不产生业务事件，由 `spinning` 控制显示。`delay` 可以过滤瞬时请求造成的闪烁；用户开启“减少动态效果”后，\n旋转和弹性过渡会立即停用，但加载状态仍然会显示。",
   "examples": [
     {
       "name": "spin-demo",
       "title": "基础用法"
+    },
+    {
+      "name": "spin-sizes",
+      "title": "尺寸对比"
+    },
+    {
+      "name": "spin-delay",
+      "title": "防闪烁延迟保护"
+    },
+    {
+      "name": "spin-custom",
+      "title": "自定义指示器"
+    },
+    {
+      "name": "spin-fullscreen",
+      "title": "全屏遮罩模式"
     }
   ],
   "files": [

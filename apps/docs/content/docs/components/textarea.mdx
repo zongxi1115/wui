@@ -1,43 +1,225 @@
 ---
 title: 文本域 Textarea
-description: 用于输入较长的多行文本，支持字符计数与缩放方向约束。
+description: 用于录入多行长文本的多功能输入控件，支持动态字符计数、最大字数限制与尺寸缩放方向约束。
 component: textarea
 ---
 
 ## 基础用法
 
+最常见的多行文本录入用法。支持自定义行高与占位提示文案：
+
 <ComponentPreview name="textarea-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/textarea" />
 
+<Steps>
+
+<Step>安装基础依赖</Step>
+
+```bash
+pnpm add clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/textarea.tsx`</Step>
+
 <ComponentSource name="textarea" title="components/ui/textarea.tsx" />
 
-## 使用场景
+</Steps>
 
-`Textarea` 用于备注、描述、反馈和其他多行文本。单行内容使用 Input；需要富文本结构、提及或附件时，
-应使用专门的编辑器或组合式输入组件，而不是继续扩展原生文本域。
+## 属性 Props
 
-## 属性
+`Textarea` 继承原生 HTML `<textarea>` 元素的全部属性，并额外支持以下功能配置：
 
-<PropsTable name="textarea" />
+<PropsTable
+  data={[
+    {
+      prop: "showCount",
+      type: "boolean",
+      default: "false",
+      description: "是否在文本域右下角展示当前字符数统计（若同时指定了 maxLength，则呈现 \"已输入数 / 最大限制数\" 格式）。",
+    },
+    {
+      prop: "resize",
+      type: '"none" | "vertical" | "horizontal" | "both"',
+      default: '"vertical"',
+      description: "允许用户拖拽调整文本域尺寸的方向。推荐默认 \"vertical\" 仅允许垂直调整，避免破坏水平页面排版。",
+    },
+    {
+      prop: "rows",
+      type: "number",
+      default: "4",
+      description: "初始呈现的文本行数高度。",
+    },
+    {
+      prop: "maxLength",
+      type: "number",
+      description: "允许输入的最大字符数限制。达到上限后将自动拦截超出部分的输入。",
+    },
+    {
+      prop: "value",
+      type: "string",
+      description: "受控模式下的文本内容。",
+    },
+    {
+      prop: "defaultValue",
+      type: "string",
+      description: "非受控模式下的初始文本内容。",
+    },
+    {
+      prop: "placeholder",
+      type: "string",
+      description: "文本域为空时显示的占位提示文字。",
+    },
+    {
+      prop: "disabled",
+      type: "boolean",
+      default: "false",
+      description: "是否禁用文本域，禁用后无法获得焦点和输入。",
+    },
+    {
+      prop: "readOnly",
+      type: "boolean",
+      default: "false",
+      description: "是否设为只读模式（可聚焦、可选中并复制内容，但不可编辑）。",
+    },
+    {
+      prop: "required",
+      type: "boolean",
+      default: "false",
+      description: "在表单中是否为必填字段。",
+    },
+    {
+      prop: "aria-invalid",
+      type: 'boolean | "true" | "false"',
+      default: "false",
+      description: "标记当前输入是否校验失败。设为 true 时外边框将自动切换为高亮警示破坏色（destructive）。",
+    },
+    {
+      prop: "wrapperClassName",
+      type: "string",
+      description: "应用于外层包裹容器 shell 的额外 CSS 类名。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于内部原生 `<textarea>` 元素的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-## 事件
+## 事件 Events
 
-组件透传原生 `textarea` 的输入、聚焦和键盘事件。`onChange` 同时驱动字符计数；原生 `maxLength` 会负责阻止继续输入，
-表单校验仍应通过 `aria-invalid` 和对应的说明文字表达。
+<PropsTable
+  data={[
+    {
+      prop: "onChange",
+      type: "(event: React.ChangeEvent<HTMLTextAreaElement>) => void",
+      description: "文本域内容发生改变时触发的回调函数，同时驱动字符计数的实时更新。",
+    },
+    {
+      prop: "onFocus",
+      type: "(event: React.FocusEvent<HTMLTextAreaElement>) => void",
+      description: "文本域获得焦点时触发。",
+    },
+    {
+      prop: "onBlur",
+      type: "(event: React.FocusEvent<HTMLTextAreaElement>) => void",
+      description: "文本域失去焦点时触发。",
+    },
+    {
+      prop: "onKeyDown",
+      type: "(event: React.KeyboardEvent<HTMLTextAreaElement>) => void",
+      description: "在文本域获得焦点时按下键盘按键触发（如监听 Ctrl/Cmd + Enter 快捷提交）。",
+    },
+    {
+      prop: "onScroll",
+      type: "(event: React.UIEvent<HTMLTextAreaElement>) => void",
+      description: "在文本域内部滚动时触发。",
+    },
+  ]}
+/>
 
-## 扩展用法
+## 使用场景与设计规范
 
-### 字符计数与最大长度
+`Textarea` 用于捕获用户录入的**多行纯文本内容**（例如问题反馈、工单详情、用户简介、评论发布、更新日志等）。
+
+### 文本录入组件选型对比
+
+| 控件类型 | 典型行数 | 格式支持 | 适用场景 |
+| :--- | :--- | :--- | :--- |
+| **Input** | 单行 | 纯文本 | 姓名、邮箱、密码、手机号、搜索框 |
+| **Textarea** | 多行（可自然换行） | 纯文本 | 备注、描述、工单正文、多行地址 |
+| **Rich Text Editor** | 多行（结构化文档） | 富文本（加粗、列表、图片、表格） | 文章创作、知识库编辑、邮件正文撰写 |
+
+### 设计最佳实践
+
+- **约束缩放方向 (Resize)**：默认推荐使用 `resize="vertical"`，防止用户横向拉伸破坏页面的栅格布局与容器宽度；在紧凑弹窗或固定卡片中，推荐使用 `resize="none"`。
+- **配置合理的初始高度与极值**：通过 `rows` 或 Tailwind 的 `min-h-*` / `max-h-*` 为文本域设定舒适的初始高度与拉伸上下限，避免拉得过小导致无法阅读或拉得过大超出视口。
+- **字数统计与防遮挡**：当开启 `showCount` 时，组件内部会自动在右下角增加安全内边距（Padding），确保长文本滚动到底部时不会被计数字符遮挡。
+- **明确关联 Label**：使用 `<label htmlFor="...">` 关联文本域 ID，确保辅助技术与屏幕阅读器能够正确朗读字段名称。
+
+## 场景示例
+
+### 受控模式
+
+通过 `value` 与 `onChange` 实现受控管理，方便随时重置或与上层业务状态进行同步：
+
+<ComponentPreview name="textarea-controlled" />
+
+```tsx
+const [value, setValue] = React.useState("")
+
+return (
+  <Textarea
+    value={value}
+    onChange={(e) => setValue(e.target.value)}
+    showCount
+    maxLength={200}
+  />
+)
+```
+
+### 字符计数与最大字数限制
+
+同时开启 `showCount` 与 `maxLength`，右下角将实时呈现当前已输入字符数与最大允许字数：
 
 <ComponentPreview name="textarea-count" />
 
-同时设置 `showCount` 与 `maxLength`，右下角会显示“当前字符数 / 最大字符数”。计数区域会自动预留空间，
-不会覆盖输入内容。
+### 缩放方向控制 (Resize)
 
-### 限制缩放方向
+根据界面布局需求灵活配置缩放策略（固定不可调 vs 仅垂直可调）：
 
 <ComponentPreview name="textarea-resize" />
 
-`resize="none"` 适合尺寸固定的表单；`resize="vertical"` 允许用户增加可视区域，又不会挤压横向布局。
-还可以通过 `min-h-*` 与 `max-h-*` 对最终范围进行约束。
+- `resize="none"`：完全禁止用户手动调整尺寸，保持界面排版高度确定性。
+- `resize="vertical"`：仅允许上下拖拽调整高度，同时建议配合 `min-h-*` 与 `max-h-*` 约束极值范围。
+
+### 状态展示与校验错误
+
+支持标准状态、校验错误状态 (`aria-invalid="true"`)、只读模式 (`readOnly`) 及禁用状态 (`disabled`)：
+
+<ComponentPreview name="textarea-states" />
+
+### 完整反馈提交表单
+
+在真实业务工单与建议反馈流程中，结合必填校验、字数限制、动态错误提示与快捷键提交体验：
+
+<ComponentPreview name="textarea-form" />
+
+## 无障碍与交互 Accessibility
+
+- **ARIA 规范与无障碍属性**：
+  - 原生 `<textarea>` 具备 WAI-ARIA `role="textbox"` 与 `aria-multiline="true"` 语义。
+  - 支持 `aria-invalid="true"`，校验未通过时外层容器自动呈现警示破坏色高亮焦点环。
+  - 字符计数标签自动挂载 `aria-live="polite"`，在屏幕阅读器中温和广播字符变化而不打断用户正常阅读。
+  - 自动通过 `aria-describedby` 将文本域与右下角的计数器及下方辅助说明关联。
+- **键盘导航与操作习惯**：
+  - <kbd>Tab</kbd>：将焦点移入或移出文本域。
+  - <kbd>Enter</kbd>：在光标所在位置插入自然换行符。
+  - <kbd>Ctrl</kbd> + <kbd>Enter</kbd>（Mac 下为 <kbd>Cmd</kbd> + <kbd>Enter</kbd>）：在表单中常用于触发表单快捷提交，无需用户离开键盘点击鼠标。
+- **屏幕阅读器支持**：
+  - 推荐始终使用 `<label htmlFor="textareaId">` 显式关联文本域标题。

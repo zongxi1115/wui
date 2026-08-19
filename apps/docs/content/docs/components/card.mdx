@@ -1,54 +1,188 @@
 ---
 title: 卡片 Card
-description: 将同一主题的内容、状态与操作组织在一个清晰的表面中。
+description: 将同一主题的内容、状态与操作组织在具备清晰视觉层级与微动效的容器表面中。
 component: card
 ---
 
 ## 基础用法
 
+基础卡片组合包含了标题、描述、右上角轻量操作区、核心内容与底部操作栏：
+
 <ComponentPreview name="card-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/card" />
 
+<Steps>
+
+<Step>安装依赖库</Step>
+
+```bash
+pnpm add clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/card.tsx`</Step>
+
 <ComponentSource name="card" title="components/ui/card.tsx" />
 
-## 使用场景
+</Steps>
 
-`Card` 用于组合属于同一对象或任务的信息与操作，例如项目摘要、资源概览和设置入口。卡片应有独立的阅读意义，
-用户单独看到它时也能理解内容主题。如果内容只是页面布局的一部分，优先使用普通容器和分隔线，不要把每个区块都包成卡片。
+## 属性 Props
 
-组件只负责表面、层级和间距，不内置点击行为。整张卡片需要可点击时，应在业务层使用语义正确的链接或按钮，
-并保留清晰的焦点样式；一张卡片中有多个操作时，不要再把整张卡片包成另一个点击区域。
+### Card
 
-## 属性
+卡片外层容器，继承原生 `<div>` 元素的全部 HTML 属性：
 
 <PropsTable
   data={[
     {
+      prop: "variant",
+      type: '"elevated" | "outline"',
+      default: '"elevated"',
+      description: "卡片的表面材质与阴影风格。elevated 带有环境阴影；outline 为纯描边扁平风。",
+    },
+    {
+      prop: "interactive",
+      type: "boolean",
+      default: "false",
+      description: "是否开启交互式悬浮抬升与按下反馈动效（适用于作为整体可点击卡片时）。",
+    },
+    {
       prop: "className",
       type: "string",
-      description: "附加到对应结构节点的样式类。",
+      description: "应用于卡片外层容器的额外 CSS 类名。",
     },
     {
       prop: "children",
       type: "React.ReactNode",
-      description: "卡片结构或各区域的内容。",
+      description: "卡片内部子结构组件集合。",
     },
   ]}
 />
 
-`Card`、`CardHeader`、`CardTitle`、`CardDescription`、`CardAction`、`CardContent` 与 `CardFooter` 均透传对应 `div` 的原生属性。
+### 子结构部件
 
-## 事件
+以下各结构部件均继承原生 `<div>` 元素的全部 HTML 属性：
 
-卡片本身不产生业务事件，原生鼠标、键盘和焦点事件会继续透传。操作应放在 `CardAction` 或 `CardFooter` 内的 Button、
-链接等交互元素上，避免在一张卡片中嵌套相互冲突的点击区域。
+<PropsTable
+  data={[
+    {
+      prop: "CardHeader",
+      type: "React.ComponentProps<'div'>",
+      description: "卡片头部容器，内部采用 Grid 自动对齐标题、描述与 CardAction 操作区。",
+    },
+    {
+      prop: "CardTitle",
+      type: "React.ComponentProps<'div'>",
+      description: "卡片主标题，默认应用 text-balance 与适宜的粗体字号。",
+    },
+    {
+      prop: "CardDescription",
+      type: "React.ComponentProps<'div'>",
+      description: "标题下方的辅助说明文案，预设浅灰文字色与阅读行宽优化。",
+    },
+    {
+      prop: "CardAction",
+      type: "React.ComponentProps<'div'>",
+      description: "位于卡片右上角的紧凑操作区域，适合放置图标按钮或状态徽章。",
+    },
+    {
+      prop: "CardContent",
+      type: "React.ComponentProps<'div'>",
+      description: "卡片的核心内容区域，具备统一的左右内边距排版。",
+    },
+    {
+      prop: "CardMedia",
+      type: "React.ComponentProps<'div'>",
+      description: "贴顶通栏媒体容器，自带顶部圆角裁切，避免破坏卡片圆角样式。",
+    },
+    {
+      prop: "CardFooter",
+      type: "React.ComponentProps<'div'>",
+      description: "卡片底部操作区，默认 Flex 横向对齐，适合放置主要及次要操作按钮。",
+    },
+  ]}
+/>
 
-## 扩展用法
+## 事件 Events
 
-### 紧凑组合
+`Card` 支持原生 `div` 元素的所有鼠标与键盘事件，特别适用于交互式卡片：
+
+<PropsTable
+  data={[
+    {
+      prop: "onClick",
+      type: "(event: React.MouseEvent<HTMLDivElement>) => void",
+      description: "当用户点击整张卡片时触发（需配合 interactive 开启）。",
+    },
+    {
+      prop: "onKeyDown",
+      type: "(event: React.KeyboardEvent<HTMLDivElement>) => void",
+      description: "卡片获得焦点时按下键盘按键触发（如监听 Enter / Space 激活选择）。",
+    },
+    {
+      prop: "onFocus",
+      type: "(event: React.FocusEvent<HTMLDivElement>) => void",
+      description: "卡片通过 Tab 导航获得焦点时触发。",
+    },
+    {
+      prop: "onBlur",
+      type: "(event: React.FocusEvent<HTMLDivElement>) => void",
+      description: "卡片失去焦点时触发。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`Card` 用于聚合属于同一独立对象或任务的信息与操作（如云主机实例、计费方案、文章摘要或团队空间）。
+
+- **独立可理解**：卡片应具备独立的上下文，用户无需结合页面其他孤立区域即可理解卡片所表达的主题。
+- **避免多层卡片嵌套**：切忌在卡片内部再嵌套多层卡片（Anti-pattern: Card in Card），这会造成过多的边框与阴影杂音。内部区域划分应通过微弱背景底色（`bg-muted/50`）、间距或细分隔线解决。
+- **点击区域与内部操作**：
+  - 若整张卡片为一个链接/选择项（如选择套餐），使用 `interactive` 并设置清晰的 `role="radio"` 或 `<a>`。
+  - 若卡片内部有多个不同的独立操作（如“重启”、“查看日志”、“删除”），卡片本身**不应**响应全局点击，操作应明确归集于 `CardAction` 或 `CardFooter` 中。
+
+## 场景示例
+
+### 表面风格 (Variants)
+
+提供 `elevated`（悬浮阴影）与 `outline`（扁平描边）两种风格：
+
+<ComponentPreview name="card-variants" />
+
+- `elevated`：适合页面中的核心实体卡片，利用轻量阴影建立层次。
+- `outline`：适合多列密集仪表盘或列表网格，避免多重阴影视觉疲劳。
+
+### 可交互卡片 (Interactive)
+
+开启 `interactive` 属性后，卡片具备平滑的悬浮抬升、按下微缩与键盘焦点环动效，适合作为多选卡片或导航卡片：
+
+<ComponentPreview name="card-interactive" />
+
+### 顶部媒体通栏 (CardMedia)
+
+`CardMedia` 会自动贴合卡片顶部边缘并进行圆角裁剪，无需在卡片根节点上强制使用 `overflow-hidden`，从而避免截断卡片内弹出的 Tooltip 或 Popover：
+
+<ComponentPreview name="card-media" />
+
+### 紧凑型组合
+
+通过覆盖间距并组合图标、状态标签与按钮，构建精炼的摘要卡片：
 
 <ComponentPreview name="card-composition" />
 
-通过覆盖 `gap`、内边距和边框类，可以让卡片适应不同的信息密度。`CardAction` 适合标题旁的单个轻量操作；
-一组主要和次要操作应放在 `CardFooter` 中，并按从主要到次要的顺序排列。
+### 业务场景：云服务器节点监控卡片
+
+在云控制台或集群面板中，卡片组合了实例规格、CPU/内存实时监控进度条、健康状态指示及运维操作：
+
+<ComponentPreview name="card-business" />
+
+## 无障碍与交互 Accessibility
+
+- **交互卡片语义**：当卡片用作单选卡片时，应添加 `role="radio"` 与 `aria-checked`；当用作跳转卡片时，推荐内部使用 `<a>` 或在根节点配置 `tabIndex={0}` 与 `role="button"`。
+- **键盘支持**：对于设置了 `interactive` 的卡片，用户可通过 <kbd>Tab</kbd> 键获取焦点，高亮焦点轮廓环（Focus Ring），并通过 <kbd>Enter</kbd> 或 <kbd>Space</kbd> 触发激活。
+- **减弱动态效果**：动效规则内置适配 `motion-reduce:transition-none`，当系统开启减弱动态效果时自动禁用位移抬升。

@@ -1,40 +1,269 @@
 ---
 title: 滑动输入 Slider
-description: 粗轨道、小圆点滑块与数值标签组合的可调输入控件。
+description: 允许用户在预定义数值区间内通过拖动滑块或键盘快捷键进行连续或离散调整的交互控件。
 component: slider
 ---
 
 ## 基础用法
 
-<ComponentPreview name="slider-demo" previewClassName="min-h-0 py-12" />
+最常用的单滑块用法。拖动滑块或点击轨道即可快速调整数值：
+
+<ComponentPreview name="slider-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/slider" />
 
+<Steps>
+
+<Step>安装基础依赖</Step>
+
+```bash
+pnpm add radix-ui class-variance-authority clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/slider.tsx`</Step>
+
 <ComponentSource name="slider" title="components/ui/slider.tsx" />
 
-## 使用场景
+</Steps>
 
-`Slider` 用于音量、亮度、缩放和数值范围等连续调整。它适合用户可以在一段范围内快速试出合适值的场景；
-需要输入精确数字时，应同时提供数值输入框或使用 Number Input。
+## 属性 Props
 
-已选区使用主题主色，滑块保持为轨道内的小圆点；键盘聚焦时会为整条轨道增加清晰的焦点轮廓。
+`Slider` 继承 Radix UI `Slider.Root` 的全部属性，支持以下配置：
 
-## 属性
+<PropsTable
+  data={[
+    {
+      prop: "value",
+      type: "number[]",
+      description: "受控模式下的数值数组。传入单个元素如 [50] 表示单滑块，传入两个元素如 [20, 80] 表示双滑块范围选择。",
+    },
+    {
+      prop: "defaultValue",
+      type: "number[]",
+      default: "[50]",
+      description: "非受控模式下的初始数值数组。",
+    },
+    {
+      prop: "onValueChange",
+      type: "(value: number[]) => void",
+      description: "拖动或调整数值过程中连续触发的回调函数，适合实时驱动界面渲染。",
+    },
+    {
+      prop: "onValueCommit",
+      type: "(value: number[]) => void",
+      description: "用户松开鼠标、触控结束或完成键盘按键后触发的回调，适合提交持久化数据或调用远程 API。",
+    },
+    {
+      prop: "min",
+      type: "number",
+      default: "0",
+      description: "允许选取的最小值。",
+    },
+    {
+      prop: "max",
+      type: "number",
+      default: "100",
+      description: "允许选取的最大值。",
+    },
+    {
+      prop: "step",
+      type: "number",
+      default: "1",
+      description: "滑块每次移动的最小步长步进值。",
+    },
+    {
+      prop: "minStepsBetweenThumbs",
+      type: "number",
+      default: "0",
+      description: "在多滑块模式下，滑块之间必须保留的最小步数距离。",
+    },
+    {
+      prop: "orientation",
+      type: '"horizontal" | "vertical"',
+      default: '"horizontal"',
+      description: "滑块轨道的排版方向。",
+    },
+    {
+      prop: "variant",
+      type: '"default" | "expand"',
+      default: '"default"',
+      description: "轨道的交互动画变体。\"expand\" 会在悬停或聚焦时平滑加粗轨道高度。",
+    },
+    {
+      prop: "showValue",
+      type: '"hover" | "always" | "never"',
+      default: '"hover"',
+      description: "滑块上方数值气泡提示的展示时机。",
+    },
+    {
+      prop: "formatValue",
+      type: "(value: number) => React.ReactNode",
+      default: "(value) => value",
+      description: "格式化数值气泡内容的函数，常用于添加百分号、货币符号或温度单位。",
+    },
+    {
+      prop: "marks",
+      type: "number[]",
+      default: "[]",
+      description: "在轨道上渲染离散刻度圆点的数值数组。",
+    },
+    {
+      prop: "disabled",
+      type: "boolean",
+      default: "false",
+      description: "是否禁用滑块交互。",
+    },
+    {
+      prop: "inverted",
+      type: "boolean",
+      default: "false",
+      description: "是否反转轨道的起始与结束方向。",
+    },
+    {
+      prop: "name",
+      type: "string",
+      description: "原生表单提交时该滑块对应的字段名称。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于滑块根容器的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-<PropsTable name="slider" />
+## 事件 Events
 
-## 事件
+<PropsTable
+  data={[
+    {
+      prop: "onValueChange",
+      type: "(value: number[]) => void",
+      description: "拖拽滑块或按下方向键时高频连续触发，返回最新的数值数组。",
+    },
+    {
+      prop: "onValueCommit",
+      type: "(value: number[]) => void",
+      description: "用户释放指针拖拽或停止键盘操作时触发，适合防抖保存或发起网络请求。",
+    },
+    {
+      prop: "onFocus",
+      type: "(event: React.FocusEvent<HTMLSpanElement>) => void",
+      description: "滑块抓手获得键盘焦点时触发。",
+    },
+    {
+      prop: "onBlur",
+      type: "(event: React.FocusEvent<HTMLSpanElement>) => void",
+      description: "滑块抓手失去焦点时触发。",
+    },
+    {
+      prop: "onKeyDown",
+      type: "(event: React.KeyboardEvent<HTMLSpanElement>) => void",
+      description: "在滑块聚焦状态下按下键盘按键时触发。",
+    },
+  ]}
+/>
 
-`onValueChange(values)` 会在拖动或键盘调整期间连续触发，适合实时更新预览；需要只在操作完成后提交时使用
-`onValueCommit(values)`。组件支持受控和非受控用法，范围模式下回调始终返回数值数组。
+## 使用场景与设计规范
 
-## 扩展用法
+`Slider` 适用于用户需要在一段连续或离散的数值区间内进行**快速试探与相对调整**的场景（例如调节音频音量、画布缩放比例、屏幕亮度、筛选价格预算等）。
 
-使用 `showValue="hover | always | never"` 控制浮动标签，通过 `formatValue` 添加百分号、单位或自定义内容。
-通过 `marks` 传入刻度值数组；传入两个值即可得到范围选择器。方向键会按 `step` 调整数值，Home 和 End 可快速移动到范围边界。
+### 数值录入控件选型对比
 
-### 交互状态与范围
+| 控件类型 | 核心优势 | 精度要求 | 典型适用场景 |
+| :--- | :--- | :--- | :--- |
+| **Slider** | 视觉化直观、拖拽调整手感流畅、即时试探 | 中 ~ 低精度（支持模糊调整） | 音量、亮度、透明度、价格区间筛选 |
+| **NumberInput** | 精准数字键盘录入、微调步进按钮 | 高精度（要求绝对准确） | 商品订购数量、转账金额、库存盘点 |
+| **Slider + Input 联动** | 兼顾大范围快速滑动与微观精确数值输入 | 全精度适配 | 图像编辑（模糊半径/饱和度）、专业参数调谐 |
+
+### 设计最佳实践
+
+- **即时响应视觉变化**：使用 `onValueChange` 即时更新关联的 UI 效果（如预览框圆角、音量图标状态）；但涉及远端接口保存时，应使用 `onValueCommit` 避免发起海量高频请求。
+- **提供明确的极值与当前值**：确保用户了解滑块的取值边界（如最小值与最大值）；结合 `showValue` 或在外部放置数值标签，保证数值透明可读。
+- **步长 (Step) 设置合理性**：根据业务精度设置 `step`。如果是大额价格区间可设为 `10` 或 `50`；如果是缩放系数可设为 `0.1` 或 `0.01`。
+- **无障碍文案命名**：为滑块 thumb 提供明确的 `aria-label`（如 `aria-label="音量调节"`），让屏幕阅读器准确获知该控件的具体用途。
+
+## 场景示例
+
+### 受控模式与快捷预设
+
+使用 `value` 和 `onValueChange` 实现受控管理，并提供一键设置常用预设档位（25%, 50%, 75%, 100%）：
+
+<ComponentPreview name="slider-controlled" />
+
+```tsx
+const [value, setValue] = React.useState([50])
+
+return (
+  <Slider
+    value={value}
+    onValueChange={setValue}
+    min={0}
+    max={100}
+    step={1}
+  />
+)
+```
+
+### 双端范围选择 (Range)
+
+向 `value` 或 `defaultValue` 传入两个数值即可启用双滑块区间选择，常用于电商商品价格、房源面积或时间区间的过滤筛选：
+
+<ComponentPreview name="slider-range" />
+
+### 步长与离散刻度标记 (Marks)
+
+通过 `marks` 属性在轨道上标注关键档位刻度，配合 `step` 实现非均匀或分段式的阶梯调整（如存储容量）：
+
+<ComponentPreview name="slider-step-marks" />
+
+### 浮动数值标签 (Tooltip)
+
+通过 `showValue` 属性可自由配置气泡标签的出现时机，并通过 `formatValue` 自定义显示的单位格式：
+
+<ComponentPreview name="slider-tooltip" />
+
+- `showValue="always"`：始终固定展示数值气泡。
+- `showValue="hover"`：仅在鼠标悬停或键盘聚焦在滑块抓手上时浮现。
+- `showValue="never"`：隐藏气泡，通常在外部已有独立数值展示区域时使用。
+
+### 与数字输入框联动
+
+在专业设计器或参数调试面板中，将 Slider 与 `Input` 深度联动，既支持拖拽预览，又支持键盘精确输入：
+
+<ComponentPreview name="slider-with-input" />
+
+### 悬停展开变体 (Expand Variant)
+
+设置 `variant="expand"` 时，轨道在默认状态下保持极细线条，当鼠标悬停或获得焦点时平滑展开变粗：
 
 <ComponentPreview name="slider-expand" />
 
-悬停或拖动滑块时显示当前值；禁用状态降低整体对比度。传入两个值即可选择一个连续范围。
+### 禁用状态
+
+设置 `disabled` 属性后，滑块轨道与抓手将降低透明度并拦截一切指针与键盘交互：
+
+<ComponentPreview name="slider-disabled" />
+
+## 无障碍与交互 Accessibility
+
+- **ARIA 标准角色与属性**：
+  - 滑块抓手自动挂载 `role="slider"`。
+  - 自动同步 `aria-valuemin`、`aria-valuemax` 与当前 `aria-valuenow`。
+  - 范围滑块在包含两个抓手时，两个抓手均具有合规的 ARIA 属性，独立朗读各自数值。
+- **键盘导航支持**：
+  - <kbd>Tab</kbd>：聚焦到滑块抓手上。
+  - 方向键 <kbd>→</kbd> / <kbd>↑</kbd>：按 `step` 步长递增数值。
+  - 方向键 <kbd>←</kbd> / <kbd>↓</kbd>：按 `step` 步长递减数值。
+  - <kbd>PageUp</kbd>：以大步长（通常为 10% 区间）递增数值。
+  - <kbd>PageDown</kbd>：以大步长递减数值。
+  - <kbd>Home</kbd>：直接跳至最小值 `min`。
+  - <kbd>End</kbd>：直接跳至最大值 `max`。
+- **触控与移动端优化**：
+  - 轨道与抓手自动应用 `touch-action: none`，确保在移动设备上拖动滑块时不会与页面的垂直滚动产生冲突。
+- **减弱动态效果适配**：
+  - 浮动标签的过渡与轨道缩放动效会自动遵循 `prefers-reduced-motion` 设置，关闭不必要的过渡动画。

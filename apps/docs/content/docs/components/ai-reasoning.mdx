@@ -1,58 +1,174 @@
 ---
 title: AI 推理过程 AI Reasoning
-description: 用可折叠的思考链展示模型推理摘要与执行进度。
+description: 用结构化的折叠步骤与连线展示大语言模型或智能体（Agent）的思考过程、决策链路与执行进度。
 component: ai-reasoning
 ---
 
 ## 基础用法
 
+包含用时统计、自动展开/收起以及多阶段思考步骤的基础推理容器：
+
 <ComponentPreview name="ai-reasoning-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/ai-reasoning" />
 
+<Steps>
+
+<Step>安装基础依赖与动效库</Step>
+
+```bash
+pnpm add radix-ui motion class-variance-authority lucide-react clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/ai-reasoning.tsx`</Step>
+
 <ComponentSource name="ai-reasoning" title="components/ui/ai-reasoning.tsx" />
 
-## 使用场景
+</Steps>
 
-`AiReasoning` 用于把模型明确返回、且允许展示的过程摘要组织成连续步骤。`AiReasoningContent` 接受任意 React 元素；
-推荐使用 `AiReasoningStep` 表示搜索、读取、分析或整理动作，并用连接线表达先后顺序。步骤可以放链接、代码、结果摘要或其他组合组件；
-`icon` 区分动作类型，`meta` 补充结果数、文件数等简短信息。
+## 属性 Props
 
-组件在 `isStreaming` 期间自动展开，完成后自动收起。每个新加入的 `AiReasoningStep` 只执行一次短距离位移、轻微模糊和淡入；
-展开与收起不会缩放正文，用户开启“减少动态效果”后会直接显示最终状态。
+### AiReasoning (根折叠容器)
 
-不要用它暴露系统提示词、隐藏思维链、密钥、内部策略或模型未明确返回的推理内容。面向用户时优先展示简洁的过程摘要，
-例如“正在搜索”“正在读取文件”“正在形成方案”，并在输出前过滤不应展示的内部内容。
+底层基于 Radix Collapsible 封装，并结合流式生命周期自动控制折叠状态：
 
-## 属性
-
-<PropsTable name="ai-reasoning" />
-
-## 事件
-
-组件透传 Radix Collapsible 的 `open` 和 `onOpenChange`。非受控模式下，`isStreaming` 变为 `true` 时自动展开，
-从 `true` 变为 `false` 时自动收起；受控模式由调用方决定展开策略。内容区域在流式阶段使用 `aria-live` 和 `aria-busy` 通知辅助技术。
-
-## 扩展用法
-
-### 综合示例
-
-下面的示例使用受控展开状态，依次追加带入场动画的思考步骤，并在步骤内容中组合 `Badge`、代码、文件结果和 `AiTool`。
-过程结束后，再交给 `AiStream` 输出最终回答。
-
-<ComponentPreview
-  name="ai-reasoning-advanced"
-  previewClassName="min-h-0 p-6 sm:p-8"
+<PropsTable
+  data={[
+    {
+      prop: "isStreaming",
+      type: "boolean",
+      default: "false",
+      description: "思考过程是否仍在持续生成。非受控模式下，进入流式时自动展开，流式结束时自动收起。",
+    },
+    {
+      prop: "duration",
+      type: "number",
+      description: "思考耗费的总时间（秒），将格式化显示在默认触发器文案中（如「思考了 3.2 秒」）。",
+    },
+    {
+      prop: "open",
+      type: "boolean",
+      description: "受控模式下的展开状态。",
+    },
+    {
+      prop: "defaultOpen",
+      type: "boolean",
+      default: "false",
+      description: "非受控模式下的初始展开状态。",
+    },
+    {
+      prop: "onOpenChange",
+      type: "(open: boolean) => void",
+      description: "折叠或展开状态发生改变时的回调函数。",
+    },
+  ]}
 />
 
-### 接入流式进度
+### AiReasoningTrigger (折叠触发器)
 
-将模型或业务层返回的可展示步骤依次追加为 `AiReasoningStep`。当前步骤使用 `active`，已完成步骤使用 `complete`，
-尚未开始的步骤使用 `pending`。可以通过 `getLabel` 自定义“正在处理”和完成用时等文案。
+<PropsTable
+  data={[
+    {
+      prop: "getLabel",
+      type: "(isStreaming: boolean, duration?: number) => React.ReactNode",
+      description: "自定义触发器的文本摘要生成函数，接收当前流式状态与耗时参数。",
+    },
+    {
+      prop: "children",
+      type: "React.ReactNode",
+      description: "完全自定义触发按钮内容。默认自动在「正在思考…」与「思考了 X 秒」间切换。",
+    },
+  ]}
+/>
 
-文本级的累计流式输出与 Delta 分段淡入属于 [`AiStream`](/docs/components/ai-stream) 的能力，不由推理过程组件重复封装。
+### AiReasoningStep (单项思考步骤)
 
-### 与工具状态配合
+用于在思考链路中渲染带有时间连线的独立步骤：
 
-思考链适合展示简洁的过程摘要；需要展开输入、输出、代码或错误详情时，应交给 [`AiTool`](/docs/components/ai-tool)。
-不要在步骤中直接暴露隐藏思维链、系统提示词或内部策略。
+<PropsTable
+  data={[
+    {
+      prop: "status",
+      type: '"pending" | "active" | "complete"',
+      default: '"pending"',
+      description: "步骤当前状态。`active` 会展示旋转加载器，`complete` 展示绿色勾选，`pending` 为半透明圆点。",
+    },
+    {
+      prop: "label",
+      type: "React.ReactNode",
+      description: "步骤的核心标题文本。",
+    },
+    {
+      prop: "description",
+      type: "React.ReactNode",
+      description: "步骤的辅助详情或中间结论说明。",
+    },
+    {
+      prop: "meta",
+      type: "React.ReactNode",
+      description: "右对齐的元信息（如耗时 `120ms` 或文件数 `3 files`）。",
+    },
+    {
+      prop: "icon",
+      type: "React.ReactNode",
+      description: "覆盖默认状态图标的自定义专属动作图标。",
+    },
+  ]}
+/>
+
+## 事件 Events
+
+<PropsTable
+  data={[
+    {
+      prop: "onOpenChange",
+      type: "(open: boolean) => void",
+      description: "用户点击触发器展开或收起思考链详情时触发。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`AiReasoning` 适用于 OpenAI o1/o3、DeepSeek R1 等具备原生思考链（CoT）能力的大模型，或多智能体协作推演场景：
+
+- **何时使用**：
+  - 展示深度推理模型的思考过程摘要；
+  - 呈现 Agent 多阶段任务规划与推演步骤（规划 -> 检索 -> 代码验证 -> 总结）；
+  - 让用户直观理解模型得出复杂结论背后的依据与逻辑。
+- **何时不应使用**：
+  - 不要用于直接暴露包含系统 Prompt 密钥、敏感内部策略或内部私有数据的原始日志；
+  - 简单的单步回答无需额外增加思考折叠框。
+- **设计最佳实践**：
+  - **默认智能折叠**：思考生成中保持展开，生成完毕后自动折叠，避免冗长的推演文字占据过大垂直屏宽；
+  - **步骤连线与状态明确**：利用步骤间的竖直连线表达先后时序，未执行步骤淡化，当前步骤高亮旋转；
+  - **精简易读**：对推理内容进行关键步骤提炼，配合 `meta` 标注耗时，避免大段无结构纯文本倾泻。
+
+## 场景示例
+
+### 综合步骤与工具调用组合
+
+在思考步骤内嵌入 Badge 状态、代码片段与下游工具调用：
+
+<ComponentPreview name="ai-reasoning-advanced" />
+
+### 实时流式推进演练
+
+模拟多阶段智能体在进行复杂系统设计时的思考推演与状态实时流转：
+
+<ComponentPreview name="ai-reasoning-interactive" />
+
+## 无障碍与交互 Accessibility
+
+- **折叠控件标准 (Radix Collapsible)**：
+  - 触发器自带 `aria-expanded` 与 `aria-controls` 属性，屏幕阅读器可清晰感知内容展开状态；
+  - 箭头图标根据展开状态平滑旋转 180 度。
+- **键盘导航支持**：
+  - <kbd>Tab</kbd>：聚焦至推理触发器按钮，展示高对比度聚焦环；
+  - <kbd>Space</kbd> / <kbd>Enter</kbd>：快速切换思考链面板的展开与折叠。
+- **动效降级**：
+  - 步骤进场淡入与折叠展开高度过渡均适配 `prefers-reduced-motion`，开启后直接无动效瞬时呈现。

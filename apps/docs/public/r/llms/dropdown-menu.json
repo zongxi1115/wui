@@ -2,7 +2,7 @@
   "name": "dropdown-menu",
   "type": "registry:ui",
   "title": "下拉菜单 Dropdown Menu",
-  "description": "通过按钮展开一组操作，支持分组、状态项和多级菜单。",
+  "description": "基于按钮或图标触发的操作浮层，支持分组标题、多选开关、单选组、快捷键提示及多级嵌套子菜单。",
   "categories": [
     "navigation"
   ],
@@ -42,11 +42,19 @@
   "examples": [
     {
       "name": "dropdown-menu-demo",
-      "title": "基础用法"
+      "title": "操作菜单与快捷键提示"
     },
     {
       "name": "dropdown-menu-advanced",
-      "title": "状态项与子菜单"
+      "title": "状态项与单选设置"
+    },
+    {
+      "name": "dropdown-menu-user",
+      "title": "用户资料与团队切换面板"
+    },
+    {
+      "name": "dropdown-menu-nested",
+      "title": "多级嵌套子菜单"
     }
   ],
   "files": [

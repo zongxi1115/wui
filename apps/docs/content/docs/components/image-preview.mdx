@@ -1,41 +1,171 @@
 ---
 title: 图片预览 Image Preview
-description: 点击缩略图进入沉浸式大图预览，并提供缩放、旋转与下载操作。
+description: 点击缩略图进入沉浸式大图灯箱预览，支持平滑缩放、旋转、拖拽平移与原图下载。
 component: image-preview
 ---
 
 ## 基础用法
 
+点击图片缩略图展开全屏灯箱，支持通过顶部工具栏缩放、旋转或快捷键控制：
+
 <ComponentPreview name="image-preview-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/image-preview" />
 
+<Steps>
+
+<Step>安装 Radix 原语与动效库依赖</Step>
+
+```bash
+pnpm add radix-ui motion lucide-react clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/image-preview.tsx`</Step>
+
 <ComponentSource name="image-preview" title="components/ui/image-preview.tsx" />
 
-## 使用场景
+</Steps>
 
-`ImagePreview` 用于在不离开当前页面的情况下查看图片细节。缩略图是可聚焦的触发器，全屏预览通过 Dialog 管理焦点、
-Escape 关闭和标题。它适合相册、附件、设计稿和商品图；需要编辑、裁剪或批注时，应使用专门的图片编辑器。
+## 属性 Props
 
-## 属性
+`ImagePreview` 支持以下配置属性，并继承原生 `<button>` 触发器属性：
 
-<PropsTable name="image-preview" />
+<PropsTable
+  data={[
+    {
+      prop: "src",
+      type: "string",
+      required: true,
+      description: "缩略图与默认预览大图的图片地址 URL。",
+    },
+    {
+      prop: "alt",
+      type: "string",
+      required: true,
+      description: "图片的无障碍替代描述文本（必填）。",
+    },
+    {
+      prop: "previewSrc",
+      type: "string",
+      description: "可选的独立高分辨率原图地址。指定后预览弹窗中将加载该高清图，以节省初始缩略图带宽。",
+    },
+    {
+      prop: "caption",
+      type: "React.ReactNode",
+      description: "大图预览底部展示的图片标题、拍摄参数或版权说明文案。",
+    },
+    {
+      prop: "open",
+      type: "boolean",
+      description: "受控模式下大图预览弹窗的打开状态。",
+    },
+    {
+      prop: "defaultOpen",
+      type: "boolean",
+      default: "false",
+      description: "非受控模式下大图预览弹窗的初始打开状态。",
+    },
+    {
+      prop: "onOpenChange",
+      type: "(open: boolean) => void",
+      description: "预览弹窗打开或关闭时的状态变更回调函数。",
+    },
+    {
+      prop: "minZoom",
+      type: "number",
+      default: "0.5",
+      description: "允许缩小的最小缩放比例限制。",
+    },
+    {
+      prop: "maxZoom",
+      type: "number",
+      default: "3",
+      description: "允许放大的最大缩放比例限制。",
+    },
+    {
+      prop: "zoomStep",
+      type: "number",
+      default: "0.25",
+      description: "每次点击放大/缩小按钮或触发快捷键时的步进比例增量。",
+    },
+    {
+      prop: "showToolbar",
+      type: "boolean",
+      default: "true",
+      description: "是否显示顶部浮动变换工具栏（包含缩放、旋转、重置与下载按钮）。",
+    },
+    {
+      prop: "downloadName",
+      type: "string",
+      description: "下载保存时的默认文件名。传入此项时工具栏将自动出现下载按钮；若省略则隐藏下载按钮。",
+    },
+    {
+      prop: "thumbnailClassName",
+      type: "string",
+      description: "应用于未展开时外层缩略图 <img> 元素的额外 CSS 类名。",
+    },
+    {
+      prop: "previewClassName",
+      type: "string",
+      description: "应用于灯箱内部大图 <img> 元素的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-`previewSrc` 可以提供单独的高清图片地址，未指定时沿用 `src`。通过 `minZoom`、`maxZoom` 和 `zoomStep` 调整缩放行为；
-通过 `thumbnailClassName` 和 `previewClassName` 分别控制缩略图和大图样式。
+## 事件 Events
 
-## 事件
+<PropsTable
+  data={[
+    {
+      prop: "onOpenChange",
+      type: "(open: boolean) => void",
+      description: "灯箱打开或关闭时触发，返回最新的布尔值状态。",
+    },
+    {
+      prop: "onKeyDown",
+      type: "(event: React.KeyboardEvent) => void",
+      description: "灯箱内部按键事件。支持使用 +/= 放大、- 缩小、0 重置图片变换，或使用 Esc 关闭灯箱。",
+    },
+    {
+      prop: "onClick",
+      type: "(event: React.MouseEvent<HTMLButtonElement>) => void",
+      description: "点击缩略图触发器时的原生事件回调。",
+    },
+  ]}
+/>
 
-- `onOpenChange(open)`：预览打开或关闭时触发，支持受控和非受控状态。
-- 缩放按钮也支持 `+`、`-` 快捷键，按 `0` 重置缩放和旋转。
-- Escape、背景点击和焦点管理会关闭或约束预览；放大后可以拖动图片查看边缘细节。
-- 其余按钮属性会透传给缩略图触发器。
+## 使用场景与设计规范
 
-## 扩展用法
+`ImagePreview` 专为**电商详情、作品集画廊、附件凭证与设计稿核对**设计：
 
-### 简洁预览
+- **分级加载优化带宽**：对于动辄数兆的高清原图，缩略图使用小图 `src`，灯箱大图传入 `previewSrc`，实现首屏飞速加载与灯箱高清呈现的双赢。
+- **拖拽平移视口边界约束**：当图片放大超过屏幕视口范围时，自动激活鼠标抓手拖拽（Drag to pan）模式，并内置弹性边界吸附，防止图片被拖出屏幕视野之外。
+- **极简 vs 全功能**：如果不希望用户旋转或下载图片，设置 `showToolbar={false}` 即可获得类似 Medium 或 iOS 相册的极简沉浸式阅读预览体验。
+
+## 场景示例
+
+### 画廊网格与高分辨率原图下载
+
+在摄影作品集或商品图列表中展示多张卡片，每张图片均支持单独的说明文字与原图下载：
+
+<ComponentPreview name="image-preview-gallery" />
+
+### 极简纯净模式 (隐藏工具栏)
+
+对于设计稿或文章插图，隐藏顶部工具栏，仅保留点击打开大图与点击背景/按 Esc 关闭的能力：
 
 <ComponentPreview name="image-preview-minimal" />
 
-设置 `showToolbar={false}` 可以隐藏变换操作，仅保留查看和关闭能力。传入 `downloadName` 时才会显示下载按钮；
-如果产品不允许保存图片，不要传入该属性，以免暴露一个无法完成的操作。
+## 无障碍与交互 Accessibility
+
+- **Radix Dialog 焦点管理**：打开灯箱时焦点自动锁定在弹窗内，关闭后焦点平滑恢复至触发缩略图，防止键盘焦点丢失。
+- **快捷键导航**：
+  - <kbd>+</kbd> / <kbd>=</kbd>：放大图片比例。
+  - <kbd>-</kbd>：缩小图片比例。
+  - <kbd>0</kbd>：重置为原始 1:1 比例与 0 度旋转。
+  - <kbd>Esc</kbd>：立即退出预览。
+- **屏幕阅读器**：内置 `DialogPrimitive.Title`（带 `sr-only` 隐藏但读屏可达）自动播报图片 `alt` 描述信息。

@@ -1,43 +1,213 @@
 ---
 title: 面包屑 Breadcrumb
-description: 显示当前页面在信息层级中的位置，并提供返回上级页面的入口。
+description: 显示当前页面在应用信息架构中的层级路径，帮助用户快速感知位置并返回上层页面。
 component: breadcrumb
 ---
 
 ## 基础用法
 
+最简单的面包屑导航。使用 `BreadcrumbList`、`BreadcrumbItem`、`BreadcrumbLink`、`BreadcrumbSeparator` 与 `BreadcrumbPage` 组合层级：
+
 <ComponentPreview name="breadcrumb-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/breadcrumb" />
 
+<Steps>
+
+<Step>安装基础依赖与图标库</Step>
+
+```bash
+pnpm add radix-ui lucide-react clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/breadcrumb.tsx`</Step>
+
 <ComponentSource name="breadcrumb" title="components/ui/breadcrumb.tsx" />
 
-## 使用场景
+</Steps>
 
-`Breadcrumb` 适合页面层级较深、用户需要快速返回上级时使用。当前页面使用 `BreadcrumbPage`，前面的层级使用真实链接；不要用面包屑替代应用的主导航。
+## 属性 Props
 
-## 属性
+### Breadcrumb (根组件)
 
-所有子组件都会透传对应原生元素的属性。`BreadcrumbLink` 额外提供 `asChild`，可与 Next.js `Link` 或其他路由链接组合。
+继承原生 `<nav>` 元素的全部 HTML 属性：
 
-<PropsTable name="breadcrumb" />
+<PropsTable
+  data={[
+    {
+      prop: "aria-label",
+      type: "string",
+      default: '"面包屑导航"',
+      description: "用于屏幕阅读器识别导航地标的可访问名称。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于外层 nav 元素的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-## 扩展用法
+### BreadcrumbLink
 
-### 折叠路径与自定义分隔符
+继承原生 `<a>` 元素的全部 HTML 属性：
 
-路径过长时可用 `BreadcrumbEllipsis` 折叠中间层级，并向 `BreadcrumbSeparator` 传入自定义图标。
+<PropsTable
+  data={[
+    {
+      prop: "href",
+      type: "string",
+      description: "目标跳转链接地址。",
+    },
+    {
+      prop: "asChild",
+      type: "boolean",
+      default: "false",
+      description: "启用后将样式与属性合并到唯一的子元素（如 Next.js `<Link>`）。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于链接元素的额外 CSS 类名。",
+    },
+  ]}
+/>
+
+### BreadcrumbPage
+
+当前所在页面的文本容器，自动附带 `aria-current="page"` 语义：
+
+<PropsTable
+  data={[
+    {
+      prop: "children",
+      type: "React.ReactNode",
+      description: "当前页面的标题或内容展示。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于当前页标签的额外 CSS 类名。",
+    },
+  ]}
+/>
+
+### BreadcrumbSeparator
+
+用于相邻面包屑项目之间的装饰性分隔符：
+
+<PropsTable
+  data={[
+    {
+      prop: "children",
+      type: "React.ReactNode",
+      default: "<ChevronRightIcon />",
+      description: "自定义分隔符图标或字符。若不传则默认使用右箭头图标。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于分隔符 `<li>` 元素的额外 CSS 类名。",
+    },
+  ]}
+/>
+
+### BreadcrumbEllipsis
+
+用于表示中间长路径被折叠的省略号占位符：
+
+<PropsTable
+  data={[
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于省略号图标容器的额外 CSS 类名。",
+    },
+  ]}
+/>
+
+## 事件 Events
+
+面包屑各子元素均继承原生 HTML 事件：
+
+<PropsTable
+  data={[
+    {
+      prop: "onClick",
+      type: "(event: React.MouseEvent<HTMLAnchorElement>) => void",
+      description: "用户点击可跳转链接项时触发，可用于 SPA 客户端路由拦截或埋点追踪。",
+    },
+    {
+      prop: "onFocus",
+      type: "(event: React.FocusEvent<HTMLAnchorElement>) => void",
+      description: "链接项通过键盘 Tab 或鼠标聚焦时触发。",
+    },
+    {
+      prop: "onKeyDown",
+      type: "(event: React.KeyboardEvent<HTMLAnchorElement>) => void",
+      description: "在链接项聚焦状态下按下按键时触发。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`Breadcrumb` 用于表达有层级关系的纵深路径结构（例如：首页 > 控制台 > 集群管理 > 节点详情）：
+
+- **辅助导航而非主导航**：面包屑旨在辅助用户了解“我在哪里”以及“如何返回上级”，不能代替顶部 Navbar 或左侧 Sidebar 等核心主导航系统。
+- **当前页不可点击**：末尾的当前页面项必须使用 `BreadcrumbPage`（纯文本容器并内置 `aria-current="page"`），不应赋予链接跳转属性，避免无意义的页面重载。
+- **层级过深时合理折叠**：当路径层级超过 4~5 层或在移动端等小屏幕上时，应使用 `BreadcrumbEllipsis` 折叠中间层级，或配合 `DropdownMenu` 提供便捷跳转。
+- **路径命名与页面标题一致**：面包屑中的每一级文案应与对应目标页面的实际主标题保持一致，降低用户的认知负荷。
+
+## 场景示例
+
+### 搭配图标指示
+
+在面包屑各级节点前加入上下文图标（如首页图标、文件夹图标、配置图标），提高视觉识别效率：
+
+<ComponentPreview name="breadcrumb-with-icons" />
+
+### 自定义分隔符
+
+支持通过在 `<BreadcrumbSeparator>` 内部传入自定义图标（如斜杠 `<SlashIcon>`、推进箭头 `<ArrowRightIcon>`）或文本字符（如 `•`）：
+
+<ComponentPreview name="breadcrumb-custom-separator" />
+
+### 折叠长路径与下拉菜单
+
+对于深层级文件目录或多层资源拓扑，将省略号与 `DropdownMenu` 结合，既节省屏幕横向宽度，又保留快速跨级导航的能力：
+
+<ComponentPreview name="breadcrumb-dropdown" />
+
+### 简单折叠占位
+
+使用 `BreadcrumbEllipsis` 纯展示性折叠路径：
 
 <ComponentPreview name="breadcrumb-collapsed" />
 
-### 与路由链接组合
+### 与框架路由组合 (Next.js Link)
 
-启用 `asChild` 后，组件不会额外生成 `<a>`，而是把样式和可访问属性合并到路由链接：
+启用 `asChild` 属性，组件会自动将类名与可访问属性合并至第三方路由链接上，避免生成无效嵌套标签：
 
 ```tsx
-<BreadcrumbLink asChild>
-  <Link href="/projects">项目</Link>
-</BreadcrumbLink>
+import Link from "next/link"
+import { BreadcrumbItem, BreadcrumbLink } from "@/registry/ui/breadcrumb"
+
+<BreadcrumbItem>
+  <BreadcrumbLink asChild>
+    <Link href="/dashboard/projects">项目列表</Link>
+  </BreadcrumbLink>
+</BreadcrumbItem>
 ```
 
-每个分隔符都属于装饰内容，不会被读屏软件重复朗读；当前页面会自动带有 `aria-current="page"`。
+## 无障碍与交互 Accessibility
+
+- **语义地标 Landmark**：根组件自动渲染为 `<nav aria-label="面包屑导航">`，屏幕阅读器用户可通过快捷键直接跳转至该导航地标。
+- **列表结构语义**：内部采用 `<ol>` 与 `<li>` 的有序列表结构，精确传达出页面从上至下的父子层级顺序。
+- **当前页语义标注**：`BreadcrumbPage` 自动携带 `aria-current="page"` 属性，盲文与语音读屏器会自动播报“当前页面”。
+- **装饰元素隔离**：`BreadcrumbSeparator` 与 `BreadcrumbEllipsis` 均内置 `aria-hidden="true"` 和 `role="presentation"`，避免被辅助技术重复或误读。
+- **键盘焦点轮廓**：`BreadcrumbLink` 具备高对比度的 Focus Ring 焦点态轮廓，支持通过 <kbd>Tab</kbd> 键快速顺序遍历所有有效链接。

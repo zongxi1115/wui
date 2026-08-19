@@ -1,0 +1,56 @@
+{
+  "name": "confetti",
+  "type": "registry:ui",
+  "title": "庆祝纸屑 Confetti",
+  "description": "用于在用户完成关键目标、解锁成就或支付成功时触发轻量高性能的 Canvas 粒子庆祝特效。",
+  "categories": [
+    "fancy"
+  ],
+  "import": "import { Confetti, fireConfetti } from \"@/components/ui/confetti\"",
+  "exports": [
+    "Confetti",
+    "fireConfetti"
+  ],
+  "typeExports": [
+    "ConfettiOptions",
+    "ConfettiProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/confetti",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/confetti.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "options",
+      "type": "ConfettiOptions",
+      "required": false,
+      "control": "text",
+      "description": "手动触发纸屑粒子选项。"
+    },
+    {
+      "name": "fireOnMount",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "是否在组件挂载时立即触发一次。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "confetti-demo",
+      "title": "基础示例 · Basic example"
+    }
+  ],
+  "files": [
+    "registry/ui/confetti.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/confetti",
+  "sourceUrl": "https://ui.wzx.wang/r/confetti.json"
+}

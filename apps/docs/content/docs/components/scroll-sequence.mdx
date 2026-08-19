@@ -1,37 +1,112 @@
 ---
-title: 滚动分步 Scroll Sequence
-description: 固定区块并用滚动进度逐步切换内部内容。
+title: 滚动叙事序列 Scroll Sequence
+description: 将吸顶视口与滚动进度深度绑定，随着用户向下滚动在原地依次平滑切换阶段步骤或故事画面的组件。
 component: scroll-sequence
 ---
 
 ## 基础用法
 
+向下滚动，吸顶视口中的工作流步骤（连接仓库、编译校验、全网部署）依次在原地无缝过渡：
+
 <ComponentPreview name="scroll-sequence-demo" />
 
-<DependencyBadges packages={["motion"]} />
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/scroll-sequence" />
 
-<ComponentSource
-  name="scroll-sequence"
-  title="components/ui/scroll-sequence.tsx"
+<Steps>
+
+<Step>安装基础依赖与动效库</Step>
+
+```bash
+pnpm add motion lucide-react class-variance-authority clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/scroll-sequence.tsx`</Step>
+
+<ComponentSource name="scroll-sequence" title="components/ui/scroll-sequence.tsx" />
+
+</Steps>
+
+## 属性 Props
+
+<PropsTable
+  data={[
+    {
+      prop: "children",
+      type: "React.ReactNode",
+      description: "包含的多个分段步骤子节点，随滚动进度逐一激活切换渲染。",
+    },
+    {
+      prop: "stepLength",
+      type: "number",
+      default: "0.65",
+      description: "每个步骤切换所消耗的滚动距离（以当前视口高度为单位，如 0.65 代表 0.65 个视口高度）。",
+    },
+    {
+      prop: "container",
+      type: "React.RefObject<HTMLElement | null>",
+      description: "局部滚动容器的 ref 引用（不传时监听整个页面全局滚动）。",
+    },
+    {
+      prop: "showProgress",
+      type: "boolean",
+      default: "true",
+      description: "是否在视口底部居中展示步骤进度指示条。",
+    },
+    {
+      prop: "onStepChange",
+      type: "(index: number) => void",
+      description: "当前激活的步骤索引发生变化时的回调函数。",
+    },
+    {
+      prop: "viewportClassName",
+      type: "string",
+      description: "应用于吸顶固定视口容器（Sticky Viewport）的 CSS 类名。",
+    },
+    {
+      prop: "stepClassName",
+      type: "string",
+      description: "应用于当前活动步骤内容包装容器的 CSS 类名。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于外层占位高度容器的 CSS 类名。",
+    },
+  ]}
 />
 
-## 使用场景
+## 事件 Events
 
-`ScrollSequence` 把每个直接子元素视为一个步骤，在固定视口中根据滚动进度切换。它适合功能分步演示、流程解释和“一个主体视觉配合多段说明”的场景。
-每个步骤应能独立说明一个状态，用户不依赖动画也能理解内容。
+<PropsTable
+  data={[
+    {
+      prop: "onStepChange",
+      type: "(index: number) => void",
+      description: "随着滚动触发步进切换时触发，返回从 0 开始的当前激活步骤索引数字。",
+    },
+  ]}
+/>
 
-## 属性
+## 使用场景与设计规范
 
-<PropsTable name="scroll-sequence" />
+`ScrollSequence` 适用于**产品分步指南、复杂技术架构拆解、时间线故事叙事**：
 
-## 事件
+- **聚焦单点认知**：让用户在不迷失页面纵向位置的同时，逐步浏览有序的阶段信息。
+- **指示条联动反馈**：底部的进度指示条让用户明确知晓“当前处于第几步 / 总共有多少步”。
 
-`onStepChange(index)` 在活动步骤改变时触发，可用于同步外部导航、媒体时间点或分析事件。不要在回调中反向修改滚动位置，
-以免滚动位置和步骤状态互相触发更新。
+## 场景示例
 
-## 使用说明
+### 极简流水线阶段演进
 
-每个步骤应表达一个独立状态，内容高度尽量稳定。`stepLength` 决定两个状态之间的滚动距离。用户开启“减少动态效果”时，
-所有步骤会恢复为普通纵向内容，避免用户必须依赖滚动动画才能读取信息。
+用于垂直空间受限卡片内的微型流程演示：
+
+<ComponentPreview name="scroll-sequence-story" />
+
+## 无障碍与交互 Accessibility
+
+- **静态栅格回退**：当检测到 `prefers-reduced-motion: reduce` 时，组件将放弃滚动吸顶逻辑，直接将所有步骤平铺为标准的 CSS Grid 垂直列表，确保所有内容无障碍直达。
+- **步骤 ARIA 语义**：底部指示条标注了标准的 `aria-label="Step X of Y"`，便于辅助工具朗读。

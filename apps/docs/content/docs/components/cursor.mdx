@@ -1,35 +1,127 @@
 ---
 title: 自定义光标 Cursor
-description: 可全局使用或附着到局部区域的弹簧跟随光标。
+description: 附着于页面或特定容器的物理弹簧跟随自定义光标，为创意展示与画布操作提供高交互沉浸感。
 component: cursor
 ---
 
 ## 基础用法
 
+移动鼠标进入指定区域，原生鼠标指针将自动隐藏，并被弹簧物理缓动的自定义视觉元素接管：
+
 <ComponentPreview name="cursor-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/cursor" />
 
+<Steps>
+
+<Step>安装基础依赖与动效库</Step>
+
+```bash
+pnpm add motion lucide-react class-variance-authority clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/cursor.tsx`</Step>
+
 <ComponentSource name="cursor" title="components/ui/cursor.tsx" />
 
-## 使用场景
+</Steps>
 
-`Cursor` 用视觉反馈补充作品展示、图片探索等指针交互。`attachToParent` 会把活动范围限制在直接父元素；
-触摸设备和非精确指针不会显示自定义光标。它只是装饰层，不会改变页面原有的点击、拖动和焦点行为。
+## 属性 Props
 
-<Callout title="不要依赖光标传达必要信息">
-  自定义光标会被辅助技术忽略。操作含义、状态和文本仍应在页面内容中完整表达。
-</Callout>
+<PropsTable
+  data={[
+    {
+      prop: "children",
+      type: "React.ReactNode",
+      description: "渲染在光标位置的视觉内容（如自定义图标、徽章、跟随文字或操作提示）。",
+    },
+    {
+      prop: "attachToParent",
+      type: "boolean",
+      default: "false",
+      description: "是否将光标的作用范围严格限制在父级容器元素内部（为 false 时作用于全局窗口）。",
+    },
+    {
+      prop: "springConfig",
+      type: "SpringOptions",
+      default: '{ stiffness: 500, damping: 35, mass: 0.2 }',
+      description: "跟随指针位移时所使用的 Motion 弹簧物理参数配置。",
+    },
+    {
+      prop: "hideNativeCursor",
+      type: "boolean",
+      default: "true",
+      description: "在目标交互区域内是否隐藏系统原生鼠标指针。",
+    },
+    {
+      prop: "variants",
+      type: "Variants",
+      default: '{ initial: { opacity: 0, scale: 0.75 }, animated: { opacity: 1, scale: 1 }, exit: { opacity: 0, scale: 0.75 } }',
+      description: "光标进入与离开目标交互区域时的进出场变体动画。",
+    },
+    {
+      prop: "onPositionChange",
+      type: "({ x, y }: { x: number; y: number }) => void",
+      description: "当指针坐标发生变化时实时触发的回调函数，返回相对坐标值。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于自定义光标浮动外层的 CSS 类名。",
+    },
+  ]}
+/>
 
-## 属性
+## 事件 Events
 
-<PropsTable name="cursor" />
+<PropsTable
+  data={[
+    {
+      prop: "onPositionChange",
+      type: "({ x, y }: { x: number; y: number }) => void",
+      description: "鼠标在目标区域移动时触发，输出高精度的相对 X/Y 像素坐标。",
+    },
+    {
+      prop: "onPointerEnter",
+      type: "(event: PointerEvent) => void",
+      description: "光标进入有效监测区域时触发。",
+    },
+    {
+      prop: "onPointerLeave",
+      type: "(event: PointerEvent) => void",
+      description: "光标离开有效监测区域时触发。",
+    },
+  ]}
+/>
 
-## 事件
+## 使用场景与设计规范
 
-`onPositionChange` 返回目标坐标系内的 `{ x, y }`。容器事件仍由父元素自行处理；光标视觉层使用 `pointer-events: none`，
-不会阻断点击。
+`Cursor` 适用于**画廊、视频播放器封面、三维/空间画布等需要强沉浸视觉引导**的场景：
 
-## 扩展用法
+- **局部限定使用（attachToParent）**：通常推荐将 `attachToParent={true}` 约束在特定创意模块或卡片内，避免接管整个应用全局光标造成常规操作困惑。
+- **触控设备自动抑制**：组件内置检测 `(pointer: fine)` 媒体查询。在手机与平板等触控设备上，组件会自动静默关闭并禁用弹簧更新，保证触控性能与正常滚动。
+- **轻量与响应性**：避免在自定义光标内部渲染过于沉重的复杂 DOM 结构，弹簧的 `mass` 建议保持在 0.15 ~ 0.3 以确保跟手性。
 
-不设置 `attachToParent` 时，组件会跟随整个页面；可以通过 `springConfig` 调整跟手或拖尾感，并用 `variants` 自定义出现和退出状态。
+## 场景示例
+
+### 容器边界与坐标监听
+
+将光标限定在父级工作区，并实时读取指针相对坐标：
+
+<ComponentPreview name="cursor-parent" />
+
+### 创意卡片交互
+
+为媒体卡片与案例研究提供带有操作暗示（如“播放”、“探索”）的悬浮光标指示：
+
+<ComponentPreview name="cursor-card" />
+
+## 无障碍与交互 Accessibility
+
+- **指针精准度适配**：通过 `window.matchMedia("(pointer: fine)")` 自动识别设备类型，仅对高精度鼠标/触控板设备启用自定义渲染。
+- **动态效果减弱**：当检测到 `prefers-reduced-motion: reduce` 时，弹簧物理平滑计算将自动降级为即时坐标对齐，避免视力或前庭系统敏感用户的晕眩。
+- **不可阻挡原生事件**：光标容器默认标记 `pointer-events: none` 与 `aria-hidden="true"`，不会阻挡底层按钮、链接的点击与屏幕阅读器无障碍树解析。

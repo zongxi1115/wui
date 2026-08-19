@@ -2,7 +2,7 @@
   "name": "switch",
   "type": "registry:ui",
   "title": "开关 Switch",
-  "description": "带弹簧滑块与完整无障碍语义的二元状态控件。",
+  "description": "用于在两种互斥状态间即时切换的二元控制组件，内置弹性微动效与完整的键盘无障碍能力。",
   "import": "import { Switch, switchVariants } from \"@/components/ui/switch\"",
   "exports": [
     "Switch",
@@ -52,15 +52,34 @@
       "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
     }
   ],
-  "events": "- `onCheckedChange(checked)`：状态变化后触发，参数为新的布尔值；受控模式下需要同步更新 `checked`。\n- 原生焦点、键盘与表单属性会继续透传到底层 Radix Root。",
   "examples": [
     {
       "name": "switch-demo",
       "title": "基础用法"
     },
     {
+      "name": "switch-controlled",
+      "title": "受控模式"
+    },
+    {
       "name": "switch-sizes",
       "title": "尺寸"
+    },
+    {
+      "name": "switch-with-label",
+      "title": "带标签与描述"
+    },
+    {
+      "name": "switch-disabled",
+      "title": "禁用状态"
+    },
+    {
+      "name": "switch-async",
+      "title": "异步请求与加载保护"
+    },
+    {
+      "name": "switch-form",
+      "title": "设置分组列表"
     }
   ],
   "files": [

@@ -2,7 +2,7 @@
   "name": "badge",
   "type": "registry:ui",
   "title": "徽章 Badge",
-  "description": "用紧凑的标签展示状态、分类或简短元数据。",
+  "description": "用于展示状态、分类标签或简短元数据的紧凑视觉标记组件。",
   "import": "import { Badge, badgeVariants } from \"@/components/ui/badge\"",
   "exports": [
     "Badge",
@@ -66,6 +66,26 @@
     {
       "name": "badge-demo",
       "title": "基础用法"
+    },
+    {
+      "name": "badge-sizes",
+      "title": "尺寸预设"
+    },
+    {
+      "name": "badge-dot",
+      "title": "状态指示圆点"
+    },
+    {
+      "name": "badge-with-icon",
+      "title": "搭配图标"
+    },
+    {
+      "name": "badge-as-child",
+      "title": "作为链接或交互项 (asChild)"
+    },
+    {
+      "name": "badge-business",
+      "title": "业务场景：服务部署列表"
     }
   ],
   "files": [

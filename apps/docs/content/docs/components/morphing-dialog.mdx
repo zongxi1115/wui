@@ -1,41 +1,196 @@
 ---
 title: 形变对话框 Morphing Dialog
-description: 从触发元素平滑变形成聚焦内容的模态对话框。
+description: 通过共享布局动画（Shared Layout）将触发器表面平滑无缝扩展为居中模态对话框的连续过渡组件。
 component: morphing-dialog
 ---
 
 ## 基础用法
 
+点击触发器，触发元素的外壳表面将通过真实的物理弹簧形变扩展为居中的全功能对话框：
+
 <ComponentPreview name="morphing-dialog-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/morphing-dialog" />
 
-<ComponentSource
-  name="morphing-dialog"
-  title="components/ui/morphing-dialog.tsx"
+<Steps>
+
+<Step>安装基础依赖与动效库</Step>
+
+```bash
+pnpm add radix-ui motion lucide-react class-variance-authority clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/morphing-dialog.tsx`</Step>
+
+<ComponentSource name="morphing-dialog" title="components/ui/morphing-dialog.tsx" />
+
+</Steps>
+
+## 属性 Props
+
+### MorphingDialog
+
+`MorphingDialog` 作为最外层的上下文容器，管理形变共享布局与弹窗的受控/非受控开启状态：
+
+<PropsTable
+  data={[
+    {
+      prop: "open",
+      type: "boolean",
+      description: "受控模式下对话框的当前打开状态。",
+    },
+    {
+      prop: "defaultOpen",
+      type: "boolean",
+      default: "false",
+      description: "非受控模式下对话框的初始打开状态。",
+    },
+    {
+      prop: "onOpenChange",
+      type: "(open: boolean) => void",
+      description: "对话框打开或关闭状态变化时的回调函数。",
+    },
+    {
+      prop: "transition",
+      type: "Transition",
+      default: '{ type: "spring", stiffness: 420, damping: 34, mass: 0.7 }',
+      description: "跨布局形变表面与共享元素所使用的 Motion 动画配置。",
+    },
+    {
+      prop: "children",
+      type: "React.ReactNode",
+      description: "组件子元素，应包含 Trigger 与 Content 部件。",
+    },
+  ]}
 />
 
-## 使用场景
+### MorphingDialogContent
 
-`MorphingDialog` 使用共享布局动画，让触发器表面连续扩展为居中的对话框。它适合从一条摘要、按钮或媒体预览进入更完整的编辑和查看流程。
-触发器只负责打开入口，完整内容仍应放在对话框中，并提供明确的标题和关闭方式。
+`MorphingDialogContent` 承载展开后的弹窗主体内容与遮罩层：
 
-对话框的焦点锁定、`Esc` 关闭、点击遮罩关闭和焦点归还由 Radix Dialog 负责；用户开启“减少动态效果”时，
-几何变形会退化为无位移的静态切换。
+<PropsTable
+  data={[
+    {
+      prop: "overlayClassName",
+      type: "string",
+      description: "应用于背景遮罩层（Backdrop Overlay）的自定义 CSS 类名。",
+    },
+    {
+      prop: "variants",
+      type: "Variants",
+      default: '{ initial: { opacity: 0, y: 8, filter: "blur(4px)" }, animate: { opacity: 1, y: 0, filter: "blur(0px)" }, exit: { opacity: 0, y: 4, filter: "blur(3px)" } }',
+      description: "弹窗内部主体内容进场与离场的 Motion 变体动画。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于对话框浮层外框的额外 CSS 类名。",
+    },
+    {
+      prop: "children",
+      type: "React.ReactNode",
+      description: "对话框内部包含的标题、描述、表单与操作按钮等子元素。",
+    },
+  ]}
+/>
 
-## 属性
+### MorphingDialogTrigger
 
-<PropsTable name="morphing-dialog" />
+<PropsTable
+  data={[
+    {
+      prop: "asChild",
+      type: "boolean",
+      default: "false",
+      description: "是否将触发行为与属性合并到唯一子元素上渲染。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于触发器外层包装容器的样式类名。",
+    },
+    {
+      prop: "children",
+      type: "React.ReactNode",
+      description: "触发器内部的文本或图标内容。",
+    },
+  ]}
+/>
 
-`MorphingDialogContent` 额外提供 `overlayClassName` 和 `variants`，分别控制遮罩样式和内容进出场动画。
-`MorphingDialogTrigger`、`MorphingDialogClose` 支持 Radix 的 `asChild`。
+### MorphingDialogImage
 
-## 事件
+<PropsTable
+  data={[
+    {
+      prop: "src",
+      type: "string",
+      description: "共享图片的资源路径，在 Trigger 和 Content 中复用相同 layoutId 即可保持连续缩放。",
+    },
+    {
+      prop: "alt",
+      type: "string",
+      description: "图片的无障碍替代说明文本。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于图片的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-`onOpenChange(open)` 会在触发器、关闭按钮、`Esc` 或点击遮罩改变打开状态时调用。组件同时支持 `open` 受控模式和 `defaultOpen` 非受控模式；
-受控模式下必须在回调中更新 `open`。
+## 事件 Events
 
-## 扩展用法
+<PropsTable
+  data={[
+    {
+      prop: "onOpenChange",
+      type: "(open: boolean) => void",
+      description: "当用户点击触发器、点击关闭按钮、点击背景遮罩或按下 Escape 键时触发，返回最新的打开布尔值。",
+    },
+    {
+      prop: "onPointerDownOutside",
+      type: "(event: CustomEvent) => void",
+      description: "当用户点击对话框外部遮罩区域时触发，可通过 preventDefault 阻止关闭。",
+    },
+    {
+      prop: "onEscapeKeyDown",
+      type: "(event: KeyboardEvent) => void",
+      description: "当对话框处于打开状态并按下 Esc 键时触发，可通过 preventDefault 阻止关闭。",
+    },
+  ]}
+/>
 
-可以在触发器与内容中复用 `MorphingDialogImage`，让图片通过相同的 layout id 保持视觉连续性。标题、描述和操作区仍应保持简洁，
-避免把需要频繁操作的完整页面塞进模态层。
+## 使用场景与设计规范
+
+`MorphingDialog` 适用于**由卡片/卡槽展开为深度详情或沉浸式预览**的交互流程：
+
+- **连续性心智模型**：相比普通弹窗突兀的淡入或弹跳，形变动画建立了明确的视觉空间因果关系，让用户清晰感知“当前对话框是从哪张卡片/哪个按钮演变而来的”。
+- **媒体与画廊展开**：搭配 `MorphingDialogImage` 可以让缩略图直接放大为全高清画幅，视觉无闪烁。
+- **信息分级与渐进披露**：在卡片态只保留高层关键指标，点击后顺畅展开为完整配置项或账单流水，避免界面信息过载。
+
+## 场景示例
+
+### 媒体画廊展开
+
+在缩略图卡片与详情弹窗之间实现顺滑的图片缩放形变：
+
+<ComponentPreview name="morphing-dialog-media" />
+
+### 业务卡片展开详情
+
+适用于金融卡片、资产账户或监控卡片从概览形态平滑过渡为管理面板：
+
+<ComponentPreview name="morphing-dialog-card" />
+
+## 无障碍与交互 Accessibility
+
+- **焦点管理与捕捉**：基于 Radix Dialog，打开时自动将键盘焦点转移至弹窗内首个可交互控件，关闭后焦点平稳归还至触发器按钮。
+- **键盘快捷键**：
+  - <kbd>Esc</kbd>：立即关闭当前对话框并归还焦点。
+  - <kbd>Tab</kbd> / <kbd>Shift + Tab</kbd>：在弹窗内部可聚焦元素间循环跳转，严格防止焦点逸出至底层背景。
+- **动态效果减弱（prefers-reduced-motion）**：当用户在操作系统中开启“减弱动态效果”时，共享形变动画将自动降级为瞬间切换，避免可能引起晕动症的高振幅形变。

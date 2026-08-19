@@ -2,10 +2,11 @@
   "name": "input-number",
   "type": "registry:ui",
   "title": "数字输入框 InputNumber",
-  "description": "支持范围约束、精确步进和键盘操作的数字输入控件。",
-  "import": "import { InputNumber } from \"@/components/ui/input-number\"",
+  "description": "专为数值录入设计的精度步进输入组件，支持上下范围约束、浮点数精度保持、键盘加速微调与表单校验。",
+  "import": "import { InputNumber, inputNumberVariants } from \"@/components/ui/input-number\"",
   "exports": [
-    "InputNumber"
+    "InputNumber",
+    "inputNumberVariants"
   ],
   "typeExports": [
     "InputNumberProps"
@@ -65,11 +66,38 @@
       "description": "点击按钮或按方向键时的步进值。"
     },
     {
+      "name": "prefix",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "前缀插槽（如货币符号 ¥、$）。"
+    },
+    {
+      "name": "suffix",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "后缀插槽（如单位 kg、%、GiB）。"
+    },
+    {
+      "name": "size",
+      "type": "\"default\" | \"sm\" | \"lg\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "default",
+        "sm",
+        "lg"
+      ],
+      "defaultValue": "default",
+      "description": "尺寸密度。@default \"default\""
+    },
+    {
       "name": "wrapperClassName",
       "type": "string",
       "required": false,
       "control": "text",
-      "description": "输入框外层样式。"
+      "description": "输入框外层容器样式。"
     },
     {
       "name": "disabled",
@@ -85,8 +113,24 @@
       "title": "基础用法"
     },
     {
+      "name": "input-number-controlled",
+      "title": "受控模式与计算联动"
+    },
+    {
+      "name": "input-number-sizes",
+      "title": "尺寸规格"
+    },
+    {
       "name": "input-number-advanced",
-      "title": "小数步进与范围约束"
+      "title": "浮点精度与自定义步长"
+    },
+    {
+      "name": "input-number-disabled",
+      "title": "禁用与只读状态"
+    },
+    {
+      "name": "input-number-form",
+      "title": "资源配额与表单应用"
     }
   ],
   "files": [

@@ -1,8 +1,8 @@
 {
   "name": "sticky-stack",
   "type": "registry:ui",
-  "title": "粘性卡片堆叠 Sticky Stack",
-  "description": "让卡片依次钉住、缩放，并被后续内容覆盖。",
+  "title": "粘性层叠卡片 Sticky Stack",
+  "description": "卡片在向下滚动时依次吸顶、层叠堆积并微弱退后缩小的多层视觉递进组件。",
   "categories": [
     "scroll",
     "motion"
@@ -66,11 +66,14 @@
       "description": "要监听的滚动容器；未设置时监听页面。"
     }
   ],
-  "usage": "卡片高度应尽量接近，但内容不必完全一致。`top` 和 `gap` 决定堆叠时露出的顶部边缘，`scaleStep` 决定缩小幅度。\n组件依赖祖先拥有足够的滚动距离；放在嵌套滚动容器时，应传入同一个 `container` ref。",
   "examples": [
     {
       "name": "sticky-stack-demo",
       "title": "基础用法"
+    },
+    {
+      "name": "sticky-stack-features",
+      "title": "RAG 知识库流水线执行阶段"
     }
   ],
   "files": [

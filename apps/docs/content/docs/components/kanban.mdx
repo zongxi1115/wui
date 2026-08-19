@@ -1,32 +1,159 @@
 ---
 title: 看板 Kanban
-description: 用可组合列和原生拖放组织任务流转。
+description: 用于敏捷项目管理、需求流转与线索阶段跟踪的可组合看板组件，内置 HTML5 原生拖拽流转与悬停响应。
 component: kanban
 ---
 
 ## 基础用法
 
+包含待规划、进行中与已完成三列的基础拖拽看板：
+
 <ComponentPreview name="kanban-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/kanban" />
 
+<Steps>
+
+<Step>安装基础依赖与图标库</Step>
+
+```bash
+pnpm add lucide-react clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/kanban.tsx`</Step>
+
 <ComponentSource name="kanban" title="components/ui/kanban.tsx" />
 
-## 使用场景
+</Steps>
 
-`Kanban` 用于按状态呈现可以流转的工作项，适合任务、线索和内容生产流程。它只管理拖放上下文，不持有业务数据；
-排序、权限、乐观更新和持久化都由调用方决定。需要比较固定列和字段时，使用 Table 更合适。
+## 属性 Props
 
-## 属性
+### Kanban (根容器)
 
-<PropsTable name="kanban" />
+继承原生 `<div>` 元素的全部 HTML 属性：
 
-## 事件
+<PropsTable
+  data={[
+    {
+      prop: "onMove",
+      type: "(move: { itemId: string; from: string; to: string }) => void",
+      description: "当卡片被成功拖放到目标新列时触发的回调函数。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于看板横向滚动网格容器的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-卡片跨列放下时触发 `onMove({ itemId, from, to })`。每个 `KanbanColumn` 和 `KanbanCard` 都必须提供稳定的 `value`，
-业务层应在回调中更新数据，否则拖动结束后界面会回到原位置。原生拖拽事件仍可通过对应元素监听。
+### KanbanColumn
 
-## 扩展用法
+代表看板中的单个状态列：
 
-列由 `KanbanColumnHeader`、`KanbanColumnTitle`、`KanbanColumnCount` 和 `KanbanColumnBody` 自由组合。移动端默认横向滚动；
-需要触屏排序或复杂列内重排时，可以在这些布局原语上接入专用拖拽方案，并自行补充触屏和键盘操作。
+<PropsTable
+  data={[
+    {
+      prop: "value",
+      type: "string",
+      description: "当前列的唯一标识字符串（例如 'todo'、'in_progress'、'done'），必须唯一且稳定。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于列容器的额外 CSS 类名。",
+    },
+  ]}
+/>
+
+### KanbanCard
+
+代表可拖动的任务卡片：
+
+<PropsTable
+  data={[
+    {
+      prop: "value",
+      type: "string",
+      description: "当前任务卡片的唯一标识 ID，在 onMove 回调中作为 itemId 返回。",
+    },
+    {
+      prop: "draggable",
+      type: "boolean",
+      default: "true",
+      description: "是否允许对该卡片进行鼠标拖拽。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于卡片盒子的额外 CSS 类名。",
+    },
+  ]}
+/>
+
+### KanbanColumnHeader / KanbanColumnTitle / KanbanColumnCount / KanbanColumnBody
+
+用于自由组合列头、标题、计数角标与卡片堆叠区的子组件：
+
+<PropsTable
+  data={[
+    {
+      prop: "children",
+      type: "React.ReactNode",
+      description: "子组件内渲染的内容。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于对应子容器的额外 CSS 类名。",
+    },
+  ]}
+/>
+
+## 事件 Events
+
+<PropsTable
+  data={[
+    {
+      prop: "onMove",
+      type: "({ itemId: string, from: string, to: string }) => void",
+      description: "卡片跨列放下（Drop）时触发。业务层应在回调中更新本地状态或调用后端流转 API。",
+    },
+    {
+      prop: "onDragStart",
+      type: "(event: React.DragEvent<HTMLElement>) => void",
+      description: "开始拖动卡片时触发。",
+    },
+    {
+      prop: "onDragEnd",
+      type: "(event: React.DragEvent<HTMLElement>) => void",
+      description: "卡片拖拽结束（无论是否成功放置）时触发。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`Kanban` 适用于表达具备明确流转阶段（Pipeline）的工作项：
+
+- **状态持久化与乐观更新**：组件本身不持有数据状态。在 `onMove` 回调中，建议先进行本地乐观更新（Optimistic UI），随后发起网络请求，失败时回滚。
+- **横向自适应与移动端适配**：组件默认内置 `grid auto-cols-[minmax(17rem,1fr)] grid-flow-col overflow-x-auto`，在窄屏幕上会自动支持横向手势平滑滑动。
+- **卡片信息层级清晰**：卡片上建议突出任务标题与编号，标签（Tag）、优先级角标（Priority）、负责人头像和故事点（Story Points）应保持紧凑统一的对齐。
+
+## 场景示例
+
+### 敏捷开发 Sprint 任务流转板
+
+包含 4 个流转阶段、优先级色块、任务标签、故事点与负责人头像：
+
+<ComponentPreview name="kanban-project-board" />
+
+## 无障碍与交互 Accessibility
+
+- **语义分块**：每个 `KanbanColumn` 渲染为 `<section>`，卡片渲染为 `<article>`，列头渲染为 `<header>`。
+- **抓手手势指示**：当卡片处于可拖拽状态时，指针自动变为 `cursor-grab`，拖拽时变为 `cursor-grabbing`，右上角在 Hover 时自动展示抓手图标。
+- **拖拽高亮提示**：当卡片被拖动悬停在目标列上方时，目标列会自动添加 `data-over="true"` 并在边框和背景上应用激活的高亮微动效。

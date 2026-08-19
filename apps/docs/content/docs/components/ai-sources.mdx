@@ -4,35 +4,206 @@ description: 用于展示 AI 联网检索（SearchGPT / Perplexity）或 RAG 知
 component: ai-sources
 ---
 
-## 基础示例 · Basic example
+## 基础用法
 
-<ComponentPreview name="ai-sources-demo" previewClassName="min-h-0 p-6 flex justify-center" />
+在回答正文中通过行内数字角标 `AiCitation` 标识引用点（鼠标悬停预览摘要），并在文末使用 `AiSources` 折叠卡片组聚合参考网页：
+
+<ComponentPreview name="ai-sources-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/ai-sources" />
 
+<Steps>
+
+<Step>安装基础依赖与动效库</Step>
+
+```bash
+pnpm add radix-ui lucide-react clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/ai-sources.tsx`</Step>
+
 <ComponentSource name="ai-sources" title="components/ui/ai-sources.tsx" />
 
-## 组件作用 · What it's for
+</Steps>
 
-`AiSources` 与 `AiCitation` 专为 AI 联网搜索、Agent 工具检索和 RAG 知识库问答场景设计。
+## 属性 Props
 
-### 适用场景
-- **行内角标溯源 (`AiCitation`)**：在正文中通过 `[1]`、`[2]` 标记引用点，鼠标悬停即展示带标题、摘要、网站图标的预览卡片（Hover Card），点击直达源网页。
-- **可折叠来源列表 (`AiSources`)**：在回答底部聚合展示所有参考网址或文档来源卡片，支持一键展开与收起。
-- **防虚假信息与可信度展示**：让大模型的生成过程有迹可循、来源清晰。
+### AiSources (来源折叠根容器)
 
-### 何时不建议使用
-- 如果回答内容完全基于模型内置参数知识且无外部检索检索工具参与，无需添加引用源。
+<PropsTable
+  data={[
+    {
+      prop: "count",
+      type: "number",
+      description: "检索到的参考来源总数（可选，用于快捷展示）。",
+    },
+    {
+      prop: "open",
+      type: "boolean",
+      description: "受控模式下来源列表的展开状态。",
+    },
+    {
+      prop: "defaultOpen",
+      type: "boolean",
+      default: "false",
+      description: "非受控模式下来源列表的初始展开状态。",
+    },
+    {
+      prop: "onOpenChange",
+      type: "(open: boolean) => void",
+      description: "来源卡片组展开/收起状态改变时的回调函数。",
+    },
+    {
+      prop: "disabled",
+      type: "boolean",
+      default: "false",
+      description: "是否禁用折叠展开交互。",
+    },
+  ]}
+/>
 
-## 组件属性 · Props
+### AiSourcesHeader (折叠触发按钮)
 
-<PropsTable name="ai-sources" />
+<PropsTable
+  data={[
+    {
+      prop: "label",
+      type: "React.ReactNode",
+      description: "自定义头部文本（如「参考来源 (3)」）。",
+    },
+  ]}
+/>
 
-## 事件 · Events
+### AiSourceItem (单项来源卡片)
 
-- `AiSources` 透传 Radix Collapsible 的 `onOpenChange` 事件。
-- `AiSourceItem` 和 `AiCitation` 均为原生超链接或悬停卡片触发器，支持标准的 `onClick` 事件。
+呈现为带外链跳转特性的交互卡片，支持以下配置：
 
-## 拓展使用 · Extended usage
+<PropsTable
+  data={[
+    {
+      prop: "index",
+      type: "number | string",
+      description: "数字编号或引用标识符（如 `1`、`2`）。",
+    },
+    {
+      prop: "title",
+      type: "string",
+      description: "参考网页或内部文档标题。",
+    },
+    {
+      prop: "domain",
+      type: "string",
+      description: "来源网站域名或知识库分类标识（如 `react.dev` 或 `内部知识库`）。",
+    },
+    {
+      prop: "snippet",
+      type: "string",
+      description: "从源网页中检索提取的高亮段落或摘要说明。",
+    },
+    {
+      prop: "favicon",
+      type: "string",
+      description: "网站图标 Favicon URL 或自定义图标路径。",
+    },
+    {
+      prop: "href",
+      type: "string",
+      description: "点击后新标签页跳转的目标原始网页 URL。",
+    },
+  ]}
+/>
 
-可通过 `AiSourceItem` 自定义 `favicon`、`domain`、`snippet` 和外部跳转逻辑，轻松适配企业私有知识库文件或公网搜索结果。
+### AiCitation (行内悬停引用角标)
+
+基于 Radix HoverCard 实现，鼠标悬停即弹出带有标题、域名、摘要及直达外链的预览气泡：
+
+<PropsTable
+  data={[
+    {
+      prop: "index",
+      type: "number | string",
+      description: "引用的数字编号（如 `[1]`）。",
+    },
+    {
+      prop: "title",
+      type: "string",
+      description: "气泡中显示的来源标题。",
+    },
+    {
+      prop: "domain",
+      type: "string",
+      description: "来源域名或所属知识库名。",
+    },
+    {
+      prop: "snippet",
+      type: "string",
+      description: "气泡中展示的段落摘要文本。",
+    },
+    {
+      prop: "href",
+      type: "string",
+      description: "源文档 URL，提供快捷跳转按钮。",
+    },
+    {
+      prop: "favicon",
+      type: "string",
+      description: "来源 Favicon 图标。",
+    },
+  ]}
+/>
+
+## 事件 Events
+
+<PropsTable
+  data={[
+    {
+      prop: "onOpenChange",
+      type: "(open: boolean) => void",
+      description: "来源面板展开或收起时触发。",
+    },
+    {
+      prop: "onClick",
+      type: "(event: React.MouseEvent<HTMLAnchorElement>) => void",
+      description: "点击来源卡片或直达链接时触发。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`AiSources` 专用于 AI 联网搜索（Search-augmented Generation）和企业级 RAG 知识库场景：
+
+- **何时使用**：
+  - 联网搜索问答（如 Perplexity / SearchGPT 模式）；
+  - 基于企业文档、Wiki 或代码库的 RAG 知识检索问答；
+  - 需要对生成事实进行权威溯源与防止模型幻觉的场景。
+- **何时不应使用**：
+  - 基于模型常识的普通对话，若没有检索工具介入无需堆砌无意义引用；
+  - 纯系统静态配置项说明。
+- **设计最佳实践**：
+  - **行内精准标记**：在每一个由外部事实支撑的断言后放置 `AiCitation`，用户无需滑到页面最底部即可直接悬停核查证据；
+  - **网格整齐排列**：在底部聚合时，使用 `AiSourcesList` 的自适应网格（Grid），卡片限制行数（`line-clamp`），保持版面整洁；
+  - **外链安全属性**：外跳链接统一默认添加 `rel="noreferrer noopener"` 与 `target="_blank"`。
+
+## 场景示例
+
+### 企业 RAG 知识库检索溯源
+
+结合向量相似度校验 Badge、企业内部文档标签与行内悬停卡片：
+
+<ComponentPreview name="ai-sources-rag" />
+
+## 无障碍与交互 Accessibility
+
+- **HoverCard 无障碍规范**：
+  - `AiCitation` 内部触发器挂载 `role="button"` 与 `aria-haspopup="dialog"`；
+  - 具备 `openDelay` (150ms) 与 `closeDelay` (100ms) 防抖保护，避免用户光标掠过时频繁闪烁。
+- **键盘导航支持**：
+  - <kbd>Tab</kbd>：按顺序聚焦行内引用角标与来源卡片；
+  - <kbd>Enter</kbd> / <kbd>Space</kbd>：展开折叠面板或在悬停气泡中打开源文档外链。
+- **高对比度焦点环**：
+  - 来源卡片与角标在获得焦点时均具备标准的 `focus-visible:ring-2` 高亮轮廓。

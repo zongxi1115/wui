@@ -2,7 +2,7 @@
   "name": "bubble",
   "type": "registry:ui",
   "title": "气泡 Bubble",
-  "description": "可组合头像、署名、正文、时间与操作区的通用消息气泡。",
+  "description": "用于在即时通讯、AI 对话流、评论列表与活动时间线中组合展示头像、昵称、正文内容、时间戳与快捷操作的通用消息气泡。",
   "import": "import { Bubble, BubbleActions, BubbleAvatar, BubbleBody, BubbleContent, BubbleFooter, BubbleHeader, bubbleContentVariants, bubbleVariants } from \"@/components/ui/bubble\"",
   "exports": [
     "Bubble",
@@ -43,15 +43,18 @@
       "description": "消息气泡的水平对齐方向。"
     }
   ],
-  "events": "所有部件都会透传对应原生元素事件。`side` 只控制视觉方向，不会判断消息发送者；消息菜单、复制、重试和已读回执等行为，\n应由业务层绑定到 `BubbleActions` 中的按钮。",
   "examples": [
     {
       "name": "bubble-demo",
       "title": "基础用法"
     },
     {
+      "name": "bubble-ai-chat",
+      "title": "AI 智能体对话与代码块"
+    },
+    {
       "name": "bubble-variants",
-      "title": "表面样式"
+      "title": "四种表面质感 (Variants)"
     }
   ],
   "files": [

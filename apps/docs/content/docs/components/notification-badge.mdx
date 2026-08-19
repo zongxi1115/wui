@@ -1,33 +1,148 @@
 ---
 title: 消息提示 Notification Badge
-description: 在图标、头像或控件边缘展示未读数量与提示红点。
+description: 在图标、头像或任意控件的右上角附着展示未读计数或红点提示。
 component: notification-badge
 ---
 
 ## 基础用法
 
+最基础的消息提示用法。包裹任意图标按钮或头像，通过数字或红点呈现待办与未读提醒：
+
 <ComponentPreview name="notification-badge-demo" />
 
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
+
 <CodeTabs command="@wui-design/cli@latest add @wui/notification-badge" />
+
+<Steps>
+
+<Step>安装基础依赖与工具函数</Step>
+
+```bash
+pnpm add class-variance-authority clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/notification-badge.tsx`</Step>
 
 <ComponentSource
   name="notification-badge"
   title="components/ui/notification-badge.tsx"
 />
 
-## 使用场景
+</Steps>
 
-`NotificationBadge` 将数字或提示点定位在任意子元素的右上角，适合未读消息、待办数量和新状态提醒。
-`count` 支持通过 `max` 封顶，值为 0 时默认隐藏；使用 `dot` 时只显示提示点，适合只需要表达“有新内容”的场景。
+## 属性 Props
 
-`count` 也可以传入 React 节点，因此可以组合 `SlidingNumber`，让未读数量变化时逐位切换。数量来自接口时，
-建议在业务层明确“未读”还是“总数”，不要让用户从一个孤立数字猜测含义。
+`NotificationBadge` 支持以下配置属性，并可包裹任意子元素进行定位：
 
-## 属性
+<PropsTable
+  data={[
+    {
+      prop: "count",
+      type: "React.ReactNode",
+      description: "徽标展示的内容。传入数字时会自动受 max 限制，也可以传入文本或动效数字组件。",
+    },
+    {
+      prop: "max",
+      type: "number",
+      default: "99",
+      description: "数字上限阈值。超过该数值时将显示为 `${max}+`（例如 99+）。",
+    },
+    {
+      prop: "showZero",
+      type: "boolean",
+      default: "false",
+      description: "当 count 为数字 0 时是否强制展示徽标。默认自动隐藏。",
+    },
+    {
+      prop: "dot",
+      type: "boolean",
+      default: "false",
+      description: "是否以极简微圆点形态展示，不显示任何具体数字文本。",
+    },
+    {
+      prop: "visible",
+      type: "boolean",
+      default: "true",
+      description: "受控显隐状态。为 false 时完全不渲染徽标节点。",
+    },
+    {
+      prop: "variant",
+      type: '"default" | "destructive" | "success" | "warning" | "info"',
+      default: '"destructive"',
+      description: "徽标的语义色彩主题。",
+    },
+    {
+      prop: "offset",
+      type: "readonly [number, number]",
+      default: "[0, 0]",
+      description: "相对于右上角基准定位点的像素偏移量 [x, y]，支持正负微调。",
+    },
+    {
+      prop: "label",
+      type: "string",
+      description: "为读屏器提供的显式可访问描述文本（如 '3 条未读工单'）。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于外层包裹容器的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-<PropsTable name="notification-badge" />
+## 事件 Events
 
-## 位置与可访问性
+`NotificationBadge` 容器本身为行内语义容器，透传所有原生 DOM 事件，同时不会阻碍内部子控件（如 Button 或链接）的正常点击与快捷键交互：
 
-通过 `offset={[x, y]}` 以像素微调提示位置。动态或纯视觉提示应同时提供 `label`，让读屏器能够读取完整含义；
-被包裹的按钮或链接仍需提供自己的可访问名称，Badge 不会自动替子元素命名。
+<PropsTable
+  data={[
+    {
+      prop: "onClick",
+      type: "(event: React.MouseEvent<HTMLSpanElement>) => void",
+      description: "在徽标外层容器上点击时触发的原生 DOM 事件。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`NotificationBadge` 专用于**附着在既有控件角落**的轻量级角标状态提醒。
+
+- **NotificationBadge vs 独立 Badge**：
+  - **NotificationBadge**：附着在图标/头像右上角（绝对定位），用于未读数量、在线指示。
+  - **Badge**：独立流式排版的标签或徽章（如“PRO”、“已发布”）。
+- **红点（Dot）vs 数字（Count）**：
+  - **红点**：适用于弱提醒或用户无需知道精确数量的场景（如“有新版本发布”、“有新系统公告”）。
+  - **数字**：适用于待办、未读私信、待审批等用户需要明确感知工作量的场景。
+- **合理设置最大上限（`max`）**：
+  - 导航栏或移动端等小尺寸区域建议设置 `max={9}` 或 `max={99}`，防止多位数字破坏界面视觉平衡。
+- **白边遮罩（Outline Ring）**：组件内置与背景同色的 `border-background`，确保徽标在重叠在复杂图形或深色头像边缘时具有清晰的轮廓边界与视觉呼吸感。
+
+## 场景示例
+
+### 语义色彩主题
+
+提供 `destructive`（紧急/消息）、`default`（主色）、`info`（信息）、`warning`（预警）与 `success`（成功/在线）五种语义主题：
+
+<ComponentPreview name="notification-badge-variants" />
+
+### 数字上限与零值控制
+
+通过 `max` 属性控制数字截断格式，使用 `showZero` 控制是否在计数归零时保持可见：
+
+<ComponentPreview name="notification-badge-max" />
+
+### 像素偏移定位微调
+
+针对圆形头像、矩形按钮或文字链接，通过 `offset={[x, y]}` 进行精准的坐标补偿：
+
+<ComponentPreview name="notification-badge-offset" />
+
+## 无障碍与交互 Accessibility
+
+- **状态通报角色**：徽标节点内置 `role="status"` 与 `tabular-nums`，确保视障辅助设备可以正确捕获未读数量变动。
+- **自动无障碍文案生成**：当未显式传入 `label` 时，组件会根据传入的 `count` 自动合成 `aria-label="X notifications"`；在 `dot` 模式下自动合成 `aria-label="New notification"`。
+- **子元素可访问性独立性**：被包裹的图标按钮仍需保持自身具备合法的 `aria-label`（如 `aria-label="查看消息通知"`），徽标不会破坏底层按钮的可访问名称。

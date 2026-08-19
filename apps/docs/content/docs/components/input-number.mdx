@@ -1,44 +1,209 @@
 ---
 title: 数字输入框 InputNumber
-description: 支持范围约束、精确步进和键盘操作的数字输入控件。
+description: 专为数值录入设计的精度步进输入组件，支持上下范围约束、浮点数精度保持、键盘加速微调与表单校验。
 component: input-number
 ---
 
 ## 基础用法
 
+最简单的数字输入框用法。直接在输入框中键入数字，或点击右侧的加减按钮进行步进调整：
+
 <ComponentPreview name="input-number-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/input-number" />
 
+<Steps>
+
+<Step>安装依赖与工具库</Step>
+
+```bash
+pnpm add lucide-react class-variance-authority clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/input-number.tsx`</Step>
+
 <ComponentSource name="input-number" title="components/ui/input-number.tsx" />
 
-## 使用场景
+</Steps>
 
-`InputNumber` 用于数量、金额、比例等需要数值语义和步进操作的字段。它允许直接键入数值，也可以通过加减按钮或键盘方向键调整。
+## 属性 Props
 
-普通文本、电话或证件编号不应使用 `InputNumber`，因为这些内容虽然由数字组成，但并不参与数值计算。
+`InputNumber` 支持以下核心属性，并继承原生 `<input>` 的 HTML 属性（已排除原生 `value`、`defaultValue`、`onChange` 与 `type`）：
 
-## 属性
+<PropsTable
+  data={[
+    {
+      prop: "value",
+      type: "number | null",
+      description: "受控模式下的当前数值，清空输入框时为 null。",
+    },
+    {
+      prop: "defaultValue",
+      type: "number",
+      description: "非受控模式下的初始数值。",
+    },
+    {
+      prop: "onValueChange",
+      type: "(value: number | null) => void",
+      description: "数值发生改变时触发的回调函数，返回最新解析的数字或 null。",
+    },
+    {
+      prop: "min",
+      type: "number",
+      description: "允许输入的数值下限（最小值），低于该值时在失焦或步进时自动收敛。",
+    },
+    {
+      prop: "max",
+      type: "number",
+      description: "允许输入的数值上限（最大值），高于该值时在失焦或步进时自动收敛。",
+    },
+    {
+      prop: "step",
+      type: "number",
+      default: "1",
+      description: "每次点击步进按钮或按键盘方向键时增减的步长数值，支持小数（如 0.1）。",
+    },
+    {
+      prop: "prefix",
+      type: "React.ReactNode",
+      description: "位于输入框前置区域的自定义内容（如货币符号 ¥、$）。",
+    },
+    {
+      prop: "suffix",
+      type: "React.ReactNode",
+      description: "位于输入框后置区域的自定义内容（如单位 kg、%、GiB）。",
+    },
+    {
+      prop: "size",
+      type: '"sm" | "default" | "lg"',
+      default: '"default"',
+      description: "输入框与步进按钮的物理高度与尺寸密度。",
+    },
+    {
+      prop: "disabled",
+      type: "boolean",
+      default: "false",
+      description: "是否禁用输入框与全部步进按钮。",
+    },
+    {
+      prop: "readOnly",
+      type: "boolean",
+      default: "false",
+      description: "是否设为只读模式（允许聚焦与复制，但禁止修改数值与点击步进）。",
+    },
+    {
+      prop: "wrapperClassName",
+      type: "string",
+      description: "应用于外层边框与按钮容器的额外 CSS 类名。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于内部原生 input 文本输入元素的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-<PropsTable name="input-number" />
+## 事件 Events
 
-## 受控与非受控
+<PropsTable
+  data={[
+    {
+      prop: "onValueChange",
+      type: "(value: number | null) => void",
+      description: "用户输入有效数值、清空输入框或通过步进操作变更数值时触发。",
+    },
+    {
+      prop: "onBlur",
+      type: "(event: React.FocusEvent<HTMLInputElement>) => void",
+      description: "输入框失去焦点时触发，此时组件会自动执行范围收敛（Clamp）与精度格式化。",
+    },
+    {
+      prop: "onFocus",
+      type: "(event: React.FocusEvent<HTMLInputElement>) => void",
+      description: "输入框获得焦点时触发。",
+    },
+    {
+      prop: "onKeyDown",
+      type: "(event: React.KeyboardEvent<HTMLInputElement>) => void",
+      description: "按下键盘按键时触发；按方向键进行增减时会先触发该回调后执行步进。",
+    },
+  ]}
+/>
 
-传入 `value` 与 `onValueChange` 使用受控模式；只传入 `defaultValue` 时，状态由组件内部维护。清空字段时 `onValueChange` 返回 `null`。
+## 使用场景与设计规范
 
-`min`、`max` 会在失焦和步进操作时限制最终值。输入过程中不会立即截断内容，以便正常录入负号和小数。
+`InputNumber` 适用于需要**明确数值计算、范围约束与微调步进**的输入项：
 
-## 键盘操作
+- **InputNumber vs 普通 Input**：对于电话号码、邮政编码、身份证号等由数字构成的纯文本标识，必须使用普通 [`Input`](/docs/components/input)（或添加输入掩码），因为它们不参与数学运算且前导零（如 `010`）具有业务含义；只有金额、数量、库存、百分比等需要算术计算的字段才使用 `InputNumber`。
+- **InputNumber vs Slider**：当用户需要在大范围中进行直观概览或模糊拖拽调节（如音量、亮度）时，使用 [`Slider`](/docs/components/slider)；当用户需要输入精准数字或同时支持键盘微调时，使用 `InputNumber`（两者也可在复杂表单中组合联动）。
+- **浮点精度保持机制**：组件会自动根据 `step`、`min`、`max` 的小数位数动态推导计算精度（如 `step={0.01}` 会自动保留 2 位小数），有效规避 JavaScript 中经典的 `0.1 + 0.2 = 0.30000000000000004` 浮点误差。
+- **输入平滑性**：在用户打字输入过程中（例如输入负号 `-` 或末尾小数点 `1.` 时），组件不会粗暴打断用户，而是在失焦（Blur）或步进操作时完成最终数值收敛。
 
-- `ArrowUp`：按 `step` 增大数值。
-- `ArrowDown`：按 `step` 减小数值。
+## 场景示例
 
-组件使用 `spinbutton` 语义，并同步提供 `aria-valuemin`、`aria-valuemax` 与 `aria-valuenow`。
+### 受控模式与计算联动
 
-## 扩展用法
+结合 `value` 与 `onValueChange` 实现外部总价动态结算与快速预设赋值：
 
-### 小数步进与范围约束
+<ComponentPreview name="input-number-controlled" />
+
+```tsx
+const [count, setCount] = React.useState<number | null>(3)
+
+return (
+  <InputNumber
+    value={count}
+    onValueChange={setCount}
+    min={1}
+    max={50}
+    suffix="台"
+  />
+)
+```
+
+### 尺寸规格
+
+提供 `sm`（32px）、`default`（40px）和 `lg`（48px）三种尺寸规格，配合前缀与后缀使用：
+
+<ComponentPreview name="input-number-sizes" />
+
+- `sm`：紧凑尺寸，适合表格行内编辑单元格或高密度配置面板。
+- `default`：标准尺寸，通用表单与设置页面。
+- `lg`：大尺寸，适用于订单确认页或移动端触控场景。
+
+### 浮点精度与自定义步长
+
+支持指定任意小数步长与范围边界，键盘配合 <kbd>Shift</kbd> 键可触发 10 倍快速步进：
 
 <ComponentPreview name="input-number-advanced" />
 
-小数精度根据 `step`、`min` 和 `max` 推导，避免连续点击步进按钮时出现常见的浮点尾数。
+### 禁用与只读状态
+
+支持通过 `disabled` 禁用交互，或通过 `readOnly` 保留可选中复制能力同时禁止编辑：
+
+<ComponentPreview name="input-number-disabled" />
+
+### 资源配额与表单应用
+
+在服务器计算资源分配等真实业务表单中，将多个数字输入框与单位后缀组合：
+
+<ComponentPreview name="input-number-form" />
+
+## 无障碍与交互 Accessibility
+
+- **ARIA 语义与读屏支持**：
+  - 原生输入元素被赋予 `role="spinbutton"` 语义。
+  - 同步挂载 `aria-valuemin`、`aria-valuemax` 与 `aria-valuenow`，屏幕阅读器能准确获知当前数值及其合法上下限。
+- **移动端键盘适配**：
+  - 设置 `inputMode="decimal"`，移动端设备（iOS/Android）在聚焦时会自动呼出带小数点的数字专用虚拟键盘，提升录入体验。
+- **键盘快捷键**：
+  - <kbd>↑</kbd>：数值增加一个 `step`。
+  - <kbd>↓</kbd>：数值减少一个 `step`。
+  - <kbd>Shift</kbd> + <kbd>↑</kbd>：数值增加 10 倍 `step`（加速步进）。
+  - <kbd>Shift</kbd> + <kbd>↓</kbd>：数值减少 10 倍 `step`（加速步减）。
+- **边界保护**：当数值达到 `min` 或 `max` 极限时，对应的加减按钮会自动进入禁用状态（`disabled`），防止无效越界操作。

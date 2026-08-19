@@ -1,8 +1,8 @@
 {
   "name": "scroll-text",
   "type": "registry:ui",
-  "title": "滚动文字 Scroll Text",
-  "description": "让段落随滚动逐词变亮，或按行从遮罩中揭示。",
+  "title": "滚动文本动效 Scroll Text",
+  "description": "依据滚动视口进度，逐字渐进高亮（Highlight）或逐行位移显现（Reveal）的段落文字动效组件。",
   "categories": [
     "scroll",
     "motion",
@@ -104,11 +104,14 @@
       "description": "应用于每个文字片段的 CSS 类名。"
     }
   ],
-  "usage": "按行揭示时在字符串中插入换行并设置 `per=\"line\"`。`range` 控制整组片段占用的进度区间，`overlap` 控制相邻片段同时过渡的程度。\n逐词高亮更适合短段落，不要用于正文的每一个自然段，也不要把关键信息设置为必须滚动才能看到。",
   "examples": [
     {
       "name": "scroll-text-demo",
       "title": "基础用法"
+    },
+    {
+      "name": "scroll-text-reveal",
+      "title": "逐词揭示模式（Reveal）"
     }
   ],
   "files": [

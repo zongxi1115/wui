@@ -2,7 +2,7 @@
   "name": "cascader",
   "type": "registry:ui",
   "title": "级联选择 Cascader",
-  "description": "用于浏览和选择层级值的多列选择器。",
+  "description": "用于在多层级树状数据结构中逐级展开、浏览并选取特定路径的分栏级联选择器。",
   "import": "import { Cascader } from \"@/components/ui/cascader\"",
   "exports": [
     "Cascader"
@@ -131,7 +131,6 @@
       "description": "是否禁用组件。"
     }
   ],
-  "events": "- `onValueChange(value, options)` 会在选择变化后触发，返回稳定的值路径和已解析的选项对象。\n- `onOpenChange` 由组件内部的触发器管理；默认选中叶子节点后关闭面板。\n- 触发器会透传标准按钮的聚焦和键盘激活事件。",
   "examples": [
     {
       "name": "cascader-demo",
@@ -139,7 +138,19 @@
     },
     {
       "name": "cascader-search",
-      "title": "模糊搜索"
+      "title": "拼音与关键词模糊搜索"
+    },
+    {
+      "name": "cascader-department",
+      "title": "组织架构与多级部门"
+    },
+    {
+      "name": "cascader-custom-render",
+      "title": "自定义选中值渲染"
+    },
+    {
+      "name": "cascader-disabled",
+      "title": "节点禁用与整控件禁用"
     }
   ],
   "files": [

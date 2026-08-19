@@ -2,7 +2,7 @@
   "name": "morphing-dialog",
   "type": "registry:ui",
   "title": "形变对话框 Morphing Dialog",
-  "description": "从触发元素平滑变形成聚焦内容的模态对话框。",
+  "description": "通过共享布局动画（Shared Layout）将触发器表面平滑无缝扩展为居中模态对话框的连续过渡组件。",
   "categories": [
     "motion",
     "advanced"
@@ -44,11 +44,18 @@
       "description": "控制触发元素与对话框之间形变过程的弹簧或补间动画。"
     }
   ],
-  "events": "`onOpenChange(open)` 会在触发器、关闭按钮、`Esc` 或点击遮罩改变打开状态时调用。组件同时支持 `open` 受控模式和 `defaultOpen` 非受控模式；\n受控模式下必须在回调中更新 `open`。",
   "examples": [
     {
       "name": "morphing-dialog-demo",
       "title": "基础用法"
+    },
+    {
+      "name": "morphing-dialog-media",
+      "title": "媒体画廊展开"
+    },
+    {
+      "name": "morphing-dialog-card",
+      "title": "业务卡片展开详情"
     }
   ],
   "files": [

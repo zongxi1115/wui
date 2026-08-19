@@ -2,7 +2,7 @@
   "name": "skeleton",
   "type": "registry:ui",
   "title": "骨架屏 Skeleton",
-  "description": "在内容加载期间维持页面结构，降低布局跳动与等待的不确定感。",
+  "description": "在内容异步加载期间维持页面版式结构，降低累积布局偏移（CLS）与用户等待的不确定感。",
   "import": "import { Skeleton, SkeletonText, skeletonVariants } from \"@/components/ui/skeleton\"",
   "exports": [
     "Skeleton",
@@ -50,7 +50,6 @@
       "description": "加载时使用的动画样式。"
     }
   ],
-  "events": "骨架屏是非交互元素，不触发事件，并默认对辅助技术隐藏。加载区域应在父容器设置 `aria-busy=\"true\"`，\n并通过 `aria-label` 或邻近状态文本说明正在加载的内容；不要把每一条灰色占位块都暴露给读屏器。",
   "examples": [
     {
       "name": "skeleton-demo",
@@ -58,7 +57,15 @@
     },
     {
       "name": "skeleton-layout",
-      "title": "内容布局"
+      "title": "图文资讯卡片布局"
+    },
+    {
+      "name": "skeleton-table",
+      "title": "数据表格加载骨架"
+    },
+    {
+      "name": "skeleton-dashboard",
+      "title": "复杂数据分析仪表盘"
     }
   ],
   "files": [

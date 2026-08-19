@@ -1,27 +1,97 @@
 ---
-title: 颗粒遮罩 Grain Overlay
-description: 用可缩放 SVG 噪声为任意表面增加克制的胶片颗粒质感。
+title: 颗粒纹理遮罩 Grain Overlay
+description: 利用 SVG 分形噪点（feTurbulence）滤镜为卡片、大图与渐变背景增添电影级胶片质感与材质温度的纹理组件。
 component: grain-overlay
 ---
 
 ## 基础用法
 
+在社论长文封面大图与卡片上叠加微妙胶片颗粒，消除数字渐变的断层色带感：
+
 <ComponentPreview name="grain-overlay-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/grain-overlay" />
 
+<Steps>
+
+<Step>安装基础依赖</Step>
+
+```bash
+pnpm add lucide-react class-variance-authority clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/grain-overlay.tsx`</Step>
+
 <ComponentSource name="grain-overlay" title="components/ui/grain-overlay.tsx" />
 
-## 使用场景
+</Steps>
 
-`GrainOverlay` 使用 SVG `feTurbulence` 生成可重复、与分辨率无关的静态噪声。它没有第三方运行时依赖，
-默认绝对定位并忽略指针事件，可以直接放进任意 `relative` 表面。它只改变表面质感，不改变内容和交互。
+## 属性 Props
 
-## 属性
+<PropsTable
+  data={[
+    {
+      prop: "opacity",
+      type: "number",
+      default: "0.16",
+      description: "噪点纹理的整体不透明度（0 到 1 之间）。",
+    },
+    {
+      prop: "frequency",
+      type: "number",
+      default: "0.72",
+      description: "SVG feTurbulence 的基底噪声频率。数值越高，颗粒越细腻紧密。",
+    },
+    {
+      prop: "octaves",
+      type: "number",
+      default: "3",
+      description: "分形噪声的倍频层数，层数越多细节越丰富。",
+    },
+    {
+      prop: "seed",
+      type: "number",
+      default: "8",
+      description: "生成随机噪点的固定种子数，保证渲染结果一致确定。",
+    },
+    {
+      prop: "blendMode",
+      type: "React.CSSProperties['mixBlendMode']",
+      default: '"soft-light"',
+      description: "CSS 混合模式（如 'soft-light'、'overlay'、'multiply'、'screen' 等）。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于 SVG 纹理图层的 CSS 类名（默认包含 absolute inset-0 size-full pointer-events-none）。",
+    },
+  ]}
+/>
 
-<PropsTable name="grain-overlay" />
+## 事件 Events
 
-## 使用说明
+该组件为纯静态 SVG 滤镜遮罩，不包含业务交互事件。
 
-建议从 `opacity={0.08}` 到 `0.18` 的范围开始，根据底色选择 `soft-light`、`overlay` 或 `multiply`。颗粒应作为统一材质语言使用，
-不要只给一张普通卡片单独添加；大面积铺设前应在低端设备上确认 SVG 滤镜成本。
+## 使用场景与设计规范
+
+`GrainOverlay` 适用于**暗色模式渐变消除色阶断层、复古设计风、高阶品牌宣传卡片**：
+
+- **解决 CSS 渐变色带问题（Color Banding）**：在暗色渐变（如从 `#09090b` 到 `#18181b`）中，人眼很容易察觉到阶梯状断层，叠加一层 `opacity={0.18}` 的噪点即可让过渡变得无比顺滑自然。
+- **纯矢量计算**：基于 SVG 原生滤镜，文件体积近乎为零，不需要额外加载几十 KB 的 PNG 噪点贴图。
+
+## 场景示例
+
+### 暗黑质感卡片
+
+在渐变卡片上对比 soft-light 与 overlay 模式的质感表现：
+
+<ComponentPreview name="grain-overlay-card" />
+
+## 无障碍与交互 Accessibility
+
+- **绝对隔离**：默认具备 `pointer-events-none` 与 `user-select: none`，绝不干扰用户选中卡片文字或点击按钮。
+- **无障碍树忽略**：内置 `aria-hidden="true"`，屏幕阅读器完全忽略该装饰图层。

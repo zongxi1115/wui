@@ -2,7 +2,7 @@
   "name": "textarea",
   "type": "registry:ui",
   "title": "文本域 Textarea",
-  "description": "用于输入较长的多行文本，支持字符计数与缩放方向约束。",
+  "description": "用于录入多行长文本的多功能输入控件，支持动态字符计数、最大字数限制与尺寸缩放方向约束。",
   "import": "import { Textarea } from \"@/components/ui/textarea\"",
   "exports": [
     "Textarea"
@@ -56,19 +56,30 @@
       "description": "是否禁用组件。"
     }
   ],
-  "events": "组件透传原生 `textarea` 的输入、聚焦和键盘事件。`onChange` 同时驱动字符计数；原生 `maxLength` 会负责阻止继续输入，\n表单校验仍应通过 `aria-invalid` 和对应的说明文字表达。",
   "examples": [
     {
       "name": "textarea-demo",
       "title": "基础用法"
     },
     {
+      "name": "textarea-controlled",
+      "title": "受控模式"
+    },
+    {
       "name": "textarea-count",
-      "title": "字符计数与最大长度"
+      "title": "字符计数与最大字数限制"
     },
     {
       "name": "textarea-resize",
-      "title": "限制缩放方向"
+      "title": "缩放方向控制 (Resize)"
+    },
+    {
+      "name": "textarea-states",
+      "title": "状态展示与校验错误"
+    },
+    {
+      "name": "textarea-form",
+      "title": "完整反馈提交表单"
     }
   ],
   "files": [

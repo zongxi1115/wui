@@ -1,36 +1,203 @@
 ---
 title: 树选择 TreeSelect
-description: 在紧凑浮层中搜索并选择一个层级节点。
+description: 将树状层级结构与下拉搜索浮层融为一体，用于在复杂父子关系中精确检索并选取目标节点。
 component: tree-select
 ---
 
 ## 基础用法
 
+最简单的树选择用法。点击输入框展开下拉树形结构，可自由展开节点并选择：
+
 <ComponentPreview name="tree-select-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/tree-select" />
 
+<Steps>
+
+<Step>安装基础依赖与动效库</Step>
+
+```bash
+pnpm add radix-ui lucide-react clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/tree-select.tsx`</Step>
+
 <ComponentSource name="tree-select" title="components/ui/tree-select.tsx" />
 
-## 使用场景
+</Steps>
 
-`TreeSelect` 将 `Popover`、`Input` 与 `Tree` 组合在一个紧凑字段中，适合从部门、地区或分类层级中选择单个节点。需要持续浏览和管理树结构时直接使用 `Tree`；必须按完整路径逐列选择时使用 `Cascader`。
+## 属性 Props
 
-搜索会保留匹配节点的祖先路径并自动展开结果。默认按字符串标签进行包含匹配；复杂业务可以通过 `filterNode` 接入拼音、编码或其他别名。
+`TreeSelect` 支持以下配置属性，并继承原生 `<button>` 的 HTML 属性：
 
-## 属性
+<PropsTable
+  data={[
+    {
+      prop: "items",
+      type: "TreeNode[]",
+      required: true,
+      description: "树形选项数据源，支持任意深度的多级嵌套与图标定义。",
+    },
+    {
+      prop: "value",
+      type: "string",
+      description: "受控模式下的当前选中节点的 `value` 标识符。",
+    },
+    {
+      prop: "defaultValue",
+      type: "string",
+      default: '""',
+      description: "非受控模式下的初始选中节点标识值。",
+    },
+    {
+      prop: "onValueChange",
+      type: "(value: string, node?: TreeNode) => void",
+      description: "选中节点发生改变或清空选择时触发的回调函数，返回选中值及完整的节点对象。",
+    },
+    {
+      prop: "placeholder",
+      type: "string",
+      default: '"请选择"',
+      description: "未选中任何节点时触发框内显示的占位提示文本。",
+    },
+    {
+      prop: "clearable",
+      type: "boolean",
+      default: "true",
+      description: "当已有选中值时，是否在触发框右侧显示快速一键清空按钮。",
+    },
+    {
+      prop: "searchable",
+      type: "boolean",
+      default: "true",
+      description: "是否在下拉浮层顶部显示实时节点搜索过滤框。",
+    },
+    {
+      prop: "searchPlaceholder",
+      type: "string",
+      default: '"搜索节点"',
+      description: "下拉搜索过滤输入框内的占位提示文本。",
+    },
+    {
+      prop: "filterNode",
+      type: "(query: string, node: TreeNode) => boolean",
+      description: "自定义节点搜索过滤规则函数，默认按节点 label 包含匹配。",
+    },
+    {
+      prop: "emptyText",
+      type: "React.ReactNode",
+      default: '"没有匹配的节点"',
+      description: "当搜索无匹配项或树数据为空时展示的空状态提示内容。",
+    },
+    {
+      prop: "disabled",
+      type: "boolean",
+      default: "false",
+      description: "是否完全禁用树选择器的展开与选择交互。",
+    },
+    {
+      prop: "contentClassName",
+      type: "string",
+      description: "应用于下拉弹出层浮动面板容器的额外 CSS 类名。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于触发器外层容器的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-<PropsTable name="tree-select" />
+### TreeNode 数据结构
 
-## 事件
+`items` 树节点类型定义：
 
-- `onValueChange(value, node)` 在选择节点或清空时触发；清空时返回空字符串，`node` 为 `undefined`。
-- 传入 `value` 后组件进入受控模式；仅设置初始值时使用 `defaultValue`。
+```typescript
+export interface TreeNode {
+  /** 节点的稳定唯一标识值 */
+  value: string
+  /** 节点在树中展示的文本或 React 节点 */
+  label: React.ReactNode
+  /** 子节点列表 */
+  children?: TreeNode[]
+  /** 是否禁用此节点的展开与选择 */
+  disabled?: boolean
+  /** 节点名称前展示的图标元素 */
+  icon?: React.ReactNode
+}
+```
 
-## 扩展用法
+## 事件 Events
 
-### 拼音与首字母搜索
+<PropsTable
+  data={[
+    {
+      prop: "onValueChange",
+      type: "(value: string, node?: TreeNode) => void",
+      description: "用户点击某个节点或点击清空按钮时触发。清空时 value 为空字符串，node 为 undefined。",
+    },
+    {
+      prop: "onFocus",
+      type: "(event: React.FocusEvent<HTMLButtonElement>) => void",
+      description: "触发器获得焦点时触发。",
+    },
+    {
+      prop: "onBlur",
+      type: "(event: React.FocusEvent<HTMLButtonElement>) => void",
+      description: "触发器失去焦点时触发。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`TreeSelect` 适用于从**具有层次组织结构**（如公司部门、知识库分类树、文件系统目录）中选取**单个目标节点**的业务场景。
+
+- **TreeSelect vs Cascader vs Tree**：
+  - **TreeSelect（树选择）**：在紧凑表单中使用，浮层展开为树，注重从树中定位单点值。
+  - **Cascader（级联选择）**：多列横向展开，强制体现层级路径关系（如省市区）。
+  - **Tree（树形控件）**：常驻页面主体布局中，支持大面积展示、多选复选框、拖拽排序等深交互。
+- **搜索自动展开祖先链**：用户在 `TreeSelect` 中搜索时，组件会自动过滤出匹配的节点并自动展开其上层的所有父级节点路径，确保用户直观理解搜索结果的上下文。
+- **一键清空机制**：非必填表单字段建议保留 `clearable={true}`，方便用户快速取消选择而无需重新展开树进行反选。
+
+## 场景示例
+
+### 拼音与首字母多维检索
+
+通过 `filterNode` 接入自定义别名映射字典，支持拼音或业务首字母极速检索：
 
 <ComponentPreview name="tree-select-search" />
 
-通过 `filterNode(query, node)` 自定义节点匹配规则。设置 `searchable={false}` 可以隐藏搜索框；非必填字段默认显示清空按钮，可通过 `clearable={false}` 关闭。
+### 企业组织架构与审批指派
+
+配合节点自定义图标（`icon`）呈现具有层级分工的企业部门树，提供专业清晰的层级视觉反馈：
+
+<ComponentPreview name="tree-select-department" />
+
+### 文件系统目录与清空重置
+
+在代码管理或云存储目录场景中，结合 `clearable` 属性实现自由关联与随时清空重置：
+
+<ComponentPreview name="tree-select-file-system" />
+
+### 节点禁用与不可选权限
+
+当用户缺少特定分支的操作权限（如只读管理员分支）时，可单独对节点设置 `disabled: true`：
+
+<ComponentPreview name="tree-select-disabled" />
+
+## 无障碍与交互 Accessibility
+
+- **ARIA 规范**：触发按钮具有 `role="combobox"`、`aria-expanded` 与 `aria-haspopup="dialog"`；内部树结构遵循 WAI-ARIA `tree` 与 `treeitem` 无障碍规范。
+- **键盘导航**：
+  - <kbd>Tab</kbd>：在表单字段间切换焦点至触发框。
+  - <kbd>Enter</kbd> / <kbd>Space</kbd>：展开树选择浮层，光标自动聚焦至内部搜索框。
+  - <kbd>↑</kbd> / <kbd>↓</kbd>：在树节点列表中上下移动聚焦。
+  - <kbd>→</kbd>：展开当前聚焦的父节点。
+  - <kbd>←</kbd>：收起当前聚焦的父节点，或返回上层父级。
+  - <kbd>Esc</kbd>：收起浮层并将焦点送回触发按钮。
+- **清空操作无障碍**：清空按钮具有独立的 `aria-label="清空选择"`，支持独立键盘 Tab 聚焦与激活。

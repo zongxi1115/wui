@@ -2,7 +2,7 @@
   "name": "ai-chat",
   "type": "registry:ui",
   "title": "AI 对话 AI Chat",
-  "description": "可组合的 AI 消息、滚动容器与提示输入框。",
+  "description": "专为 AI 对话、智能助手与 Agent 编排设计的组合式容器，支持流式智能滚屏、角色气泡、多阶段思考链与工具调用状态渲染。",
   "categories": [
     "ai"
   ],
@@ -47,11 +47,18 @@
     ]
   },
   "props": [],
-  "events": "`AiChatPrompt` 透传表单的 `onSubmit`，业务层负责读取输入、发送请求并控制 `AiChatSubmit` 的 `status`。\n`AiChatTextarea` 透传原生输入和键盘事件；示例约定 Enter 发送、Shift + Enter 换行。消息操作区不预设复制、重试或反馈逻辑，\n这些操作应由业务层根据消息状态决定。",
   "examples": [
     {
       "name": "ai-chat-demo",
       "title": "基础用法"
+    },
+    {
+      "name": "ai-chat-agent",
+      "title": "智能体完整工作流 (Agent Workflow)"
+    },
+    {
+      "name": "ai-chat-empty",
+      "title": "欢迎页与空白引导态 (Empty State)"
     }
   ],
   "files": [

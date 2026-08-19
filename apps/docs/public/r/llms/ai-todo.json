@@ -2,7 +2,7 @@
   "name": "ai-todo",
   "type": "registry:ui",
   "title": "AI 任务清单 AI Todo",
-  "description": "展示 Agent 计划、执行进度与任务说明。",
+  "description": "用于清晰展示 AI Agent 的执行计划分解、当前执行阶段与子任务实时进度。",
   "categories": [
     "ai"
   ],
@@ -30,11 +30,18 @@
     ]
   },
   "props": [],
-  "events": "为 `AiTodoItem` 传入 `onStatusChange` 后，状态图标会成为可交互按钮，点击时在 `completed` 和 `pending` 之间切换建议状态。\n实际状态仍由调用方控制，回调中的新状态需要写回消息流或后端任务数据；没有回调时，任务项保持只读。",
   "examples": [
     {
       "name": "ai-todo-demo",
       "title": "基础用法"
+    },
+    {
+      "name": "ai-todo-interactive",
+      "title": "实时自动化执行演示"
+    },
+    {
+      "name": "ai-todo-workflow",
+      "title": "只读式发布部署工作流"
     }
   ],
   "files": [

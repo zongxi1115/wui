@@ -8,7 +8,7 @@ export default function MessageMotion() {
     <MessageProvider
       position="top-right"
       gap={12}
-      motion={{ offset: 24, scale: 0.92, blur: 10, damping: 30 }}
+      motion={{ offset: 24, scale: 0.9, blur: 8, damping: 28, stiffness: 350 }}
     >
       <MessageMotionButton />
     </MessageProvider>
@@ -22,13 +22,13 @@ function MessageMotionButton() {
     <Button
       variant="outline"
       onClick={() =>
-        message.success("Uploaded with custom motion.", {
-          opacity: 0.82,
-          motion: { initialOpacity: 0.2, exitOpacity: 0.1 },
+        message.success("带高弹性物理弹簧微动效的提示消息", {
+          opacity: 0.95,
+          motion: { offset: 32, scale: 0.88, blur: 12 },
         })
       }
     >
-      Show custom message
+      触发高弹性动效消息 (Top-Right)
     </Button>
   )
 }

@@ -2,7 +2,7 @@
   "name": "watermark",
   "type": "registry:ui",
   "title": "水印 Watermark",
-  "description": "在内容区域上方添加重复的文字或图片水印。",
+  "description": "在页面、卡片或敏感数据区域平铺防泄密版权文本或自定义图章的无干扰背景水印组件。",
   "import": "import { Watermark } from \"@/components/ui/watermark\"",
   "exports": [
     "Watermark"
@@ -99,7 +99,6 @@
       "description": "水印图层的堆叠层级。"
     }
   ],
-  "events": "根元素会透传原生 `<div>` 事件和属性。水印视觉层使用 `pointer-events: none`，因此不会成为事件目标；\n根容器上的事件仍可正常监听。",
   "examples": [
     {
       "name": "watermark-demo",
@@ -107,11 +106,11 @@
     },
     {
       "name": "watermark-custom",
-      "title": "多行文字与自定义间距"
+      "title": "多行自定义内容"
     },
     {
       "name": "watermark-image",
-      "title": "图片水印"
+      "title": "自定义图章图片"
     }
   ],
   "files": [

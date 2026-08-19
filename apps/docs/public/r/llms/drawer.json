@@ -2,7 +2,7 @@
   "name": "drawer",
   "type": "registry:ui",
   "title": "抽屉 Drawer",
-  "description": "从视口边缘平滑进入、用于承载补充任务的焦点面板。",
+  "description": "从屏幕边缘平滑滑出的焦点抽屉面板，用于承载查看详情、多步表单与辅助配置，同时保留主页面的上下文环境。",
   "import": "import { Drawer, DrawerBody, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerPortal, DrawerTitle, DrawerTrigger } from \"@/components/ui/drawer\"",
   "exports": [
     "Drawer",
@@ -64,11 +64,22 @@
       "description": "是否锁定焦点并禁止与抽屉外部内容交互。"
     }
   ],
-  "events": "根组件沿用 Radix Dialog 的 `open`、`defaultOpen` 和 `onOpenChange`。受控模式下，`onOpenChange` 需要同步更新 `open`。\n面板从指定边缘进入，关闭时沿同一路径返回；用户开启“减少动态效果”后直接呈现最终位置。",
   "examples": [
     {
       "name": "drawer-demo",
-      "title": "基础用法"
+      "title": "详情预览面板"
+    },
+    {
+      "name": "drawer-placement",
+      "title": "四向滑出位置"
+    },
+    {
+      "name": "drawer-form",
+      "title": "复杂表单与固定底部栏"
+    },
+    {
+      "name": "drawer-sizes",
+      "title": "尺寸预设与响应式"
     }
   ],
   "files": [

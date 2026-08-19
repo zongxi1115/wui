@@ -1,41 +1,174 @@
 ---
 title: AI 工具调用 AI Tool
-description: 展示 AI 工具的执行状态、参数、结果与错误。
+description: 用于展示智能体（Agent）工具调用的执行状态、参数入参、输出结果、错误堆栈与人工审批确认。
 component: ai-tool
 ---
 
 ## 基础用法
 
+包含执行中、成功与失败三种典型状态的可折叠工具调用卡片：
+
 <ComponentPreview name="ai-tool-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/ai-tool" />
 
+<Steps>
+
+<Step>安装基础依赖与动效库</Step>
+
+```bash
+pnpm add radix-ui class-variance-authority lucide-react clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/ai-tool.tsx`</Step>
+
 <ComponentSource name="ai-tool" title="components/ui/ai-tool.tsx" />
 
-## 使用场景
+</Steps>
 
-`AiTool` 用于把一次工具调用压缩成可扫描的状态行，并在需要时展开参数、结果或错误。它适合搜索、读文件、数据库查询和生成任务；
-组件只展示状态，不负责真正调用工具，也不应把密钥、内部路径或其他敏感参数直接展示给最终用户。
+## 属性 Props
 
-普通后台任务状态更适合 Progress 或 Timeline；只有当“哪个工具做了什么”有助于用户理解 Agent 行为时，才使用 `AiTool`。
+### AiTool (根折叠容器)
 
-## 属性
+<PropsTable
+  data={[
+    {
+      prop: "status",
+      type: '"pending" | "approval" | "running" | "success" | "error" | "denied"',
+      default: '"pending"',
+      description: "当前工具调用生命周期状态。对应不同的状态图标与主题色。",
+    },
+    {
+      prop: "defaultOpen",
+      type: "boolean",
+      description: "默认是否展开工具详情（默认在 `error` 状态下自动展开，其他状态折叠）。",
+    },
+    {
+      prop: "open",
+      type: "boolean",
+      description: "受控模式下的展开状态。",
+    },
+    {
+      prop: "onOpenChange",
+      type: "(open: boolean) => void",
+      description: "工具折叠或展开状态改变时的回调函数。",
+    },
+  ]}
+/>
 
-<PropsTable name="ai-tool" />
+### AiToolTrigger (头部触发器)
 
-## 事件
+<PropsTable
+  data={[
+    {
+      prop: "name",
+      type: "string",
+      default: '"工具调用"',
+      description: "工具函数的标识名称（如 `execute_sql` 或 `fetch_weather`）。",
+    },
+    {
+      prop: "children",
+      type: "React.ReactNode",
+      description: "完全自定义头部内容。默认自动渲染扳手图标、工具名称、状态徽标与折叠箭头。",
+    },
+  ]}
+/>
 
-组件透传 Radix Collapsible 的 `open`、`defaultOpen` 和 `onOpenChange`，支持受控和非受控展开。工具批准、拒绝和重试按钮
-由业务层放入 `AiToolSection`，并自行绑定请求事件；按钮的显示条件应与当前工具状态保持一致。
+### AiToolStatus (状态徽章)
 
-## 扩展用法
+<PropsTable
+  data={[
+    {
+      prop: "status",
+      type: "AiToolStatus",
+      description: "覆盖从上下文继承的工具状态。",
+    },
+    {
+      prop: "label",
+      type: "string",
+      description: "自定义展示的状态文案（如覆盖「执行中」为「正在下载依赖…」）。",
+    },
+  ]}
+/>
 
-### 状态映射
+### AiToolCode (代码与 JSON 展示块)
 
-使用 `pending`、`approval`、`running`、`success`、`error` 和 `denied` 映射工具协议状态。颜色、图标和文字共同表达状态，
-不要依赖单一颜色；`running` 图标会在用户开启“减少动态效果”后停止旋转。
+<PropsTable
+  data={[
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于代码块容器的样式类名（自带等宽字体、背景与水平滚动）。",
+    },
+  ]}
+/>
 
-### 自定义输出
+### AiToolError (错误通知块)
 
-JSON 参数可以放入 `AiToolCode`，普通文本、表格、文件列表或图片可以直接组合在 `AiToolSection` 内。失败信息使用 `AiToolError`；
-面向普通用户时只展示可理解的原因和下一步，不要直接暴露堆栈或内部路径。
+<PropsTable
+  data={[
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于错误提示区域的样式类名（自带警示红底与 `role=\"alert\"`）。",
+    },
+  ]}
+/>
+
+## 事件 Events
+
+<PropsTable
+  data={[
+    {
+      prop: "onOpenChange",
+      type: "(open: boolean) => void",
+      description: "用户点击工具头部展开或收起参数与结果面板时触发。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`AiTool` 用于在智能体（Function Calling / MCP 架构）执行任务时向用户提供透明、可控的执行过程：
+
+- **何时使用**：
+  - 展示大模型调用外部 API、读取本地文件或执行 SQL 查询的过程；
+  - 高危操作（如删除数据库记录、转账、轮换密钥）的人工介入审批（Human-in-the-loop）；
+  - 智能体多步链式排查流水线。
+- **何时不应使用**：
+  - 纯后台静默任务（如内部 Redis 读写），用户无需知晓具体工具名称；
+  - 严禁直接向未授权终端用户暴露包含系统密钥、私有内网 IP 或敏感凭据的原始调用入参。
+- **设计最佳实践**：
+  - **错误自动展开，成功智能折叠**：对于执行成功的工具调用，保持收起以节省屏幕高度；一旦发生失败，默认自动展开错误日志帮助用户定位原因；
+  - **结构清晰**：使用 `AiToolSection` 划分“调用入参”、“执行中”与“结果反馈”，配合 `AiToolCode` 格式化 JSON 数据；
+  - **明确的确认交互**：在 `approval` 状态下提供醒目的“批准”与“拒绝”按钮。
+
+## 场景示例
+
+### 人工确认与审批授权 (Human-in-the-Loop)
+
+针对涉及修改生产配置或转账的高危工具调用，暂停执行并要求用户明确确认：
+
+<ComponentPreview name="ai-tool-approval" />
+
+### 链式工具调用流水线
+
+展示智能体在排查系统故障时连续调用的多阶段工具流水线（查日志 -> 验连接池 -> EXPLAIN 分析）：
+
+<ComponentPreview name="ai-tool-chain" />
+
+## 无障碍与交互 Accessibility
+
+- **状态播报与色彩无障碍**：
+  - 工具状态不仅通过颜色区分，同时辅以独特的语义图标（如勾选、旋转圆环、警示盾牌）与文案；
+  - `AiToolError` 自动挂载 `role="alert"`，确保错误信息即时通知辅助设备。
+- **键盘导航支持**：
+  - <kbd>Tab</kbd>：聚焦至工具触发器；
+  - <kbd>Enter</kbd> / <kbd>Space</kbd>：展开/折叠参数面板；
+  - 审批操作中的“批准”与“拒绝”按钮可通过键盘直接操作。
+- **动效降级**：
+  - 当系统开启 `prefers-reduced-motion` 时，`running` 状态下的旋转加载图标将自动停止旋转。

@@ -1,34 +1,176 @@
 ---
 title: 表单 Form
-description: 可组合的表单字段，协调标签、校验提示与动效反馈。
+description: 具备完整语义化结构、自动无障碍 ARIA 关联、字段校验动画与微动效反馈的表单容器体系。
 component: form
 ---
 
 ## 基础用法
 
+通过组合 `Form`、`FormField`、`FormLabel`、`FormControl`、`FormDescription`、`FormMessage` 与 `FormActions` 构建标准业务表单：
+
 <ComponentPreview name="form-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/form" />
 
+<Steps>
+
+<Step>安装基础依赖与动效库</Step>
+
+```bash
+pnpm add motion clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/form.tsx`</Step>
+
 <ComponentSource name="form" title="components/ui/form.tsx" />
 
-## 使用场景
+</Steps>
 
-`Form` 把标签、控件、帮助说明和校验消息放在统一的字段结构中，并自动建立它们之间的无障碍关联。
-每个 `FormField` 显式维护字段状态，因此可以接入原生表单状态或任意校验库。只需要提交几项简单数据时，原生 HTML 表单即可；
-需要多字段布局和一致反馈时，使用 `Form`。
+## 属性 Props
 
-## 属性
+### Form
 
-<PropsTable name="form" />
+`<Form>` 承载表单顶层容器，并继承 Framer Motion `<motion.form>` 的所有属性：
 
-## 事件
+<PropsTable
+  data={[
+    {
+      prop: "animated",
+      type: "boolean",
+      default: "true",
+      description: "挂载初次渲染时是否播放轻量平滑的向上渐入过渡动效。",
+    },
+    {
+      prop: "onSubmit",
+      type: "(event: React.FormEvent<HTMLFormElement>) => void",
+      description: "表单提交时的原生回调事件。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于表单根容器的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-- `Form` 会透传 `onSubmit`、`onReset` 和 `onInvalid` 等原生表单事件。
-- `FormControl` 保留子控件自身事件，同时补充字段 ID 和 ARIA 关联。
-- `FormField` 的 `invalid` 为真时，`FormMessage` 会显示在对应控件附近；错误文字应说明如何修正，而不只是写“格式错误”。
+### FormField
 
-## 扩展用法
+`<FormField>` 为每个独立字段提供上下文，并自动生成唯一的 DOM ID 与无障碍映射：
 
-使用 `FormSection` 和 `FormLegend` 组织相关字段，并将主次操作放入 `FormActions`。如果页面容器已经负责入场动效，
-可以设置 `animated={false}`，避免同一字段出现两层动画。
+<PropsTable
+  data={[
+    {
+      prop: "invalid",
+      type: "boolean",
+      default: "false",
+      description: "标记当前字段是否处于校验失败状态。为 true 时触发平滑左右微抖动提示动画。",
+    },
+    {
+      prop: "required",
+      type: "boolean",
+      default: "false",
+      description: "是否为必填字段。为 true 时自动向 `FormLabel` 追加红色星号并向控件挂载 `aria-required`。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于单字段包装容器的额外 CSS 类名。",
+    },
+  ]}
+/>
+
+### FormLabel
+
+`<FormLabel>` 字段标题标签，自动关联对应控件的 `id`：
+
+<PropsTable
+  data={[
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于标签文本的额外 CSS 类名。",
+    },
+  ]}
+/>
+
+### FormControl
+
+`<FormControl>` 将表单上下文中的无障碍属性（`id`、`aria-describedby`、`aria-invalid`、`aria-required`）自动注入到唯一的子元素控件中：
+
+<PropsTable
+  data={[
+    {
+      prop: "children",
+      type: "React.ReactElement",
+      required: true,
+      description: "单个表单输入控件（如 Input、Select、Cascader、Switch、Checkbox 等）。",
+    },
+  ]}
+/>
+
+### FormDescription 与 FormMessage
+
+- `<FormDescription>`：显示字段的帮助说明文本，自动与控件的 `aria-describedby` 关联。
+- `<FormMessage>`：校验错误提示文本，在 `invalid={true}` 时带高度与透明度渐入动效展开，挂载 `role="alert"`。
+
+### FormSection, FormLegend, FormActions
+
+- `<FormSection>`：语义化 `<fieldset>`，用于组织一组关联紧密的字段集合。
+- `<FormLegend>`：语义化 `<legend>`，区块标题。
+- `<FormActions>`：表单底部操作按钮区域容器。
+
+## 事件 Events
+
+<PropsTable
+  data={[
+    {
+      prop: "onSubmit",
+      type: "(event: React.FormEvent<HTMLFormElement>) => void",
+      description: "用户点击提交按钮或在输入框内按下 Enter 触发提交时调用。",
+    },
+    {
+      prop: "onReset",
+      type: "(event: React.FormEvent<HTMLFormElement>) => void",
+      description: "表单重置时触发。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`Form` 组件是现代复杂企业级应用和 C 端产品中所有录入交互的基础中枢。
+
+- **自动建立无障碍关联**：`FormField` 在内部自动通过 `React.useId()` 协调 `controlId`、`descriptionId` 与 `messageId`，开发者无需手动拼写繁琐的 `htmlFor` 和 `aria-describedby` 字符串。
+- **动态错误抖动反馈**：当字段触发 `invalid` 时，`FormField` 自动播放符合物理弹性的 X 轴微抖动反馈，同时 `FormMessage` 展开，使表单错误一目了然。
+- **校验文案规范**：错误提示应具体指明**如何修复**（例如“密码需至少包含 1 个大写字母与 8 位字符”），而非抽象模糊的“格式错误”。
+- **表单状态与库集成**：可无缝配合 React Hook Form、Formik、Zod 或原生 React `useState`。
+
+## 场景示例
+
+### 实时表单校验与错误抖动
+
+结合实时数据校验，在失焦或提交时展示字段错误与平滑动效：
+
+<ComponentPreview name="form-validation" />
+
+### 多列排版与业务配置表单
+
+在复杂配置面板中，使用 `FormSection`、多列网格与开关组合高密度表单：
+
+<ComponentPreview name="form-layout" />
+
+### 异步请求与加载反馈
+
+在校验 API 密钥或提交远程接口时，控制按钮加载状态与成功横幅：
+
+<ComponentPreview name="form-controlled" />
+
+## 无障碍与交互 Accessibility
+
+- **WAI-ARIA 规范**：`FormControl` 会自动将子控件的 `aria-invalid`、`aria-required` 与 `aria-describedby`（同时关联描述与错误提示）绑定到位。
+- **屏幕阅读器支持**：错误提示 `FormMessage` 具有 `role="alert"`，出现时会立即被屏幕阅读器感知播报。
+- **动效降级**：内置的入场动效、错误抖动和折叠动画在检测到 `prefers-reduced-motion` 时自动关闭，确保敏感用户不受困扰。

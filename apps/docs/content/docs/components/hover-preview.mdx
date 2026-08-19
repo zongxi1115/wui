@@ -1,29 +1,135 @@
 ---
 title: 悬停预览 Hover Preview
-description: 列表项浮入或聚焦时显示跟随指针的作品预览。
+description: 当鼠标悬停在列表行、链接或触发元素上时，在其近旁展示跟随弹簧浮动的图文富媒体预览卡片。
 component: hover-preview
 ---
 
 ## 基础用法
 
+鼠标移至发布日志列表中任一项目上方，将在光标近旁跟随展示架构快照与基准性能数据：
+
 <ComponentPreview name="hover-preview-demo" />
 
-<DependencyBadges packages={["motion"]} />
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/hover-preview" />
 
+<Steps>
+
+<Step>安装基础依赖与动效库</Step>
+
+```bash
+pnpm add motion lucide-react class-variance-authority clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/hover-preview.tsx`</Step>
+
 <ComponentSource name="hover-preview" title="components/ui/hover-preview.tsx" />
 
-## 使用场景
+</Steps>
 
-`HoverPreview` 把列表行与对应的视觉预览组合起来：鼠标进入时在指针旁显示跟随浮层，键盘聚焦时把浮层定位到当前行附近。
-它适合作品索引、资源目录和带图的文本导航。预览是补充信息，列表行本身仍必须包含完整名称和可操作语义。
+## 属性 Props
 
-## 属性
+<PropsTable
+  data={[
+    {
+      prop: "children",
+      type: "React.ReactNode",
+      description: "接收悬停或焦点交互的目标行、链接或按钮元素。",
+    },
+    {
+      prop: "preview",
+      type: "React.ReactNode",
+      description: "在浮动层中展示的预览内容（支持图片、指标卡片、作者信息等）。",
+    },
+    {
+      prop: "offsetX",
+      type: "number",
+      default: "24",
+      description: "预览卡片相对于鼠标水平位置的 X 轴偏移像素距离。",
+    },
+    {
+      prop: "offsetY",
+      type: "number",
+      default: "20",
+      description: "预览卡片相对于鼠标垂直位置的 Y 轴偏移像素距离。",
+    },
+    {
+      prop: "open",
+      type: "boolean",
+      description: "受控模式下显式控制预览卡片的展开/收起状态。",
+    },
+    {
+      prop: "previewClassName",
+      type: "string",
+      description: "应用于浮动预览卡片外层容器的 CSS 类名。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于外层触发容器的 CSS 类名。",
+    },
+  ]}
+/>
 
-<PropsTable name="hover-preview" />
+## 事件 Events
 
-## 使用说明
+<PropsTable
+  data={[
+    {
+      prop: "onPointerEnter",
+      type: "(event: React.PointerEvent) => void",
+      description: "光标进入目标交互行时触发。",
+    },
+    {
+      prop: "onPointerMove",
+      type: "(event: React.PointerEvent) => void",
+      description: "光标在目标行内移动时触发，驱动弹簧目标坐标更新。",
+    },
+    {
+      prop: "onPointerLeave",
+      type: "(event: React.PointerEvent) => void",
+      description: "光标离开目标交互行时触发，收起预览卡片。",
+    },
+    {
+      prop: "onFocus",
+      type: "(event: React.FocusEvent) => void",
+      description: "键盘通过 Tab 键聚焦到子元素时触发，自动在元素右侧锚定展示预览。",
+    },
+    {
+      prop: "onBlur",
+      type: "(event: React.FocusEvent) => void",
+      description: "失去键盘焦点时触发，收起预览卡片。",
+    },
+  ]}
+/>
 
-通过 `offsetX`、`offsetY` 避免浮层遮住指针目标；预览尺寸应尽量固定，减少列表切换时的跳动。触摸输入不会因 hover 打开预览，
-键盘用户仍可通过焦点触发。不能把只有 hover 才出现的图片作为唯一的内容说明。
+## 使用场景与设计规范
+
+`HoverPreview` 适用于**不离开当前浏览流的前提下提供关键上下文摘要**：
+
+- **链接文章卡片预览**：在长文本或博客中，悬停在引用链接上直接展示文章大图与阅读时长。
+- **用户头像名片**：在评论区或协作者列表中，悬停在用户名上展示作者职位、关注按钮与社交信息。
+- **发布动态与架构快照**：在产品版本更新列表（Changelog）中快速预览对应的架构图。
+
+## 场景示例
+
+### 文本链接卡片预览
+
+在富文本阅读体验中无缝插入文章与知识库链接预览：
+
+<ComponentPreview name="hover-preview-link" />
+
+### 用户资料名片
+
+悬停于协作者名字展示个人资料与快捷关注操作：
+
+<ComponentPreview name="hover-preview-user" />
+
+## 无障碍与交互 Accessibility
+
+- **键盘焦点支持**：不仅支持鼠标悬停，通过 <kbd>Tab</kbd> 聚焦行内链接时，组件能自动获取元素在视口中的绝对包围盒并展示预览。
+- **触摸屏降级**：通过指针类型探测（`pointerType !== "touch"`）自动屏蔽移动端误触，避免在手机滚动时弹出悬浮层遮挡视线。
+- **无障碍标记**：浮动预览层使用 `aria-hidden="true"` 和 `pointer-events-none`，不会干扰屏幕阅读器按序朗读主干内容。

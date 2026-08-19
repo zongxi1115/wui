@@ -2,7 +2,7 @@
   "name": "toggle-group",
   "type": "registry:ui",
   "title": "切换按钮组 Toggle Group",
-  "description": "将多个双态按钮组织为互斥选择或并列多选。",
+  "description": "将多个双态切换按钮组合为单选互斥（Single）或并列多选（Multiple）的分组控件。",
   "import": "import { ToggleGroup, ToggleGroupItem } from \"@/components/ui/toggle-group\"",
   "exports": [
     "ToggleGroup",
@@ -56,15 +56,26 @@
       "description": "组内切换按钮统一使用的视觉样式。"
     }
   ],
-  "events": "单选模式通过 `value` / `onValueChange` 管理字符串值，多选模式管理字符串数组。每个 `ToggleGroupItem` 的 `value` 必须稳定且唯一。",
   "examples": [
     {
       "name": "toggle-group-demo",
       "title": "基础用法"
     },
     {
+      "name": "toggle-group-alignment",
+      "title": "富文本排版与格式工具栏"
+    },
+    {
+      "name": "toggle-group-device-preview",
+      "title": "响应式画布设备视口切换"
+    },
+    {
+      "name": "toggle-group-filter",
+      "title": "状态标签多维筛选"
+    },
+    {
       "name": "toggle-group-multiple",
-      "title": "多选格式"
+      "title": "多选格式样式"
     }
   ],
   "files": [

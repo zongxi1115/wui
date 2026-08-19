@@ -1,31 +1,183 @@
 ---
-title: 命令列表 Command
-description: 支持模糊搜索、键盘导航、分组与空状态的命令列表。
+title: 命令菜单 Command
+description: 快速可组合的命令调色板与全局资源搜索列表，支持拼音与关键词模糊检索、全键盘上下导航、分类分组及空状态。
 component: command
 ---
 
 ## 基础用法
 
+最简单的命令菜单列表。输入关键词即可实时过滤选项，支持按键盘上下键与回车进行选择：
+
 <ComponentPreview name="command-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/command" />
 
+<Steps>
+
+<Step>安装基础依赖与图标库</Step>
+
+```bash
+pnpm add lucide-react clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/command.tsx`</Step>
+
 <ComponentSource name="command" title="components/ui/command.tsx" />
 
-## 使用场景
+</Steps>
 
-`Command` 适合命令面板、资源检索和可搜索选择器。它只负责本地过滤、上下方向键导航、回车选择与空状态；弹窗、快捷键和异步数据由业务层组合。
+## 属性 Props
 
-每个 `CommandItem` 都应提供稳定的 `value`。可将拼音、首字母或业务别名写入 `keywords`，这些内容会参与默认的模糊匹配，但不会显示在界面中。
+### Command (根容器)
 
-## 属性
+<PropsTable
+  data={[
+    {
+      prop: "query",
+      type: "string",
+      description: "受控模式下的搜索关键词。",
+    },
+    {
+      prop: "defaultQuery",
+      type: "string",
+      default: '""',
+      description: "非受控模式下的初始搜索关键词。",
+    },
+    {
+      prop: "onQueryChange",
+      type: "(query: string) => void",
+      description: "输入框搜索内容发生改变时的回调函数。",
+    },
+    {
+      prop: "shouldFilter",
+      type: "boolean",
+      default: "true",
+      description: "是否由组件内置算法自动过滤选项。若接入远程服务端搜索，请设为 false。",
+    },
+    {
+      prop: "filter",
+      type: "(value: string, query: string, keywords: string[]) => boolean",
+      description: "自定义选项的模糊搜索匹配算法规则。",
+    },
+  ]}
+/>
 
-<PropsTable name="command" />
+### CommandInput
 
-## 扩展用法
+绑定 Command 搜索状态的原生 `<input>` 包装：
+
+<PropsTable
+  data={[
+    {
+      prop: "placeholder",
+      type: "string",
+      default: '"搜索命令..."',
+      description: "输入框的占位提示文本。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于输入框的额外 CSS 类名。",
+    },
+  ]}
+/>
+
+### CommandItem
+
+可搜索、可通过键盘选中的命令项：
+
+<PropsTable
+  data={[
+    {
+      prop: "value",
+      type: "string",
+      description: "当前项的唯一文本标识，默认参与模糊搜索比对并传递给 onSelect。",
+    },
+    {
+      prop: "keywords",
+      type: "string[]",
+      default: "[]",
+      description: "参与搜索匹配的额外关键词或别名（如拼音、英文缩写），不会在界面中渲染。",
+    },
+    {
+      prop: "disabled",
+      type: "boolean",
+      default: "false",
+      description: "是否禁用该命令项（禁用后跳过键盘焦点与点击响应）。",
+    },
+    {
+      prop: "onSelect",
+      type: "(value: string) => void",
+      description: "当用户通过鼠标点击或键盘 Enter 选中该命令时触发的回调。",
+    },
+  ]}
+/>
+
+### CommandGroup / CommandSeparator / CommandShortcut
+
+<PropsTable
+  data={[
+    {
+      prop: "heading",
+      type: "React.ReactNode",
+      description: "分组标题内容（CommandGroup 专用）。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于相应组件的额外 CSS 类名。",
+    },
+  ]}
+/>
+
+## 事件 Events
+
+<PropsTable
+  data={[
+    {
+      prop: "onSelect",
+      type: "(value: string) => void",
+      description: "用户点击命令项或通过键盘 Enter 确认选中时触发，参数为该选项的 value。",
+    },
+    {
+      prop: "onQueryChange",
+      type: "(query: string) => void",
+      description: "搜索输入框内容改变时触发，可用于触发防抖异步搜索请求。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`Command` 适用于高密度、高操作频率的现代效率工具：
+
+- **Spotlight 全局命令调色板**：配合 `Dialog` 与全局快捷键（如 <kbd>⌘</kbd> + <kbd>K</kbd>），让用户无需鼠标即可完成跨模块跳转、新建文档或主题切换。
+- **拼音与别名搜索优化**：中文场景下，建议为每个 `CommandItem` 补充 `keywords={["xinjian", "doc", "new"]}`，使用户在未切换输入法时仍能搜出目标操作。
+- **服务端搜索接入**：对于数千条记录的海量检索，设置 `shouldFilter={false}`，通过 `onQueryChange` 发起异步 API 检索，将返回的结果动态映射为 `CommandItem`。
+
+## 场景示例
+
+### ⌘K 全局调色板弹窗 (Command Palette)
+
+结合全局键盘监听、快捷键提示与分类分组：
+
+<ComponentPreview name="command-palette" />
 
 ### 分组、别名与禁用项
 
+使用 `CommandGroup` 建立操作分组，使用 `CommandSeparator` 划分视觉区域：
+
 <ComponentPreview name="command-groups" />
 
-使用 `CommandGroup` 建立语义分组，使用 `CommandSeparator` 分隔操作区域。禁用项不会响应点击、方向键或回车。需要服务端搜索时设置 `shouldFilter={false}`，再通过 `query` 与 `onQueryChange` 接管搜索状态和数据请求。
+## 无障碍与交互 Accessibility
+
+- **Combobox & Listbox 角色模型**：输入框自动挂载 `role="combobox"` 与 `aria-autocomplete="list"`；列表容器挂载 `role="listbox"`；选项挂载 `role="option"`。
+- **活动后代指示（aria-activedescendant）**：当前通过上下方向键高亮的项目 ID 会实时同步至输入框的 `aria-activedescendant` 属性，读屏器无需移动焦点即可清晰播报当前选中的项目。
+- **全键盘流畅控制**：
+  - <kbd>↓</kbd> / <kbd>↑</kbd>：按顺序在可用命令项间循环切换高亮。
+  - <kbd>Enter</kbd>：直接执行当前高亮项的 `onSelect` 回调。
+  - <kbd>Esc</kbd>：清空输入或在弹窗模式下关闭菜单。

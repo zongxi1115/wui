@@ -2,7 +2,7 @@
   "name": "image-preview",
   "type": "registry:ui",
   "title": "图片预览 Image Preview",
-  "description": "点击缩略图进入沉浸式大图预览，并提供缩放、旋转与下载操作。",
+  "description": "点击缩略图进入沉浸式大图灯箱预览，支持平滑缩放、旋转、拖拽平移与原图下载。",
   "import": "import { ImagePreview } from \"@/components/ui/image-preview\"",
   "exports": [
     "ImagePreview"
@@ -134,15 +134,18 @@
       "description": "是否禁用组件。"
     }
   ],
-  "events": "- `onOpenChange(open)`：预览打开或关闭时触发，支持受控和非受控状态。\n- 缩放按钮也支持 `+`、`-` 快捷键，按 `0` 重置缩放和旋转。\n- Escape、背景点击和焦点管理会关闭或约束预览；放大后可以拖动图片查看边缘细节。\n- 其余按钮属性会透传给缩略图触发器。",
   "examples": [
     {
       "name": "image-preview-demo",
       "title": "基础用法"
     },
     {
+      "name": "image-preview-gallery",
+      "title": "画廊网格与高分辨率原图下载"
+    },
+    {
       "name": "image-preview-minimal",
-      "title": "简洁预览"
+      "title": "极简纯净模式 (隐藏工具栏)"
     }
   ],
   "files": [

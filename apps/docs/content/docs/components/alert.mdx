@@ -1,46 +1,170 @@
 ---
 title: 警告提示 Alert
-description: 用于展示需要保留在页面中的状态、说明和操作建议。
+description: 用于在页面流中展示需要持久保留的状态通告、错误排查指引与操作建议。
 component: alert
 ---
 
 ## 基础用法
 
+警告提示的基础形态，包含 `info`、`success`、`warning`、`destructive` 语义变体，支持标题与详细描述：
+
 <ComponentPreview name="alert-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/alert" />
 
+<Steps>
+
+<Step>安装依赖库与图标库</Step>
+
+```bash
+pnpm add lucide-react class-variance-authority clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/alert.tsx`</Step>
+
 <ComponentSource name="alert" title="components/ui/alert.tsx" />
 
-## 使用场景
+</Steps>
 
-`Alert` 是页面内持续可见的反馈组件，适合承载标题、较长说明、尾部操作以及需要用户主动关闭的状态。
-它会跟随页面内容一起存在，适合错误说明、系统公告和下一步建议；只需要在操作后短暂提示一句结果时，应使用 Message。
+## 属性 Props
 
-## 属性
+`Alert` 支持以下配置属性，并会继承原生 `<div>` 容器元素的全部 HTML 属性：
 
-<PropsTable name="alert" />
+<PropsTable
+  data={[
+    {
+      prop: "variant",
+      type: '"default" | "info" | "success" | "warning" | "destructive"',
+      default: '"default"',
+      description: "提示的语义主题与对应色彩样式，同时决定默认图标及 ARIA 角色。",
+    },
+    {
+      prop: "size",
+      type: '"default" | "compact"',
+      default: '"default"',
+      description: "内边距与高度密度预设。compact 适合单行简短提示。",
+    },
+    {
+      prop: "title",
+      type: "React.ReactNode",
+      description: "提示的主标题，显示在详细描述上方并加粗渲染。",
+    },
+    {
+      prop: "children",
+      type: "React.ReactNode",
+      description: "提示的详细描述文本或结构化内容。",
+    },
+    {
+      prop: "icon",
+      type: "React.ReactNode | false",
+      description: "自定义前导图标。传入 `false` 可完全隐藏左侧图标。",
+    },
+    {
+      prop: "action",
+      type: "React.ReactNode",
+      description: "位于右侧的自定义操作区（如按钮、链接或操作组）。",
+    },
+    {
+      prop: "closable",
+      type: "boolean",
+      default: "false",
+      description: "是否在右上角显示关闭叉号按钮。",
+    },
+    {
+      prop: "visible",
+      type: "boolean",
+      description: "受控模式下的显示与隐藏状态。",
+    },
+    {
+      prop: "defaultVisible",
+      type: "boolean",
+      default: "true",
+      description: "非受控模式下的初始显示状态。",
+    },
+    {
+      prop: "onVisibleChange",
+      type: "(visible: boolean) => void",
+      description: "当提示因点击关闭按钮或受控更新而发生可见性改变时触发的回调。",
+    },
+    {
+      prop: "role",
+      type: "string",
+      description: "覆盖默认的 ARIA 角色属性（默认 warning / destructive 为 alert，其余为 status）。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于外层容器的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-## 尾部操作
+## 事件 Events
+
+<PropsTable
+  data={[
+    {
+      prop: "onVisibleChange",
+      type: "(visible: boolean) => void",
+      description: "用户点击关闭按钮（`closable`）或受控状态变更时触发，参数为最新的可见布尔值。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`Alert` 是**页面流内持续可见**的静态反馈组件，通常驻留在页面或表单特定位置，向用户传达与当前上下文强相关的状态或警告。
+
+- **Alert vs Message (Toast)**：
+  - `Alert`：位于页面文档流内，占据实际版面高度，适合承载长段说明、需长期留存的错误排查指南或包含明确纠错操作的卡片。
+  - `Message`：浮动于屏幕顶层（Portal），超时自动消失，适合对保存、复制等即时操作结果进行极简反馈（1~2 秒即可阅读完毕）。
+- **语义色彩规范**：
+  - `info`：中性提示、版本发布公告、功能提示。
+  - `success`：流程完成确认、安全合规检查通过。
+  - `warning`：非阻断性预警（如额度快耗尽、证书即将到期）。
+  - `destructive`：阻断性错误、连接失败、数据被删除风险。
+- **操作明确性**：尾部 `action` 按钮应使用明确动词（如“重新连接”、“升级配额”），避免使用含糊的“确定”。
+
+## 场景示例
+
+### 尾部操作 (Action)
+
+将“重试”、“更新账单”或“撤销”等下一步关键动作放置在提示右侧：
 
 <ComponentPreview name="alert-action" />
 
-将“查看详情”“重试”等下一步操作放在 Alert 尾部。操作按钮应直接说明动作，不要把整个提示区域做成一个没有明确名称的可点击块。
+### 可关闭与受控显示 (Dismissible)
 
-## 可关闭与受控显示
+开启 `closable` 后用户可主动关闭已知悉的公告或临时预警，配合 `visible` 与 `onVisibleChange` 实现受控管理：
 
 <ComponentPreview name="alert-dismissible" />
 
-可关闭提示适合用户已经知道如何处理，或提示不应重复出现的场景。需要由业务层决定是否显示时，使用 `open` 和
-`onOpenChange`；关闭只改变展示状态，不会自动修改业务数据。
+### 紧凑单行模式 (Compact)
 
-## 紧凑尺寸
+在表单顶部或空间紧凑的弹窗内，使用 `size="compact"` 展现无标题的单行轻量提示：
 
 <ComponentPreview name="alert-compact" />
 
-## 可访问性
+### 自定义图标与隐藏图标
 
-- `warning` 与 `destructive` 默认使用 `role="alert"`。
-- 其他变体默认使用 `role="status"`。
-- 关闭按钮带有可访问名称，标题和说明文字应完整表达信息，不要只通过背景色区分变体。
-- 如果提示会在用户操作后动态出现，确保内容足够简短，避免一次性打断读屏器正在读取的长段落。
+支持传入自定义图标或传入 `icon={false}` 开启极简纯文字模式：
+
+<ComponentPreview name="alert-custom-icon" />
+
+### 业务场景：安全风险警报与证书预警
+
+在控制台监控与安全中心，组合告警等级、高对比度行动按钮与审计说明文案：
+
+<ComponentPreview name="alert-business" />
+
+## 无障碍与交互 Accessibility
+
+- **动态 ARIA 角色分配**：
+  - `warning` 与 `destructive` 变体默认挂载 `role="alert"` 与 `aria-live="assertive"`，屏幕阅读器会在出现时立即优先播报。
+  - `info`、`success` 与 `default` 变体默认挂载 `role="status"` 与 `aria-live="polite"`，屏幕阅读器会在空闲时平稳朗读。
+- **关闭按钮可访问性**：内置关闭按钮配置了 `aria-label="Close alert"`，支持 <kbd>Tab</kbd> 聚焦并通过 <kbd>Enter</kbd> / <kbd>Space</kbd> 触发关闭。
+- **多重感知设计**：不单单依靠色彩传达错误，每个语义变体均有特定的图形图标，并在视觉上提供了明确的文字内容。

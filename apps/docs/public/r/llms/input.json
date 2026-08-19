@@ -2,7 +2,7 @@
   "name": "input",
   "type": "registry:ui",
   "title": "输入框 Input",
-  "description": "支持前后内容、浮动标签、下划线和错误态的输入框。",
+  "description": "用于录入单行文本、邮箱、密码及搜索词的基础表单控件，支持前后置内容、浮动标签、下划线风格与多重校验状态。",
   "import": "import { Input, inputShellVariants } from \"@/components/ui/input\"",
   "exports": [
     "Input",
@@ -83,35 +83,75 @@
       "description": "是否禁用组件。"
     }
   ],
-  "events": "所有原生输入事件都会透传，包括 `onChange`、`onInput`、`onFocus`、`onBlur` 和键盘事件。传入 `aria-invalid=\"true\"`\n会同步显示错误边框和错误状态；错误原因仍应通过表单说明文字提供，不能只依赖颜色。",
   "examples": [
     {
       "name": "input-demo",
       "title": "基础用法"
     },
     {
-      "name": "input-states",
-      "title": "图标、错误与禁用态"
+      "name": "input-controlled",
+      "title": "受控模式与字符统计"
+    },
+    {
+      "name": "input-sizes",
+      "title": "尺寸规格"
+    },
+    {
+      "name": "input-with-icon",
+      "title": "前后置图标与操作 (Start & End Content)"
+    },
+    {
+      "name": "input-password",
+      "title": "密码输入与强度检测"
     },
     {
       "name": "input-floating-label",
-      "title": "浮动标签"
+      "title": "浮动标签 (Floating Label)"
     },
     {
       "name": "input-underline",
-      "title": "下划线样式"
+      "title": "下划线风格 (Underline Variant)"
+    },
+    {
+      "name": "input-states",
+      "title": "状态展示与表单校验"
+    },
+    {
+      "name": "input-form",
+      "title": "完整业务表单"
     },
     {
       "name": "input-number-advanced"
     },
     {
+      "name": "input-number-controlled"
+    },
+    {
       "name": "input-number-demo"
+    },
+    {
+      "name": "input-number-disabled"
+    },
+    {
+      "name": "input-number-form"
+    },
+    {
+      "name": "input-number-sizes"
     },
     {
       "name": "input-otp-advanced"
     },
     {
+      "name": "input-otp-alphanumeric"
+    },
+    {
+      "name": "input-otp-auth-flow"
+    },
+    {
       "name": "input-otp-demo"
+    },
+    {
+      "name": "input-otp-pin"
     }
   ],
   "files": [

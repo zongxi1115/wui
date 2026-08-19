@@ -2,7 +2,7 @@
   "name": "cursor",
   "type": "registry:ui",
   "title": "自定义光标 Cursor",
-  "description": "可全局使用或附着到局部区域的弹簧跟随光标。",
+  "description": "附着于页面或特定容器的物理弹簧跟随自定义光标，为创意展示与画布操作提供高交互沉浸感。",
   "categories": [
     "motion"
   ],
@@ -79,11 +79,18 @@
       "description": "指针坐标变化时触发。"
     }
   ],
-  "events": "`onPositionChange` 返回目标坐标系内的 `{ x, y }`。容器事件仍由父元素自行处理；光标视觉层使用 `pointer-events: none`，\n不会阻断点击。",
   "examples": [
     {
       "name": "cursor-demo",
       "title": "基础用法"
+    },
+    {
+      "name": "cursor-parent",
+      "title": "容器边界与坐标监听"
+    },
+    {
+      "name": "cursor-card",
+      "title": "创意卡片交互"
     }
   ],
   "files": [

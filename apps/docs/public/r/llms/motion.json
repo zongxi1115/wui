@@ -2,7 +2,7 @@
   "name": "motion",
   "type": "registry:ui",
   "title": "动效 Motion",
-  "description": "基于 motion 构建的可选动画基础组件和预设库。",
+  "description": "基于 Motion 构建的声明式动画包装组件与预设库，提供开箱即用的入场动效、视口触发与无障碍降级。",
   "import": "import { Motion, motionPresets, motionTransitions } from \"@/components/ui/motion\"",
   "exports": [
     "Motion",
@@ -89,15 +89,19 @@
     },
     {
       "name": "motion-presets",
-      "title": "动画预设"
+      "title": "动画预设库（Presets）"
+    },
+    {
+      "name": "motion-stagger-list",
+      "title": "列表交错排队入场（Stagger）"
     },
     {
       "name": "motion-in-view",
-      "title": "滚动进入视口时播放（`inView`）"
+      "title": "视口滚动监听（inView）"
     },
     {
       "name": "motion-as-child",
-      "title": "为现有组件添加动画（`asChild`）"
+      "title": "零额外 DOM 包装（asChild）"
     }
   ],
   "files": [

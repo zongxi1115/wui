@@ -1,30 +1,138 @@
 ---
 title: 文本翻滚 Text Roll
-description: 悬停或挂载时逐字符翻滚的文字效果。
+description: 将字符拆分为双层垂直滚动轨迹，在悬停或挂载时呈现如机械翻牌或流体波浪般的逐字滚动质感。
 component: text-roll
 ---
 
 ## 基础用法
 
+最简单的文本翻滚用法。将鼠标悬停在文字区域上，字符将自左向右产生波浪式纵向翻转：
+
 <ComponentPreview name="text-roll-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/text-roll" />
 
+<Steps>
+
+<Step>安装依赖与 Motion 动效库</Step>
+
+```bash
+pnpm add motion clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/text-roll.tsx`</Step>
+
 <ComponentSource name="text-roll" title="components/ui/text-roll.tsx" />
 
-## 使用场景
+</Steps>
 
-`TextRoll` 复制每个字符并让第二份内容纵向滚动，适合导航链接、简短按钮和展示标题。默认在悬停或聚焦时触发，
-不会持续争夺注意力；操作名称在静止状态下也必须完整可读。
+## 属性 Props
 
-## 属性
+`TextRoll` 支持以下配置属性，并继承原生 `<span>` 的全部 HTML 属性：
 
-<PropsTable name="text-roll" />
+<PropsTable
+  data={[
+    {
+      prop: "children",
+      type: "string",
+      required: true,
+      description: "待进行双轨翻滚的纯文本字符串内容。",
+    },
+    {
+      prop: "trigger",
+      type: '"hover" | "mount"',
+      default: '"hover"',
+      description: "触发翻滚的时机：hover（鼠标悬停触发）或 mount（组件挂载时自动播放）。",
+    },
+    {
+      prop: "duration",
+      type: "number",
+      default: "0.45",
+      description: "单个字符完成一次完整翻转运动的持续时间（单位：秒）。",
+    },
+    {
+      prop: "getEnterDelay",
+      type: "(index: number) => number",
+      default: "(index) => index * 0.025",
+      description: "计算各字符进入翻滚状态的延迟函数，通过递增 index 实现从左往右的波浪律动。",
+    },
+    {
+      prop: "getExitDelay",
+      type: "(index: number) => number",
+      default: "(index) => index * 0.02",
+      description: "计算各字符恢复常态的延迟函数。",
+    },
+    {
+      prop: "variants",
+      type: "Variants",
+      default: '{ rest: { y: "0%" }, hover: { y: "-50%" } }',
+      description: "自定义字符轨道的 Motion 变体状态。",
+    },
+    {
+      prop: "transition",
+      type: "Transition",
+      description: "合并注入到各个字符翻滚动画中的额外 Transition 过渡参数。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于外层 span 容器元素的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-## 事件
+## 事件 Events
 
-组件使用鼠标进入和离开控制默认效果，其余 `<span>` 事件继续透传。用户开启“减少动态效果”时保留静态文字。
+`TextRoll` 支持所有原生 `<span>` 鼠标与键盘事件，并在内部智能管理悬停状态：
 
-## 扩展用法
+<PropsTable
+  data={[
+    {
+      prop: "onMouseEnter",
+      type: "(event: React.MouseEvent<HTMLSpanElement>) => void",
+      description: "鼠标指针移入文本区域时触发。",
+    },
+    {
+      prop: "onMouseLeave",
+      type: "(event: React.MouseEvent<HTMLSpanElement>) => void",
+      description: "鼠标指针离开文本区域时触发。",
+    },
+  ]}
+/>
 
-使用 `trigger="mount"` 可以在挂载时播放，`getEnterDelay` 和 `getExitDelay` 用来改变字符波次。自定义 `variants` 时保留 `rest` 和 `hover` 两个状态名。
+## 使用场景与设计规范
+
+`TextRoll` 非常适合为**静态的可点击元素**注入互动乐趣与现代设计质感，例如官网顶部导航链接、醒目的 CTA 操作按钮、大号核心标语与统计数字。
+
+- **交互暗示**：翻滚效果本身具有强烈的“可交互感”。请优先将 `trigger="hover"` 应用于可点击的链接或按钮中，避免在纯阅读性静态正文中滥用。
+- **波浪延迟调节**：通过 `getEnterDelay` 可以控制波浪的密集程度。短词汇可使用默认的 `0.025s` 步长；长词汇建议将步长缩短至 `0.015s`，避免右侧字符等待时间过长。
+- **单行内联排版**：组件内部各字符处于 `h-[1em] overflow-hidden` 容器中，因此能完美自适应任何字号（从 `text-xs` 到 `text-7xl`），无需手动设置固定像素高度。
+
+## 场景示例
+
+### 导航栏菜单链接
+
+在 SaaS 官网顶部导航中替代传统的下划线悬停，带来更具动感的交互反馈：
+
+<ComponentPreview name="text-roll-navigation" />
+
+### CTA 行动按钮
+
+结合现代圆角按钮与图标联动：
+
+<ComponentPreview name="text-roll-button" />
+
+### 挂载即时翻滚
+
+在数据大屏或首屏核心 SLA 指标展示中，设置 `trigger="mount"` 实现入场机械翻牌震撼效果：
+
+<ComponentPreview name="text-roll-mount-stagger" />
+
+## 无障碍与交互 Accessibility
+
+- **完整的屏幕阅读器文本保留**：外层容器挂载 `aria-label={children}`，内部各字符用于实现上下双层滚动的冗余 DOM 节点均设置了 `aria-hidden="true"`。读屏工具将直接朗读正确的纯文本，不会重复朗读两次字母。
+- **减弱动态支持**：当检测到用户的系统开启 `prefers-reduced-motion` 时，组件将直接保持静态展示，不触发任何垂直滚动位移。

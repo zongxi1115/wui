@@ -2,7 +2,7 @@
   "name": "popover",
   "type": "registry:ui",
   "title": "气泡浮层 Popover",
-  "description": "在触发器附近展示可交互的补充信息或轻量操作。",
+  "description": "在指定触发锚点周围展示富文本内容、轻量表单或操作卡片，支持自动碰撞避让与完整的焦点管理。",
   "import": "import { Popover, PopoverAnchor, PopoverClose, PopoverContent, PopoverDescription, PopoverPortal, PopoverTitle, PopoverTrigger } from \"@/components/ui/popover\"",
   "exports": [
     "Popover",
@@ -34,8 +34,12 @@
       "title": "基础用法"
     },
     {
+      "name": "popover-filter",
+      "title": "快捷筛选与多选条件面板"
+    },
+    {
       "name": "popover-form",
-      "title": "受控表单"
+      "title": "轻量配置与表单输入"
     }
   ],
   "files": [

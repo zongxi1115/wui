@@ -1,65 +1,197 @@
 ---
 title: 时间轴 Timeline
-description: 以清晰的时间顺序展示事件、状态与说明。
+description: 按照明确的时间先后顺序呈现事件流转、操作日志、发布进度与业务里程碑。
 component: timeline
 ---
 
 ## 基础用法
 
+垂直方向的基础事件时间轴。展示事件圆点、时间戳与说明文案：
+
 <ComponentPreview name="timeline-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/timeline" />
 
+<Steps>
+
+<Step>安装基础依赖与动效库</Step>
+
+```bash
+pnpm add motion class-variance-authority lucide-react clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/timeline.tsx`</Step>
+
 <ComponentSource name="timeline" title="components/ui/timeline.tsx" />
 
-## 使用场景
+</Steps>
 
-`Timeline` 适合审计日志、发布记录、订单进度和活动历史。它强调事件顺序和因果关系；需要跨列比较的数据应使用 Table。
-节点中的标题、时间和结果应直接写出事件内容，不要用大量装饰图标代替文字。
+## 属性 Props
 
-## 属性
+### Timeline (根容器)
 
-<PropsTable name="timeline" />
+继承原生 `<ol>` 元素的全部 HTML 属性：
 
-## 事件
+<PropsTable
+  data={[
+    {
+      prop: "orientation",
+      type: '"vertical" | "horizontal"',
+      default: '"vertical"',
+      description: "时间轴的排列方向。'vertical' 纵向适合历史日志与审核流；'horizontal' 横向适合横版向导步骤。",
+    },
+    {
+      prop: "align",
+      type: '"start" | "alternate"',
+      default: '"start"',
+      description: "节点的对齐方式。'start' 靠单侧对齐；'alternate' 左右交错穿插对齐（仅纵向生效）。",
+    },
+    {
+      prop: "density",
+      type: '"default" | "compact"',
+      default: '"default"',
+      description: "节点之间的垂直间距密度。'compact' 适合密集系统日志。",
+    },
+    {
+      prop: "connector",
+      type: '"solid" | "dashed"',
+      default: '"solid"',
+      description: "相邻节点之间的连线样式。'solid' 实线，'dashed' 虚线。",
+    },
+  ]}
+/>
 
-时间轴由语义化的 `ol` 和 `li` 构成，所有原生事件都会透传。组件不内置展开、分页或加载逻辑，
-可以在 `TimelineContent` 中自由组合链接、按钮和其他内容。
+### TimelineItem
 
-## 扩展用法
+继承原生 `<li>` 元素的全部 HTML 属性：
 
-### 状态进度
+<PropsTable
+  data={[
+    {
+      prop: "state",
+      type: '"default" | "complete" | "current" | "upcoming"',
+      default: '"default"',
+      description: "当前事件项的业务流转状态。'upcoming' 会自动半透明淡化内容。",
+    },
+    {
+      prop: "side",
+      type: '"left" | "right"',
+      default: '"right"',
+      description: "交错模式（alternate）下该节点偏向左侧还是右侧。",
+    },
+  ]}
+/>
+
+### TimelineDot
+
+时间轴上的关键事件节点圆点/图标：
+
+<PropsTable
+  data={[
+    {
+      prop: "variant",
+      type: '"default" | "primary" | "success" | "warning" | "destructive"',
+      default: '"default"',
+      description: "节点的语义色彩指示。",
+    },
+    {
+      prop: "size",
+      type: '"dot" | "icon"',
+      default: '"dot"',
+      description: "节点形态。'dot' 为小圆点；'icon' 为可内嵌 Lucide 图标的圆形底座。",
+    },
+    {
+      prop: "pulse",
+      type: "boolean",
+      default: "false",
+      description: "是否为当前正在进行中的节点开启呼吸水波纹扩散动效。",
+    },
+  ]}
+/>
+
+### TimelineCard / TimelineHeader / TimelineTitle / TimelineTime / TimelineDescription / TimelineMeta
+
+用于组合丰富内容展示的子组件：
+
+<PropsTable
+  data={[
+    {
+      prop: "children",
+      type: "React.ReactNode",
+      description: "子组件内渲染的内容。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于相应子容器的额外 CSS 类名。",
+    },
+  ]}
+/>
+
+## 事件 Events
+
+继承原生 `<ol>` 与 `<li>` 的标准 HTML 事件：
+
+<PropsTable
+  data={[
+    {
+      prop: "onClick",
+      type: "(event: React.MouseEvent) => void",
+      description: "点击时间轴节点时触发，可用于展开事件卡片明细或跳转关联详情页。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`Timeline` 用于强化事件之间的时间序列感与因果演变：
+
+- **Timeline vs Steps**：Steps 侧重于用户当前需要完成的操作向导（如多步表单填报）；Timeline 侧重于记录已经发生或即将发生的系统事件（如物流轨迹、发布历史、CI/CD 构建日志）。
+- **色彩语义搭配**：
+  - `success`：构建成功、已送达、审核通过。
+  - `primary`：当前执行中（建议搭配 `pulse` 水波动效）。
+  - `destructive`：异常报错、构建失败、阻断拦截。
+  - `warning`：警告、排队等待中。
+- **动效降级保障**：`TimelineDot` 的 `pulse` 呼吸扩散动效在系统启用“减少动态效果（prefers-reduced-motion）”时会自动降级为静态微透光环。
+
+## 场景示例
+
+### 流程阶段与呼吸脉冲
+
+通过 `state` 标记进度，并为“进行中”状态启用 `pulse` 水波纹扩散：
 
 <ComponentPreview name="timeline-status" />
 
-通过 `state="complete | current | upcoming"` 表达流程阶段，并为当前节点开启 `pulse`。`density="compact"` 和虚线连接器
-适合订单、审批等步骤紧密的流程；颜色应与状态文案同时出现，不能只依赖色相。
+### 图标节点与独立卡片
 
-### 图标节点与富内容
+使用 `TimelineDot size="icon"` 承载图标，使用 `TimelineCard` 展示 Git 提交或详情卡片：
 
 <ComponentPreview name="timeline-icons" />
 
-`TimelineDot size="icon"` 可以承载 Lucide 图标。`TimelineCard` 用于提交记录、附件、引用内容等需要独立边界的信息，
-`TimelineMeta` 用于作者、文件数和辅助状态。
+### 左右交错里程碑 (Alternate)
 
-### 左右交错
+适合公司大事记、产品重大版本迭代路线图：
 
 <ComponentPreview name="timeline-alternate" />
 
-`align="alternate"` 配合每个 `TimelineItem` 的 `side` 构建里程碑叙事。交错布局适合少量且内容长度接近的重要节点；
-高频日志仍应使用单侧布局，避免视线反复跳转。
+### 横向向导流程 (Horizontal)
 
-### 横向步骤
+横版排列节点，适用于页面顶部横向阶段指示：
 
 <ComponentPreview name="timeline-horizontal" />
 
-`orientation="horizontal"` 适合新手引导、发布阶段和短流程进度。在窄屏容器外增加横向滚动，并保持每一步有足够宽度；
-节点较多时通常应改回纵向布局。
+### 紧凑型系统审计日志 (Compact)
 
-### 紧凑审计日志
+高密度排列，适合海量运维操作流水记录：
 
 <ComponentPreview name="timeline-compact" />
 
-`density="compact"` 可以降低节点间距，适合操作记录和系统日志。普通记录保持默认小圆点，只有异常、成功或当前状态使用语义色。
+## 无障碍与交互 Accessibility
 
-`TimelineDot` 提供 default、primary、success、warning 与 destructive 五种语义状态。所有持续脉冲都会在系统开启“减少动态效果”时自动停止。
+- **有序列表语义**：采用标准 `<ol>` 与 `<li>` 结构，屏幕阅读器会自动播报“第 X 项，共 Y 项”，清晰传递顺序信息。
+- **时间标签解析**：`TimelineTime` 渲染为原生 `<time>` 元素，便于读屏软件与浏览器无障碍辅助引擎准确解析时间。
+- **连线与装饰隔离**：`TimelineSeparator` 自动携带 `aria-hidden="true"`，不产生无意义的读屏杂音。

@@ -2,7 +2,7 @@
   "name": "slider",
   "type": "registry:ui",
   "title": "滑动输入 Slider",
-  "description": "粗轨道、小圆点滑块与数值标签组合的可调输入控件。",
+  "description": "允许用户在预定义数值区间内通过拖动滑块或键盘快捷键进行连续或离散调整的交互控件。",
   "import": "import { Slider, sliderTrackVariants } from \"@/components/ui/slider\"",
   "exports": [
     "Slider",
@@ -79,15 +79,38 @@
       "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
     }
   ],
-  "events": "`onValueChange(values)` 会在拖动或键盘调整期间连续触发，适合实时更新预览；需要只在操作完成后提交时使用\n`onValueCommit(values)`。组件支持受控和非受控用法，范围模式下回调始终返回数值数组。",
   "examples": [
     {
       "name": "slider-demo",
       "title": "基础用法"
     },
     {
+      "name": "slider-controlled",
+      "title": "受控模式与快捷预设"
+    },
+    {
+      "name": "slider-range",
+      "title": "双端范围选择 (Range)"
+    },
+    {
+      "name": "slider-step-marks",
+      "title": "步长与离散刻度标记 (Marks)"
+    },
+    {
+      "name": "slider-tooltip",
+      "title": "浮动数值标签 (Tooltip)"
+    },
+    {
+      "name": "slider-with-input",
+      "title": "与数字输入框联动"
+    },
+    {
       "name": "slider-expand",
-      "title": "交互状态与范围"
+      "title": "悬停展开变体 (Expand Variant)"
+    },
+    {
+      "name": "slider-disabled",
+      "title": "禁用状态"
     }
   ],
   "files": [

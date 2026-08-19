@@ -1,8 +1,8 @@
 {
   "name": "spotlight-grid",
   "type": "registry:ui",
-  "title": "聚光网格 Spotlight Grid",
-  "description": "用鼠标聚光显露网格或点阵背景的局部结构。",
+  "title": "聚光灯网格背景 Spotlight Grid",
+  "description": "随鼠标指针移动动态照亮周围网格或点阵阵列的高交互性背景组件。",
   "categories": [
     "background",
     "pointer",
@@ -83,11 +83,14 @@
       "description": "应用于两层图案的 CSS 类名。"
     }
   ],
-  "usage": "`baseOpacity` 应足够低，让聚光前后的差异可被感知但不影响正文。`size` 控制图案密度，`radius` 控制显露范围。\n网格更适合技术、结构和空间语义明确的区块，不应作为无意义的全站装饰；没有指针时，基础图案仍应保持不干扰内容。",
   "examples": [
     {
       "name": "spotlight-grid-demo",
       "title": "基础用法"
+    },
+    {
+      "name": "spotlight-grid-dots",
+      "title": "点阵模式（Dots）"
     }
   ],
   "files": [

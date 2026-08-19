@@ -2,7 +2,7 @@
   "name": "calendar",
   "type": "registry:ui",
   "title": "日历 Calendar",
-  "description": "用可访问的月视图浏览并选择单个日期。",
+  "description": "具备完整月份网格、流畅悬停跟随动效、无障碍键盘移动与事件排期能力的月视图日历与面板组件。",
   "import": "import { Calendar, CalendarPanel, sameDay, startOfMonth } from \"@/components/ui/calendar\"",
   "exports": [
     "Calendar",
@@ -108,15 +108,22 @@
       "description": "格式化月份标题时使用的地区设置。"
     }
   ],
-  "events": "`onValueChange(date)` 在选择日期后触发；`onMonthChange(month)` 在切换月份时触发。组件同时支持受控和非受控模式。\n需要从服务端加载月份数据时，应在 `onMonthChange` 中请求并处理加载状态；Calendar 不会自动请求日程数据。\n\n选中背景会在日期之间移动；当天的小圆点在被选中时展开为完整背景。鼠标经过日期网格时，悬停层会跟随当前格子，\n用户开启“减少动态效果”后会直接呈现最终状态。",
   "examples": [
     {
       "name": "calendar-demo",
       "title": "基础用法"
     },
     {
+      "name": "calendar-disabled-dates",
+      "title": "自定义禁用规则与工作日限制"
+    },
+    {
+      "name": "calendar-booking",
+      "title": "会议与专家咨询时段预约"
+    },
+    {
       "name": "calendar-panel",
-      "title": "大型日历面板"
+      "title": "大型月度日程与排期面板"
     }
   ],
   "files": [

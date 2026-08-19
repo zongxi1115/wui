@@ -2,7 +2,7 @@
   "name": "ai-artifact",
   "type": "registry:ui",
   "title": "AI 生成物 AI Artifact",
-  "description": "类似 Claude Artifacts / v0 的侧边与分屏工作区容器，支持代码与实时预览无缝切换。",
+  "description": "类似 Claude Artifacts 与 v0 的交互式产物工作区容器，支持代码、实时组件预览与运行控制台的多模态无缝切换。",
   "categories": [
     "ai"
   ],
@@ -119,7 +119,11 @@
   "examples": [
     {
       "name": "ai-artifact-demo",
-      "title": "基础示例 · Basic example"
+      "title": "基础用法"
+    },
+    {
+      "name": "ai-artifact-multi",
+      "title": "多标签多模态工作区 (Preview + Code + Console)"
     }
   ],
   "files": [

@@ -1,37 +1,114 @@
 ---
 title: AI 语音波形 AI Voice Visualizer
-description: 专用于实时语音对话模式（Voice Mode / TTS / STT）的动态音频声浪与状态光环。
+description: 专用于实时语音对话模式、语音输入与语音合成播放的动态音频电平声浪与光环可视化组件。
 component: ai-voice-visualizer
 ---
 
-## 基础示例 · Basic example
+## 基础用法
 
-<ComponentPreview name="ai-voice-visualizer-demo" previewClassName="min-h-0 p-6 flex justify-center" />
+展示三种核心声波形态（柱状均衡器 `bars`、呼吸光球 `orb`、正弦波形 `wave`）以及不同会话生命周期状态下的动态反馈：
+
+<ComponentPreview name="ai-voice-visualizer-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/ai-voice-visualizer" />
 
+<Steps>
+
+<Step>安装基础依赖与动效库</Step>
+
+```bash
+pnpm add motion class-variance-authority clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/ai-voice-visualizer.tsx`</Step>
+
 <ComponentSource name="ai-voice-visualizer" title="components/ui/ai-voice-visualizer.tsx" />
 
-## 组件作用 · What it's for
+</Steps>
 
-`AiVoiceVisualizer` 为语音输入、TTS 朗读以及类似 ChatGPT Voice Mode 的全双工实时语音交互提供细腻的视觉反馈。
+## 属性 Props
 
-### 适用场景
-- **实时语音通话与对话界面**：展示静止（idle）、聆听（listening）、思考（thinking）和发音（speaking）4 种状态。
-- **声波柱与呼吸光环**：提供 `bars`（跳动均衡器柱）、`orb`（呼吸光球）和 `wave`（正弦声波）三种视觉形态。
-- **音频电平实时驱动**：传入 `audioLevel`（0~1）时实时映射到声波振幅与缩放，未传入时自动执行各状态的呼吸平滑动效。
+<PropsTable
+  data={[
+    {
+      prop: "variant",
+      type: '"bars" | "orb" | "wave"',
+      default: '"bars"',
+      description: "可视化波形形态。bars 为多柱跳动均衡器，orb 为流光呼吸球体，wave 为平滑正弦声浪。",
+    },
+    {
+      prop: "state",
+      type: '"idle" | "listening" | "thinking" | "speaking"',
+      default: '"idle"',
+      description: "语音会话当前所处的生命周期状态。idle（静止/休眠）、listening（正在聆听用户说话）、thinking（AI 推理生成中）、speaking（AI 语音朗读中）。",
+    },
+    {
+      prop: "audioLevel",
+      type: "number",
+      description: "实时归一化音频电平数值，取值范围在 0.0 ~ 1.0 之间。传入时直接驱动波形起伏幅度与光球缩放；未传入时自动使用内置缓动动效循环。",
+    },
+    {
+      prop: "barCount",
+      type: "number",
+      default: "5",
+      description: "在 bars 柱状模式下的声波柱数量。",
+    },
+    {
+      prop: "size",
+      type: '"sm" | "md" | "lg"',
+      default: '"md"',
+      description: "可视化组件的物理尺寸大小密度。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于外层容器的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-### 何时不建议使用
-- 如果仅仅是纯文本的聊天界面且无音频播放或麦克风录入，不需要使用该组件。
+## 事件 Events
 
-## 组件属性 · Props
+<PropsTable
+  data={[
+    {
+      prop: "className / style",
+      type: "React.HTMLAttributes<HTMLDivElement>",
+      description: "继承原生 <div> 容器属性，作为纯渲染视觉反馈组件，状态由外部 audio 流或业务逻辑统一调度驱动。",
+    },
+  ]}
+/>
 
-<PropsTable name="ai-voice-visualizer" />
+## 使用场景与设计规范
 
-## 事件 · Events
+`AiVoiceVisualizer` 为**多模态语音交互（Voice Agent / Realtime API / STT / TTS）**提供灵动、优雅的视觉反馈：
 
-- 该组件为展示型视觉反馈组件，透传原生容器属性。
+- **4 种生命周期状态对应色彩与动效**：
+  - `idle`：低对比度灰色微弱呼吸，表达“准备就绪但未激活”。
+  - `listening`：信息蓝（info）活跃跳动，表达“正在专注捕获用户声音”。
+  - `thinking`：主题色（primary）有序波浪流转，表达“正在理解上下文与调用工具”。
+  - `speaking`：主题色（primary）随音量振幅高保真起伏，表达“AI 正在实时回传发音”。
+- **对接 Web Audio API**：推荐通过浏览器的 `AudioContext` 与 `AnalyserNode` 获取麦克风或音频元素的 `getByteFrequencyData`，经过归一化计算后传入 `audioLevel`，达到毫秒级音画同步。
 
-## 拓展使用 · Extended usage
+## 场景示例
 
-可通过 `audioLevel` prop 对接 Web Audio API（`AnalyserNode`）获取的实时麦克风音量，实现高精度的真实声音动态响应。
+### 实时全双工语音通话界面 (Orb 呼吸球)
+
+类似 ChatGPT Voice Mode 或 Siri 的全屏沉浸式语音通话卡片，结合静音、状态切换与挂断控制：
+
+<ComponentPreview name="ai-voice-visualizer-orb" />
+
+### 语音输入条与波形图谱 (Live Bar Spectrum)
+
+嵌入在聊天输入框或录音控制条中的紧凑声波指示器，直观反映麦克风拾音信号强弱：
+
+<ComponentPreview name="ai-voice-visualizer-live" />
+
+## 无障碍与交互 Accessibility
+
+- **状态语义声明**：外层容器带有 `data-state` 与 `data-variant` 属性，便于与父级屏幕阅读器提示区（如 `aria-live="polite"`）联动。
+- **动效降级**：内置的 Motion 弹簧与关键帧动画全面支持 `prefers-reduced-motion`。当用户系统开启减弱动态效果时，波形直接根据电平渲染静态高度，光球停止无限缩放，确保敏感用户体验平稳。

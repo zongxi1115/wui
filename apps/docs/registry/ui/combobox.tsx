@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { CheckIcon, ChevronsUpDownIcon, XIcon } from "lucide-react"
+import { cva } from "class-variance-authority"
 
 import { cn } from "@/registry/lib/utils"
 import {
@@ -13,21 +14,40 @@ import {
 } from "@/registry/ui/command"
 import { Popover, PopoverContent, PopoverTrigger } from "@/registry/ui/popover"
 
+const comboboxVariants = cva(
+  "border-input bg-background shadow-xs focus-within:border-ring focus-within:ring-ring/30 flex w-full items-center rounded-md border transition-[border-color,box-shadow,background-color] duration-200 focus-within:ring-[3px] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50",
+  {
+    variants: {
+      size: {
+        sm: "h-8 min-w-44 text-xs",
+        default: "h-10 min-w-56 text-sm",
+        lg: "h-12 min-w-64 text-base",
+      },
+    },
+    defaultVariants: {
+      size: "default",
+    },
+  }
+)
+
 export interface ComboboxOption {
   /** 表单提交和受控状态中使用的稳定值。 */
   value: string
-  /** 展示给用户的文本。 */
+  /** 展示给用户的文本或自定义内容。 */
   label: React.ReactNode
-  /** 参与模糊搜索的别名，例如拼音或缩写。 */
+  /** 选项辅助描述信息。 */
+  description?: React.ReactNode
+  /** 参与模糊搜索的别名，例如拼音、缩写或关键词。 */
   keywords?: string[]
   /** 禁止选择此项。 */
   disabled?: boolean
 }
 
-export interface ComboboxProps extends Omit<
-  React.ComponentProps<"button">,
-  "value" | "defaultValue" | "onChange"
-> {
+export interface ComboboxProps
+  extends Omit<
+    React.ComponentProps<"button">,
+    "value" | "defaultValue" | "onChange"
+  > {
   /** 可搜索的选项集合。 */
   options: ComboboxOption[]
   /** 受控模式下的选中值。 */
@@ -44,6 +64,8 @@ export interface ComboboxProps extends Omit<
   emptyText?: React.ReactNode
   /** 是否显示清空按钮。@default true */
   clearable?: boolean
+  /** 尺寸密度。@default "default" */
+  size?: "sm" | "default" | "lg"
   /** 应用于浮层的额外类名。 */
   contentClassName?: string
 }
@@ -59,6 +81,7 @@ function Combobox({
   searchPlaceholder = "搜索选项",
   emptyText = "没有匹配的选项",
   clearable = true,
+  size = "default",
   contentClassName,
   disabled,
   ...props
@@ -80,10 +103,7 @@ function Combobox({
       <div
         data-slot="combobox"
         data-disabled={disabled || undefined}
-        className={cn(
-          "border-input bg-background shadow-xs focus-within:border-ring focus-within:ring-ring/30 flex h-10 w-full min-w-56 items-center rounded-md border transition-[border-color,box-shadow,background-color] duration-200 focus-within:ring-[3px] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50",
-          className
-        )}
+        className={cn(comboboxVariants({ size }), className)}
       >
         <PopoverTrigger asChild>
           <button
@@ -92,7 +112,7 @@ function Combobox({
             role="combobox"
             aria-expanded={open}
             disabled={disabled}
-            className="flex h-full min-w-0 flex-1 items-center gap-2 rounded-l-md px-3 text-left text-sm outline-none"
+            className="flex h-full min-w-0 flex-1 items-center gap-2 rounded-l-md px-3 text-left outline-none"
             {...props}
           >
             <span
@@ -112,7 +132,10 @@ function Combobox({
             aria-label="清空选择"
             disabled={disabled}
             className="text-muted-foreground hover:text-foreground focus-visible:ring-ring mr-2 flex size-6 shrink-0 items-center justify-center rounded-sm outline-none transition-colors focus-visible:ring-2"
-            onClick={() => changeValue("")}
+            onClick={(e) => {
+              e.stopPropagation()
+              changeValue("")
+            }}
           >
             <XIcon className="size-3.5" />
           </button>
@@ -137,6 +160,7 @@ function Combobox({
                 value={option.value}
                 keywords={[
                   typeof option.label === "string" ? option.label : "",
+                  ...(typeof option.description === "string" ? [option.description] : []),
                   ...(option.keywords ?? []),
                 ]}
                 disabled={option.disabled}
@@ -151,7 +175,14 @@ function Combobox({
                     selectedValue !== option.value && "opacity-0"
                   )}
                 />
-                <span className="min-w-0 flex-1 truncate">{option.label}</span>
+                <div className="flex min-w-0 flex-1 flex-col">
+                  <span className="truncate font-medium">{option.label}</span>
+                  {option.description ? (
+                    <span className="text-muted-foreground truncate text-xs">
+                      {option.description}
+                    </span>
+                  ) : null}
+                </div>
               </CommandItem>
             ))}
           </CommandList>
@@ -161,4 +192,4 @@ function Combobox({
   )
 }
 
-export { Combobox }
+export { Combobox, comboboxVariants }

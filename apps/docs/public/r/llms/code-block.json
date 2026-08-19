@@ -1,0 +1,94 @@
+{
+  "name": "code-block",
+  "type": "registry:ui",
+  "title": "代码块 Code Block",
+  "description": "用于在页面中优雅展示结构化源代码的高亮容器，内置行号、高亮行与一键复制。",
+  "categories": [
+    "data-display"
+  ],
+  "import": "import { CodeBlock, CodeBlockActions, CodeBlockBody, CodeBlockCopy, CodeBlockHeader, CodeBlockTitle, codeBlockVariants } from \"@/components/ui/code-block\"",
+  "exports": [
+    "CodeBlock",
+    "CodeBlockActions",
+    "CodeBlockBody",
+    "CodeBlockCopy",
+    "CodeBlockHeader",
+    "CodeBlockTitle",
+    "codeBlockVariants"
+  ],
+  "typeExports": [
+    "CodeBlockBodyProps",
+    "CodeBlockCopyProps",
+    "CodeBlockProps",
+    "CodeBlockTitleProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/code-block",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/code-block.json",
+    "npmDependencies": [
+      "class-variance-authority",
+      "lucide-react",
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "variant",
+      "type": "\"default\" | \"ghost\" | \"bordered\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "default",
+        "ghost",
+        "bordered"
+      ],
+      "defaultValue": "default",
+      "description": "代码块外观样式变体。"
+    },
+    {
+      "name": "showLineNumbers",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否展示左侧行号。"
+    },
+    {
+      "name": "maxHeight",
+      "type": "string | number",
+      "required": false,
+      "control": "text",
+      "description": "最大高度，超出时支持垂直滚动。"
+    },
+    {
+      "name": "expandable",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "是否支持超长代码折叠与展开。"
+    },
+    {
+      "name": "highlightLines",
+      "type": "number[]",
+      "required": false,
+      "control": "text",
+      "defaultValue": "[]",
+      "description": "高亮行号列表（例如 [2, 4] 或 [\"2-4\"]）。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "code-block-demo",
+      "title": "基础示例 · Basic example"
+    }
+  ],
+  "files": [
+    "registry/ui/code-block.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/code-block",
+  "sourceUrl": "https://ui.wzx.wang/r/code-block.json"
+}

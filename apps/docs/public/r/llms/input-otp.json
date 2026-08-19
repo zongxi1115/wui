@@ -2,7 +2,7 @@
   "name": "input-otp",
   "type": "registry:ui",
   "title": "验证码输入框 InputOTP",
-  "description": "支持粘贴、键盘移动和完成回调的分格验证码输入控件。",
+  "description": "专为一次性验证码（OTP）、PIN 密码与安全兑换码设计的分格输入组件，内置剪贴板智能分发、方向键跳格与完成回调。",
   "import": "import { InputOTP } from \"@/components/ui/input-otp\"",
   "exports": [
     "InputOTP"
@@ -86,15 +86,25 @@
       "description": "验证码输入组的无障碍名称。"
     }
   ],
-  "events": "- `onValueChange(value)` 在任意输入位变化时触发。\n- `onComplete(value)` 在所有输入位填满时触发。\n- 传入 `value` 后进入受控模式；仅需初始内容时使用 `defaultValue`。",
   "examples": [
     {
       "name": "input-otp-demo",
       "title": "基础用法"
     },
     {
-      "name": "input-otp-advanced",
-      "title": "自定义长度与完成状态"
+      "name": "input-otp-auth-flow",
+      "title": "短信认证流程与倒计时"
+    },
+    {
+      "name": "input-otp-pin",
+      "title": "4 位支付交易密码 (PIN)"
+    },
+    {
+      "name": "input-otp-alphanumeric",
+      "title": "字母与数字混合的兑换码"
+    },
+    {
+      "name": "input-otp-advanced"
     }
   ],
   "files": [

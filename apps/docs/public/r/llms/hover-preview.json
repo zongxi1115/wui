@@ -2,7 +2,7 @@
   "name": "hover-preview",
   "type": "registry:ui",
   "title": "悬停预览 Hover Preview",
-  "description": "列表项浮入或聚焦时显示跟随指针的作品预览。",
+  "description": "当鼠标悬停在列表行、链接或触发元素上时，在其近旁展示跟随弹簧浮动的图文富媒体预览卡片。",
   "categories": [
     "pointer",
     "motion",
@@ -71,11 +71,18 @@
       "description": "应用于浮动预览的 CSS 类名。"
     }
   ],
-  "usage": "通过 `offsetX`、`offsetY` 避免浮层遮住指针目标；预览尺寸应尽量固定，减少列表切换时的跳动。触摸输入不会因 hover 打开预览，\n键盘用户仍可通过焦点触发。不能把只有 hover 才出现的图片作为唯一的内容说明。",
   "examples": [
     {
       "name": "hover-preview-demo",
       "title": "基础用法"
+    },
+    {
+      "name": "hover-preview-link",
+      "title": "文本链接卡片预览"
+    },
+    {
+      "name": "hover-preview-user",
+      "title": "用户资料名片"
     }
   ],
   "files": [

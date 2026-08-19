@@ -1,8 +1,8 @@
 {
   "name": "magnetic",
   "type": "registry:ui",
-  "title": "鼠标跟随 Magnetic",
-  "description": "让内容轻微跟随指针位移，并在离开时自然回弹。",
+  "title": "鼠标跟随磁吸 Magnetic",
+  "description": "让按钮与图标在光标悬停时产生朝向指针的物理吸附微位移，并在光标移出后通过弹簧平滑回正。",
   "categories": [
     "motion"
   ],
@@ -57,11 +57,18 @@
       "description": "是否停用指针跟随，同时保留原有布局。"
     }
   ],
-  "usage": "`strength` 控制跟随比例，`maxDistance` 限制最大位移。建议从较小数值开始，让反馈可以被感知但不影响点击目标的位置判断。",
   "examples": [
     {
       "name": "magnetic-demo",
       "title": "基础用法"
+    },
+    {
+      "name": "magnetic-social-dock",
+      "title": "浮动社交操作栏（Dock）"
+    },
+    {
+      "name": "magnetic-hero-cta",
+      "title": "首屏核心行动点（Hero CTA）"
     }
   ],
   "files": [

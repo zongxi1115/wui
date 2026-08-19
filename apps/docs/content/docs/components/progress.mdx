@@ -1,36 +1,147 @@
 ---
 title: 进度条 Progress
-description: 细腻、克制并支持确定与不确定状态的进度指示器。
+description: 细腻克制的线性与环形进度指示器，支持确定性百分比与不确定动态状态。
 component: progress
 ---
 
 ## 基础用法
 
+最基础的进度条用法。传入 `value` 展示任务当前的完成百分比：
+
 <ComponentPreview name="progress-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/progress" />
 
+<Steps>
+
+<Step>安装基础依赖与 Radix 原语</Step>
+
+```bash
+pnpm add radix-ui class-variance-authority clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/progress.tsx`</Step>
+
 <ComponentSource name="progress" title="components/ui/progress.tsx" />
 
-## 使用场景
+</Steps>
 
-`Progress` 用于展示下载、上传、同步或处理任务的完成程度。线性样式适合内容区域，环形样式适合卡片或紧凑状态位。
-能计算完成比例时传入 `value`；无法计算时不要伪造百分比，省略 `value` 让组件显示不确定进度。
+## 属性 Props
 
-## 属性
+`Progress` 支持以下核心配置属性：
 
-<PropsTable name="progress" />
+<PropsTable
+  data={[
+    {
+      prop: "value",
+      type: "number | null",
+      description: "当前进度值（0 至 max 之间）。传入 null 时呈现不确定加载状态（Indeterminate）。",
+    },
+    {
+      prop: "max",
+      type: "number",
+      default: "100",
+      description: "进度条的最大量程基准值。",
+    },
+    {
+      prop: "variant",
+      type: '"linear" | "circular"',
+      default: '"linear"',
+      description: "进度条的形态布局。linear 为水平线形条，circular 为矢量环形圆环。",
+    },
+    {
+      prop: "size",
+      type: '"sm" | "default" | "lg"',
+      default: '"default"',
+      description: "尺寸规格。对于线性条控制轨道高度（sm: 4px, default: 6px, lg: 8px）；对于环形控制直径。",
+    },
+    {
+      prop: "color",
+      type: '"primary" | "blue" | "success" | "warning" | "destructive"',
+      default: '"primary"',
+      description: "已完成进度的语义色彩主题。",
+    },
+    {
+      prop: "showValue",
+      type: "boolean",
+      default: "false",
+      description: "在环形进度（circular）中心是否渲染百分比数字文本。",
+    },
+    {
+      prop: "indicatorClassName",
+      type: "string",
+      description: "应用于进度指示条/圆弧的额外 CSS 类名。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于外层容器的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-## 事件
+## 事件 Events
 
-进度条是只读状态组件，不提供交互事件。使用 `value` 更新完成度，并通过 `aria-label` 或 `getValueLabel` 提供可访问描述；
-如果页面上已经有“正在上传报告”等文字，不必重复读出同一段内容。
+`Progress` 属于只读展示类状态组件，不直接派发自定义用户交互事件。数值由业务状态驱动更新，进度条会自动同步计算无障碍属性与动画补间：
 
-## 扩展用法
+<PropsTable
+  data={[
+    {
+      prop: "onClick",
+      type: "(event: React.MouseEvent<HTMLDivElement>) => void",
+      description: "在进度条容器上点击时触发的原生 DOM 事件。",
+    },
+  ]}
+/>
 
-### 颜色与环形进度
+## 使用场景与设计规范
+
+`Progress` 用于明确告知用户某一异步任务的实际进展或资源占用情况。
+
+- **确定性（Determinate）vs 不确定性（Indeterminate）**：
+  - **确定性进度（`value={number}`）**：适用于任务总耗时或总数据量已知（如已下载 35MB / 共 100MB）。
+  - **不确定性进度（`value={null}`）**：适用于任务正在后台进行但无法预估具体剩余量（如正在建立安全加密握手），此时组件将以平滑脉冲或自旋动画表达等待。
+- **色彩与语义阈值规范**：
+  - `primary` / `blue`：常规进行中的业务流程（如下载、更新）。
+  - `success`：任务成功完成或系统健康度处于良好区间。
+  - `warning`：资源使用量接近警戒水位（如存储占用超过 80%）。
+  - `destructive`：流程发生错误截断或资源配额严重超限。
+- **形态选型建议**：
+  - **水平线性（Linear）**：适合页面顶部加载条、卡片列表项或文件上传列表。
+  - **环形（Circular）**：适合仪表盘小部件、紧凑指标卡片或头像周围的状态环。
+
+## 场景示例
+
+### 语义色彩与环形形态
+
+支持多种业务语义颜色配置，环形模式下可开启 `showValue` 展示中心百分比：
 
 <ComponentPreview name="progress-variants" />
 
-使用 `color="primary | blue | success | warning | destructive"` 表达不同状态。`variant="circular"` 切换为环形布局，
-配合 `showValue` 在环内显示百分比；`size` 分别调整线性轨道厚度或环形直径。用户开启“减少动态效果”后，进度动画会停用。
+### 尺寸规格对比
+
+线性轨道与环形圆环均提供 `sm`、`default` 与 `lg` 三种尺寸：
+
+<ComponentPreview name="progress-sizes" />
+
+### 动态任务流（文件上传）
+
+在实际业务流程中，通过状态驱动进度条增长，并在各阶段切换颜色与图标：
+
+<ComponentPreview name="progress-dynamic" />
+
+### 仪表盘资源监控看板
+
+组合多个小型进度条监控服务器 CPU、存储与系统 SLA 健康度：
+
+<ComponentPreview name="progress-dashboard" />
+
+## 无障碍与交互 Accessibility
+
+- **ARIA 标准规范**：底层基于 Radix UI 原语，根元素挂载 `role="progressbar"`，并自动同步计算 `aria-valuenow`、`aria-valuemin` 与 `aria-valuemax`。
+- **平滑动画与动效降级**：进度条数值变化时内置平滑的 CSS 过渡动效（`transition-[stroke-dashoffset]` / `transition-transform`），并在检测到 `prefers-reduced-motion` 时自动关闭过渡，直接瞬时跳转到最新百分比。
+- **读屏器文案提示**：建议在未展示明确可见标题时，为组件添加 `aria-label`（如 `aria-label="数据同步进度"`）。

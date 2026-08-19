@@ -1,36 +1,144 @@
 ---
 title: 切换按钮 Toggle
-description: 用一个按钮切换并保持某项功能的开启或关闭状态。
+description: 用于在激活（On）与未激活（Off）两种双态之间切换并持久保持状态的轻量级动作按钮。
 component: toggle
 ---
 
 ## 基础用法
 
+最简单的切换按钮。点击切换文字粗体属性并保持激活高亮状态：
+
 <ComponentPreview name="toggle-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/toggle" />
 
+<Steps>
+
+<Step>安装基础依赖</Step>
+
+```bash
+pnpm add radix-ui class-variance-authority clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/toggle.tsx`</Step>
+
 <ComponentSource name="toggle" title="components/ui/toggle.tsx" />
 
-## 使用场景
+</Steps>
 
-`Toggle` 适合粗体、固定、收藏或视图选项等可以独立保持状态的操作。只执行一次且不保留状态的动作使用 Button；
-需要在多个互斥或并列选项间切换时使用 ToggleGroup。
+## 属性 Props
 
-## 属性
+`Toggle` 支持以下配置属性，并继承 Radix UI `TogglePrimitive.Root` 的全部 HTML 按钮属性：
 
-<PropsTable name="toggle" />
+<PropsTable
+  data={[
+    {
+      prop: "pressed",
+      type: "boolean",
+      description: "受控模式下的当前激活按下状态。",
+    },
+    {
+      prop: "defaultPressed",
+      type: "boolean",
+      default: "false",
+      description: "非受控模式下的初始激活状态。",
+    },
+    {
+      prop: "onPressedChange",
+      type: "(pressed: boolean) => void",
+      description: "切换按钮状态改变时触发的回调函数，返回最新的布尔值。",
+    },
+    {
+      prop: "variant",
+      type: '"default" | "outline"',
+      default: '"default"',
+      description: "按钮的视觉外观风格。'outline' 提供边界框与背景底色。",
+    },
+    {
+      prop: "size",
+      type: '"sm" | "default" | "lg"',
+      default: '"default"',
+      description: "切换按钮的物理尺寸密度。",
+    },
+    {
+      prop: "disabled",
+      type: "boolean",
+      default: "false",
+      description: "是否禁用按钮的交互与焦点。",
+    },
+    {
+      prop: "aria-label",
+      type: "string",
+      description: "纯图标模式下必须提供的无障碍文本标签。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于切换按钮的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-## 事件
+## 事件 Events
 
-`onPressedChange(pressed)` 在状态变化后触发。受控模式使用 `pressed`，仅设置初始状态时使用 `defaultPressed`。
-只有图标的 Toggle 必须提供 `aria-label`。
+<PropsTable
+  data={[
+    {
+      prop: "onPressedChange",
+      type: "(pressed: boolean) => void",
+      description: "当用户通过点击、触摸或按键（Space / Enter）改变切换按钮状态时触发。",
+    },
+    {
+      prop: "onFocus",
+      type: "(event: React.FocusEvent<HTMLButtonElement>) => void",
+      description: "按钮获得焦点时触发。",
+    },
+    {
+      prop: "onBlur",
+      type: "(event: React.FocusEvent<HTMLButtonElement>) => void",
+      description: "按钮失去焦点时触发。",
+    },
+  ]}
+/>
 
-## 扩展用法
+## 使用场景与设计规范
 
-### 尺寸与描边
+`Toggle` 适用于**状态持续保持的双态独立开关**（如富文本加粗/斜体、收藏加星、窗口置顶、麦克风静音）。
+
+- **Toggle vs Button vs Switch**：
+  - **Toggle（切换按钮）**：以紧凑按钮形式呈现，激活后保持高亮按下状态，适合工具栏或快捷栏。
+  - **Button（普通按钮）**：即点即走，触发一次性动作（如“提交”、“下载”），不保留选中状态。
+  - **Switch（开关）**：具备滑动轨道的物理开关视觉，适合具有强二元开启/关闭含义的设置项。
+- **纯图标无障碍要求**：若 `Toggle` 内部仅包含图标而无文字，**必须**显式提供 `aria-label`（如 `aria-label="切换粗体"`），确保屏幕阅读器用户能明确理解操作意图。
+
+## 场景示例
+
+### 收藏加星与业务状态
+
+在内容流中用作收藏（Bookmark）和标星（Star）切换，支持自定义激活状态下的高亮色系：
+
+<ComponentPreview name="toggle-bookmark" />
+
+### 音视频静音与窗口置顶
+
+在通讯或音视频会议控制栏中切换麦克风静音与浮窗置顶：
+
+<ComponentPreview name="toggle-mute" />
+
+### 尺寸与外观风格
+
+提供 `sm`、`default`、`lg` 三种尺寸，支持无边框默认风格与 `outline` 带边框风格：
 
 <ComponentPreview name="toggle-sizes" />
 
-`size` 调整点击区域和密度，`variant="outline"` 用于需要更明确边界的独立控件。状态差异不能只依赖颜色，
-应同时保留 Radix 提供的按压语义。
+## 无障碍与交互 Accessibility
+
+- **ARIA 规范**：底层基于 Radix UI Toggle，自动挂载 `role="button"` 与 `aria-pressed="true|false"` 属性，清晰表达按压状态。
+- **键盘导航**：
+  - <kbd>Tab</kbd>：按 DOM 顺序将焦点移动至切换按钮。
+  - <kbd>Space</kbd> / <kbd>Enter</kbd>：触发状态切换。
+- **焦点环高亮**：提供统一的高对比度 `focus-visible:ring`，确保键盘导航清晰可见。

@@ -2,7 +2,7 @@
   "name": "ai-stream",
   "type": "registry:ui",
   "title": "AI 流式文本 AI Stream",
-  "description": "可用于普通回答与思考过程的通用流式文本动效。",
+  "description": "用于大语言模型打字流式输出与思考过程文字动效的高性能渲染组件，支持平滑边缘羽化与 Delta 分段增量过渡。",
   "categories": [
     "ai"
   ],
@@ -59,7 +59,11 @@
     },
     {
       "name": "ai-stream-deltas",
-      "title": "Delta 分段模式"
+      "title": "Delta 分段增量模式"
+    },
+    {
+      "name": "ai-stream-interactive",
+      "title": "交互式流式控制器"
     }
   ],
   "files": [

@@ -1,41 +1,210 @@
 ---
 title: 标签栏 Tabs
-description: 使用共享布局动效平滑切换内容分区。
+description: 用于在同一界面区域切换展示同层级内容分区的导航组件，内置共享布局弹性滑块动效与完整的键盘无障碍能力。
 component: tabs
 ---
 
 ## 基础用法
 
+点击不同的标签项即可平滑切换下方展示的内容面板，活动指示器会跟随焦点流畅滑动：
+
 <ComponentPreview name="tabs-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/tabs" />
 
+<Steps>
+
+<Step>安装基础依赖与动效库</Step>
+
+```bash
+pnpm add radix-ui motion class-variance-authority clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/tabs.tsx`</Step>
+
 <ComponentSource name="tabs" title="components/ui/tabs.tsx" />
 
-## 使用场景
+</Steps>
 
-`Tabs` 用于在同一页面区域切换同等级内容，例如“概览 / 设置 / 权限”。每个标签对应一个独立面板，用户一次只查看其中一项。
-如果内容需要并排比较，或用户必须同时看到所有信息，不要使用 Tabs 隐藏内容。
+## 属性 Props
 
-选中指示器会在触发器之间平滑移动，面板使用短促的淡入和位移提示切换方向；用户开启“减少动态效果”后会直接显示最终状态。
+### Tabs (根组件)
 
-## 属性
+<PropsTable
+  data={[
+    {
+      prop: "value",
+      type: "string",
+      description: "受控模式下当前激活标签项的唯一标识值。",
+    },
+    {
+      prop: "defaultValue",
+      type: "string",
+      description: "非受控模式下初始激活的标签项标识值。",
+    },
+    {
+      prop: "onValueChange",
+      type: "(value: string) => void",
+      description: "激活的标签项发生改变时的回调函数。",
+    },
+    {
+      prop: "orientation",
+      type: '"horizontal" | "vertical"',
+      default: '"horizontal"',
+      description: "标签栏的排布方向（水平或垂直）。",
+    },
+    {
+      prop: "activationMode",
+      type: '"automatic" | "manual"',
+      default: '"automatic"',
+      description: '键盘导航时的激活模式。"automatic" 表示键盘聚焦即激活；"manual" 表示需要按下 Enter 或 Space 确认激活。',
+    },
+    {
+      prop: "dir",
+      type: '"ltr" | "rtl"',
+      description: "文字排版与键盘左右箭头的方向流向。",
+    },
+  ]}
+/>
 
-`Tabs` 透传 Radix Root 的 `value`、`defaultValue`、`orientation` 和 `activationMode` 等属性；`TabsList` 提供
-`variant="pill | underline"`，分别对应胶囊式和下划线式外观。
+### TabsList
 
-<PropsTable name="tabs" />
+<PropsTable
+  data={[
+    {
+      prop: "variant",
+      type: '"pill" | "underline"',
+      default: '"pill"',
+      description: '指示器视觉样式变体。"pill" 为胶囊滑块背景风格；"underline" 为底部彩色线条下划线风格。',
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于标签栏外层容器的额外 CSS 类名。",
+    },
+    {
+      prop: "loop",
+      type: "boolean",
+      default: "true",
+      description: "使用键盘方向键导航到达边界时是否循环回到第一个/最后一个标签。",
+    },
+  ]}
+/>
 
-## 事件
+### TabsTrigger
 
-- `onValueChange(value)`：当前标签变化后触发，参数是 `TabsTrigger` 的 `value`。
-- 键盘方向键、Home、End 与焦点管理由 Radix 处理。
+<PropsTable
+  data={[
+    {
+      prop: "value",
+      type: "string",
+      description: "当前标签触发器的唯一标识值，需与对应 TabsContent 的 value 一致。",
+    },
+    {
+      prop: "disabled",
+      type: "boolean",
+      default: "false",
+      description: "是否禁用该标签项（禁用后不可点击且跳过键盘焦点）。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于单个标签按钮的自定义类名。",
+    },
+  ]}
+/>
 
-## 扩展用法
+### TabsContent
 
-### 下划线样式
+<PropsTable
+  data={[
+    {
+      prop: "value",
+      type: "string",
+      description: "关联的内容面板唯一标识值，与选中的 TabsTrigger value 匹配时才会渲染呈现。",
+    },
+    {
+      prop: "forceMount",
+      type: "boolean",
+      default: "false",
+      description: "是否在未激活时强制保留在 DOM 树中（常用于保留表单草稿状态或 SEO 抓取）。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于内容面板容器的额外类名。",
+    },
+  ]}
+/>
+
+## 事件 Events
+
+<PropsTable
+  data={[
+    {
+      prop: "onValueChange",
+      type: "(value: string) => void",
+      description: "当用户点击、触摸或通过键盘改变当前激活的标签页时触发，参数为最新激活的 value 字符串。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`Tabs` 用于在同一视觉空间内对信息进行结构化分类，降低单屏认知负荷：
+
+- **组件选型对比**：
+  - **Tabs vs 路由页面导航**：若各个分类属于独立的功能模块或具备不同的 URL 路径，推荐采用顶栏导航或侧边栏菜单；若属于同一实体对象的不同维度属性（如“概览 / 审计日志 / 权限设置”），采用 `Tabs` 更高效。
+  - **Tabs vs 手风琴 Accordion**：`Tabs` 每次仅展示一个互斥分类；`Accordion` 适合纵向排布并支持同时展开多个折叠项（如 FAQ、长文档目录）。
+- **样式选择指南（Pill vs Underline）**：
+  - **Pill（胶囊式）**：视觉重量较轻，带有浅灰色外框与背景高亮块，适合局部工具栏、图表维度切换或卡片内部的次级筛选。
+  - **Underline（下划线式）**：具有清晰的底部分界线，排版更具呼吸感，适合页面级设置、主体详情页面的顶部分区。
+- **设计规范与避坑原则**：
+  - **标签数量适中**：建议保持在 2 ~ 6 个之间。标签过多易造成移动端折行或视觉混乱。
+  - **文案简短对称**：标签文案应保持词性与字数相近（如“基本信息”、“成员管理”、“安全策略”），避免单个标签过长。
+  - **勿用于强步骤流程**：若内容存在严格的前后依赖（第一步 -> 第二步 -> 第三步），请改用 [`Steps` 步骤条](/docs/components/steps)，不要使用允许自由跳转的 `Tabs`。
+
+## 场景示例
+
+### 胶囊式标签与微动效
+
+使用默认的 `pill` 样式，搭配图标与数据指标卡片，体验平滑的物理弹簧滑块过渡动效：
+
+<ComponentPreview name="tabs-demo" />
+
+### 下划线样式与设置页
+
+设置 `variant="underline"` 构建企业级后台中常用的主设置分区页：
 
 <ComponentPreview name="tabs-underline" />
 
-使用 `value` 和 `onValueChange` 创建受控标签栏；只需要设置初始标签时，使用 `defaultValue`，组件会自行维护当前状态。
-每个 `TabsTrigger` 都应有唯一的 `value`，并与对应 `TabsContent` 的 `value` 一致。
+### 受控模式与动态徽标
+
+结合 `Badge` 组件展示未读数或告警数量，并通过外部状态直接控制当前激活的标签：
+
+<ComponentPreview name="tabs-controlled" />
+
+### 综合业务表单选项卡
+
+在每个 `TabsContent` 中组合 `Card`、`Input` 与操作按钮，组织结构清晰的账户与安全配置中心：
+
+<ComponentPreview name="tabs-card" />
+
+## 无障碍与交互 Accessibility
+
+- **WAI-ARIA Tabs 规范**：
+  - `TabsList` 自动挂载 `role="tablist"` 与 `aria-orientation`。
+  - `TabsTrigger` 自动挂载 `role="tab"`、`aria-selected` 以及 `aria-controls`（指向关联的 content 面板 ID）。
+  - `TabsContent` 自动挂载 `role="tabpanel"` 与 `aria-labelledby`。
+- **键盘导航支持**：
+  - <kbd>→</kbd> / <kbd>←</kbd>：在水平标签项之间顺次切换焦点并激活。
+  - <kbd>↓</kbd> / <kbd>↑</kbd>：在垂直标签项之间切换焦点。
+  - <kbd>Home</kbd>：快速跳转并激活第一个标签。
+  - <kbd>End</kbd>：快速跳转并激活最后一个标签。
+  - <kbd>Tab</kbd>：将焦点从当前激活的 Tab 触发器直接移入下方的内容面板。
+- **动效减弱（Reduced Motion）**：
+  - 自动适配用户的系统无障碍设置。当开启“减弱动态效果”时，指示器与内容面板将关闭弹簧插值与模糊位移动画，立即呈现切换结果。

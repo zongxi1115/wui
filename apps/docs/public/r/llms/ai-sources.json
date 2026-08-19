@@ -75,7 +75,11 @@
   "examples": [
     {
       "name": "ai-sources-demo",
-      "title": "基础示例 · Basic example"
+      "title": "基础用法"
+    },
+    {
+      "name": "ai-sources-rag",
+      "title": "企业 RAG 知识库检索溯源"
     }
   ],
   "files": [

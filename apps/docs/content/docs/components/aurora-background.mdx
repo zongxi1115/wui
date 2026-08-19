@@ -1,30 +1,95 @@
 ---
-title: 极光背景 Aurora Background
-description: 用缓慢移动的模糊色场构建低频氛围背景。
+title: 极光动态背景 Aurora Background
+description: 融合多重径向渐变光斑、柔和高斯模糊与无限平滑缓动的现代极光氛围背景组件。
 component: aurora-background
 ---
 
 ## 基础用法
 
+沉浸式暗色调官网 Hero 区域，底层多色极光光斑缓动漂移：
+
 <ComponentPreview name="aurora-background-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/aurora-background" />
 
-<ComponentSource
-  name="aurora-background"
-  title="components/ui/aurora-background.tsx"
+<Steps>
+
+<Step>安装基础依赖与动效库</Step>
+
+```bash
+pnpm add motion lucide-react class-variance-authority clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/aurora-background.tsx`</Step>
+
+<ComponentSource name="aurora-background" title="components/ui/aurora-background.tsx" />
+
+</Steps>
+
+## 属性 Props
+
+<PropsTable
+  data={[
+    {
+      prop: "children",
+      type: "React.ReactNode",
+      description: "渲染在极光背景上层的主体内容（标题、按钮组、指标卡片等）。",
+    },
+    {
+      prop: "colors",
+      type: "[string, string, string]",
+      default: '["var(--info)", "var(--success)", "var(--warning)"]',
+      description: "驱动极光三层光斑的 CSS 颜色值（支持 Hex、RGB、HSL、OKLCH 或 CSS 变量）。",
+    },
+    {
+      prop: "duration",
+      type: "number",
+      default: "18",
+      description: "极光完成一次完整位置漂移循环所需的总秒数。",
+    },
+    {
+      prop: "blur",
+      type: "number",
+      default: "56",
+      description: "极光光斑的高斯模糊半径（像素）。",
+    },
+    {
+      prop: "layerClassName",
+      type: "string",
+      description: "应用于极光单个浮动图层的额外 CSS 类名。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于极光最外层包装容器的 CSS 类名。",
+    },
+  ]}
 />
 
-## 使用场景
+## 事件 Events
 
-`AuroraBackground` 叠加三个径向色场，并以不同周期缓慢移动和缩放。内容固定渲染在背景上层，
-可以调整颜色、模糊强度和运动周期。它只负责背景氛围，不负责承载文字、状态或交互。
+该组件为纯视觉背景容器组件，直接继承标准 React `div` 的原生事件属性。
 
-## 属性
+## 使用场景与设计规范
 
-<PropsTable name="aurora-background" />
+`AuroraBackground` 适用于**产品发布 Hero 区、AI 会话背景、VIP 定价卡片、创意案例展台**：
 
-## 使用说明
+- **暗色调表现最佳**：建议在 `bg-slate-950` 或 `bg-zinc-950` 底色上使用，光斑的 `mix-blend-screen` 滤镜能呈现极其梦幻通透的发光感。
+- **微弱不抢戏**：极光动画的 `duration` 推荐在 12 ~ 20 秒之间，缓慢流动的光效能提供高级的“呼吸感”，避免过快移动造成视觉疲劳。
 
-极光背景应占据较大区域并保持低频运动，避免在多个相邻卡片中重复使用。优先选择对比明确、色相数量有限的三色组合，
-并检查前景文字在整个运动周期中的对比度。用户开启“减少动态效果”时色场保持静止。
+## 场景示例
+
+### VIP 会员卡片与定价模块
+
+在独立卡片内使用定制的粉紫色系极光：
+
+<ComponentPreview name="aurora-background-card" />
+
+## 无障碍与交互 Accessibility
+
+- **自动静止降级**：当用户开启 `prefers-reduced-motion: reduce` 时，光斑漂移动画将自动停滞，保留静态但依旧美观的高斯发光光晕。
+- **层级隔离**：极光图层默认标记 `pointer-events-none` 与 `aria-hidden="true"`，保证上层所有表单、按钮正常获取焦点。

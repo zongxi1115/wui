@@ -2,7 +2,7 @@
   "name": "kbd",
   "type": "registry:ui",
   "title": "键盘提示 Kbd",
-  "description": "用紧凑、克制的按键样式展示快捷键与键盘操作。",
+  "description": "用紧凑、高对比度且克制的按键样式展示快捷键与键盘操作提示。",
   "import": "import { Kbd, KbdGroup, kbdVariants } from \"@/components/ui/kbd\"",
   "exports": [
     "Kbd",
@@ -36,11 +36,18 @@
       "description": "键盘按键提示的尺寸。"
     }
   ],
-  "events": "键盘提示本身不触发操作，但原生属性仍会透传。需要响应快捷键时，应在页面或功能逻辑中注册键盘事件，\n并同时处理输入框、编辑器等不应拦截快捷键的场景。",
   "examples": [
     {
       "name": "kbd-demo",
       "title": "基础用法"
+    },
+    {
+      "name": "kbd-sizes",
+      "title": "尺寸对比 (Default vs Small)"
+    },
+    {
+      "name": "kbd-in-menu",
+      "title": "下拉菜单与命令面板中的快捷键提示"
     }
   ],
   "files": [

@@ -1,32 +1,169 @@
 ---
-title: 颜色选择器 Color Picker
-description: 面向设计 Token 的 OKLCH 颜色选择器，支持感知色彩通道、透明度和精确 CSS 值。
+title: 颜色选择器 ColorPicker
+description: 支持新一代 OKLCH 感知色彩空间与传统 RGB/HEX 的现代化颜色选择器，内置色板预设、透明度通道与精确 CSS 代码输入。
 component: color-picker
 ---
 
 ## 基础用法
 
+最简单的颜色选择器用法。点击触发器色块展开面板，在色盘或滑动条上选择颜色，实时输出规范的 CSS 颜色值：
+
 <ComponentPreview name="color-picker-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/color-picker" />
 
+<Steps>
+
+<Step>安装依赖库</Step>
+
+```bash
+pnpm add radix-ui lucide-react class-variance-authority clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/color-picker.tsx`</Step>
+
 <ComponentSource name="color-picker" title="components/ui/color-picker.tsx" />
 
-## 使用场景
+</Steps>
 
-`ColorPicker` 适合需要让用户配置主题色、背景色或可视化颜色的场景。基础 RGB 模式适合普通表单，用户可以打开系统色板
-或直接输入 R、G、B 数值；OKLCH 模式把明度、色度和色相分开控制，更适合设计工具和 Token 编辑器。
+## 属性 Props
 
-颜色值由组件以 CSS 颜色值保存。展示给用户的色板只是编辑方式，业务层应使用 `onValueChange` 得到的值持久化，
-不要依赖输入框中显示的格式。
+`ColorPicker` 支持以下核心配置属性：
 
-## 属性
+<PropsTable
+  data={[
+    {
+      prop: "value",
+      type: "string",
+      description: "受控模式下的当前 CSS 颜色字符串（支持 oklch(...)、rgb(...)、rgba(...) 或 #hex 十六进制格式）（必填）。",
+    },
+    {
+      prop: "onValueChange",
+      type: "(value: string) => void",
+      description: "色彩通道变动或输入代码时实时触发的回调函数，返回格式化后的 CSS 字符串（必填）。",
+    },
+    {
+      prop: "label",
+      type: "string",
+      default: '"选择颜色"',
+      description: "应用于触发器按钮的无障碍屏幕朗读名称（aria-label）。",
+    },
+    {
+      prop: "showAlpha",
+      type: "boolean",
+      default: "true",
+      description: "是否在面板中展示透明度（Alpha）通道调节滑块与百分比。",
+    },
+    {
+      prop: "swatches",
+      type: "string[]",
+      description: "浮层底部快捷拾取的预设色板数组，默认为 6 种现代色彩系统 Token。",
+    },
+    {
+      prop: "size",
+      type: '"sm" | "default" | "lg"',
+      default: '"default"',
+      description: "触发器颜色指示方块的物理尺寸（sm: 32px, default: 36px, lg: 44px）。",
+    },
+    {
+      prop: "disabled",
+      type: "boolean",
+      default: "false",
+      description: "是否禁用颜色选择器交互与弹层展开。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于触发器按钮的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-<PropsTable name="color-picker" />
+## 事件 Events
 
-## 使用说明
+<PropsTable
+  data={[
+    {
+      prop: "onValueChange",
+      type: "(value: string) => void",
+      description: "用户在色盘拖拽、调整滑动条、点击常用色板或手动编辑 CSS 文本框时触发。",
+    },
+    {
+      prop: "onFocus",
+      type: "(event: React.FocusEvent<HTMLButtonElement>) => void",
+      description: "触发器按钮获得焦点时触发。",
+    },
+    {
+      prop: "onBlur",
+      type: "(event: React.FocusEvent<HTMLButtonElement>) => void",
+      description: "触发器按钮失去焦点时触发。",
+    },
+    {
+      prop: "onKeyDown",
+      type: "(event: React.KeyboardEvent<HTMLButtonElement>) => void",
+      description: "在触发器或 2D 色盘上按下键盘按键时触发。",
+    },
+  ]}
+/>
 
-组件接受受控的 `value` 与 `onValueChange`，在 RGB 与 OKLCH 模式之间切换时会自动转换。通过 `showAlpha` 显示或隐藏透明度通道，
-通过 `swatches` 提供产品自己的常用色板；弹层底部保留 CSS 原始值输入，便于复制和粘贴精确颜色。
+## 使用场景与设计规范
 
-如果颜色会影响文字与背景的可读性，应在业务层额外做对比度检查；颜色选择器不会替你判断是否满足产品的可访问性要求。
+`ColorPicker` 专为**设计系统 Token 配置、主题定制与多媒体视觉编辑**场景设计：
+
+- **为什么推荐 OKLCH 色彩空间**：传统的 sRGB/HSL 色彩模型在感知明度（Perceptual Lightness）上是非均匀的（例如纯黄色与纯蓝色在 HSL 中 Lightness 都是 50%，但人眼感觉黄色要刺眼得多）。OKLCH 实现了真正的“感知均匀”，无论色相如何改变，相同的明度（Lightness）在人眼中具有一致的视觉亮度，非常适合自动化生成符合 WCAG 对比度标准的暗色/亮色调色板。
+- **模式双轨制**：
+  - **基础 RGB 模式**：包含直观的 2D 饱和度-明度色盘与 R/G/B 分通道数字微调，适合大多数通用业务用户。
+  - **专业 OKLCH 模式**：将明度（L）、色度（C）和色相（H）完全解耦独立控制，适合高级设计师与设计系统工程师。
+- **色彩对比度与可访问性**：在业务中允许用户自定义主题色或文字背景色时，建议在表单提交前配合对比度算法（如 APCA 或 WCAG 2.1 4.5:1）做前置校验，防止用户配置出无法阅读的低对比度配色。
+
+## 场景示例
+
+### 受控模式与快捷预设
+
+使用受控的 `value` 与 `onValueChange`，配合外部快速预设按钮直接改变颜色值：
+
+<ComponentPreview name="color-picker-controlled" />
+
+```tsx
+const [color, setColor] = React.useState("oklch(0.585 0.233 277.117)")
+
+return (
+  <ColorPicker
+    value={color}
+    onValueChange={setColor}
+  />
+)
+```
+
+### 透明度通道控制
+
+通过 `showAlpha={false}` 可以隐藏透明度滑块，强制用户仅选取 100% 不透明的纯色：
+
+<ComponentPreview name="color-picker-alpha" />
+
+### 自定义主题预设色板
+
+通过 `swatches` 属性传入团队专属的 Brand Tokens 色板，方便用户在标准规范色之间快速一键点选：
+
+<ComponentPreview name="color-picker-swatches" />
+
+### 品牌主题配置面板
+
+在企业租户门户配置页中，将多个颜色选择器与实时组件效果预览卡片无缝联动：
+
+<ComponentPreview name="color-picker-form" />
+
+## 无障碍与交互 Accessibility
+
+- **ARIA 规范**：
+  - 触发器按钮带有清晰的 `aria-label`。
+  - 2D 色盘声明为 `role="slider"`，并携带 `aria-valuemin="0"`、`aria-valuemax="100"`、`aria-valuenow` 与详细的 `aria-valuetext`（例如 `饱和度 85%，亮度 60%`）。
+- **键盘导航**：
+  - 聚焦在 2D 色盘上时，使用 <kbd>←</kbd> / <kbd>→</kbd> 微调饱和度，使用 <kbd>↑</kbd> / <kbd>↓</kbd> 微调亮度。
+  - 按住 <kbd>Shift</kbd> + 方向键可进行大步长加速微调。
+  - 聚焦在滑块（Range Input）上时，使用方向键与 <kbd>PageUp</kbd> / <kbd>PageDown</kbd> 调节数值。
+- **高对比度外框**：触发器内置内发光与边框隔离环，即便选取的颜色与当前页面背景色相同（如纯白或纯黑），也能清晰呈现色块边界。

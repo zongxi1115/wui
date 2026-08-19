@@ -1,34 +1,257 @@
 ---
-title: 单选框 Radio Group
-description: 用于互斥选项的轻量单选控件组。
+title: 单选框组 Radio Group
+description: 用于在一组互斥选项中选取单一值的表单控件，提供流畅的视觉反馈与完整的键盘无障碍导航。
 component: radio-group
 ---
 
 ## 基础用法
 
+最常见的单选框组用法。用户在互斥的选项中只能选择其中一项，点击选项或其文字区域即可选中：
+
 <ComponentPreview name="radio-group-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/radio-group" />
 
+<Steps>
+
+<Step>安装基础依赖</Step>
+
+```bash
+pnpm add radix-ui class-variance-authority clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/radio-group.tsx`</Step>
+
 <ComponentSource name="radio-group" title="components/ui/radio-group.tsx" />
 
-## 使用场景
+</Steps>
 
-`RadioGroup` 用于从两个或更多互斥选项中选择一项。它适合选项数量较少、用户需要同时看到所有选项的场景，
-例如选择配送方式或计费周期；选项很多时使用 Select 更节省空间。
+## 属性 Props
 
-组件保留方向键切换、焦点管理和表单行为。每个选项都应配有可读标签，并说明选中后会影响什么。
+### RadioGroup (容器)
 
-## 属性
+`RadioGroup` 继承 Radix UI `RadioGroup.Root` 的全部属性：
 
-<PropsTable name="radio-group" />
+<PropsTable
+  data={[
+    {
+      prop: "value",
+      type: "string",
+      description: "受控模式下当前选中的单选项值。",
+    },
+    {
+      prop: "defaultValue",
+      type: "string",
+      description: "非受控模式下初始选中的单选项值。",
+    },
+    {
+      prop: "onValueChange",
+      type: "(value: string) => void",
+      description: "选中的单选项改变时触发的回调函数，返回选中的最新值。",
+    },
+    {
+      prop: "disabled",
+      type: "boolean",
+      default: "false",
+      description: "是否禁用整组单选项交互。",
+    },
+    {
+      prop: "name",
+      type: "string",
+      description: "在原生表单提交时，用于标识该单选框组的字段名称。",
+    },
+    {
+      prop: "required",
+      type: "boolean",
+      default: "false",
+      description: "在表单中是否为必选字段。",
+    },
+    {
+      prop: "orientation",
+      type: '"horizontal" | "vertical"',
+      default: '"vertical"',
+      description: "单选框组的排版方向。影响键盘箭头方向键的导航行为。",
+    },
+    {
+      prop: "loop",
+      type: "boolean",
+      default: "true",
+      description: "使用键盘方向键导航到最后一个选项时，是否循环回第一个选项。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于外层容器的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-## 事件
+### RadioGroupItem (单选项)
 
-`onValueChange(value)` 在选择变化后触发，参数是当前选项的 `value`。`RadioGroupItem` 必须设置唯一的 `value`；
-原生焦点、禁用与表单属性会继续透传。受控模式下，回调需要同步更新外部 `value`。
+`RadioGroupItem` 继承 Radix UI `RadioGroup.Item` 的全部属性：
 
-## 扩展用法
+<PropsTable
+  data={[
+    {
+      prop: "value",
+      type: "string",
+      required: true,
+      description: "该单选项对应的唯一值，必填。",
+    },
+    {
+      prop: "size",
+      type: '"sm" | "default" | "lg"',
+      default: '"default"',
+      description: "单选按钮的物理尺寸（sm: 16px, default: 20px, lg: 24px）。",
+    },
+    {
+      prop: "disabled",
+      type: "boolean",
+      default: "false",
+      description: "是否单独禁用该单选项。",
+    },
+    {
+      prop: "required",
+      type: "boolean",
+      default: "false",
+      description: "该项是否为必选项。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于单选按钮元素的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-通过 `orientation` 控制布局和键盘导航方向，通过 `disabled` 禁用整组或单项。`RadioGroupItem` 支持
-`size="sm | default | lg"`；标签应使用原生 `label` 包裹或通过 `htmlFor` 与控件关联。
+## 事件 Events
+
+<PropsTable
+  data={[
+    {
+      prop: "onValueChange",
+      type: "(value: string) => void",
+      description: "用户点击不同单选项或使用键盘方向键切换选项时触发，返回选中的 value 字符串。",
+    },
+    {
+      prop: "onFocus",
+      type: "(event: React.FocusEvent<HTMLButtonElement>) => void",
+      description: "单选项获得焦点时触发。",
+    },
+    {
+      prop: "onBlur",
+      type: "(event: React.FocusEvent<HTMLButtonElement>) => void",
+      description: "单选项失去焦点时触发。",
+    },
+    {
+      prop: "onKeyDown",
+      type: "(event: React.KeyboardEvent<HTMLButtonElement>) => void",
+      description: "在单选项获得焦点时按下键盘按键触发。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`RadioGroup` 用于在 **2 至 5 个互斥选项** 中清晰呈现所有候选并强制用户仅能选择一项。
+
+### 选项类组件对比选型
+
+| 组件类型 | 选项数量 | 互斥性 | 视觉展开度 | 典型适用场景 |
+| :--- | :--- | :--- | :--- | :--- |
+| **RadioGroup** | 2 ~ 5 项 | **互斥单选** | 完全平铺展开 | 支付方式选择、发票类型、计费周期 |
+| **Select** | 5 项以上 | **单选 / 多选** | 收起为下拉框 | 国家地区选择、省市区级联、超长分类列表 |
+| **Checkbox** | 任意项 | **多选 / 不互斥** | 平铺或树状 | 兴趣标签多选、增值服务订购、同意协议 |
+| **Segmented / Tabs** | 2 ~ 4 项 | **互斥单选** | 分段控制条 | 视图模式切换（网格/列表）、图表时间范围（天/周/月） |
+
+### 设计最佳实践
+
+- **默认选中项 (Default Value)**：在绝大多数单选场景中，推荐始终提供一个合理的默认选中项（如推荐方案），避免出现不确定的“未选”状态造成用户认知负担。
+- **避免过多选项导致页面拥挤**：当选项超过 5 个或选项文本较长时，应改用 `Select` 下拉选择器以节省垂直空间。
+- **垂直对齐优先**：对于带有描述文本的选项，优先采用垂直排列；水平排列仅适合文案极短（2~4 个字）且选项数量在 3 个以内的轻量场景（如性别、优先级）。
+- **可点击区域最大化**：始终使用 `<label htmlFor="...">` 将单选框与文字标题、描述文本包裹起来，确保用户点击整行任意位置均可选中。
+
+## 场景示例
+
+### 受控模式
+
+在需要精确监听状态变化或与外部状态进行双向数据流绑定时，使用 `value` 和 `onValueChange`：
+
+<ComponentPreview name="radio-group-controlled" />
+
+```tsx
+const [value, setValue] = React.useState("monthly")
+
+return (
+  <RadioGroup value={value} onValueChange={setValue}>
+    <label htmlFor="r1" className="flex items-center gap-2">
+      <RadioGroupItem value="monthly" id="r1" />
+      <span>按月结算</span>
+    </label>
+    <label htmlFor="r2" className="flex items-center gap-2">
+      <RadioGroupItem value="yearly" id="r2" />
+      <span>按年结算</span>
+    </label>
+  </RadioGroup>
+)
+```
+
+### 尺寸
+
+组件提供 `sm` (16px)、`default` (20px) 和 `lg` (24px) 三种尺寸：
+
+<ComponentPreview name="radio-group-sizes" />
+
+- `sm`：适合紧凑行内过滤条、密集表格内嵌操作。
+- `default`：通用表单项、设置面板及标准卡片。
+- `lg`：移动端触控场景、主要配置向导页。
+
+### 带辅助描述文本
+
+为每个选项提供清晰的主标题与次级辅助说明，帮助用户在复杂的业务选择中迅速做出判断：
+
+<ComponentPreview name="radio-group-with-description" />
+
+### 水平排列布局
+
+对于简短的属性选择（如任务优先级、性别、状态过滤），设置 `orientation="horizontal"` 并配合 flex 布局水平平铺：
+
+<ComponentPreview name="radio-group-horizontal" />
+
+### 禁用状态
+
+支持整组禁用或单独禁用特定不可选的项目（如售罄、权限不足或未解锁的功能）：
+
+<ComponentPreview name="radio-group-disabled" />
+
+### 交互式单选卡片组
+
+在 SaaS 订阅计划、部署规格选择等核心业务中，将单选框与卡片容器深度结合，呈现价格、推荐标签与功能特性：
+
+<ComponentPreview name="radio-group-cards" />
+
+### 表单校验与提交
+
+在团队邀请或角色分配表单中，配合 `aria-invalid` 与动态错误提示，实现严谨的表单提交流程：
+
+<ComponentPreview name="radio-group-form" />
+
+## 无障碍与交互 Accessibility
+
+- **WAI-ARIA 标准规范**：
+  - 容器自动声明 `role="radiogroup"`。
+  - 每个选项声明 `role="radio"`，并自动同步 `aria-checked="true" | "false"`。
+  - 选项整体作为单个 Tab 停靠点（Tab Stop），符合标准 Radio Group 无障碍规范。
+- **键盘导航规则**：
+  - <kbd>Tab</kbd>：将焦点移动到当前选中的单选项上（若未选择则聚焦到第一项）。再次按 <kbd>Tab</kbd> 离开单选框组。
+  - 方向键 <kbd>↑</kbd> / <kbd>←</kbd>：将焦点与选中状态切换至上一个单选项。
+  - 方向键 <kbd>↓</kbd> / <kbd>→</kbd>：将焦点与选中状态切换至下一个单选项。
+  - <kbd>Space</kbd>：激活并选中当前处于焦点的单选项。
+- **排版方向映射**：
+  - 当 `orientation="horizontal"` 时，左右方向键映射顺畅，屏幕阅读器会准确读出水平单选组的定位信息。
+- **标签关联与描述**：
+  - 务必为每个 `RadioGroupItem` 指定唯一 `id`，并通过 `<label htmlFor="...">` 进行绑定，以确保屏幕阅读器在聚焦时朗读对应标签文本。

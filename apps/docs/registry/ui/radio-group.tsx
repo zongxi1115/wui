@@ -47,7 +47,7 @@ function RadioGroupItem({ className, size = "default", ...props }: RadioGroupIte
     >
       <RadioGroupPrimitive.Indicator
         data-slot="radio-group-indicator"
-        className="size-1/2 rounded-full bg-primary"
+        className="size-1/2 rounded-full bg-primary transition-transform duration-150 animate-in zoom-in-50"
       />
     </RadioGroupPrimitive.Item>
   )

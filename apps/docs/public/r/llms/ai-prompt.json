@@ -2,7 +2,7 @@
   "name": "ai-prompt",
   "type": "registry:ui",
   "title": "AI 输入框 AI Prompt",
-  "description": "支持提及、模型选择、附件、引用和可选能力的组合式 AI 输入框。",
+  "description": "专为现代 AI 对话与智能体（Agent）场景设计的组合式输入框，支持 @ 提及、模型切换、文件附件、引用上下文与思考强度调节。",
   "categories": [
     "ai"
   ],
@@ -81,7 +81,6 @@
       "description": "输入框的尺寸密度。compact 适合紧凑布局，default 为标准尺寸。"
     }
   ],
-  "events": "- `AiPrompt` 透传表单 `onSubmit`，业务层负责读取内容、发送请求和处理错误。\n- `AiPromptTextarea` 默认随内容自动增高，达到 `maxHeight` 后切换为内部滚动；放在 `AiPromptMention` 中时，Provider 通过 `onValueChange`\n  统一处理普通输入和提及插入。\n- `AiPromptMention onMentionSelect` 在候选项插入后触发；菜单支持方向键、Enter、Tab 和 Escape。\n- `AiPromptAttachmentButton onFilesChange` 返回本地 `File[]`，不预设上传请求和文件校验。\n- `AiModelSelector onValueChange` 返回模型值；简单布尔能力使用 `AiPromptAction`，有模式或强度层级的能力使用 `AiPromptCapabilitySelector`。",
   "examples": [
     {
       "name": "ai-prompt-demo",
@@ -89,14 +88,24 @@
     },
     {
       "name": "ai-prompt-mentions",
-      "title": "提及与引用上下文"
+      "title": "提及成员与引用上下文"
     },
     {
       "name": "ai-prompt-advanced",
-      "title": "模型、附件与可选能力"
+      "title": "高级参数与多模态附件"
+    },
+    {
+      "name": "ai-prompt-compact",
+      "title": "紧凑悬浮输入条"
+    },
+    {
+      "name": "ai-prompt-suggestions-chips"
     },
     {
       "name": "ai-prompt-suggestions-demo"
+    },
+    {
+      "name": "ai-prompt-suggestions-scroll"
     }
   ],
   "files": [

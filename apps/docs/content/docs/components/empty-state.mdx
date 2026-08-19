@@ -1,48 +1,154 @@
 ---
 title: 空状态 Empty State
-description: 在没有数据或结果时解释现状并引导下一步。
+description: 在页面或模块无数据、无搜索结果或未配置时，清晰解释现状并引导用户开展下一步动作。
 component: empty-state
 ---
 
 ## 基础用法
 
+最基础的空状态用法。组合插画或图标、标题、解释说明文本以及主/次操作按钮：
+
 <ComponentPreview name="empty-state-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/empty-state" />
 
+<Steps>
+
+<Step>安装基础依赖与工具函数</Step>
+
+```bash
+pnpm add class-variance-authority clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/empty-state.tsx`</Step>
+
 <ComponentSource name="empty-state" title="components/ui/empty-state.tsx" />
 
-## 内置插画
+</Steps>
+
+## 属性 Props
+
+### EmptyState
+
+外层容器组件，用于统一设定纵向留白与居中排版：
+
+<PropsTable
+  data={[
+    {
+      prop: "size",
+      type: '"sm" | "default" | "lg"',
+      default: '"default"',
+      description: "空状态的垂直内边距与最小高度密度。sm 适合卡片或下拉菜单，lg 适合整页或主工作区。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于外层容器的额外 CSS 类名。",
+    },
+  ]}
+/>
+
+### EmptyStateIllustration
+
+插画组件，用于加载预置的高清矢量插画：
+
+<PropsTable
+  data={[
+    {
+      prop: "name",
+      type: "EmptyStateClassicIllustration | EmptyStateColorIllustration",
+      description: "插画的语义名称，内置数十种高频业务插画。",
+    },
+    {
+      prop: "variant",
+      type: '"gradient" | "flat" | "color"',
+      default: '"gradient"',
+      description: "插画的视觉艺术风格：gradient 为质感渐变风，flat 为简洁扁平线框风，color 为丰富彩色风。",
+    },
+    {
+      prop: "assetBasePath",
+      type: "string",
+      default: '"/wui/empty-state"',
+      description: "存放预置插画 SVG 文件的静态资源公共目录根路径。",
+    },
+    {
+      prop: "alt",
+      type: "string",
+      default: '""',
+      description: "图片的无障碍替代文本。装饰性插画建议保持为空以避免读屏器冗余朗读。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于插画 <img> 元素的额外 CSS 类名。",
+    },
+  ]}
+/>
+
+### 结构子组件
+
+- `EmptyStateIcon`：小型图标容器（带有圆角浅色背景与微边框），用于轻量或紧凑空状态。
+- `EmptyStateMedia`：大型媒体/插画包裹容器，负责为插画提供居中对齐与底部间距。
+- `EmptyStateTitle`：语义化标题（`<h3>`），加粗显示当前状态核心结论。
+- `EmptyStateDescription`：辅助描述文本（`<p>`），控制最大行宽与舒适行高。
+- `EmptyStateActions`：操作区容器，自动处理多按钮换行间距。
+- `EmptyStateHint`：底部弱化提示区，带顶部细分割线，适合放置快捷键提示或高级操作建议。
+
+## 事件 Events
+
+空状态容器本身不直接发射业务事件，所有交互行为（如点击新建、重置筛选、重试请求）由其内部 `EmptyStateActions` 中挂载的 `Button` 或链接处理：
+
+<PropsTable
+  data={[
+    {
+      prop: "onClick",
+      type: "(event: React.MouseEvent<HTMLDivElement>) => void",
+      description: "在容器上点击时触发的原生 DOM 事件。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+空状态不仅是“没有数据”时的占位，更是引导用户开展下一步行为的黄金转化触点。
+
+- **空状态分类与对应策略**：
+  - **初次使用（First-time Onboarding）**：用户首次进入页面尚未创建任何内容（如“还没有项目”）。应提供明确的主引导按钮（如“新建第一个项目”），甚至提供模板导入。
+  - **搜索/筛选无结果（Zero Search Results）**：用户的主动过滤条件未匹配到数据。**切忌直接提供“新建”按钮**，而应解释“未找到相关结果”，并提供“清空筛选”或“重置搜索”按钮。
+  - **内容被清空/已完成（All Done）**：如所有待办任务已处理完毕、回收站已清空。应使用轻松积极的文案（如“全部处理完毕，去休息一下吧”）。
+  - **网络或权限异常**：应提供“刷新重试”或“申请权限”操作。
+- **与相关状态组件的区别**：
+  - **加载中**：使用 `Skeleton` 或 `Spin`，不要在请求刚发起时提前展示空状态。
+  - **操作执行结果反馈**：使用 `Alert` 或 `Message/Toast`。
+- **操作层级清晰**：`EmptyStateActions` 中最多放置一个主要操作（Primary Button）和一个次要操作（Outline/Ghost Button），避免用户产生决策迟疑。
+
+## 场景示例
+
+### 预置插画库
+
+组件内置 `gradient`、`flat` 与 `color` 三大风格插画系列，涵盖数十种常见业务场景：
 
 <ComponentPreview name="empty-state-illustrations" />
 
-组件内置 `gradient`、`flat` 和 `color` 三套插画。渐变和扁平系列各包含 65 个通用空状态场景，彩色系列包含 20 个权限、
-通知和业务状态场景。使用 `EmptyStateMedia` 管理插画与正文之间的间距，通过 `EmptyStateIllustration` 的 `name` 和 `variant` 选择素材。
+### 搜索无结果（重置筛选）
 
-```tsx
-<EmptyStateMedia>
-  <EmptyStateIllustration variant="flat" name="search-folder" />
-</EmptyStateMedia>
-```
+当用户在列表或知识库中搜索无匹配项时，展示搜索类插画并提供一键重置：
 
-`emptyStateClassicIllustrations`、`emptyStateColorIllustrations` 和 `emptyStateIllustrations` 提供完整的类型安全名称清单，
-可用于业务侧选择器或二次封装，避免手写不存在的插画名称。
+<ComponentPreview name="empty-state-filter" />
 
-## 使用场景
+### 紧凑卡片/下拉面板空状态
 
-`EmptyState` 用于首次使用、筛选无结果和内容被清空后的页面区域。标题应说明当前没有什么内容，描述解释原因或下一步，
-主操作只保留最合理的一项。例如“还没有项目”可以配“创建项目”；“没有匹配结果”则应提供清除筛选，而不是继续显示创建入口。
-加载中使用 Skeleton，错误反馈使用 Message 或 Alert。
+在通知浮层、侧边栏小部件等小面积容器中，使用 `size="sm"` 与 `EmptyStateIcon`：
 
-## 属性
+<ComponentPreview name="empty-state-compact" />
 
-<PropsTable name="empty-state" />
+## 无障碍与交互 Accessibility
 
-## 事件
-
-容器本身不产生业务事件。操作由 `EmptyStateActions` 中组合的 Button 或链接承担，原生容器事件仍会透传。
-
-## 扩展用法
-
-使用 `size` 控制纵向留白；简单状态图标使用 `EmptyStateIcon`，复杂插画使用 `EmptyStateMedia` 和 `EmptyStateIllustration`。
-`EmptyStateHint` 用于放置快捷键、拖放提示等低优先级信息，不要把关键操作藏进 Hint。
+- **语义化标题与描述**：使用标准 `h3` 标题与 `p` 描述标签，辅助技术用户通过屏幕阅读器标题大纲快速浏览页面状态。
+- **装饰性图像降级**：`EmptyStateIllustration` 默认将 `alt` 设为空字符串（`alt=""`），防止读屏器重复朗读冗余的文件名；关键信息已由文本明确表达。
+- **键盘可访问的操作入口**：所有操作按钮支持 <kbd>Tab</kbd> 聚焦并可通过 <kbd>Enter</kbd> / <kbd>Space</kbd> 激活。
+- **动态状态通报**：若空状态是在用户异步搜索后动态出现的，父容器可配合 `aria-live="polite"`，让读屏器能主动通报“未找到匹配结果”。

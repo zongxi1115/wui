@@ -1,32 +1,149 @@
 ---
 title: 滚动进度 Scroll Progress
-description: 用顶部进度条或环形指示器显示页面、容器或区块的阅读进度。
+description: 实时计算整页、特定滚动容器或指定 DOM 节点的滚动通过比例，支持线性条状与环形仪表两种形态，并内置弹簧滤波平滑算法。
 component: scroll-progress
 ---
 
 ## 基础用法
 
+最简单的滚动进度指示用法。在文章页面或滚动容器顶部显示平滑的阅读进度指示条与悬浮环形进度百分比：
+
 <ComponentPreview name="scroll-progress-demo" />
 
-<DependencyBadges packages={["motion"]} />
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/scroll-progress" />
 
-<ComponentSource
-  name="scroll-progress"
-  title="components/ui/scroll-progress.tsx"
+<Steps>
+
+<Step>安装依赖与 Motion 动效库</Step>
+
+```bash
+pnpm add motion lucide-react clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/scroll-progress.tsx`</Step>
+
+<ComponentSource name="scroll-progress" title="components/ui/scroll-progress.tsx" />
+
+</Steps>
+
+## 属性 Props
+
+`ScrollProgress` 支持以下配置属性，并继承底层 HTML 容器元素的全部属性：
+
+<PropsTable
+  data={[
+    {
+      prop: "variant",
+      type: '"bar" | "circle"',
+      default: '"bar"',
+      description: "进度条的视觉呈现形态：bar（线性条状）或 circle（带数字百分比的环形仪表）。",
+    },
+    {
+      prop: "position",
+      type: '"top" | "bottom" | "inline"',
+      default: '"top"',
+      description: "线性条状在屏幕中的定位方式：top（固定于视口顶部）、bottom（固定于视口底部）、inline（跟随局部容器文档流）。",
+    },
+    {
+      prop: "container",
+      type: "React.RefObject<HTMLElement | null>",
+      description: "指定被监听的自定义可滚动容器 DOM 引用。若不提供则默认监听整页 Window 滚动。",
+    },
+    {
+      prop: "target",
+      type: "React.RefObject<HTMLElement | null>",
+      description: "指定特定目标元素 DOM 引用，仅根据该元素在视口中的穿越过程计算进度。",
+    },
+    {
+      prop: "offset",
+      type: 'UseScrollOptions["offset"]',
+      description: "与 target 配合使用的滚动偏移计算区间，如 [\"start start\", \"end end\"]。",
+    },
+    {
+      prop: "size",
+      type: "number",
+      default: "44",
+      description: "环形形态（variant=\"circle\"）的外圆直径像素尺寸。",
+    },
+    {
+      prop: "strokeWidth",
+      type: "number",
+      default: "3",
+      description: "环形形态（variant=\"circle\"）的圆环线条描边粗细像素尺寸。",
+    },
+    {
+      prop: "smooth",
+      type: "boolean",
+      default: "true",
+      description: "是否启用 Spring 弹簧阻尼物理滤波，消除鼠标滚轮或触控板惯性回弹的骤变抖动。",
+    },
+    {
+      prop: "trackClassName",
+      type: "string",
+      description: "应用于未填充背景底轨的额外 CSS 类名。",
+    },
+    {
+      prop: "indicatorClassName",
+      type: "string",
+      description: "应用于实际流动填充指示条/环形高亮描边的额外 CSS 类名。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于最外层容器元素的额外 CSS 类名。",
+    },
+  ]}
 />
 
-## 使用场景
+## 事件 Events
 
-`ScrollProgress` 可以观察整个页面、指定滚动容器，或通过 `target` 只计算某个内容区块的阅读进度。
-`variant="bar"` 适合显示全局阅读位置，`variant="circle"` 适合文章工具栏和沉浸式章节。它只说明“读到哪里”，不代替章节导航。
+`ScrollProgress` 支持所有原生 HTML `<div>` 的鼠标与焦点事件：
 
-## 属性
+<PropsTable
+  data={[
+    {
+      prop: "onClick",
+      type: "(event: React.MouseEvent<HTMLDivElement>) => void",
+      description: "点击进度指示器区域时触发（常用于点击环形返回页面顶部）。",
+    },
+  ]}
+/>
 
-<PropsTable name="scroll-progress" />
+## 使用场景与设计规范
 
-## 使用说明
+`ScrollProgress` 适用于**长内容阅读、多步骤向导、长协议确认与专题落地页**。
 
-在嵌套滚动区域中同时传入 `container` 和 `target`。`offset` 使用 Motion 的滚动偏移语法；例如 `["start start", "end end"]`
-表示目标顶部到达容器顶部时从 0 开始，目标底部到达容器底部时到 1。进度属于辅助导航，应同时提供章节标题和明确的页面结构。
+- **整页阅读 vs 局部容器**：
+  - 全局博客/文档页：推荐使用 `position="top"` 固定于屏幕最顶部，配合 `h-0.5` 或 `h-1` 的极细线条，给读者明确的篇幅预期。
+  - 条款协议/模态弹窗：传入 `container={ref}` 并设置 `position="inline"`，将进度条限制在局部弹窗内部。
+- **弹簧滤波平滑（Smooth Spring）**：在高刷新率（120Hz/144Hz）屏幕或触控板快速滑动时，原生滚动事件存在微量离散阶梯跳跃。组件默认开启 `smooth={true}`，通过精确阻尼弹簧将阶跃信号滤波为自然流体动效。
+- **渐进显隐**：环形进度条常与“返回顶部”浮动悬钮结合，可配合页面滚动超过 20% 时淡入显示。
+
+## 场景示例
+
+### 协议条款通读验证
+
+在用户注册或服务协议签署弹窗中，监听内部容器的滚动进度，只有当用户完整阅读至文末时才解锁“同意”按钮：
+
+<ComponentPreview name="scroll-progress-container" />
+
+### 特定章节视口穿越追踪
+
+使用 `target` 属性精准监听长文档中某一核心技术章节的阅读进度：
+
+<ComponentPreview name="scroll-progress-steps" />
+
+### 自定义渐变与环形样式
+
+支持通过 `indicatorClassName` 传入色彩渐变或调整尺寸：
+
+<ComponentPreview name="scroll-progress-variants" />
+
+## 无障碍与交互 Accessibility
+
+- **标准 ARIA 进度条角色**：组件自动挂载 `role="progressbar"`、`aria-valuemin={0}`、`aria-valuemax={100}` 以及动态响应的 `aria-valuenow` 属性，读屏软件可无障碍查询当前完成百分比。
+- **系统减少动态偏好（Reduced Motion）**：当检测到用户的系统开启 `prefers-reduced-motion` 时，组件将自动关闭 Spring 滤波插值，进度条直接实时绑定原生像素位置，避免不必要的物理回弹。

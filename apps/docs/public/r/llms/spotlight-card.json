@@ -2,7 +2,7 @@
   "name": "spotlight-card",
   "type": "registry:ui",
   "title": "聚光卡片 Spotlight Card",
-  "description": "根据鼠标位置在内容表面显露一层局部光照。",
+  "description": "根据光标指针移动在卡片表面渲染跟随式局部径向光照，为静态卡片注入灵动的空间立体感。",
   "categories": [
     "pointer",
     "fancy"
@@ -54,11 +54,14 @@
       "description": "应用于聚光图层的 CSS 类名。"
     }
   ],
-  "usage": "通过 `radius` 调整影响范围，通过 `color` 使用与当前内容有关的低透明度颜色。聚光不能承载唯一的状态或操作提示；\n触摸输入下没有指针位置，内容仍必须完整可读。",
   "examples": [
     {
       "name": "spotlight-card-demo",
-      "title": "基础用法"
+      "title": "产品功能展示网格"
+    },
+    {
+      "name": "spotlight-card-colors",
+      "title": "多色主题光晕"
     }
   ],
   "files": [

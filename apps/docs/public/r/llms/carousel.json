@@ -2,7 +2,7 @@
   "name": "carousel",
   "type": "registry:ui",
   "title": "轮播 Carousel",
-  "description": "使用原生滚动与吸附逐项浏览一组相关内容。",
+  "description": "基于原生 CSS 滚动与 scroll-snap 物理吸附机制构建的高性能轮播组件，支持横向/纵向滑动、循环滚动与多列响应式排版。",
   "import": "import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from \"@/components/ui/carousel\"",
   "exports": [
     "Carousel",
@@ -62,15 +62,18 @@
       "description": "当前项目变化时触发。"
     }
   ],
-  "events": "`onIndexChange(index)` 在吸附到新的项目后触发。前后按钮会根据边界自动禁用；开启 `loop` 后，末项可以回到首项。\n内容本身仍可接收原生滚动事件。",
   "examples": [
     {
       "name": "carousel-demo",
       "title": "基础用法"
     },
     {
+      "name": "carousel-cards",
+      "title": "多卡片响应式轮播 (Multi-card)"
+    },
+    {
       "name": "carousel-vertical",
-      "title": "垂直循环"
+      "title": "垂直方向轮播 (Vertical)"
     }
   ],
   "files": [

@@ -2,7 +2,7 @@
   "name": "ai-conversation-timeline",
   "type": "registry:ui",
   "title": "AI 对话时间线 AI Conversation Timeline",
-  "description": "用紧凑刻度浏览长对话，悬停预览并快速定位到指定轮次。",
+  "description": "用紧凑刻度浏览长对话与 Agent 执行轨迹，悬停即时预览并快速定位到指定轮次。",
   "categories": [
     "ai"
   ],
@@ -81,11 +81,18 @@
       "description": "用户选择某个时间线标记时触发。"
     }
   ],
-  "events": "使用 `activeId` 和 `onActiveChange` 同步当前阅读轮次。用户点击刻度时，`onNavigate` 会返回完整条目和序号；\n业务层可以在回调中调用 `scrollIntoView`、虚拟列表定位或路由跳转。\n\n组件不会接管滚动容器，也不假设消息 DOM 结构。它既可以接入 `AiChatMessages`，也可以用于已有聊天页面或 Agent 运行记录。",
   "examples": [
     {
       "name": "ai-conversation-timeline-demo",
-      "title": "基础用法"
+      "title": "与聊天消息视口双向联动"
+    },
+    {
+      "name": "ai-conversation-timeline-left-preview",
+      "title": "右侧停靠与向左展开预览"
+    },
+    {
+      "name": "ai-conversation-timeline-levels",
+      "title": "多层级 Agent 执行链路追踪"
     }
   ],
   "files": [

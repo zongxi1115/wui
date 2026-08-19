@@ -1,50 +1,198 @@
 ---
 title: AI 对话 AI Chat
-description: 可组合的 AI 消息、滚动容器与提示输入框。
+description: 专为 AI 对话、智能助手与 Agent 编排设计的组合式容器，支持流式智能滚屏、角色气泡、多阶段思考链与工具调用状态渲染。
 component: ai-chat
 ---
 
 ## 基础用法
 
+包含用户消息、助手多步骤推理摘要、工具调用卡片以及底部复合输入区的完整会话流：
+
 <ComponentPreview name="ai-chat-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/ai-chat" />
 
+<Steps>
+
+<Step>安装基础依赖与动效库</Step>
+
+```bash
+pnpm add radix-ui motion class-variance-authority lucide-react clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/ai-chat.tsx`</Step>
+
 <ComponentSource name="ai-chat" title="components/ui/ai-chat.tsx" />
 
-## 使用场景
+</Steps>
 
-`AiChat` 用于搭建 Agent 助手、客服和 Copilot 对话界面。它处理消息布局、跟随滚动、回到底部和输入区组合，
-不处理模型请求、消息协议或会话存储，因此既可以接 AI SDK，也可以接自有流式接口。
+## 属性 Props
 
-默认头像复用通用 [`Avatar`](/docs/components/avatar)，输入区可以复用 [`AiPrompt`](/docs/components/ai-prompt) 的基础部件。
-需要提及、模型选择、附件或引用时，可以直接用完整的 `AiPrompt` 替换底部输入区。
+### AiChat (根容器)
 
-如果界面只是普通评论列表或站内私信，应继续使用业务列表组件；不要因为内容由 AI 生成，就套用包含流式状态和回到底部能力的完整聊天外壳。
+`AiChat` 负责统筹整个对话区域的视口滚动上下文、触底检测与回到底部行为：
 
-## 属性
+<PropsTable
+  data={[
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于外层会话容器的额外 CSS 类名（如控制高度 `h-[600px]`）。",
+    },
+    {
+      prop: "children",
+      type: "React.ReactNode",
+      description: "会话消息列表 `AiChatMessages` 与底部输入框 `AiChatPrompt` 等子节点。",
+    },
+  ]}
+/>
 
-<PropsTable name="ai-chat" />
+### AiChatMessages (消息视口容器)
 
-## 事件
+<PropsTable
+  data={[
+    {
+      prop: "followOutput",
+      type: "boolean",
+      default: "true",
+      description: "当用户当前处于视口底部时，是否随着新内容到达自动平滑跟随滚动到底部。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于可滚动消息视口的额外样式类名。",
+    },
+  ]}
+/>
 
-`AiChatPrompt` 透传表单的 `onSubmit`，业务层负责读取输入、发送请求并控制 `AiChatSubmit` 的 `status`。
-`AiChatTextarea` 透传原生输入和键盘事件；示例约定 Enter 发送、Shift + Enter 换行。消息操作区不预设复制、重试或反馈逻辑，
-这些操作应由业务层根据消息状态决定。
+### AiChatMessage (单条消息外壳)
 
-## 扩展用法
+<PropsTable
+  data={[
+    {
+      prop: "role",
+      type: '"user" | "assistant" | "system"',
+      default: '"assistant"',
+      description: "发言角色。决定消息的左右对齐方向与视觉主题风格。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于单条消息外层容器的额外类名。",
+    },
+  ]}
+/>
 
-### 与工具、任务和推理组合
+### AiChatAvatar (角色头像)
 
-聊天框保持为复合组件：在助手消息中放入 [`AiTool`](/docs/components/ai-tool)、[`AiTodo`](/docs/components/ai-todo) 和
-[`AiReasoning`](/docs/components/ai-reasoning)，即可呈现 Agent 的工具调用、任务计划和过程摘要，不需要为每种消息类型增加新的固定模板。
+<PropsTable
+  data={[
+    {
+      prop: "role",
+      type: '"user" | "assistant"',
+      default: '"assistant"',
+      description: "头像所属的角色身份。",
+    },
+    {
+      prop: "children",
+      type: "React.ReactNode",
+      description: "自定义头像图标或图像。默认展示角色专属矢量图标。",
+    },
+  ]}
+/>
 
-### 流式消息
+### AiChatMessageContent (气泡内容主体)
 
-请求提交时将 `AiChatSubmit status="submitted"`，收到首段内容后切换为 `streaming`，生成结束或失败后恢复 `idle`。
-`AiChatMessages` 只会在用户仍位于底部时跟随新内容；用户向上阅读历史记录后不会被强制拉回，应通过回到底部入口提示有新内容。
+<PropsTable
+  data={[
+    {
+      prop: "role",
+      type: '"user" | "assistant" | "system"',
+      default: '"assistant"',
+      description: "角色类型。用户气泡自带主色背景，助手气泡为无衬底卡片，系统消息为居中灰色通知条。",
+    },
+  ]}
+/>
 
-### 空状态
+### AiChatSubmit (会话发送按钮)
 
-没有消息时，在 `AiChatMessages` 内使用 `AiChatEmptyState`，放置一句明确的能力说明和少量起始建议。
-起始建议应能直接填入输入框或触发真实动作，避免堆叠宣传文案、装饰插画和过多快捷入口。
+<PropsTable
+  data={[
+    {
+      prop: "status",
+      type: '"idle" | "submitted" | "streaming" | "error"',
+      default: '"idle"',
+      description: "当前生成生命周期状态。在 `streaming` 下自动呈现打断生成（Square）按钮。",
+    },
+    {
+      prop: "disabled",
+      type: "boolean",
+      default: "false",
+      description: "是否禁用发送按钮交互。",
+    },
+  ]}
+/>
+
+## 事件 Events
+
+<PropsTable
+  data={[
+    {
+      prop: "onSubmit",
+      type: "(event: React.FormEvent<HTMLFormElement>) => void",
+      description: "由 `AiChatPrompt` 派发的表单提交事件，通常在此调用大模型 API 或 SSE 流。",
+    },
+    {
+      prop: "onScroll",
+      type: "(event: React.UIEvent<HTMLDivElement>) => void",
+      description: "消息视口发生滚动时触发，组件内部已自动维护触底状态 `atBottom`。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`AiChat` 是构建 AI 对话系统、智能 Copilot 侧边栏和自动化 Agent 控制台的核心框架：
+
+- **何时使用**：
+  - 智能问答客服、代码审查助手与知识库对话面板；
+  - 需要在助手中内嵌“思考链”、“工具调用”、“待办计划”和“流式回答”的复杂智能体流程；
+  - 多轮长对话且要求精准的“流式跟随滚动”与“向上翻阅不强制打断”体验。
+- **何时不应使用**：
+  - 团队即时通讯（IM）或传统客服工单聊天（没有模型推理与工具调用特性，应采用标准 IM 规范）；
+  - 简单的一问一答搜索框（无需庞大的全屏聊天壳）。
+- **设计最佳实践**：
+  - **非侵入式滚动跟随**：当用户向上翻阅历史消息时，严禁强制自动滚回底部；只有当用户处于底部时才跟随新字符滚动，并提供悬浮的“回到底部”快捷按钮 (`AiChatScrollButton`)；
+  - **模块化状态呈现**：将复杂推理过程拆分为 `AiReasoning`，将参数与文件读写交给 `AiTool`，保证正文排版清晰整洁；
+  - **丰富的操作反馈**：在助手回复下方提供 `AiChatMessageActions`，方便用户一键复制、重新生成或进行质量反馈（点赞/点踩）。
+
+## 场景示例
+
+### 智能体完整工作流 (Agent Workflow)
+
+结合多阶段思考链 (`AiReasoning`)、工具调用入参与结果预检 (`AiTool`)，以及流式文本与操作栏：
+
+<ComponentPreview name="ai-chat-agent" />
+
+### 欢迎页与空白引导态 (Empty State)
+
+在会话初次创建或尚无消息时，使用 `AiChatEmptyState` 配合场景推荐卡片引导用户快速发起提问：
+
+<ComponentPreview name="ai-chat-empty" />
+
+## 无障碍与交互 Accessibility
+
+- **ARIA 规范与屏幕阅读器**：
+  - 消息列表自动包裹在 `aria-live="polite"` 区域中，新生成的回答内容能被屏幕阅读器平稳播报，不抢占焦点；
+  - 每条消息使用独立的 `<article>` 语义化标签包裹；
+  - 回到底部按钮包含显式 `aria-label="滚动到最新消息"`。
+- **键盘快捷交互**：
+  - <kbd>Enter</kbd>：快速发送消息。
+  - <kbd>Shift</kbd> + <kbd>Enter</kbd>：在多行输入框中换行。
+  - <kbd>Tab</kbd>：在消息操作按钮（复制、重新生成、评价）之间顺畅切换。
+- **动效降级**：
+  - 触底滚动在系统开启 `prefers-reduced-motion` 时会自动由 `smooth` 降级为瞬时 `auto` 跳转，防止晕动症。

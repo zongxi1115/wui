@@ -1,70 +1,210 @@
 ---
 title: 对话框 Dialog
-description: 基于 Radix UI 构建、覆盖在主窗口之上的浮层窗口。
+description: 基于 Radix UI 与 Motion 构建的模态浮层窗口，支持焦点锁定、平滑弹性展开动效以及原地布局变换。
 component: dialog
 ---
 
 ## 基础用法
 
+点击触发按钮即可在视口中央唤起模态对话框，支持通过标题、描述、操作区与关闭按钮组织内容：
+
 <ComponentPreview name="dialog-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/dialog" />
 
+<Steps>
+
+<Step>安装基础依赖与动效库</Step>
+
+```bash
+pnpm add radix-ui motion lucide-react clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/dialog.tsx`</Step>
+
 <ComponentSource name="dialog" title="components/ui/dialog.tsx" />
 
-## 使用场景
+</Steps>
 
-`Dialog` 用于暂时打断当前流程，展示需要用户聚焦的内容或请求用户确认。它会锁定焦点，支持完整的键盘操作，
-并可通过 `Esc` 或点击遮罩关闭。它适合模态流程；轻量的非模态反馈应使用 Message，需要保留在页面中的说明应使用 Alert。
+## 属性 Props
 
-组件由一组可组合的部分构成：`Dialog`、`DialogTrigger`、`DialogContent`、`DialogHeader`、`DialogTitle`、
-`DialogDescription`、`DialogFooter` 和 `DialogClose`。每个对话框都应设置标题；有补充说明时再提供描述。
+### Dialog (根组件)
 
-<Callout title="从触发元素展开">
-  `DialogContent` 会从打开它的按钮位置生长出来。打开时，面板从触发元素的位置以缩小且透明的状态过渡到屏幕中央；
-  关闭时则收缩回触发元素。该效果由 [`motion`](/docs/components/motion) 提供；用户开启“减少动态效果”后，
-  会改为纯淡入淡出。如果通过代码打开对话框，且页面上没有触发元素，则从中心缩放。
-</Callout>
-
-## 属性
+`Dialog` 支持受控与非受控模式，以及模态与原地布局形态切换：
 
 <PropsTable
   data={[
-    { prop: "open", type: "boolean", description: "受控的打开状态，需与 onOpenChange 配合使用。" },
-    { prop: "defaultOpen", type: "boolean", default: "false", description: "非受控模式下的初始打开状态。" },
-    { prop: "modal", type: "boolean", default: "true", description: "是否阻止与对话框外部内容交互。" },
-    { prop: "variant", type: '"modal" | "inline"', default: '"modal"', description: "使用居中模态窗口，或在原位置进行布局变换。" },
+    {
+      prop: "open",
+      type: "boolean",
+      description: "受控模式下的打开状态，需配合 onOpenChange 使用。",
+    },
+    {
+      prop: "defaultOpen",
+      type: "boolean",
+      default: "false",
+      description: "非受控模式下的初始打开状态。",
+    },
+    {
+      prop: "onOpenChange",
+      type: "(open: boolean) => void",
+      description: "对话框打开或关闭状态变化时的回调函数。",
+    },
+    {
+      prop: "modal",
+      type: "boolean",
+      default: "true",
+      description: "是否以模态方式呈现。开启后会渲染背景遮罩并阻止与外部页面交互。",
+    },
+    {
+      prop: "variant",
+      type: '"modal" | "inline"',
+      default: '"modal"',
+      description: '渲染形态。"modal" 为视口居中模态弹窗；"inline" 为基于触发元素的原地非模态布局变换。',
+    },
   ]}
 />
 
-`DialogContent`、`DialogTitle` 等部分接受对应 Radix 基础组件的全部属性，并支持 `className`。
+### DialogContent
 
-## 事件
+`DialogContent` 为对话框浮层主体面板，继承 Radix Dialog Content 的全部 HTML 属性：
+
+<PropsTable
+  data={[
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于对话框浮层面板的自定义类名（如自定义宽度 `sm:max-w-[600px]`）。",
+    },
+    {
+      prop: "asChild",
+      type: "boolean",
+      default: "false",
+      description: "是否将属性与行为合并到唯一的子元素上渲染。",
+    },
+  ]}
+/>
+
+### DialogTrigger / DialogClose
+
+<PropsTable
+  data={[
+    {
+      prop: "asChild",
+      type: "boolean",
+      default: "false",
+      description: "是否将触发/关闭行为委派给自定义子元素（通常配合 Button 使用）。",
+    },
+  ]}
+/>
+
+### DialogHeader / DialogFooter / DialogTitle / DialogDescription
+
+<PropsTable
+  data={[
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于相应结构容器的额外样式类名。",
+    },
+    {
+      prop: "children",
+      type: "React.ReactNode",
+      description: "容器内部渲染的文本或节点内容。",
+    },
+  ]}
+/>
+
+## 事件 Events
 
 <PropsTable
   data={[
     {
       prop: "onOpenChange",
       type: "(open: boolean) => void",
-      description: "打开状态发生变化时调用，包括触发按钮、Esc、遮罩点击或 DialogClose 引起的变化。",
+      description: "当用户通过点击触发器、点击遮罩、按下 Esc 键或点击关闭按钮导致开启状态改变时触发。",
+    },
+    {
+      prop: "onPointerDownOutside",
+      type: "(event: PointerDownOutsideEvent) => void",
+      description: "在模态框外部按下指针时触发。可通过 event.preventDefault() 阻止点击遮罩关闭。",
+    },
+    {
+      prop: "onEscapeKeyDown",
+      type: "(event: KeyboardEvent) => void",
+      description: "按下 Esc 键时触发。可通过 event.preventDefault() 阻止按键关闭行为。",
+    },
+    {
+      prop: "onOpenAutoFocus",
+      type: "(event: Event) => void",
+      description: "对话框打开并完成入场时焦点移入前触发，可自定义首个聚焦元素。",
+    },
+    {
+      prop: "onCloseAutoFocus",
+      type: "(event: Event) => void",
+      description: "对话框关闭且退场动效完成时触发，默认将焦点归还给触发元素。",
     },
   ]}
 />
 
-## 扩展用法
+## 使用场景与设计规范
 
-### 原地布局变换（非模态）
+`Dialog` 用于中断用户当前流程，引导用户聚焦于高优先级的操作任务或重要信息决策：
 
-设置 `variant="inline"` 后，Trigger 与 Content 各自包含一个没有文字的共享背景表面。Motion 只在这两个背景表面之间
-进行布局变换，因此面板可以从按钮轮廓自然长大，而按钮文字、表单和操作区只进行淡入淡出，不会参与缩放或被压扁。
-面板不会 Portal 到页面中央，也不会显示遮罩；`DialogHeader`、`DialogClose` 等组合 API 保持不变。
+- **组件选型对比**：
+  - **Dialog vs Drawer**：对于简短、强聚焦、破坏性或即刻决策的场景（如密码确认、新建配置），优先使用居中的 `Dialog`；对于包含多字段长表单、主从关联详情、复杂过滤筛选器的场景，优先使用侧边滑出的 `Drawer`。
+  - **Dialog vs ConfirmDialog**：如果仅需简单的“确定/取消”二元确认，推荐使用轻量开箱即用的 [`ConfirmDialog`](/docs/components/confirm-dialog)；如果包含自定义表单控件、多步骤或长说明文本，使用灵活组合的 `Dialog`。
+  - **Dialog vs Popover**：`Popover` 是依附于触发器的轻量非模态气泡卡片，不锁定焦点；`Dialog` 会阻断页面交互并锁定焦点。
+- **信息层级与语义规范**：
+  - 每个 `DialogContent` 必须包含 `DialogTitle`，便于屏幕阅读器朗读。若设计上无需显式标题，需添加 `sr-only` 隐藏文本或通过 `aria-label` 声明。
+  - 底部操作栏（`DialogFooter`）应遵循视觉主次规范：主要操作（Primary Button）置于最右侧，取消操作（Outline/Ghost）紧随其左。
+- **动态原点展开（Origin Morphing）**：
+  - 组件内置智能原点计算能力：打开时，面板会自动从触发按钮的几何中心以弹性缓动膨胀至屏幕中央；关闭时则精准缩回原按钮，维持空间连续性。
+
+## 场景示例
+
+### 表单交互与受控状态
+
+在对话框中嵌入复杂表单，通过受控的 `open` 状态结合异步请求与加载反馈，提供安全顺畅的提交体验：
+
+<ComponentPreview name="dialog-form" />
+
+### 原地布局变换（非模态 `variant="inline"`）
+
+设置 `variant="inline"` 时，Dialog 会在原文档流位置展开，Trigger 与 Content 共享同一个背景表面并执行平滑的形态变换，适合轻量级行内设置与详情展开：
 
 <ComponentPreview name="dialog-layout" />
 
-<Callout title="它不是无障碍模态框">
-  这种模式适合轻量设置、详情和编辑面板，不会锁定焦点，也不会阻止页面其他区域交互。需要用户必须先完成或取消的流程时，
-  仍应使用上面的 Radix `Dialog`。
+<Callout title="非模态布局注意事项">
+  `variant="inline"` 不会渲染全屏遮罩，也不会锁定全局焦点，适合嵌入在卡片或侧边栏内的局部编辑场景。如果需要阻断用户操作，请使用默认的 `variant="modal"`。
 </Callout>
 
-如需开箱即用的确认流程，请查看由 `Dialog` 和 `Button` 组合而成的
-[确认对话框](/docs/components/confirm-dialog)。
+### 自定义尺寸与大内容展示
+
+通过为 `DialogContent` 传入 Tailwind 宽度类（例如 `sm:max-w-[640px]`），可扩展对话框宽度以展示代码片段、数据结构或多栏信息：
+
+<ComponentPreview name="dialog-custom-size" />
+
+### 破坏性操作二次确认
+
+对于删除仓库、清空数据等不可逆危险操作，可在对话框中要求用户输入确认关键字，配合警示色按钮防止误触：
+
+<ComponentPreview name="dialog-destructive" />
+
+## 无障碍与交互 Accessibility
+
+- **WAI-ARIA 规范**：
+  - 浮层容器自动赋予 `role="dialog"` 或 `role="alertdialog"`。
+  - 自动绑定 `aria-labelledby`（指向 `DialogTitle`）与 `aria-describedby`（指向 `DialogDescription`）。
+- **焦点捕获与恢复（Focus Trap & Return）**：
+  - 打开弹窗时，焦点自动锁定在弹窗内部，防止用户通过 <kbd>Tab</kbd> 意外聚焦到遮罩层下方的背景元素。
+  - 关闭弹窗后，焦点会自动无缝归还至触发此弹窗的原始按钮，确保键盘流体验不中断。
+- **键盘导航**：
+  - <kbd>Esc</kbd>：快速退出并关闭对话框。
+  - <kbd>Tab</kbd> / <kbd>Shift</kbd> + <kbd>Tab</kbd>：在弹窗内部的所有可聚焦元素（输入框、操作按钮、右上角关闭按钮）之间顺次循环。
+- **动效降级**：
+  - 监听系统的 `prefers-reduced-motion` 设置。开启减弱动态效果后，弹性缩放生长动效将优雅降级为即时的不透明度淡入淡出。

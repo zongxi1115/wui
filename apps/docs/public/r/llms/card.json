@@ -2,7 +2,7 @@
   "name": "card",
   "type": "registry:ui",
   "title": "卡片 Card",
-  "description": "将同一主题的内容、状态与操作组织在一个清晰的表面中。",
+  "description": "将同一主题的内容、状态与操作组织在具备清晰视觉层级与微动效的容器表面中。",
   "import": "import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardMedia, CardTitle } from \"@/components/ui/card\"",
   "exports": [
     "Card",
@@ -44,15 +44,30 @@
       "description": "卡片作为整体可操作时，是否显示按压反馈。"
     }
   ],
-  "events": "卡片本身不产生业务事件，原生鼠标、键盘和焦点事件会继续透传。操作应放在 `CardAction` 或 `CardFooter` 内的 Button、\n链接等交互元素上，避免在一张卡片中嵌套相互冲突的点击区域。",
   "examples": [
     {
       "name": "card-demo",
       "title": "基础用法"
     },
     {
+      "name": "card-variants",
+      "title": "表面风格 (Variants)"
+    },
+    {
+      "name": "card-interactive",
+      "title": "可交互卡片 (Interactive)"
+    },
+    {
+      "name": "card-media",
+      "title": "顶部媒体通栏 (CardMedia)"
+    },
+    {
       "name": "card-composition",
-      "title": "紧凑组合"
+      "title": "紧凑型组合"
+    },
+    {
+      "name": "card-business",
+      "title": "业务场景：云服务器节点监控卡片"
     }
   ],
   "files": [

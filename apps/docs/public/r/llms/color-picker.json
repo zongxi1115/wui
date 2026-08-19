@@ -1,13 +1,15 @@
 {
   "name": "color-picker",
   "type": "registry:ui",
-  "title": "颜色选择器 Color Picker",
-  "description": "面向设计 Token 的 OKLCH 颜色选择器，支持感知色彩通道、透明度和精确 CSS 值。",
-  "import": "import { ColorPicker, formatColorValue, parseColorValue } from \"@/components/ui/color-picker\"",
+  "title": "颜色选择器 ColorPicker",
+  "description": "支持新一代 OKLCH 感知色彩空间与传统 RGB/HEX 的现代化颜色选择器，内置色板预设、透明度通道与精确 CSS 代码输入。",
+  "import": "import { ColorPicker, colorPickerTriggerVariants, formatColorValue, parseColorValue, parseHexValue } from \"@/components/ui/color-picker\"",
   "exports": [
     "ColorPicker",
+    "colorPickerTriggerVariants",
     "formatColorValue",
-    "parseColorValue"
+    "parseColorValue",
+    "parseHexValue"
   ],
   "typeExports": [
     "ColorPickerProps"
@@ -58,8 +60,28 @@
       "type": "string[]",
       "required": false,
       "control": "text",
-      "defaultValue": "[\r\n  \"oklch(0.546 0.245 262.881)\", // wui-token-audit-allow -- picker color data\r\n  \"oklch(0.585 0.233 277.117)\", // wui-token-audit-allow -- picker color data\r\n  \"oklch(0.577 0.245 27.325)\", // wui-token-audit-allow -- picker color data\r\n  \"oklch(0.666 0.179 58.318)\", // wui-token-audit-allow -- picker color data\r\n  \"oklch(0.527 0.154 150.069)\", // wui-token-audit-allow -- picker color data\r\n  \"oklch(0.6 0.118 184.704)\", // wui-token-audit-allow -- picker color data\r\n]",
+      "defaultValue": "[\n  \"oklch(0.546 0.245 262.881)\", // wui-token-audit-allow -- picker color data\n  \"oklch(0.585 0.233 277.117)\", // wui-token-audit-allow -- picker color data\n  \"oklch(0.577 0.245 27.325)\", // wui-token-audit-allow -- picker color data\n  \"oklch(0.666 0.179 58.318)\", // wui-token-audit-allow -- picker color data\n  \"oklch(0.527 0.154 150.069)\", // wui-token-audit-allow -- picker color data\n  \"oklch(0.6 0.118 184.704)\", // wui-token-audit-allow -- picker color data\n]",
       "description": "可供快速选择的 OKLCH 颜色。"
+    },
+    {
+      "name": "size",
+      "type": "\"default\" | \"sm\" | \"lg\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "default",
+        "sm",
+        "lg"
+      ],
+      "defaultValue": "default",
+      "description": "触发器尺寸密度。@default \"default\""
+    },
+    {
+      "name": "className",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "应用于触发器按钮的额外类名。"
     },
     {
       "name": "disabled",
@@ -69,11 +91,26 @@
       "description": "是否禁用组件。"
     }
   ],
-  "usage": "组件接受受控的 `value` 与 `onValueChange`，在 RGB 与 OKLCH 模式之间切换时会自动转换。通过 `showAlpha` 显示或隐藏透明度通道，\n通过 `swatches` 提供产品自己的常用色板；弹层底部保留 CSS 原始值输入，便于复制和粘贴精确颜色。\n\n如果颜色会影响文字与背景的可读性，应在业务层额外做对比度检查；颜色选择器不会替你判断是否满足产品的可访问性要求。",
   "examples": [
     {
       "name": "color-picker-demo",
       "title": "基础用法"
+    },
+    {
+      "name": "color-picker-controlled",
+      "title": "受控模式与快捷预设"
+    },
+    {
+      "name": "color-picker-alpha",
+      "title": "透明度通道控制"
+    },
+    {
+      "name": "color-picker-swatches",
+      "title": "自定义主题预设色板"
+    },
+    {
+      "name": "color-picker-form",
+      "title": "品牌主题配置面板"
     }
   ],
   "files": [

@@ -5,33 +5,44 @@ import * as React from "react"
 import { InputNumber } from "@/registry/ui/input-number"
 
 export default function InputNumberAdvanced() {
-  const [price, setPrice] = React.useState<number | null>(19.9)
+  const [discountRate, setDiscountRate] = React.useState<number | null>(0.85)
+  const [maxLatency, setMaxLatency] = React.useState<number | null>(250)
 
   return (
     <div className="grid w-full max-w-sm gap-5 sm:grid-cols-2">
       <div className="grid gap-2">
-        <label htmlFor="price" className="text-sm font-medium">
-          单价
+        <label htmlFor="discount-input" className="text-sm font-medium text-foreground">
+          折扣系数 (浮点精度)
         </label>
         <InputNumber
-          id="price"
-          value={price}
-          onValueChange={setPrice}
-          min={0}
-          max={99.9}
-          step={0.1}
-          aria-describedby="price-help"
+          id="discount-input"
+          value={discountRate}
+          onValueChange={setDiscountRate}
+          min={0.01}
+          max={1.0}
+          step={0.05}
         />
-        <p id="price-help" className="text-muted-foreground text-xs">
-          每次调整 0.1，范围 0–99.9
+        <p className="text-xs text-muted-foreground">
+          步长 0.05，范围 0.01–1.00
         </p>
       </div>
-      <div className="grid content-start gap-2">
-        <label htmlFor="stock" className="text-sm font-medium">
-          库存上限
+
+      <div className="grid gap-2">
+        <label htmlFor="latency-input" className="text-sm font-medium text-foreground">
+          超时阈值 (大步长)
         </label>
-        <InputNumber id="stock" defaultValue={100} min={0} step={10} />
-        <p className="text-muted-foreground text-xs">可用 ↑ / ↓ 快速调整</p>
+        <InputNumber
+          id="latency-input"
+          value={maxLatency}
+          onValueChange={setMaxLatency}
+          min={50}
+          max={5000}
+          step={50}
+          suffix="ms"
+        />
+        <p className="text-xs text-muted-foreground">
+          按 Shift + ↑/↓ 步进 500ms
+        </p>
       </div>
     </div>
   )

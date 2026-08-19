@@ -2,7 +2,7 @@
   "name": "ai-voice-visualizer",
   "type": "registry:ui",
   "title": "AI 语音波形 AI Voice Visualizer",
-  "description": "专用于实时语音对话模式（Voice Mode / TTS / STT）的动态音频声浪与状态光环。",
+  "description": "专用于实时语音对话模式、语音输入与语音合成播放的动态音频电平声浪与光环可视化组件。",
   "categories": [
     "ai"
   ],
@@ -86,7 +86,15 @@
   "examples": [
     {
       "name": "ai-voice-visualizer-demo",
-      "title": "基础示例 · Basic example"
+      "title": "基础用法"
+    },
+    {
+      "name": "ai-voice-visualizer-orb",
+      "title": "实时全双工语音通话界面 (Orb 呼吸球)"
+    },
+    {
+      "name": "ai-voice-visualizer-live",
+      "title": "语音输入条与波形图谱 (Live Bar Spectrum)"
     }
   ],
   "files": [

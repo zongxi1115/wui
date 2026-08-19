@@ -1,37 +1,130 @@
 ---
-title: 浮入滚动目录 Hover Marquee
-description: 目录行浮入或聚焦后，显示无缝横向滚动的内容预览。
+title: 悬停跑马灯 Hover Marquee
+description: 当列表行被悬停或聚焦时，原地替换为水平无限循环滚动的跑马灯轨道预览。
 component: hover-marquee
 ---
 
 ## 基础用法
 
+鼠标悬停在列表项上，静态标题将上移淡出，并原地切入水平无缝循环滚动的跑马灯轨道：
+
 <ComponentPreview name="hover-marquee-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/hover-marquee" />
 
+<Steps>
+
+<Step>安装基础依赖与动效库</Step>
+
+```bash
+pnpm add motion lucide-react class-variance-authority clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/hover-marquee.tsx`</Step>
+
 <ComponentSource name="hover-marquee" title="components/ui/hover-marquee.tsx" />
 
-## 使用场景
+</Steps>
 
-`HoverMarquee` 默认展示普通目录行，鼠标进入或键盘焦点进入时，以横向循环的预览带替换原内容。它适合作品索引、案例目录、分类导航和视觉化菜单。
-默认目录文字仍应能独立表达目的，预览只是补充，不应成为唯一信息来源。
+## 属性 Props
 
-组件内部复用 `InfiniteSlider`，安装时会自动带上对应依赖。用户开启“减少动态效果”时仍会显示预览内容，但不会持续滚动。
+<PropsTable
+  data={[
+    {
+      prop: "children",
+      type: "React.ReactNode",
+      description: "在静止默认状态下展示的列表行或文本内容。",
+    },
+    {
+      prop: "marquee",
+      type: "React.ReactNode",
+      description: "悬停激活状态下在无限轨道中重复循环展示的内容单元。",
+    },
+    {
+      prop: "speed",
+      type: "number",
+      default: "96",
+      description: "跑马灯滚动的线速度（像素 / 秒）。",
+    },
+    {
+      prop: "gap",
+      type: "number",
+      default: "32",
+      description: "循环项目之间的水平间距（像素）。",
+    },
+    {
+      prop: "reverse",
+      type: "boolean",
+      default: "false",
+      description: "是否反向滚动（从左向右）。",
+    },
+    {
+      prop: "active",
+      type: "boolean",
+      description: "受控模式下显式强制保持跑马灯激活状态。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于外层容器的 CSS 类名。",
+    },
+    {
+      prop: "marqueeClassName",
+      type: "string",
+      description: "应用于悬停切入的跑马灯轨道的额外 CSS 类名（如修改背景色与文字对比度）。",
+    },
+  ]}
+/>
 
-## 属性
+## 事件 Events
 
-<PropsTable name="hover-marquee" />
+<PropsTable
+  data={[
+    {
+      prop: "onPointerEnter",
+      type: "(event: React.PointerEvent) => void",
+      description: "光标移入行容器时触发。",
+    },
+    {
+      prop: "onPointerLeave",
+      type: "(event: React.PointerEvent) => void",
+      description: "光标移出行容器时触发。",
+    },
+    {
+      prop: "onFocus",
+      type: "(event: React.FocusEvent) => void",
+      description: "通过键盘 Tab 聚焦当前行时触发，激活跑马灯。",
+    },
+    {
+      prop: "onBlur",
+      type: "(event: React.FocusEvent) => void",
+      description: "失去键盘焦点时触发，恢复默认静止状态。",
+    },
+  ]}
+/>
 
-## 扩展用法
+## 使用场景与设计规范
 
-### 技能与特性目录
+`HoverMarquee` 适用于**创意设计作品集、特色服务列表或客户案例目录**：
 
-在服务清单或技术栈目录中，将滚动层用作高密度的特性标签展示：
+- **信息密度切换**：默认状态保持版面整洁低调，悬停时以高对比度（如黑底白字或主色填充）激发出丰富的关键词、技术栈或标语。
+- **正反方向交错**：在多行列表中为奇偶行交替设置 `reverse={index % 2 === 1}`，能创造出极具节奏感的视差动效。
+- **性能与适度**：跑马灯由 requestAnimationFrame + translate3d 驱动，在不可见或未悬停时不会占用多余渲染开销。
 
-<ComponentPreview name="hover-marquee-catalog" />
+## 场景示例
 
-## 使用说明
+### 技术栈与技能矩阵
 
-将目录行放在 `children`，把需要重复滚动的内容放在 `marquee`。通过 `speed` 调整速度，并交替设置 `reverse`，可以形成左右错向的目录节奏。
-内容较长时应控制重复数量，避免用户焦点进入后需要等待很久才能看到完整信息。
+在服务列表中悬停展示该业务线涵盖的详细技术标签：
+
+<ComponentPreview name="hover-marquee-tags" />
+
+## 无障碍与交互 Accessibility
+
+- **键盘可访问性**：为行容器赋予 `tabIndex={0}` 后，用户可以使用 <kbd>Tab</kbd> 键导航，聚焦时自动触发跑马灯展开。
+- **减弱动态效果降级**：当用户开启 `prefers-reduced-motion: reduce` 时，跑马灯速度自动归零，且切换变为静态无位移淡入，保障前庭敏感用户舒适。
+- **无障碍树隔离**：跑马灯循环层自带 `aria-hidden="true"`，屏幕阅读器始终按序读取语义结构清晰的 `children` 静态默认内容。

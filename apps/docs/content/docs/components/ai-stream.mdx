@@ -1,33 +1,154 @@
 ---
 title: AI 流式文本 AI Stream
-description: 可用于普通回答与思考过程的通用流式文本动效。
+description: 用于大语言模型打字流式输出与思考过程文字动效的高性能渲染组件，支持平滑边缘羽化与 Delta 分段增量过渡。
 component: ai-stream
 ---
 
 ## 基础用法
 
+最经典的流式输出用法。文字随模型响应持续追加，并在最新生成的文本末端呈现细腻的渐变羽化效果：
+
 <ComponentPreview name="ai-stream-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/ai-stream" />
 
+<Steps>
+
+<Step>安装基础依赖与动效库</Step>
+
+```bash
+pnpm add motion class-variance-authority clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/ai-stream.tsx`</Step>
+
 <ComponentSource name="ai-stream" title="components/ui/ai-stream.tsx" />
 
-## 使用场景
+</Steps>
 
-`AiStream` 是与消息类型无关的流式文本组件。普通助手回答可以直接使用；需要展示模型返回的可展示摘要时，
-也可以把它放进 [`AiReasoning`](/docs/components/ai-reasoning)。它只负责文本出现时的视觉过渡，不负责拼接服务端数据。
-需要直接消费 Vercel AI SDK UI Message Stream 或 Zonix SSE 时，使用独立的 [`useAiStream`](/docs/hooks/use-ai-stream) Hook。
+## 属性 Props
 
-传入当前累计文本和 `isStreaming` 状态即可。生成期间只有最新文字的最右侧边缘羽化，已稳定的正文不会重复执行动画；
-生成结束后立即恢复完整文字。请求失败时，应由业务层先展示错误信息，再将 `isStreaming` 设为 `false`。
+### AiStream (累计文本流式组件)
 
-## 属性
+`AiStream` 接收当前已收到的完整累计文本，性能极佳，适合绝大多数 SSE 流式场景：
 
-<PropsTable name="ai-stream" />
+<PropsTable
+  data={[
+    {
+      prop: "children",
+      type: "string",
+      description: "当前已接收到的全部累计字符串内容。",
+    },
+    {
+      prop: "isStreaming",
+      type: "boolean",
+      default: "false",
+      description: "当前是否仍处于流式接收中。为 `true` 时文本末尾呈现动态羽化效果。",
+    },
+    {
+      prop: "featherLength",
+      type: "number",
+      default: "18",
+      description: "在流式期间末尾被施加渐变羽化过渡的字符数长度。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于外层文本容器的额外 CSS 类名（默认带 `whitespace-pre-wrap`）。",
+    },
+  ]}
+/>
 
-## Delta 分段模式
+### AiStreamDeltas (分段增量流式组件)
+
+`AiStreamDeltas` 适用于保留了独立 Delta Token 数组的服务端分块场景：
+
+<PropsTable
+  data={[
+    {
+      prop: "deltas",
+      type: "readonly string[]",
+      description: "有序的增量字符串片段数组。后续仅需持续 push 新片段，不重绘旧片段。",
+    },
+    {
+      prop: "isStreaming",
+      type: "boolean",
+      default: "false",
+      description: "是否正在等待后续 Delta 片段到达。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于外层容器的额外类名。",
+    },
+  ]}
+/>
+
+### AiStreamEdge (羽化边缘效果)
+
+<PropsTable
+  data={[
+    {
+      prop: "style",
+      type: "React.CSSProperties",
+      description: "覆盖默认的渐变透明度与文字裁剪样式。",
+    },
+  ]}
+/>
+
+## 事件 Events
+
+`AiStream` 为纯展示型流式渲染引擎，不直接产生业务事件；其生命周期通常受外部请求状态控制：
+
+<PropsTable
+  data={[
+    {
+      prop: "onAnimationComplete",
+      type: "() => void",
+      description: "在 `AiStreamDeltas` 模式下，单个增量片段淡入动效完成时触发。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`AiStream` 将流式文字动画与具体的会话容器解耦，可灵活嵌入在普通对话、思考折叠框或全屏代码预览中：
+
+- **何时使用**：
+  - 大语言模型流式输出正文内容；
+  - 推理链 (`AiReasoning`) 内部的动态思考文字；
+  - 代码生成或日志输出过程中的渐进式打字效果。
+- **两种模式的选型建议**：
+  - **`AiStream`（累计模式，推荐）**：只需传入单一的 `string`。内部将已稳定的前段文本与末尾羽化边缘分离，DOM 节点极度精简，即使面对数万字的长文本也不会引起卡顿；
+  - **`AiStreamDeltas`（分段模式）**：当服务端返回的是成块的句子或 Markdown Token 时使用，每个新块会独立经历微位移与淡入。
+- **设计最佳实践**：
+  - **避免逐字高开销重绘**：避免在每一个中文字符生成时触发整段文本的重解析；
+  - **错误终止处理**：若后端连接中断或抛错，业务层应立即将 `isStreaming` 设为 `false`，并就地展示错误通知。
+
+## 场景示例
+
+### Delta 分段增量模式
+
+适合按句子或段落返回的大颗粒度服务端增量输出，新片段进入时伴随柔和淡入：
 
 <ComponentPreview name="ai-stream-deltas" />
 
-保留原始 delta 数组时可以使用 `AiStreamDeltas`。每个新片段只淡入一次，适合粒度较大的服务端分段；
-连续的小字符增量优先使用 `AiStream`，避免每个字符都创建单独的动画片段。
+### 交互式流式控制器
+
+实时测试流式羽化长度、速度调节与暂停/继续状态切换：
+
+<ComponentPreview name="ai-stream-interactive" />
+
+## 无障碍与交互 Accessibility
+
+- **实时区域播报 (ARIA Live Regions)**：
+  - 在 `isStreaming=true` 时，组件外层自动挂载 `aria-live="polite"` 与 `aria-busy="true"`；
+  - 屏幕阅读器会在用户停顿时平稳朗读新到达的内容，不会产生连续打断或噪音。
+- **文字选择与复制**：
+  - 渐变羽化通过 CSS `background-clip: text` 实现，不插入额外的破坏性 DOM 占位符，用户在流式过程中仍可自由选中文本并直接复制。
+- **减少动态效果 (Reduced Motion)**：
+  - 内置 `useReducedMotion()` 监听；当用户启用系统的“减少动态效果”偏好时，`AiStreamDeltas` 会跳过位移与模糊动效，直接以完整透明度渲染新文本。

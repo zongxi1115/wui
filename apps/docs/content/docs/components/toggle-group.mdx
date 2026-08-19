@@ -1,34 +1,194 @@
 ---
 title: 切换按钮组 Toggle Group
-description: 将多个双态按钮组织为互斥选择或并列多选。
+description: 将多个双态切换按钮组合为单选互斥（Single）或并列多选（Multiple）的分组控件。
 component: toggle-group
 ---
 
 ## 基础用法
 
+单选互斥模式（`type="single"`）。在网格视图、舒适列表与紧凑列表之间互斥切换：
+
 <ComponentPreview name="toggle-group-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/toggle-group" />
 
+<Steps>
+
+<Step>安装基础依赖</Step>
+
+```bash
+pnpm add radix-ui class-variance-authority clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/toggle-group.tsx`</Step>
+
 <ComponentSource name="toggle-group" title="components/ui/toggle-group.tsx" />
 
-## 使用场景
+</Steps>
 
-`ToggleGroup` 适合视图模式、文字格式和同层级筛选。`type="single"` 表达互斥选择，`type="multiple"` 表达可以同时开启的设置；
-如果每个操作都会立即执行且不保留状态，应使用 ButtonGroup。
+## 属性 Props
 
-## 属性
+### ToggleGroup
 
-<PropsTable name="toggle-group" />
+`ToggleGroup` 支持以下配置属性，并继承 Radix UI `ToggleGroupPrimitive.Root` 的全部 HTML 属性：
 
-## 事件
+<PropsTable
+  data={[
+    {
+      prop: "type",
+      type: '"single" | "multiple"',
+      required: true,
+      description: "选择模式。'single' 为互斥单选模式，'multiple' 为多选并存模式。",
+    },
+    {
+      prop: "value",
+      type: "string | string[]",
+      description: "受控模式下的选中值。单选时为字符串，多选时为字符串数组。",
+    },
+    {
+      prop: "defaultValue",
+      type: "string | string[]",
+      description: "非受控模式下的初始选中值。",
+    },
+    {
+      prop: "onValueChange",
+      type: "(value: string | string[]) => void",
+      description: "选中项发生改变时触发的回调函数。单选返回 string，多选返回 string[]。",
+    },
+    {
+      prop: "variant",
+      type: '"default" | "outline"',
+      default: '"default"',
+      description: "传递给子项目的统一视觉外观风格。",
+    },
+    {
+      prop: "size",
+      type: '"sm" | "default" | "lg"',
+      default: '"default"',
+      description: "传递给子项目的统一尺寸密度。",
+    },
+    {
+      prop: "disabled",
+      type: "boolean",
+      default: "false",
+      description: "是否禁用整组切换按钮。",
+    },
+    {
+      prop: "aria-label",
+      type: "string",
+      description: "整组控件的无障碍描述名称。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于外层按钮组容器的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-单选模式通过 `value` / `onValueChange` 管理字符串值，多选模式管理字符串数组。每个 `ToggleGroupItem` 的 `value` 必须稳定且唯一。
+### ToggleGroupItem
 
-## 扩展用法
+`ToggleGroupItem` 为按钮组内的单个可选项，继承 Radix UI `ToggleGroupPrimitive.Item` 的属性：
 
-### 多选格式
+<PropsTable
+  data={[
+    {
+      prop: "value",
+      type: "string",
+      required: true,
+      description: "当前子项的唯一稳定标识值。",
+    },
+    {
+      prop: "variant",
+      type: '"default" | "outline"',
+      description: "覆盖外层组设定的单项视觉风格。",
+    },
+    {
+      prop: "size",
+      type: '"sm" | "default" | "lg"',
+      description: "覆盖外层组设定的单项尺寸。",
+    },
+    {
+      prop: "disabled",
+      type: "boolean",
+      default: "false",
+      description: "是否禁用当前特定子项。",
+    },
+    {
+      prop: "aria-label",
+      type: "string",
+      description: "纯图标模式下必须提供的无障碍文本标签。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于单项按钮的额外 CSS 类名。",
+    },
+  ]}
+/>
+
+## 事件 Events
+
+<PropsTable
+  data={[
+    {
+      prop: "onValueChange",
+      type: "(value: string) => void (single) | (value: string[]) => void (multiple)",
+      description: "当用户在单选或多选模式下切换选中项时触发，返回最新的值或值数组。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`ToggleGroup` 适用于**同级别多项操作的聚合控制栏**（如富文本工具栏、画布视口设备切换、工单多维状态筛选）。
+
+- **ToggleGroup vs RadioGroup vs CheckboxGroup**：
+  - **ToggleGroup（切换按钮组）**：以紧凑水平/网格按钮栏呈现，适合工具栏与高频筛选，视觉更加扁平轻快。
+  - **RadioGroup（单选框组）**：标准表单录入，每个选项通常带有标题和详细文字解释。
+  - **CheckboxGroup（复选框组）**：纵向或大面积表单复选，支持半选（Indeterminate）等深层状态。
+- **单选 vs 多选场景**：
+  - `type="single"`：视图模式切换（网格 / 列表）、对齐方式（左 / 中 / 右）。
+  - `type="multiple"`：富文本样式（加粗 + 斜体 + 下划线）、复合标签筛选。
+- **图标子项必须配备 ARIA 标签**：在纯图标按钮组中，每个 `ToggleGroupItem` 都应配备精准的 `aria-label`。
+
+## 场景示例
+
+### 富文本排版与格式工具栏
+
+将单选对齐方式与多选文字修饰样式组合，构成紧凑完整的文本编辑器工具栏：
+
+<ComponentPreview name="toggle-group-alignment" />
+
+### 响应式画布设备视口切换
+
+在设计器或页面预览中，通过单选切换按钮组在桌面端、平板和移动端视口间自由跳转：
+
+<ComponentPreview name="toggle-group-device-preview" />
+
+### 状态标签多维筛选
+
+多选模式配合数量徽章（Badge），构建轻巧直观的工单或订单状态过滤器：
+
+<ComponentPreview name="toggle-group-filter" />
+
+### 多选格式样式
+
+经典的多选字体样式控制：
 
 <ComponentPreview name="toggle-group-multiple" />
 
-组级 `variant` 与 `size` 会传递给所有项目，单个项目仍可覆盖。图标项目需要独立的 `aria-label`，不能依赖工具提示代替名称。
+## 无障碍与交互 Accessibility
+
+- **ARIA 角色矩阵**：
+  - 单选模式（`type="single"`）：容器挂载 `role="radiogroup"`，子项挂载 `role="radio"` 与 `aria-checked`。
+  - 多选模式（`type="multiple"`）：容器挂载 `role="group"`，子项挂载 `role="button"` 与 `aria-pressed`。
+- **键盘导航**：
+  - <kbd>Tab</kbd>：聚焦到切换按钮组。
+  - <kbd>←</kbd> / <kbd>→</kbd>（或 <kbd>↑</kbd> / <kbd>↓</kbd>）：在单选模式下，方向键自动在同组按钮之间循环漫游切换焦点。
+  - <kbd>Space</kbd> / <kbd>Enter</kbd>：激活选定项。
+- **高对比度焦点环**：子项聚焦时具备高清晰度焦点环，支持暗色模式与系统高对比度模式。

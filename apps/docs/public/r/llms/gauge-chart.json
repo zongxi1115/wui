@@ -1,0 +1,129 @@
+{
+  "name": "gauge-chart",
+  "type": "registry:component",
+  "title": "仪表盘 Gauge Chart",
+  "description": "用于直观展示单一核心指标的当前进度水平、负载状态与阈值区间的环形度量图表。",
+  "categories": [
+    "charts",
+    "gauge"
+  ],
+  "import": "import { GaugeChart } from \"@/components/charts/gauge-chart\"",
+  "exports": [
+    "GaugeChart"
+  ],
+  "typeExports": [
+    "GaugeChartProps",
+    "GaugeZone"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/gauge-chart",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/gauge-chart.json",
+    "npmDependencies": [],
+    "registryDependencies": [
+      "chart-core"
+    ]
+  },
+  "props": [
+    {
+      "name": "title",
+      "type": "ReactNode",
+      "required": true,
+      "control": "text",
+      "description": "图表标题。"
+    },
+    {
+      "name": "description",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "补充说明或副标题。"
+    },
+    {
+      "name": "actions",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "标题右侧操作区。"
+    },
+    {
+      "name": "value",
+      "type": "number",
+      "required": true,
+      "control": "number",
+      "description": "当前读数数值。"
+    },
+    {
+      "name": "min",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0",
+      "description": "仪表盘最小值。"
+    },
+    {
+      "name": "max",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "100",
+      "description": "仪表盘最大值。"
+    },
+    {
+      "name": "thickness",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "16",
+      "description": "环形圆弧厚度（像素）。"
+    },
+    {
+      "name": "height",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "240",
+      "description": "绘图区高度（像素）。"
+    },
+    {
+      "name": "zones",
+      "type": "GaugeZone[]",
+      "required": false,
+      "control": "text",
+      "description": "仪表盘分段目标区间配置。"
+    },
+    {
+      "name": "showTicks",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否展示刻度标签。"
+    },
+    {
+      "name": "unit",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "单位文本（如 \"%\", \"ms\", \"GB\"）。"
+    },
+    {
+      "name": "valueFormatter",
+      "type": "((value: number) => ReactNode)",
+      "required": false,
+      "control": "text",
+      "defaultValue": "(val) => val.toString()",
+      "description": "自定义当前数值的格式化函数。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "gauge-chart-demo",
+      "title": "基础示例 · Basic example"
+    }
+  ],
+  "files": [
+    "registry/charts/gauge-chart.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/charts/gauge-chart",
+  "sourceUrl": "https://ui.wzx.wang/r/gauge-chart.json"
+}

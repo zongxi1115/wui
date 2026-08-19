@@ -1,0 +1,167 @@
+---
+title: 侧抽屉 Sheet
+description: 从屏幕边缘平滑滑出的侧边交互面板，用于承载复杂多步表单、详细日志或配置信息，同时保留主视口的上下文。
+component: sheet
+---
+
+## 基础用法
+
+点击触发按钮即可从屏幕右侧滑出侧抽屉面板，包含遮罩层、标题、内容滚动区与底部操作：
+
+<ComponentPreview name="sheet-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
+
+<CodeTabs command="@wui-design/cli@latest add @wui/sheet" />
+
+<Steps>
+
+<Step>安装基础依赖与动效库</Step>
+
+```bash
+pnpm add radix-ui motion class-variance-authority lucide-react clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/sheet.tsx`</Step>
+
+<ComponentSource name="sheet" title="components/ui/sheet.tsx" />
+
+</Steps>
+
+## 属性 Props
+
+### Sheet (根组件)
+
+<PropsTable
+  data={[
+    {
+      prop: "open",
+      type: "boolean",
+      description: "受控模式下的侧抽屉打开状态。",
+    },
+    {
+      prop: "defaultOpen",
+      type: "boolean",
+      default: "false",
+      description: "非受控模式下的初始打开状态。",
+    },
+    {
+      prop: "onOpenChange",
+      type: "(open: boolean) => void",
+      description: "侧抽屉打开或关闭状态变化时的回调函数。",
+    },
+    {
+      prop: "modal",
+      type: "boolean",
+      default: "true",
+      description: "是否以模态形式呈现（锁定页面背景滚动并捕获焦点）。",
+    },
+  ]}
+/>
+
+### SheetContent
+
+<PropsTable
+  data={[
+    {
+      prop: "side",
+      type: '"top" | "right" | "bottom" | "left"',
+      default: '"right"',
+      description: "侧抽屉从屏幕的哪一侧边缘滑入。",
+    },
+    {
+      prop: "size",
+      type: '"sm" | "default" | "lg" | "xl" | "full"',
+      default: '"default"',
+      description: "侧抽屉面板的预设宽度或高度尺寸。",
+    },
+    {
+      prop: "hideClose",
+      type: "boolean",
+      default: "false",
+      description: "是否隐藏右上角内置的快捷关闭图标按钮。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于面板容器的额外 CSS 类名。",
+    },
+  ]}
+/>
+
+### SheetHeader / SheetBody / SheetFooter / SheetTitle / SheetDescription
+
+<PropsTable
+  data={[
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于各语义子容器的额外 CSS 类名。",
+    },
+    {
+      prop: "children",
+      type: "React.ReactNode",
+      description: "容器内部渲染的子元素。",
+    },
+  ]}
+/>
+
+## 事件 Events
+
+<PropsTable
+  data={[
+    {
+      prop: "onOpenChange",
+      type: "(open: boolean) => void",
+      description: "抽屉可见状态发生改变时调用（包括点击触发器、遮罩、Esc 键或关闭按钮）。",
+    },
+    {
+      prop: "onPointerDownOutside",
+      type: "(event: PointerDownOutsideEvent) => void",
+      description: "在遮罩层外部发生指针按下时触发，调用 event.preventDefault() 可阻止点击遮罩关闭抽屉。",
+    },
+    {
+      prop: "onEscapeKeyDown",
+      type: "(event: KeyboardEvent) => void",
+      description: "按下键盘 Esc 键时触发，调用 event.preventDefault() 可阻止快捷键关闭行为。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`Sheet` 为复杂页面提供了沉浸式的侧滑工作台空间：
+
+- **Sheet vs Dialog**：Dialog 适合短小精悍的确认决策与警示弹窗；Sheet 纵向空间充沛，适合长篇表单、嵌套代码查看、复杂筛选或审计详情。
+- **经典三段式结构规范**：
+  - `SheetHeader`：固定顶部，放置标题与上下文摘要。
+  - `SheetBody`：中间自适应填满剩余空间，支持纵向流畅滚动。
+  - `SheetFooter`：固定吸底，放置保存、提交或取消操作，确保关键按钮不被长内容挤出视口。
+- **四向边缘选择**：
+  - **Right（右侧）**：桌面端最标准的侧边详情与配置面板。
+  - **Bottom（底部）**：移动端触控优选的 Bottom Sheet。
+  - **Left（左侧）**：收起式移动端侧栏导航。
+
+## 场景示例
+
+### 四向滑入方向
+
+通过 `side="top" | "right" | "bottom" | "left"` 轻松适配不同端与交互习惯：
+
+<ComponentPreview name="sheet-side" />
+
+### 尺寸预设 (sm / default / lg / xl)
+
+根据内容密度选择匹配的面板宽度预设：
+
+<ComponentPreview name="sheet-sizes" />
+
+## 无障碍与交互 Accessibility
+
+- **WAI-ARIA 规范**：基于 Radix Dialog 语义标准构建，自动挂载 `role="dialog"` 与 `aria-modal="true"`。
+- **焦点捕获 Focus Trap**：面板滑出后，焦点被锁定在抽屉内部，键盘用户无法 Tab 到背后被遮罩的元素。
+- **焦点恢复**：关闭抽屉后，焦点自动精准回到唤起它的触发按钮。
+- **快捷键**：按下 <kbd>Esc</kbd> 即可平滑关闭侧抽屉。
+- **动效减弱**：自动检测 `prefers-reduced-motion` 设置，若开启则禁用弹性物理滑行动画，转为瞬时切换。

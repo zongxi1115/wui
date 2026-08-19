@@ -1,0 +1,129 @@
+{
+  "name": "heatmap",
+  "type": "registry:component",
+  "title": "热力图 Heatmap",
+  "description": "仿 GitHub 贡献日历风格的时间序列活跃度与活动密度热力矩阵图表。",
+  "categories": [
+    "charts",
+    "distribution"
+  ],
+  "import": "import { Heatmap } from \"@/components/charts/heatmap\"",
+  "exports": [
+    "Heatmap"
+  ],
+  "typeExports": [
+    "HeatmapDatum",
+    "HeatmapProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/heatmap",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/heatmap.json",
+    "npmDependencies": [],
+    "registryDependencies": [
+      "chart-core"
+    ]
+  },
+  "props": [
+    {
+      "name": "title",
+      "type": "ReactNode",
+      "required": true,
+      "control": "text",
+      "description": "图表标题。"
+    },
+    {
+      "name": "description",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "补充说明或副标题。"
+    },
+    {
+      "name": "actions",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "标题右侧操作区。"
+    },
+    {
+      "name": "data",
+      "type": "HeatmapDatum[]",
+      "required": true,
+      "control": "text",
+      "description": "日历热力图数据列表。"
+    },
+    {
+      "name": "startDate",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "开始日期；未传时自动使用数据最早日期或前半年。"
+    },
+    {
+      "name": "endDate",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "结束日期；未传时自动使用数据最晚日期或当天。"
+    },
+    {
+      "name": "cellSize",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "12",
+      "description": "格子尺寸（像素）。"
+    },
+    {
+      "name": "cellGap",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "3",
+      "description": "格子间距（像素）。"
+    },
+    {
+      "name": "cellRadius",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "2",
+      "description": "格子圆角半径（像素）。"
+    },
+    {
+      "name": "showWeekdayLabels",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否展示星期标签（如 Mon, Wed, Fri）。"
+    },
+    {
+      "name": "showMonthLabels",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否展示顶部月份标签。"
+    },
+    {
+      "name": "valueFormatter",
+      "type": "((value: number, date: string) => ReactNode)",
+      "required": false,
+      "control": "text",
+      "defaultValue": "(val, date) => `${val} 次活动 · ${date}`",
+      "description": "自定义数值展示文案。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "heatmap-demo",
+      "title": "基础示例 · Basic example"
+    }
+  ],
+  "files": [
+    "registry/charts/heatmap.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/charts/heatmap",
+  "sourceUrl": "https://ui.wzx.wang/r/heatmap.json"
+}

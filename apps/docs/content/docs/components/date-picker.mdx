@@ -1,34 +1,210 @@
 ---
-title: 日期选择器 Date Picker
-description: 在紧凑弹层中选择、格式化和清除日期。
+title: 日期选择器 DatePicker
+description: 基于日历弹层的现代化单日期选择控件，支持多语言本地化、日期范围约束、自定义禁用规则与快捷清空。
 component: date-picker
 ---
 
 ## 基础用法
 
+最简单的日期选择器用法。点击触发按钮唤起日历浮层，点击目标日期即可完成选定：
+
 <ComponentPreview name="date-picker-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/date-picker" />
 
+<Steps>
+
+<Step>安装依赖组件与图标库</Step>
+
+```bash
+pnpm add radix-ui lucide-react class-variance-authority clsx tailwind-merge
+```
+
+<Step>确保项目中包含 Calendar 组件，并将源码复制到 `components/ui/date-picker.tsx`</Step>
+
 <ComponentSource name="date-picker" title="components/ui/date-picker.tsx" />
 
-## 使用场景
+</Steps>
 
-`DatePicker` 用于表单中的单日期输入，并复用 Calendar 的禁用规则和键盘操作。需要连续日期、多个日期或时间范围时，
-应使用对应的范围或多选组件，不要把数组塞进单日期接口。
+## 属性 Props
 
-日期值由调用方保存和提交。展示格式可以本地化，但接口层应使用明确的日期格式，避免把面向用户的文案直接当作后端值。
+`DatePicker` 支持以下核心配置属性：
 
-## 属性
+<PropsTable
+  data={[
+    {
+      prop: "value",
+      type: "Date",
+      description: "受控模式下的当前选中 JavaScript Date 对象。",
+    },
+    {
+      prop: "defaultValue",
+      type: "Date",
+      description: "非受控模式下的初始选中日期。",
+    },
+    {
+      prop: "onValueChange",
+      type: "(date: Date | undefined) => void",
+      description: "选中日期或点击清空按钮时触发的回调函数，清空时返回 undefined。",
+    },
+    {
+      prop: "placeholder",
+      type: "string",
+      default: '"选择日期"',
+      description: "未选中日期时在触发器按钮中显示的提示文案。",
+    },
+    {
+      prop: "locale",
+      type: "string",
+      default: '"zh-CN"',
+      description: "用于本地化日期格式化与星期/月份显示的 BCP 47 语言环境代码。",
+    },
+    {
+      prop: "formatOptions",
+      type: "Intl.DateTimeFormatOptions",
+      description: "自定义 Intl.DateTimeFormat 日期格式化配置选项对象。",
+    },
+    {
+      prop: "clearable",
+      type: "boolean",
+      default: "true",
+      description: "在已有选中日期时是否允许在触发器中一键清除。",
+    },
+    {
+      prop: "min",
+      type: "Date",
+      description: "允许选择的最早起始日期，早于该日期的单元格自动禁用。",
+    },
+    {
+      prop: "max",
+      type: "Date",
+      description: "允许选择的最晚截止日期，晚于该日期的单元格自动禁用。",
+    },
+    {
+      prop: "disabledDate",
+      type: "(date: Date) => boolean",
+      description: "自定义特定日期的禁用判定函数（例如禁用所有周末或法定节假日）。",
+    },
+    {
+      prop: "size",
+      type: '"sm" | "default" | "lg"',
+      default: '"default"',
+      description: "触发器的物理高度与内边距尺寸密度。",
+    },
+    {
+      prop: "disabled",
+      type: "boolean",
+      default: "false",
+      description: "是否禁用日期选择器交互与弹层展开。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于触发器外层按钮的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-<PropsTable name="date-picker" />
+## 事件 Events
 
-## 事件
+<PropsTable
+  data={[
+    {
+      prop: "onValueChange",
+      type: "(date: Date | undefined) => void",
+      description: "用户在日历中点击某一天、按回车选中或点击清除按钮时触发。",
+    },
+    {
+      prop: "onFocus",
+      type: "(event: React.FocusEvent<HTMLButtonElement>) => void",
+      description: "触发器按钮获得焦点时触发。",
+    },
+    {
+      prop: "onBlur",
+      type: "(event: React.FocusEvent<HTMLButtonElement>) => void",
+      description: "触发器按钮失去焦点时触发。",
+    },
+    {
+      prop: "onKeyDown",
+      type: "(event: React.KeyboardEvent<HTMLButtonElement>) => void",
+      description: "焦点位于触发器按钮时按下键盘按键触发（按 Backspace/Delete 键可快速清除已选日期）。",
+    },
+  ]}
+/>
 
-`onValueChange(date | undefined)` 在选择或清空日期后触发。选中日期后弹层会自动关闭；点击清除按钮不会重新打开弹层。
-受控用法下，回调需要同步更新 `value`，否则触发器仍会显示旧日期。
+## 使用场景与设计规范
 
-## 扩展用法
+`DatePicker` 适用于表单中**单一日期的录入、排期与预约**：
 
-使用 `locale` 和 `formatOptions` 控制触发器文案；`min`、`max` 和 `disabledDate` 会传递给内部 Calendar。
-表单校验信息应放在触发器下方，并通过字段结构关联，不要把重要错误文字只放在弹层里。
+- **DatePicker vs Calendar**：当需要将日历长期平铺在页面或仪表盘中（如日程看板）时，使用 [`Calendar`](/docs/components/calendar)；当作为表单录入项、需要节省屏幕空间并在弹层中快速点选时，使用 `DatePicker`。
+- **DatePicker vs TimePicker**：当需要精确到小时、分、秒的时间录入时，应配合 [`TimePicker`](/docs/components/time-picker)；如只需年月日粒度，保持使用 `DatePicker` 以降低用户认知负担。
+- **数据持久化格式**：组件内部通过标准 JavaScript `Date` 交互，提交给后端接口时建议转换为标准 ISO 8601 字符串（如 `2026-08-19T00:00:00.000Z`）或 UTC 时间戳，避免受用户本地时区或本地化格式化字符串影响。
+- **明确的日期边界约束**：对于生日选择、历史账单查询或预约等业务，务必配置 `min`、`max` 或 `disabledDate`，避免用户误选未来日期或非法工作日。
+
+## 场景示例
+
+### 受控模式与快捷预设
+
+使用受控的 `value` 与 `onValueChange`，搭配“今天”、“明天”、“下周”等业务快捷按钮快速设定日期：
+
+<ComponentPreview name="date-picker-controlled" />
+
+```tsx
+const [date, setDate] = React.useState<Date | undefined>(new Date())
+
+return (
+  <DatePicker
+    value={date}
+    onValueChange={setDate}
+    placeholder="选择会议排期…"
+  />
+)
+```
+
+### 尺寸规格
+
+组件提供 `sm`（32px）、`default`（40px）和 `lg`（48px）三种物理尺寸：
+
+<ComponentPreview name="date-picker-sizes" />
+
+- `sm`：紧凑尺寸，适合表格行内筛选或紧凑过滤面板。
+- `default`：标准尺寸，通用业务表单。
+- `lg`：大尺寸，适用于触控平板或突出型预订页面。
+
+### 禁用特定日期与日期范围
+
+结合 `min`、`max` 限制可选范围，并使用 `disabledDate` 自定义禁用规则（例如禁用所有周末）：
+
+<ComponentPreview name="date-picker-disabled-dates" />
+
+### 国际化与自定义格式化
+
+通过 `locale` 与 `formatOptions` 自定义触发器按钮中的日期展示文案格式：
+
+<ComponentPreview name="date-picker-custom-format" />
+
+### 任务日程表单集成
+
+在实际业务表单中，将两个 `DatePicker` 组合为起止日期选择，并自动计算周期天数：
+
+<ComponentPreview name="date-picker-form" />
+
+## 无障碍与交互 Accessibility
+
+- **ARIA 规范**：
+  - 触发器按钮带有 `data-slot="date-picker"` 并由 Popover 管理 `aria-expanded` 与 `aria-haspopup`。
+  - 日历面板基于表格语义构建，各日期单元格均带有标准的 `role="gridcell"` 与 `aria-selected` 属性。
+- **键盘导航**：
+  - <kbd>Space</kbd> / <kbd>Enter</kbd>：在聚焦触发器时打开日历弹层。
+  - <kbd>Backspace</kbd> / <kbd>Delete</kbd>：在聚焦触发器且已有日期时，快速清除已选日期而无需展开弹层。
+  - 在日历弹层内：
+    - <kbd>←</kbd> / <kbd>→</kbd>：移动到前一天 / 后一天。
+    - <kbd>↑</kbd> / <kbd>↓</kbd>：移动到上一周 / 下一周同一天。
+    - <kbd>PageUp</kbd> / <kbd>PageDown</kbd>：快速翻到上个月 / 下个月。
+    - <kbd>Shift</kbd> + <kbd>PageUp</kbd> / <kbd>PageDown</kbd>：快速翻到上一年 / 下一年。
+    - <kbd>Enter</kbd>：确认选中高亮日期并自动收起弹层。
+    - <kbd>Escape</kbd>：关闭日历弹层并归还焦点至触发按钮。

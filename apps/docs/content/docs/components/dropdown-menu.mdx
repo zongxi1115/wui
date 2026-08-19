@@ -1,39 +1,254 @@
 ---
 title: 下拉菜单 Dropdown Menu
-description: 通过按钮展开一组操作，支持分组、状态项和多级菜单。
+description: 基于按钮或图标触发的操作浮层，支持分组标题、多选开关、单选组、快捷键提示及多级嵌套子菜单。
 component: dropdown-menu
 ---
 
 ## 基础用法
 
+点击触发按钮即可展开包含多种操作选项的浮层菜单，支持图标、分割线与快捷键提示：
+
 <ComponentPreview name="dropdown-menu-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/dropdown-menu" />
 
+<Steps>
+
+<Step>安装基础依赖与动效库</Step>
+
+```bash
+pnpm add radix-ui lucide-react clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/dropdown-menu.tsx`</Step>
+
 <ComponentSource name="dropdown-menu" title="components/ui/dropdown-menu.tsx" />
 
-## 使用场景
+</Steps>
 
-`DropdownMenu` 用于收纳与当前对象或页面相关的操作，例如列表项的“更多”菜单和账户菜单。菜单项应使用简短、可执行的动词；高频操作应直接显示在界面上，而不是全部隐藏到菜单中。
+## 属性 Props
 
-危险操作可设置 `destructive`，但对于不可逆操作仍应在执行前使用 ConfirmDialog 确认。菜单由 Radix 提供方向键导航、字符查找、焦点恢复和碰撞避让能力。
+### DropdownMenu (根组件)
 
-## 属性
+<PropsTable
+  data={[
+    {
+      prop: "open",
+      type: "boolean",
+      description: "受控模式下的打开状态。",
+    },
+    {
+      prop: "defaultOpen",
+      type: "boolean",
+      default: "false",
+      description: "非受控模式下的初始打开状态。",
+    },
+    {
+      prop: "onOpenChange",
+      type: "(open: boolean) => void",
+      description: "下拉菜单打开或关闭状态变化时的回调函数。",
+    },
+    {
+      prop: "modal",
+      type: "boolean",
+      default: "true",
+      description: "是否阻止与菜单外部的内容交互并锁定滚动。",
+    },
+    {
+      prop: "dir",
+      type: '"ltr" | "rtl"',
+      description: "菜单文本和子菜单展开的阅读方向。",
+    },
+  ]}
+/>
 
-<PropsTable name="dropdown-menu" />
+### DropdownMenuContent
 
-- `DropdownMenu` 支持 `open`、`defaultOpen`、`onOpenChange` 与 `modal`。
-- `DropdownMenuContent` 支持 `side`、`align`、`sideOffset` 和碰撞检测配置。
-- `DropdownMenuItem` 支持 `disabled`、`onSelect`、`destructive` 与 `inset`。
-- `DropdownMenuCheckboxItem` 使用 `checked` 和 `onCheckedChange` 管理开关状态。
-- `DropdownMenuRadioGroup` 与 `DropdownMenuRadioItem` 用于互斥选项。
+<PropsTable
+  data={[
+    {
+      prop: "side",
+      type: '"top" | "right" | "bottom" | "left"',
+      default: '"bottom"',
+      description: "菜单相对触发按钮优先展示的方位。",
+    },
+    {
+      prop: "sideOffset",
+      type: "number",
+      default: "6",
+      description: "菜单与触发元素之间的间距像素值。",
+    },
+    {
+      prop: "align",
+      type: '"start" | "center" | "end"',
+      default: '"start"',
+      description: "菜单在交叉轴上的对齐方式。",
+    },
+    {
+      prop: "alignOffset",
+      type: "number",
+      default: "0",
+      description: "对齐偏移像素值。",
+    },
+    {
+      prop: "avoidCollisions",
+      type: "boolean",
+      default: "true",
+      description: "当超出视口边界时是否自动翻转方向以防止被遮挡。",
+    },
+  ]}
+/>
 
-## 扩展用法
+### DropdownMenuItem
 
-### 状态项与子菜单
+<PropsTable
+  data={[
+    {
+      prop: "disabled",
+      type: "boolean",
+      default: "false",
+      description: "是否禁用该菜单项，禁用后不可点击且无法聚焦。",
+    },
+    {
+      prop: "destructive",
+      type: "boolean",
+      default: "false",
+      description: "是否应用危险操作警示色（红色高亮 hover 与文本样式）。",
+    },
+    {
+      prop: "inset",
+      type: "boolean",
+      default: "false",
+      description: "是否为无图标的菜单项增加左侧缩进，以保持与带图标项对齐。",
+    },
+    {
+      prop: "onSelect",
+      type: "(event: Event) => void",
+      description: "选中菜单项时触发。调用 event.preventDefault() 可阻止菜单自动关闭。",
+    },
+  ]}
+/>
+
+### DropdownMenuCheckboxItem
+
+<PropsTable
+  data={[
+    {
+      prop: "checked",
+      type: "boolean | 'indeterminate'",
+      description: "复选项的勾选状态。",
+    },
+    {
+      prop: "onCheckedChange",
+      type: "(checked: boolean) => void",
+      description: "勾选状态变化时的回调函数。",
+    },
+    {
+      prop: "disabled",
+      type: "boolean",
+      default: "false",
+      description: "是否禁用勾选交互。",
+    },
+  ]}
+/>
+
+### DropdownMenuRadioGroup / DropdownMenuRadioItem
+
+<PropsTable
+  data={[
+    {
+      prop: "value",
+      type: "string",
+      description: "RadioGroup 当前选中的单选值，或 RadioItem 所代表的值。",
+    },
+    {
+      prop: "onValueChange",
+      type: "(value: string) => void",
+      description: "单选值变化时的回调函数（绑定在 DropdownMenuRadioGroup 上）。",
+    },
+  ]}
+/>
+
+## 事件 Events
+
+<PropsTable
+  data={[
+    {
+      prop: "onOpenChange",
+      type: "(open: boolean) => void",
+      description: "菜单打开或关闭状态变化时触发。",
+    },
+    {
+      prop: "onSelect",
+      type: "(event: Event) => void",
+      description: "在 DropdownMenuItem / CheckboxItem / RadioItem 上被点击或通过键盘 Enter/Space 激活时触发。",
+    },
+    {
+      prop: "onCheckedChange",
+      type: "(checked: boolean) => void",
+      description: "在 DropdownMenuCheckboxItem 上切换勾选时触发。",
+    },
+    {
+      prop: "onValueChange",
+      type: "(value: string) => void",
+      description: "在 DropdownMenuRadioGroup 上切换单选项时触发。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`DropdownMenu` 适合收敛高密度界面中的辅助操作项（如表格行操作、账户设置、批处理动作）：
+
+- **组件选型对比**：
+  - **DropdownMenu vs Select**：`Select` 是表单输入控件，用于从预设集合中选择一个表单值提交；`DropdownMenu` 是**操作触发器**，用于触发动作（如“导出”、“复制”、“删除”）。
+  - **DropdownMenu vs ContextMenu**：`DropdownMenu` 由用户明确点击触发按钮（如“...”）唤起；`ContextMenu` 由用户在目标元素上右键或长按唤起。
+  - **DropdownMenu vs Popover**：`Popover` 用于呈现富交互面板（如包含输入框、日期选择器的复杂卡片）；`DropdownMenu` 专为规范的条目列表和快捷命令设计。
+- **信息层级与分组原则**：
+  - **常用前置**：将高频使用的操作置于顶部，同类操作通过 `DropdownMenuGroup` 和 `DropdownMenuLabel` 分组。
+  - **破坏性操作隔离**：删除、清空、注销等危险操作应放在菜单最底部，使用 `DropdownMenuSeparator` 显式分割，并添加 `destructive` 属性标红。
+  - **合理控制子菜单层级**：嵌套子菜单（`DropdownMenuSub`）建议最多不超过 2 层，避免过深造成指针移动困难。
+
+## 场景示例
+
+### 操作菜单与快捷键提示
+
+最常见的列表行内操作菜单，集成图标、分隔符与语义化快捷键标签：
+
+<ComponentPreview name="dropdown-menu-demo" />
+
+### 状态项与单选设置
+
+组合使用 `DropdownMenuCheckboxItem` 与 `DropdownMenuRadioGroup`，在菜单内直接切换视图紧凑度、深浅主题等系统偏好：
 
 <ComponentPreview name="dropdown-menu-advanced" />
 
-复选项适合切换独立设置，单选组适合从互斥选项中选择一个值。子菜单只应用于不常用的次级选项；层级较多时，应改用独立的设置页面或 Popover。
+### 用户资料与团队切换面板
 
-`DropdownMenuShortcut` 仅展示快捷键提示，实际键盘事件仍需由业务层注册。图标用于增强辨识度，不应代替可见的文字标签。
+在顶部导航栏中展示用户头像下拉菜单，整合个人资料、配额信息、偏好设置与注销登录入口：
+
+<ComponentPreview name="dropdown-menu-user" />
+
+### 多级嵌套子菜单
+
+使用 `DropdownMenuSub`、`DropdownMenuSubTrigger` 与 `DropdownMenuSubContent` 优雅收纳二级导出格式、分享权限等深层级操作：
+
+<ComponentPreview name="dropdown-menu-nested" />
+
+## 无障碍与交互 Accessibility
+
+- **WAI-ARIA Menu 规范**：
+  - 自动渲染 `role="menu"`、`role="menuitem"`、`role="menuitemcheckbox"` 和 `role="menuitemradio"`。
+  - 支持 `aria-haspopup="menu"` 与 `aria-expanded` 状态。
+- **键盘导航**：
+  - <kbd>↓</kbd> / <kbd>↑</kbd>：在菜单项之间循环聚焦（自动跳过已禁用的项）。
+  - <kbd>→</kbd>：在子菜单触发项上打开并聚焦进入子菜单。
+  - <kbd>←</kbd>：在子菜单内部按下返回并关闭当前子菜单。
+  - <kbd>Enter</kbd> / <kbd>Space</kbd>：激活选中的菜单项并触发其回调。
+  - <kbd>Esc</kbd>：关闭当前打开的菜单层级。
+  - **首字母按键查找（Typeahead）**：在菜单打开状态下直接键入字符，焦点会自动快速跳转到首字母匹配的菜单项。
+- **焦点恢复**：菜单关闭后，焦点自动无缝归还到触发按钮。

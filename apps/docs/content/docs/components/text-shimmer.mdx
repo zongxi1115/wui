@@ -1,30 +1,131 @@
 ---
-title: 文本扫光 Text Shimmer
-description: 在文字表面循环扫过的主题感知高光。
+title: 文字微光 Text Shimmer
+description: 运用纯 CSS 渐变遮罩与 GPU 渲染管线，在文字表面平滑扫过一道灵动高光的微动效组件。
 component: text-shimmer
 ---
 
 ## 基础用法
 
+最简单的文字微光用法。高光将以设定的周期与渐变宽度在文字表面无限循环扫过：
+
 <ComponentPreview name="text-shimmer-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/text-shimmer" />
 
+<Steps>
+
+<Step>安装依赖与 Motion 动效库</Step>
+
+```bash
+pnpm add motion clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/text-shimmer.tsx`</Step>
+
 <ComponentSource name="text-shimmer" title="components/ui/text-shimmer.tsx" />
 
-## 使用场景
+</Steps>
 
-`TextShimmer` 适合“生成中”“加载中”等短暂状态。默认颜色来自 `foreground` 和 `muted-foreground`，因此会自动适配明暗主题。
-它只是状态提示，不应替代具体的加载说明或错误信息。
+## 属性 Props
 
-## 属性
+`TextShimmer` 支持以下配置属性，并继承底层渲染 HTML 元素（默认 `<span>`）的全部属性：
 
-<PropsTable name="text-shimmer" />
+<PropsTable
+  data={[
+    {
+      prop: "children",
+      type: "string",
+      required: true,
+      description: "应用微光扫光动效的纯文本内容。",
+    },
+    {
+      prop: "duration",
+      type: "number",
+      default: "2",
+      description: "高光完成一次从左到右完整扫描所花费的时间（单位：秒）。",
+    },
+    {
+      prop: "spread",
+      type: "number",
+      default: "2",
+      description: "高光渐变的宽度扩散系数。数值越大高光边缘越柔和开阔，数值越小高光光柱越集中锋利。",
+    },
+    {
+      prop: "as",
+      type: "React.ElementType",
+      default: '"span"',
+      description: "外层容器所渲染的语义 HTML 标签（如 span, p, h2, h3 等）。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于外层容器的额外 CSS 类名，可在此定义 CSS 变量 [--shimmer-base] 与 [--shimmer-highlight]。",
+    },
+    {
+      prop: "style",
+      type: "React.CSSProperties",
+      description: "应用于外层容器的内联样式对象。",
+    },
+  ]}
+/>
 
-## 事件
+## 事件 Events
 
-组件没有自有事件，并透传底层元素事件。动画会持续循环；用户开启“减少动态效果”时停留在静态渐变状态。
+`TextShimmer` 支持所有原生 HTML 文本元素的鼠标与焦点事件：
 
-## 扩展用法
+<PropsTable
+  data={[
+    {
+      prop: "onClick",
+      type: "(event: React.MouseEvent) => void",
+      description: "点击微光文字区域时触发。",
+    },
+  ]}
+/>
 
-通过 `duration` 控制扫过速度，通过 `spread` 调整高光宽度。可以在 `className` 中覆盖 `--shimmer-base` 和 `--shimmer-highlight` 两个 CSS 变量。
+## 使用场景与设计规范
+
+`TextShimmer` 适用于**表达进行时、加载等待或尊贵高光特权**，常见于 AI 生成过程提示、高级功能订阅 CTA 按钮、后台任务同步卡片与状态指示器。
+
+- **明暗与对比度保障**：默认情况下，底色变量 `--shimmer-base` 采用次级文字色（`var(--muted-foreground)`），高光变量 `--shimmer-highlight` 采用主前景色（`var(--foreground)`）。如需自定义颜色，请确保底色在当前背景下仍满足 WCAG AA 文本对比度标准（≥ 4.5:1）。
+- **持续时间建议**：扫光周期推荐设置在 `1.5s ~ 2.5s`。过快的扫光容易引起视觉疲劳，过慢则缺乏流动感。
+- **与骨架屏结合**：在异步数据加载或 AI 流式准备阶段，相比传统的灰色色块骨架屏，带有扫光的动态文本能给用户更明确的进度预期。
+
+## 场景示例
+
+### 高优先级行动按钮
+
+将 `TextShimmer` 与主要操作按钮结合，提升 AI 智能操作或会员升级入口的吸引力：
+
+<ComponentPreview name="text-shimmer-button" />
+
+### 后台处理状态卡片
+
+在长时间的向量计算或数据检索任务中作为优雅的加载指示器：
+
+<ComponentPreview name="text-shimmer-card" />
+
+### 自定义主题配色
+
+通过覆盖 `--shimmer-base` 和 `--shimmer-highlight` CSS 变量，轻松适配翡翠绿、紫罗兰、琥珀黄等多种品牌状态色：
+
+<ComponentPreview name="text-shimmer-colors" />
+
+```tsx
+<TextShimmer
+  duration={1.8}
+  spread={3}
+  className="[--shimmer-base:theme(colors.emerald.600)] [--shimmer-highlight:theme(colors.emerald.200)]"
+>
+  All nodes synchronized (0 errors)
+</TextShimmer>
+```
+
+## 无障碍与交互 Accessibility
+
+- **文本可被正常选中与复制**：底层通过 `bg-clip-text` 与 `text-transparent` 实现渐变填充，DOM 结构内保留完整纯文本，用户可以正常鼠标双击选词并复制文本。
+- **系统减少动态偏好（Reduced Motion）**：当系统开启 `prefers-reduced-motion` 时，组件将禁用无限循环的 `backgroundPosition` 动画，直接展示静态的单色基底文本，保障前庭觉敏感用户的舒适度。

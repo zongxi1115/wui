@@ -1,8 +1,8 @@
 {
   "name": "hover-marquee",
   "type": "registry:ui",
-  "title": "浮入滚动目录 Hover Marquee",
-  "description": "目录行浮入或聚焦后，显示无缝横向滚动的内容预览。",
+  "title": "悬停跑马灯 Hover Marquee",
+  "description": "当列表行被悬停或聚焦时，原地替换为水平无限循环滚动的跑马灯轨道预览。",
   "categories": [
     "fancy",
     "motion"
@@ -79,15 +79,17 @@
       "description": "应用于移动预览层的 CSS 类名。"
     }
   ],
-  "usage": "将目录行放在 `children`，把需要重复滚动的内容放在 `marquee`。通过 `speed` 调整速度，并交替设置 `reverse`，可以形成左右错向的目录节奏。\n内容较长时应控制重复数量，避免用户焦点进入后需要等待很久才能看到完整信息。",
   "examples": [
     {
       "name": "hover-marquee-demo",
       "title": "基础用法"
     },
     {
-      "name": "hover-marquee-catalog",
-      "title": "技能与特性目录"
+      "name": "hover-marquee-tags",
+      "title": "技术栈与技能矩阵"
+    },
+    {
+      "name": "hover-marquee-catalog"
     }
   ],
   "files": [

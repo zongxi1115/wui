@@ -1,29 +1,114 @@
 ---
-title: 图像轨迹 Image Trail
-description: 鼠标移动时沿路径依次甩出短暂的图片或视觉片段。
+title: 图像拖尾 Image Trail
+description: 随着鼠标在画布或容器内移动，在指针移动轨迹上按序生成短暂停留并渐隐消失的视觉元素拖尾组件。
 component: image-trail
 ---
 
 ## 基础用法
 
+在交互画布内快速移动鼠标，指针沿途将留下精致的照片快照卡片并逐渐淡出：
+
 <ComponentPreview name="image-trail-demo" />
 
-<DependencyBadges packages={["motion"]} />
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/image-trail" />
 
+<Steps>
+
+<Step>安装基础依赖与动效库</Step>
+
+```bash
+pnpm add motion lucide-react class-variance-authority clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/image-trail.tsx`</Step>
+
 <ComponentSource name="image-trail" title="components/ui/image-trail.tsx" />
 
-## 使用场景
+</Steps>
 
-`ImageTrail` 按指针移动距离采样位置，并循环使用 `items` 中的视觉内容形成短暂轨迹。组件限制同时存在的项目数，
-并在离场后清理节点，适合作品首屏、专题页和强视觉索引。它只提供氛围，不应承载必须阅读或必须点击的信息。
+## 属性 Props
 
-## 属性
+<PropsTable
+  data={[
+    {
+      prop: "items",
+      type: "React.ReactNode[]",
+      description: "在移动轨迹上按顺序循环生成的视觉子项数组（图片卡片、徽章、图标等）。",
+    },
+    {
+      prop: "children",
+      type: "React.ReactNode",
+      description: "静止渲染在交互区域中央或底部的静态主要内容。",
+    },
+    {
+      prop: "distance",
+      type: "number",
+      default: "72",
+      description: "指针移动必须跨越的最小欧式距离阈值（像素），超过该距离才会生成下一个拖尾项。",
+    },
+    {
+      prop: "lifetime",
+      type: "number",
+      default: "720",
+      description: "每个拖尾项在画布上停留并渐隐销毁的生命周期时间（单位：毫秒）。",
+    },
+    {
+      prop: "maxItems",
+      type: "number",
+      default: "8",
+      description: "画布上允许同时存在的最大拖尾项数量上限，防止密集移动导致 DOM 过载。",
+    },
+    {
+      prop: "itemClassName",
+      type: "string",
+      description: "应用于每个由 absolute 定位的拖尾单项的 CSS 类名。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于最外层交互容器的 CSS 类名。",
+    },
+  ]}
+/>
 
-<PropsTable name="image-trail" />
+## 事件 Events
 
-## 使用说明
+<PropsTable
+  data={[
+    {
+      prop: "onPointerMove",
+      type: "(event: React.PointerEvent) => void",
+      description: "光标在容器内移动并计算拖尾距离时触发。",
+    },
+    {
+      prop: "onPointerLeave",
+      type: "(event: React.PointerEvent) => void",
+      description: "光标离开交互区域时触发，重置上一帧记录位置。",
+    },
+  ]}
+/>
 
-`distance` 越小轨迹越密，`lifetime` 越长重叠越多。轨迹项目应使用固定尺寸，并避免包含可交互元素；真正的信息和操作放在静态 `children` 中。
-触摸输入和用户的“减少动态效果”偏好不会生成轨迹。
+## 使用场景与设计规范
+
+`ImageTrail` 适用于**创意设计工作室主页、作品集画廊、品牌互动 Hero 展区**：
+
+- **智能节流与垃圾回收**：内置欧氏距离计算与 `setTimeout` 定时器清理机制，未达到移动阈值时不会产生多余渲染。
+- **轻量旋转与物理弹跳**：新生成的拖尾项自动带有轻微随机旋转与入场缩放，显得自然灵动。
+
+## 场景示例
+
+### 浮动徽章流
+
+在深色卡片内移动指针生成系统能力徽章流：
+
+<ComponentPreview name="image-trail-cards" />
+
+## 无障碍与交互 Accessibility
+
+- **移动端自动静音**：在触控屏幕（`touch`）上自动禁用拖尾生成，保证页面正常的上下滑动流畅度。
+- **动效减弱适配**：当用户开启 `prefers-reduced-motion: reduce` 时，拖尾生成逻辑被完全旁路，仅展示静态内容。
+- **无障碍树纯净**：拖尾项全部标记 `aria-hidden="true"` 和 `pointer-events-none`，不会干扰读屏与点击。

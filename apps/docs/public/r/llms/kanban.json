@@ -2,7 +2,7 @@
   "name": "kanban",
   "type": "registry:ui",
   "title": "看板 Kanban",
-  "description": "用可组合列和原生拖放组织任务流转。",
+  "description": "用于敏捷项目管理、需求流转与线索阶段跟踪的可组合看板组件，内置 HTML5 原生拖拽流转与悬停响应。",
   "import": "import { Kanban, KanbanCard, KanbanColumn, KanbanColumnBody, KanbanColumnCount, KanbanColumnHeader, KanbanColumnTitle } from \"@/components/ui/kanban\"",
   "exports": [
     "Kanban",
@@ -38,11 +38,14 @@
       "description": "卡片被拖入其他列后触发。"
     }
   ],
-  "events": "卡片跨列放下时触发 `onMove({ itemId, from, to })`。每个 `KanbanColumn` 和 `KanbanCard` 都必须提供稳定的 `value`，\n业务层应在回调中更新数据，否则拖动结束后界面会回到原位置。原生拖拽事件仍可通过对应元素监听。",
   "examples": [
     {
       "name": "kanban-demo",
       "title": "基础用法"
+    },
+    {
+      "name": "kanban-project-board",
+      "title": "敏捷开发 Sprint 任务流转板"
     }
   ],
   "files": [

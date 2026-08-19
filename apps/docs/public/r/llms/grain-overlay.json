@@ -1,8 +1,8 @@
 {
   "name": "grain-overlay",
   "type": "registry:ui",
-  "title": "颗粒遮罩 Grain Overlay",
-  "description": "用可缩放 SVG 噪声为任意表面增加克制的胶片颗粒质感。",
+  "title": "颗粒纹理遮罩 Grain Overlay",
+  "description": "利用 SVG 分形噪点（feTurbulence）滤镜为卡片、大图与渐变背景增添电影级胶片质感与材质温度的纹理组件。",
   "categories": [
     "background",
     "fancy"
@@ -90,11 +90,14 @@
       "description": "遮罩图层使用的 CSS 混合模式。"
     }
   ],
-  "usage": "建议从 `opacity={0.08}` 到 `0.18` 的范围开始，根据底色选择 `soft-light`、`overlay` 或 `multiply`。颗粒应作为统一材质语言使用，\n不要只给一张普通卡片单独添加；大面积铺设前应在低端设备上确认 SVG 滤镜成本。",
   "examples": [
     {
       "name": "grain-overlay-demo",
       "title": "基础用法"
+    },
+    {
+      "name": "grain-overlay-card",
+      "title": "暗黑质感卡片"
     }
   ],
   "files": [

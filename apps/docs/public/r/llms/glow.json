@@ -2,7 +2,7 @@
   "name": "glow",
   "type": "registry:ui",
   "title": "渐变环绕发光 Glow",
-  "description": "让多色渐变光线沿内容四周持续环绕，并提供单色发光变体。",
+  "description": "让多色彩虹渐变或单色呼吸光效沿内容边缘持续环绕流动，形成柔和漫射光晕，用于打造高视觉吸引力的重点卡片与推荐位。",
   "categories": [
     "fancy"
   ],
@@ -100,7 +100,6 @@
       "description": "一次发光动画循环的时长，单位为秒。"
     }
   ],
-  "usage": "默认的 `rainbow` 变体通过 `colors`、`spread` 和 `duration` 调整环绕效果。使用 `variant=\"solid\"` 可以切换到单色呼吸光晕，\n并通过 `color`、`glowOpacity` 和 `pulse` 控制外观。用户开启“减少动态效果”时，两种变体都会停止动画。",
   "examples": [
     {
       "name": "glow-demo",
@@ -108,7 +107,11 @@
     },
     {
       "name": "glow-card",
-      "title": "重点推荐卡片"
+      "title": "旗舰推荐定价卡片"
+    },
+    {
+      "name": "glow-badge",
+      "title": "状态指示与公告胶囊（Pills）"
     }
   ],
   "files": [

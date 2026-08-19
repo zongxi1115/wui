@@ -2,7 +2,7 @@
   "name": "progressive-blur",
   "type": "registry:ui",
   "title": "渐进模糊 Progressive Blur",
-  "description": "使用多层渐变遮罩构建方向可控的渐进式背景模糊。",
+  "description": "利用多层重叠梯度遮罩与 Backdrop Filter 实现边缘平滑衰减虚化、防止硬截断的视觉层次组件。",
   "categories": [
     "motion",
     "advanced"
@@ -57,11 +57,14 @@
       "description": "每增加一层时叠加的模糊强度，单位为像素。"
     }
   ],
-  "events": "组件透传 Motion `div` 的动画和原生指针事件属性。由于它默认用于纯装饰层，一般不应在模糊图层本身绑定交互。",
   "examples": [
     {
       "name": "progressive-blur-demo",
       "title": "基础用法"
+    },
+    {
+      "name": "progressive-blur-directions",
+      "title": "上下方多方向虚化对比"
     }
   ],
   "files": [

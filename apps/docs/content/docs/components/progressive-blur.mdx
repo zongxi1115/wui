@@ -1,37 +1,85 @@
 ---
 title: 渐进模糊 Progressive Blur
-description: 使用多层渐变遮罩构建方向可控的渐进式背景模糊。
+description: 利用多层重叠梯度遮罩与 Backdrop Filter 实现边缘平滑衰减虚化、防止硬截断的视觉层次组件。
 component: progressive-blur
 ---
 
 ## 基础用法
 
+在动态列表或长文本卡片底部叠加多层渐进模糊，使超出部分自然虚化并提供滚动心理暗示：
+
 <ComponentPreview name="progressive-blur-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/progressive-blur" />
 
-<ComponentSource
-  name="progressive-blur"
-  title="components/ui/progressive-blur.tsx"
+<Steps>
+
+<Step>安装基础依赖与动效库</Step>
+
+```bash
+pnpm add motion class-variance-authority clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/progressive-blur.tsx`</Step>
+
+<ComponentSource name="progressive-blur" title="components/ui/progressive-blur.tsx" />
+
+</Steps>
+
+## 属性 Props
+
+<PropsTable
+  data={[
+    {
+      prop: "direction",
+      type: '"top" | "right" | "bottom" | "left"',
+      default: '"bottom"',
+      description: "虚化衰减的主边缘方向（即模糊度最高的一侧）。",
+    },
+    {
+      prop: "blurLayers",
+      type: "number",
+      default: "8",
+      description: "用于平滑过度的遮罩层分段数量（最小自动限制为 2）。",
+    },
+    {
+      prop: "blurIntensity",
+      type: "number",
+      default: "0.25",
+      description: "每个分层逐级递增的模糊增量系数（像素）。数值越大，模糊总强度越高。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于外层定位容器的 CSS 类名（通常配置 absolute inset-x-0 bottom-0 等定位）。",
+    },
+  ]}
 />
 
-## 使用场景
+## 事件 Events
 
-`ProgressiveBlur` 将多个带渐变 mask 的 `backdrop-filter` 图层叠加起来，使模糊强度沿某个方向逐步增加。它适合滚动容器边缘、
-图片与文字交界处和固定操作栏后方，用来建立内容层级，而不是遮盖信息。
+该组件为纯展示型分层视觉遮罩层，自身不派发专用业务交互事件，默认标记 `pointer-events: none` 且不阻挡底层鼠标点击。
 
-组件只负责视觉效果，默认忽略指针事件并从无障碍树隐藏。父容器通常需要 `position: relative` 和明确尺寸，
-模糊层本身不应放置按钮或链接。
+## 使用场景与设计规范
 
-## 属性
+`ProgressiveBlur` 适用于**截断列表提示、吸顶导航栏底部、图片渐隐遮罩**：
 
-<PropsTable name="progressive-blur" />
+- **告别生硬的纯色遮罩**：传统的 `bg-gradient-to-t from-background` 容易遮盖住文字的色彩，而渐进模糊（Backdrop Blur）则能保留底层色相同时让文本轮廓柔和化。
+- **层数建议**：通常 6 ~ 8 层可以在极佳的平滑度与 GPU 显存消耗之间取得完美平衡。
 
-## 事件
+## 场景示例
 
-组件透传 Motion `div` 的动画和原生指针事件属性。由于它默认用于纯装饰层，一般不应在模糊图层本身绑定交互。
+### 上下方多方向虚化对比
 
-## 扩展用法
+展示顶部与底部模糊在不同容器中的应用：
 
-使用 `direction` 将最强模糊放在 `top`、`right`、`bottom` 或 `left`。增加 `blurLayers` 会让过渡更细腻，也会提高渲染成本；
-建议从 6–10 层和较低的 `blurIntensity` 开始调整。
+<ComponentPreview name="progressive-blur-directions" />
+
+## 无障碍与交互 Accessibility
+
+- **点击穿透**：容器默认携带 `pointer-events-none`，用户隔着模糊区域点击下方的链接或按钮依然能够精准响应。
+- **无障碍树隐藏**：默认设置 `aria-hidden="true"`，屏幕阅读器不受任何视觉滤镜干扰。

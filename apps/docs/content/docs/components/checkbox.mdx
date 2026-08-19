@@ -1,35 +1,216 @@
 ---
 title: 多选框 Checkbox
-description: 支持选中、未选中与不确定状态的多选控件。
+description: 支持选中、未选中与半选（不确定）状态的交互式多选控件，内置平滑勾选微动效与完整的键盘无障碍能力。
 component: checkbox
 ---
 
 ## 基础用法
 
+最常见的多选列表用法。点击多选框或其绑定的文字标签即可切换选中状态：
+
 <ComponentPreview name="checkbox-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/checkbox" />
 
+<Steps>
+
+<Step>安装基础依赖与动效库</Step>
+
+```bash
+pnpm add radix-ui motion class-variance-authority clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/checkbox.tsx`</Step>
+
 <ComponentSource name="checkbox" title="components/ui/checkbox.tsx" />
 
-## 使用场景
+</Steps>
 
-`Checkbox` 用于在一组互不排斥的选项中选择零项或多项，也适合表示“同意条款”这类需要用户明确确认的布尔值。
-多个选项可以同时选中；如果用户只能从多个选项中选择一项，应使用 `RadioGroup`。
+## 属性 Props
 
-勾选状态由调用方保存。将多个复选框放入表单时，标签应说明具体选项，不能只依赖选中颜色区分状态。
+`Checkbox` 继承底层 Radix UI 的全部原生与无障碍属性，支持以下配置：
 
-## 属性
+<PropsTable
+  data={[
+    {
+      prop: "checked",
+      type: 'boolean | "indeterminate"',
+      description: "受控模式下复选框的选中状态。传入 \"indeterminate\" 表示半选（不确定）状态。",
+    },
+    {
+      prop: "defaultChecked",
+      type: 'boolean | "indeterminate"',
+      default: "false",
+      description: "非受控模式下复选框的初始选中状态。",
+    },
+    {
+      prop: "onCheckedChange",
+      type: '(checked: boolean | "indeterminate") => void',
+      description: "复选框状态发生改变时触发的回调函数。",
+    },
+    {
+      prop: "size",
+      type: '"sm" | "default" | "lg"',
+      default: '"default"',
+      description: "复选框的物理尺寸密度（sm: 16px, default: 20px, lg: 24px）。",
+    },
+    {
+      prop: "disabled",
+      type: "boolean",
+      default: "false",
+      description: "是否禁用交互与焦点聚焦。",
+    },
+    {
+      prop: "required",
+      type: "boolean",
+      default: "false",
+      description: "在表单中是否为必填字段。",
+    },
+    {
+      prop: "name",
+      type: "string",
+      description: "原生表单提交时该复选框对应的字段名称。",
+    },
+    {
+      prop: "value",
+      type: "string",
+      default: '"on"',
+      description: "原生表单提交时处于选中状态所代表的值。",
+    },
+    {
+      prop: "asChild",
+      type: "boolean",
+      default: "false",
+      description: "是否将属性与行为合并到唯一的子元素上渲染。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于外层按钮元素的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-<PropsTable name="checkbox" />
+## 事件 Events
 
-## 事件
+<PropsTable
+  data={[
+    {
+      prop: "onCheckedChange",
+      type: '(checked: boolean | "indeterminate") => void',
+      description: "用户通过点击、触摸或键盘按键切换复选框状态时触发，返回最新的布尔值或 \"indeterminate\"。",
+    },
+    {
+      prop: "onFocus",
+      type: "(event: React.FocusEvent<HTMLButtonElement>) => void",
+      description: "复选框获得焦点时触发。",
+    },
+    {
+      prop: "onBlur",
+      type: "(event: React.FocusEvent<HTMLButtonElement>) => void",
+      description: "复选框失去焦点时触发。",
+    },
+    {
+      prop: "onKeyDown",
+      type: "(event: React.KeyboardEvent<HTMLButtonElement>) => void",
+      description: "在复选框获得焦点时按下键盘按键触发（如空格键切换选中）。",
+    },
+  ]}
+/>
 
-`onCheckedChange(checked)` 在状态变化后触发，值可能是 `true`、`false` 或 `"indeterminate"`。受控用法下，
-回调需要同步更新 `checked`，否则点击后界面不会保持新状态。其余键盘、焦点与表单属性会透传到底层 Radix Root。
+## 使用场景与设计规范
 
-## 扩展用法
+`Checkbox` 适用于在一组选项中选择**零项、一项或多项**，或用于需要用户明确确认的**单个二元选择**（如同意协议条款）。
 
-使用 `checked="indeterminate"` 表示一组子选项只选中了其中一部分，适合“全选”复选框。父项变为不确定状态时，
-应在子项数量变化后重新计算，而不是把它当成第三个永久状态。使用 `size="sm | default | lg"` 调整控件尺寸，
-文字标签应通过原生 `label` 与控件关联。
+### 组件选型对比
+
+| 控制类型 | 适用场景 | 交互与生效模式 | 典型用例 |
+| :--- | :--- | :--- | :--- |
+| **Checkbox** | 多项非互斥选择、从属层级全选/半选、协议确认 | 延迟生效（通常随表单提交保存） | 批量任务选择、订阅偏好设置、同意条款 |
+| **RadioGroup** | 2~5 个互斥选项中**必须单选一项** | 延迟生效（切换选项即选中该项） | 支付方式、配送方式、发票类型选择 |
+| **Switch** | 独立二元状态的开关切换 | **即时生效**（切换后立即触发后台更新） | 开启深色模式、推送通知开关、飞行模式 |
+
+### 设计最佳实践
+
+- **始终绑定文本标签**：不要单独放置没有文字说明的复选框。通过 `<label htmlFor="...">` 显式关联复选框 `id`，扩大可点击热区。
+- **清晰的文案肯定语**：复选框文案应使用肯定语气描述选中后的结果（如“接收新版本通知”），避免使用双重否定（如“不接收通知”）。
+- **半选（Indeterminate）状态的规范使用**：半选状态只能用在包含子选项的父级复选框中，表示“子项部分被选中”。它是一个由子项状态计算得出的**派生状态**，而不是用户可以直接循环选中的第三种独立持久状态。
+- **校验与错误反馈**：对于协议勾选等必选项，校验失败时应将 `aria-invalid="true"` 传给组件，并在复选框下方清晰呈现错误提示文案。
+
+## 场景示例
+
+### 受控模式
+
+在需要精确管理多选状态或与外部状态保持双向同步时，使用 `checked` 和 `onCheckedChange`：
+
+<ComponentPreview name="checkbox-controlled" />
+
+```tsx
+const [checked, setChecked] = React.useState<boolean | "indeterminate">(true)
+
+return (
+  <Checkbox
+    checked={checked}
+    onCheckedChange={setChecked}
+  />
+)
+```
+
+### 尺寸
+
+组件提供 `sm` (16px)、`default` (20px) 和 `lg` (24px) 三种尺寸以适应不同密度的排版：
+
+<ComponentPreview name="checkbox-sizes" />
+
+- `sm`：适合数据表格中的批量选择列、紧凑下拉菜单。
+- `default`：通用表单项、设置面板及标准卡片。
+- `lg`：移动端触控场景、突出的核心协议确认区域。
+
+### 带标签与描述
+
+将复选框与主标题和副文本描述组合，为用户提供清晰的决策上下文：
+
+<ComponentPreview name="checkbox-with-label" />
+
+### 半选与全选联动 (Indeterminate)
+
+当管理具有父子层级的列表时，父级多选框会根据子项的完成情况自动在“未选”、“半选（不确定）”和“全选”之间无缝切换：
+
+<ComponentPreview name="checkbox-indeterminate" />
+
+### 禁用状态
+
+当用户无权限修改、配置项处于只读模式或依赖项未满足时，使用 `disabled` 禁用交互：
+
+<ComponentPreview name="checkbox-disabled" />
+
+### 多选卡片组
+
+在增值服务选配、功能包订购等现代 SaaS 场景中，将复选框包裹在卡片内，提供更大的点击面积与丰富的内容排版：
+
+<ComponentPreview name="checkbox-card-group" />
+
+### 表单校验与错误状态
+
+在用户注册或提交表单时，配合 `aria-invalid` 属性与错误提示文案，实现即时校验反馈：
+
+<ComponentPreview name="checkbox-form" />
+
+## 无障碍与交互 Accessibility
+
+- **ARIA 角色与属性**：
+  - 自动渲染 `role="checkbox"`。
+  - 根据状态自动维护 `aria-checked="true" | "false" | "mixed"`（半选状态对应 `"mixed"`）。
+  - 支持 `aria-invalid="true"` 与 `aria-required="true"`。
+- **键盘导航**：
+  - <kbd>Tab</kbd>：在表单各控件间移动焦点，聚焦时显示清晰的高对比度焦点环（Focus Ring）。
+  - <kbd>Space</kbd>：切换选中 / 未选中状态。
+- **屏幕阅读器支持**：
+  - 务必使用 `<label htmlFor="id">` 或 `aria-labelledby` 关联标签文案，确保屏幕阅读器能准确朗读选项名称与当前状态。
+  - 辅助说明文字可通过 `aria-describedby` 关联至提示元素 ID。
+- **动态效果降级**：
+  - 内置的 SVG 路径绘制（Checkmark Draw）动效会自动适配系统的 `prefers-reduced-motion` 设置。开启减弱动态效果时，图标将立即瞬时呈现，避免引发眩晕。

@@ -87,6 +87,15 @@
       "name": "tree-select-demo"
     },
     {
+      "name": "tree-select-department"
+    },
+    {
+      "name": "tree-select-disabled"
+    },
+    {
+      "name": "tree-select-file-system"
+    },
+    {
       "name": "tree-select-search"
     }
   ],

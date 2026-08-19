@@ -1,8 +1,8 @@
 {
   "name": "sliding-number",
   "type": "registry:ui",
-  "title": "滑动数字 Sliding Number",
-  "description": "用独立数字轮平滑过渡数值变化。",
+  "title": "数字滚动 Sliding Number",
+  "description": "每个数位独立运行垂直滚轮滚动，支持弹性阻尼过渡、浮点小数与补零格式化的数字动效组件。",
   "categories": [
     "motion",
     "number-effect"
@@ -57,7 +57,6 @@
       "description": "每个数字滚轮使用的过渡动画。"
     }
   ],
-  "events": "组件没有自有事件，并透传 `<span>` 的原生事件。修改 `value` 即会触发过渡；用户开启“减少动态效果”时数位立即更新。",
   "examples": [
     {
       "name": "sliding-number-demo",
@@ -65,7 +64,19 @@
     },
     {
       "name": "sliding-number-clock",
-      "title": "时钟"
+      "title": "实时数字时钟"
+    },
+    {
+      "name": "sliding-number-stats",
+      "title": "SaaS 数据大屏遥测监控"
+    },
+    {
+      "name": "sliding-number-price-toggle",
+      "title": "套餐计费周期切换"
+    },
+    {
+      "name": "sliding-number-countdown",
+      "title": "发布会活动倒计时"
     }
   ],
   "files": [

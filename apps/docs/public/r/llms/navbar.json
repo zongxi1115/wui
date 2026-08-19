@@ -2,7 +2,7 @@
   "name": "navbar",
   "type": "registry:ui",
   "title": "导航栏 Navbar",
-  "description": "适用于页面顶部与应用左侧的可组合导航栏。",
+  "description": "适用于页面全局顶部栏与应用级侧边抽屉栏的高可组合性导航组件，支持横向/纵向排版、折叠收起、二级悬浮子菜单及徽标标记。",
   "categories": [
     "navigation"
   ],
@@ -83,15 +83,22 @@
       "description": "垂直导航栏在展开和紧凑状态之间切换时触发。"
     }
   ],
-  "events": "导航事件由 `NavbarLink` 渲染的原生链接或 `asChild` 子元素处理。当前页面会自动获得 `aria-current=\"page\"`；\n路由跳转、埋点和权限判断应由业务层的链接或路由组件处理。键盘焦点沿用浏览器的链接与按钮顺序。",
   "examples": [
     {
       "name": "navbar-demo",
       "title": "基础用法"
     },
     {
+      "name": "navbar-app-header",
+      "title": "应用级顶部全局头栏"
+    },
+    {
       "name": "navbar-vertical",
-      "title": "全局左侧导航"
+      "title": "后台纵向侧栏与二级子菜单"
+    },
+    {
+      "name": "navbar-controlled",
+      "title": "受控模式与折叠收起"
     }
   ],
   "files": [

@@ -1,43 +1,193 @@
 ---
 title: 右键菜单 Context Menu
-description: 在对象或指定区域上通过右键或长按提供就地操作。
+description: 在指定对象、表格行或操作区域上通过鼠标右键或触屏长按呼出的就地快捷操作浮层。
 component: context-menu
 ---
 
 ## 基础用法
 
+最基本的右键菜单配置。在触发区域内点击鼠标右键即可呼出浮层：
+
 <ComponentPreview name="context-menu-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/context-menu" />
 
+<Steps>
+
+<Step>安装基础依赖与图标库</Step>
+
+```bash
+pnpm add radix-ui lucide-react clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/context-menu.tsx`</Step>
+
 <ComponentSource name="context-menu" title="components/ui/context-menu.tsx" />
 
-## 使用场景
+</Steps>
 
-`ContextMenu` 适合文件、画布、表格行等具有明确操作对象的区域。菜单项应与当前对象直接相关，高频操作仍应在界面中保持可见，不能把右键菜单作为唯一入口。
+## 属性 Props
 
-触发区域支持鼠标右键和触屏长按。键盘用户可聚焦触发区域后使用系统菜单键或 `Shift + F10`，因此自定义触发元素时应确保其可聚焦并提供清楚的标签。
+### ContextMenu (根组件)
 
-## 属性
+<PropsTable
+  data={[
+    {
+      prop: "onOpenChange",
+      type: "(open: boolean) => void",
+      description: "右键菜单打开或关闭状态变化时的回调函数。",
+    },
+    {
+      prop: "modal",
+      type: "boolean",
+      default: "true",
+      description: "是否以模态形式呈现（打开时捕获键盘焦点并阻止页面其他区域的滚动交互）。",
+    },
+  ]}
+/>
 
-<PropsTable name="context-menu" />
+### ContextMenuTrigger
 
-- `ContextMenu` 支持 `onOpenChange` 与 `modal`。
-- `ContextMenuContent` 支持碰撞检测和循环键盘导航配置。
-- `ContextMenuItem` 支持 `disabled`、`onSelect`、`destructive` 与 `inset`。
-- `ContextMenuCheckboxItem` 使用 `checked` 与 `onCheckedChange` 管理独立状态。
-- `ContextMenuRadioGroup` 与 `ContextMenuRadioItem` 用于互斥选项。
+包裹需要监听右键或长按事件的目标区域：
 
-## 扩展用法
+<PropsTable
+  data={[
+    {
+      prop: "disabled",
+      type: "boolean",
+      default: "false",
+      description: "是否禁用右键呼出菜单的响应。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于触发区域的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-### 状态项与子菜单
+### ContextMenuContent
+
+<PropsTable
+  data={[
+    {
+      prop: "loop",
+      type: "boolean",
+      default: "false",
+      description: "使用上下方向键导航菜单项时，是否在到达首末项时循环切换。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于菜单浮层面板的额外 CSS 类名。",
+    },
+  ]}
+/>
+
+### ContextMenuItem
+
+<PropsTable
+  data={[
+    {
+      prop: "disabled",
+      type: "boolean",
+      default: "false",
+      description: "是否禁用此菜单项的点击与焦点。",
+    },
+    {
+      prop: "destructive",
+      type: "boolean",
+      default: "false",
+      description: "是否启用危险警示配色（如删除、销毁操作）。",
+    },
+    {
+      prop: "inset",
+      type: "boolean",
+      default: "false",
+      description: "是否在左侧预留图标对齐边距（用于与带图标菜单项视觉对齐）。",
+    },
+    {
+      prop: "onSelect",
+      type: "(event: Event) => void",
+      description: "用户通过点击或 Enter/Space 键选中当前项时触发。",
+    },
+  ]}
+/>
+
+### ContextMenuCheckboxItem / ContextMenuRadioItem
+
+用于承载开关状态（勾选）或互斥状态（单选）的菜单项：
+
+<PropsTable
+  data={[
+    {
+      prop: "checked",
+      type: "boolean",
+      description: "复选项的勾选状态（CheckboxItem 专用）。",
+    },
+    {
+      prop: "value",
+      type: "string",
+      description: "当前单选项所代表的枚举值（RadioItem 专用，需包裹在 ContextMenuRadioGroup 内）。",
+    },
+    {
+      prop: "onCheckedChange",
+      type: "(checked: boolean) => void",
+      description: "勾选状态变化时的回调函数。",
+    },
+  ]}
+/>
+
+## 事件 Events
+
+<PropsTable
+  data={[
+    {
+      prop: "onSelect",
+      type: "(event: Event) => void",
+      description: "菜单项被选中后触发，可调用 event.preventDefault() 阻止选择后菜单自动关闭。",
+    },
+    {
+      prop: "onOpenChange",
+      type: "(open: boolean) => void",
+      description: "菜单展开或收起时触发，返回当前的可见布尔值。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`ContextMenu` 为熟练用户提供高效率的“就地操作”通道：
+
+- **快捷方式而非唯一入口**：右键菜单绝不能成为某个核心功能的唯一操作入口，必须确保在工具栏、行内操作列或详情面板中也有同等功能按钮。
+- **与上下文强绑定**：菜单中的选项必须完全围绕当前右键点击的对象（如单个文件、某行数据、当前选区），避免放入全局不相关的设置项。
+- **警示操作放底部**：具有破坏性的操作（如“删除”、“移至回收站”）必须配置 `destructive` 警示色，通常放在菜单最底部的独立分割组内。
+- **快捷键提示规范**：使用 `ContextMenuShortcut` 展示键盘快捷键提示（如 `⌘C`、`⌫`），仅起引导作用，具体全局快捷键需通过业务代码自行监听。
+
+## 场景示例
+
+### 丰富的文件管理右键菜单
+
+包含重命名、复制、下载、多级子菜单共享、锁定只读与危险删除：
+
+<ComponentPreview name="context-menu-file" />
+
+### 单选视图切换与偏好开关
+
+结合 `ContextMenuRadioGroup` 切换网格/列表视图，配合 `ContextMenuCheckboxItem` 控制属性面板显示：
 
 <ComponentPreview name="context-menu-advanced" />
 
-复选项适合开关独立偏好，单选组适合切换互斥视图。子菜单只用于低频的次级操作；层级过多时，应改用独立设置界面。
+## 无障碍与交互 Accessibility
 
-`destructive` 只负责建立警示层级，不替代确认流程。删除等不可逆操作应继续搭配 ConfirmDialog。
-
-## 无障碍
-
-菜单由 Radix 提供焦点恢复、方向键导航、字符查找与 Escape 关闭。`ContextMenuShortcut` 仅展示快捷键提示，实际快捷键仍需业务层注册；图标不能替代可见文字标签。
+- **WAI-ARIA 规范**：基于 Radix Context Menu 构建，自动挂载 `role="menu"`、`role="menuitem"`、`role="menuitemcheckbox"` 等语义标准。
+- **键盘导航与快捷键**：
+  - <kbd>↑</kbd> / <kbd>↓</kbd>：在各个可用菜单项之间快速转移焦点（自动跳过禁用项与分割线）。
+  - <kbd>→</kbd> / <kbd>←</kbd>：展开或收起多级子菜单（SubMenu）。
+  - <kbd>Enter</kbd> / <kbd>Space</kbd>：触发当前高亮项的 `onSelect` 操作。
+  - <kbd>Esc</kbd>：关闭右键菜单并精准恢复焦点至触发区域。
+  - **字符搜索 Typeahead**：在菜单打开时键入英文字符，焦点会自动快速跳至对应首字母匹配的菜单项。

@@ -1,8 +1,8 @@
 {
   "name": "image-trail",
   "type": "registry:ui",
-  "title": "图像轨迹 Image Trail",
-  "description": "鼠标移动时沿路径依次甩出短暂的图片或视觉片段。",
+  "title": "图像拖尾 Image Trail",
+  "description": "随着鼠标在画布或容器内移动，在指针移动轨迹上按序生成短暂停留并渐隐消失的视觉元素拖尾组件。",
   "categories": [
     "pointer",
     "motion",
@@ -72,11 +72,14 @@
       "description": "应用于每个定位轨迹项的 CSS 类名。"
     }
   ],
-  "usage": "`distance` 越小轨迹越密，`lifetime` 越长重叠越多。轨迹项目应使用固定尺寸，并避免包含可交互元素；真正的信息和操作放在静态 `children` 中。\n触摸输入和用户的“减少动态效果”偏好不会生成轨迹。",
   "examples": [
     {
       "name": "image-trail-demo",
       "title": "基础用法"
+    },
+    {
+      "name": "image-trail-cards",
+      "title": "浮动徽章流"
     }
   ],
   "files": [

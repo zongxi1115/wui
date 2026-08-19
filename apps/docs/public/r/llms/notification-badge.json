@@ -2,7 +2,7 @@
   "name": "notification-badge",
   "type": "registry:ui",
   "title": "消息提示 Notification Badge",
-  "description": "在图标、头像或控件边缘展示未读数量与提示红点。",
+  "description": "在图标、头像或任意控件的右上角附着展示未读计数或红点提示。",
   "import": "import { NotificationBadge, notificationBadgeVariants } from \"@/components/ui/notification-badge\"",
   "exports": [
     "NotificationBadge",
@@ -96,6 +96,18 @@
     {
       "name": "notification-badge-demo",
       "title": "基础用法"
+    },
+    {
+      "name": "notification-badge-variants",
+      "title": "语义色彩主题"
+    },
+    {
+      "name": "notification-badge-max",
+      "title": "数字上限与零值控制"
+    },
+    {
+      "name": "notification-badge-offset",
+      "title": "像素偏移定位微调"
     }
   ],
   "files": [

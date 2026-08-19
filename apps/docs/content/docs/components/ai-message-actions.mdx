@@ -1,39 +1,206 @@
 ---
 title: AI 消息操作 AI Message Actions
-description: 用于 AI 回答底部的标准化快捷操作栏，包含反馈评价、分支版本切换、一键复制与重新生成。
+description: 用于 AI 回答气泡底部的标准化快捷操作栏，包含评价点赞、多版本分支切换、一键复制与流式重新生成。
 component: ai-message-actions
 ---
 
-## 基础示例 · Basic example
+## 基础用法
 
-<ComponentPreview name="ai-message-actions-demo" previewClassName="min-h-0 p-6 flex justify-center" />
+在 AI 助手回复卡片底部提供标准化操作栏，支持一键复制内容、重新生成、多版本前后翻页以及点赞/点踩反馈：
+
+<ComponentPreview name="ai-message-actions-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/ai-message-actions" />
 
+<Steps>
+
+<Step>安装基础依赖与图标库</Step>
+
+```bash
+pnpm add motion lucide-react class-variance-authority clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/ai-message-actions.tsx`</Step>
+
 <ComponentSource name="ai-message-actions" title="components/ui/ai-message-actions.tsx" />
 
-## 组件作用 · What it's for
+</Steps>
 
-`AiMessageActions` 提供一套即插即用的 AI 消息交互工具链。
+## 属性 Props
 
-### 适用场景
-- **用户反馈采集 (`AiMessageFeedback`)**：点赞/点踩，支持与后端数据打点关联。
-- **多版本分支切换 (`AiMessageBranch`)**：用户重新生成后，在 `1 / 3` 版本之间无缝回溯历史回答。
-- **快速复制与重试 (`AiMessageCopy` / `AiMessageRetry`)**：带平滑状态过渡的一键剪贴板复制和流式重试触发。
+### AiMessageActions Props
 
-### 何时不建议使用
-- 如果仅仅是普通的静态文本展示（非模型实时交互），不需要配置复杂的版本切换与点赞组件。
+<PropsTable
+  data={[
+    {
+      prop: "variant",
+      type: '"ghost" | "bordered"',
+      default: '"ghost"',
+      description: "操作栏的外观样式变体。ghost 为扁平轻量风格，bordered 为独立浮动卡片边框风格。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于操作栏容器的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-## 组件属性 · Props
+### AiMessageFeedback Props
 
-<PropsTable name="ai-message-actions" />
+<PropsTable
+  data={[
+    {
+      prop: "value",
+      type: '"like" | "dislike" | null',
+      description: "受控模式下当前的点赞/点踩状态。",
+    },
+    {
+      prop: "defaultValue",
+      type: '"like" | "dislike" | null',
+      default: "null",
+      description: "非受控模式下的初始反馈状态。",
+    },
+    {
+      prop: "onChange",
+      type: '(value: "like" | "dislike" | null) => void',
+      description: "用户切换点赞或点踩状态时的回调函数。",
+    },
+  ]}
+/>
 
-## 事件 · Events
+### AiMessageBranch Props
 
-- `AiMessageFeedback.onChange?: (value: "like" | "dislike" | null) => void`：反馈状态变更回调。
-- `AiMessageBranch.onPrev` / `AiMessageBranch.onNext`：分支向前/向后翻页。
-- `AiMessageCopy.onCopy`：成功复制代码或文本后的回调。
+<PropsTable
+  data={[
+    {
+      prop: "current",
+      type: "number",
+      default: "1",
+      description: "当前展示的生成分支版本序号（从 1 开始）。",
+    },
+    {
+      prop: "total",
+      type: "number",
+      default: "1",
+      description: "当前消息累计生成的分支版本总数。当 total <= 1 时组件自动隐藏。",
+    },
+    {
+      prop: "onPrev",
+      type: "() => void",
+      description: "点击切换到上一个回答版本时的回调函数。",
+    },
+    {
+      prop: "onNext",
+      type: "() => void",
+      description: "点击切换到下一个回答版本时的回调函数。",
+    },
+  ]}
+/>
 
-## 拓展使用 · Extended usage
+### AiMessageCopy Props
 
-可与 `AiChat`、`AiChatMessage` 以及 `Markdown` 渲染器自由组合，作为消息卡片底部的标准动作栏。
+<PropsTable
+  data={[
+    {
+      prop: "content",
+      type: "string",
+      required: true,
+      description: "需要复制到剪贴板的原始文本或 Markdown 内容字符串。",
+    },
+    {
+      prop: "onCopy",
+      type: "() => void",
+      description: "成功写入剪贴板后的回调函数，可用于触发 Toast 提示或埋点打点。",
+    },
+    {
+      prop: "label",
+      type: "string",
+      default: '"复制回答"',
+      description: "按钮的无障碍标签与悬停提示文案。",
+    },
+  ]}
+/>
+
+### AiMessageRetry Props
+
+<PropsTable
+  data={[
+    {
+      prop: "isLoading",
+      type: "boolean",
+      default: "false",
+      description: "是否处于重新生成中的加载状态。设为 true 时旋转图标自动旋转并禁用交互。",
+    },
+    {
+      prop: "label",
+      type: "string",
+      default: '"重新生成"',
+      description: "按钮的无障碍标签与悬停提示文案。",
+    },
+  ]}
+/>
+
+## 事件 Events
+
+<PropsTable
+  data={[
+    {
+      prop: "AiMessageFeedback.onChange",
+      type: '(value: "like" | "dislike" | null) => void',
+      description: "用户点击点赞或点踩按钮时触发，返回最新的反馈值；重复点击已激活按钮会取消并返回 null。",
+    },
+    {
+      prop: "AiMessageBranch.onPrev",
+      type: "() => void",
+      description: "用户点击上一版本箭头按钮时触发。",
+    },
+    {
+      prop: "AiMessageBranch.onNext",
+      type: "() => void",
+      description: "用户点击下一版本箭头按钮时触发。",
+    },
+    {
+      prop: "AiMessageCopy.onCopy",
+      type: "() => void",
+      description: "剪贴板写入成功后触发。",
+    },
+    {
+      prop: "AiMessageRetry.onClick",
+      type: "(event: React.MouseEvent<HTMLButtonElement>) => void",
+      description: "用户点击重新生成按钮时触发。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`AiMessageActions` 是一套高度模块化的 AI 消息工具栏，旨在统一大语言模型（LLM）对话产品中的高频操作交互。
+
+- **反馈闭环**：利用 `AiMessageFeedback` 收集用户的满意度点赞/点踩数据，结合业务埋点用于强化学习（RLHF）或模型提示词迭代优化。
+- **分支历史追溯**：当用户对当前回答不满意点击重新生成时，不要直接覆盖旧回答，建议使用 `AiMessageBranch` 保留历史生成版本（如 `1/3`），允许用户随时来回切换对比。
+- **即时视觉反馈**：`AiMessageCopy` 内置了 2 秒打勾动效，点击后自动提供视觉确认，减少用户重复尝试复制的焦虑。
+
+## 场景示例
+
+### 边框浮动卡片风格
+
+通过设置 `variant="bordered"`，操作栏将呈现带边框与背景模糊的独立浮动微卡片形态，并可自由组合收藏、分享等自定义动作按钮：
+
+<ComponentPreview name="ai-message-actions-bordered" />
+
+### 多版本分支切换与重新生成联动
+
+当用户触发“重新生成”后，将新生成的回答内容追加为新版本，并通过 `AiMessageBranch` 允许用户自由翻阅历史版本：
+
+<ComponentPreview name="ai-message-actions-branching" />
+
+## 无障碍与交互 Accessibility
+
+- **ARIA 标签与 Tooltip**：每个操作按钮均默认带有语义化的 `aria-label` 与 `title` 属性，读屏软件能准确播报“复制回答”、“重新生成”、“点赞”等动作。
+- **高对比度焦点环**：支持完整的键盘聚焦导航，键盘通过 <kbd>Tab</kbd> 切换时呈现符合 WCAG 2.1 AA 标准的高对比度焦点指示。
+- **动效降级**：内置的图标切换缩放微动效自动适配系统的 `prefers-reduced-motion` 设置，开启减少动态效果后将直接跳变状态。

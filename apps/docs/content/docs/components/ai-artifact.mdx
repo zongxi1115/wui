@@ -1,38 +1,218 @@
 ---
 title: AI 生成物 AI Artifact
-description: 类似 Claude Artifacts / v0 的侧边与分屏工作区容器，支持代码与实时预览无缝切换。
+description: 类似 Claude Artifacts 与 v0 的交互式产物工作区容器，支持代码、实时组件预览与运行控制台的多模态无缝切换。
 component: ai-artifact
 ---
 
-## 基础示例 · Basic example
+## 基础用法
 
-<ComponentPreview name="ai-artifact-demo" previewClassName="min-h-0 p-6 flex justify-center" />
+包含组件名称、文件类型徽章、代码与实时交互预览双模切换，以及一键复制和全屏沉浸模式的生成物容器：
+
+<ComponentPreview name="ai-artifact-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/ai-artifact" />
 
+<Steps>
+
+<Step>安装基础依赖与动效库</Step>
+
+```bash
+pnpm add motion class-variance-authority lucide-react clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/ai-artifact.tsx`</Step>
+
 <ComponentSource name="ai-artifact" title="components/ui/ai-artifact.tsx" />
 
-## 组件作用 · What it's for
+</Steps>
 
-`AiArtifact` 用于在 AI 对话或工作流中独立展示模型生成的代码文件、HTML 页面、SVG 图表或 React 组件原型。
+## 属性 Props
 
-### 适用场景
-- **AI 编码与原型生成**：类似 Claude Artifacts 或 v0，将生成的独立文件提取到卡片/侧边栏中渲染。
-- **代码与预览双模切换**：支持在一键切换源代码视图与真实 DOM 渲染预览。
-- **全屏聚焦与操作**：提供全屏沉浸预览、一键复制代码、下载等实用操作动作。
+### AiArtifact (根容器)
 
-### 何时不建议使用
-- 如果仅仅是普通问答中的短代码段，建议直接使用内联 Markdown 代码块，而非完整的 Artifact 容器。
+统筹当前激活的标签页、全屏状态与流式生成状态：
 
-## 组件属性 · Props
+<PropsTable
+  data={[
+    {
+      prop: "activeTab",
+      type: "string",
+      description: "受控模式下当前激活的标签页标识（如 `\"preview\"` 或 `\"code\"`）。",
+    },
+    {
+      prop: "defaultTab",
+      type: "string",
+      default: '"preview"',
+      description: "非受控模式下默认激活的标签页标识。",
+    },
+    {
+      prop: "onTabChange",
+      type: "(tab: string) => void",
+      description: "标签页发生切换时的回调函数。",
+    },
+    {
+      prop: "isFullscreen",
+      type: "boolean",
+      description: "受控模式下的全屏展开状态。",
+    },
+    {
+      prop: "defaultFullscreen",
+      type: "boolean",
+      default: "false",
+      description: "非受控模式下初始是否全屏呈现。",
+    },
+    {
+      prop: "onFullscreenChange",
+      type: "(fullscreen: boolean) => void",
+      description: "全屏状态切换时的回调函数。",
+    },
+    {
+      prop: "isStreaming",
+      type: "boolean",
+      default: "false",
+      description: "产物是否正处于大模型流式生成或热重载编译中。",
+    },
+    {
+      prop: "variant",
+      type: '"default" | "bordered" | "ghost"',
+      default: '"default"',
+      description: "外层卡片的边框与投影视觉风格。",
+    },
+  ]}
+/>
 
-<PropsTable name="ai-artifact" />
+### AiArtifactHeader / AiArtifactTitle
 
-## 事件 · Events
+<PropsTable
+  data={[
+    {
+      prop: "badge",
+      type: "React.ReactNode",
+      description: "渲染在标题右侧的文件类型或语言徽章（如 `<Badge>React</Badge>`）。",
+    },
+    {
+      prop: "icon",
+      type: "React.ReactNode",
+      description: "标题左侧自定义图标。生成中自动呈现呼吸微动效。",
+    },
+  ]}
+/>
 
-- `onTabChange?: (tab: string) => void`：当激活的标签页（如 "preview" 或 "code"）发生改变时触发。
-- `onFullscreenChange?: (fullscreen: boolean) => void`：当全屏状态切换时触发。
+### AiArtifactCopy (一键复制按钮)
 
-## 拓展使用 · Extended usage
+<PropsTable
+  data={[
+    {
+      prop: "content",
+      type: "string",
+      description: "需要复制到系统剪贴板的纯文本或代码字符串。",
+    },
+    {
+      prop: "onCopy",
+      type: "() => void",
+      description: "复制成功后的回调通知。",
+    },
+    {
+      prop: "label",
+      type: "string",
+      default: '"复制代码"',
+      description: "无障碍按钮标签与悬停提示文案。",
+    },
+  ]}
+/>
 
-`AiArtifact` 采用组合式设计，支持自由装配操作按钮与自定义 Tab 面板（例如 Console、Diff、Markdown 等视图）。
+### AiArtifactTabTrigger / AiArtifactPanel
+
+<PropsTable
+  data={[
+    {
+      prop: "value",
+      type: '"preview" | "code" | "console" | "diff" | string',
+      description: "当前标签页的唯一标识符，Trigger 与 Panel 需保持一致。",
+    },
+    {
+      prop: "icon",
+      type: "React.ReactNode",
+      description: "自定义标签页左侧图标。",
+    },
+  ]}
+/>
+
+### AiArtifactCode (代码展示面板)
+
+<PropsTable
+  data={[
+    {
+      prop: "code",
+      type: "string",
+      description: "源代码字符串内容。",
+    },
+    {
+      prop: "language",
+      type: "string",
+      description: "编程语言名称标识（如 `tsx`、`python`、`svg`），自动在右上角呈现语言徽标。",
+    },
+  ]}
+/>
+
+## 事件 Events
+
+<PropsTable
+  data={[
+    {
+      prop: "onTabChange",
+      type: "(tab: string) => void",
+      description: "用户在 Preview、Code、Console 之间切换时触发。",
+    },
+    {
+      prop: "onFullscreenChange",
+      type: "(fullscreen: boolean) => void",
+      description: "点击全屏切换按钮触发，返回最新的全屏布尔值。",
+    },
+    {
+      prop: "onCopy",
+      type: "() => void",
+      description: "用户成功复制代码内容时触发。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`AiArtifact` 用于将 AI 生成的长篇代码、交互式组件、SVG 图表、Markdown 文档或 HTML 原型提升为独立的工作区容器：
+
+- **何时使用**：
+  - 代码生成助手（类似 Claude Artifacts / v0 / Cursor Composer 产物面板）；
+  - 既需要查看完整源代码、又需要实时渲染交互式 UI 组件的场景；
+  - 带有运行日志、编译控制台或多文件切换的 AI 智能工作流。
+- **何时不应使用**：
+  - 对话中仅两三行的内联代码片段（建议直接使用标准 Markdown 代码块）；
+  - 静态只读文档展示。
+- **设计最佳实践**：
+  - **平滑切换动效**：标签页切换基于 Motion 弹性滑块 (`layoutId`)，视觉连贯高级；
+  - **全屏沉浸支持**：在复杂图表或仪表盘生成场景下，提供全屏查看按钮；
+  - **沙箱隔离安全性**：若在 Preview 中运行动态生成的外部 HTML/JS，请置于安全的 `iframe` 沙箱中执行。
+
+## 场景示例
+
+### 多标签多模态工作区 (Preview + Code + Console)
+
+展示包含真实数据仪表盘预览、TypeScript 源码面板与实时事件控制台的多标签产物：
+
+<ComponentPreview name="ai-artifact-multi" />
+
+## 无障碍与交互 Accessibility
+
+- **Tablist 规范 (WAI-ARIA Tabs)**：
+  - 标签栏挂载 `role="tablist"`，各触发按钮挂载 `role="tab"` 与 `aria-selected`；
+  - 内容面板挂载 `role="tabpanel"`，保证键盘与屏幕阅读器无障碍对应。
+- **全屏模态焦点管理**：
+  - 进入全屏模式后，高层级置顶并提供明显的退出全屏按钮；
+  - 复制成功后按钮具有明确的动效勾选与 `aria-label="已复制"` 提示。
+- **键盘导航支持**：
+  - <kbd>Tab</kbd> / <kbd>Shift</kbd> + <kbd>Tab</kbd>：在标签页与操作按钮之间轮转焦点；
+  - <kbd>Space</kbd> / <kbd>Enter</kbd>：激活选中的标签页或触发复制。

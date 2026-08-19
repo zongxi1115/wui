@@ -1,48 +1,170 @@
 ---
 title: 导航栏 Navbar
-description: 适用于页面顶部与应用左侧的可组合导航栏。
+description: 适用于页面全局顶部栏与应用级侧边抽屉栏的高可组合性导航组件，支持横向/纵向排版、折叠收起、二级悬浮子菜单及徽标标记。
 component: navbar
 ---
 
 ## 基础用法
 
+横向模式下的基础导航栏。组合品牌 Logo、主导航链接列表与右侧功能操作：
+
 <ComponentPreview name="navbar-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/navbar" />
 
+<Steps>
+
+<Step>安装基础依赖与图标库</Step>
+
+```bash
+pnpm add radix-ui class-variance-authority lucide-react clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/navbar.tsx`</Step>
+
 <ComponentSource name="navbar" title="components/ui/navbar.tsx" />
 
-## 使用场景
+</Steps>
 
-`Navbar` 用来承载应用的主要目的地、品牌入口和全局操作。横向布局适合页面顶部；当产品包含多个稳定模块，
-并且用户需要在模块之间持续切换时，使用纵向布局作为左侧导航。组件只负责布局和交互，不负责路由，当前页面应由业务层
-根据路由状态传入 `active`。
+## 属性 Props
 
-## 属性
+### Navbar (根组件)
 
-<PropsTable name="navbar" />
+<PropsTable
+  data={[
+    {
+      prop: "orientation",
+      type: '"horizontal" | "vertical"',
+      default: '"horizontal"',
+      description: "导航栏布局方向。'horizontal' 适合顶部导航；'vertical' 适合左侧全局侧栏。",
+    },
+    {
+      prop: "collapsed",
+      type: "boolean",
+      description: "纵向模式下导航栏的受控折叠收起状态（变为仅展示图标的紧凑图标栏）。",
+    },
+    {
+      prop: "defaultCollapsed",
+      type: "boolean",
+      default: "false",
+      description: "非受控模式下纵向导航栏的初始折叠状态。",
+    },
+    {
+      prop: "onCollapsedChange",
+      type: "(collapsed: boolean) => void",
+      description: "导航栏折叠与展开状态发生改变时的回调函数。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于导航栏外层容器的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-- `Navbar` 通过 `orientation="horizontal | vertical"` 控制整体方向。
-- 纵向模式支持 `collapsed`、`defaultCollapsed` 和 `onCollapsedChange`；`NavbarCollapseTrigger` 提供收起和展开按钮。
-- `NavbarLink` 支持 `active` 和 `asChild`，可组合 Next.js `Link` 或其他路由链接。
-- `NavbarHeader`、`NavbarContent`、`NavbarGroup` 和 `NavbarFooter` 用来划分品牌、导航、分组和底部操作区域。
-- `NavbarLabel` 只在纵向布局显示，适合给一组导航补充分组名称。
-- `NavbarSubmenu`、`NavbarSubmenuTrigger` 和 `NavbarSubmenuContent` 用于展示二级目的地。
-- `NavbarSubList` 与 `NavbarSubLink` 负责排列浮层中的二级链接。
+### NavbarLink
 
-## 事件
+<PropsTable
+  data={[
+    {
+      prop: "active",
+      type: "boolean",
+      default: "false",
+      description: "是否为当前高亮处于激活态的页面，开启后自动挂载 aria-current=\"page\"。",
+    },
+    {
+      prop: "asChild",
+      type: "boolean",
+      default: "false",
+      description: "启用后将样式与事件合并到底层唯一的子组件（如 Next.js `<Link>`）。",
+    },
+    {
+      prop: "href",
+      type: "string",
+      description: "链接的目标地址。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于链接项目的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-导航事件由 `NavbarLink` 渲染的原生链接或 `asChild` 子元素处理。当前页面会自动获得 `aria-current="page"`；
-路由跳转、埋点和权限判断应由业务层的链接或路由组件处理。键盘焦点沿用浏览器的链接与按钮顺序。
+### NavbarSubmenu / NavbarSubmenuTrigger / NavbarSubmenuContent
 
-## 扩展用法
+用于在纵向侧边栏或顶部导航中展开二级悬浮卡片菜单：
 
-### 全局左侧导航
+<PropsTable
+  data={[
+    {
+      prop: "sideOffset",
+      type: "number",
+      default: "8",
+      description: "子菜单浮层相对于触发项的像素偏移量。",
+    },
+    {
+      prop: "align",
+      type: '"start" | "center" | "end"',
+      default: '"start"',
+      description: "浮层沿对齐轴的对齐方式。",
+    },
+  ]}
+/>
+
+## 事件 Events
+
+<PropsTable
+  data={[
+    {
+      prop: "onCollapsedChange",
+      type: "(collapsed: boolean) => void",
+      description: "用户点击折叠切换按钮或通过外部控制触发宽度收起/展开时调用。",
+    },
+    {
+      prop: "onClick",
+      type: "(event: React.MouseEvent<HTMLAnchorElement>) => void",
+      description: "点击导航链接项时触发，常用于 SPA 路由拦截或数据埋点统计。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`Navbar` 用于承载应用的核心骨架导航体系：
+
+- **顶部横向导航（Horizontal Navbar）**：适合信息层级相对扁平、功能模块在 4~7 个以内的 SaaS 门户、营销官网、移动端 H5 顶部栏。
+- **左侧纵向侧栏（Vertical Sidebar）**：适合后台管理系统、云控制台、工作台等具备较多子模块、需要长期固定在屏幕左侧的复杂系统。
+- **收起状态下的可用性**：纵向导航收起时（Icon-only 模式），所有链接文本应通过 `NavbarLinkLabel` 自动隐藏，但必须通过 `title` 或 Tooltip 浮层提示当前图标的含义，不可造成认知盲区。
+- **单一激活原则**：在同一组导航列表中，在同一时刻应仅有一个 `NavbarLink` 设置为 `active={true}`。
+
+## 场景示例
+
+### 应用级顶部全局头栏
+
+集成工作区品牌切换、核心功能入口、搜索快捷键（⌘K）、消息通知红点与用户头像：
+
+<ComponentPreview name="navbar-app-header" />
+
+### 后台纵向侧栏与二级子菜单
+
+支持在纵向侧边栏中悬停弹出二级浮层子菜单，搭配折叠按钮与分组标签：
 
 <ComponentPreview name="navbar-vertical" />
 
-纵向布局适合后台、工作台和多模块工具。示例同时展示右侧浮入的二级导航和宽窄收起：指针悬停或键盘聚焦“项目”时，
-子栏目从侧栏右侧出现；收起后保留图标入口，并通过 `title` 或 `aria-label` 说明目的地。
+### 受控模式与折叠收起
 
-需要由页面布局保存收起状态时，传入 `collapsed` 和 `onCollapsedChange`；普通场景只放置 `NavbarCollapseTrigger` 即可使用内部状态。
-导航分组不宜过多，同一层级优先保持少量可见入口，避免把所有功能都塞进导航栏。
+通过 `collapsed` 和 `onCollapsedChange` 精确控制侧栏状态，适应多样化的屏幕响应式方案：
+
+<ComponentPreview name="navbar-controlled" />
+
+## 无障碍与交互 Accessibility
+
+- **地标 Landmark**：根组件自动渲染为 `<nav>` 元素，建议通过 `aria-label` 为其提供具有区分度的描述（如“主导航”、“侧边栏导航”）。
+- **当前页状态**：当 `NavbarLink` 设置 `active={true}` 时，组件自动挂载 `aria-current="page"`，以便读屏器在聚焦时向盲人用户播报“当前选中的页面”。
+- **折叠按钮无障碍文案**：`NavbarCollapseTrigger` 内置动态计算的 `aria-label`（“展开导航栏” / “收起导航栏”），支持键盘回车触发。
+- **动效降级**：宽度折叠平滑过渡动画支持系统的 `prefers-reduced-motion` 设置，开启后将立即跳变，防止晕动症。

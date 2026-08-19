@@ -1,8 +1,8 @@
 {
   "name": "message",
   "type": "registry:ui",
-  "title": "消息 Message",
-  "description": "用于在操作后提供短暂、轻量的全局反馈。",
+  "title": "全局提示 Message",
+  "description": "用于在用户操作后提供轻量、非阻塞的全局反馈通知，支持卡片堆叠队列、手势拖拽移除与流畅物理微动效。",
   "import": "import { MessageProvider, useMessage } from \"@/components/ui/message\"",
   "exports": [
     "MessageProvider",
@@ -141,12 +141,24 @@
       "title": "基础用法"
     },
     {
-      "name": "message-motion",
-      "title": "自定义透明度与动效"
+      "name": "message-positions",
+      "title": "弹出方位 (Positions)"
+    },
+    {
+      "name": "message-duration",
+      "title": "停留时长与异步加载 (Duration)"
     },
     {
       "name": "message-stack",
-      "title": "堆叠与拖动移除"
+      "title": "卡片堆叠与手势移除 (Stacked & Drag)"
+    },
+    {
+      "name": "message-motion",
+      "title": "自定义动效与透明度 (Motion & Opacity)"
+    },
+    {
+      "name": "message-business",
+      "title": "业务场景：复制密钥、上传同步与撤销操作"
     }
   ],
   "files": [

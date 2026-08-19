@@ -558,6 +558,87 @@
       ]
     },
     {
+      "name": "accordion",
+      "type": "registry:ui",
+      "title": "手风琴 Accordion",
+      "description": "用于在有限空间内组织多段相关信息的互斥或多开可折叠面板。",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "code-block",
+      "type": "registry:ui",
+      "title": "代码块 Code Block",
+      "description": "用于在页面中优雅展示结构化源代码的高亮容器，内置行号、高亮行与一键复制。",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "mention",
+      "type": "registry:ui",
+      "title": "提及输入 Mention",
+      "description": "用于协同评论、讨论区或 AI 输入框中键入 @、# 或 / 快速匹配并插入人员、话题或指令。",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "confetti",
+      "type": "registry:ui",
+      "title": "庆祝纸屑 Confetti",
+      "description": "用于在用户完成关键目标、解锁成就或支付成功时触发轻量高性能的 Canvas 粒子庆祝特效。",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "dock",
+      "type": "registry:ui",
+      "title": "悬浮底栏 Dock",
+      "description": "仿 macOS 风格的弹性放大底栏导航，随着鼠标经过产生丝滑的近邻放大动效。",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "radar-chart",
+      "type": "registry:component",
+      "title": "雷达图 Radar Chart",
+      "description": "用于在极坐标系上展示多维度能力评估、多系列性能对比或平衡指标的图表。",
+      "registryDependencies": [
+        "chart-core"
+      ]
+    },
+    {
+      "name": "heatmap",
+      "type": "registry:component",
+      "title": "热力图 Heatmap",
+      "description": "仿 GitHub 贡献日历风格的时间序列活跃度与活动密度热力矩阵图表。",
+      "registryDependencies": [
+        "chart-core"
+      ]
+    },
+    {
+      "name": "gauge-chart",
+      "type": "registry:component",
+      "title": "仪表盘 Gauge Chart",
+      "description": "用于直观展示单一核心指标的当前进度水平、负载状态与阈值区间的环形度量图表。",
+      "registryDependencies": [
+        "chart-core"
+      ]
+    },
+    {
+      "name": "funnel-chart",
+      "type": "registry:component",
+      "title": "漏斗图 Funnel Chart",
+      "description": "用于追踪多阶段业务流转、步骤转化率与流失率分布的漏斗图表。",
+      "registryDependencies": [
+        "chart-core"
+      ]
+    },
+    {
       "name": "popover",
       "type": "registry:ui",
       "title": "气泡浮层 Popover",

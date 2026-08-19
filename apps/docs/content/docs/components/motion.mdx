@@ -1,54 +1,160 @@
 ---
 title: 动效 Motion
-description: 基于 motion 构建的可选动画基础组件和预设库。
+description: 基于 Motion 构建的声明式动画包装组件与预设库，提供开箱即用的入场动效、视口触发与无障碍降级。
 component: motion
 ---
 
 ## 基础用法
 
+最简单的动效用法。将需要动画的元素包裹在 `Motion` 内即可在挂载时执行预设动画：
+
 <ComponentPreview name="motion-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/motion" />
 
+<Steps>
+
+<Step>安装动效依赖与工具库</Step>
+
+```bash
+pnpm add motion radix-ui
+```
+
+<Step>复制组件源码到 `components/ui/motion.tsx`</Step>
+
 <ComponentSource name="motion" title="components/ui/motion.tsx" />
 
-## 使用场景
+</Steps>
 
-`Motion` 是 wui 的可选动画层。你可以包裹任意内容，为其添加入场动画；也可以使用 `asChild` 为现有组件（如 `Button`）
-添加动画，而不增加额外包装节点。组件内置命名的 `presets` 和 `transitions`，用于保持应用中的动画风格一致。
-用户开启“减少动态效果”时会自动禁用动画。
+## 属性 Props
 
-由于 Motion 是独立的 registry 条目，不使用动画的组件不会引入相关依赖；只有需要动画时才会拉取 `motion`。
-
-## 属性
-
-<PropsTable name="motion" />
-
-它还接受 `motion.div` 的所有属性，例如 `whileHover`、`whileTap` 和 `style`。使用 `asChild` 时，子元素必须能接收 ref 和相关事件。
-
-## 事件
+`Motion` 接受以下预设与配置属性，并支持 `motion.div` 的全部动画属性（如 `whileHover`、`whileTap` 等）：
 
 <PropsTable
   data={[
-    { prop: "onAnimationStart", type: "(definition) => void", description: "动画开始时触发。" },
-    { prop: "onAnimationComplete", type: "(definition) => void", description: "动画结束时触发。" },
+    {
+      prop: "preset",
+      type: '"fade" | "scale" | "slide-up" | "slide-down" | "slide-left" | "slide-right" | "pop" | "blur"',
+      default: '"fade"',
+      description: "命名的入场动画预设，包含透明度、位移、缩放与高斯模糊等组合效果。",
+    },
+    {
+      prop: "transition",
+      type: '"smooth" | "spring" | "snappy" | Transition',
+      default: '"smooth"',
+      description: "过渡动画曲线预设，也可传入 Motion 原生的 Transition 自定义对象。",
+    },
+    {
+      prop: "delay",
+      type: "number",
+      default: "0",
+      description: "动画开始前的延迟等待时间（秒），常用于列表项的交错排队入场（Stagger）。",
+    },
+    {
+      prop: "inView",
+      type: "boolean",
+      default: "false",
+      description: "是否开启视口滚动触发。开启后仅当元素进入浏览器可视区域时才开始执行动画。",
+    },
+    {
+      prop: "once",
+      type: "boolean",
+      default: "true",
+      description: "配合 inView 使用。是否仅在首次进入视口时触发一次动画（避免上下反复滚动时重复闪烁）。",
+    },
+    {
+      prop: "asChild",
+      type: "boolean",
+      default: "false",
+      description: "是否将动画能力直接附加到唯一子元素上（基于 Radix Slot 与 motion.create），避免多余的 <div> 嵌套。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于外层容器的额外 CSS 类名。",
+    },
   ]}
 />
 
-## 扩展用法
+## 事件 Events
 
-### 动画预设
+`Motion` 透传底层 Motion 动画生命周期事件：
+
+<PropsTable
+  data={[
+    {
+      prop: "onAnimationStart",
+      type: "() => void",
+      description: "动画开始播放时触发。",
+    },
+    {
+      prop: "onAnimationComplete",
+      type: "(definition: string | TargetAndTransition) => void",
+      description: "动画播放结束到达目标状态后触发。",
+    },
+    {
+      prop: "onViewportEnter",
+      type: "() => void",
+      description: "配合 inView 使用，当元素进入视口可见范围时触发。",
+    },
+    {
+      prop: "onViewportLeave",
+      type: "() => void",
+      description: "配合 inView 使用，当元素滚出视口可见范围时触发。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`Motion` 旨在为应用提供**统一且可控**的微动效系统，避免各页面各组件中随意编写杂乱生硬的 CSS Keyframes。
+
+- **按需增强与体验克制**：
+  - 入场动效应该“润物细无声”，推荐位移距离控制在 `12px` 以内、时长控制在 `200ms~400ms` 之间。
+  - 避免在用户高频操作（如快速切换 Tab、表格分页切换）中加入冗长动效，这会增加用户的等待感知。
+- **交错动画（Staggering）**：
+  - 渲染列表、数据卡片网格或时间线时，通过为每一项增加递增的 `delay={index * 0.08}`，营造富有秩序感的连贯登场体验。
+- **DOM 结构精简**：
+  - 当需要给现有组件（如 `Button`、`Card`）增加入场动效时，优先使用 `asChild` 属性，保持语义结构扁平干净。
+
+## 场景示例
+
+### 动画预设库（Presets）
+
+内置 8 种精调的入场动效方案，覆盖绝大部分界面动画需求：
 
 <ComponentPreview name="motion-presets" />
 
-### 滚动进入视口时播放（`inView`）
+- `fade`：纯透明度淡入，通用稳妥。
+- `scale`：轻微缩放放大淡入，适合弹窗、下拉菜单。
+- `slide-up` / `slide-down`：垂直方向轻微位移滑入，适合卡片与列表。
+- `slide-left` / `slide-right`：水平方向滑入，适合侧边抽屉或向导流程。
+- `pop`：弹性质感缩放，适合徽标或重点提示。
+- `blur`：高斯模糊消散淡入，呈现现代质感。
+
+### 列表交错排队入场（Stagger）
+
+结合 `delay` 属性实现列表卡片从上至下的自然交错进场：
+
+<ComponentPreview name="motion-stagger-list" />
+
+### 视口滚动监听（inView）
+
+当页面较长时，配置 `inView` 让下方内容在滚动至用户屏幕内时才触发动画：
 
 <ComponentPreview name="motion-in-view" />
 
-### 为现有组件添加动画（`asChild`）
+### 零额外 DOM 包装（asChild）
+
+使用 `asChild` 可以将动效直接注入给子组件，无需产生多余的 `<div>`：
 
 <ComponentPreview name="motion-as-child" />
 
-<Callout title="减少动态效果">
-  `Motion` 会读取 `prefers-reduced-motion`，当用户要求减少动态效果时静态渲染子元素，无需额外处理。
-</Callout>
+## 无障碍与交互 Accessibility
+
+- **自动无障碍降级**：`Motion` 内部深度集成了 `useReducedMotion` 钩子。当用户系统开启了“减少动态效果（prefers-reduced-motion）”时，组件将直接以最终可见状态（Static Visible）渲染，不执行任何透明度或位移变换，彻底避免晕动症风险。
+- **子元素焦点与事件保留**：使用 `asChild` 时，子组件的原生事件、键盘 Tab 导航与 Focus Ring 均能完美透传，不破坏原有的可访问性树结构。

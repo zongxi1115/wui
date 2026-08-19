@@ -2,7 +2,7 @@
   "name": "checkbox",
   "type": "registry:ui",
   "title": "多选框 Checkbox",
-  "description": "支持选中、未选中与不确定状态的多选控件。",
+  "description": "支持选中、未选中与半选（不确定）状态的交互式多选控件，内置平滑勾选微动效与完整的键盘无障碍能力。",
   "import": "import { Checkbox, checkboxVariants } from \"@/components/ui/checkbox\"",
   "exports": [
     "Checkbox",
@@ -52,11 +52,38 @@
       "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
     }
   ],
-  "events": "`onCheckedChange(checked)` 在状态变化后触发，值可能是 `true`、`false` 或 `\"indeterminate\"`。受控用法下，\n回调需要同步更新 `checked`，否则点击后界面不会保持新状态。其余键盘、焦点与表单属性会透传到底层 Radix Root。",
   "examples": [
     {
       "name": "checkbox-demo",
       "title": "基础用法"
+    },
+    {
+      "name": "checkbox-controlled",
+      "title": "受控模式"
+    },
+    {
+      "name": "checkbox-sizes",
+      "title": "尺寸"
+    },
+    {
+      "name": "checkbox-with-label",
+      "title": "带标签与描述"
+    },
+    {
+      "name": "checkbox-indeterminate",
+      "title": "半选与全选联动 (Indeterminate)"
+    },
+    {
+      "name": "checkbox-disabled",
+      "title": "禁用状态"
+    },
+    {
+      "name": "checkbox-card-group",
+      "title": "多选卡片组"
+    },
+    {
+      "name": "checkbox-form",
+      "title": "表单校验与错误状态"
     }
   ],
   "files": [

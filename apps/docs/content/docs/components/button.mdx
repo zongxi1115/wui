@@ -1,115 +1,210 @@
 ---
 title: 按钮 Button
-description: 显示一个按钮，或显示一个外观类似按钮的组件。
+description: 用于触发即时操作、提交表单或进行页面跳转的基础交互组件，支持多种语义变体、尺寸密度以及可选的微动效与涟漪反馈。
 component: button
 ---
 
 ## 基础用法
 
+最简单的按钮形态。点击即可触发绑定的操作事件：
+
 <ComponentPreview name="button-demo" />
 
-安装组件：
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/button" />
 
 <Steps>
 
-<Step>安装依赖</Step>
+<Step>安装基础依赖与动效库</Step>
 
 ```bash
-pnpm add radix-ui class-variance-authority clsx tailwind-merge
+pnpm add radix-ui motion class-variance-authority clsx tailwind-merge
 ```
 
-<Step>添加 `cn` 工具函数，并将源码复制到 `components/ui/button.tsx`</Step>
+<Step>复制组件源码到 `components/ui/button.tsx`</Step>
 
 <ComponentSource name="button" title="components/ui/button.tsx" />
 
 </Steps>
 
-## 使用场景
+## 属性 Props
 
-`Button` 用来触发一个明确的操作，例如提交表单、打开对话框、保存内容或确认选择。按钮文案应直接说明
-点击后会发生什么，优先使用“保存”“删除”“添加成员”这类动词，而不是“确定”或“点击这里”。
-
-- 页面跳转应使用真实链接：可以选择 `link` 变体，或通过 `asChild` 组合 `<a>` / 路由链接。
-- 删除、移除等不可逆操作使用 `variant="destructive"`，并在按钮附近说明影响范围。
-- 只显示图标时使用 `size="icon"`，同时提供 `aria-label`；图标只是装饰时，不要让它承担按钮名称。
-- 提交请求期间使用加载状态并暂时阻止重复提交，完成后再恢复按钮操作。
-
-## 交互演示
-
-调整属性即可实时查看按钮变化。下方控件和属性表均根据组件的 TypeScript 类型与文档注释自动生成。
-
-<Playground name="button" exclude={["asChild"]} />
-
-## 属性
-
-`Button` 继承原生 `<button>` 的全部属性，并额外提供：
-
-<PropsTable name="button" />
-
-## 事件
-
-`Button` 会将 `{...props}` 展开到底层元素，因此支持所有原生按钮事件。
+`Button` 支持以下配置属性，并继承原生 `<button>` 的全部 HTML 属性：
 
 <PropsTable
   data={[
-    { prop: "onClick", type: "(event: React.MouseEvent<HTMLButtonElement>) => void", description: "通过鼠标、键盘或触摸激活按钮时触发。" },
-    { prop: "onFocus / onBlur", type: "(event: React.FocusEvent<HTMLButtonElement>) => void", description: "焦点进入和离开事件。" },
-    { prop: "type", type: '"button" | "submit" | "reset"', default: '"button"', description: "按钮在表单中的行为；设为 submit 可提交表单。" },
+    {
+      prop: "variant",
+      type: '"default" | "secondary" | "destructive" | "outline" | "ghost" | "link"',
+      default: '"default"',
+      description: "按钮的视觉形态与语义层级。",
+    },
+    {
+      prop: "size",
+      type: '"default" | "sm" | "lg" | "icon"',
+      default: '"default"',
+      description: "按钮的尺寸与内边距预设。纯图标按钮请使用 icon 尺寸。",
+    },
+    {
+      prop: "asChild",
+      type: "boolean",
+      default: "false",
+      description: "是否将样式与属性合并到唯一子元素（基于 Radix Slot，常用于包裹 <a> 或路由 Link 组件）。",
+    },
+    {
+      prop: "motion",
+      type: "boolean",
+      default: "false",
+      description: "是否开启轻微的物理弹簧悬停与按压缩放微动效。系统开启减少动态效果时自动降级。",
+    },
+    {
+      prop: "ripple",
+      type: "boolean",
+      default: "false",
+      description: "是否开启从光标点击坐标向外扩散的 Material 风格涟漪动效。支持与 motion 组合使用。",
+    },
+    {
+      prop: "disabled",
+      type: "boolean",
+      default: "false",
+      description: "是否禁用按钮，处于禁用状态时无法被点击或通过键盘获得焦点。",
+    },
+    {
+      prop: "type",
+      type: '"button" | "submit" | "reset"',
+      default: '"button"',
+      description: "原生表单按钮类型。在表单中提交请显式声明为 submit。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于按钮容器的额外 CSS 类名。",
+    },
   ]}
 />
 
-<Callout title="asChild 会改变底层元素">
-  启用 `asChild` 后，事件会绑定到你渲染的子元素（例如 `<a>`），而不是 `<button>`。
-</Callout>
+## 事件 Events
 
-## 扩展用法
+`Button` 支持原生按钮的所有事件回调函数，并通过属性解构直接透传至底层元素：
 
-### 变体
+<PropsTable
+  data={[
+    {
+      prop: "onClick",
+      type: "(event: React.MouseEvent<HTMLButtonElement>) => void",
+      description: "用户通过鼠标点击、触摸屏幕或使用键盘（Enter / Space）激活按钮时触发。",
+    },
+    {
+      prop: "onFocus",
+      type: "(event: React.FocusEvent<HTMLButtonElement>) => void",
+      description: "按钮获得焦点时触发。",
+    },
+    {
+      prop: "onBlur",
+      type: "(event: React.FocusEvent<HTMLButtonElement>) => void",
+      description: "按钮失去焦点时触发。",
+    },
+    {
+      prop: "onKeyDown",
+      type: "(event: React.KeyboardEvent<HTMLButtonElement>) => void",
+      description: "按钮处于焦点状态下按下键盘按键时触发。",
+    },
+    {
+      prop: "onPointerDown",
+      type: "(event: React.PointerEvent<HTMLButtonElement>) => void",
+      description: "指针按下按钮表面时触发，可用于捕获涟漪起始位置或手势交互。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`Button` 用于表达明确的意图与行为，例如提交表单、打开模态框、导出数据或保存配置。
+
+- **视觉层级与操作主次**：
+  - **主要操作（Default）**：一个操作区域或页面内通常只保留一个主按钮（Primary），用于引导用户完成核心路径。
+  - **次要操作（Secondary / Outline）**：用于“取消”、“重置”或辅助性配置，降低视觉争抢。
+  - **危险操作（Destructive）**：删除、清空、注销等不可逆行为，必须使用高警示度的破坏性变体，并推荐配合确认弹窗二次校验。
+  - **幽灵与链接（Ghost / Link）**：用于工具栏、卡片内部快捷操作或行内导航，避免过多实体框造成的界面杂乱。
+- **动词导向文案**：按钮文案应精准描述点击后的结果，优先使用“创建工作区”、“保存草稿”、“导出报表”等动作性词汇，避免使用含糊的“确定”、“点击这里”。
+- **图标辅助与纯图标无障碍**：
+  - 图标与文案并存时，图标应放置在文字左侧（起强调或类型区分作用）或右侧（如箭头指示跳转）。
+  - 当使用 `size="icon"` 仅渲染图标时，**必须**显式指定 `aria-label` 属性以保证屏幕阅读器能够识别操作意图。
+- **异步操作防护**：发起网络请求期间，应切换为加载（Loading）状态并禁用交互，防止用户快速重复点击造成多次请求提交。
+
+## 场景示例
+
+### 视觉变体
+
+组件内置 6 种语义化变体，满足不同场景下的视觉层级划分：
 
 <ComponentPreview name="button-variants" />
 
-### 尺寸
+### 尺寸密度
+
+提供 `sm`（紧凑）、`default`（标准）、`lg`（突出）与 `icon`（等宽高纯图标）4 种尺寸预设：
 
 <ComponentPreview name="button-sizes" />
 
 ### 搭配图标
 
+内置的 SVG 样式规则会自动规范图标大小与间距，保持与文字的完美基线对齐：
+
 <ComponentPreview name="button-with-icon" />
 
-### 加载状态
+### 异步请求与加载反馈
+
+在执行耗时操作（如数据提交、云端同步）时，展示加载状态并禁用二次点击：
+
+<ComponentPreview name="button-async-action" />
 
 <ComponentPreview name="button-loading" />
 
-### 链接变体（动态下划线）
+### 动态下划线链接
 
-`link` 变体会在悬停时让下划线滑入，并同步平滑改变文字颜色，无需额外配置。下划线紧贴文字标签
-而不是按钮的内边距边界，因此在任何 `size` 下都能保持合适的视觉效果。
+`variant="link"` 在悬停时拥有平滑滑入的动态下划线，且下划线紧贴文字长度，不会受按钮外层内边距影响：
 
 <ComponentPreview name="button-link" />
 
-<Callout title="通过 asChild 渲染链接">
-  使用 `asChild` 渲染真实链接时，按钮会将元素控制权交给子元素，包裹标签的下划线动画无法应用，
-  因此 `link` 变体会回退为普通的 `hover:underline`。如有需要，请直接在 `<a>` 上添加动画样式。
-</Callout>
+### 语义化跳转（asChild）
 
-### 作为链接（`asChild`）
-
-将 `asChild` 与链接元素组合，可以保留链接的跳转语义，同时复用按钮的视觉样式：
+通过 `asChild` 属性将按钮外观和状态委托给子元素（如 Next.js 的 `<Link>` 或原生的 `<a>`），保留原生超链接的 SEO 权重与中键新标签页打开能力：
 
 <ComponentPreview name="button-as-child" />
 
-### 动效（可选）
+```tsx
+import Link from "next/link"
+import { Button } from "@/registry/ui/button"
 
-设置 `motion` 属性可以启用轻微的按压和悬停反馈。该功能依赖
-[`motion`](/docs/components/motion)，并会在用户开启“减少动态效果”后自动关闭。
+export function NavLink() {
+  return (
+    <Button asChild variant="outline">
+      <Link href="/dashboard">进入控制台</Link>
+    </Button>
+  )
+}
+```
+
+### 微交互与物理弹簧（motion）
+
+开启 `motion` 属性后，按钮在悬停与按压时会产生基于物理弹簧的丝滑缩放动效：
 
 <ComponentPreview name="button-motion" />
 
-### 涟漪（可选）
+### 坐标扩散涟漪（ripple）
 
-设置 `ripple` 属性可以启用从指针位置向外扩散的点击反馈。它可以与 `motion` 同时使用；
-用户开启 `prefers-reduced-motion` 时不会播放动画。使用 `asChild` 时，涟漪效果不会生效。
+开启 `ripple` 属性后，点击时会根据光标所在坐标向外扩散波纹动效，增强触控与点击反馈：
 
 <ComponentPreview name="button-ripple" />
+
+## 无障碍与交互 Accessibility
+
+- **语义化标签**：标准模式下渲染语义化的 `<button>` 元素；使用 `asChild` 时将属性安全合并至子节点。
+- **键盘导航**：
+  - <kbd>Tab</kbd>：按 DOM 顺序聚焦至按钮，展示清晰的高对比度外发光焦点轮廓（Focus Ring）。
+  - <kbd>Enter</kbd> / <kbd>Space</kbd>：触发按钮的点击操作。
+- **动效降级**：内置的 `motion` 弹簧缩放与 `ripple` 涟漪动画均自动监听系统 `prefers-reduced-motion`。当用户开启减少动态效果时，动效层自动关闭，确保舒适无干扰的交互。
+- **纯图标可访问性**：纯图标按钮必须配置 `aria-label="操作描述"`，确保屏幕阅读器用户能明确按钮用途。

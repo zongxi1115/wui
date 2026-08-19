@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { Popover as PopoverPrimitive } from "radix-ui"
+import { cva } from "class-variance-authority"
 
 import { cn } from "@/registry/lib/utils"
 
@@ -26,6 +27,22 @@ interface HsvColor {
 }
 
 type PickerMode = "rgb" | "oklch"
+
+const colorPickerTriggerVariants = cva(
+  "relative shrink-0 overflow-hidden rounded-md border border-input bg-background p-1 shadow-xs outline-none transition-[border-color,box-shadow] focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/30 disabled:pointer-events-none disabled:opacity-50",
+  {
+    variants: {
+      size: {
+        sm: "size-8",
+        default: "size-9",
+        lg: "size-11",
+      },
+    },
+    defaultVariants: {
+      size: "default",
+    },
+  }
+)
 
 const defaultSwatches = [
   "oklch(0.546 0.245 262.881)", // wui-token-audit-allow -- picker color data
@@ -59,6 +76,26 @@ function parseColorValue(value: string): OklchColor | null {
     hue: ((Number(match[4]) % 360) + 360) % 360,
     alpha: clamp(alpha, 0, 1),
   }
+}
+
+function parseHexValue(value: string): RgbColor | null {
+  const hex = value.trim().replace(/^#/, "")
+  if (!/^(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/.test(hex)) {
+    return null
+  }
+  let r = 0, g = 0, b = 0, a = 1
+  if (hex.length === 3 || hex.length === 4) {
+    r = parseInt(hex[0] + hex[0], 16)
+    g = parseInt(hex[1] + hex[1], 16)
+    b = parseInt(hex[2] + hex[2], 16)
+    if (hex.length === 4) a = parseInt(hex[3] + hex[3], 16) / 255
+  } else {
+    r = parseInt(hex.slice(0, 2), 16)
+    g = parseInt(hex.slice(2, 4), 16)
+    b = parseInt(hex.slice(4, 6), 16)
+    if (hex.length === 8) a = parseInt(hex.slice(6, 8), 16) / 255
+  }
+  return { red: r, green: g, blue: b, alpha: a }
 }
 
 function formatNumber(value: number, digits = 3) {
@@ -223,34 +260,39 @@ function hsvToChannels(color: HsvColor, alpha: number): RgbColor {
 }
 
 export interface ColorPickerProps {
-  /** CSS OKLCH color value. */
+  /** CSS 颜色值（支持 OKLCH、RGB/RGBA 或 HEX 十六进制代码）。 */
   value: string
-  /** Called continuously while a channel or exact value changes. */
+  /** 颜色通道或精确值改变时连续触发的回调函数。 */
   onValueChange: (value: string) => void
-  /** Accessible name for the trigger. */
+  /** 触发器按钮的可访问性无障碍名称。@default "选择颜色" */
   label?: string
-  /** Show the alpha channel control. @default true */
+  /** 是否展示透明度（Alpha）通道滑块。@default true */
   showAlpha?: boolean
-  /** Quick-pick OKLCH swatches. */
+  /** 快速拾取的常用色板数组。 */
   swatches?: string[]
+  /** 触发器尺寸密度。@default "default" */
+  size?: "sm" | "default" | "lg"
+  /** 应用于触发器按钮的额外类名。 */
   className?: string
+  /** 是否禁用颜色选择器。 */
   disabled?: boolean
 }
 
-/** An OKLCH color picker with perceptual channel controls and exact CSS input. */
+/** 具备感知色彩空间（OKLCH）通道微调与精确 CSS 源码输入的颜色选择器。 */
 function ColorPicker({
   value,
   onValueChange,
   label = "选择颜色",
   showAlpha = true,
   swatches = defaultSwatches,
+  size = "default",
   className,
   disabled,
 }: ColorPickerProps) {
   const [open, setOpen] = React.useState(false)
   const [mode, setMode] = React.useState<PickerMode>("rgb")
   const parsedPerceptual = parseColorValue(value)
-  const parsedRgb = parseRgbValue(value)
+  const parsedRgb = parseRgbValue(value) ?? parseHexValue(value)
   const color =
     parsedPerceptual ??
     (parsedRgb ? rgbToPerceptual(parsedRgb) : null) ?? {
@@ -309,10 +351,7 @@ function ColorPicker({
           type="button"
           aria-label={label}
           disabled={disabled}
-          className={cn(
-            "relative size-9 shrink-0 overflow-hidden rounded-md border border-input bg-background p-1 shadow-xs outline-none transition-[border-color,box-shadow] focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/30 disabled:pointer-events-none disabled:opacity-50",
-            className
-          )}
+          className={cn(colorPickerTriggerVariants({ size }), className)}
         >
           <span
             className="block size-full rounded-sm border border-border/60"
@@ -642,4 +681,4 @@ function RgbChannel({
   )
 }
 
-export { ColorPicker, formatColorValue, parseColorValue }
+export { ColorPicker, colorPickerTriggerVariants, formatColorValue, parseColorValue, parseHexValue }

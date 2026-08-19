@@ -1,0 +1,76 @@
+{
+  "name": "accordion",
+  "type": "registry:ui",
+  "title": "手风琴 Accordion",
+  "description": "用于在有限空间内组织多段相关信息的互斥或多开可折叠面板。",
+  "categories": [
+    "general",
+    "layout"
+  ],
+  "import": "import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, accordionVariants } from \"@/components/ui/accordion\"",
+  "exports": [
+    "Accordion",
+    "AccordionContent",
+    "AccordionItem",
+    "AccordionTrigger",
+    "accordionVariants"
+  ],
+  "typeExports": [
+    "AccordionContentProps",
+    "AccordionItemProps",
+    "AccordionProps",
+    "AccordionTriggerProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/accordion",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/accordion.json",
+    "npmDependencies": [
+      "radix-ui",
+      "class-variance-authority",
+      "lucide-react"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "Whether or not an accordion is disabled from user interaction.\n是否禁用整个手风琴组件的所有交互。\n@defaultValue false"
+    },
+    {
+      "name": "asChild",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "是否将属性传递给子元素渲染。"
+    },
+    {
+      "name": "variant",
+      "type": "\"default\" | \"bordered\" | \"separated\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "default",
+        "bordered",
+        "separated"
+      ],
+      "defaultValue": "default",
+      "description": "手风琴的外观样式变体。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "accordion-demo",
+      "title": "基础示例 · Basic example"
+    }
+  ],
+  "files": [
+    "registry/ui/accordion.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/accordion",
+  "sourceUrl": "https://ui.wzx.wang/r/accordion.json"
+}

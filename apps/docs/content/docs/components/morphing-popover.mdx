@@ -1,39 +1,148 @@
 ---
-title: 形变弹出框 Morphing Popover
-description: 从触发器原位展开成轻量交互面板的弹出层。
+title: 形变气泡卡片 Morphing Popover
+description: 将紧凑型按钮原地扩展为轻量级表单、快捷输入框或上下文操作浮层的形变交互组件。
 component: morphing-popover
 ---
 
 ## 基础用法
 
+点击触发按钮，按钮外层形状直接展开为原地承载输入框与操作按钮的气泡卡片：
+
 <ComponentPreview name="morphing-popover-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/morphing-popover" />
 
-<ComponentSource
-  name="morphing-popover"
-  title="components/ui/morphing-popover.tsx"
+<Steps>
+
+<Step>安装基础依赖与动效库</Step>
+
+```bash
+pnpm add radix-ui motion lucide-react class-variance-authority clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/morphing-popover.tsx`</Step>
+
+<ComponentSource name="morphing-popover" title="components/ui/morphing-popover.tsx" />
+
+</Steps>
+
+## 属性 Props
+
+### MorphingPopover
+
+<PropsTable
+  data={[
+    {
+      prop: "open",
+      type: "boolean",
+      description: "受控模式下气泡的打开状态。",
+    },
+    {
+      prop: "defaultOpen",
+      type: "boolean",
+      default: "false",
+      description: "非受控模式下气泡的初始打开状态。",
+    },
+    {
+      prop: "onOpenChange",
+      type: "(open: boolean) => void",
+      description: "气泡展开或收起状态变化时的回调函数。",
+    },
+    {
+      prop: "transition",
+      type: "Transition",
+      default: '{ type: "spring", stiffness: 460, damping: 36, mass: 0.65 }',
+      description: "原地形变过渡使用的 Motion 弹簧动画配置。",
+    },
+    {
+      prop: "variants",
+      type: "Variants",
+      description: "气泡内部子内容在进场与离场阶段的渐变或位移变体。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于外层定位容器的额外 CSS 类名。",
+    },
+  ]}
 />
 
-## 使用场景
+### MorphingPopoverTrigger
 
-`MorphingPopover` 让触发器的背景表面自然扩展为锚定面板，适合快速编辑、筛选器、简短表单和上下文操作。
-它不会像 Dialog 一样阻断页面其他区域，因此不适合必须完成或明确取消的关键流程。
+<PropsTable
+  data={[
+    {
+      prop: "asChild",
+      type: "boolean",
+      default: "false",
+      description: "是否将点击触发行为合并到子元素上。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于触发器按钮的样式类名。",
+    },
+  ]}
+/>
 
-面板与触发器处在同一个相对定位容器内，因此共享布局始终使用同一套坐标，不会受到 Portal 浮动定位的临时 transform 干扰。
-组件支持点击外部关闭、`Esc` 和焦点归还。
+### MorphingPopoverContent
 
-## 属性
+<PropsTable
+  data={[
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于展开后气泡卡片表面的 CSS 类名。",
+    },
+    {
+      prop: "children",
+      type: "React.ReactNode",
+      description: "展开后呈现的表单、操作列表或文字内容。",
+    },
+  ]}
+/>
 
-<PropsTable name="morphing-popover" />
+## 事件 Events
 
-`MorphingPopoverContent` 接受 Motion `div` 的属性，`className` 用于设置展开后面板的尺寸和外观。面板默认以触发器中心为形变原点。
+<PropsTable
+  data={[
+    {
+      prop: "onOpenChange",
+      type: "(open: boolean) => void",
+      description: "当气泡展开、点击外部空白区域或按下 Escape 键时触发，返回最新的打开状态。",
+    },
+    {
+      prop: "onClick",
+      type: "(event: React.MouseEvent) => void",
+      description: "点击触发按钮或关闭按钮时触发的常规鼠标事件。",
+    },
+  ]}
+/>
 
-## 事件
+## 使用场景与设计规范
 
-`onOpenChange(open)` 在打开状态变化时调用。受控模式使用 `open`，非受控模式使用 `defaultOpen`；受控模式下要在回调中同步更新 `open`。
+`MorphingPopover` 适用于**低摩擦的行内快速操作（In-situ Action）**：
 
-## 扩展用法
+- **快速反馈与便签**：如点击“快速反馈”直接原地展开文本域与发送按钮，无需打断用户视线跳转全屏弹窗。
+- **微型过滤与快捷搜索**：在紧凑工具栏中，将小图标按钮展开为带有输入框的筛选框。
+- **比标准 Popover 更具实体感**：标准 Popover 通常是从上方或下方弹出的新图层，而 `MorphingPopover` 则是原有按钮物理延展的物理直觉。
 
-通过根组件的 `transition` 调整形变手感，通过 `variants` 自定义内部内容的出现方式。对于尺寸差异特别大的触发器和面板，
-应保持较高的弹簧阻尼，避免边缘过度回弹。
+## 场景示例
+
+### 快捷反馈卡片
+
+将轻量反馈入口按钮原地变形为带提交验证的表单卡片：
+
+<ComponentPreview name="morphing-popover-form" />
+
+## 无障碍与交互 Accessibility
+
+- **自动聚焦**：当气泡展开时，组件会自动寻找内部首个 `autofocus`、`textarea`、`input` 或 `button` 并将焦点转移至该元素。
+- **快捷键**：
+  - <kbd>Esc</kbd>：快速收起当前气泡卡片，并将焦点安全归还到原触发按钮。
+- **指针外侧点击检测**：点击页面其他区域（Outside Click）会自动触发平滑收起。
+- **动效降级**：在 `prefers-reduced-motion: reduce` 环境下，跳过物理形变过程直接呈现。

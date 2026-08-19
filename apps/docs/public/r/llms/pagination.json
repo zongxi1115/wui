@@ -2,7 +2,7 @@
   "name": "pagination",
   "type": "registry:ui",
   "title": "分页 Pagination",
-  "description": "在分页数据之间导航，并清晰标记当前页和省略的页码区间。",
+  "description": "用于在海量数据或长列表中实现按页加载与分段导航，清晰传达当前页码、总页数及折叠区间。",
   "categories": [
     "navigation"
   ],
@@ -38,8 +38,16 @@
       "title": "基础用法"
     },
     {
+      "name": "pagination-table",
+      "title": "完整业务表格分页条"
+    },
+    {
       "name": "pagination-advanced",
-      "title": "受控页码与省略项"
+      "title": "受控模式与翻页回调"
+    },
+    {
+      "name": "pagination-sizes",
+      "title": "尺寸预设"
     }
   ],
   "files": [

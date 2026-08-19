@@ -1,8 +1,8 @@
 {
   "name": "parallax",
   "type": "registry:ui",
-  "title": "视差 Parallax",
-  "description": "让内容层在经过视口时以不同速度平移或缩放。",
+  "title": "视差滚动 Parallax",
+  "description": "依据页面或局部容器滚动进度，以差异化速率与缩放变换驱动图层位移的深度空间视觉组件。",
   "categories": [
     "scroll",
     "motion"
@@ -75,11 +75,14 @@
       "description": "包装容器使用的 Motion 滚动偏移范围。"
     }
   ],
-  "usage": "图片内层视差应把 `Parallax` 放在 `overflow-hidden` 的固定画框内，并给内容预留超出画框的尺寸。建议从 `[-32, 32]`\n到 `[-72, 72]` 的小范围开始；移动距离过大会让内容显得脱离布局或被裁切。用户开启“减少动态效果”后内容保持静止。",
   "examples": [
     {
       "name": "parallax-demo",
       "title": "基础用法"
+    },
+    {
+      "name": "parallax-scale",
+      "title": "深度缩放视差"
     }
   ],
   "files": [

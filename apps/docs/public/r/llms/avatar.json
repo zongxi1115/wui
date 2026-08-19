@@ -2,7 +2,7 @@
   "name": "avatar",
   "type": "registry:ui",
   "title": "头像 Avatar",
-  "description": "带图片回退、在线状态和头像组的通用身份组件。",
+  "description": "用于展示用户、团队或机器人身份的图形元素，内置图片加载回退、在线状态徽章与多头像重叠组能力。",
   "import": "import { Avatar, AvatarBadge, AvatarFallback, AvatarGroup, AvatarGroupCount, AvatarImage, avatarBadgeVariants, avatarVariants } from \"@/components/ui/avatar\"",
   "exports": [
     "Avatar",
@@ -53,15 +53,30 @@
       "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
     }
   ],
-  "events": "`AvatarImage` 会透传图片的加载事件和 `ref`；`Avatar`、`AvatarFallback` 以及分组部件会透传对应原生元素属性。\n在线状态由业务层传给 `AvatarBadge status`，组件不会请求接口或自行轮询用户状态。",
   "examples": [
     {
       "name": "avatar-demo",
       "title": "基础用法"
     },
     {
+      "name": "avatar-sizes",
+      "title": "尺寸规格"
+    },
+    {
+      "name": "avatar-status",
+      "title": "在线状态指示"
+    },
+    {
+      "name": "avatar-fallback",
+      "title": "回退策略与自定义占位"
+    },
+    {
       "name": "avatar-group",
-      "title": "头像组"
+      "title": "头像重叠组 (AvatarGroup)"
+    },
+    {
+      "name": "avatar-business",
+      "title": "业务场景：协作者管理面板"
     }
   ],
   "files": [

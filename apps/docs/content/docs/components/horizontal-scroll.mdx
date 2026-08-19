@@ -1,32 +1,101 @@
 ---
-title: 横向滚动区块 Horizontal Scroll
-description: 将垂直滚动距离映射为钉住内容轨道的水平移动。
+title: 横向滚动转换 Horizontal Scroll
+description: 将用户的垂直滚动行为（Page Scroll）无缝映射并锁定转换为宽画幅横向轨道平移的视差布局组件。
 component: horizontal-scroll
 ---
 
 ## 基础用法
 
+随着用户向下滚动，页面在当前区域自动停靠（Pinning），并将滚动距离等比转换为横向卡片轨道的平滑位移：
+
 <ComponentPreview name="horizontal-scroll-demo" />
 
-<DependencyBadges packages={["motion"]} />
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/horizontal-scroll" />
 
-<ComponentSource
-  name="horizontal-scroll"
-  title="components/ui/horizontal-scroll.tsx"
+<Steps>
+
+<Step>安装基础依赖与动效库</Step>
+
+```bash
+pnpm add motion lucide-react class-variance-authority clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/horizontal-scroll.tsx`</Step>
+
+<ComponentSource name="horizontal-scroll" title="components/ui/horizontal-scroll.tsx" />
+
+</Steps>
+
+## 属性 Props
+
+<PropsTable
+  data={[
+    {
+      prop: "children",
+      type: "React.ReactNode",
+      description: "在横向轨道中排布的宽幅卡片、案例展示块或分段时间线内容。",
+    },
+    {
+      prop: "container",
+      type: "React.RefObject<HTMLElement | null>",
+      description: "局部可滚动容器的 ref 引用。若在整个页面中使用则无需传递该属性。",
+    },
+    {
+      prop: "scrollPadding",
+      type: "number",
+      default: "0",
+      description: "额外附加的垂直虚拟滚动距离（像素），用于在横向轨道滚动完毕后增加停留缓冲时间。",
+    },
+    {
+      prop: "viewportClassName",
+      type: "string",
+      description: "应用于吸顶固定视口（Sticky Viewport）的 CSS 类名。",
+    },
+    {
+      prop: "trackClassName",
+      type: "string",
+      description: "应用于横向平移轨道（Translated Track）的 CSS 类名。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于最外层总高度包装容器的 CSS 类名。",
+    },
+  ]}
 />
 
-## 使用场景
+## 事件 Events
 
-`HorizontalScroll` 测量轨道溢出宽度，将相应距离加入页面高度，并在区块经过时固定视口、移动内部轨道。
-它适合案例画廊、时间线和横向章节，不会改变子元素结构；内容仍按 DOM 顺序提供给辅助技术。
+<PropsTable
+  data={[
+    {
+      prop: "onScroll",
+      type: "(event: React.UIEvent) => void",
+      description: "滚动事件监听函数（支持在降级模式下捕获横向原生滚动）。",
+    },
+  ]}
+/>
 
-## 属性
+## 使用场景与设计规范
 
-<PropsTable name="horizontal-scroll" />
+`HorizontalScroll` 适用于**时间线路线图（Roadmap）、横向架构拆解图、多卡片案例研读**：
 
-## 使用说明
+- **自适应距离计算**：组件利用 `ResizeObserver` 动态量测 `track.scrollWidth` 与视口宽度的真实差值，自动计算出最精确的垂直占位总高度，无需硬编码滚动像素。
+- **免除横向滚轮困扰**：大多数桌面端鼠标只有纵向滚轮，通过将纵向滚动无缝映射为横向位移，极大降低了用户探索宽幅内容的交互门槛。
 
-直接子内容需要明确宽度并设置 `shrink-0`。不要把表单、长文本或需要大量垂直浏览的内容放进横向轨道。
-用户开启“减少动态效果”后，组件回退为普通的横向可滚动容器，内容仍然可访问。
+## 场景示例
+
+### 模块子系统全景
+
+横向遍历多个微服务或架构模块卡片：
+
+<ComponentPreview name="horizontal-scroll-cards" />
+
+## 无障碍与交互 Accessibility
+
+- **自动降级为原生横向滚动**：在开启 `prefers-reduced-motion: reduce` 的系统中，组件将不会劫持垂直滚动高度，而是直接降级为标准的 `overflow-x: auto` 原生滚动条容器，保证完全可访问。
+- **键盘导航兼容**：横向轨道内的卡片依然按 DOM 顺序排布，使用 <kbd>Tab</kbd> 键可以在各个卡片内的按钮、链接之间正常顺畅聚焦。

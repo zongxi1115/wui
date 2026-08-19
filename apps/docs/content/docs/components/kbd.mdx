@@ -1,42 +1,97 @@
 ---
 title: 键盘提示 Kbd
-description: 用紧凑、克制的按键样式展示快捷键与键盘操作。
+description: 用紧凑、高对比度且克制的按键样式展示快捷键与键盘操作提示。
 component: kbd
 ---
 
 ## 基础用法
 
+使用 `Kbd` 展示单个物理按键，使用 `KbdGroup` 将组合快捷键紧凑组合排列：
+
 <ComponentPreview name="kbd-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/kbd" />
 
+<Steps>
+
+<Step>安装样式辅助依赖</Step>
+
+```bash
+pnpm add class-variance-authority clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/kbd.tsx`</Step>
+
 <ComponentSource name="kbd" title="components/ui/kbd.tsx" />
 
-## 使用场景
+</Steps>
 
-`Kbd` 用于展示单个键位，`KbdGroup` 用于排列组合快捷键。它只负责说明操作方式，不可点击，也不应替代 Button。
-例如“保存”是操作按钮，“Ctrl + S”是对该操作的键盘提示，两者应分别承担交互和说明职责。
+## 属性 Props
 
-## 属性
+### Kbd Props
 
-<PropsTable name="kbd" />
+<PropsTable
+  data={[
+    {
+      prop: "size",
+      type: '"sm" | "default"',
+      default: '"default"',
+      description: "按键提示的物理尺寸密度。default（高度 24px），sm（高度 20px，适用于紧凑下拉菜单与搜索输入框）。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于 <kbd> 标签的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-`Kbd` 继承原生 `<kbd>` 属性，并提供 `size="sm | default"`；`KbdGroup` 继承原生 `<span>` 属性。
-快捷键文本由业务层决定，组件不会根据操作系统自动把 `Ctrl` 转换为 `⌘`。
+### KbdGroup Props
 
-## 事件
+继承原生 `<span>` 元素的全部 HTML 属性，内部自动应用 `gap-1` 保持按键之间的规整间隙。
 
-键盘提示本身不触发操作，但原生属性仍会透传。需要响应快捷键时，应在页面或功能逻辑中注册键盘事件，
-并同时处理输入框、编辑器等不应拦截快捷键的场景。
+## 事件 Events
 
-## 扩展用法
+<PropsTable
+  data={[
+    {
+      prop: "className / style",
+      type: "React.HTMLAttributes<HTMLElement>",
+      description: "继承原生 <kbd> 与 <span> 容器属性。注意：键盘提示组件属于说明型视觉标签（非按钮），不应在其上绑定点击交互；需触发操作请使用 Button 并在内部嵌套 Kbd 作为快捷键提示。",
+    },
+  ]}
+/>
 
-组合键使用多个 `Kbd` 放入 `KbdGroup` 中。组合只显示符号时，应为容器提供清晰的 `aria-label`，
-让读屏器能读出完整操作。
+## 使用场景与设计规范
 
-```tsx
-<KbdGroup aria-label="Shortcut: Control K">
-  <Kbd>Ctrl</Kbd>
-  <Kbd>K</Kbd>
-</KbdGroup>
-```
+`Kbd` 用于**界面操作提示、命令面板、全局搜索框与快捷键说明**：
+
+- **提示而非交互实体**：`Kbd` 本身不是按钮，不可点击。例如“新建文件”是操作入口，右侧附带的 `⌘ + N` 是键盘提示，两者各司其职。
+- **跨平台符号规范**：
+  - macOS 推荐使用紧凑符号：`⌘` (Command)、`⌥` (Option)、`⇧` (Shift)、`⌃` (Control)、`⌫` (Delete)、`↵` (Enter)。
+  - Windows/Linux 推荐使用清晰缩写：`Ctrl`、`Alt`、`Shift`、`Enter`、`Esc`。
+- **与输入框与菜单集成**：在输入框内（如全局搜索 `⌘K`）或下拉菜单项右侧，推荐使用 `size="sm"` 以保持行高和谐。
+
+## 场景示例
+
+### 尺寸对比 (Default vs Small)
+
+对比标准尺寸与紧凑小尺寸在不同修饰键下的视觉呈现：
+
+<ComponentPreview name="kbd-sizes" />
+
+### 下拉菜单与命令面板中的快捷键提示
+
+在命令面板、搜索框与下拉菜单条目右侧集成 `KbdGroup` 提示：
+
+<ComponentPreview name="kbd-in-menu" />
+
+## 无障碍与交互 Accessibility
+
+- **原生 `<kbd>` 语义**：底层使用 HTML5 标准 `<kbd>` 标签，屏幕阅读器与辅助技术可准确识别按键文本。
+- **组合键无障碍标注**：当快捷键使用纯符号（如 `⌘` `K`）呈现时，建议在父级容器上添加 `aria-label="快捷键：Command K"`，以便盲人读屏软件播报出完整发音。
+- **高对比度显示**：背景使用高辨识度微底色配合细边框，在深色和浅色模式下均拥有清晰的键位边界。

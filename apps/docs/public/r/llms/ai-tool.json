@@ -2,7 +2,7 @@
   "name": "ai-tool",
   "type": "registry:ui",
   "title": "AI 工具调用 AI Tool",
-  "description": "展示 AI 工具的执行状态、参数、结果与错误。",
+  "description": "用于展示智能体（Agent）工具调用的执行状态、参数入参、输出结果、错误堆栈与人工审批确认。",
   "categories": [
     "ai"
   ],
@@ -68,11 +68,18 @@
       "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
     }
   ],
-  "events": "组件透传 Radix Collapsible 的 `open`、`defaultOpen` 和 `onOpenChange`，支持受控和非受控展开。工具批准、拒绝和重试按钮\n由业务层放入 `AiToolSection`，并自行绑定请求事件；按钮的显示条件应与当前工具状态保持一致。",
   "examples": [
     {
       "name": "ai-tool-demo",
       "title": "基础用法"
+    },
+    {
+      "name": "ai-tool-approval",
+      "title": "人工确认与审批授权 (Human-in-the-Loop)"
+    },
+    {
+      "name": "ai-tool-chain",
+      "title": "链式工具调用流水线"
     }
   ],
   "files": [

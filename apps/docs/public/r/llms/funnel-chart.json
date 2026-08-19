@@ -1,0 +1,111 @@
+{
+  "name": "funnel-chart",
+  "type": "registry:component",
+  "title": "漏斗图 Funnel Chart",
+  "description": "用于追踪多阶段业务流转、步骤转化率与流失率分布的漏斗图表。",
+  "categories": [
+    "charts",
+    "conversion"
+  ],
+  "import": "import { FunnelChart } from \"@/components/charts/funnel-chart\"",
+  "exports": [
+    "FunnelChart"
+  ],
+  "typeExports": [
+    "FunnelChartProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/funnel-chart",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/funnel-chart.json",
+    "npmDependencies": [],
+    "registryDependencies": [
+      "chart-core"
+    ]
+  },
+  "props": [
+    {
+      "name": "title",
+      "type": "ReactNode",
+      "required": true,
+      "control": "text",
+      "description": "图表标题。"
+    },
+    {
+      "name": "description",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "补充说明或副标题。"
+    },
+    {
+      "name": "actions",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "标题右侧操作区。"
+    },
+    {
+      "name": "data",
+      "type": "ChartDatum[]",
+      "required": true,
+      "control": "text",
+      "description": "漏斗图阶段数据列表。"
+    },
+    {
+      "name": "nameKey",
+      "type": "string",
+      "required": true,
+      "control": "text",
+      "description": "阶段名称字段。"
+    },
+    {
+      "name": "valueKey",
+      "type": "string",
+      "required": true,
+      "control": "text",
+      "description": "阶段数值字段。"
+    },
+    {
+      "name": "height",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "320",
+      "description": "绘图区高度（像素）。"
+    },
+    {
+      "name": "showConversionRate",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否展示基于首阶段的转化率百分比。"
+    },
+    {
+      "name": "showDropOff",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否展示相邻阶段之间的流失率。"
+    },
+    {
+      "name": "valueFormatter",
+      "type": "((value: number, datum: ChartDatum) => ReactNode)",
+      "required": false,
+      "control": "text",
+      "description": "数值格式化函数。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "funnel-chart-demo",
+      "title": "基础示例 · Basic example"
+    }
+  ],
+  "files": [
+    "registry/charts/funnel-chart.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/charts/funnel-chart",
+  "sourceUrl": "https://ui.wzx.wang/r/funnel-chart.json"
+}

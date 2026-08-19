@@ -1,31 +1,126 @@
 ---
-title: 文本扰码 Text Scramble
-description: 随机字符逐步解析为目标文本的扰码效果。
+title: 文本扰动解码 Text Scramble
+description: 通过随机字符的高频采样闪烁并按时序平滑收敛，营造黑客终端、密码破译与数字解密质感的文本动效组件。
 component: text-scramble
 ---
 
 ## 基础用法
 
+最简单的文本扰动解码用法。触发时，随机字符快速跳变并在指定时长内平滑收敛锁定为目标文案：
+
 <ComponentPreview name="text-scramble-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/text-scramble" />
 
+<Steps>
+
+<Step>安装依赖与 Motion 动效库</Step>
+
+```bash
+pnpm add motion clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/text-scramble.tsx`</Step>
+
 <ComponentSource name="text-scramble" title="components/ui/text-scramble.tsx" />
 
-## 使用场景
+</Steps>
 
-`TextScramble` 适合生成、解码或终端语义的短状态。随机字符只是视觉层，读屏器始终获得最终文本；
-正文、错误说明和必须立即理解的状态不要使用扰码效果。
+## 属性 Props
 
-## 属性
+`TextScramble` 支持以下配置属性，并继承底层渲染 HTML 元素（默认 `<p>`）的原生属性：
 
-<PropsTable name="text-scramble" />
+<PropsTable
+  data={[
+    {
+      prop: "children",
+      type: "string",
+      required: true,
+      description: "解码完成后最终呈现的目标纯文本字符串。",
+    },
+    {
+      prop: "duration",
+      type: "number",
+      default: "0.8",
+      description: "从开始闪烁到全文字符完全收敛锁定的总持续时间（单位：秒）。",
+    },
+    {
+      prop: "speed",
+      type: "number",
+      default: "0.04",
+      description: "随机字符每次刷新的时间间隔（单位：秒），数值越小闪烁越频繁。",
+    },
+    {
+      prop: "characterSet",
+      type: "string",
+      default: '"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&*"',
+      description: "扰动过程中随机采样的候选字符集字符串。",
+    },
+    {
+      prop: "trigger",
+      type: "boolean",
+      default: "true",
+      description: "控制动效的触发状态。重置为 false 后再次变为 true 即可重播解码动效。",
+    },
+    {
+      prop: "as",
+      type: "React.ElementType",
+      default: '"p"',
+      description: "外层容器所渲染的语义 HTML 标签（如 span, p, h3, div 等）。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于外层容器的额外 CSS 类名（默认内置包含 font-mono）。",
+    },
+  ]}
+/>
 
-## 事件
+## 事件 Events
 
-`onScrambleComplete` 在最终文本完全显示后触发。将 `trigger` 从 `false` 切换为 `true` 可以重播；
-业务层不要把完成回调当作请求完成回调，两者的生命周期应分别维护。
+<PropsTable
+  data={[
+    {
+      prop: "onScrambleComplete",
+      type: "() => void",
+      description: "当整段文字的所有字符全部完成解码并锁定为最终值时触发的回调函数。",
+    },
+  ]}
+/>
 
-## 扩展用法
+## 使用场景与设计规范
 
-通过 `characterSet` 限制随机字符风格，例如仅用 `01` 营造二进制效果。`duration` 控制总时长，`speed` 控制随机字符刷新间隔。
+`TextScramble` 专为**极客科技、AI 运算、安全防护与数据大屏**等硬核场景设计。
+
+- **使用等宽字体（Monospace）**：扰动过程中字符频繁随机替换，若使用变宽字体可能造成严重的水平抖动。组件默认内置 `font-mono`，请确保目标容器维持等宽排版。
+- **合理设置持续时间**：推荐将 `duration` 控制在 `0.6s ~ 1.2s` 之间。过短无法看清解密细节，过长则会延误用户获取关键信息的效率。
+- **智能保留空白符号**：组件内部算法自动识别并保留原始文本中的空格与换行符，不会用随机字符填充空格位置，从而保持段落结构稳定。
+
+## 场景示例
+
+### 自定义字符采样集
+
+根据不同业务风格挑选合适的采样字符集，如二进制（0/1）、十六进制哈希或标点符号集合：
+
+<ComponentPreview name="text-scramble-character-sets" />
+
+### 密钥解密与一键复制
+
+在开发者控制台展示敏感 Token 或 API Key 时，提供极具仪式感的解密动效：
+
+<ComponentPreview name="text-scramble-auth-token" />
+
+### 集群遥测状态解码
+
+在系统服务监控面板中，结合 `onScrambleComplete` 实现遥测数据加载与校验状态流转：
+
+<ComponentPreview name="text-scramble-status-card" />
+
+## 无障碍与交互 Accessibility
+
+- **完整的屏幕阅读器直读**：容器外层挂载 `aria-label={children}`，内部跳动的扰动字符包装在 `aria-hidden="true"` 的 span 标签中。辅助技术将立即把最终真实文案朗读给视障用户，绝不会朗读瞬态的无意义随机乱码。
+- **系统减少动态偏好（Reduced Motion）**：在系统启用了 `prefers-reduced-motion` 时，组件将直接跳过定时器与字符随机化逻辑，立即渲染最终纯文本。

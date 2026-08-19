@@ -1,40 +1,118 @@
 ---
-title: Markdown
-description: 将 CommonMark 与 GFM 文本解析为可组合、带默认样式的 React 内容。
+title: Markdown 渲染器 Markdown
+description: 将 CommonMark 与 GFM 格式文本解析为安全、可深度定制与支持流式羽化边缘的 React 内容组件。
 component: markdown
 ---
 
 ## 基础用法
 
+解析完整的 Markdown 文本，自动支持 GFM 表格、代码块、引用、删除线与任务列表：
+
 <ComponentPreview name="markdown-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/markdown" />
 
+<Steps>
+
+<Step>安装 Markdown 与 AST 解析插件依赖</Step>
+
+```bash
+pnpm add react-markdown remark-gfm clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/markdown.tsx`</Step>
+
 <ComponentSource name="markdown" title="components/ui/markdown.tsx" />
 
-`Markdown` 使用 `react-markdown` 生成 React 元素，不依赖 `dangerouslySetInnerHTML`。默认支持 CommonMark，并通过
-`remark-gfm` 增加自动链接、删除线、表格、任务列表等 GFM 语法；Markdown 中的原始 HTML 默认不会作为页面 HTML 执行。
+</Steps>
 
-通过 `components` 可以覆盖单个元素的渲染方式，`remarkPlugins` 与 `rehypePlugins` 会继续传给解析器。
-自定义 `remarkPlugins` 会追加在内置的 GFM 插件之后。
+## 属性 Props
 
-## 与流式输出组合
+`Markdown` 继承 `react-markdown` 的核心配置项，并提供以下专有属性：
+
+<PropsTable
+  data={[
+    {
+      prop: "children",
+      type: "string",
+      required: true,
+      description: "待解析渲染的原始 Markdown 字符串文本。",
+    },
+    {
+      prop: "isStreaming",
+      type: "boolean",
+      default: "false",
+      description: "是否处于流式接收中。设为 true 时自动挂载 aria-busy、aria-live 并在末尾文本应用流式渐变羽化动效。",
+    },
+    {
+      prop: "featherLength",
+      type: "number",
+      default: "18",
+      description: "流式模式下末尾字符应用动态透明度羽化（AiStreamEdge）的字符长度。",
+    },
+    {
+      prop: "components",
+      type: "Components",
+      description: "覆盖特定 HTML 标签渲染逻辑的映射对象（例如自定义 pre、code、a、blockquote 等）。",
+    },
+    {
+      prop: "remarkPlugins",
+      type: "PluggableList",
+      description: "自定义 Remark 语法解析插件列表，默认已内置包含 remark-gfm。",
+    },
+    {
+      prop: "rehypePlugins",
+      type: "PluggableList",
+      description: "自定义 Rehype 转换插件列表。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于外层 Markdown 容器的额外 CSS 类名。",
+    },
+  ]}
+/>
+
+## 事件 Events
+
+<PropsTable
+  data={[
+    {
+      prop: "className / style",
+      type: "React.HTMLAttributes<HTMLDivElement>",
+      description: "继承原生 <div> 容器属性，所有子元素的事件（如链接点击、按钮操作）均可通过 components 自定义重载委托处理。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`Markdown` 用于**AI 对话消息体、技术文档呈现与富文本内容渲染**：
+
+- **安全沙箱无 XSS 风险**：基于 React 虚拟 DOM 树渲染，不使用 `dangerouslySetInnerHTML`，默认过滤危险 HTML 注入。
+- **流式增量解析容错**：在 LLM Token 逐步返回的过程中，即使遇到未闭合的代码块（```）或未完成的表格，也能优雅容错显示，避免界面崩溃闪烁。
+- **与设计系统主题无缝对齐**：内置样式全部使用语义化 CSS 变量（如 `bg-muted`、`text-foreground`、`border-border`），在深浅色主题下均能呈现完美的排版韵律。
+
+## 场景示例
+
+### 流式分片输出与末尾羽化
+
+结合 `isStreaming={true}`，模拟大模型逐字打字机流式输出，并在最后一行文本呈现自然的流光羽化边缘：
 
 <ComponentPreview name="markdown-stream-demo" />
 
-流式接口通常返回当前已经生成的累计文本。将 `useAiStream` 的 `text` 直接传给 `Markdown`，每个分片到达时都会重新解析当前内容：
+### 自定义元素重载 (带复制的代码块与高亮链接)
 
-```tsx
-const { text, isStreaming } = useAiStream({ api: "/api/assistant" })
+通过 `components` 属性重载 `code`、`blockquote` 与 `a` 标签，实现带一键复制的专业代码块与带外链图标的安全链接：
 
-return <Markdown isStreaming={isStreaming}>{text}</Markdown>
-```
+<ComponentPreview name="markdown-custom" />
 
-生成期间，`isStreaming` 会复用 `AiStreamEdge`，为解析结果的最后一段文字应用与 `AiStream` 相同的尾部羽化，同时为容器补充
-`aria-live`、`aria-busy` 和 `data-streaming` 状态。`featherLength` 可以调整羽化覆盖的末尾字符数量。
+## 无障碍与交互 Accessibility
 
-不完整的 Markdown 标记会先按当前可解析状态展示，后续分片补齐后自然更新为最终结构；已经稳定的标题、列表、代码块等内容不会重复羽化。
-
-## 属性
-
-<PropsTable name="markdown" />
+- **实时区域状态**：流式生成期间，组件容器自动挂载 `aria-live="polite"` 与 `aria-busy="true"`，提示屏幕阅读器内容处于动态生成阶段。
+- **语义化标签结构**：精准映射 `<h1>`~`<h6>`、`<ul>`、`<ol>`、`<blockquote>`、`<table>` 等语义化元素。
+- **链接与焦点**：渲染的所有链接均带有高对比度焦点环与下划线指示，支持键盘顺畅导航。

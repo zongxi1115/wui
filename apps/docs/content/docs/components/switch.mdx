@@ -1,39 +1,198 @@
 ---
 title: 开关 Switch
-description: 带弹簧滑块与完整无障碍语义的二元状态控件。
+description: 用于在两种互斥状态间即时切换的二元控制组件，内置弹性微动效与完整的键盘无障碍能力。
 component: switch
 ---
 
 ## 基础用法
 
+最简单的开关用法。点击开关或其绑定的标签即可在开启与关闭之间切换：
+
 <ComponentPreview name="switch-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/switch" />
 
+<Steps>
+
+<Step>安装基础依赖与动效库</Step>
+
+```bash
+pnpm add radix-ui motion class-variance-authority clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/switch.tsx`</Step>
+
 <ComponentSource name="switch" title="components/ui/switch.tsx" />
 
-## 使用场景
+</Steps>
 
-`Switch` 用于让设置立即在开启和关闭之间切换，例如通知、隐私或显示偏好。它适合切换后可以马上生效的设置，
-并支持鼠标、触摸、键盘和表单行为。
+## 属性 Props
 
-滑块使用轻量的弹簧过渡；用户开启 `prefers-reduced-motion` 后会直接切换到最终位置。不要用 Switch 代替需要“提交 / 取消”
-的操作，这类场景应使用 Checkbox 或 Button。
+`Switch` 支持以下配置属性，并会继承底层原生按钮的全部 HTML 属性：
 
-## 属性
+<PropsTable
+  data={[
+    {
+      prop: "checked",
+      type: "boolean",
+      description: "受控模式下开关的当前开启状态。",
+    },
+    {
+      prop: "defaultChecked",
+      type: "boolean",
+      default: "false",
+      description: "非受控模式下开关的初始开启状态。",
+    },
+    {
+      prop: "onCheckedChange",
+      type: "(checked: boolean) => void",
+      description: "开关状态发生改变时触发的回调函数，返回最新的布尔值。",
+    },
+    {
+      prop: "size",
+      type: '"sm" | "default" | "lg"',
+      default: '"default"',
+      description: "开关的物理尺寸密度。",
+    },
+    {
+      prop: "disabled",
+      type: "boolean",
+      default: "false",
+      description: "是否禁用开关交互与焦点。",
+    },
+    {
+      prop: "required",
+      type: "boolean",
+      default: "false",
+      description: "在表单中是否为必选字段。",
+    },
+    {
+      prop: "name",
+      type: "string",
+      description: "原生表单提交时该开关对应的字段名称。",
+    },
+    {
+      prop: "value",
+      type: "string",
+      default: '"on"',
+      description: "原生表单提交时开关处于开启状态所代表的值。",
+    },
+    {
+      prop: "asChild",
+      type: "boolean",
+      default: "false",
+      description: "是否将属性与行为合并到唯一的子元素上渲染。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于开关外层轨道元素的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-<PropsTable name="switch" />
+## 事件 Events
 
-## 事件
+<PropsTable
+  data={[
+    {
+      prop: "onCheckedChange",
+      type: "(checked: boolean) => void",
+      description: "用户通过点击、触摸或键盘快捷键改变状态时触发，参数为切换后的布尔值。",
+    },
+    {
+      prop: "onFocus",
+      type: "(event: React.FocusEvent<HTMLButtonElement>) => void",
+      description: "开关获得焦点时触发。",
+    },
+    {
+      prop: "onBlur",
+      type: "(event: React.FocusEvent<HTMLButtonElement>) => void",
+      description: "开关失去焦点时触发。",
+    },
+    {
+      prop: "onKeyDown",
+      type: "(event: React.KeyboardEvent<HTMLButtonElement>) => void",
+      description: "在开关获得焦点时按下键盘按键触发。",
+    },
+  ]}
+/>
 
-- `onCheckedChange(checked)`：状态变化后触发，参数为新的布尔值；受控模式下需要同步更新 `checked`。
-- 原生焦点、键盘与表单属性会继续透传到底层 Radix Root。
+## 使用场景与设计规范
 
-## 扩展用法
+`Switch` 适用于**即时生效**的二元设置项切换（例如开关推送通知、切换深色模式、允许定位权限等）。
+
+- **即时生效 vs 延迟提交**：如果该设置切换后立即触发后台更新或改变界面行为，优先使用 `Switch`；如果属于表单提交流程的一部分（需要用户点击最后的“保存”或“提交”按钮才生效），或者属于多项复选逻辑，请改用 `Checkbox`。
+- **提供清晰的文案标签**：开关本身只传达开/关的视觉状态，必须搭配明确的文本标签（例如通过 `<label htmlFor="...">` 关联），告知用户该开关控制的具体功能。
+- **避免破坏性操作**：对于可能造成数据丢失或重大不可逆影响的操作（例如删除账号、清空数据），请使用按钮配合确认弹窗（Confirm Dialog），不要仅依赖单个开关。
+
+## 场景示例
+
+### 受控模式
+
+在需要精确控制开关状态或与父组件/外部状态进行双向同步时，使用 `checked` 和 `onCheckedChange` 属性：
+
+<ComponentPreview name="switch-controlled" />
+
+```tsx
+const [checked, setChecked] = React.useState(true)
+
+return (
+  <Switch
+    checked={checked}
+    onCheckedChange={setChecked}
+  />
+)
+```
+
+<Callout title="受控与非受控模式">
+  - **受控模式**：传入 `checked` 属性，此时必须通过 `onCheckedChange` 回调来更新状态，否则开关状态不会随用户点击而改变。
+  - **非受控模式**：仅通过 `defaultChecked` 设置初始状态，后续状态由组件内部自行维护。
+</Callout>
 
 ### 尺寸
 
+组件提供 `sm`、`default` 和 `lg` 三种尺寸，以适应不同密度的界面排版：
+
 <ComponentPreview name="switch-sizes" />
 
-受控用法通过 `checked` 和 `onCheckedChange` 管理；非受控用法使用 `defaultChecked`。如果切换会触发异步保存，
-应在保存期间明确禁用控件或显示保存状态，避免用户连续点击造成状态与服务端不一致。
+- `sm`：紧凑尺寸，适合密集表格行、行内操作栏或小型下拉菜单。
+- `default`：标准尺寸，适用于绝大多数设置面板、表单项及通用配置页。
+- `lg`：放大尺寸，触控区域更大，适合移动端界面或突出的核心开关选项。
+
+### 带标签与描述
+
+在真实业务场景中，开关通常会搭配标题与辅助描述文本。通过为 `Switch` 设置 `id` 并为 `<label>` 设置 `htmlFor`，用户点击文本区域也能快速触发展开/关闭：
+
+<ComponentPreview name="switch-with-label" />
+
+### 禁用状态
+
+当用户无权限操作、配置处于只读模式或前置依赖未满足时，可以使用 `disabled` 禁用开关：
+
+<ComponentPreview name="switch-disabled" />
+
+### 异步请求与加载保护
+
+当开关切换需要调用后端 API 同步设置时，应在请求处理（Pending）期间将开关设为禁用状态并展示加载反馈，防止用户重复连续点击；若接口调用失败，需将开关状态回滚为之前的值：
+
+<ComponentPreview name="switch-async" />
+
+### 设置分组列表
+
+在应用设置或控制台面板中，可以将多个开关与图标、说明文本组合成结构清晰的设置卡片组：
+
+<ComponentPreview name="switch-form" />
+
+## 无障碍与交互 Accessibility
+
+- **ARIA 规范**：底层基于 Radix UI，自动挂载 `role="switch"`、`aria-checked` 等 WAI-ARIA 无障碍标准属性。
+- **键盘导航**：
+  - <kbd>Tab</kbd>：聚焦到开关上，展示高对比度的焦点轮廓圈（Focus Ring）。
+  - <kbd>Space</kbd> / <kbd>Enter</kbd>：切换开启与关闭状态。
+- **动效降级**：内置的平滑弹性滑块动效会自动监听系统的 `prefers-reduced-motion` 设置。当用户启用了“减少动态效果”时，滑块将直接跳变至目标位置，保障无障碍体验。
+- **标签关联**：建议始终使用 `<label htmlFor="...">` 显式关联开关 `id`，或在独立开关上添加 `aria-label` / `aria-labelledby` 属性。

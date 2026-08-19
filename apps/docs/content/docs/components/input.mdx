@@ -1,51 +1,259 @@
 ---
 title: 输入框 Input
-description: 支持前后内容、浮动标签、下划线和错误态的输入框。
+description: 用于录入单行文本、邮箱、密码及搜索词的基础表单控件，支持前后置内容、浮动标签、下划线风格与多重校验状态。
 component: input
 ---
 
 ## 基础用法
 
+最常用的单行搜索与文本输入框。支持前置搜索图标、快捷键徽标及一键清空操作：
+
 <ComponentPreview name="input-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/input" />
 
+<Steps>
+
+<Step>安装基础依赖</Step>
+
+```bash
+pnpm add class-variance-authority clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/input.tsx`</Step>
+
 <ComponentSource name="input" title="components/ui/input.tsx" />
 
-## 使用场景
+</Steps>
 
-`Input` 用于录入单行文本、邮箱、密码、搜索词等短内容。它保留原生 `input` 的属性和事件，
-并通过 `startContent`、`endContent` 放置图标、快捷键提示或清除按钮。需要录入多行文本时使用 Textarea，
-需要从固定选项中选择时使用 Select，而不是把 Input 改造成下拉框。
+## 属性 Props
 
-聚焦反馈只改变边框和焦点环，不移动输入框本身，避免表单在输入时产生跳动。
+`Input` 继承原生 HTML `<input>` 元素的全部属性，并额外支持以下功能扩展：
 
-## 属性
+<PropsTable
+  data={[
+    {
+      prop: "variant",
+      type: '"default" | "underline"',
+      default: '"default"',
+      description: "输入框的外观变体风格。\"default\" 为四周带圆角边框的标准卡片风格，\"underline\" 为极简底部下划线风格。",
+    },
+    {
+      prop: "visualSize",
+      type: '"sm" | "default" | "lg"',
+      default: '"default"',
+      description: "输入框的垂直高度与字号尺寸预设（sm: 32px, default: 40px, lg: 48px）。注意区分原生 HTML 的 size 属性。",
+    },
+    {
+      prop: "label",
+      type: "React.ReactNode",
+      description: "浮动标签文本。传入后，标签在未聚焦且无内容时居中浮动，获得焦点或有内容时平滑缩小并移至顶部。",
+    },
+    {
+      prop: "startContent",
+      type: "React.ReactNode",
+      description: "位于输入框左侧的前置内容（如搜索图标、国家区号、币种符号）。",
+    },
+    {
+      prop: "endContent",
+      type: "React.ReactNode",
+      description: "位于输入框右侧的后置内容（如密码显隐开关、一键清空按钮、快捷键提示、复制按钮）。",
+    },
+    {
+      prop: "type",
+      type: "string",
+      default: '"text"',
+      description: "原生 input 类型（例如 \"text\"、\"password\"、\"email\"、\"number\"、\"search\"、\"tel\"、\"url\" 等）。",
+    },
+    {
+      prop: "value",
+      type: "string | number | readonly string[]",
+      description: "受控模式下的输入值。",
+    },
+    {
+      prop: "defaultValue",
+      type: "string | number | readonly string[]",
+      description: "非受控模式下的初始输入值。",
+    },
+    {
+      prop: "placeholder",
+      type: "string",
+      description: "输入框为空时显示的占位提示文字。",
+    },
+    {
+      prop: "disabled",
+      type: "boolean",
+      default: "false",
+      description: "是否禁用输入框，禁用后无法聚焦与编辑。",
+    },
+    {
+      prop: "readOnly",
+      type: "boolean",
+      default: "false",
+      description: "是否设为只读模式（可聚焦、可复制文本，但不可修改内容）。",
+    },
+    {
+      prop: "required",
+      type: "boolean",
+      default: "false",
+      description: "在表单中是否为必填字段。",
+    },
+    {
+      prop: "maxLength",
+      type: "number",
+      description: "允许输入的最大字符数限制。",
+    },
+    {
+      prop: "aria-invalid",
+      type: 'boolean | "true" | "false"',
+      default: "false",
+      description: "标记当前输入是否校验失败。设为 true 时输入框外边框与聚焦光圈将自动切换为高亮警示破坏色（destructive）。",
+    },
+    {
+      prop: "wrapperClassName",
+      type: "string",
+      description: "应用于最外层容器 shell 的额外 CSS 类名。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于内部原生 `<input>` 元素的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-<PropsTable name="input" />
+## 事件 Events
 
-## 事件
+<PropsTable
+  data={[
+    {
+      prop: "onChange",
+      type: "(event: React.ChangeEvent<HTMLInputElement>) => void",
+      description: "输入框内容发生改变时触发的回调函数。",
+    },
+    {
+      prop: "onFocus",
+      type: "(event: React.FocusEvent<HTMLInputElement>) => void",
+      description: "输入框获得焦点时触发。",
+    },
+    {
+      prop: "onBlur",
+      type: "(event: React.FocusEvent<HTMLInputElement>) => void",
+      description: "输入框失去焦点时触发。",
+    },
+    {
+      prop: "onKeyDown",
+      type: "(event: React.KeyboardEvent<HTMLInputElement>) => void",
+      description: "在输入框获得焦点时按下键盘按键触发（如监听 Enter 提交或 Esc 清空）。",
+    },
+    {
+      prop: "onInput",
+      type: "(event: React.FormEvent<HTMLInputElement>) => void",
+      description: "原生 input 事件，在用户输入内容时立即触发。",
+    },
+  ]}
+/>
 
-所有原生输入事件都会透传，包括 `onChange`、`onInput`、`onFocus`、`onBlur` 和键盘事件。传入 `aria-invalid="true"`
-会同步显示错误边框和错误状态；错误原因仍应通过表单说明文字提供，不能只依赖颜色。
+## 使用场景与设计规范
 
-## 扩展用法
+`Input` 是最基础且高频的文本录入控件，用于捕获用户的**单行文本、邮箱、密码、手机号、搜索关键词**等数据。
 
-### 图标、错误与禁用态
+### 输入类组件选型对比
 
-<ComponentPreview name="input-states" />
+| 控件类型 | 适用行数 | 输入特性 | 典型业务场景 |
+| :--- | :--- | :--- | :--- |
+| **Input** | 单行 | 基础文本、邮箱、密码、搜索框 | 登录/注册表单、搜索栏、配置名称 |
+| **Textarea** | 多行（可换行） | 备注、长篇描述、反馈意见、评论 | 工单描述、个人简介、文章摘要 |
+| **InputOTP** | 单字符分段 | 验证码、双因子认证 PIN 码 | 短信验证码、Google Authenticator 6 位验证码 |
+| **InputNumber** | 数值专用 | 步进加减、上下限区间约束、高精度格式化 | 商品购买数量、金额充值、库存配置 |
 
-### 浮动标签
+### 设计最佳实践
 
-传入 `label` 后，标签初始显示在输入区域中部；输入框聚焦或已有内容时，标签会缩小并移动到左上角。
-如果字段还需要帮助说明或错误信息，应使用表单布局把这些文字放在输入框下方，并通过 `aria-describedby` 关联。
+- **占位符 (Placeholder) 不能替代标签 (Label)**：占位符文本在用户开始输入后会立即消失，容易导致用户遗忘当前输入项的含义。必须始终配合独立的 `<label>` 或内置的 `label` 浮动标签使用。
+- **前后置内容的合理语义**：
+  - `startContent`：通常用于放置传达字段类型的视觉图标（如邮箱图标、锁图标、放大镜图标）或固定协议头（如 `https://`）。
+  - `endContent`：通常用于交互型操作（如密码显隐切换按钮、一键清空按钮、复制按钮、单位后缀如 `px` 或 `MB`）。
+- **错误态的综合呈现**：不能仅依靠边框变红来表达错误；必须在输入框下方提供明确的错误说明文本，并通过 `aria-invalid="true"` 与 `aria-describedby` 关联，保障色弱与视障用户的无障碍体验。
+- **合理选用输入类型 (type)**：对于移动端设备，设置正确的 `type="email"`、`type="tel"` 或 `type="number"` 可以自动唤起针对性的虚拟软键盘，极大提升移动端输入效率。
+
+## 场景示例
+
+### 受控模式与字符统计
+
+通过 `value` 与 `onChange` 进行受控管理，并实时呈现字数统计与一键清空操作：
+
+<ComponentPreview name="input-controlled" />
+
+```tsx
+const [value, setValue] = React.useState("")
+
+return (
+  <Input
+    value={value}
+    onChange={(e) => setValue(e.target.value)}
+    placeholder="请输入文本..."
+  />
+)
+```
+
+### 尺寸规格
+
+提供 `sm` (32px)、`default` (40px) 和 `lg` (48px) 三种尺寸以适应不同的界面密度：
+
+<ComponentPreview name="input-sizes" />
+
+- `sm`：适合紧凑工具栏、数据表格内嵌编辑、过滤器条。
+- `default`：通用页面表单、弹窗配置项。
+- `lg`：登录/注册页核心 Hero 区域、醒目的搜索条。
+
+### 前后置图标与操作 (Start & End Content)
+
+利用 `startContent` 和 `endContent` 轻松组合图标、域名后缀或一键复制等实用操作：
+
+<ComponentPreview name="input-with-icon" />
+
+### 密码输入与强度检测
+
+结合状态切换实现密码明文/密文查看，并实时显示密码安全强度条：
+
+<ComponentPreview name="input-password" />
+
+### 浮动标签 (Floating Label)
+
+传入 `label` 属性即可启用 Material 风格的动效浮动标签，既节省垂直空间又保留持久的字段提示：
 
 <ComponentPreview name="input-floating-label" />
 
-### 下划线样式
+### 下划线风格 (Underline Variant)
 
-`variant="underline"` 适合密度较高、容器边界已经明确的表单区域。独立浮在页面上的输入框更适合默认边框样式。
+设置 `variant="underline"` 呈现极简下划线风格，适合排版极简的移动端界面或已有明确卡片边界的表单区域：
 
 <ComponentPreview name="input-underline" />
 
-使用 `visualSize="sm | default | lg"` 调整视觉尺寸，原生 `size` 属性仍保留其 HTML 含义。
+### 状态展示与表单校验
+
+输入框提供标准、校验错误 (`aria-invalid="true"`)、只读 (`readOnly`) 与禁用 (`disabled`) 等全套状态反馈：
+
+<ComponentPreview name="input-states" />
+
+### 完整业务表单
+
+在多字段提交的业务场景中，结合统一的校验逻辑、错误提示文案与提交反馈：
+
+<ComponentPreview name="input-form" />
+
+## 无障碍与交互 Accessibility
+
+- **ARIA 标准规范**：
+  - 支持 `aria-invalid="true"`，当输入无效时自动关联错误状态并应用破坏色高亮边框。
+  - 通过 `aria-describedby` 关联下方的辅助说明或错误文本 ID。
+  - 必填项支持声明 `aria-required="true"` 或原生 `required` 属性。
+- **键盘交互与焦点管理**：
+  - <kbd>Tab</kbd>：按 DOM 顺序移动焦点，输入框获得焦点时显示清晰的高对比度焦点光圈（Focus Ring）。
+  - 内置的清除按钮或密码显隐切换按钮具有独立的 `type="button"` 与 `aria-label`，可通过键盘 <kbd>Tab</kbd> 单独聚焦并通过 <kbd>Space</kbd> / <kbd>Enter</kbd> 触发。
+- **屏幕阅读器支持**：
+  - 始终推荐使用 `<label htmlFor="inputId">` 关联输入框。若使用无文字包裹的独立搜索框，务必添加 `aria-label`。

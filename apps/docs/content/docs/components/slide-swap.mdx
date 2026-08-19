@@ -1,27 +1,108 @@
 ---
-title: 内容滑动交换 Slide Swap
-description: 整块内容从上方移出，同时由下方滑入相同内容。
+title: 滑动替换 Slide Swap
+description: 悬停或激活时将当前内容向上/向下平移滑出，同时无缝滑入相同形态副本的微动效组件。
 component: slide-swap
 ---
 
 ## 基础用法
 
+鼠标悬停在按钮上，文字向上平移滚出并无缝滑入第二层文字：
+
 <ComponentPreview name="slide-swap-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/slide-swap" />
 
+<Steps>
+
+<Step>安装基础依赖与动效库</Step>
+
+```bash
+pnpm add motion lucide-react class-variance-authority clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/slide-swap.tsx`</Step>
+
 <ComponentSource name="slide-swap" title="components/ui/slide-swap.tsx" />
 
-## 使用场景
+</Steps>
 
-`SlideSwap` 不会逐字符拆分文字，而是把文字、图标或其他组合内容作为完整的一层进行交换。默认在鼠标进入或键盘聚焦时，
-让当前层向上离开，再从下方进入新层，适合导航链接、按钮标签和目录入口。
+## 属性 Props
 
-## 属性
+<PropsTable
+  data={[
+    {
+      prop: "children",
+      type: "React.ReactNode",
+      description: "在进出场两层之间自动复制并执行滑动替换的内容（如按钮文字、图标组合、状态徽章等）。",
+    },
+    {
+      prop: "direction",
+      type: '"up" | "down"',
+      default: '"up"',
+      description: "滑动的位移方向。`up` 为向上推挤替换，`down` 为向下推挤替换。",
+    },
+    {
+      prop: "active",
+      type: "boolean",
+      description: "受控模式下强制保持替换激活状态（常用于由外部父容器 hover 驱动）。",
+    },
+    {
+      prop: "transition",
+      type: "Transition",
+      default: '{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }',
+      description: "两层图层运动共享的 Motion 缓动曲线与持续时间配置。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于外层 overflow-hidden 裁切容器的 CSS 类名。",
+    },
+  ]}
+/>
 
-<PropsTable name="slide-swap" />
+## 事件 Events
 
-## 使用说明
+<PropsTable
+  data={[
+    {
+      prop: "onPointerEnter",
+      type: "(event: React.PointerEvent) => void",
+      description: "光标移入触发滑动替换时调用。",
+    },
+    {
+      prop: "onPointerLeave",
+      type: "(event: React.PointerEvent) => void",
+      description: "光标移出恢复原始位置时调用。",
+    },
+  ]}
+/>
 
-组件只负责视觉内容，实际链接或按钮语义应放在外层。通过 `direction="down"` 可以反转方向，也可以传入 `active` 由外部状态控制交换。
-如果内容变化会影响操作含义，应同时更新外层元素的可访问名称，不能只改变视觉文字。
+## 使用场景与设计规范
+
+`SlideSwap` 适用于**核心 CTA 操作按钮、发布公告药丸徽章、导航链接悬停态**：
+
+- **精致的高级微动效**：相比于生硬的背景变色，垂直滚动推挤文字能给界面带来极具动感的现代交互质感。
+- **自动克隆第二层**：无需开发者在代码中重复编写两遍相同的文字 JSX，组件内部自动克隆渲染并完成绝对定位。
+
+## 场景示例
+
+### 多形态按钮组合
+
+在主按钮、次级按钮以及代码复制按钮上使用不同方向的滑动替换：
+
+<ComponentPreview name="slide-swap-button" />
+
+### 顶部通知药丸徽章
+
+鼠标悬停在全站公告横幅上展示生动的向上滚动提示：
+
+<ComponentPreview name="slide-swap-badge" />
+
+## 无障碍与交互 Accessibility
+
+- **克隆图层惰性（inert）**：自动克隆生成的第二层文本节点默认添加 `aria-hidden="true"` 和 `inert`，屏幕阅读器仅会朗读一次真实内容。
+- **动效减弱适配**：当用户开启 `prefers-reduced-motion: reduce` 时，滑动位移距离强制重置为 0，不再发生位移晃动。

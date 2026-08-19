@@ -2,7 +2,7 @@
   "name": "button",
   "type": "registry:ui",
   "title": "按钮 Button",
-  "description": "显示一个按钮，或显示一个外观类似按钮的组件。",
+  "description": "用于触发即时操作、提交表单或进行页面跳转的基础交互组件，支持多种语义变体、尺寸密度以及可选的微动效与涟漪反馈。",
   "import": "import { Button, buttonVariants } from \"@/components/ui/button\"",
   "exports": [
     "Button",
@@ -86,7 +86,6 @@
       "description": "是否禁用组件。"
     }
   ],
-  "events": "`Button` 会将 `{...props}` 展开到底层元素，因此支持所有原生按钮事件。\n\n  启用 `asChild` 后，事件会绑定到你渲染的子元素（例如 `<a>`），而不是 `<button>`。",
   "examples": [
     {
       "name": "button-demo",
@@ -94,41 +93,51 @@
     },
     {
       "name": "button-variants",
-      "title": "变体"
+      "title": "视觉变体"
     },
     {
       "name": "button-sizes",
-      "title": "尺寸"
+      "title": "尺寸密度"
     },
     {
       "name": "button-with-icon",
       "title": "搭配图标"
     },
     {
+      "name": "button-async-action",
+      "title": "异步请求与加载反馈"
+    },
+    {
       "name": "button-loading",
-      "title": "加载状态"
+      "title": "异步请求与加载反馈"
     },
     {
       "name": "button-link",
-      "title": "链接变体（动态下划线）"
+      "title": "动态下划线链接"
     },
     {
       "name": "button-as-child",
-      "title": "作为链接（`asChild`）"
+      "title": "语义化跳转（asChild）"
     },
     {
       "name": "button-motion",
-      "title": "动效（可选）"
+      "title": "微交互与物理弹簧（motion）"
     },
     {
       "name": "button-ripple",
-      "title": "涟漪（可选）"
+      "title": "坐标扩散涟漪（ripple）"
     },
     {
       "name": "button-group-advanced"
     },
     {
       "name": "button-group-demo"
+    },
+    {
+      "name": "button-group-split"
+    },
+    {
+      "name": "button-group-toolbar"
     }
   ],
   "files": [

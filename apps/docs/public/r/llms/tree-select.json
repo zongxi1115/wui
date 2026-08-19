@@ -2,7 +2,7 @@
   "name": "tree-select",
   "type": "registry:ui",
   "title": "树选择 TreeSelect",
-  "description": "在紧凑浮层中搜索并选择一个层级节点。",
+  "description": "将树状层级结构与下拉搜索浮层融为一体，用于在复杂父子关系中精确检索并选取目标节点。",
   "import": "import { TreeSelect } from \"@/components/ui/tree-select\"",
   "exports": [
     "TreeSelect"
@@ -114,7 +114,6 @@
       "description": "是否禁用组件。"
     }
   ],
-  "events": "- `onValueChange(value, node)` 在选择节点或清空时触发；清空时返回空字符串，`node` 为 `undefined`。\n- 传入 `value` 后组件进入受控模式；仅设置初始值时使用 `defaultValue`。",
   "examples": [
     {
       "name": "tree-select-demo",
@@ -122,7 +121,19 @@
     },
     {
       "name": "tree-select-search",
-      "title": "拼音与首字母搜索"
+      "title": "拼音与首字母多维检索"
+    },
+    {
+      "name": "tree-select-department",
+      "title": "企业组织架构与审批指派"
+    },
+    {
+      "name": "tree-select-file-system",
+      "title": "文件系统目录与清空重置"
+    },
+    {
+      "name": "tree-select-disabled",
+      "title": "节点禁用与不可选权限"
     }
   ],
   "files": [

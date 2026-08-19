@@ -2,7 +2,7 @@
   "name": "progress",
   "type": "registry:ui",
   "title": "进度条 Progress",
-  "description": "细腻、克制并支持确定与不确定状态的进度指示器。",
+  "description": "细腻克制的线性与环形进度指示器，支持确定性百分比与不确定动态状态。",
   "import": "import { Progress, progressVariants } from \"@/components/ui/progress\"",
   "exports": [
     "Progress",
@@ -86,7 +86,6 @@
       "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
     }
   ],
-  "events": "进度条是只读状态组件，不提供交互事件。使用 `value` 更新完成度，并通过 `aria-label` 或 `getValueLabel` 提供可访问描述；\n如果页面上已经有“正在上传报告”等文字，不必重复读出同一段内容。",
   "examples": [
     {
       "name": "progress-demo",
@@ -94,7 +93,19 @@
     },
     {
       "name": "progress-variants",
-      "title": "颜色与环形进度"
+      "title": "语义色彩与环形形态"
+    },
+    {
+      "name": "progress-sizes",
+      "title": "尺寸规格对比"
+    },
+    {
+      "name": "progress-dynamic",
+      "title": "动态任务流（文件上传）"
+    },
+    {
+      "name": "progress-dashboard",
+      "title": "仪表盘资源监控看板"
     }
   ],
   "files": [

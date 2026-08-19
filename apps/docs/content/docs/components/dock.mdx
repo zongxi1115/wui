@@ -1,0 +1,37 @@
+---
+title: 悬浮底栏 Dock
+description: 仿 macOS 风格的弹性放大底栏导航，随着鼠标经过产生丝滑的近邻放大动效。
+component: dock
+---
+
+## 基础示例 · Basic example
+
+<ComponentPreview name="dock-demo" previewClassName="min-h-0 p-6 flex justify-center" />
+
+<CodeTabs command="@wui-design/cli@latest add @wui/dock" />
+
+<ComponentSource name="dock" title="components/ui/dock.tsx" />
+
+## 组件作用 · What it's for
+
+`Dock` 适合作为桌面端应用全局导航栏、画布控制台工具条或现代营销主页的常驻快捷入口。
+
+### 适用场景
+- **桌面级工作台快捷导航**：高频工具的快速触达与悬浮切换。
+- **弹簧距离插值**：基于 Motion Spring 动态计算邻近项的放大比例，手感细腻跟手。
+- **方向与尺寸自定义**：支持 `horizontal`（水平）与 `vertical`（垂直）两种布局。
+
+### 何时不建议使用
+- 在紧凑的移动端触屏视口中，建议使用标准 `Tabs` 或底部导航栏以避免 hover 依赖。
+
+## 组件属性 · Props
+
+<PropsTable name="dock" />
+
+## 事件 · Events
+
+- `DockItem` 继承原生按钮属性，支持标准的 `onClick` 事件。
+
+## 拓展使用 · Extended usage
+
+可结合 `DockSeparator` 划分功能模块，并在 `DockItem` 中放置徽标计数或状态呼吸点。

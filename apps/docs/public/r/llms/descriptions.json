@@ -2,7 +2,7 @@
   "name": "descriptions",
   "type": "registry:ui",
   "title": "描述列表 Descriptions",
-  "description": "以清晰的键值结构展示对象、记录与档案信息。",
+  "description": "以清晰对齐的键值结构展示对象、记录与档案详情，支持跨列合并、边框网格与上下/左右排版。",
   "import": "import { Descriptions, DescriptionsItem } from \"@/components/ui/descriptions\"",
   "exports": [
     "Descriptions",
@@ -84,11 +84,18 @@
       "description": "横向布局中每个标签单元格的固定宽度。"
     }
   ],
-  "events": "描述列表本身不产生业务事件。通过 `extra` 放置编辑、复制等轻量操作；字段值中的链接或按钮仍保留各自的原生事件。",
   "examples": [
     {
       "name": "descriptions-demo",
       "title": "基础用法"
+    },
+    {
+      "name": "descriptions-bordered",
+      "title": "带边框多列详情（实例档案）"
+    },
+    {
+      "name": "descriptions-vertical",
+      "title": "上下排版布局（订阅概览）"
     }
   ],
   "files": [

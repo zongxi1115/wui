@@ -2,7 +2,7 @@
   "name": "tabs",
   "type": "registry:ui",
   "title": "标签栏 Tabs",
-  "description": "使用共享布局动效平滑切换内容分区。",
+  "description": "用于在同一界面区域切换展示同层级内容分区的导航组件，内置共享布局弹性滑块动效与完整的键盘无障碍能力。",
   "import": "import { Tabs, TabsContent, TabsList, TabsTrigger, tabsListVariants } from \"@/components/ui/tabs\"",
   "exports": [
     "Tabs",
@@ -36,15 +36,22 @@
       "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
     }
   ],
-  "events": "- `onValueChange(value)`：当前标签变化后触发，参数是 `TabsTrigger` 的 `value`。\n- 键盘方向键、Home、End 与焦点管理由 Radix 处理。",
   "examples": [
     {
       "name": "tabs-demo",
-      "title": "基础用法"
+      "title": "胶囊式标签与微动效"
     },
     {
       "name": "tabs-underline",
-      "title": "下划线样式"
+      "title": "下划线样式与设置页"
+    },
+    {
+      "name": "tabs-controlled",
+      "title": "受控模式与动态徽标"
+    },
+    {
+      "name": "tabs-card",
+      "title": "综合业务表单选项卡"
     }
   ],
   "files": [

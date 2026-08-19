@@ -1,41 +1,146 @@
 ---
 title: 下载 Download
-description: 同时表达文件信息、下载进度与完成反馈的下载操作组件。
+description: 整合文件名识别、文件类型图标推导、下载进度跟踪与完成反馈于一体的卡片式下载组件。
 component: download
 ---
 
 ## 基础用法
 
+点击下载卡片启动下载流程，内置平滑的进度条与完成状态切换：
+
 <ComponentPreview name="download-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/download" />
 
+<Steps>
+
+<Step>安装图标与动效库依赖</Step>
+
+```bash
+pnpm add motion lucide-react class-variance-authority clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/download.tsx`</Step>
+
 <ComponentSource name="download" title="components/ui/download.tsx" />
 
-## 使用场景
+</Steps>
 
-`Download` 将文件名、文件大小、进度和操作反馈放在同一个下载入口中，适合报告、资源包、媒体和导出文件。
-只有一个简单的小文件时，普通 Button 配合下载图标更轻量，不必使用完整下载卡片。
+## 属性 Props
 
-传入 `href` 可以直接使用浏览器的下载行为；需要请求接口、鉴权或临时生成文件时使用 `onDownload`。
-业务方通过 `status` 和 `progress` 控制下载生命周期，组件不会替你发起接口请求。
+`Download` 支持以下配置属性，并继承 Motion 按钮的原生属性：
 
-组件默认根据 `filename` 的后缀显示对应的 Lucide 文件图标。通过 `fileIcon` 可以传入自定义图标，或传入 `false` 隐藏图标。
+<PropsTable
+  data={[
+    {
+      prop: "filename",
+      type: "string",
+      required: true,
+      description: "下载文件名称（例如 'report.pdf'）。组件会自动根据扩展名匹配对应的 Lucide 文件类型图标。",
+    },
+    {
+      prop: "meta",
+      type: "string",
+      description: "副标题元数据信息（例如 'ZIP · 48.2 MB'）。若未提供，则根据当前 status 显示默认文案提示。",
+    },
+    {
+      prop: "fileIcon",
+      type: "React.ReactNode | false",
+      description: "自定义左侧文件图标；若传 false 则隐藏左侧图标区域。",
+    },
+    {
+      prop: "href",
+      type: "string",
+      description: "文件直链地址。提供时点击卡片将自动触发原生浏览器文件保存。",
+    },
+    {
+      prop: "status",
+      type: '"idle" | "downloading" | "complete" | "error"',
+      default: '"idle"',
+      description: "下载生命周期状态。idle 为就绪，downloading 为正在下载中，complete 为下载完成，error 为异常中断重试。",
+    },
+    {
+      prop: "progress",
+      type: "number",
+      default: "0",
+      description: "当前下载百分比进度（0 ~ 100）。若 progress 为 0 且处于 downloading 状态，则呈现不确定无限往返流光动画。",
+    },
+    {
+      prop: "size",
+      type: '"default" | "compact"',
+      default: '"default"',
+      description: "卡片的物理尺寸密度。default 适合独立卡片展示，compact 适合列表或附件栏排布。",
+    },
+    {
+      prop: "onDownload",
+      type: "() => void | Promise<void>",
+      description: "用户触发下载时的异步回调函数。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于外层按钮卡片的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-## 属性
+## 事件 Events
 
-<PropsTable name="download" />
+<PropsTable
+  data={[
+    {
+      prop: "onDownload",
+      type: "() => void | Promise<void>",
+      description: "用户点击卡片触发下载时调用，可返回 Promise 自动等待异步任务结束。",
+    },
+    {
+      prop: "onClick",
+      type: "(event: React.MouseEvent<HTMLButtonElement>) => void",
+      description: "原生按钮点击事件。",
+    },
+    {
+      prop: "onFocus",
+      type: "(event: React.FocusEvent<HTMLButtonElement>) => void",
+      description: "卡片获得键盘焦点时触发。",
+    },
+    {
+      prop: "onBlur",
+      type: "(event: React.FocusEvent<HTMLButtonElement>) => void",
+      description: "卡片失去键盘焦点时触发。",
+    },
+  ]}
+/>
 
-## 事件
+## 使用场景与设计规范
 
-- `onDownload()`：用户激活下载时调用，可返回 Promise；异步任务应在 Promise 结束后更新状态。
-- 原生 `onFocus`、`onBlur` 等按钮事件会继续透传。
+`Download` 专为**导出报表、资源包分发、多媒体附件与文档下载**设计：
 
-## 扩展用法
+- **自动推导 30+ 种文件格式图标**：内置对 `pdf`, `zip`, `mp4`, `xlsx`, `docx`, `ts`, `svg`, `key` 等主流后缀的智能映射，开发者只需传入 `filename="Design.zip"` 即可自动渲染对应的压缩包图标。
+- **确切进度 vs 不确定进度**：
+  - 若能获取真实下载字节数，传入 `progress={percent}`，展示平滑增长的进度条。
+  - 若处于服务端打包或流式准备阶段无法预估大小，保持 `progress={0}`，组件会自动展示流光往返呼吸态。
+- **微动效与反馈**：下载完成后，图标呈现平滑缩放弹跳，右侧图标自动无缝交叉过渡为绿色勾选，带来极致的完成确定感。
 
-### 紧凑尺寸与状态
+## 场景示例
+
+### 各生命周期状态与自定义图标
+
+对比 `idle`、`downloading`、`complete` 以及自定义文件密钥图标：
 
 <ComponentPreview name="download-states" />
 
-`status` 支持 `idle`、`downloading`、`complete` 和 `error`；`progress` 接受 0–100 的数值。
-只有在能计算出实际比例时才显示进度；无法确定进度的请求应保持加载状态，避免显示虚假的百分比。
+### 紧凑附件列表 (Compact List)
+
+在消息气泡底部或邮件附件区域使用 `size="compact"` 密集排布多个文件：
+
+<ComponentPreview name="download-compact" />
+
+## 无障碍与交互 Accessibility
+
+- **语义按钮结构**：外层基于 `<button type="button">` 构建，原生支持键盘 <kbd>Enter</kbd> / <kbd>Space</kbd> 触发。
+- **动态状态播报**：根据 `status` 自动生成屏幕阅读器易读的辅助文案（如“准备下载”、“已下载 64%”、“已保存至设备”）。
+- **动效降级**：进度条填充与图标缩放弹簧在检测到 `prefers-reduced-motion` 时自动关闭过渡动效。

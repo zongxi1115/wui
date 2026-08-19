@@ -1,31 +1,149 @@
 ---
 title: 文本循环 Text Loop
-description: 在多段文本或行内内容之间自动循环切换。
+description: 在多段文本、关键词或行内节点之间自动平滑轮换切换的动效组件。
 component: text-loop
 ---
 
 ## 基础用法
 
+最简单的文本循环用法。传入一组子节点，组件将以设定的时间间隔在它们之间自动平滑过渡：
+
 <ComponentPreview name="text-loop-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/text-loop" />
 
+<Steps>
+
+<Step>安装基础依赖与 Motion 动效库</Step>
+
+```bash
+pnpm add motion clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/text-loop.tsx`</Step>
+
 <ComponentSource name="text-loop" title="components/ui/text-loop.tsx" />
 
-## 使用场景
+</Steps>
 
-`TextLoop` 用于在一句话中轮换关键词、功能标签或短状态。子项可以是任意 React 节点，但应保持相近尺寸，避免页面布局反复跳动。
-轮换内容应表达同一类信息，不要让同一句话在每次切换后改变含义。
+## 属性 Props
 
-## 属性
+`TextLoop` 支持以下配置属性，并继承原生 `<span>` 的全部 HTML 属性：
 
-<PropsTable name="text-loop" />
+<PropsTable
+  data={[
+    {
+      prop: "children",
+      type: "React.ReactNode[]",
+      required: true,
+      description: "按顺序依次轮换展示的 React 节点数组（可为纯文本、带样式的 span 或复杂行内块）。",
+    },
+    {
+      prop: "interval",
+      type: "number",
+      default: "2.5",
+      description: "每个子项保持展示的时长（单位：秒）。",
+    },
+    {
+      prop: "trigger",
+      type: "boolean",
+      default: "true",
+      description: "控制自动轮换的播放/暂停状态。设为 false 时暂停轮换并保持当前项展示。",
+    },
+    {
+      prop: "variants",
+      type: "Variants",
+      description: "定义子项进入 (initial)、就绪 (animate) 与移出 (exit) 的 Motion 动画变体状态。",
+    },
+    {
+      prop: "transition",
+      type: "Transition",
+      default: '{ duration: 0.35, ease: "easeOut" }',
+      description: "应用于子项切换时的自定义 Motion 过渡动画参数。",
+    },
+    {
+      prop: "mode",
+      type: '"popLayout" | "sync" | "wait"',
+      default: '"popLayout"',
+      description: "底层 AnimatePresence 的多元素编排排版模式。默认为 popLayout 确保无缝叠放。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于外层 span 容器的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-## 事件
+## 事件 Events
 
-`onIndexChange` 在索引切换后返回新索引。`trigger={false}` 会暂停自动轮换，原生 `<span>` 事件照常透传。
+<PropsTable
+  data={[
+    {
+      prop: "onIndexChange",
+      type: "(index: number) => void",
+      description: "当活动子项索引发生切换时触发的回调函数，参数为最新的索引序号（从 0 开始）。",
+    },
+  ]}
+/>
 
-## 扩展用法
+## 使用场景与设计规范
 
-可以通过 `variants` 自定义切换方向，通过 `mode` 调整新旧内容的排序策略。持续循环的文字不应承载必须被读屏即时获知的重要状态；
-重要状态应使用静态文本或 Alert 明确呈现。
+`TextLoop` 适用于在**有限的水平空间内**展示多样化或动态更新的内容，常见于产品主标语的关键词轮换、动态公告胶囊栏、客户评价轮播和系统状态展示。
+
+- **尺寸相近原则**：轮换的各个子项应尽量保持相近的字符长度与物理高度。若子项长短差距过大，会导致包裹容器剧烈抖动，影响阅读稳定性。
+- **语义一致性**：同一行轮换的内容必须属于同一个语法范畴（例如皆为主语修饰词、技术栈名称或功能特性），确保句子在任何时刻都能完整通顺地表达含义。
+- **可控交互与悬停暂停**：对于包含较多信息量的公告栏或评价，强烈建议搭配悬停暂停（`onMouseEnter` 时设置 `trigger={false}`），让用户有充足的时间阅读并点击感兴趣的条目。
+
+## 场景示例
+
+### 业务动态与公告胶囊
+
+将带图标、徽章与文字的复合节点放入 `TextLoop`，可构建紧凑轻量的通告栏：
+
+<ComponentPreview name="text-loop-badges" />
+
+### 自定义过渡方向与 3D 翻转
+
+通过传入自定义 `variants`，轻松实现横向推入、3D 空间翻转或缩放淡入等多种运动质感：
+
+<ComponentPreview name="text-loop-custom-transitions" />
+
+```tsx
+const flip3DVariants = {
+  initial: { rotateX: 90, opacity: 0 },
+  animate: { rotateX: 0, opacity: 1 },
+  exit: { rotateX: -90, opacity: 0 },
+}
+
+export function FlipLoop() {
+  return (
+    <TextLoop
+      variants={flip3DVariants}
+      transition={{ type: "spring", stiffness: 350, damping: 25 }}
+    >
+      {[
+        <span key="aws">AWS</span>,
+        <span key="vercel">Vercel</span>,
+        <span key="cloudflare">Cloudflare</span>,
+      ]}
+    </TextLoop>
+  )
+}
+```
+
+### 悬停暂停与步骤指示器
+
+结合 `trigger`、`onIndexChange` 与外部状态，实现悬停自动暂停、手动播放/暂停控制以及同步步骤小圆点：
+
+<ComponentPreview name="text-loop-interactive" />
+
+## 无障碍与交互 Accessibility
+
+- **减少动态效果降级**：组件内置适配 `prefers-reduced-motion`。当系统开启减少动态效果时，过渡时长将自动归零，新旧内容将以即时切换的形式呈现，避免产生眩晕感。
+- **布局防抖（Layout Stability）**：外层容器采用 `inline-grid` 与 `col-start-1 row-start-1` 的网格层叠布局，配合 `AnimatePresence mode="popLayout"`，使得退出的旧项与进入的新项处于同一几何网格中，杜绝了由于绝对定位脱离文档流引发的父容器高度塌陷。
+- **核心关键状态警示**：对于关系到资金、数据安全或系统致命故障的核心警报，请直接使用静态明确的 `Alert` 组件呈现，切勿仅依赖轮播文字传递关键信息。

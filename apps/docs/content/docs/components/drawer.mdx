@@ -1,35 +1,189 @@
 ---
 title: 抽屉 Drawer
-description: 从视口边缘平滑进入、用于承载补充任务的焦点面板。
+description: 从屏幕边缘平滑滑出的焦点抽屉面板，用于承载查看详情、多步表单与辅助配置，同时保留主页面的上下文环境。
 component: drawer
 ---
 
 ## 基础用法
 
+点击触发按钮从屏幕边缘滑出抽屉面板，内置背景遮罩与弹性物理微动效：
+
 <ComponentPreview name="drawer-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/drawer" />
 
+<Steps>
+
+<Step>安装基础依赖与动效库</Step>
+
+```bash
+pnpm add radix-ui motion lucide-react clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/drawer.tsx`</Step>
+
 <ComponentSource name="drawer" title="components/ui/drawer.tsx" />
 
-## 使用场景
+</Steps>
 
-`Drawer` 适合在不离开当前页面的情况下查看详情、编辑设置或完成一段短流程。它保留底层页面上下文，
-同时提供焦点圈定、Esc 关闭和遮罩点击关闭。需要用户集中确认的高风险操作，或内容很短且必须立刻决定的操作，应使用 Dialog。
+## 属性 Props
 
-## 属性
+### Drawer (根组件)
 
-<PropsTable name="drawer" />
+<PropsTable
+  data={[
+    {
+      prop: "open",
+      type: "boolean",
+      description: "受控模式下的打开状态，需配合 onOpenChange 使用。",
+    },
+    {
+      prop: "defaultOpen",
+      type: "boolean",
+      default: "false",
+      description: "非受控模式下的初始打开状态。",
+    },
+    {
+      prop: "onOpenChange",
+      type: "(open: boolean) => void",
+      description: "抽屉打开或关闭状态变化时的回调函数。",
+    },
+    {
+      prop: "modal",
+      type: "boolean",
+      default: "true",
+      description: "是否以模态形式呈现（锁定页面滚动并阻止外部交互）。",
+    },
+  ]}
+/>
 
-`DrawerContent` 提供 `side`（`top`、`right`、`bottom`、`left`）、`size`（`sm`、`default`、`lg`、`full`）和 `hideClose`。
-隐藏关闭按钮时，必须在内容中提供其他明确的关闭方式。
+### DrawerContent
 
-## 事件
+`DrawerContent` 为滑出面板的主体容器：
 
-根组件沿用 Radix Dialog 的 `open`、`defaultOpen` 和 `onOpenChange`。受控模式下，`onOpenChange` 需要同步更新 `open`。
-面板从指定边缘进入，关闭时沿同一路径返回；用户开启“减少动态效果”后直接呈现最终位置。
+<PropsTable
+  data={[
+    {
+      prop: "side",
+      type: '"top" | "right" | "bottom" | "left"',
+      default: '"right"',
+      description: "抽屉从屏幕的哪一侧边缘滑入。",
+    },
+    {
+      prop: "size",
+      type: '"sm" | "default" | "lg" | "full"',
+      default: '"default"',
+      description: "抽屉面板的预设尺寸密度（水平方向为宽度，垂直方向为高度）。",
+    },
+    {
+      prop: "hideClose",
+      type: "boolean",
+      default: "false",
+      description: "是否隐藏右上角内置的快捷关闭按钮图标。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于抽屉主容器的自定义 CSS 类名。",
+    },
+  ]}
+/>
 
-## 扩展用法
+### DrawerHeader / DrawerBody / DrawerFooter / DrawerTitle / DrawerDescription
 
-使用 `DrawerHeader`、`DrawerBody` 和 `DrawerFooter` 建立稳定的标题、滚动内容和操作区域。移动端的长表单建议使用
-`side="bottom"` 或 `size="full"`；桌面详情面板通常从右侧进入。底部操作区应保持可见，不要随着长内容一起滚出视口。
+<PropsTable
+  data={[
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于相应结构容器的额外类名。",
+    },
+    {
+      prop: "children",
+      type: "React.ReactNode",
+      description: "容器内部渲染的子元素。",
+    },
+  ]}
+/>
+
+## 事件 Events
+
+<PropsTable
+  data={[
+    {
+      prop: "onOpenChange",
+      type: "(open: boolean) => void",
+      description: "抽屉可见状态发生改变时调用（包括点击触发器、遮罩、Esc 键或关闭按钮）。",
+    },
+    {
+      prop: "onPointerDownOutside",
+      type: "(event: PointerDownOutsideEvent) => void",
+      description: "在抽屉浮层外部点击时触发，调用 event.preventDefault() 可阻止点击遮罩关闭抽屉。",
+    },
+    {
+      prop: "onEscapeKeyDown",
+      type: "(event: KeyboardEvent) => void",
+      description: "按下键盘 Esc 键时触发，调用 event.preventDefault() 可阻止快捷键关闭行为。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`Drawer` 在不离开当前页面上下文的前提下，为用户提供大容量、深层级的交互空间：
+
+- **组件选型对比**：
+  - **Drawer vs Dialog**：`Dialog` 适合强聚焦、短小决策或高危警告；`Drawer` 沿边缘延伸，纵向滚动空间充裕，适合多字段表单、明细查看、历史记录列表。
+  - **Drawer vs 独立路由页面**：当查看或编辑内容与当前主列表强关联，且操作完成后需要立即在主界面反映（不丢失主页滚动位置和筛选条件）时，优先采用 `Drawer` 代替路由跳转。
+- **经典三段式结构规范**：
+  - **DrawerHeader**：固定在顶部，展示清晰的业务标题与辅助描述，右上角提供关闭图标。
+  - **DrawerBody**：自适应撑满剩余高度，内置 `overflow-y-auto` 滚动容器，确保长内容流畅浏览。
+  - **DrawerFooter**：吸附在底部，保持主要操作（如“保存”、“提交”）始终可见，避免随长内容滚出视口。
+- **边缘选择建议**：
+  - **Right（右侧）**：桌面端最标准的详情面板与侧边工作台。
+  - **Bottom（底部）**：移动端触控优选（Bottom Sheet）或全局多选批量操作栏。
+  - **Left（左侧）**：收起式侧边导航或多级文档目录。
+
+## 场景示例
+
+### 详情预览面板
+
+在表格或主列表中点击单条记录，从右侧拉出抽屉查看详尽的发布状态与元数据指标：
+
+<ComponentPreview name="drawer-demo" />
+
+### 四向滑出位置
+
+支持配置 `side="top" | "right" | "bottom" | "left"`，以满足移动端 Bottom Sheet、左侧导航或顶部搜索托盘等多样化布局需求：
+
+<ComponentPreview name="drawer-placement" />
+
+### 复杂表单与固定底部栏
+
+将 `DrawerHeader`、`DrawerBody` 与 `DrawerFooter` 组合在 `<form>` 内部，实现内容独立滚动、操作栏固定吸底的表单抽屉：
+
+<ComponentPreview name="drawer-form" />
+
+### 尺寸预设与响应式
+
+提供 `sm`、`default`、`lg`、`full` 四种尺寸预设，并在小屏设备上自动计算 `min(width, 100vw - 1rem)` 防止溢出：
+
+<ComponentPreview name="drawer-sizes" />
+
+## 无障碍与交互 Accessibility
+
+- **ARIA 规范**：
+  - 基于 Radix Dialog 语义，自动设置 `role="dialog"` 与 `aria-modal="true"`。
+  - `DrawerTitle` 与 `DrawerDescription` 自动生成 ID 并绑定 `aria-labelledby` 和 `aria-describedby`。
+- **键盘与焦点管理**：
+  - **焦点捕获（Focus Trap）**：抽屉滑出后，焦点被锁定在抽屉内部，键盘用户无法将焦点移到背后的被遮挡元素上。
+  - **焦点归还**：抽屉关闭后，焦点自动精确回到唤起该抽屉的触发按钮。
+  - **快捷键**：按下 <kbd>Esc</kbd> 即可平滑关闭抽屉。
+- **滚动锁定（Body Scroll Lock）**：
+  - 模态抽屉打开期间，背景页面的 `<body>` 会自动锁定滚动并补充滚动条占位，防止双重滚动与页面抖动。
+- **动效减弱**：
+  - 自动支持 `prefers-reduced-motion`，开启后禁用弹性位移动画，转为瞬时切换。

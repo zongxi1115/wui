@@ -2,7 +2,7 @@
   "name": "shiny-button",
   "type": "registry:ui",
   "title": "闪光按钮 Shiny Button",
-  "description": "带有流动扫光效果的填充按钮。",
+  "description": "带有连续平滑流动扫光效果的高亮展示型按钮，用于强化页面核心行动点（CTA）与转化入口。",
   "categories": [
     "fancy"
   ],
@@ -48,19 +48,22 @@
       "description": "是否禁用组件。"
     }
   ],
-  "events": "`ShinyButton` 会像 [`Button`](/docs/components/button) 一样，将 `onClick`、`onFocus` 等原生按钮事件透传给底层元素。",
   "examples": [
     {
       "name": "shiny-button-demo",
       "title": "基础用法"
     },
     {
-      "name": "shiny-button-variants",
-      "title": "尺寸与形态"
+      "name": "shiny-button-pricing",
+      "title": "定价与方案升级对比"
     },
     {
       "name": "shiny-button-card",
-      "title": "行动召唤横幅"
+      "title": "早鸟与产品宣传横幅"
+    },
+    {
+      "name": "shiny-button-variants",
+      "title": "尺寸与形状变体"
     }
   ],
   "files": [

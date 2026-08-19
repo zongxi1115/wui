@@ -1,42 +1,173 @@
 ---
 title: 折叠面板 Collapsible
-description: 按需展开一段补充内容，并保留清晰的状态与键盘交互。
+description: 按需展开与收起补充内容的渐进式披露组件，内置平滑高度补间动效与完整的键盘无障碍控制。
 component: collapsible
 ---
 
 ## 基础用法
 
+最基础的折叠面板用法。点击触发器区域展开或收起下方关联的内容区块：
+
 <ComponentPreview name="collapsible-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/collapsible" />
 
+<Steps>
+
+<Step>安装基础依赖、Radix 原语与动效库</Step>
+
+```bash
+pnpm add radix-ui motion lucide-react clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/collapsible.tsx`</Step>
+
 <ComponentSource name="collapsible" title="components/ui/collapsible.tsx" />
 
-## 使用场景
+</Steps>
 
-`Collapsible` 用于隐藏暂时不需要的补充信息，例如高级设置、详情和次级导航。触发器始终可见，用户可以随时展开或收起。
-不要把完成当前任务所必需的字段放进默认收起的区域，也不要用它替代需要同时展开多个面板的 Accordion。
+## 属性 Props
 
-内容展开时会有短促的高度和透明度过渡；用户开启“减少动态效果”后会直接切换到最终状态。
+### Collapsible
 
-## 属性
+根容器组件，统一分发展开状态上下文：
 
-<PropsTable name="collapsible" />
+<PropsTable
+  data={[
+    {
+      prop: "open",
+      type: "boolean",
+      description: "受控模式下的展开状态。",
+    },
+    {
+      prop: "defaultOpen",
+      type: "boolean",
+      default: "false",
+      description: "非受控模式下的初始展开状态。",
+    },
+    {
+      prop: "onOpenChange",
+      type: "(open: boolean) => void",
+      description: "展开状态发生改变时的回调函数。",
+    },
+    {
+      prop: "disabled",
+      type: "boolean",
+      default: "false",
+      description: "是否禁用折叠面板的展开/收起交互。",
+    },
+    {
+      prop: "asChild",
+      type: "boolean",
+      default: "false",
+      description: "是否将属性与行为合并到唯一的子元素上渲染。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于外层容器的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-- `Collapsible` 透传 Radix Root 的 `open`、`defaultOpen`、`disabled` 和 `onOpenChange`。
-- `CollapsibleTrigger` 支持 `asChild`，也可以通过 `showIndicator={false}` 隐藏默认箭头。
-- `CollapsibleContent` 负责展开区域及其动效；收起后，内部内容会从键盘导航和辅助技术中移除。
+### CollapsibleTrigger
 
-## 事件
+折叠交互触发器，默认输出带旋转箭头的按钮：
 
-- `onOpenChange(open)`：用户点击触发器，或受控状态被更新时触发。
-- 触发器使用原生按钮语义，支持 Enter 与 Space，并同步 `aria-expanded` 和内容关联关系。
+<PropsTable
+  data={[
+    {
+      prop: "showIndicator",
+      type: "boolean",
+      default: "true",
+      description: "是否在右侧展示跟随展开状态 180 度旋转的 Chevron 下拉箭头指示器。",
+    },
+    {
+      prop: "asChild",
+      type: "boolean",
+      default: "false",
+      description: "是否将触发器属性与点击行为合并到传入的自定义子元素上。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于触发器按钮的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-## 扩展用法
+### CollapsibleContent
 
-### 受控状态
+折叠内容区域，内置高度从 0 到 auto 的平滑过渡动效：
+
+<PropsTable
+  data={[
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于内容动效容器的额外 CSS 类名。",
+    },
+    {
+      prop: "children",
+      type: "React.ReactNode",
+      description: "需要按需展示的折叠内容。",
+    },
+  ]}
+/>
+
+## 事件 Events
+
+<PropsTable
+  data={[
+    {
+      prop: "onOpenChange",
+      type: "(open: boolean) => void",
+      description: "用户点击触发器、使用快捷键或外部状态更新导致展开/收起状态改变时触发，返回最新的布尔值。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`Collapsible` 用于在不跳转页面的前提下，按需**渐进式披露（Progressive Disclosure）**次要或高级内容。
+
+- **组件选型对比**：
+  - **Collapsible**：用于**单一独立区域**的按需展开（如单个卡片内部的“高级设置”、单项代码变更 Diff）。
+  - **Accordion（手风琴）**：用于**一组多项并列折叠面板**（通常支持单项互斥或多项批量展开，如常见 FAQ 列表、多分组导航树）。
+- **默认展开策略**：
+  - **关键主流程字段**：切勿默认收起；若用户必须填写或频繁阅读，应直接平铺展示。
+  - **低频配置（如高级安全签名、日志明细）**：默认收起（`defaultOpen={false}`），保持界面整洁精炼。
+- **指示器旋转动效**：右侧箭头在展开时顺畅旋转 180°，明确传达当前开合状态。
+
+## 场景示例
+
+### 受控状态模式
+
+通过 `open` 与 `onOpenChange` 将折叠状态与外部指示器或工具栏联动：
 
 <ComponentPreview name="collapsible-controlled" />
 
-当页面其他区域需要读取或改变展开状态时，传入 `open` 与 `onOpenChange`。受控模式下，回调必须更新外部状态，
-否则触发器会有点击反馈但内容不会展开。如果多个区域彼此互斥，应使用 Accordion，而不是手动同步多个 `Collapsible`。
+### 代码变更折叠列表（Git Diff）
+
+在代码评审或发布日志中，将每个文件的改动包裹在独立的折叠面板中按需查阅：
+
+<ComponentPreview name="collapsible-nested" />
+
+### 表单卡片中的高级配置区块
+
+在配置面板中将高级安全参数置于卡片底部的折叠区中，保持主表单专注干净：
+
+<ComponentPreview name="collapsible-card" />
+
+## 无障碍与交互 Accessibility
+
+- **ARIA 状态关联**：底层基于 Radix UI 原语，触发器自动携带 `aria-expanded="true | false"` 并通过 `aria-controls` 关联对应内容块 ID。
+- **键盘快捷键**：
+  - <kbd>Tab</kbd>：聚焦到触发器按钮上，展现清晰的高对比度焦点圈。
+  - <kbd>Enter</kbd> / <kbd>Space</kbd>：快速切换展开与收起状态。
+- **焦点隔离与惰性隐藏**：内容在收起状态下会自动设置 `inert` 与 `aria-hidden="true"`，键盘 Tab 键无法意外聚焦到已折叠隐藏的内部输入框或链接上。
+- **平滑动画与动效降级**：高度补间通过 `motion/react` 驱动，系统开启“减少动态效果（prefers-reduced-motion）”时动画持续时间自动归零，实现瞬间无闪烁切换。

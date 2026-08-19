@@ -2,7 +2,7 @@
   "name": "ai-message-actions",
   "type": "registry:ui",
   "title": "AI 消息操作 AI Message Actions",
-  "description": "用于 AI 回答底部的标准化快捷操作栏，包含反馈评价、分支版本切换、一键复制与重新生成。",
+  "description": "用于 AI 回答气泡底部的标准化快捷操作栏，包含评价点赞、多版本分支切换、一键复制与流式重新生成。",
   "categories": [
     "ai"
   ],
@@ -55,7 +55,15 @@
   "examples": [
     {
       "name": "ai-message-actions-demo",
-      "title": "基础示例 · Basic example"
+      "title": "基础用法"
+    },
+    {
+      "name": "ai-message-actions-bordered",
+      "title": "边框浮动卡片风格"
+    },
+    {
+      "name": "ai-message-actions-branching",
+      "title": "多版本分支切换与重新生成联动"
     }
   ],
   "files": [

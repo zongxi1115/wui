@@ -1,40 +1,162 @@
 ---
 title: 上传 Upload
-description: 支持点击选择、拖拽放置与上传状态反馈的文件上传组件。
+description: 支持点击选取、文件拖拽放置、上传进度百分比展示与状态生命周期反馈的文件上传控件。
 component: upload
 ---
 
 ## 基础用法
 
+最简单的文件上传用法。点击区域选择文件，或直接将文件从桌面拖拽到虚线框内：
+
 <ComponentPreview name="upload-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/upload" />
 
+<Steps>
+
+<Step>安装基础依赖与动效库</Step>
+
+```bash
+pnpm add motion lucide-react class-variance-authority clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/upload.tsx`</Step>
+
 <ComponentSource name="upload" title="components/ui/upload.tsx" />
 
-## 使用场景
+</Steps>
 
-`Upload` 将文件选择、拖拽区域和上传反馈放在同一个入口中，适合附件、媒体资源和批量文件上传。示例在上传完成后用
-`Download` 展示文件，说明了从选择、上传到取回文件的完整流程。
+## 属性 Props
 
-组件负责文件选择和交互状态，不预设请求地址、鉴权方式或存储服务。只需要拿到文件时使用 `onFilesChange`；
-需要组件跟踪上传生命周期时，使用 `onUpload` 并返回 Promise。
+`Upload` 支持以下配置属性，并继承底层隐藏 `<input type="file">` 的 HTML 属性：
 
-## 属性
+<PropsTable
+  data={[
+    {
+      prop: "label",
+      type: "string",
+      default: '"Drop files here or click to browse"',
+      description: "拖拽放置区域内的主标题文案引导。",
+    },
+    {
+      prop: "description",
+      type: "string",
+      description: "主标题下方的副标题或文件格式、大小说明文案。",
+    },
+    {
+      prop: "status",
+      type: '"idle" | "uploading" | "complete" | "error"',
+      default: '"idle"',
+      description: "受控模式下的上传生命周期状态。",
+    },
+    {
+      prop: "progress",
+      type: "number",
+      default: "0",
+      description: "当前上传进度的百分比数值（0 ~ 100）。大于 0 时渲染确定进度条，为 0 时呈现不确定流动波纹动效。",
+    },
+    {
+      prop: "size",
+      type: '"default" | "compact"',
+      default: '"default"',
+      description: "上传拖拽区域的物理尺寸密度。",
+    },
+    {
+      prop: "multiple",
+      type: "boolean",
+      default: "false",
+      description: "是否允许一次性选择或拖放多个文件。",
+    },
+    {
+      prop: "accept",
+      type: "string",
+      description: "文件选择器过滤的文件类型（如 `'image/*'`、`'.pdf,.docx'`、`'application/zip'`）。",
+    },
+    {
+      prop: "onFilesChange",
+      type: "(files: File[]) => void",
+      description: "用户选定或拖入文件后立即触发的回调，常用于业务层自主控制上传逻辑。",
+    },
+    {
+      prop: "onUpload",
+      type: "(files: File[]) => void | Promise<void>",
+      description: "选择文件后自动执行的上传函数。若返回 Promise，组件内部会自动管理 uploading/complete/error 状态。",
+    },
+    {
+      prop: "disabled",
+      type: "boolean",
+      default: "false",
+      description: "是否禁用拖拽与文件选取交互。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于外层拖拽容器的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-<PropsTable name="upload" />
+## 事件 Events
 
-## 事件
+<PropsTable
+  data={[
+    {
+      prop: "onFilesChange",
+      type: "(files: File[]) => void",
+      description: "当用户通过系统文件对话框或拖放放入合法文件时调用，参数为 File 数组。",
+    },
+    {
+      prop: "onUpload",
+      type: "(files: File[]) => void | Promise<void>",
+      description: "上传任务执行函数。可通过 async/await 处理上传流程，组件会据此更新图标动效与文字状态。",
+    },
+  ]}
+/>
 
-- `onFilesChange(files)`：用户选择或拖入文件后立即调用，适合由业务层自行上传。
-- `onUpload(files)`：选择文件后调用；返回 Promise 时，非受控模式会跟随 Promise 更新上传中、完成或失败状态。
-- 原生表单属性以及 `onFocus`、`onBlur` 等输入事件会继续透传到隐藏的文件输入框。
+## 使用场景与设计规范
 
-## 扩展用法
+`Upload` 适用于**附件上传、个人资料头像设定、大型文件与素材交付**等场景。
 
-### 尺寸与状态
+- **拖拽热区反馈（Drop Zone）**：当文件悬停在组件上方时，边框高亮并伴随柔和的弹簧放大效果；松开鼠标后自动解析文件列表。
+- **状态流转与微动效**：
+  - `idle`：常态虚线框与云上传图标。
+  - `uploading`：平滑旋转的加载指示器与进度条。
+  - `complete`：绿色实心打钩徽章与弹性缩放完成动画。
+  - `error`：红色错误提示并支持点击重新尝试。
+- **安全与校验双重防护**：前台 `accept` 仅用于便利用户筛选，服务端必须对上传的实际二进制流（Magic Number）进行严格的类型、安全扫描与大小校验。
+
+## 场景示例
+
+### 用户头像即时预览上传
+
+配置 `size="compact"` 并限制图片类型，在客户端生成 ObjectURL 实现无缝头像裁剪预览：
+
+<ComponentPreview name="upload-avatar" />
+
+### 进度条百分比反馈
+
+配合 `progress` 属性实时渲染动态进度条，适合大文件切片上传或耗时数据包解析：
+
+<ComponentPreview name="upload-progress-simulated" />
+
+### 多文件批量拖拽清单
+
+开启 `multiple` 支持多文档同时拖入，在下方展示文件清单卡片并支持单项移除与清空：
+
+<ComponentPreview name="upload-dropzone" />
+
+### 状态与尺寸矩阵
+
+直观对比 `default` 与 `compact` 尺寸在不同状态下的表现：
 
 <ComponentPreview name="upload-states" />
 
-`status` 支持 `idle`、`uploading`、`complete` 和 `error`；传入 `progress` 可显示 0–100 的确定进度。
-使用 `accept` 限制系统文件选择器中的文件类型，使用 `multiple` 开启多选。类型限制只改善选择体验，服务端仍必须重新校验文件类型、大小和内容。
+## 无障碍与交互 Accessibility
+
+- **语义化结构**：基于原生的 `<input type="file">` 隐藏渲染并使用 `<label>` 进行包裹，天然支持全键盘 Tab 聚焦与 Enter/Space 打开系统原生文件对话框。
+- **动态状态播报**：辅助描述区域包含 `aria-live="polite"`，状态切换（如从“正在上传”变为“上传完成”）时屏幕阅读器会自动进行无障碍播报。
+- **动效降级**：图标翻转、旋转循环与呼吸动效在检测到系统的 `prefers-reduced-motion` 设置时自动降级为无动画静态呈现。

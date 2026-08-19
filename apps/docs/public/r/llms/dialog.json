@@ -2,7 +2,7 @@
   "name": "dialog",
   "type": "registry:ui",
   "title": "对话框 Dialog",
-  "description": "基于 Radix UI 构建、覆盖在主窗口之上的浮层窗口。",
+  "description": "基于 Radix UI 与 Motion 构建的模态浮层窗口，支持焦点锁定、平滑弹性展开动效以及原地布局变换。",
   "import": "import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger } from \"@/components/ui/dialog\"",
   "exports": [
     "Dialog",
@@ -51,8 +51,20 @@
       "title": "基础用法"
     },
     {
+      "name": "dialog-form",
+      "title": "表单交互与受控状态"
+    },
+    {
       "name": "dialog-layout",
-      "title": "原地布局变换（非模态）"
+      "title": "原地布局变换（非模态 `variant=\"inline\"`）"
+    },
+    {
+      "name": "dialog-custom-size",
+      "title": "自定义尺寸与大内容展示"
+    },
+    {
+      "name": "dialog-destructive",
+      "title": "破坏性操作二次确认"
     }
   ],
   "files": [

@@ -2,7 +2,7 @@
   "name": "context-menu",
   "type": "registry:ui",
   "title": "右键菜单 Context Menu",
-  "description": "在对象或指定区域上通过右键或长按提供就地操作。",
+  "description": "在指定对象、表格行或操作区域上通过鼠标右键或触屏长按呼出的就地快捷操作浮层。",
   "import": "import { ContextMenu, ContextMenuCheckboxItem, ContextMenuContent, ContextMenuGroup, ContextMenuItem, ContextMenuLabel, ContextMenuPortal, ContextMenuRadioGroup, ContextMenuRadioItem, ContextMenuSeparator, ContextMenuShortcut, ContextMenuSub, ContextMenuSubContent, ContextMenuSubTrigger, ContextMenuTrigger } from \"@/components/ui/context-menu\"",
   "exports": [
     "ContextMenu",
@@ -42,8 +42,12 @@
       "title": "基础用法"
     },
     {
+      "name": "context-menu-file",
+      "title": "丰富的文件管理右键菜单"
+    },
+    {
       "name": "context-menu-advanced",
-      "title": "状态项与子菜单"
+      "title": "单选视图切换与偏好开关"
     }
   ],
   "files": [

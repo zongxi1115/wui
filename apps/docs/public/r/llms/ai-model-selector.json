@@ -2,7 +2,7 @@
   "name": "ai-model-selector",
   "type": "registry:ui",
   "title": "AI 模型选择器 AI Model Selector",
-  "description": "用于多模型切换下拉弹层、模型特性与参数标签展示，以及上下文 Token / Context Window 消耗进度指示。",
+  "description": "专为大语言模型切换、推理特性与能力标签展示，以及上下文 Token / Context Window 消耗进度指示设计的下拉选择器。",
   "categories": [
     "ai"
   ],
@@ -70,7 +70,11 @@
   "examples": [
     {
       "name": "ai-model-selector-demo",
-      "title": "基础示例 · Basic example"
+      "title": "基础用法"
+    },
+    {
+      "name": "ai-model-selector-advanced",
+      "title": "旗舰推理与极速轻量模型分级配置"
     }
   ],
   "files": [

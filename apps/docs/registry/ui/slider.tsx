@@ -92,7 +92,7 @@ function Slider({
         <SliderPrimitive.Thumb
           key={index}
           data-slot="slider-thumb"
-          className="group/thumb relative block size-3 cursor-grab rounded-full border-2 border-primary bg-white shadow-sm outline-none transition-[width,height] duration-150 ease-out group-hover:size-3.5 group-focus-within:size-3.5 active:cursor-grabbing disabled:pointer-events-none motion-reduce:transition-none"
+          className="group/thumb relative block size-3 cursor-grab rounded-full border-2 border-primary bg-background shadow-sm outline-none transition-[width,height] duration-150 ease-out group-hover:size-3.5 group-focus-within:size-3.5 active:cursor-grabbing disabled:pointer-events-none motion-reduce:transition-none"
         >
           {showValue !== "never" ? (
             <span

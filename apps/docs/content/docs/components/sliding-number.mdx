@@ -1,37 +1,122 @@
 ---
-title: 滑动数字 Sliding Number
-description: 用独立数字轮平滑过渡数值变化。
+title: 数字滚动 Sliding Number
+description: 每个数位独立运行垂直滚轮滚动，支持弹性阻尼过渡、浮点小数与补零格式化的数字动效组件。
 component: sliding-number
 ---
 
 ## 基础用法
 
+最简单的数字滚动用法。当绑定的数值发生改变时，受影响的数位将根据数值增减方向进行物理弹簧平滑滚动：
+
 <ComponentPreview name="sliding-number-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/sliding-number" />
 
-<ComponentSource
-  name="sliding-number"
-  title="components/ui/sliding-number.tsx"
+<Steps>
+
+<Step>安装依赖与 Motion 动效库</Step>
+
+```bash
+pnpm add motion clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/sliding-number.tsx`</Step>
+
+<ComponentSource name="sliding-number" title="components/ui/sliding-number.tsx" />
+
+</Steps>
+
+## 属性 Props
+
+`SlidingNumber` 支持以下配置属性，并继承原生 `<span>` 的全部 HTML 属性：
+
+<PropsTable
+  data={[
+    {
+      prop: "value",
+      type: "number | string",
+      required: true,
+      description: "当前待展示的目标数值（支持整数、浮点数以及带前缀符号的数字字符串）。",
+    },
+    {
+      prop: "padStart",
+      type: "boolean",
+      default: "false",
+      description: "是否为个位数自动在前方补零对齐（常用于时钟 09:05 或两位数倒计时）。",
+    },
+    {
+      prop: "decimalSeparator",
+      type: "string",
+      default: '"."',
+      description: "用于替换小数点的字符（如欧洲地区惯用的逗号 ,）。",
+    },
+    {
+      prop: "transition",
+      type: "Transition",
+      default: '{ type: "spring", stiffness: 260, damping: 28 }',
+      description: "应用于各个数位垂直滚轮运动的 Motion 弹簧动画过渡参数。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于外层 span 容器的额外 CSS 类名（默认内置 tabular-nums）。",
+    },
+  ]}
 />
 
-## 使用场景
+## 事件 Events
 
-`SlidingNumber` 适合计数器、实时指标、时钟和金额展示。每个数位独立滑动，非数字字符原样保留；
-组件会为读屏器提供完整值，而不是让辅助技术逐位朗读。
+`SlidingNumber` 支持所有原生 `<span>` 事件（如 `onClick`, `onMouseEnter` 等），并将属性直接透传至外层容器：
 
-## 属性
+<PropsTable
+  data={[
+    {
+      prop: "onClick",
+      type: "(event: React.MouseEvent<HTMLSpanElement>) => void",
+      description: "点击数字区域时触发的原生点击事件。",
+    },
+  ]}
+/>
 
-<PropsTable name="sliding-number" />
+## 使用场景与设计规范
 
-## 事件
+`SlidingNumber` 适用于需要**强调量化变化趋势与实时动态**的界面场景，例如实时遥测仪表盘、计费套餐切换、时钟日历以及倒计时。
 
-组件没有自有事件，并透传 `<span>` 的原生事件。修改 `value` 即会触发过渡；用户开启“减少动态效果”时数位立即更新。
+- **开启等宽数字（Tabular Nums）**：组件内置了 `tabular-nums` 类名，确保数字 `1` 与 `8` 占用完全相同的字宽，避免因数位宽度变动导致整行文字左右晃动。
+- **智能方向识别**：组件内部会自动比较最新值与前次值（Previous Value），当数值上升时滚轮向上滚动，数值下降时滚轮向下倒退，提供精准直观的物理方向映射。
+- **高频更新性能优化**：每个数位由独立的 `MotionValue` 和 `transform` 驱动，仅改变 GPU 复合层的 `transform: translateY`，不会触发整行 DOM 的回流（Reflow）。
 
-## 扩展用法
+## 场景示例
 
-### 时钟
+### 实时数字时钟
+
+结合 `padStart` 属性自动补零，呈现高精度的数字时钟看板：
 
 <ComponentPreview name="sliding-number-clock" />
 
-`padStart` 会为个位整数补零，`decimalSeparator` 可以设置小数符号。更复杂的千分位和货币格式建议先用 `Intl.NumberFormat` 生成字符串后再传入。
+### SaaS 数据大屏遥测监控
+
+在业务分析看板中，以物理滚动直观展示并发请求、在线用户与响应延迟的微小波动：
+
+<ComponentPreview name="sliding-number-stats" />
+
+### 套餐计费周期切换
+
+在月付与年付之间切换时，价格数字平滑滚动过渡，提升定价页面的交互品质：
+
+<ComponentPreview name="sliding-number-price-toggle" />
+
+### 发布会活动倒计时
+
+将天、时、分、秒分别绑定至 `SlidingNumber`，构建极具期待感的重要发布会倒计时模块：
+
+<ComponentPreview name="sliding-number-countdown" />
+
+## 无障碍与交互 Accessibility
+
+- **屏幕阅读器无障碍读数**：外层容器挂载 `aria-label={displayValue}`，内部 0~9 的滚轮数字节点均打上 `aria-hidden="true"` 标记。屏幕阅读器只会将最新的完整数值播报给视障用户，绝不会重复读取隐藏滚轮中的多余数字。
+- **系统减少动态偏好（Reduced Motion）**：当系统启用 `prefers-reduced-motion` 时，组件将自动跳过 Spring 物理回弹模拟，数字将以直接赋值的方式瞬时刷新，保障无障碍兼容。

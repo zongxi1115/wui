@@ -1,32 +1,209 @@
 ---
 title: 文本入场 Text Effect
-description: 按行、单词或字符拆分并播放文本入场效果。
+description: 支持按字符、单词或行级粒度拆分，并提供多种高质感入场动效预设与自定义物理过渡的文本动效组件。
 component: text-effect
 ---
 
 ## 基础用法
 
+最简单的文本入场效果。文本会在组件挂载或触发状态改变时，按照指定的粒子粒度与动效预设优雅展开：
+
 <ComponentPreview name="text-effect-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/text-effect" />
 
+<Steps>
+
+<Step>安装依赖与 Motion 动效库</Step>
+
+```bash
+pnpm add motion clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/text-effect.tsx`</Step>
+
 <ComponentSource name="text-effect" title="components/ui/text-effect.tsx" />
 
-## 使用场景
+</Steps>
 
-`TextEffect` 提供 `fade`、`blur-sm`、`fade-in-blur`、`scale` 和 `slide` 五种预设，也可以传入容器和片段 `variants`。
-它适合标题、短说明和状态提示；长篇正文应一次性显示，不要逐字播放。
+## 属性 Props
 
-## 属性
+`TextEffect` 支持以下配置属性，并会继承底层所渲染 HTML 元素（默认 `<p>`）的原生属性：
 
-<PropsTable name="text-effect" />
+<PropsTable
+  data={[
+    {
+      prop: "children",
+      type: "string",
+      required: true,
+      description: "待进行入场动效拆分的纯文本内容。",
+    },
+    {
+      prop: "per",
+      type: '"char" | "word" | "line"',
+      default: '"word"',
+      description: "文本拆分的颗粒度：char（按字符）、word（按单词/空格）、line（按换行符 \\n）。",
+    },
+    {
+      prop: "preset",
+      type: '"fade" | "blur-sm" | "fade-in-blur" | "scale" | "slide"',
+      default: '"fade"',
+      description: "内置的动效预设样式。",
+    },
+    {
+      prop: "as",
+      type: "React.ElementType",
+      default: '"p"',
+      description: "外层容器所渲染的原生 HTML 标签或组件（如 h1, h2, span, div 等）。",
+    },
+    {
+      prop: "delay",
+      type: "number",
+      default: "0",
+      description: "动画开始前的等待延迟时间（单位：秒）。",
+    },
+    {
+      prop: "trigger",
+      type: "boolean",
+      default: "true",
+      description: "控制动效的播放状态。切换为 false 时执行退出动效，切换为 true 时重新播放入场。",
+    },
+    {
+      prop: "speedReveal",
+      type: "number",
+      default: "1",
+      description: "容器中相邻片段之间交错入场（Stagger）的速度倍率，数值越大越紧凑迅速。",
+    },
+    {
+      prop: "speedSegment",
+      type: "number",
+      default: "1",
+      description: "单个片段自身动画播放的时长倍率，数值越大单个片段出现得越快。",
+    },
+    {
+      prop: "variants",
+      type: "{ container?: Variants; item?: Variants }",
+      description: "自定义 Motion 动画变体，可完全覆盖内置的容器与片段动画配置。",
+    },
+    {
+      prop: "containerTransition",
+      type: "Transition",
+      description: "应用于外层容器的自定义 Transition 过渡配置。",
+    },
+    {
+      prop: "segmentTransition",
+      type: "Transition",
+      description: "应用于各个片段子元素的自定义 Transition 过渡配置。",
+    },
+    {
+      prop: "segmentWrapperClassName",
+      type: "string",
+      description: "应用于各个片段包裹 span 元素的额外 CSS 类名。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于最外层容器元素的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-## 事件
+## 事件 Events
 
-`onAnimationStart` 和 `onAnimationComplete` 分别在整段动画开始和完成时触发。用 `trigger` 控制进入和退出；
-底层元素的其他原生事件会继续透传。
+<PropsTable
+  data={[
+    {
+      prop: "onAnimationStart",
+      type: "() => void",
+      description: "整段入场动画开始播放时触发的回调函数。",
+    },
+    {
+      prop: "onAnimationComplete",
+      type: "() => void",
+      description: "所有拆分片段的动画全部完成并落定后触发的回调函数。",
+    },
+  ]}
+/>
 
-## 扩展用法
+## 使用场景与设计规范
 
-`per="line"` 按换行符拆分，`per="word"` 保留空格，`per="char"` 适合短标题。`speedReveal` 控制片段之间的间隔，
-`speedSegment` 控制单个片段的播放速度。动画关闭时，完整文本仍应立即可见。
+`TextEffect` 适用于为**关键视觉中心**赋予动感与生命力，多用于 Landing Page Hero 标题、功能上线公告卡片、AI 回答生成标题以及关键指标披露。
+
+- **克制使用原则**：动效应用来引导视线与强化核心信息，切勿在长篇正文或大段说明中使用过慢的逐字动效，以免阻碍用户快速获取信息。
+- **选择合适的拆分颗粒度**：
+  - `per="char"`（字符级）：适合极短的品牌词（3~6 个单词或短中文词汇），节奏明快富有现代感。
+  - `per="word"`（单词级）：最推荐的通用粒度，适合 1~2 行的 Hero 标语或特性小标题。
+  - `per="line"`（行级）：适合 3 行以内的列表、诗歌式排版或分条目要点展示。
+- **与用户操作联动**：结合 `trigger` 与 `onAnimationComplete`，可以在前置动画落定后链式解锁下一阶段的交互控件（如展示操作按钮或下一段文字）。
+
+## 场景示例
+
+### 动效预设
+
+组件内置了 5 种精调的动效预设，满足不同设计语言的需求：
+
+<ComponentPreview name="text-effect-presets" />
+
+- `fade-in-blur`：结合模糊消退与微量位移，极具高级感与科技质感，推荐作为产品主标题默认效果。
+- `fade`：最稳重的透明度淡入，适合严谨的企业级控制台界面。
+- `blur-sm`：高斯模糊从 4px 快速对焦至清晰，适合短促的标签与状态。
+- `scale`：轻微缩放入场，赋予文字活泼的弹跳感。
+- `slide`：纵向位移滑入，非常契合列表项与通知流。
+
+### 拆分颗粒度比较
+
+通过 `per` 属性控制文本拆分为字符、单词或换行片段：
+
+<ComponentPreview name="text-effect-granularity" />
+
+### 自定义 Motion 动画变体
+
+如果你需要更具冲击力的 3D 翻转、弹性阻尼或非线性路径，可以通过 `variants` 属性传入自定义的容器与片段配置：
+
+<ComponentPreview name="text-effect-custom-variants" />
+
+```tsx
+const customVariants = {
+  container: {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.04, delayChildren: 0.1 },
+    },
+  },
+  item: {
+    hidden: { opacity: 0, y: 20, rotateX: -45, filter: "blur(6px)" },
+    visible: {
+      opacity: 1,
+      y: 0,
+      rotateX: 0,
+      filter: "blur(0px)",
+      transition: { type: "spring", stiffness: 300, damping: 20 },
+    },
+  },
+}
+
+export function CustomTypography() {
+  return (
+    <TextEffect per="char" variants={customVariants}>
+      Fluid 3D Spatial Typography
+    </TextEffect>
+  )
+}
+```
+
+### 业务卡片级联入场
+
+在功能发布卡片或产品公告中，结合 `delay` 属性可实现多层次信息的流水线式优雅入场，并在动画完成后触发状态同步：
+
+<ComponentPreview name="text-effect-card" />
+
+## 无障碍与交互 Accessibility
+
+- **屏幕阅读器友好**：外层容器自动附带 `aria-label={children}`，内部拆分的 `motion.span` 片段统一标记为 `aria-hidden="true"`。辅助技术（如 VoiceOver、NVDA）将把整段文字作为连续完整的语义块一次性朗读，避免了屏幕阅读器逐字逐字母中断朗读的问题。
+- **系统减少动态偏好（Reduced Motion）**：组件内置集成 `useReducedMotion()`。当操作系统开启“减少动态效果（prefers-reduced-motion）”时，组件将自动跳过拆分与动画，直接以原生纯文本渲染，确保低视力及前庭觉敏感用户的舒适体验。
+- **语义化标签渲染**：通过 `as` 属性指定语义 HTML 标签（如 `h1`, `h2`, `p`, `span`），确保页面大纲结构（Outline Hierarchy）对搜索引擎与读屏工具保持准确。

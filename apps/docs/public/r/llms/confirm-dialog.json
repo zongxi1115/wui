@@ -2,7 +2,7 @@
   "name": "confirm-dialog",
   "type": "registry:component",
   "title": "确认对话框 Confirm Dialog",
-  "description": "由 Dialog 和 Button 组合而成的开箱即用确认对话框。",
+  "description": "由 Dialog 和 Button 深度封装的开箱即用确认弹窗，专为危险操作、异步确认及高优先级决定设计。",
   "import": "import { ConfirmDialog } from \"@/components/confirm-dialog\"",
   "exports": [
     "ConfirmDialog"
@@ -23,9 +23,31 @@
     {
       "name": "trigger",
       "type": "ReactNode",
-      "required": true,
+      "required": false,
       "control": "text",
       "description": "打开对话框的触发元素。使用 asChild 时会直接渲染为该元素。"
+    },
+    {
+      "name": "open",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "受控模式下对话框是否打开。"
+    },
+    {
+      "name": "defaultOpen",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "非受控模式下对话框的初始打开状态。"
+    },
+    {
+      "name": "onOpenChange",
+      "type": "((open: boolean) => void)",
+      "required": false,
+      "control": "text",
+      "description": "对话框打开或关闭状态变化时触发。"
     },
     {
       "name": "title",
@@ -42,11 +64,18 @@
       "description": "标题下方显示的补充说明。"
     },
     {
+      "name": "children",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "对话框主体内容区域展示的自定义子元素。"
+    },
+    {
       "name": "confirmLabel",
       "type": "string",
       "required": false,
       "control": "text",
-      "defaultValue": "Confirm",
+      "defaultValue": "确认",
       "description": "确认按钮的文字。"
     },
     {
@@ -54,7 +83,7 @@
       "type": "string",
       "required": false,
       "control": "text",
-      "defaultValue": "Cancel",
+      "defaultValue": "取消",
       "description": "取消按钮的文字。"
     },
     {
@@ -70,8 +99,15 @@
       "description": "确认按钮的视觉样式。"
     },
     {
+      "name": "loading",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "是否处于异步提交中的加载状态，加载期间确认按钮展示旋转指示器并禁用操作。"
+    },
+    {
       "name": "onConfirm",
-      "type": "(() => void)",
+      "type": "(() => void | Promise<void>)",
       "required": false,
       "control": "text",
       "description": "用户点击确认按钮时触发。"
@@ -80,7 +116,15 @@
   "examples": [
     {
       "name": "confirm-dialog-demo",
-      "title": "基础用法"
+      "title": "危险破坏性确认"
+    },
+    {
+      "name": "confirm-dialog-async",
+      "title": "异步请求与加载保护"
+    },
+    {
+      "name": "confirm-dialog-custom",
+      "title": "自定义详情内容与受控状态"
     }
   ],
   "files": [

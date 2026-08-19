@@ -2,7 +2,7 @@
   "name": "collapsible",
   "type": "registry:ui",
   "title": "折叠面板 Collapsible",
-  "description": "按需展开一段补充内容，并保留清晰的状态与键盘交互。",
+  "description": "按需展开与收起补充内容的渐进式披露组件，内置平滑高度补间动效与完整的键盘无障碍控制。",
   "categories": [
     "layout"
   ],
@@ -44,7 +44,6 @@
       "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
     }
   ],
-  "events": "- `onOpenChange(open)`：用户点击触发器，或受控状态被更新时触发。\n- 触发器使用原生按钮语义，支持 Enter 与 Space，并同步 `aria-expanded` 和内容关联关系。",
   "examples": [
     {
       "name": "collapsible-demo",
@@ -52,7 +51,15 @@
     },
     {
       "name": "collapsible-controlled",
-      "title": "受控状态"
+      "title": "受控状态模式"
+    },
+    {
+      "name": "collapsible-nested",
+      "title": "代码变更折叠列表（Git Diff）"
+    },
+    {
+      "name": "collapsible-card",
+      "title": "表单卡片中的高级配置区块"
     }
   ],
   "files": [

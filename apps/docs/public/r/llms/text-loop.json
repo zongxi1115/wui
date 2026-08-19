@@ -2,7 +2,7 @@
   "name": "text-loop",
   "type": "registry:ui",
   "title": "文本循环 Text Loop",
-  "description": "在多段文本或行内内容之间自动循环切换。",
+  "description": "在多段文本、关键词或行内节点之间自动平滑轮换切换的动效组件。",
   "categories": [
     "motion",
     "text-effect"
@@ -85,11 +85,22 @@
       "description": "AnimatePresence 使用的动画排队模式。"
     }
   ],
-  "events": "`onIndexChange` 在索引切换后返回新索引。`trigger={false}` 会暂停自动轮换，原生 `<span>` 事件照常透传。",
   "examples": [
     {
       "name": "text-loop-demo",
       "title": "基础用法"
+    },
+    {
+      "name": "text-loop-badges",
+      "title": "业务动态与公告胶囊"
+    },
+    {
+      "name": "text-loop-custom-transitions",
+      "title": "自定义过渡方向与 3D 翻转"
+    },
+    {
+      "name": "text-loop-interactive",
+      "title": "悬停暂停与步骤指示器"
     }
   ],
   "files": [

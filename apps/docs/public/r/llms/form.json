@@ -2,7 +2,7 @@
   "name": "form",
   "type": "registry:ui",
   "title": "表单 Form",
-  "description": "可组合的表单字段，协调标签、校验提示与动效反馈。",
+  "description": "具备完整语义化结构、自动无障碍 ARIA 关联、字段校验动画与微动效反馈的表单容器体系。",
   "import": "import { Form, FormActions, FormControl, FormDescription, FormField, FormLabel, FormLegend, FormMessage, FormSection } from \"@/components/ui/form\"",
   "exports": [
     "Form",
@@ -89,11 +89,22 @@
       "description": "是否跳过浏览器原生表单校验。"
     }
   ],
-  "events": "- `Form` 会透传 `onSubmit`、`onReset` 和 `onInvalid` 等原生表单事件。\n- `FormControl` 保留子控件自身事件，同时补充字段 ID 和 ARIA 关联。\n- `FormField` 的 `invalid` 为真时，`FormMessage` 会显示在对应控件附近；错误文字应说明如何修正，而不只是写“格式错误”。",
   "examples": [
     {
       "name": "form-demo",
       "title": "基础用法"
+    },
+    {
+      "name": "form-validation",
+      "title": "实时表单校验与错误抖动"
+    },
+    {
+      "name": "form-layout",
+      "title": "多列排版与业务配置表单"
+    },
+    {
+      "name": "form-controlled",
+      "title": "异步请求与加载反馈"
     }
   ],
   "files": [

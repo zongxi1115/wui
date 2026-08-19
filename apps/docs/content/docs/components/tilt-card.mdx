@@ -1,29 +1,132 @@
 ---
 title: 透视倾斜 Tilt Card
-description: 卡片随指针产生克制的 3D 透视倾斜并弹性回正。
+description: 卡片跟随光标指针在三维空间中产生细腻的 3D 透视倾斜与反光眩光，并基于物理弹簧平滑回正。
 component: tilt-card
 ---
 
 ## 基础用法
 
+最简单的透视倾斜用法。当光标在卡片上悬停移动时，卡片产生灵动的 3D 姿态响应：
+
 <ComponentPreview name="tilt-card-demo" />
 
-<DependencyBadges packages={["motion"]} />
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/tilt-card" />
 
+<Steps>
+
+<Step>安装动效依赖与工具库</Step>
+
+```bash
+pnpm add motion clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/tilt-card.tsx`</Step>
+
 <ComponentSource name="tilt-card" title="components/ui/tilt-card.tsx" />
 
-## 使用场景
+</Steps>
 
-`TiltCard` 将指针在卡片中的位置映射为 X / Y 轴旋转，并用弹簧回到静止状态。内部内容可以通过 `translateZ` 建立少量前后层级，
-`glare` 提供可选的光照反馈。它适合单个主视觉或少量作品卡片，不适合高密度的信息列表。
+## 属性 Props
 
-## 属性
+`TiltCard` 接受以下 3D 动效与光效配置属性，并继承 `motion.div` 的全部 HTML 属性：
 
-<PropsTable name="tilt-card" />
+<PropsTable
+  data={[
+    {
+      prop: "children",
+      type: "React.ReactNode",
+      description: "卡片内部渲染的内容，可结合 CSS translateZ 建立多维纵深分层。",
+    },
+    {
+      prop: "maxTilt",
+      type: "number",
+      default: "9",
+      description: "卡片在 X / Y 轴方向上的最大倾斜旋转角度（度 deg）。建议保持在 6~12 度之间。",
+    },
+    {
+      prop: "perspective",
+      type: "number",
+      default: "900",
+      description: "三维透视距离（像素 px）。数值越大透视越平缓，数值越小空间畸变感越强。",
+    },
+    {
+      prop: "hoverScale",
+      type: "number",
+      default: "1.015",
+      description: "光标悬停在卡片上方时的微缩放倍率。",
+    },
+    {
+      prop: "glare",
+      type: "boolean",
+      default: "false",
+      description: "是否开启随光标坐标移动的模拟表面高光反射图层。",
+    },
+    {
+      prop: "glareClassName",
+      type: "string",
+      description: "应用于高光反光图层的额外 CSS 类名（如 mix-blend 混合模式或不透明度）。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于外层卡片容器的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-## 使用说明
+## 事件 Events
 
-`maxTilt` 建议保持在 4–10 度，`perspective` 越大透视越平缓。不要给密集列表中的每个操作控件都添加倾斜，
-否则会增加视觉噪声和跟踪成本。触摸输入以及用户开启“减少动态效果”时会保持静止。
+`TiltCard` 继承 Motion 容器的事件回调：
+
+<PropsTable
+  data={[
+    {
+      prop: "onPointerMove",
+      type: "(event: React.PointerEvent<HTMLDivElement>) => void",
+      description: "指针在卡片内移动时触发，内部通过 MotionValue 计算 X/Y 倾角并触发物理弹簧插值。",
+    },
+    {
+      prop: "onPointerLeave",
+      type: "(event: React.PointerEvent<HTMLDivElement>) => void",
+      description: "指针离开卡片时触发，内部自动通过 Spring 回弹归零复位。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`TiltCard` 为界面带来触手可及的“实体感”与空间交互魅力。
+
+- **使用场景**：
+  - **数字会员卡 / 凭证（Pass & Badges）**：极具科技感的开发者通行证、VIP 权益卡。
+  - **核心作品 / 摄影与艺术案例**：作品集封面、获奖项目展示。
+  - **旗舰硬件 / 核心特性展示**：让用户在鼠标滑动中全方位感受产品的精细质感。
+- **3D 分层与纵深技巧**：
+  - 卡片内部容器默认启用了 `transform-style: preserve-3d`。
+  - 在内部子元素上添加 Tailwind 类名 `[transform:translateZ(24px)]` 或 `[transform:translateZ(36px)]`，可以使文字和图标“悬浮”在卡片表面上方，产生极强的视差立体感。
+- **克制设计原则**：
+  - 避免在密集的数据表格行或长列表项中过度使用 3D 倾斜，以免干扰用户的浏览与点击精度。
+
+## 场景示例
+
+### 3D 开发者通票 / 数字会员卡
+
+结合内部 `translateZ` 视差层与表面眩光（Glare），打造质感逼真的数字通票：
+
+<ComponentPreview name="tilt-card-member-pass" />
+
+### 视觉艺术作品画廊
+
+在画廊或作品卡片上启用透视微倾斜，悬停时产生优雅的物理互动：
+
+<ComponentPreview name="tilt-card-demo" />
+
+## 无障碍与交互 Accessibility
+
+- **自动无障碍降级**：内置 `useReducedMotion` 监听。当系统开启了“减少动态效果”时，3D 旋转与缩放动效自动归零（Static 0deg / 1.0 Scale），高光层不执行变换，避免任何视觉眩晕。
+- **触摸屏保护**：在移动端触摸（Touch）环境下自动跳过倾斜计算，避免与页面上下滑动手势冲突。
+- **反光层穿透**：高光层标记为 `aria-hidden="true"` 且带有 `pointer-events-none`，不遮挡内部可聚焦元素。

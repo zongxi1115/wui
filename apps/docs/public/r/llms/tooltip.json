@@ -2,7 +2,7 @@
   "name": "tooltip",
   "type": "registry:ui",
   "title": "文字提示 Tooltip",
-  "description": "在悬停或键盘聚焦时，为控件补充简短的上下文说明。",
+  "description": "在鼠标悬停或键盘聚焦时，为图标或紧凑控件浮层展示简短的上下文说明与快捷键。",
   "import": "import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, tooltipContentVariants } from \"@/components/ui/tooltip\"",
   "exports": [
     "Tooltip",
@@ -66,7 +66,6 @@
       "description": "指针离开触发元素后是否立即关闭提示，而不允许指针移入提示内容。"
     }
   ],
-  "events": "- `onOpenChange(open)`：提示因悬停、焦点或关闭操作改变状态时触发。\n- `onEscapeKeyDown(event)`：内容打开时按下 Escape 触发，可调用 `event.preventDefault()` 阻止默认关闭行为。\n- `onPointerDownOutside(event)`：在提示范围外按下指针时触发。\n\n其余指针、焦点和无障碍属性会透传给对应的 Radix 部件。",
   "examples": [
     {
       "name": "tooltip-demo",
@@ -74,7 +73,19 @@
     },
     {
       "name": "tooltip-placement",
-      "title": "定位、尺寸与箭头"
+      "title": "弹出方位与指示箭头"
+    },
+    {
+      "name": "tooltip-sizes",
+      "title": "尺寸规格与快捷键徽标"
+    },
+    {
+      "name": "tooltip-rich",
+      "title": "丰富上下文说明（多行/状态说明）"
+    },
+    {
+      "name": "tooltip-controlled",
+      "title": "受控模式"
     }
   ],
   "files": [

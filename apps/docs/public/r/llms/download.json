@@ -2,7 +2,7 @@
   "name": "download",
   "type": "registry:ui",
   "title": "下载 Download",
-  "description": "同时表达文件信息、下载进度与完成反馈的下载操作组件。",
+  "description": "整合文件名识别、文件类型图标推导、下载进度跟踪与完成反馈于一体的卡片式下载组件。",
   "import": "import { Download, downloadVariants } from \"@/components/ui/download\"",
   "exports": [
     "Download",
@@ -102,7 +102,6 @@
       "description": "是否禁用组件。"
     }
   ],
-  "events": "- `onDownload()`：用户激活下载时调用，可返回 Promise；异步任务应在 Promise 结束后更新状态。\n- 原生 `onFocus`、`onBlur` 等按钮事件会继续透传。",
   "examples": [
     {
       "name": "download-demo",
@@ -110,7 +109,11 @@
     },
     {
       "name": "download-states",
-      "title": "紧凑尺寸与状态"
+      "title": "各生命周期状态与自定义图标"
+    },
+    {
+      "name": "download-compact",
+      "title": "紧凑附件列表 (Compact List)"
     }
   ],
   "files": [

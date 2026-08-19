@@ -2,7 +2,7 @@
   "name": "timeline",
   "type": "registry:ui",
   "title": "时间轴 Timeline",
-  "description": "以清晰的时间顺序展示事件、状态与说明。",
+  "description": "按照明确的时间先后顺序呈现事件流转、操作日志、发布进度与业务里程碑。",
   "import": "import { Timeline, TimelineCard, TimelineContent, TimelineDescription, TimelineDot, TimelineHeader, TimelineItem, TimelineMeta, TimelineSeparator, TimelineTime, TimelineTitle, timelineDotVariants } from \"@/components/ui/timeline\"",
   "exports": [
     "Timeline",
@@ -85,7 +85,6 @@
       "description": "连接线的视觉样式。"
     }
   ],
-  "events": "时间轴由语义化的 `ol` 和 `li` 构成，所有原生事件都会透传。组件不内置展开、分页或加载逻辑，\n可以在 `TimelineContent` 中自由组合链接、按钮和其他内容。",
   "examples": [
     {
       "name": "timeline-demo",
@@ -93,23 +92,23 @@
     },
     {
       "name": "timeline-status",
-      "title": "状态进度"
+      "title": "流程阶段与呼吸脉冲"
     },
     {
       "name": "timeline-icons",
-      "title": "图标节点与富内容"
+      "title": "图标节点与独立卡片"
     },
     {
       "name": "timeline-alternate",
-      "title": "左右交错"
+      "title": "左右交错里程碑 (Alternate)"
     },
     {
       "name": "timeline-horizontal",
-      "title": "横向步骤"
+      "title": "横向向导流程 (Horizontal)"
     },
     {
       "name": "timeline-compact",
-      "title": "紧凑审计日志"
+      "title": "紧凑型系统审计日志 (Compact)"
     }
   ],
   "files": [

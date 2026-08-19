@@ -1,8 +1,8 @@
 {
   "name": "morphing-popover",
   "type": "registry:ui",
-  "title": "形变弹出框 Morphing Popover",
-  "description": "从触发器原位展开成轻量交互面板的弹出层。",
+  "title": "形变气泡卡片 Morphing Popover",
+  "description": "将紧凑型按钮原地扩展为轻量级表单、快捷输入框或上下文操作浮层的形变交互组件。",
   "categories": [
     "motion",
     "advanced"
@@ -70,11 +70,14 @@
       "description": "配置内容展开和收起时使用的 Motion 动画变体。"
     }
   ],
-  "events": "`onOpenChange(open)` 在打开状态变化时调用。受控模式使用 `open`，非受控模式使用 `defaultOpen`；受控模式下要在回调中同步更新 `open`。",
   "examples": [
     {
       "name": "morphing-popover-demo",
       "title": "基础用法"
+    },
+    {
+      "name": "morphing-popover-form",
+      "title": "快捷反馈卡片"
     }
   ],
   "files": [

@@ -1,34 +1,169 @@
 ---
 title: 描述列表 Descriptions
-description: 以清晰的键值结构展示对象、记录与档案信息。
+description: 以清晰对齐的键值结构展示对象、记录与档案详情，支持跨列合并、边框网格与上下/左右排版。
 component: descriptions
 ---
 
 ## 基础用法
 
+最基础的描述列表用法。使用 `Descriptions` 容器配合 `DescriptionsItem` 声明标签与对应内容：
+
 <ComponentPreview name="descriptions-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/descriptions" />
 
+<Steps>
+
+<Step>安装基础依赖与工具函数</Step>
+
+```bash
+pnpm add clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/descriptions.tsx`</Step>
+
 <ComponentSource name="descriptions" title="components/ui/descriptions.tsx" />
 
-## 使用场景
+</Steps>
 
-`Descriptions` 用于只读呈现项目、订单、账户或设备等单个对象的属性。它适合“字段—值”的阅读方式；
-需要比较多条同构记录时，应使用 Table，而不是重复堆叠多个描述列表。
+## 属性 Props
 
-## 属性
+### Descriptions
 
-<PropsTable name="descriptions" />
+`Descriptions` 是外层容器组件，用于统一设定全局排版方向、列数、边框风格与密度：
 
-每个 `DescriptionsItem` 都需要提供 `label`，值放在子内容中；通过 `span` 可以让一项跨越多个描述列。
-标签应简短稳定，较长的帮助说明应放在值下方或字段外部，不要把整段解释写进标签。
+<PropsTable
+  data={[
+    {
+      prop: "title",
+      type: "React.ReactNode",
+      description: "列表顶部左侧的主标题内容。",
+    },
+    {
+      prop: "extra",
+      type: "React.ReactNode",
+      description: "列表顶部右侧的操作区内容（如编辑、刷新或更多操作按钮）。",
+    },
+    {
+      prop: "columns",
+      type: "1 | 2 | 3 | 4",
+      default: "3",
+      description: "一行内展示的键值对列数。",
+    },
+    {
+      prop: "bordered",
+      type: "boolean",
+      default: "false",
+      description: "是否为表格与每个单元格绘制网格线边框，并为标签单元格填充浅色背景。",
+    },
+    {
+      prop: "layout",
+      type: '"horizontal" | "vertical"',
+      default: '"horizontal"',
+      description: "标签与数值的相对排列方向。horizontal 为左右并排，vertical 为上下堆叠。",
+    },
+    {
+      prop: "size",
+      type: '"sm" | "default"',
+      default: '"default"',
+      description: "单元格内边距的视觉密度。",
+    },
+    {
+      prop: "labelWidth",
+      type: "React.CSSProperties['width']",
+      default: '"7rem"',
+      description: "水平布局（horizontal）下所有标签单元格的固定宽度，支持像素或 rem 单位。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于最外层容器的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-## 事件
+### DescriptionsItem
 
-描述列表本身不产生业务事件。通过 `extra` 放置编辑、复制等轻量操作；字段值中的链接或按钮仍保留各自的原生事件。
+用于声明单条“标签—值”数据项：
 
-## 扩展用法
+<PropsTable
+  data={[
+    {
+      prop: "label",
+      type: "React.ReactNode",
+      description: "数据项的标题/标签文本，具有明确的语义提示作用。",
+    },
+    {
+      prop: "span",
+      type: "1 | 2 | 3 | 4",
+      default: "1",
+      description: "该数据项在当前行中所占据的列宽跨度（不能大于外层 Descriptions 的 columns）。",
+    },
+    {
+      prop: "labelClassName",
+      type: "string",
+      description: "应用于当前项标签单元格（th）的额外 CSS 类名。",
+    },
+    {
+      prop: "contentClassName",
+      type: "string",
+      description: "应用于当前项内容单元格（td）的额外 CSS 类名。",
+    },
+    {
+      prop: "children",
+      type: "React.ReactNode",
+      description: "当前项的具体内容或值。",
+    },
+  ]}
+/>
 
-`bordered` 适合信息密度较高的管理页面，默认分隔线样式更轻；`layout="vertical"` 适合标签较长或容器较窄的场景。
-`columns` 与 `span` 应配合使用，每一行的跨列总数不要超过当前行容量，否则内容会换到下一行。
+## 事件 Events
+
+`Descriptions` 本身作为只读结构化展示容器不直接发射业务事件，所有交互事件由嵌套在其中的子控件（如 `extra` 中的操作按钮、数据单元格内的复制按钮或链接）自行处理：
+
+<PropsTable
+  data={[
+    {
+      prop: "onClick",
+      type: "(event: React.MouseEvent<HTMLDivElement>) => void",
+      description: "在容器上点击时触发的原生 DOM 事件。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`Descriptions` 专门用于呈现单个特定对象、记录或档案的属性全貌（如用户详情卡片、服务器实例参数、订单履约概览、合约条款）。
+
+- **何时使用 Descriptions vs Table**：
+  - **Descriptions**：专注于**单个对象的多维度属性**（每个字段含义不同，如“名称”、“创建时间”、“状态”、“配置详情”）。
+  - **Table**：专注于**多个同构对象的列表横向比对**（每行结构相同，如“用户列表”、“日志记录”）。
+- **标签文案简明性**：标签文案应简练明确（如“创建时间”而非“该条记录创建于系统的时间”）；对于补充性业务说明，请放在对应的值内容中或通过 Tooltip 辅助说明。
+- **跨列合理性（Span）**：对于长文本、多标签列表或进度条等较宽内容，设置 `span={2}` 或 `span={3}` 占满整行，避免内容被挤压产生过长折行。
+- **边框风格选择**：
+  - **无边框（默认）**：视觉更轻量透气，适合嵌入卡片内部或个人主页等轻量场景。
+  - **带边框（`bordered`）**：网格线清晰，标签与内容色彩分明，适合企业级管理后台、配置审批与工单详情页。
+
+## 场景示例
+
+### 带边框多列详情（实例档案）
+
+在服务器或设备档案详情中，使用 `bordered` 模式搭配 `span` 跨列合并，结合 `Badge` 与复制按钮丰富信息呈现：
+
+<ComponentPreview name="descriptions-bordered" />
+
+### 上下排版布局（订阅概览）
+
+当空间横向较为受限，或者希望像仪表盘看板一样优先阅读指标数值时，使用 `layout="vertical"` 与 `size="sm"`：
+
+<ComponentPreview name="descriptions-vertical" />
+
+## 无障碍与交互 Accessibility
+
+- **表格语义与读屏支持**：底层基于原生 `<table>` 构建，水平布局时标签自动赋予 `<th scope="row">`，垂直布局时标签赋予 `<th scope="col">`，屏幕阅读器可以清晰地向视障用户读出属性名与属性值之间的关联。
+- **自适应横向滚动**：当在极窄视口（如手机屏幕）下浏览多列描述列表时，组件外层自动包裹 `overflow-x-auto` 容器并设定最小列宽计算，保障内容不重叠、文字不异常断裂。
+- **高对比度设计**：标签单元格采用 `text-muted-foreground`，内容单元格采用 `text-foreground`，在深色与浅色模式下均满足 WCAG AA 级对比度要求。

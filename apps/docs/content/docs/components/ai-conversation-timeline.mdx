@@ -1,42 +1,183 @@
 ---
 title: AI 对话时间线 AI Conversation Timeline
-description: 用紧凑刻度浏览长对话，悬停预览并快速定位到指定轮次。
+description: 用紧凑刻度浏览长对话与 Agent 执行轨迹，悬停即时预览并快速定位到指定轮次。
 component: ai-conversation-timeline
 ---
 
 ## 基础用法
 
+在较长的对话页面或 Agent 执行记录中，使用时间线刻度压缩全部轮次。指针靠近时刻度连续放大，悬停展开详细摘要卡片，点击即可平滑跳转：
+
 <ComponentPreview name="ai-conversation-timeline-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/ai-conversation-timeline" />
 
+<Steps>
+
+<Step>安装基础依赖与动效库</Step>
+
+```bash
+pnpm add motion lucide-react clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/ai-conversation-timeline.tsx`</Step>
+
 <ComponentSource name="ai-conversation-timeline" title="components/ui/ai-conversation-timeline.tsx" />
 
-## 使用场景
+</Steps>
 
-`AiConversationTimeline` 用于内容较长的 AI 对话、Agent 执行记录和连续工作流。静止时，所有轮次收敛为一列等距的灰色刻度，
-只用 `level` 区分层级长度，不抢正文注意力；指针靠近时，当前刻度和相邻刻度依次变长、变清晰，并在旁边显示该轮对话摘要卡片。
+## 属性 Props
 
-它是导航控件，不是用于展示审计日志的普通 [`Timeline`](/docs/components/timeline)。页面只有少量消息，或不需要跨段定位时，
-不要额外加入时间线。
+`AiConversationTimeline` 支持以下配置属性，并继承原生 `<nav>` 元素的 HTML 属性：
 
-## 属性
+<PropsTable
+  data={[
+    {
+      prop: "items",
+      type: "readonly AiConversationTimelineItem[]",
+      required: true,
+      description: "时间线轮次条目数组，包含 id、title、description、meta 与 level 等字段。",
+    },
+    {
+      prop: "activeId",
+      type: "string",
+      description: "受控模式下当前激活选中的条目 id。",
+    },
+    {
+      prop: "defaultActiveId",
+      type: "string",
+      description: "非受控模式下默认激活选中的条目 id，缺省为首项条目 id。",
+    },
+    {
+      prop: "previewSide",
+      type: '"left" | "right"',
+      default: '"right"',
+      description: "悬停预览摘要卡片展开的方向侧，时间线靠右侧放置时应设为 left。",
+    },
+    {
+      prop: "preview",
+      type: "boolean",
+      default: "true",
+      description: "是否在鼠标悬停或按键聚焦时展示浮动摘要卡片。",
+    },
+    {
+      prop: "onActiveChange",
+      type: "(id: string) => void",
+      description: "当前激活轮次发生变化时的回调函数。",
+    },
+    {
+      prop: "onNavigate",
+      type: "(item: AiConversationTimelineItem, index: number) => void",
+      description: "用户点击或键盘选择某个刻度轮次时的导航回调函数。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于时间线导航容器的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-<PropsTable name="ai-conversation-timeline" />
+### AiConversationTimelineItem 数据结构
 
-## 事件
+<PropsTable
+  data={[
+    {
+      prop: "id",
+      type: "string",
+      required: true,
+      description: "条目的唯一稳定标识符。",
+    },
+    {
+      prop: "title",
+      type: "string",
+      required: true,
+      description: "主要标题文案，在预览卡片中作为核心内容展示。",
+    },
+    {
+      prop: "description",
+      type: "string",
+      description: "可选的上下文补充描述或助手回答摘要。",
+    },
+    {
+      prop: "meta",
+      type: "string",
+      description: "可选的紧凑元数据信息，如发生时间（09:42）或模型名称（GPT-4o）。",
+    },
+    {
+      prop: "level",
+      type: "1 | 2 | 3",
+      default: "1",
+      description: "刻度的视觉层级深度。主任务设为 1，子调用或工具执行设为 2 或 3，刻度长度依次递减。",
+    },
+  ]}
+/>
 
-使用 `activeId` 和 `onActiveChange` 同步当前阅读轮次。用户点击刻度时，`onNavigate` 会返回完整条目和序号；
-业务层可以在回调中调用 `scrollIntoView`、虚拟列表定位或路由跳转。
+## 事件 Events
 
-组件不会接管滚动容器，也不假设消息 DOM 结构。它既可以接入 `AiChatMessages`，也可以用于已有聊天页面或 Agent 运行记录。
+<PropsTable
+  data={[
+    {
+      prop: "onActiveChange",
+      type: "(id: string) => void",
+      description: "当选中的轮次项发生改变时触发，返回当前激活的 item.id。",
+    },
+    {
+      prop: "onNavigate",
+      type: "(item: AiConversationTimelineItem, index: number) => void",
+      description: "用户点击刻度或按回车确认选择时触发，提供完整的条目对象和索引序号，便于调用 scrollIntoView。",
+    },
+    {
+      prop: "onPointerMove",
+      type: "(event: React.PointerEvent<HTMLElement>) => void",
+      description: "指针在时间线刻度列滑动时触发，内部通过 MotionValue 计算高斯邻近放大系数。",
+    },
+    {
+      prop: "onPointerLeave",
+      type: "() => void",
+      description: "指针离开时间线区域时触发，刻度平滑回缩至静止静默状态。",
+    },
+  ]}
+/>
 
-## 动效与无障碍
+## 使用场景与设计规范
 
-放大量由指针在刻度列中的纵向位置连续计算：当前刻度最大，相邻刻度按距离逐步减小。长度和不透明度分别使用弹簧过渡，
-不会因为每次指针移动都触发 React 组件重渲染。
+`AiConversationTimeline` 专为**长篇幅 AI 会话、多步 Agent 工作流与复杂链路追踪**设计。
 
-摘要卡片只有一张，会在刻度之间移动到目标位置；内容交叉淡入，靠近容器顶部或底部时会自动收边，避免溢出。
+- **静止时克制，交互时细腻**：静止状态下所有轮次收敛为等距的灰色细短线，绝不喧宾夺主抢占正文注意力；鼠标靠近时，通过高斯衰减算法（Gaussian falloff）平滑放大邻近刻度，提供流畅的鱼眼放大镜探寻体验。
+- **导航组件而非列表呈现**：本组件是视口定位的快捷导航控件，不是用于完整罗列事件历史的审计日志 [`Timeline`](/docs/components/timeline)。当对话仅有 2~3 轮或屏幕高度足够展示全部内容时，无需使用。
+- **层级与结构映射**：善用 `level` 属性表达调用链嵌套关系（如 Level 1 表示用户提问/主意图，Level 2 表示工具调用/思维推演，Level 3 表示底层细粒度日志），帮助用户一目了然把握对话脉络。
 
-当前轮次不用高亮色，只用略高的不透明度提示，保持“静止时安静”。用户开启“减少动态效果”后，弹簧会退化为直接切换。
-每个刻度都是可聚焦按钮，键盘聚焦同样会显示摘要，当前项通过 `aria-current="step"` 暴露给辅助技术。
+## 场景示例
+
+### 与聊天消息视口双向联动
+
+将时间线与聊天消息列表结合，点击时间线平滑滚动到对应轮次，监听消息滚动实时同步当前高亮：
+
+<ComponentPreview name="ai-conversation-timeline-demo" />
+
+### 右侧停靠与向左展开预览
+
+当时间线布局在屏幕或卡片右侧边缘时，设置 `previewSide="left"`，预览卡片将向左侧空白区域弹出，避免遮挡屏幕右边缘：
+
+<ComponentPreview name="ai-conversation-timeline-left-preview" />
+
+### 多层级 Agent 执行链路追踪
+
+通过为关键节点设置 `level={1}`，中间推理与工具调用设置 `level={2}` 或 `level={3}`，直观呈现复杂的任务拆解与推演过程：
+
+<ComponentPreview name="ai-conversation-timeline-levels" />
+
+## 无障碍与交互 Accessibility
+
+- **语义结构**：外层使用 `<nav aria-label="...">` 语义标签，内层使用 `<ol>` 有序列表组织刻度。
+- **键盘导航**：
+  - <kbd>Tab</kbd> / <kbd>Shift + Tab</kbd>：在各个轮次刻度按钮之间依次切换焦点。
+  - 聚焦至刻度时自动触发该项的放大与摘要卡片展开，完全无需依赖鼠标。
+  - <kbd>Enter</kbd> / <kbd>Space</kbd>：触发 `onNavigate` 回调执行跳转。
+- **ARIA 状态**：当前激活项会自动挂载 `aria-current="step"`，向辅助技术精准表达当前阅读进度。
+- **动效降级**：内置弹簧物理动画自动监听 `prefers-reduced-motion` 设置。开启后，刻度直接跳变至目标尺寸，浮动预览卡片立即显隐，保障无障碍体验。

@@ -1,32 +1,163 @@
 ---
 title: 加载中 Spin
-description: 用轻量、可降级的动态指示器表达等待状态。
+description: 轻量且支持无障碍降级的动态加载指示器，支持独立展示、局部内容遮罩与全屏阻塞。
 component: spin
 ---
 
 ## 基础用法
 
+最基础的加载状态用法。既可以作为独立图标指示器使用，也可以包裹任何已有内容，在异步处理时呈现半透明遮罩并阻止重复操作：
+
 <ComponentPreview name="spin-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/spin" />
 
+<Steps>
+
+<Step>安装基础依赖与动效库</Step>
+
+```bash
+pnpm add motion class-variance-authority clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/spin.tsx`</Step>
+
 <ComponentSource name="spin" title="components/ui/spin.tsx" />
 
-## 使用场景
+</Steps>
 
-`Spin` 适合用户已经触发操作、但结果尚未返回的短时等待。独立使用时显示状态指示器；包裹内容时保留原布局并阻止内容交互。
-首屏加载或结构已经确定但数据尚未返回时，应使用 Skeleton，让用户先看到页面结构。
+## 属性 Props
 
-## 属性
+### Spin
 
-<PropsTable name="spin" />
+`Spin` 支持以下核心配置属性：
 
-## 事件
+<PropsTable
+  data={[
+    {
+      prop: "spinning",
+      type: "boolean",
+      default: "true",
+      description: "是否展示加载状态。当包裹子元素时，为 true 会渲染遮罩层并禁用子元素交互。",
+    },
+    {
+      prop: "size",
+      type: '"sm" | "default" | "lg"',
+      default: '"default"',
+      description: "内置轨道指示器的物理尺寸大小（sm: 16px, default: 24px, lg: 36px）。",
+    },
+    {
+      prop: "label",
+      type: "React.ReactNode",
+      description: "加载指示器下方或后方附带的提示文本（如“正在保存…”）。",
+    },
+    {
+      prop: "indicator",
+      type: "React.ReactNode",
+      description: "自定义指示器图标，传入后将完全替代默认的轨道旋转 SVG 图标。",
+    },
+    {
+      prop: "delay",
+      type: "number",
+      default: "0",
+      description: "延迟显示加载状态的毫秒数（防闪烁）。若异步操作在 delay 毫秒内完成，则不展示加载层。",
+    },
+    {
+      prop: "fullscreen",
+      type: "boolean",
+      default: "false",
+      description: "是否渲染为覆盖整个视口的固定定位全屏遮罩。",
+    },
+    {
+      prop: "children",
+      type: "React.ReactNode",
+      description: "被包裹的局部容器内容。如果不传，则以行内块形式仅展示 Spin 图标本身。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于外层容器的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-组件不产生业务事件，由 `spinning` 控制显示。`delay` 可以过滤瞬时请求造成的闪烁；用户开启“减少动态效果”后，
-旋转和弹性过渡会立即停用，但加载状态仍然会显示。
+### SpinIndicator
 
-## 扩展用法
+底层旋转指示器组件：
 
-传入 `indicator` 可以替换默认指示器；`fullscreen` 用于会阻塞整页的关键切换。普通局部请求优先使用内容遮罩，
-避免全屏加载打断用户当前上下文。
+<PropsTable
+  data={[
+    {
+      prop: "size",
+      type: '"sm" | "default" | "lg"',
+      default: '"default"',
+      description: "指示器的物理尺寸大小。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于 SVG 元素的额外 CSS 类名。",
+    },
+  ]}
+/>
+
+## 事件 Events
+
+`Spin` 属于状态指示类组件，不直接派发自定义业务事件。加载层处于激活状态时，内部包裹的子元素会自动挂载 `pointer-events-none` 与 `select-none`，拦截所有鼠标与触摸事件，防止用户重复提交：
+
+<PropsTable
+  data={[
+    {
+      prop: "onClick",
+      type: "(event: React.MouseEvent<HTMLDivElement>) => void",
+      description: "在 Spin 容器上点击时触发的原生 DOM 事件。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+合理的加载反馈能极大缓解用户的等待焦虑，但必须根据不同耗时与场景精准选用：
+
+- **组件选型对比**：
+  - **Spin**：适用于**用户主动触发的短时局部操作**（如点击表格“刷新”、表单提交保存、卡片重新计算）。保留了原有内容框架并加以遮罩。
+  - **Skeleton**：适用于**首屏初次加载或页面路由切换**。用户尚未看到过内容时，骨架屏能够提前展现视觉版式，降低布局跳动感。
+  - **Progress**：适用于**已知进度百分比的长耗时任务**（如大文件上传、固件刷写、数据导入）。
+- **防闪烁延迟（Delay）**：对于接口响应通常在 200~300ms 之间的快速请求，强烈建议设置 `delay={300}`，避免指示器一闪而过造成的视觉干扰。
+- **克制使用全屏加载**：全屏遮罩（`fullscreen`）会强行剥夺用户的所有交互自由，只推荐在整站环境切换、关键发布、清库等极少数全局阻塞操作中使用。
+
+## 场景示例
+
+### 尺寸对比
+
+提供 `sm`（16px）、`default`（24px）和 `lg`（36px）三种尺寸规格：
+
+<ComponentPreview name="spin-sizes" />
+
+### 防闪烁延迟保护
+
+通过 `delay` 属性过滤瞬时微小请求，避免画面频繁闪烁跳动：
+
+<ComponentPreview name="spin-delay" />
+
+### 自定义指示器
+
+传入 `indicator` 属性自定义业务专属的动画图标或品牌 Logo：
+
+<ComponentPreview name="spin-custom" />
+
+### 全屏遮罩模式
+
+在需要全局阻塞的重度流程中使用 `fullscreen`：
+
+<ComponentPreview name="spin-fullscreen" />
+
+## 无障碍与交互 Accessibility
+
+- **状态通报**：指示器文本区域自动绑定 `role="status"` 和 `aria-live="polite"`，屏幕阅读器在进入加载状态时会主动向视障用户通报加载文字；若未提供 `label`，会自动提供隐藏的 `<span className="sr-only">Loading</span>` 兜底。
+- **忙碌指示**：被包裹的容器会自动根据 `visible` 状态同步 `aria-busy="true"` 属性。
+- **动效降级适配**：内部集成 `motion/react` 的 `useReducedMotion()`。当操作系统开启“减少动态效果（Reduce Motion）”时，SVG 旋转和弹性伸缩动画将完全停用，直接静态呈现，避免造成前庭觉不适。

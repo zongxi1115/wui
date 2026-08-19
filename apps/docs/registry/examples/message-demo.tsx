@@ -15,34 +15,34 @@ function MessageTypeButtons() {
   const message = useMessage()
 
   return (
-    <div className="flex w-full max-w-xl flex-wrap justify-center gap-2">
+    <div className="flex w-full max-w-xl flex-wrap justify-center gap-2.5">
       <Button
         variant="outline"
         size="sm"
-        onClick={() => message.info("A new version is available.")}
+        onClick={() => message.info("新功能已灰度发布，可在设置中开启。")}
       >
-        Info
+        信息提示 (Info)
       </Button>
       <Button
         variant="outline"
         size="sm"
-        onClick={() => message.success("Changes saved successfully.")}
+        onClick={() => message.success("配置更改已成功保存！")}
       >
-        Success
+        成功提示 (Success)
       </Button>
       <Button
         variant="outline"
         size="sm"
-        onClick={() => message.warning("Storage space is running low.")}
+        onClick={() => message.warning("网络连接较慢，正在尝试重连...")}
       >
-        Warning
+        警告提示 (Warning)
       </Button>
       <Button
         variant="outline"
         size="sm"
-        onClick={() => message.error("The request could not be completed.")}
+        onClick={() => message.error("数据加载失败，请检查网络权限。")}
       >
-        Error
+        错误提示 (Error)
       </Button>
     </div>
   )

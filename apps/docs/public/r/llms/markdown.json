@@ -1,8 +1,8 @@
 {
   "name": "markdown",
   "type": "registry:ui",
-  "title": "Markdown",
-  "description": "将 CommonMark 与 GFM 文本解析为可组合、带默认样式的 React 内容。",
+  "title": "Markdown 渲染器 Markdown",
+  "description": "将 CommonMark 与 GFM 格式文本解析为安全、可深度定制与支持流式羽化边缘的 React 内容组件。",
   "categories": [
     "data-display",
     "ai"
@@ -128,7 +128,11 @@
     },
     {
       "name": "markdown-stream-demo",
-      "title": "与流式输出组合"
+      "title": "流式分片输出与末尾羽化"
+    },
+    {
+      "name": "markdown-custom",
+      "title": "自定义元素重载 (带复制的代码块与高亮链接)"
     }
   ],
   "files": [

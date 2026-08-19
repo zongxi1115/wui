@@ -1,38 +1,209 @@
 ---
 title: AI 模型选择器 AI Model Selector
-description: 用于多模型切换下拉弹层、模型特性与参数标签展示，以及上下文 Token / Context Window 消耗进度指示。
+description: 专为大语言模型切换、推理特性与能力标签展示，以及上下文 Token / Context Window 消耗进度指示设计的下拉选择器。
 component: ai-model-selector
 ---
 
-## 基础示例 · Basic example
+## 基础用法
 
-<ComponentPreview name="ai-model-selector-demo" previewClassName="min-h-0 p-6 flex justify-center" />
+包含模型厂商图标、能力徽章（如 `Reasoning`、`Fast`、`200k`）、分组归类与 Token 窗口配额进度的模型下拉选择器：
+
+<ComponentPreview name="ai-model-selector-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/ai-model-selector" />
 
+<Steps>
+
+<Step>安装基础依赖与动效库</Step>
+
+```bash
+pnpm add radix-ui class-variance-authority lucide-react clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/ai-model-selector.tsx`</Step>
+
 <ComponentSource name="ai-model-selector" title="components/ui/ai-model-selector.tsx" />
 
-## 组件作用 · What it's for
+</Steps>
 
-`AiModelSelector` 帮助用户或开发者在不同大语言模型（如 Claude 3.5 Sonnet、DeepSeek R1、GPT-4o）之间快速切换，并清晰感知当前对话的上下文 Token 消耗。
+## 属性 Props
 
-### 适用场景
-- **模型与推理档位切换**：展示模型名称、提供商图标、速度与能力 Tags（如 `Vision`、`Reasoning`、`200k`）。
-- **分组归类 (`AiModelGroup`)**：区分主力推理模型与轻量高速模型。
-- **上下文窗口用量 (`AiTokenUsage`)**：以彩色进度条展示当前已占用的 Token 数与最大 Context Window 限制。
+### AiModelSelector (根选择器容器)
 
-### 何时不建议使用
-- 如果应用固定绑定单一模型后端且不暴露给终端用户调节，无需放置切换器。
+底层基于 Radix Popover 封装：
 
-## 组件属性 · Props
+<PropsTable
+  data={[
+    {
+      prop: "open",
+      type: "boolean",
+      description: "受控模式下弹层展开状态。",
+    },
+    {
+      prop: "defaultOpen",
+      type: "boolean",
+      default: "false",
+      description: "非受控模式下初始展开状态。",
+    },
+    {
+      prop: "onOpenChange",
+      type: "(open: boolean) => void",
+      description: "弹层展开或关闭状态改变时的回调函数。",
+    },
+    {
+      prop: "modal",
+      type: "boolean",
+      default: "false",
+      description: "是否以模态方式呈现。为 true 时阻止与外部页面元素交互。",
+    },
+  ]}
+/>
 
-<PropsTable name="ai-model-selector" />
+### AiModelSelectorTrigger (触发按钮)
 
-## 事件 · Events
+<PropsTable
+  data={[
+    {
+      prop: "variant",
+      type: '"default" | "ghost"',
+      default: '"default"',
+      description: '外观变体。"default" 为带微边框与阴影的标准按钮；"ghost" 为适用于工具栏的透明背景。',
+    },
+    {
+      prop: "icon",
+      type: "React.ReactNode",
+      description: "模型前置图标（如厂商 Logo 或闪电图标）。",
+    },
+  ]}
+/>
 
-- 透传 Radix Popover 的 `open` 与 `onOpenChange` 受控属性。
-- `AiModelItem` 支持标准原生 `onClick` 点击事件。
+### AiModelGroup (模型分类分组)
 
-## 拓展使用 · Extended usage
+<PropsTable
+  data={[
+    {
+      prop: "heading",
+      type: "React.ReactNode",
+      description: "分组的标题文案（如「Flagship / 深度推理」）。",
+    },
+  ]}
+/>
 
-可将 `AiModelSelector` 嵌套置于 `AiPrompt` 或 `AiChatPromptTools` 工具栏中，作为输入区域的紧凑配置项。
+### AiModelItem (单个模型选项)
+
+<PropsTable
+  data={[
+    {
+      prop: "name",
+      type: "React.ReactNode",
+      description: "模型的展示名称（如 `Claude 3.7 Sonnet`）。",
+    },
+    {
+      prop: "description",
+      type: "React.ReactNode",
+      description: "模型的简要特性或适用场景说明。",
+    },
+    {
+      prop: "selected",
+      type: "boolean",
+      default: "false",
+      description: "当前模型是否处于选中状态。选中时右侧展示高亮勾选图标。",
+    },
+    {
+      prop: "icon",
+      type: "React.ReactNode",
+      description: "模型专属图标。",
+    },
+    {
+      prop: "badge",
+      type: "React.ReactNode",
+      description: "模型能力徽章（如 `<Badge>Vision</Badge>` 或 `<Badge>200k</Badge>`）。",
+    },
+  ]}
+/>
+
+### AiTokenUsage (上下文窗口用量进度)
+
+<PropsTable
+  data={[
+    {
+      prop: "used",
+      type: "number",
+      description: "当前对话已消耗的 Token 总量。",
+    },
+    {
+      prop: "limit",
+      type: "number",
+      description: "当前模型支持的最大上下文窗口（Context Window）限制。",
+    },
+    {
+      prop: "label",
+      type: "string",
+      default: '"Context Window"',
+      description: "配额指示器的标签文案。",
+    },
+    {
+      prop: "showPercentage",
+      type: "boolean",
+      default: "true",
+      description: "是否在右侧数字旁展示百分比（如 `(38%)`）。",
+    },
+  ]}
+/>
+
+## 事件 Events
+
+<PropsTable
+  data={[
+    {
+      prop: "onOpenChange",
+      type: "(open: boolean) => void",
+      description: "模型选择器下拉面板展开或关闭时触发。",
+    },
+    {
+      prop: "onClick",
+      type: "(event: React.MouseEvent<HTMLButtonElement>) => void",
+      description: "点击具体的 `AiModelItem` 时触发，通常在此切换当前激活的模型 ID。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`AiModelSelector` 帮助用户根据任务复杂度（如纯文本快速总结 vs 多模态深度推演）选择合适的大模型，并实时掌握上下文窗口容量：
+
+- **何时使用**：
+  - 支持多模型路由的 AI 平台、开发平台或 Copilot 工具栏；
+  - 需要告知用户当前所选模型的上下文窗口限制（如 128k、200k、1M tokens）；
+  - 需要在推理旗舰（Flagship）与高速轻量（Fast）模型之间建立清晰层级。
+- **何时不应使用**：
+  - 系统底层固定单一模型、不向终端用户暴露切换入口的应用；
+  - 常规表单下拉项（请使用通用 `Select`）。
+- **设计最佳实践**：
+  - **清晰的能力徽章**：为具备长思维链的模型添加 `Reasoning` 标签，为高并发低延迟模型添加 `Fast` 标签；
+  - **告警阈值指示**：`AiTokenUsage` 会根据已用比例自动切换色相（正常为 Primary、超 80% 为 Warning、超 95% 为 Destructive）；
+  - **紧凑集成**：可直接置于 `AiPromptFooter` 或 `AiChatPromptTools` 工具栏中。
+
+## 场景示例
+
+### 旗舰推理与极速轻量模型分级配置
+
+在侧边栏或主界面中组合模型选择与参数摘要展示：
+
+<ComponentPreview name="ai-model-selector-advanced" />
+
+## 无障碍与交互 Accessibility
+
+- **Popover 语义支持**：
+  - 触发器挂载 `aria-haspopup="dialog"` 与 `aria-expanded`，并关联下拉浮层的 `id`；
+  - 选中的 `AiModelItem` 带有 `data-selected="true"` 与视觉勾选指示。
+- **键盘导航支持**：
+  - <kbd>Tab</kbd>：按顺序聚焦模型选项；
+  - <kbd>Enter</kbd> / <kbd>Space</kbd>：选中目标模型并关闭弹层；
+  - <kbd>Escape</kbd>：快速退出选择面板。
+- **高对比度焦点环**：
+  - 触发器与所有模型子选项在键盘聚焦时均具备清晰的高对比度外边框。

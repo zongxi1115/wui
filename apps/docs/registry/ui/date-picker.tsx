@@ -3,37 +3,57 @@
 import * as React from "react"
 import { CalendarIcon, XIcon } from "lucide-react"
 import { Popover as PopoverPrimitive } from "radix-ui"
+import { cva } from "class-variance-authority"
 
 import { Calendar } from "@/registry/ui/calendar"
 import { cn } from "@/registry/lib/utils"
 
-export interface DatePickerProps extends Omit<
-  React.ComponentProps<"button">,
-  "value" | "defaultValue" | "onChange"
-> {
-  /** Selected date. */
+const datePickerVariants = cva(
+  "bg-background shadow-xs hover:border-foreground/25 focus-visible:border-ring focus-visible:ring-ring/30 data-[placeholder=true]:text-muted-foreground group flex w-full items-center gap-2 rounded-md border text-left outline-none transition-[border-color,box-shadow] focus-visible:ring-[3px] disabled:pointer-events-none disabled:opacity-50",
+  {
+    variants: {
+      size: {
+        sm: "h-8 min-w-44 px-2.5 text-xs",
+        default: "h-10 min-w-56 px-3 text-sm",
+        lg: "h-12 min-w-64 px-4 text-base",
+      },
+    },
+    defaultVariants: {
+      size: "default",
+    },
+  }
+)
+
+export interface DatePickerProps
+  extends Omit<
+    React.ComponentProps<"button">,
+    "value" | "defaultValue" | "onChange"
+  > {
+  /** 选中的日期对象；传入后进入受控模式。 */
   value?: Date
-  /** Initially selected date in uncontrolled mode. */
+  /** 非受控模式下的初始选中日期。 */
   defaultValue?: Date
-  /** Called after a date is selected or cleared. */
+  /** 选中日期或清空后触发的回调函数。 */
   onValueChange?: (date: Date | undefined) => void
-  /** Placeholder shown without a value. @default "选择日期" */
+  /** 未选择日期时的提示文案。@default "选择日期" */
   placeholder?: string
-  /** Date formatting locale. @default "zh-CN" */
+  /** 格式化日期语言环境代码。@default "zh-CN" */
   locale?: string
-  /** Intl date formatting options. */
+  /** Intl.DateTimeFormat 本地化格式化配置项。 */
   formatOptions?: Intl.DateTimeFormatOptions
-  /** Allow clearing the current selection. @default true */
+  /** 是否允许一键清空选中日期。@default true */
   clearable?: boolean
-  /** Earliest selectable day. */
+  /** 允许选择的最早起始日期。 */
   min?: Date
-  /** Latest selectable day. */
+  /** 允许选择的最晚截止日期。 */
   max?: Date
-  /** Custom disabled-day matcher. */
+  /** 自定义特定日期的禁用判定函数。 */
   disabledDate?: (date: Date) => boolean
+  /** 尺寸密度。@default "default" */
+  size?: "sm" | "default" | "lg"
 }
 
-/** A popover date picker composed from the WUI Calendar. */
+/** 基于日历浮层的现代化单日期选择控件。 */
 function DatePicker({
   className,
   value,
@@ -46,6 +66,7 @@ function DatePicker({
   min,
   max,
   disabledDate,
+  size = "default",
   disabled,
   onKeyDown,
   ...props
@@ -73,10 +94,7 @@ function DatePicker({
           type="button"
           data-slot="date-picker"
           data-placeholder={!selected || undefined}
-          className={cn(
-            "bg-background shadow-xs hover:border-foreground/25 focus-visible:border-ring focus-visible:ring-ring/30 data-[placeholder=true]:text-muted-foreground group flex h-9 min-w-56 items-center gap-2 rounded-md border px-3 text-left text-sm outline-none transition-[border-color,box-shadow] focus-visible:ring-[3px] disabled:pointer-events-none disabled:opacity-50",
-            className
-          )}
+          className={cn(datePickerVariants({ size }), className)}
           disabled={disabled}
           onKeyDown={(event) => {
             onKeyDown?.(event)
@@ -95,16 +113,19 @@ function DatePicker({
           <CalendarIcon className="text-muted-foreground size-4 shrink-0" />
           <span className="min-w-0 flex-1 truncate">{label}</span>
           {selected && clearable ? (
-            <span
-              aria-hidden
-              className="text-muted-foreground hover:bg-accent hover:text-foreground -mr-1 flex size-6 items-center justify-center rounded-sm opacity-0 transition-opacity focus:opacity-100 group-hover:opacity-100"
+            <button
+              type="button"
+              data-slot="date-picker-clear"
+              aria-label="清除已选日期"
+              disabled={disabled}
+              className="text-muted-foreground hover:bg-accent hover:text-foreground -mr-1 flex size-6 shrink-0 items-center justify-center rounded-sm opacity-0 transition-opacity focus:opacity-100 group-hover:opacity-100"
               onClick={(event) => {
                 event.stopPropagation()
                 update(undefined)
               }}
             >
               <XIcon className="size-3.5" />
-            </span>
+            </button>
           ) : null}
         </button>
       </PopoverPrimitive.Trigger>
@@ -132,4 +153,4 @@ function DatePicker({
   )
 }
 
-export { DatePicker }
+export { DatePicker, datePickerVariants }

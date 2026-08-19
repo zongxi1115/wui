@@ -2,7 +2,7 @@
   "name": "empty-state",
   "type": "registry:ui",
   "title": "空状态 Empty State",
-  "description": "在没有数据或结果时解释现状并引导下一步。",
+  "description": "在页面或模块无数据、无搜索结果或未配置时，清晰解释现状并引导用户开展下一步动作。",
   "import": "import { EmptyState, EmptyStateActions, EmptyStateDescription, EmptyStateHint, EmptyStateIcon, EmptyStateIllustration, EmptyStateMedia, EmptyStateTitle, emptyStateClassicIllustrations, emptyStateColorIllustrations, emptyStateIllustrations, emptyStateVariants } from \"@/components/ui/empty-state\"",
   "exports": [
     "EmptyState",
@@ -50,7 +50,6 @@
       "description": "空状态内容的垂直密度。"
     }
   ],
-  "events": "容器本身不产生业务事件。操作由 `EmptyStateActions` 中组合的 Button 或链接承担，原生容器事件仍会透传。",
   "examples": [
     {
       "name": "empty-state-demo",
@@ -58,7 +57,15 @@
     },
     {
       "name": "empty-state-illustrations",
-      "title": "内置插画"
+      "title": "预置插画库"
+    },
+    {
+      "name": "empty-state-filter",
+      "title": "搜索无结果（重置筛选）"
+    },
+    {
+      "name": "empty-state-compact",
+      "title": "紧凑卡片/下拉面板空状态"
     }
   ],
   "files": [

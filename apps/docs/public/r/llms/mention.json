@@ -1,0 +1,108 @@
+{
+  "name": "mention",
+  "type": "registry:ui",
+  "title": "提及输入 Mention",
+  "description": "用于协同评论、讨论区或 AI 输入框中键入 @、# 或 / 快速匹配并插入人员、话题或指令。",
+  "categories": [
+    "data-entry"
+  ],
+  "import": "import { Mention, MentionBadge, mentionVariants } from \"@/components/ui/mention\"",
+  "exports": [
+    "Mention",
+    "MentionBadge",
+    "mentionVariants"
+  ],
+  "typeExports": [
+    "MentionBadgeProps",
+    "MentionOption",
+    "MentionProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/mention",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/mention.json",
+    "npmDependencies": [
+      "class-variance-authority",
+      "lucide-react"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "trigger",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "defaultValue": "@",
+      "description": "触发提及菜单的前缀字符（如 \"@\", \"#\", \"/\"）。"
+    },
+    {
+      "name": "options",
+      "type": "MentionOption[]",
+      "required": false,
+      "control": "text",
+      "defaultValue": "[]",
+      "description": "可供匹配选择的候选提及列表。"
+    },
+    {
+      "name": "value",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "当前输入框文本（受控模式）。"
+    },
+    {
+      "name": "defaultValue",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "默认输入框文本（非受控模式）。"
+    },
+    {
+      "name": "onValueChange",
+      "type": "((value: string) => void)",
+      "required": false,
+      "control": "text",
+      "description": "输入文本发生变动时的回调。"
+    },
+    {
+      "name": "onSelectOption",
+      "type": "((option: MentionOption) => void)",
+      "required": false,
+      "control": "text",
+      "description": "选中某项提及项时的回调函数。"
+    },
+    {
+      "name": "placeholder",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "defaultValue": "输入 @ 提及成员或技能...",
+      "description": "输入框占位提示文案。"
+    },
+    {
+      "name": "variant",
+      "type": "\"default\" | \"ghost\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "default",
+        "ghost"
+      ],
+      "defaultValue": "default",
+      "description": "外观样式变体。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "mention-demo",
+      "title": "基础示例 · Basic example"
+    }
+  ],
+  "files": [
+    "registry/ui/mention.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/mention",
+  "sourceUrl": "https://ui.wzx.wang/r/mention.json"
+}

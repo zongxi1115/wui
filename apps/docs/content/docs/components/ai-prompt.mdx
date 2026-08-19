@@ -1,51 +1,247 @@
 ---
 title: AI 输入框 AI Prompt
-description: 支持提及、模型选择、附件、引用和可选能力的组合式 AI 输入框。
+description: 专为现代 AI 对话与智能体（Agent）场景设计的组合式输入框，支持 @ 提及、模型切换、文件附件、引用上下文与思考强度调节。
 component: ai-prompt
 ---
 
 ## 基础用法
 
+最常用的 AI 输入框用法。包含自增高输入区、模型快速选择器、附件上传入口与带加载状态的发送按钮：
+
 <ComponentPreview name="ai-prompt-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/ai-prompt" />
 
+<Steps>
+
+<Step>安装基础依赖与动效库</Step>
+
+```bash
+pnpm add radix-ui motion class-variance-authority lucide-react clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/ai-prompt.tsx`</Step>
+
 <ComponentSource name="ai-prompt" title="components/ui/ai-prompt.tsx" />
 
-## 使用场景
+</Steps>
 
-`AiPrompt` 是可以独立放在页面、侧栏或 [`AiChat`](/docs/components/ai-chat) 底部的 AI 输入框。它负责输入区结构、提及选择、
-模型入口、附件展示和发送状态，不绑定具体 AI SDK、上传接口或模型列表。
+## 属性 Props
 
-普通搜索框、评论输入和传统表单不应使用 `AiPrompt`。只有输入会触发模型能力，并且确实需要模型、上下文或工具选项时，
-才启用这些附加部件；简单的单行问题不需要把所有能力入口都展示出来。
+### AiPrompt (根组件)
 
-## 属性
+`AiPrompt` 本质为一个语义化 `<form>` 容器，支持以下配置属性：
 
-<PropsTable name="ai-prompt" />
+<PropsTable
+  data={[
+    {
+      prop: "size",
+      type: '"default" | "compact"',
+      default: '"default"',
+      description: "输入框的排版密度与圆角尺寸规范。",
+    },
+    {
+      prop: "onSubmit",
+      type: "(event: React.FormEvent<HTMLFormElement>) => void",
+      description: "表单提交时的回调函数，通常在此处发送模型请求。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于外层表单容器的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-## 事件
+### AiPromptTextarea
 
-- `AiPrompt` 透传表单 `onSubmit`，业务层负责读取内容、发送请求和处理错误。
-- `AiPromptTextarea` 默认随内容自动增高，达到 `maxHeight` 后切换为内部滚动；放在 `AiPromptMention` 中时，Provider 通过 `onValueChange`
-  统一处理普通输入和提及插入。
-- `AiPromptMention onMentionSelect` 在候选项插入后触发；菜单支持方向键、Enter、Tab 和 Escape。
-- `AiPromptAttachmentButton onFilesChange` 返回本地 `File[]`，不预设上传请求和文件校验。
-- `AiModelSelector onValueChange` 返回模型值；简单布尔能力使用 `AiPromptAction`，有模式或强度层级的能力使用 `AiPromptCapabilitySelector`。
+`AiPromptTextarea` 为自适应高度的文本输入域，支持以下属性：
 
-## 扩展用法
+<PropsTable
+  data={[
+    {
+      prop: "autoResize",
+      type: "boolean",
+      default: "true",
+      description: "是否随输入内容行数自动增高。",
+    },
+    {
+      prop: "maxHeight",
+      type: "number",
+      default: "160",
+      description: "自动增高的最大高度像素值（px），超过后内部启用滚动。",
+    },
+    {
+      prop: "value",
+      type: "string",
+      description: "受控模式下的输入文本值。",
+    },
+    {
+      prop: "onChange",
+      type: "(event: React.ChangeEvent<HTMLTextAreaElement>) => void",
+      description: "输入文本变化时的回调函数。",
+    },
+    {
+      prop: "placeholder",
+      type: "string",
+      description: "输入框占位引导提示文本。",
+    },
+  ]}
+/>
 
-### 提及与引用上下文
+### AiPromptMention (提及上下文容器)
+
+<PropsTable
+  data={[
+    {
+      prop: "value",
+      type: "string",
+      description: "受控的完整文本输入内容。",
+    },
+    {
+      prop: "onValueChange",
+      type: "(value: string) => void",
+      description: "文本变动（包含普通输入和提及插入）时的统一更新回调。",
+    },
+    {
+      prop: "items",
+      type: "AiPromptMentionItem[]",
+      description: "可供提及的候选对象列表，包含 id、label、description 等。",
+    },
+    {
+      prop: "trigger",
+      type: "string",
+      default: '"@"',
+      description: "触发提及下拉菜单的引导字符。",
+    },
+    {
+      prop: "onMentionSelect",
+      type: "(item: AiPromptMentionItem) => void",
+      description: "用户选中某一项提及对象并插入到输入框后的回调函数。",
+    },
+  ]}
+/>
+
+### AiPromptSubmit (发送/停止按钮)
+
+<PropsTable
+  data={[
+    {
+      prop: "status",
+      type: '"idle" | "submitted" | "streaming" | "error"',
+      default: '"idle"',
+      description: "当前请求生命周期状态。在 `submitted` 状态下展示加载动画，在 `streaming` 状态下展示方形停止生成图标。",
+    },
+    {
+      prop: "disabled",
+      type: "boolean",
+      default: "false",
+      description: "是否禁用提交按钮交互。",
+    },
+  ]}
+/>
+
+### AiPromptAction (能力开关按钮)
+
+<PropsTable
+  data={[
+    {
+      prop: "active",
+      type: "boolean",
+      default: "false",
+      description: "能力是否处于激活开启状态（如联网搜索已开启）。",
+    },
+    {
+      prop: "icon",
+      type: "React.ReactNode",
+      description: "按钮前置图标。",
+    },
+    {
+      prop: "label",
+      type: "React.ReactNode",
+      description: "悬停展开或激活时展示的文本标签。",
+    },
+  ]}
+/>
+
+## 事件 Events
+
+<PropsTable
+  data={[
+    {
+      prop: "onSubmit",
+      type: "(event: React.FormEvent<HTMLFormElement>) => void",
+      description: "用户点击发送按钮或在输入框中按下 Enter 键时触发。",
+    },
+    {
+      prop: "onValueChange",
+      type: "(value: string) => void",
+      description: "由 `AiPromptMention` 统一派发的文本变化事件。",
+    },
+    {
+      prop: "onMentionSelect",
+      type: "(item: AiPromptMentionItem) => void",
+      description: "在提及菜单中选择特定候选项后触发，参数为被选中的目标对象。",
+    },
+    {
+      prop: "onFilesChange",
+      type: "(files: File[]) => void",
+      description: "通过 `AiPromptAttachmentButton` 选择本地文件后触发。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`AiPrompt` 专用于 AI 对话、Copilot 侧边栏和智能体交互场景，它负责组织输入区层级、上下文载入与操作入口：
+
+- **何时使用**：
+  - 聊天机器人与 Copilot 对话交互输入区；
+  - 包含多模态文件上传、联网搜索、深度推理强度调节等复杂上下文配置的输入场景；
+  - 需要 `@` 提及项目文件、数据库表或团队成员的协作工作流。
+- **何时不应使用**：
+  - 常规单行全局搜索框（请使用 `Command` 或 `Input`）；
+  - 表单中的纯文本备注（请使用 `Textarea`）；
+  - 社区评论发布框（不需要模型与推理选项配置）。
+- **设计最佳实践**：
+  - **回车键快捷交互**：遵循“<kbd>Enter</kbd> 发送、<kbd>Shift</kbd> + <kbd>Enter</kbd> 换行”的行业统一交互约定；
+  - **加载与打断保护**：在模型流式生成期间，发送按钮应自动切换为“停止生成”按钮，允许用户随时打断冗长回答；
+  - **上下文明确可视**：被引用的代码片段或上传的文件应放置在 `AiPromptHeader` 独立卡片中，避免直接堆砌在 placeholder 中。
+
+## 场景示例
+
+### 提及成员与引用上下文
+
+通过将输入区域嵌套在 `AiPromptMention` 中，支持输入 `@` 触发候选项实时联想与键盘导航：
 
 <ComponentPreview name="ai-prompt-mentions" />
 
-将输入框包在 `AiPromptMention` 中即可启用 `@` 检测、过滤、键盘导航和插入。引用内容放在 `AiPromptHeader`，
-与正文保持明确层级；不要把引用对象拼进 placeholder，因为 placeholder 不能替代真实输入内容。
+### 高级参数与多模态附件
 
-### 模型、附件与可选能力
+组合引用预览 (`AiPromptQuote`)、文件附件列表 (`AiPromptAttachments`)、级联思考强度选择器 (`AiPromptCapabilitySelector`) 以及厂商模型切换器：
 
 <ComponentPreview name="ai-prompt-advanced" />
 
-模型选择器复用通用 `Select`，通过 `provider` 显示厂商标识，并以模型名称、当前模式和能力说明建立信息层次。
-已选文件使用 `AiPromptAttachment` 呈现；联网搜索等布尔能力使用 `AiPromptAction active`，深度思考等有层级的能力，
-使用复用 Cascader 交互的 `AiPromptCapabilitySelector` 继续选择 effort。
+### 紧凑悬浮输入条
+
+在侧边栏浮层或轻量 Copilot 窗口中，采用 `compact` 尺寸与圆角胶囊布局，节省垂直空间：
+
+<ComponentPreview name="ai-prompt-compact" />
+
+## 无障碍与交互 Accessibility
+
+- **ARIA 角色与语义**：
+  - `AiPrompt` 根元素渲染为标准 `<form>`，便于辅助设备识别提交语义；
+  - 当提及菜单展开时，输入框自动挂载 `role="combobox"`、`aria-autocomplete="list"` 以及 `aria-expanded="true"`；
+  - 提交按钮会依据 `status` 动态更新 `aria-label`（如“发送消息”或“停止生成”）。
+- **键盘导航交互**：
+  - <kbd>Enter</kbd>：直接触发表单提交；在提及菜单展开时则选中当前高亮项。
+  - <kbd>Shift</kbd> + <kbd>Enter</kbd>：在文本域中插入换行符，不会触发误提交。
+  - <kbd>↑</kbd> / <kbd>↓</kbd>：在提及弹层中循环切换高亮项。
+  - <kbd>Escape</kbd>：关闭当前打开的提及菜单或模型选择弹层。
+- **动效降级**：
+  - 按钮文字展开与图标过渡遵循 `prefers-reduced-motion` 系统偏好，开启“减少动态效果”时将立即切换状态。

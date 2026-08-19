@@ -2,7 +2,7 @@
   "name": "time-picker",
   "type": "registry:ui",
   "title": "时间选择器 Time Picker",
-  "description": "用小时、分钟与时制分栏快速设定时间。",
+  "description": "通过小时、分钟与 AM/PM 时制分栏，用于在表单中快速定位与设定特定时刻的紧凑选择控件。",
   "import": "import { TimePicker, formatTime, parseTime } from \"@/components/ui/time-picker\"",
   "exports": [
     "TimePicker",
@@ -78,11 +78,22 @@
       "description": "是否禁用组件。"
     }
   ],
-  "events": "点击“确定”后触发 `onValueChange(value)` 并关闭弹层。受控模式由调用方更新 `value`；非受控模式使用 `defaultValue`。\n用户只修改了弹层中的临时值但没有点击确认时，不会提交新值。",
   "examples": [
     {
       "name": "time-picker-demo",
       "title": "基础用法"
+    },
+    {
+      "name": "time-picker-12-hour",
+      "title": "12 小时制 (AM/PM)"
+    },
+    {
+      "name": "time-picker-range-form",
+      "title": "会议室起止时间区间校验"
+    },
+    {
+      "name": "time-picker-minute-step",
+      "title": "分钟步进粒度控制"
     }
   ],
   "files": [

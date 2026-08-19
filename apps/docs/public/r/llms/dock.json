@@ -1,0 +1,72 @@
+{
+  "name": "dock",
+  "type": "registry:ui",
+  "title": "悬浮底栏 Dock",
+  "description": "仿 macOS 风格的弹性放大底栏导航，随着鼠标经过产生丝滑的近邻放大动效。",
+  "categories": [
+    "fancy"
+  ],
+  "import": "import { Dock, DockItem, DockSeparator, dockVariants } from \"@/components/ui/dock\"",
+  "exports": [
+    "Dock",
+    "DockItem",
+    "DockSeparator",
+    "dockVariants"
+  ],
+  "typeExports": [
+    "DockItemProps",
+    "DockProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/dock",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/dock.json",
+    "npmDependencies": [
+      "class-variance-authority",
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "magnification",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "56",
+      "description": "鼠标悬停时的最大放大尺寸（像素）。"
+    },
+    {
+      "name": "distance",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "120",
+      "description": "触发放大影响的鼠标距离阈值（像素）。"
+    },
+    {
+      "name": "direction",
+      "type": "\"horizontal\" | \"vertical\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "horizontal",
+        "vertical"
+      ],
+      "defaultValue": "horizontal",
+      "description": "排列方向。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "dock-demo",
+      "title": "基础示例 · Basic example"
+    }
+  ],
+  "files": [
+    "registry/ui/dock.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/dock",
+  "sourceUrl": "https://ui.wzx.wang/r/dock.json"
+}

@@ -1,32 +1,146 @@
 ---
 title: 时间选择器 Time Picker
-description: 用小时、分钟与时制分栏快速设定时间。
+description: 通过小时、分钟与 AM/PM 时制分栏，用于在表单中快速定位与设定特定时刻的紧凑选择控件。
 component: time-picker
 ---
 
 ## 基础用法
 
+最简单的时间选择器。点击弹出小时与分钟双栏面板，点击“确定”确认时间：
+
 <ComponentPreview name="time-picker-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/time-picker" />
 
+<Steps>
+
+<Step>安装基础依赖与动效库</Step>
+
+```bash
+pnpm add radix-ui motion lucide-react clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/time-picker.tsx`</Step>
+
 <ComponentSource name="time-picker" title="components/ui/time-picker.tsx" />
 
-## 使用场景
+</Steps>
 
-`TimePicker` 适合会议、预约和提醒等需要精确时间点的表单。值始终使用稳定的 24 小时 `HH:mm` 格式，
-展示层可以选择 12 或 24 小时制；只需要“上午 / 下午”或粗粒度时段时，Select 更直接。
+## 属性 Props
 
-## 属性
+`TimePicker` 支持以下配置属性，并继承原生 `<button>` 的 HTML 属性：
 
-<PropsTable name="time-picker" />
+<PropsTable
+  data={[
+    {
+      prop: "value",
+      type: "string",
+      description: "受控模式下的 24 小时制时间字符串，格式为 `HH:mm`（例如 `'09:30'`、`'18:45'`）。",
+    },
+    {
+      prop: "defaultValue",
+      type: "string",
+      description: "非受控模式下的初始时间字符串（格式同 `HH:mm`）。",
+    },
+    {
+      prop: "onValueChange",
+      type: "(value: string) => void",
+      description: "用户在面板中确认选择时间后触发的回调函数，返回标准的 24 小时制 `HH:mm` 字符串。",
+    },
+    {
+      prop: "hourCycle",
+      type: "12 | 24",
+      default: "24",
+      description: "时间显示进制。设为 12 时展示 1~12 小时并增加 AM/PM 上下午时制分栏。",
+    },
+    {
+      prop: "minuteStep",
+      type: "1 | 5 | 10 | 15 | 30",
+      default: "5",
+      description: "分钟列的步进间隔。可设为 1（全精度）、5、10、15 或 30 分钟。",
+    },
+    {
+      prop: "placeholder",
+      type: "string",
+      default: '"选择时间"',
+      description: "未选定任何时间时输入框内展示的占位提示文本。",
+    },
+    {
+      prop: "disabled",
+      type: "boolean",
+      default: "false",
+      description: "是否禁用时间选择器的交互。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于触发器按钮的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-## 事件
+## 事件 Events
 
-点击“确定”后触发 `onValueChange(value)` 并关闭弹层。受控模式由调用方更新 `value`；非受控模式使用 `defaultValue`。
-用户只修改了弹层中的临时值但没有点击确认时，不会提交新值。
+<PropsTable
+  data={[
+    {
+      prop: "onValueChange",
+      type: "(value: string) => void",
+      description: "当用户在浮层中选中时间并点击底部的“确定”按钮后触发。",
+    },
+    {
+      prop: "onFocus",
+      type: "(event: React.FocusEvent<HTMLButtonElement>) => void",
+      description: "触发按钮获得焦点时触发。",
+    },
+    {
+      prop: "onBlur",
+      type: "(event: React.FocusEvent<HTMLButtonElement>) => void",
+      description: "触发按钮失去焦点时触发。",
+    },
+  ]}
+/>
 
-## 扩展用法
+## 使用场景与设计规范
 
-使用 `minuteStep` 设置分钟步进，例如 5、10、15 或 30 分钟。`hourCycle={12}` 会增加 AM / PM 分栏，
-但回调值仍保持 24 小时格式，便于存储、比较和提交。
+`TimePicker` 适用于**精确时刻输入**（如会议开始时间、课程时段、每日定时提醒、营业时间段）。
+
+- **TimePicker vs Select vs DatePicker**：
+  - **TimePicker（时间选择）**：专为时分秒刻度设计，分栏滚动选择并可自由控制分钟精度（1/5/15/30 分钟）。
+  - **Select（下拉选择）**：适合固定稀疏的几个粗粒度预设项（如“上午 9:00”、“下午 2:00”）。
+  - **DatePicker（日期选择）**：面向年月日维度的日历日期选择。
+- **数据格式统一规范**：无论前台 `hourCycle` 设置为 12 还是 24 小时制，`onValueChange` 回调输出的数值均始终维持标准的 **24 小时制 `HH:mm` 格式**，避免后端数据存储和业务逻辑处理产生歧义。
+- **草稿确认机制**：用户在浮层列中切换时仅暂存为内部 Draft 状态，只有点击“确定”按钮才会正式提交生效；若用户点击外部区域关闭，已选时间将自动恢复，防止误触。
+
+## 场景示例
+
+### 12 小时制 (AM/PM)
+
+开启 `hourCycle={12}` 时，面板会自动呈现 AM / PM 上下午切换列，适合跨国业务或特定海外习惯：
+
+<ComponentPreview name="time-picker-12-hour" />
+
+### 会议室起止时间区间校验
+
+组合两个 `TimePicker` 构建预约时间范围，并实时联动校验“结束时间晚于开始时间”：
+
+<ComponentPreview name="time-picker-range-form" />
+
+### 分钟步进粒度控制
+
+通过 `minuteStep` 在 1 分钟高精度打点与 30 分钟粗粒度日程预约之间灵活配置：
+
+<ComponentPreview name="time-picker-minute-step" />
+
+## 无障碍与交互 Accessibility
+
+- **ARIA 规范**：触发按钮挂载 `role="button"`、`aria-haspopup="dialog"`；分栏列内的可选项均挂载 `role="button"` 与 `aria-pressed` 反映当前激活状态。
+- **键盘支持**：
+  - <kbd>Tab</kbd>：在时、分、时制分栏以及确定按钮之间顺序导航。
+  - <kbd>Space</kbd> / <kbd>Enter</kbd>：选定时分数值或激活确定按钮。
+  - <kbd>Esc</kbd>：取消修改并立即关闭时间选择弹出层。
+- **平滑高亮动效**：选中的时间胶囊背景使用 Framer Motion `layoutId` 进行物理弹簧过渡，在开启减弱动态效果时平稳退化。

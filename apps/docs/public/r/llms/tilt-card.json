@@ -2,7 +2,7 @@
   "name": "tilt-card",
   "type": "registry:ui",
   "title": "透视倾斜 Tilt Card",
-  "description": "卡片随指针产生克制的 3D 透视倾斜并弹性回正。",
+  "description": "卡片跟随光标指针在三维空间中产生细腻的 3D 透视倾斜与反光眩光，并基于物理弹簧平滑回正。",
   "categories": [
     "pointer",
     "motion",
@@ -73,11 +73,14 @@
       "description": "应用于可选高光图层的 CSS 类名。"
     }
   ],
-  "usage": "`maxTilt` 建议保持在 4–10 度，`perspective` 越大透视越平缓。不要给密集列表中的每个操作控件都添加倾斜，\n否则会增加视觉噪声和跟踪成本。触摸输入以及用户开启“减少动态效果”时会保持静止。",
   "examples": [
     {
       "name": "tilt-card-demo",
-      "title": "基础用法"
+      "title": "视觉艺术作品画廊"
+    },
+    {
+      "name": "tilt-card-member-pass",
+      "title": "3D 开发者通票 / 数字会员卡"
     }
   ],
   "files": [

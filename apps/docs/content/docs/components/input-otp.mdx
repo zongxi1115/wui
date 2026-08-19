@@ -1,44 +1,151 @@
 ---
 title: 验证码输入框 InputOTP
-description: 支持粘贴、键盘移动和完成回调的分格验证码输入控件。
+description: 专为一次性验证码（OTP）、PIN 密码与安全兑换码设计的分格输入组件，内置剪贴板智能分发、方向键跳格与完成回调。
 component: input-otp
 ---
 
 ## 基础用法
 
+标准 6 位数字验证码输入。在任意格输入数字自动跳转下一格，支持直接复制粘贴完整验证码：
+
 <ComponentPreview name="input-otp-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/input-otp" />
 
+<Steps>
+
+<Step>安装基础依赖</Step>
+
+```bash
+pnpm add clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/input-otp.tsx`</Step>
+
 <ComponentSource name="input-otp" title="components/ui/input-otp.tsx" />
 
-## 使用场景
+</Steps>
 
-`InputOTP` 适合短信验证码、邮箱验证码和短位数安全校验码。每一位都拥有独立焦点，但整体通过 `group` 暴露为同一个字段。
+## 属性 Props
 
-密码、恢复码或长度不固定的安全凭据应使用普通 `Input`，不要强制拆成多个输入位。
+`InputOTP` 支持以下配置属性，并继承外层 `<div role="group">` 的 HTML 属性：
 
-## 属性
+<PropsTable
+  data={[
+    {
+      prop: "value",
+      type: "string",
+      description: "受控模式下的完整验证码字符串内容。",
+    },
+    {
+      prop: "defaultValue",
+      type: "string",
+      default: '""',
+      description: "非受控模式下的初始验证码内容。",
+    },
+    {
+      prop: "length",
+      type: "number",
+      default: "6",
+      description: "验证码的总分格位数（如 4 位 PIN 码或 6 位短信验证码）。",
+    },
+    {
+      prop: "numeric",
+      type: "boolean",
+      default: "true",
+      description: "是否仅允许输入纯数字（自动过滤非数字字符并在移动端调起数字键盘）。",
+    },
+    {
+      prop: "onValueChange",
+      type: "(value: string) => void",
+      description: "验证码任一分格内容发生变动时触发的回调函数，参数为当前已输入的完整字符串。",
+    },
+    {
+      prop: "onComplete",
+      type: "(value: string) => void",
+      description: "当所有分格全部输入填满（达到指定 `length`）时触发的回调，便于自动触发提交验证。",
+    },
+    {
+      prop: "disabled",
+      type: "boolean",
+      default: "false",
+      description: "是否禁用全部验证码输入格。",
+    },
+    {
+      prop: "inputClassName",
+      type: "string",
+      description: "应用于每个单格 `<input>` 元素的额外 CSS 类名，可用于自定义格尺寸与字体样式。",
+    },
+    {
+      prop: "aria-label",
+      type: "string",
+      default: '"验证码"',
+      description: "整组验证码输入框对屏幕阅读器公开的无障碍描述名称。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于外层容器的额外 CSS 类名。",
+    },
+  ]}
+/>
 
-<PropsTable name="input-otp" />
+## 事件 Events
 
-## 事件
+<PropsTable
+  data={[
+    {
+      prop: "onValueChange",
+      type: "(value: string) => void",
+      description: "用户输入、退格删除或粘贴内容使整体值变化时触发。",
+    },
+    {
+      prop: "onComplete",
+      type: "(value: string) => void",
+      description: "当所有格子全部填满时触发，返回完整的验证码字符串，常用于无感自动请求后台接口。",
+    },
+  ]}
+/>
 
-- `onValueChange(value)` 在任意输入位变化时触发。
-- `onComplete(value)` 在所有输入位填满时触发。
-- 传入 `value` 后进入受控模式；仅需初始内容时使用 `defaultValue`。
+## 使用场景与设计规范
 
-## 键盘与粘贴
+`InputOTP` 适用于**短小固定长度、即时验证**的安全校验场景（如手机短信验证码、邮箱二次认证、支付密码、安全令牌）。
 
-- 输入字符后自动移动至下一位。
-- `Backspace` 清除当前位；当前位为空时返回并清除上一位。
-- `ArrowLeft` / `ArrowRight` 在输入位之间移动。
-- 在任意输入位粘贴完整验证码时，内容会从当前位置依次填充。
+- **InputOTP vs 普通 Input**：
+  - 固定位数的短信/邮箱验证码使用 `InputOTP`，分格视觉能明确告知用户所需长度并支持自动跳格。
+  - 变长密码、身份证号或常规文本请使用普通 `Input`，避免给用户造成打断感。
+- **智能剪贴板粘贴（Clipboard Paste）**：无论焦点处于第 1 格还是中间某格，直接 <kbd>Ctrl</kbd> + <kbd>V</kbd> 粘贴完整 6 位码，组件会自动截取对应长度并顺序填入所有格子，并立即触发 `onComplete`。
+- **移动端适配**：在 `numeric={true}` 模式下，组件为首个格子配置了 `autoComplete="one-time-code"` 与 `inputMode="numeric"`，iOS / Android 系统键盘可一键识别短信验证码并自动填充。
 
-默认仅接受数字。需要字母与数字混合时设置 `numeric={false}`。请为组件提供能说明验证码来源的 `aria-label`，状态反馈可通过 `aria-live` 区域播报。
+## 场景示例
 
-## 扩展用法
+### 短信认证流程与倒计时
 
-### 自定义长度与完成状态
+真实业务中的 6 位手机短信验证弹窗，集成 60 秒倒计时重发、错误反馈与自动提交验证：
 
-<ComponentPreview name="input-otp-advanced" />
+<ComponentPreview name="input-otp-auth-flow" />
+
+### 4 位支付交易密码 (PIN)
+
+定制 `length={4}` 与更大号的高对比度输入格，适用于支付确认与二级解锁：
+
+<ComponentPreview name="input-otp-pin" />
+
+### 字母与数字混合的兑换码
+
+设置 `numeric={false}` 支持字母、数字混合的 8 位企业兑换码或序列号：
+
+<ComponentPreview name="input-otp-alphanumeric" />
+
+## 无障碍与交互 Accessibility
+
+- **ARIA 角色与分组**：外层容器具有 `role="group"` 和 `aria-label="验证码"`，每个单格具有细化描述 `aria-label="第 X 位，共 Y 位"`。
+- **键盘导航交互**：
+  - <kbd>Backspace</kbd>：清除当前格子；若当前格已为空，光标自动回退至前一个格子并清除内容。
+  - <kbd>←</kbd> / <kbd>→</kbd>：在不同分格之间平滑穿梭移动焦点。
+  - <kbd>Delete</kbd>：清除当前格子内容而不移动光标。
+- **高对比度焦点环**：激活格子提供清晰明显的 `focus-visible` 环绕焦点环，确保弱视与键盘操作用户随时辨识当前光标位置。
