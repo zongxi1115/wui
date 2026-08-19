@@ -4,6 +4,7 @@
 
 ## 组件
 
+- [富文本编辑器 Rich Text Editor](https://ui.wzx.wang/docs/components/rich-text-editor): 基于浏览器原生编辑能力的轻量富文本输入组件，内置常用格式化工具栏。
 - [AI 输入框 AI Prompt](https://ui.wzx.wang/docs/components/ai-prompt): 专为现代 AI 对话与智能体（Agent）场景设计的组合式输入框，支持 @ 提及、模型切换、文件附件、引用上下文与思考强度调节。
 - [AI 对话 AI Chat](https://ui.wzx.wang/docs/components/ai-chat): 专为 AI 对话、智能助手与 Agent 编排设计的组合式容器，支持流式智能滚屏、角色气泡、多阶段思考链与工具调用状态渲染。
 - [AI 对话时间线 AI Conversation Timeline](https://ui.wzx.wang/docs/components/ai-conversation-timeline): 用紧凑刻度浏览长对话与 Agent 执行轨迹，悬停即时预览并快速定位到指定轮次。

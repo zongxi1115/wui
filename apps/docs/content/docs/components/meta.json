@@ -31,6 +31,7 @@
     "color-picker",
     "input",
     "textarea",
+    "rich-text-editor",
     "mention",
     "input-number",
     "input-otp",

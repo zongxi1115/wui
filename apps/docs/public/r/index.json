@@ -3,6 +3,16 @@
   "homepage": "https://ui.wzx.wang",
   "items": [
     {
+      "name": "rich-text-editor",
+      "type": "registry:ui",
+      "title": "富文本编辑器 Rich Text Editor",
+      "description": "基于浏览器原生编辑能力的轻量富文本输入组件，内置常用格式化工具栏。",
+      "registryDependencies": [
+        "utils",
+        "button"
+      ]
+    },
+    {
       "name": "ai-prompt",
       "type": "registry:ui",
       "title": "AI 输入框 AI Prompt",
