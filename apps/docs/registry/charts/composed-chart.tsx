@@ -6,6 +6,7 @@ import { cn } from "@/registry/lib/utils"
 
 import {
   ChartDataTable,
+  ChartFrame,
   ChartHeader,
   ChartLegend,
   ChartTooltip,
@@ -18,6 +19,7 @@ import {
   useChartSize,
   type ChartDatum,
   type ChartSeries,
+  type ChartVariant,
 } from "./chart-core"
 
 export interface ComposedSeries extends ChartSeries {
@@ -37,6 +39,10 @@ export interface ComposedChartProps extends Omit<
   description?: React.ReactNode
   /** 标题右侧的操作区。 */
   actions?: React.ReactNode
+  /** Lieflat 色彩系统。组合图仅用于两组明确可比较的序列。 @default "mono" */
+  variant?: ChartVariant
+  /** 模板来源行，例如“PAIRED RUNGS · YoY · BILLING”。 */
+  source?: React.ReactNode
   /** 每行代表一个横轴分类的数据。 */
   data: ChartDatum[]
   /** 横轴标签字段。 */
@@ -111,6 +117,8 @@ function ComposedChart({
   title,
   description,
   actions,
+  variant = "mono",
+  source,
   data,
   xKey,
   series,
@@ -180,7 +188,7 @@ function ComposedChart({
   }
 
   return (
-    <div className={cn("w-full", className)} {...props}>
+    <ChartFrame variant={variant} source={source} className={cn(className)} {...props}>
       <ChartHeader
         title={title}
         description={description}
@@ -213,7 +221,7 @@ function ComposedChart({
                     x2={width - layout.right}
                     y1={y}
                     y2={y}
-                    stroke="var(--border)"
+                    stroke="var(--chart-grid)"
                     vectorEffect="non-scaling-stroke"
                   />
                 ) : null}
@@ -222,9 +230,9 @@ function ComposedChart({
                   y={y}
                   dy="0.32em"
                   textAnchor="end"
-                  fill="var(--muted-foreground)"
-                  fontSize="11"
-                  className="font-mono tabular-nums"
+                  fill="var(--chart-muted)"
+                  fontSize="9.5"
+                  fontWeight="600"
                 >
                   {leftFormatter(tick)}
                 </text>
@@ -239,9 +247,9 @@ function ComposedChart({
                   y={yAt(tick, "right")}
                   dy="0.32em"
                   textAnchor="start"
-                  fill="var(--muted-foreground)"
-                  fontSize="11"
-                  className="font-mono tabular-nums"
+                  fill="var(--chart-muted)"
+                  fontSize="9.5"
+                  fontWeight="600"
                 >
                   {rightFormatter(tick)}
                 </text>
@@ -270,7 +278,7 @@ function ComposedChart({
                     width={Math.max(1, barWidth - 1)}
                     height={Math.abs(baseline - y)}
                     fill={color}
-                    rx="1.5"
+                    rx="999"
                   />
                 )
               })
@@ -293,7 +301,7 @@ function ComposedChart({
                 d={path}
                 fill="none"
                 stroke={color}
-                strokeWidth="2"
+                strokeWidth="1.2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeDasharray={item.strokeDasharray}
@@ -308,8 +316,9 @@ function ComposedChart({
                 x={xAt(index)}
                 y={height - 9}
                 textAnchor="middle"
-                fill="var(--muted-foreground)"
-                fontSize="11"
+                fill="var(--chart-muted)"
+                fontSize="9.5"
+                fontWeight="600"
               >
                 {labelFormatter(datum[xKey] as string | number, datum)}
               </text>
@@ -321,7 +330,7 @@ function ComposedChart({
               x2={xAt(activeIndex)}
               y1={layout.top}
               y2={layout.top + layout.plotHeight}
-              stroke="var(--foreground)"
+              stroke="var(--chart-ink)"
               strokeOpacity="0.3"
               strokeDasharray="3 3"
             />
@@ -371,7 +380,7 @@ function ComposedChart({
         )}
       </div>
       <ChartDataTable data={data} xKey={xKey} series={series} />
-    </div>
+    </ChartFrame>
   )
 }
 

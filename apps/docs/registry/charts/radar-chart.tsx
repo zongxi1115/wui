@@ -3,6 +3,7 @@
 import * as React from "react"
 import { cn } from "@/registry/lib/utils"
 import {
+  ChartFrame,
   ChartHeader,
   ChartTooltip,
   chartColors,
@@ -10,6 +11,7 @@ import {
   useChartSize,
   type ChartDatum,
   type ChartSeries,
+  type ChartVariant,
 } from "./chart-core"
 
 export interface RadarChartProps
@@ -20,6 +22,10 @@ export interface RadarChartProps
   description?: React.ReactNode
   /** 标题右侧操作区。 */
   actions?: React.ReactNode
+  /** 仅换 Lieflat token，不改变原生雷达图语义。 @default "mono" */
+  variant?: ChartVariant
+  /** 模板来源行，例如“RADAR · PRODUCT PANEL · RESEARCH”。 */
+  source?: React.ReactNode
   /** 图表数据列表，每项代表一个雷达维度。 */
   data: ChartDatum[]
   /** 维度名称字段。 */
@@ -54,6 +60,8 @@ function RadarChart({
   title,
   description,
   actions,
+  variant = "mono",
+  source,
   data,
   nameKey,
   series,
@@ -107,10 +115,12 @@ function RadarChart({
   const descriptionId = `${id}-description`
 
   return (
-    <div
+    <ChartFrame
       ref={ref}
+      source={source}
+      variant={variant}
       data-slot="radar-chart"
-      className={cn("flex flex-col gap-3 rounded-xl border border-border bg-card p-4", className)}
+      className={cn("flex flex-col gap-3", className)}
       {...props}
     >
       <ChartHeader
@@ -134,7 +144,7 @@ function RadarChart({
                   cy={cy}
                   r={levelRadius}
                   fill="none"
-                  stroke="var(--border)"
+                  stroke="var(--chart-grid)"
                   strokeDasharray="3 3"
                   strokeOpacity="0.7"
                 />
@@ -151,7 +161,7 @@ function RadarChart({
                 key={levelIdx}
                 points={points.join(" ")}
                 fill="none"
-                stroke="var(--border)"
+                stroke="var(--chart-grid)"
                 strokeOpacity="0.7"
               />
             )
@@ -170,7 +180,7 @@ function RadarChart({
                   y1={cy}
                   x2={pt.x}
                   y2={pt.y}
-                  stroke="var(--border)"
+                  stroke="var(--chart-grid)"
                   strokeOpacity="0.6"
                 />
                 {showLabels && datum && (
@@ -179,7 +189,7 @@ function RadarChart({
                     y={labelPt.y}
                     textAnchor="middle"
                     dominantBaseline="central"
-                    className="fill-muted-foreground text-[11px] font-medium"
+                    className="fill-[var(--chart-muted)] text-[10px] font-semibold"
                   >
                     {String(datum[nameKey])}
                   </text>
@@ -262,9 +272,9 @@ function RadarChart({
       {showLegend && (
         <div className="flex flex-wrap items-center justify-center gap-4 pt-1">
           {seriesWithColors.map((s) => (
-            <div key={s.key} className="flex items-center gap-1.5 text-xs text-muted-foreground">
+            <div key={s.key} className="flex items-center gap-1.5 text-[11px] text-[var(--chart-muted)]">
               <span
-                className="size-2.5 rounded-full"
+                className="size-2 rounded-[1px]"
                 style={{ backgroundColor: s.color }}
               />
               <span>{s.label ?? s.key}</span>
@@ -272,7 +282,7 @@ function RadarChart({
           ))}
         </div>
       )}
-    </div>
+    </ChartFrame>
   )
 }
 

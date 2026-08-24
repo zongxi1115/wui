@@ -33,14 +33,14 @@
       "type": "ReactNode",
       "required": true,
       "control": "text",
-      "description": "图表标题，用于说明总量及其组成。"
+      "description": "图表标题，用于说明连续时间上的总量和构成。"
     },
     {
       "name": "description",
       "type": "ReactNode",
       "required": false,
       "control": "text",
-      "description": "补充单位、时间范围或分母口径的副标题。"
+      "description": "应说明这是连续时间构成，而不是离散类目比较。"
     },
     {
       "name": "actions",
@@ -48,6 +48,27 @@
       "required": false,
       "control": "text",
       "description": "标题右侧的操作区。"
+    },
+    {
+      "name": "variant",
+      "type": "\"mono\" | \"porcelain\" | \"palm\" | \"wire\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "mono",
+        "porcelain",
+        "palm",
+        "wire"
+      ],
+      "defaultValue": "mono",
+      "description": "Lieflat 色彩系统；连续构成流推荐 mono 或 porcelain。"
+    },
+    {
+      "name": "source",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "模板来源行，例如“STREAM RIBBON · ACTIVE ACCOUNTS · PRODUCT”。"
     },
     {
       "name": "data",
@@ -68,7 +89,7 @@
       "type": "ChartSeries[]",
       "required": true,
       "control": "text",
-      "description": "参与堆叠的数值序列。"
+      "description": "F16 最多五条连续构成流。"
     },
     {
       "name": "normalize",
@@ -76,7 +97,7 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "false",
-      "description": "是否把每个横轴节点归一化为百分比。"
+      "description": "是否将每个时间点归一化为百分比。"
     },
     {
       "name": "height",
@@ -91,8 +112,7 @@
       "type": "boolean",
       "required": false,
       "control": "boolean",
-      "defaultValue": "true",
-      "description": "是否显示水平参考网格。"
+      "description": "保留以兼容旧调用；F16 不使用常规网格。"
     },
     {
       "name": "showLegend",

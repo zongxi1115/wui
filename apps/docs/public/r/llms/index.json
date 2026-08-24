@@ -3,6 +3,25 @@
   "homepage": "https://ui.wzx.wang",
   "items": [
     {
+      "name": "rich-text-editor",
+      "type": "registry:ui",
+      "title": "富文本编辑器 Rich Text Editor",
+      "description": "基于浏览器原生编辑能力的轻量富文本输入组件，内置常用格式化工具栏。",
+      "categories": [
+        "form",
+        "data-entry"
+      ],
+      "keyProps": [
+        "value: string",
+        "defaultValue: string",
+        "onValueChange: ((value: string) => void)",
+        "placeholder: string",
+        "disabled: boolean",
+        "hideToolbar: boolean"
+      ],
+      "exampleCount": 1
+    },
+    {
       "name": "ai-prompt",
       "type": "registry:ui",
       "title": "AI 输入框 AI Prompt",
@@ -293,9 +312,9 @@
         "title: ReactNode",
         "description: ReactNode",
         "actions: ReactNode",
-        "data: ChartDatum[]",
-        "xKey: string",
-        "series: ChartSeries[]"
+        "variant: mono|porcelain|palm|wire",
+        "source: ReactNode",
+        "data: ChartDatum[]"
       ],
       "exampleCount": 1
     },
@@ -312,9 +331,9 @@
         "fillOpacity: number",
         "showDots: boolean",
         "data: ChartDatum[]",
+        "source: ReactNode",
         "title: ReactNode",
-        "height: number",
-        "description: ReactNode"
+        "height: number"
       ],
       "exampleCount": 1
     },
@@ -331,9 +350,9 @@
         "title: ReactNode",
         "description: ReactNode",
         "actions: ReactNode",
-        "data: ChartDatum[]",
-        "timeKey: string",
-        "series: ChartSeries[]"
+        "variant: mono|porcelain|palm|wire",
+        "source: ReactNode",
+        "data: ChartDatum[]"
       ],
       "exampleCount": 1
     },
@@ -351,9 +370,9 @@
         "title: ReactNode",
         "description: ReactNode",
         "actions: ReactNode",
-        "data: ChartDatum[]",
-        "xKey: string",
-        "series: ChartSeries[]"
+        "variant: mono|porcelain|palm|wire",
+        "source: ReactNode",
+        "data: ChartDatum[]"
       ],
       "exampleCount": 1
     },
@@ -370,9 +389,9 @@
         "title: ReactNode",
         "description: ReactNode",
         "actions: ReactNode",
-        "data: ChartDatum[]",
-        "xKey: string",
-        "series: ChartSeries[]"
+        "variant: mono|porcelain|palm|wire",
+        "source: ReactNode",
+        "data: ChartDatum[]"
       ],
       "exampleCount": 1
     },
@@ -386,12 +405,12 @@
         "comparison"
       ],
       "keyProps": [
-        "data: ChartDatum[]",
         "title: ReactNode",
-        "height: number",
         "description: ReactNode",
         "actions: ReactNode",
-        "series: ChartSeries[]"
+        "variant: mono|porcelain|palm|wire",
+        "source: ReactNode",
+        "data: ChartDatum[]"
       ],
       "exampleCount": 1
     },
@@ -409,9 +428,9 @@
         "title: ReactNode",
         "description: ReactNode",
         "actions: ReactNode",
-        "data: ChartDatum[]",
-        "categoryKey: string",
-        "series: ChartSeries[]"
+        "variant: mono|porcelain|palm|wire",
+        "source: ReactNode",
+        "data: ChartDatum[]"
       ],
       "exampleCount": 1
     },
@@ -428,9 +447,9 @@
         "title: ReactNode",
         "description: ReactNode",
         "actions: ReactNode",
-        "data: ChartDatum[]",
-        "xKey: string",
-        "series: ComposedSeries[]"
+        "variant: mono|porcelain|palm|wire",
+        "source: ReactNode",
+        "data: ChartDatum[]"
       ],
       "exampleCount": 1
     },
@@ -447,9 +466,9 @@
         "title: ReactNode",
         "description: ReactNode",
         "actions: ReactNode",
-        "data: ChartDatum[]",
-        "nameKey: string",
-        "valueKey: string"
+        "variant: mono|porcelain|palm|wire",
+        "source: ReactNode",
+        "data: ChartDatum[]"
       ],
       "exampleCount": 1
     },
@@ -466,9 +485,9 @@
         "title: ReactNode",
         "description: ReactNode",
         "actions: ReactNode",
-        "data: ChartDatum[]",
-        "xKey: string",
-        "yKey: string"
+        "variant: mono|porcelain|palm|wire",
+        "source: ReactNode",
+        "data: ChartDatum[]"
       ],
       "exampleCount": 1
     },
@@ -485,9 +504,9 @@
         "title: ReactNode",
         "description: ReactNode",
         "actions: ReactNode",
-        "data: ChartDatum[]",
-        "xKey: string",
-        "yKey: string"
+        "variant: mono|porcelain|palm|wire",
+        "source: ReactNode",
+        "data: ChartDatum[]"
       ],
       "exampleCount": 1
     },
@@ -504,9 +523,9 @@
         "title: ReactNode",
         "description: ReactNode",
         "actions: ReactNode",
-        "data: ChartDatum[]",
-        "valueKey: string",
-        "bins: number"
+        "variant: mono|porcelain|palm|wire",
+        "source: ReactNode",
+        "data: ChartDatum[]"
       ],
       "exampleCount": 1
     },
@@ -543,7 +562,7 @@
       "title": "按钮 Button",
       "description": "用于触发即时操作、提交表单或进行页面跳转的基础交互组件，支持多种语义变体、尺寸密度以及可选的微动效与涟漪反馈。",
       "keyProps": [
-        "variant: default|link|secondary|destructive|outline|ghost",
+        "variant: link|default|secondary|destructive|outline|ghost",
         "size: default|sm|lg|icon",
         "asChild: boolean",
         "motion: boolean",
@@ -982,9 +1001,9 @@
         "title: ReactNode",
         "description: ReactNode",
         "actions: ReactNode",
-        "data: ChartDatum[]",
-        "nameKey: string",
-        "series: ChartSeries[]"
+        "variant: mono|porcelain|palm|wire",
+        "source: ReactNode",
+        "data: ChartDatum[]"
       ],
       "exampleCount": 1
     },
@@ -1001,9 +1020,9 @@
         "title: ReactNode",
         "description: ReactNode",
         "actions: ReactNode",
-        "data: HeatmapDatum[]",
-        "startDate: string",
-        "endDate: string"
+        "variant: mono|porcelain|palm|wire",
+        "source: ReactNode",
+        "data: HeatmapDatum[]"
       ],
       "exampleCount": 1
     },
@@ -1020,9 +1039,9 @@
         "title: ReactNode",
         "description: ReactNode",
         "actions: ReactNode",
-        "value: number",
-        "min: number",
-        "max: number"
+        "variant: mono|porcelain|palm|wire",
+        "source: ReactNode",
+        "value: number"
       ],
       "exampleCount": 1
     },
@@ -1039,9 +1058,9 @@
         "title: ReactNode",
         "description: ReactNode",
         "actions: ReactNode",
-        "data: ChartDatum[]",
-        "nameKey: string",
-        "valueKey: string"
+        "variant: mono|porcelain|palm|wire",
+        "source: ReactNode",
+        "data: ChartDatum[]"
       ],
       "exampleCount": 1
     },
@@ -1204,7 +1223,7 @@
       "title": "骨架屏 Skeleton",
       "description": "在内容异步加载期间维持页面版式结构，降低累积布局偏移（CLS）与用户等待的不确定感。",
       "keyProps": [
-        "shape: default|circle|text",
+        "shape: circle|text|default",
         "animation: none|pulse"
       ],
       "exampleCount": 4
@@ -1676,7 +1695,7 @@
         "frequency: number",
         "octaves: number",
         "seed: number",
-        "blendMode: inherit|color|initial|-moz-initial|revert|revert-layer|unset|color-burn|color-dodge|darken|difference|exclusion|hard-light|hue|lighten|luminosity|multiply|normal|overlay|saturation|screen|soft-light|plus-darker|plus-lighter"
+        "blendMode: color|inherit|initial|-moz-initial|revert|revert-layer|unset|color-burn|color-dodge|darken|difference|exclusion|hard-light|hue|lighten|luminosity|multiply|normal|overlay|saturation|screen|soft-light|plus-darker|plus-lighter"
       ],
       "exampleCount": 2
     },

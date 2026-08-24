@@ -47,6 +47,101 @@ export const chartColors = [
   "var(--chart-5)",
 ] as const
 
+/** Lieflat 的四套受控色彩系统。 */
+export type ChartVariant = "mono" | "porcelain" | "palm" | "wire"
+
+type ChartThemeStyle = React.CSSProperties & Record<`--${string}`, string>
+
+const chartThemeStyles: Record<ChartVariant, ChartThemeStyle> = {
+  mono: {
+    "--chart-bg": "#F0EFEB",
+    "--chart-ink": "#1C1C1A",
+    "--chart-muted": "#8F8E88",
+    "--chart-faint": "#C6C5BF",
+    "--chart-grid": "#DEDDD6",
+    "--chart-1": "#1C1C1A",
+    "--chart-2": "#4A4944",
+    "--chart-3": "#6A6963",
+    "--chart-4": "#8F8E88",
+    "--chart-5": "#B0AFA9",
+  },
+  porcelain: {
+    "--chart-bg": "#F7F2EB",
+    "--chart-ink": "#081F5C",
+    "--chart-muted": "rgba(8,31,92,.60)",
+    "--chart-faint": "rgba(8,31,92,.32)",
+    "--chart-grid": "rgba(8,31,92,.16)",
+    "--chart-1": "#081F5C",
+    "--chart-2": "#334EAC",
+    "--chart-3": "#7096D1",
+    "--chart-4": "#BAD6EB",
+    "--chart-5": "#D0E3FF",
+  },
+  palm: {
+    "--chart-bg": "#F0EFEB",
+    "--chart-ink": "#58402E",
+    "--chart-muted": "rgba(88,64,46,.60)",
+    "--chart-faint": "rgba(88,64,46,.32)",
+    "--chart-grid": "rgba(88,64,46,.16)",
+    "--chart-1": "#43593B",
+    "--chart-2": "#77835A",
+    "--chart-3": "#ACAD79",
+    "--chart-4": "#F2D17E",
+    "--chart-5": "#58402E",
+  },
+  wire: {
+    "--chart-bg": "#F0F0EE",
+    "--chart-ink": "#1F1E1C",
+    "--chart-muted": "rgba(31,30,28,.60)",
+    "--chart-faint": "rgba(31,30,28,.32)",
+    "--chart-grid": "rgba(31,30,28,.16)",
+    "--chart-1": "#22211F",
+    "--chart-2": "#8F8E86",
+    "--chart-3": "#C0BFB7",
+    "--chart-4": "#DBDAD3",
+    "--chart-5": "#F5572F",
+  },
+}
+
+export interface ChartFrameProps extends React.HTMLAttributes<HTMLDivElement> {
+  /** 色彩的语义系统。默认 Mono；同一张图只使用一种。 */
+  variant?: ChartVariant
+  /** 模板来源行。建议写为“图型 · 系列 · 数据来源”。 */
+  source?: React.ReactNode
+}
+
+/**
+ * Lieflat 模板的“纸面”容器：没有边框和阴影，结构由留白、发丝线与来源行承担。
+ * 各具体图表只负责数据契约与几何，不在此处混合图型。
+ */
+export const ChartFrame = React.forwardRef<HTMLDivElement, ChartFrameProps>(
+  function ChartFrame(
+    { variant = "mono", source, className, style, children, ...props },
+    ref
+  ) {
+    return (
+      <div
+        ref={ref}
+        data-slot="chart-frame"
+        data-variant={variant}
+        className={cn(
+          "w-full rounded-[24px] bg-[var(--chart-bg)] px-7 pt-7 pb-5 text-[var(--chart-ink)] motion-safe:animate-in motion-safe:fade-in motion-safe:duration-700",
+          className
+        )}
+        style={{ ...chartThemeStyles[variant], ...style }}
+        {...props}
+      >
+        {children}
+        {source ? (
+          <div className="mt-3 text-[9.5px] font-medium uppercase tracking-[0.08em] text-[var(--chart-faint)]">
+            {source}
+          </div>
+        ) : null}
+      </div>
+    )
+  }
+)
+
 export const linePatterns = [undefined, "6 4", "2 4", "10 4 2 4"] as const
 
 export const chartMargin = {
@@ -181,13 +276,13 @@ export function ChartHeader({
   return (
     <div className="mb-5 flex items-start justify-between gap-4">
       <div className="min-w-0">
-        <h3 id={titleId} className="text-foreground text-sm font-semibold">
+        <h3 id={titleId} className="text-[var(--chart-ink,var(--foreground))] text-[16.5px] font-bold tracking-[-0.02em]">
           {title}
         </h3>
         {description ? (
           <p
             id={descriptionId}
-            className="text-muted-foreground mt-1 text-xs leading-relaxed"
+            className="mt-1 text-[11.5px] leading-relaxed text-[var(--chart-muted,var(--muted-foreground))]"
           >
             {description}
           </p>
@@ -214,7 +309,7 @@ export function ChartLegend({
         return (
           <span
             key={item.key}
-            className="text-muted-foreground inline-flex items-center gap-2 text-xs"
+            className="inline-flex items-center gap-2 text-[11px] font-medium text-[var(--chart-muted,var(--muted-foreground))]"
           >
             {kind === "line" ? (
               <svg width="18" height="6" aria-hidden="true">
@@ -232,7 +327,7 @@ export function ChartLegend({
                 />
               </svg>
             ) : (
-              <span className="size-2.5" style={{ backgroundColor: color }} />
+              <span className="size-2 rounded-[1px]" style={{ backgroundColor: color }} />
             )}
             {item.label ?? item.key}
           </span>
@@ -267,13 +362,13 @@ export function ChartTooltip({
   return (
     <div
       className={cn(
-        "border-border bg-popover text-popover-foreground pointer-events-none absolute z-10 min-w-32 border px-3 py-2 text-xs shadow-sm",
+        "pointer-events-none absolute z-10 min-w-32 bg-[var(--chart-ink,var(--foreground))] px-3.5 py-2.5 text-xs text-[var(--chart-bg,var(--background))] shadow-none",
         x > width / 2 ? "-translate-x-[calc(100%+10px)]" : "translate-x-[10px]"
       )}
       style={{ left: x, top: Math.max(0, y - 12) }}
       aria-hidden="true"
     >
-      <div className="mb-1.5 font-medium">{label}</div>
+      <div className="mb-1.5 font-semibold">{label}</div>
       <div className="space-y-1">
         {rows.map((row) => (
           <div
@@ -281,7 +376,7 @@ export function ChartTooltip({
             className="grid grid-cols-[auto_1fr_auto] items-center gap-2"
           >
             <span className="size-2" style={{ backgroundColor: row.color }} />
-            <span className="text-muted-foreground">{row.label}</span>
+            <span className="text-[var(--chart-faint,var(--muted-foreground))]">{row.label}</span>
             <span className="font-mono tabular-nums">{row.value}</span>
           </div>
         ))}

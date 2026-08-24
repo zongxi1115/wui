@@ -26,12 +26,12 @@
   "props": [
     {
       "name": "variant",
-      "type": "\"default\" | \"link\" | \"secondary\" | \"destructive\" | \"outline\" | \"ghost\"",
+      "type": "\"link\" | \"default\" | \"secondary\" | \"destructive\" | \"outline\" | \"ghost\"",
       "required": false,
       "control": "select",
       "options": [
-        "default",
         "link",
+        "default",
         "secondary",
         "destructive",
         "outline",

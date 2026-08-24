@@ -29,28 +29,49 @@
       "type": "ReactNode",
       "required": true,
       "control": "text",
-      "description": "图表标题，用于说明正在展示的构成指标。"
+      "description": "图表标题，用于说明正在展示的 100% 构成指标。"
     },
     {
       "name": "description",
       "type": "ReactNode",
       "required": false,
       "control": "text",
-      "description": "补充总体、时间范围或数据口径的副标题。"
+      "description": "补充总体、时间范围或数据口径；应明确整体分母。"
     },
     {
       "name": "actions",
       "type": "ReactNode",
       "required": false,
       "control": "text",
-      "description": "标题右侧的操作区，适合组合 Button、Select 或业务工具栏。"
+      "description": "标题右侧的操作区。"
+    },
+    {
+      "name": "variant",
+      "type": "\"mono\" | \"porcelain\" | \"palm\" | \"wire\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "mono",
+        "porcelain",
+        "palm",
+        "wire"
+      ],
+      "defaultValue": "mono",
+      "description": "Lieflat 色彩系统；无序构成不超过四类时可用 palm。"
+    },
+    {
+      "name": "source",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "模板来源行，例如“TICK DONUT · ACQUISITION · ANALYTICS”。"
     },
     {
       "name": "data",
       "type": "ChartDatum[]",
       "required": true,
       "control": "text",
-      "description": "每行代表一个构成类别的数据。"
+      "description": "每行代表一个构成类别的数据，最多六类。"
     },
     {
       "name": "nameKey",
@@ -86,16 +107,14 @@
       "type": "number",
       "required": false,
       "control": "number",
-      "defaultValue": "0",
-      "description": "内圈相对外圈的比例；大于零时显示为环图。"
+      "description": "保留以兼容旧调用；F4 固定采用刻度环。"
     },
     {
       "name": "padAngle",
       "type": "number",
       "required": false,
       "control": "number",
-      "defaultValue": "1",
-      "description": "扇区之间的角度间隔。"
+      "description": "保留以兼容旧调用；刻度段之间自然留白。"
     },
     {
       "name": "showLabels",
@@ -133,7 +152,7 @@
       "type": "((name: string, value: number, percentage: number, datum: ChartDatum) => ReactNode)",
       "required": false,
       "control": "text",
-      "defaultValue": "(name, _value, percentage) =>\r\n    `${name} ${Math.round(percentage * 100)}%`",
+      "defaultValue": "(name, _value, percentage) => `${name} · ${Math.round(percentage * 100)}%`",
       "description": "自定义类别标签。"
     }
   ],

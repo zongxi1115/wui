@@ -12,6 +12,10 @@
     "HorizontalBarChart"
   ],
   "typeExports": [
+    "ChartDatum",
+    "ChartLabelFormatter",
+    "ChartSeries",
+    "ChartValueFormatter",
     "HorizontalBarChartProps"
   ],
   "install": {
@@ -24,107 +28,114 @@
   },
   "props": [
     {
-      "name": "data",
-      "type": "ChartDatum[]",
-      "required": true,
-      "control": "text",
-      "description": "每行代表一个分类的数据。"
-    },
-    {
       "name": "title",
       "type": "ReactNode",
       "required": true,
       "control": "text",
-      "description": "图表标题，用于说明正在比较的总量或构成。"
-    },
-    {
-      "name": "height",
-      "type": "number",
-      "required": false,
-      "control": "number",
-      "defaultValue": "300",
-      "description": "图表绘图区高度，单位为像素。"
+      "description": "结论式标题，而不是“横向条形图”等图型名称。"
     },
     {
       "name": "description",
       "type": "ReactNode",
       "required": false,
       "control": "text",
-      "description": "补充单位、时间范围或分母口径的副标题。"
+      "description": "单位、刻度含义和时间范围。"
     },
     {
       "name": "actions",
       "type": "ReactNode",
       "required": false,
       "control": "text",
-      "description": "标题右侧的操作区。"
+      "description": "标题右侧操作区。"
     },
     {
-      "name": "series",
-      "type": "ChartSeries[]",
+      "name": "variant",
+      "type": "\"mono\" | \"porcelain\" | \"palm\" | \"wire\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "mono",
+        "porcelain",
+        "palm",
+        "wire"
+      ],
+      "defaultValue": "mono",
+      "description": "Lieflat 色彩系统。排名和较多类目默认使用 mono。"
+    },
+    {
+      "name": "source",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "模板来源行，例如“TICK ROWS · RELEASE LOG · ENGINEERING”。"
+    },
+    {
+      "name": "data",
+      "type": "ChartDatum[]",
       "required": true,
       "control": "text",
-      "description": "参与堆叠的数值序列。"
-    },
-    {
-      "name": "showGrid",
-      "type": "boolean",
-      "required": false,
-      "control": "boolean",
-      "defaultValue": "true",
-      "description": "是否显示数值参考网格。"
-    },
-    {
-      "name": "showLegend",
-      "type": "boolean",
-      "required": false,
-      "control": "boolean",
-      "defaultValue": "true",
-      "description": "是否显示图例。"
-    },
-    {
-      "name": "valueFormatter",
-      "type": "ChartValueFormatter",
-      "required": false,
-      "control": "text",
-      "description": "自定义原始数值的显示格式。"
-    },
-    {
-      "name": "labelFormatter",
-      "type": "ChartLabelFormatter",
-      "required": false,
-      "control": "text",
-      "description": "自定义分类标签。"
+      "description": "每行代表一个可比较类别。最多建议八行。"
     },
     {
       "name": "categoryKey",
       "type": "string",
       "required": true,
       "control": "text",
-      "description": "分类名称字段。"
+      "description": "类别标签字段。"
+    },
+    {
+      "name": "series",
+      "type": "[ChartSeries]",
+      "required": true,
+      "control": "text",
+      "description": "单一数值序列；一行只编码一个真实指标。"
+    },
+    {
+      "name": "tickStep",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "description": "每一根 tick 所代表的真实单位；未传时按最大值推导可读刻度。"
+    },
+    {
+      "name": "height",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "320",
+      "description": "图表绘图区高度，单位为像素。"
     },
     {
       "name": "labelWidth",
       "type": "number",
       "required": false,
       "control": "number",
-      "defaultValue": "112",
-      "description": "横向布局为分类标签保留的宽度。"
+      "defaultValue": "120",
+      "description": "标签列宽度，单位为像素。"
     },
     {
       "name": "showValues",
       "type": "boolean",
       "required": false,
       "control": "boolean",
-      "defaultValue": "false",
-      "description": "是否在足够宽的堆叠段内显示数值。"
+      "defaultValue": "true",
+      "description": "是否显示行尾精确值。"
     },
     {
-      "name": "onValueSelect",
-      "type": "((datum: ChartDatum, series: ChartSeries, value: number) => void)",
+      "name": "valueFormatter",
+      "type": "ChartValueFormatter",
       "required": false,
       "control": "text",
-      "description": "点击某个堆叠段时触发。"
+      "defaultValue": "(value) => defaultValueFormatter(value)",
+      "description": "自定义数值显示格式。"
+    },
+    {
+      "name": "labelFormatter",
+      "type": "ChartLabelFormatter",
+      "required": false,
+      "control": "text",
+      "defaultValue": "(value) => String(value)",
+      "description": "自定义类别标签。"
     }
   ],
   "examples": [

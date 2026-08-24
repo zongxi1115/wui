@@ -4,8 +4,10 @@ import * as React from "react"
 import { cn } from "@/registry/lib/utils"
 import {
   ChartHeader,
+  ChartFrame,
   ChartTooltip,
   useChartSize,
+  type ChartVariant,
 } from "./chart-core"
 
 export interface HeatmapDatum {
@@ -23,6 +25,10 @@ export interface HeatmapProps
   description?: React.ReactNode
   /** 标题右侧操作区。 */
   actions?: React.ReactNode
+  /** Lieflat 色彩系统；连续日期值适合 porcelain。 @default "mono" */
+  variant?: ChartVariant
+  /** 模板来源行，例如“CALENDAR HEAT · DEPLOY LOG · ENGINEERING”。 */
+  source?: React.ReactNode
   /** 日历热力图数据列表。 */
   data: HeatmapDatum[]
   /** 开始日期；未传时自动使用数据最早日期或前半年。 */
@@ -33,7 +39,7 @@ export interface HeatmapProps
   cellSize?: number
   /** 格子间距（像素）。 @default 3 */
   cellGap?: number
-  /** 格子圆角半径（像素）。 @default 2 */
+  /** 日点的最小半径（像素）；用于保留静默日。 @default 2 */
   cellRadius?: number
   /** 是否展示星期标签（如 Mon, Wed, Fri）。 @default true */
   showWeekdayLabels?: boolean
@@ -64,6 +70,8 @@ function Heatmap({
   title,
   description,
   actions,
+  variant = "mono",
+  source,
   data,
   startDate,
   endDate,
@@ -157,24 +165,17 @@ function Heatmap({
   const svgWidth = weekdayMarginLeft + totalWeeks * (cellSize + cellGap) + 16
   const svgHeight = monthMarginTop + 7 * (cellSize + cellGap) + 8
 
-  const getColorClass = (val: number) => {
-    if (val <= 0) return "fill-muted/50"
-    const ratio = val / maxValue
-    if (ratio < 0.25) return "fill-primary/20"
-    if (ratio < 0.5) return "fill-primary/45"
-    if (ratio < 0.75) return "fill-primary/70"
-    return "fill-primary"
-  }
-
   const id = React.useId()
   const titleId = `${id}-title`
   const descriptionId = `${id}-description`
 
   return (
-    <div
+    <ChartFrame
       ref={ref}
+      variant={variant}
+      source={source}
       data-slot="heatmap"
-      className={cn("flex flex-col gap-3 rounded-xl border border-border bg-card p-4", className)}
+      className={cn("flex flex-col gap-3", className)}
       {...props}
     >
       <ChartHeader
@@ -229,18 +230,20 @@ function Heatmap({
             const x = weekdayMarginLeft + d.weekIndex * (cellSize + cellGap)
             const y = monthMarginTop + d.dayIndex * (cellSize + cellGap)
 
+            const ratio = d.value / maxValue
+            const radius =
+              d.value > 0
+                ? Math.max(cellRadius, 1.5 + Math.sqrt(ratio) * cellSize * 0.38)
+                : Math.max(1, cellRadius * 0.65)
             return (
-              <rect
+              <circle
                 key={d.dateStr}
-                x={x}
-                y={y}
-                width={cellSize}
-                height={cellSize}
-                rx={cellRadius}
-                className={cn(
-                  getColorClass(d.value),
-                  "transition-all hover:stroke-foreground hover:stroke-1 cursor-pointer"
-                )}
+                cx={x + cellSize / 2}
+                cy={y + cellSize / 2}
+                r={radius}
+                fill="var(--chart-1)"
+                fillOpacity={d.value > 0 ? 0.25 + ratio * 0.75 : 0.16}
+                className="cursor-pointer transition-all hover:stroke-[var(--chart-ink)] hover:stroke-1"
                 onMouseEnter={() =>
                   setActiveCell({
                     date: d.dateStr,
@@ -280,15 +283,17 @@ function Heatmap({
       <div className="flex items-center justify-end gap-2 text-xs text-muted-foreground pt-1">
         <span>少</span>
         <div className="flex items-center gap-1">
-          <span className="size-2.5 rounded-xs bg-muted/50" />
-          <span className="size-2.5 rounded-xs bg-primary/20" />
-          <span className="size-2.5 rounded-xs bg-primary/45" />
-          <span className="size-2.5 rounded-xs bg-primary/70" />
-          <span className="size-2.5 rounded-xs bg-primary" />
+          {[0.16, 0.35, 0.55, 0.75, 1].map((opacity) => (
+            <span
+              key={opacity}
+              className="size-2.5 rounded-full bg-[var(--chart-1)]"
+              style={{ opacity }}
+            />
+          ))}
         </div>
         <span>多</span>
       </div>
-    </div>
+    </ChartFrame>
   )
 }
 

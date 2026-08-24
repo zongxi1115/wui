@@ -36,7 +36,7 @@
       "type": "ReactNode",
       "required": false,
       "control": "text",
-      "description": "补充说明或副标题。"
+      "description": "补充说明或副标题；应明确目标口径。"
     },
     {
       "name": "actions",
@@ -44,6 +44,27 @@
       "required": false,
       "control": "text",
       "description": "标题右侧操作区。"
+    },
+    {
+      "name": "variant",
+      "type": "\"mono\" | \"porcelain\" | \"palm\" | \"wire\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "mono",
+        "porcelain",
+        "palm",
+        "wire"
+      ],
+      "defaultValue": "mono",
+      "description": "Lieflat 色彩系统；单指标进度适合 porcelain。"
+    },
+    {
+      "name": "source",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "模板来源行，例如“TICK GAUGE · QUARTERLY TARGET · OPS”。"
     },
     {
       "name": "value",
@@ -73,8 +94,7 @@
       "type": "number",
       "required": false,
       "control": "number",
-      "defaultValue": "16",
-      "description": "环形圆弧厚度（像素）。"
+      "description": "保留以兼容旧调用；Tick Gauge 以细刻度而非粗圆弧呈现。"
     },
     {
       "name": "height",
@@ -89,7 +109,7 @@
       "type": "GaugeZone[]",
       "required": false,
       "control": "text",
-      "description": "仪表盘分段目标区间配置。"
+      "description": "可选的业务阈值说明。"
     },
     {
       "name": "showTicks",
@@ -97,7 +117,7 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "true",
-      "description": "是否展示刻度标签。"
+      "description": "是否展示 25%、50%、75%、100% 里程碑。"
     },
     {
       "name": "unit",
@@ -111,7 +131,7 @@
       "type": "((value: number) => ReactNode)",
       "required": false,
       "control": "text",
-      "defaultValue": "(val) => val.toString()",
+      "defaultValue": "(current) => current.toString()",
       "description": "自定义当前数值的格式化函数。"
     }
   ],

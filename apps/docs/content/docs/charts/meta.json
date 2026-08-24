@@ -1,6 +1,7 @@
 {
   "title": "图表",
   "pages": [
+    "chart-variants",
     "---Trend · 趋势---",
     "line-chart",
     "area-chart",

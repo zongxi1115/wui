@@ -46,6 +46,27 @@
       "description": "标题右侧的操作区。"
     },
     {
+      "name": "variant",
+      "type": "\"mono\" | \"porcelain\" | \"palm\" | \"wire\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "mono",
+        "porcelain",
+        "palm",
+        "wire"
+      ],
+      "defaultValue": "mono",
+      "description": "Lieflat 色彩系统。大批逐条记录通常应使用 mono。"
+    },
+    {
+      "name": "source",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "模板来源行，例如“JITTER STRIP · RESPONSE TIME · SUPPORT”。"
+    },
+    {
       "name": "data",
       "type": "ChartDatum[]",
       "required": true,

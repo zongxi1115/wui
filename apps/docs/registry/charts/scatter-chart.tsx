@@ -6,6 +6,7 @@ import { cn } from "@/registry/lib/utils"
 
 import {
   ChartDataTable,
+  ChartFrame,
   ChartHeader,
   ChartLegend,
   ChartTooltip,
@@ -17,6 +18,7 @@ import {
   scaleValue,
   useChartSize,
   type ChartDatum,
+  type ChartVariant,
 } from "./chart-core"
 
 export interface ScatterChartProps extends Omit<
@@ -29,6 +31,10 @@ export interface ScatterChartProps extends Omit<
   description?: React.ReactNode
   /** 标题右侧的操作区，适合组合 Button、Select 或业务工具栏。 */
   actions?: React.ReactNode
+  /** Lieflat 色彩系统。 @default "mono" */
+  variant?: ChartVariant
+  /** 模板来源行，例如“PLUMB SCATTER · PRODUCT PANEL · RESEARCH”。 */
+  source?: React.ReactNode
   /** 每行代表一个同粒度观测对象的数据。 */
   data: ChartDatum[]
   /** 横轴数值字段。 */
@@ -66,6 +72,8 @@ function ScatterChart({
   title,
   description,
   actions,
+  variant = "mono",
+  source,
   data,
   xKey,
   yKey,
@@ -118,7 +126,7 @@ function ScatterChart({
   const activeDatum = activeIndex == null ? null : data[activeIndex]
 
   return (
-    <div className={cn("w-full", className)} {...props}>
+    <ChartFrame variant={variant} source={source} className={cn(className)} {...props}>
       <ChartHeader
         title={title}
         description={description}
@@ -155,7 +163,7 @@ function ScatterChart({
                     x2={width - layout.right}
                     y1={y}
                     y2={y}
-                    stroke="var(--border)"
+                    stroke="var(--chart-grid)"
                     vectorEffect="non-scaling-stroke"
                   />
                 ) : null}
@@ -164,9 +172,9 @@ function ScatterChart({
                   y={y}
                   dy="0.32em"
                   textAnchor="end"
-                  fill="var(--muted-foreground)"
-                  fontSize="11"
-                  className="font-mono tabular-nums"
+                  fill="var(--chart-muted)"
+                  fontSize="9.5"
+                  fontWeight="600"
                 >
                   {yFormatter(tick)}
                 </text>
@@ -183,7 +191,7 @@ function ScatterChart({
                     x2={x}
                     y1={layout.top}
                     y2={layout.top + layout.plotHeight}
-                    stroke="var(--border)"
+                    stroke="var(--chart-grid)"
                     vectorEffect="non-scaling-stroke"
                   />
                 ) : null}
@@ -191,9 +199,9 @@ function ScatterChart({
                   x={x}
                   y={height - 9}
                   textAnchor="middle"
-                  fill="var(--muted-foreground)"
-                  fontSize="11"
-                  className="font-mono tabular-nums"
+                  fill="var(--chart-muted)"
+                  fontSize="9.5"
+                  fontWeight="600"
                 >
                   {xFormatter(tick)}
                 </text>
@@ -206,13 +214,23 @@ function ScatterChart({
             const color = colorAt(datum)
             return (
               <g key={index}>
+                <line
+                  x1={xAt(x)}
+                  x2={xAt(x)}
+                  y1={yAt(y)}
+                  y2={layout.top + layout.plotHeight}
+                  stroke={color}
+                  strokeOpacity="0.35"
+                  strokeWidth="0.7"
+                  vectorEffect="non-scaling-stroke"
+                />
                 <circle
                   cx={xAt(x)}
                   cy={yAt(y)}
                   r={activeIndex === index ? pointSize + 2 : pointSize}
                   fill={color}
                   fillOpacity="0.78"
-                  stroke="var(--background)"
+                  stroke="var(--chart-bg)"
                   strokeWidth="1.5"
                   tabIndex={0}
                   className="focus-visible:stroke-foreground outline-none"
@@ -225,8 +243,8 @@ function ScatterChart({
                   <text
                     x={xAt(x) + pointSize + 4}
                     y={yAt(y) - pointSize - 2}
-                    fill="var(--foreground)"
-                    fontSize="10"
+                    fill="var(--chart-ink)"
+                    fontSize="9.5"
                   >
                     {String(datum[labelKey])}
                   </text>
@@ -238,16 +256,16 @@ function ScatterChart({
             x={width - layout.right}
             y={height - 9}
             textAnchor="end"
-            fill="var(--muted-foreground)"
-            fontSize="10"
+            fill="var(--chart-muted)"
+            fontSize="9.5"
           >
             {xLabel}
           </text>
           <text
             x={layout.left}
             y={layout.top - 3}
-            fill="var(--muted-foreground)"
-            fontSize="10"
+            fill="var(--chart-muted)"
+            fontSize="9.5"
           >
             {yLabel}
           </text>
@@ -292,7 +310,7 @@ function ScatterChart({
           { key: yKey, label: yLabel },
         ]}
       />
-    </div>
+    </ChartFrame>
   )
 }
 

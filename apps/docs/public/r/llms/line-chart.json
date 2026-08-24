@@ -40,21 +40,42 @@
       "type": "ReactNode",
       "required": false,
       "control": "text",
-      "description": "补充单位、时间范围或筛选条件的副标题。"
+      "description": "补充单位、时间范围或筛选条件；日序列应说明一个点对应一天。"
     },
     {
       "name": "actions",
       "type": "ReactNode",
       "required": false,
       "control": "text",
-      "description": "标题右侧的操作区，适合组合 Button、Select 或业务工具栏。"
+      "description": "标题右侧的操作区。"
+    },
+    {
+      "name": "variant",
+      "type": "\"mono\" | \"porcelain\" | \"palm\" | \"wire\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "mono",
+        "porcelain",
+        "palm",
+        "wire"
+      ],
+      "defaultValue": "mono",
+      "description": "Lieflat 色彩系统；有序单序列适合 porcelain。"
+    },
+    {
+      "name": "source",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "模板来源行，例如“HAIRLINE LINE · DAILY · GROWTH”。"
     },
     {
       "name": "data",
       "type": "ChartDatum[]",
       "required": true,
       "control": "text",
-      "description": "每行代表一个横轴节点的数据。"
+      "description": "每行代表一个时间节点的数据。"
     },
     {
       "name": "xKey",
@@ -68,7 +89,7 @@
       "type": "ChartSeries[]",
       "required": true,
       "control": "text",
-      "description": "要绘制的数值序列。"
+      "description": "要绘制的数值序列；F2 最适合一至两条序列。"
     },
     {
       "name": "height",
@@ -90,8 +111,7 @@
       "type": "boolean",
       "required": false,
       "control": "boolean",
-      "defaultValue": "true",
-      "description": "是否显示水平参考网格。"
+      "description": "保留以兼容旧调用；F2 不绘制常规网格。"
     },
     {
       "name": "showDots",
@@ -115,22 +135,21 @@
       "required": false,
       "control": "number",
       "defaultValue": "0",
-      "description": "面积填充的不透明度；大于零时绘制为面积趋势。"
+      "description": "大于零时切换为 F3 Hairline Area（一天一根发丝）。"
     },
     {
       "name": "referenceLines",
       "type": "ChartReferenceLine[]",
       "required": false,
       "control": "text",
-      "defaultValue": "[]",
-      "description": "目标值、均值或阈值等纵轴参考线。"
+      "description": "参考线配置，保留以兼容旧调用。"
     },
     {
       "name": "yAxisFormatter",
       "type": "((value: number) => ReactNode)",
       "required": false,
       "control": "text",
-      "description": "自定义纵轴刻度的显示格式。"
+      "description": "自定义纵轴刻度的显示格式，保留以兼容旧调用。"
     },
     {
       "name": "valueFormatter",

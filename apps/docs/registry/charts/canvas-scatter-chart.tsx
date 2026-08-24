@@ -6,6 +6,7 @@ import { cn } from "@/registry/lib/utils"
 
 import {
   ChartDataTable,
+  ChartFrame,
   ChartHeader,
   ChartLegend,
   ChartTooltip,
@@ -17,6 +18,7 @@ import {
   scaleValue,
   useChartSize,
   type ChartDatum,
+  type ChartVariant,
 } from "./chart-core"
 
 export interface CanvasScatterChartProps extends Omit<
@@ -29,6 +31,10 @@ export interface CanvasScatterChartProps extends Omit<
   description?: React.ReactNode
   /** 标题右侧的操作区。 */
   actions?: React.ReactNode
+  /** Lieflat 色彩系统。大批逐条记录通常应使用 mono。 @default "mono" */
+  variant?: ChartVariant
+  /** 模板来源行，例如“JITTER STRIP · RESPONSE TIME · SUPPORT”。 */
+  source?: React.ReactNode
   /** 大批量同粒度观测数据。 */
   data: ChartDatum[]
   /** 横轴数值字段。 */
@@ -66,6 +72,8 @@ function CanvasScatterChart({
   title,
   description,
   actions,
+  variant = "mono",
+  source,
   data,
   xKey,
   yKey,
@@ -123,9 +131,9 @@ function CanvasScatterChart({
     context.scale(ratio, ratio)
 
     const styles = getComputedStyle(ref.current!)
-    const border = styles.getPropertyValue("--border").trim()
-    const muted = styles.getPropertyValue("--muted-foreground").trim()
-    const background = styles.getPropertyValue("--background").trim()
+    const border = styles.getPropertyValue("--chart-grid").trim()
+    const muted = styles.getPropertyValue("--chart-muted").trim()
+    const background = styles.getPropertyValue("--chart-bg").trim()
     const colors = chartColors.map((_, index) =>
       styles.getPropertyValue(`--chart-${index + 1}`).trim()
     )
@@ -215,7 +223,7 @@ function CanvasScatterChart({
   }
 
   return (
-    <div className={cn("w-full", className)} {...props}>
+    <ChartFrame variant={variant} source={source} className={cn(className)} {...props}>
       <ChartHeader
         title={title}
         description={description}
@@ -300,7 +308,7 @@ function CanvasScatterChart({
           { key: yKey, label: yLabel },
         ]}
       />
-    </div>
+    </ChartFrame>
   )
 }
 

@@ -48,6 +48,27 @@
       "description": "标题右侧的操作区。"
     },
     {
+      "name": "variant",
+      "type": "\"mono\" | \"porcelain\" | \"palm\" | \"wire\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "mono",
+        "porcelain",
+        "palm",
+        "wire"
+      ],
+      "defaultValue": "mono",
+      "description": "Lieflat 色彩系统。组合图仅用于两组明确可比较的序列。"
+    },
+    {
+      "name": "source",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "模板来源行，例如“PAIRED RUNGS · YoY · BILLING”。"
+    },
+    {
       "name": "data",
       "type": "ChartDatum[]",
       "required": true,

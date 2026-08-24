@@ -6,41 +6,43 @@ import { cn } from "@/registry/lib/utils"
 
 import {
   ChartDataTable,
+  ChartFrame,
   ChartHeader,
   ChartLegend,
   ChartTooltip,
   chartColors,
   defaultValueFormatter,
-  getChartLayout,
   getChartValue,
   useChartSize,
   type ChartDatum,
   type ChartLabelFormatter,
   type ChartSeries,
   type ChartValueFormatter,
+  type ChartVariant,
 } from "./chart-core"
 
-export interface StackedAreaChartProps extends Omit<
-  React.HTMLAttributes<HTMLDivElement>,
-  "children" | "title"
-> {
-  /** 图表标题，用于说明总量及其组成。 */
+export interface StackedAreaChartProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "children" | "title"> {
+  /** 图表标题，用于说明连续时间上的总量和构成。 */
   title: React.ReactNode
-  /** 补充单位、时间范围或分母口径的副标题。 */
+  /** 应说明这是连续时间构成，而不是离散类目比较。 */
   description?: React.ReactNode
   /** 标题右侧的操作区。 */
   actions?: React.ReactNode
+  /** Lieflat 色彩系统；连续构成流推荐 mono 或 porcelain。 @default "mono" */
+  variant?: ChartVariant
+  /** 模板来源行，例如“STREAM RIBBON · ACTIVE ACCOUNTS · PRODUCT”。 */
+  source?: React.ReactNode
   /** 每行代表一个有序横轴节点的数据。 */
   data: ChartDatum[]
   /** 横轴标签字段。 */
   xKey: string
-  /** 参与堆叠的数值序列。 */
+  /** F16 最多五条连续构成流。 */
   series: ChartSeries[]
-  /** 是否把每个横轴节点归一化为百分比。 @default false */
+  /** 是否将每个时间点归一化为百分比。 @default false */
   normalize?: boolean
   /** 图表绘图区高度，单位为像素。 @default 300 */
   height?: number
-  /** 是否显示水平参考网格。 @default true */
+  /** 保留以兼容旧调用；F16 不使用常规网格。 */
   showGrid?: boolean
   /** 是否显示图例。 @default true */
   showLegend?: boolean
@@ -50,17 +52,24 @@ export interface StackedAreaChartProps extends Omit<
   labelFormatter?: ChartLabelFormatter
 }
 
-/** 展示总量及其组成随有序轴变化的堆叠面积图。 */
+function ribbonPath(top: Array<{ x: number; y: number }>, bottom: Array<{ x: number; y: number }>) {
+  if (!top.length) return ""
+  return `${top.map((point, index) => `${index === 0 ? "M" : "L"}${point.x.toFixed(1)} ${point.y.toFixed(1)}`).join(" ")} ${bottom.slice().reverse().map((point) => `L${point.x.toFixed(1)} ${point.y.toFixed(1)}`).join(" ")} Z`
+}
+
+/** F16 Stream Ribbon：以总量中心线为基线，让构成的交换和总量一起可见。 */
 function StackedAreaChart({
   title,
   description,
   actions,
+  variant = "mono",
+  source,
   data,
   xKey,
   series,
   normalize = false,
   height = 300,
-  showGrid = true,
+  showGrid: _showGrid,
   showLegend = true,
   valueFormatter = (value) => defaultValueFormatter(value),
   labelFormatter = (value) => String(value),
@@ -72,52 +81,35 @@ function StackedAreaChart({
   const descriptionId = `${id}-description`
   const { ref, width } = useChartSize()
   const [activeIndex, setActiveIndex] = React.useState<number | null>(null)
-  const layout = getChartLayout(width, height)
-  const totals = data.map((datum) =>
-    series.reduce(
-      (sum, item) => sum + Math.max(0, getChartValue(datum, item.key) ?? 0),
-      0
-    )
-  )
-  const maximum = normalize ? 100 : Math.max(...totals)
-  const cumulative = series.map((_, seriesIndex) =>
-    data.map((datum, dataIndex) => {
-      const total = totals[dataIndex]
-      return series.slice(0, seriesIndex + 1).reduce((sum, item) => {
-        const value = Math.max(0, getChartValue(datum, item.key) ?? 0)
-        return sum + (normalize ? (value / total) * 100 : value)
-      }, 0)
+  const visibleSeries = series.slice(0, 5)
+  const totals = data.map((datum) => visibleSeries.reduce((sum, item) => sum + Math.max(0, getChartValue(datum, item.key) ?? 0), 0))
+  const maximum = normalize ? 100 : Math.max(1, ...totals)
+  const left = 24
+  const right = 24
+  const centerY = height * 0.45
+  const scale = Math.min((height - 72) / maximum, 1.4)
+  const xAt = (index: number) => data.length <= 1 ? width / 2 : left + (index / (data.length - 1)) * (width - left - right)
+  const bottoms = data.map((_, index) => centerY - (normalize ? 100 : totals[index]) * scale / 2)
+  const bands = visibleSeries.map((item, seriesIndex) => {
+    const top: Array<{ x: number; y: number }> = []
+    const bottom: Array<{ x: number; y: number }> = []
+    data.forEach((datum, index) => {
+      const total = totals[index]
+      const before = visibleSeries.slice(0, seriesIndex).reduce((sum, previous) => sum + Math.max(0, getChartValue(datum, previous.key) ?? 0), 0)
+      const value = Math.max(0, getChartValue(datum, item.key) ?? 0)
+      const unit = normalize && total > 0 ? 100 / total : 1
+      const y0 = bottoms[index] + before * unit * scale
+      bottom.push({ x: xAt(index), y: y0 })
+      top.push({ x: xAt(index), y: y0 + value * unit * scale })
     })
-  )
-  const xAt = (index: number) =>
-    layout.left + (index / (data.length - 1)) * layout.plotWidth
-  const yAt = (value: number) =>
-    layout.top + layout.plotHeight - (value / maximum) * layout.plotHeight
-  const activeDatum = activeIndex == null ? null : data[activeIndex]
-  const labelStep = Math.max(1, Math.ceil(data.length / (width < 480 ? 5 : 8)))
-
-  function selectFromPointer(event: React.PointerEvent<SVGSVGElement>) {
-    const rect = event.currentTarget.getBoundingClientRect()
-    const pointerX = ((event.clientX - rect.left) / rect.width) * width
-    const ratio = (pointerX - layout.left) / layout.plotWidth
-    setActiveIndex(
-      Math.max(
-        0,
-        Math.min(data.length - 1, Math.round(ratio * (data.length - 1)))
-      )
-    )
-  }
+    return { item, top, bottom, color: item.color ?? chartColors[seriesIndex % chartColors.length] }
+  })
+  const activeDatum = activeIndex === null ? null : data[activeIndex]
 
   return (
-    <div className={cn("w-full", className)} {...props}>
-      <ChartHeader
-        title={title}
-        description={description}
-        actions={actions}
-        titleId={titleId}
-        descriptionId={descriptionId}
-      />
-      {showLegend ? <ChartLegend series={series} kind="bar" /> : null}
+    <ChartFrame variant={variant} source={source} className={cn(className)} {...props}>
+      <ChartHeader title={title} description={description} actions={actions} titleId={titleId} descriptionId={descriptionId} />
+      {showLegend ? <ChartLegend series={visibleSeries} kind="bar" /> : null}
       <div ref={ref} className="relative w-full">
         <svg
           className="focus-visible:outline-ring block w-full touch-pan-y overflow-visible outline-none focus-visible:outline-2 focus-visible:outline-offset-4"
@@ -127,163 +119,35 @@ function StackedAreaChart({
           role="img"
           aria-labelledby={`${titleId}${description ? ` ${descriptionId}` : ""}`}
           tabIndex={0}
-          onPointerMove={selectFromPointer}
-          onPointerLeave={() => setActiveIndex(null)}
-          onFocus={() => setActiveIndex((current) => current ?? 0)}
-          onBlur={() => setActiveIndex(null)}
-          onKeyDown={(event) => {
-            if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return
-            event.preventDefault()
-            const direction = event.key === "ArrowLeft" ? -1 : 1
-            setActiveIndex((current) =>
-              Math.max(
-                0,
-                Math.min(
-                  data.length - 1,
-                  (current ?? (direction > 0 ? -1 : data.length)) + direction
-                )
-              )
+          onPointerMove={(event) => {
+            const rect = event.currentTarget.getBoundingClientRect()
+            const x = ((event.clientX - rect.left) / rect.width) * width
+            const index = Math.round(
+              ((x - left) / Math.max(1, width - left - right)) * (data.length - 1),
             )
+
+            setActiveIndex(Math.max(0, Math.min(data.length - 1, index)))
           }}
+          onPointerLeave={() => setActiveIndex(null)}
         >
-          {[0, 0.25, 0.5, 0.75, 1].map((ratio) => {
-            const tick = maximum * ratio
-            const y = yAt(tick)
-            return (
-              <g key={ratio}>
-                {showGrid ? (
-                  <line
-                    x1={layout.left}
-                    x2={width - layout.right}
-                    y1={y}
-                    y2={y}
-                    stroke="var(--border)"
-                    vectorEffect="non-scaling-stroke"
-                  />
-                ) : null}
-                <text
-                  x={layout.left - 9}
-                  y={y}
-                  dy="0.32em"
-                  textAnchor="end"
-                  fill="var(--muted-foreground)"
-                  fontSize="11"
-                  className="font-mono tabular-nums"
-                >
-                  {normalize
-                    ? `${Math.round(tick)}%`
-                    : defaultValueFormatter(tick)}
-                </text>
-              </g>
-            )
+          <line x1={left} y1={centerY} x2={width - right} y2={centerY} stroke="var(--chart-grid)" strokeWidth="0.7" strokeDasharray="2 5" />
+          {bands.map((band, index) => <path key={band.item.key} d={ribbonPath(band.bottom, band.top)} fill={band.color} stroke="var(--chart-bg)" strokeWidth="1.6" opacity={activeIndex === null ? 1 : 0.55} vectorEffect="non-scaling-stroke" />)}
+          {bands.map((band, index) => {
+            const widest = band.top.reduce((best, point, pointIndex) => point.y - band.bottom[pointIndex].y > band.top[best].y - band.bottom[best].y ? pointIndex : best, 0)
+            const point = band.top[widest]
+            const bottom = band.bottom[widest]
+            return point.y - bottom.y < 15 ? null : <text key={band.item.key} x={point.x} y={(point.y + bottom.y) / 2 + 3} textAnchor="middle" fill={index > 1 ? "var(--chart-ink)" : "var(--chart-bg)"} fontSize="7.5" fontWeight="800" letterSpacing="0.06em">{band.item.label ?? band.item.key}</text>
           })}
-          {series.map((item, seriesIndex) => {
-            const upper = cumulative[seriesIndex]
-            const lower =
-              seriesIndex === 0
-                ? data.map(() => 0)
-                : cumulative[seriesIndex - 1]
-            const path = [
-              ...upper.map((value, index) => ({
-                x: xAt(index),
-                y: yAt(value),
-              })),
-              ...lower
-                .map((value, index) => ({ x: xAt(index), y: yAt(value) }))
-                .reverse(),
-            ]
-              .map(
-                (point, index) =>
-                  `${index === 0 ? "M" : "L"}${point.x},${point.y}`
-              )
-              .join(" ")
-            const color =
-              item.color ?? chartColors[seriesIndex % chartColors.length]
-            return (
-              <path
-                key={item.key}
-                d={`${path} Z`}
-                fill={color}
-                fillOpacity="0.72"
-                stroke={color}
-                strokeWidth="1"
-                vectorEffect="non-scaling-stroke"
-              />
-            )
-          })}
-          {data.map((datum, index) =>
-            index % labelStep === 0 || index === data.length - 1 ? (
-              <text
-                key={index}
-                x={xAt(index)}
-                y={height - 9}
-                textAnchor={
-                  index === 0
-                    ? "start"
-                    : index === data.length - 1
-                      ? "end"
-                      : "middle"
-                }
-                fill="var(--muted-foreground)"
-                fontSize="11"
-              >
-                {labelFormatter(datum[xKey] as string | number, datum)}
-              </text>
-            ) : null
-          )}
-          {activeIndex != null ? (
-            <line
-              x1={xAt(activeIndex)}
-              x2={xAt(activeIndex)}
-              y1={layout.top}
-              y2={layout.top + layout.plotHeight}
-              stroke="var(--foreground)"
-              strokeOpacity="0.35"
-              strokeDasharray="3 3"
-              vectorEffect="non-scaling-stroke"
-            />
-          ) : null}
+          {[0, Math.floor((data.length - 1) / 2), Math.max(0, data.length - 1)].map((index) => <text key={index} x={xAt(index)} y={height - 18} textAnchor={index === 0 ? "start" : index === data.length - 1 ? "end" : "middle"} fill="var(--chart-muted)" fontSize="7.5" fontWeight="600" letterSpacing="0.08em">{labelFormatter(data[index]?.[xKey] as string | number, data[index])}</text>)}
+          <text x={width / 2} y={height - 4} textAnchor="middle" fill="var(--chart-faint)" fontSize="7" fontWeight="600" letterSpacing="0.12em">BAND WIDTH = VALUE · THE RIVER SWELLS WITH THE TOTAL</text>
+          {activeIndex !== null ? <line x1={xAt(activeIndex)} x2={xAt(activeIndex)} y1="18" y2={height - 28} stroke="var(--chart-ink)" strokeOpacity="0.28" strokeDasharray="2 4" /> : null}
         </svg>
-        <ChartTooltip
-          active={activeDatum != null}
-          x={activeIndex == null ? 0 : xAt(activeIndex)}
-          y={layout.top}
-          width={width}
-          label={
-            activeDatum
-              ? labelFormatter(
-                  activeDatum[xKey] as string | number,
-                  activeDatum
-                )
-              : ""
-          }
-          rows={
-            activeDatum
-              ? series.map((item, index) => {
-                  const value = getChartValue(activeDatum, item.key) ?? 0
-                  return {
-                    key: item.key,
-                    label: item.label ?? item.key,
-                    value: normalize
-                      ? `${Math.round((value / totals[activeIndex!]) * 100)}%`
-                      : valueFormatter(value, item, activeDatum),
-                    color:
-                      item.color ?? chartColors[index % chartColors.length],
-                  }
-                })
-              : []
-          }
-        />
+        <ChartTooltip active={activeDatum !== null} x={activeIndex === null ? 0 : xAt(activeIndex)} y={18} width={width} label={activeDatum ? labelFormatter(activeDatum[xKey] as string | number, activeDatum) : ""} rows={activeDatum ? visibleSeries.map((item, index) => { const value = Math.max(0, getChartValue(activeDatum, item.key) ?? 0); return { key: item.key, label: item.label ?? item.key, value: normalize && totals[activeIndex!] > 0 ? `${Math.round((value / totals[activeIndex!]) * 100)}%` : valueFormatter(value, item, activeDatum), color: item.color ?? chartColors[index % chartColors.length] } }) : []} />
       </div>
-      <ChartDataTable data={data} xKey={xKey} series={series} />
-    </div>
+      <ChartDataTable data={data} xKey={xKey} series={visibleSeries} />
+    </ChartFrame>
   )
 }
 
 export { StackedAreaChart }
-export type {
-  ChartDatum,
-  ChartLabelFormatter,
-  ChartSeries,
-  ChartValueFormatter,
-}
+export type { ChartDatum, ChartLabelFormatter, ChartSeries, ChartValueFormatter }

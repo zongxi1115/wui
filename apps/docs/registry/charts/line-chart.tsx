@@ -6,15 +6,14 @@ import { cn } from "@/registry/lib/utils"
 
 import {
   ChartDataTable,
+  ChartFrame,
   ChartHeader,
   ChartLegend,
   ChartTooltip,
   chartColors,
   defaultValueFormatter,
-  getChartLayout,
   getChartScale,
   getChartValue,
-  linePatterns,
   scaleValue,
   useChartSize,
   type ChartDatum,
@@ -22,39 +21,41 @@ import {
   type ChartReferenceLine,
   type ChartSeries,
   type ChartValueFormatter,
+  type ChartVariant,
 } from "./chart-core"
 
-export interface LineChartProps extends Omit<
-  React.HTMLAttributes<HTMLDivElement>,
-  "children" | "title"
-> {
+export interface LineChartProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "children" | "title"> {
   /** 图表标题，用于说明正在展示的指标。 */
   title: React.ReactNode
-  /** 补充单位、时间范围或筛选条件的副标题。 */
+  /** 补充单位、时间范围或筛选条件；日序列应说明一个点对应一天。 */
   description?: React.ReactNode
-  /** 标题右侧的操作区，适合组合 Button、Select 或业务工具栏。 */
+  /** 标题右侧的操作区。 */
   actions?: React.ReactNode
-  /** 每行代表一个横轴节点的数据。 */
+  /** Lieflat 色彩系统；有序单序列适合 porcelain。 @default "mono" */
+  variant?: ChartVariant
+  /** 模板来源行，例如“HAIRLINE LINE · DAILY · GROWTH”。 */
+  source?: React.ReactNode
+  /** 每行代表一个时间节点的数据。 */
   data: ChartDatum[]
   /** 用作横轴标签的数据字段。 */
   xKey: string
-  /** 要绘制的数值序列。 */
+  /** 要绘制的数值序列；F2 最适合一至两条序列。 */
   series: ChartSeries[]
   /** 图表绘图区高度，单位为像素。 @default 280 */
   height?: number
   /** 手动指定纵轴最小值和最大值。 */
   domain?: [number, number]
-  /** 是否显示水平参考网格。 @default true */
+  /** 保留以兼容旧调用；F2 不绘制常规网格。 */
   showGrid?: boolean
   /** 是否显示数据节点。 @default true */
   showDots?: boolean
   /** 是否在多序列时显示图例。 @default true */
   showLegend?: boolean
-  /** 面积填充的不透明度；大于零时绘制为面积趋势。 @default 0 */
+  /** 大于零时切换为 F3 Hairline Area（一天一根发丝）。 @default 0 */
   fillOpacity?: number
-  /** 目标值、均值或阈值等纵轴参考线。 */
+  /** 参考线配置，保留以兼容旧调用。 */
   referenceLines?: ChartReferenceLine[]
-  /** 自定义纵轴刻度的显示格式。 */
+  /** 自定义纵轴刻度的显示格式，保留以兼容旧调用。 */
   yAxisFormatter?: (value: number) => React.ReactNode
   /** 自定义数值的显示格式。 */
   valueFormatter?: ChartValueFormatter
@@ -62,22 +63,24 @@ export interface LineChartProps extends Omit<
   labelFormatter?: ChartLabelFormatter
 }
 
-/** 展示有序数据趋势并支持多序列比较的折线图。 */
+/** F2/F3：日历地板 + 发丝趋势；面积由一根根日期线组成而非色块。 */
 function LineChart({
   title,
   description,
   actions,
+  variant = "mono",
+  source,
   data,
   xKey,
   series,
   height = 280,
   domain,
-  showGrid = true,
+  showGrid: _showGrid,
   showDots = true,
   showLegend = true,
   fillOpacity = 0,
-  referenceLines = [],
-  yAxisFormatter = defaultValueFormatter,
+  referenceLines: _referenceLines,
+  yAxisFormatter: _yAxisFormatter,
   valueFormatter = (value) => defaultValueFormatter(value),
   labelFormatter = (value) => String(value),
   className,
@@ -88,300 +91,60 @@ function LineChart({
   const descriptionId = `${id}-description`
   const { ref, width } = useChartSize()
   const [activeIndex, setActiveIndex] = React.useState<number | null>(null)
-  const layout = getChartLayout(width, height)
-  const scale = getChartScale({ data, series, domain })
-  const xAt = (index: number) =>
-    layout.left + (index / (data.length - 1)) * layout.plotWidth
-  const yAt = (value: number) =>
-    layout.top +
-    layout.plotHeight -
-    scaleValue(value, scale.min, scale.max, layout.plotHeight)
-  const activeDatum = activeIndex == null ? null : data[activeIndex]
+  const visibleSeries = series.slice(0, 2)
+  const scale = getChartScale({ data, series: visibleSeries, domain })
+  const left = 28
+  const right = 28
+  const baseline = height - 34
+  const plotHeight = Math.max(86, baseline - 22)
+  const plotWidth = Math.max(1, width - left - right)
+  const xAt = (index: number) => data.length <= 1 ? width / 2 : left + (index / (data.length - 1)) * plotWidth
+  const yAt = (value: number) => baseline - scaleValue(value, scale.min, scale.max, plotHeight)
+  const activeDatum = activeIndex === null ? null : data[activeIndex]
+  const labelIndexes = Array.from(new Set([0, Math.floor((data.length - 1) / 2), Math.max(0, data.length - 1)]))
 
   function selectFromPointer(event: React.PointerEvent<SVGSVGElement>) {
     const rect = event.currentTarget.getBoundingClientRect()
     const pointerX = ((event.clientX - rect.left) / rect.width) * width
-    const ratio = (pointerX - layout.left) / layout.plotWidth
-    setActiveIndex(
-      Math.max(
-        0,
-        Math.min(data.length - 1, Math.round(ratio * (data.length - 1)))
-      )
-    )
+    setActiveIndex(Math.max(0, Math.min(data.length - 1, Math.round(((pointerX - left) / plotWidth) * (data.length - 1)))) )
   }
-
-  function moveActive(direction: -1 | 1) {
-    setActiveIndex((current) =>
-      Math.max(
-        0,
-        Math.min(
-          data.length - 1,
-          (current ?? (direction > 0 ? -1 : data.length)) + direction
-        )
-      )
-    )
-  }
-
-  const labelStep = Math.max(1, Math.ceil(data.length / (width < 480 ? 5 : 8)))
 
   return (
-    <div className={cn("w-full", className)} {...props}>
-      <ChartHeader
-        title={title}
-        description={description}
-        actions={actions}
-        titleId={titleId}
-        descriptionId={descriptionId}
-      />
-      {showLegend ? <ChartLegend series={series} kind="line" /> : null}
+    <ChartFrame variant={variant} source={source} className={cn(className)} {...props}>
+      <ChartHeader title={title} description={description} actions={actions} titleId={titleId} descriptionId={descriptionId} />
+      {visibleSeries.length > 1 && showLegend ? <ChartLegend series={visibleSeries} kind="line" /> : null}
       <div ref={ref} className="relative w-full">
-        <svg
-          className="focus-visible:outline-ring block w-full touch-pan-y overflow-visible outline-none focus-visible:outline-2 focus-visible:outline-offset-4"
-          width={width}
-          height={height}
-          viewBox={`0 0 ${width} ${height}`}
-          role="img"
-          aria-labelledby={`${titleId}${description ? ` ${descriptionId}` : ""}`}
-          tabIndex={0}
-          onPointerMove={selectFromPointer}
-          onPointerLeave={() => setActiveIndex(null)}
-          onFocus={() => setActiveIndex((current) => current ?? 0)}
-          onBlur={() => setActiveIndex(null)}
-          onKeyDown={(event) => {
-            if (event.key === "ArrowLeft") {
-              event.preventDefault()
-              moveActive(-1)
-            }
-            if (event.key === "ArrowRight") {
-              event.preventDefault()
-              moveActive(1)
-            }
-          }}
-        >
-          {scale.ticks.map((tick) => {
-            const y = yAt(tick)
-            return (
-              <g key={tick}>
-                {showGrid ? (
-                  <line
-                    x1={layout.left}
-                    x2={width - layout.right}
-                    y1={y}
-                    y2={y}
-                    stroke="var(--border)"
-                    strokeWidth="1"
-                    vectorEffect="non-scaling-stroke"
-                  />
-                ) : null}
-                <text
-                  x={layout.left - 9}
-                  y={y}
-                  dy="0.32em"
-                  textAnchor="end"
-                  fill="var(--muted-foreground)"
-                  fontSize="11"
-                  className="font-mono tabular-nums"
-                >
-                  {yAxisFormatter(tick)}
-                </text>
-              </g>
-            )
-          })}
-
-          {data.map((datum, index) =>
-            index % labelStep === 0 || index === data.length - 1 ? (
-              <text
-                key={index}
-                x={xAt(index)}
-                y={height - 9}
-                textAnchor={
-                  index === 0
-                    ? "start"
-                    : index === data.length - 1
-                      ? "end"
-                      : "middle"
-                }
-                fill="var(--muted-foreground)"
-                fontSize="11"
-              >
-                {labelFormatter(datum[xKey] as string | number, datum)}
-              </text>
-            ) : null
-          )}
-
-          {series.map((item, seriesIndex) => {
-            const segments: Array<Array<{ x: number; y: number }>> = []
-            let segment: Array<{ x: number; y: number }> = []
-            data.forEach((datum, index) => {
+        <svg className="focus-visible:outline-ring block w-full touch-pan-y overflow-visible outline-none focus-visible:outline-2 focus-visible:outline-offset-4" width={width} height={height} viewBox={`0 0 ${width} ${height}`} role="img" aria-labelledby={`${titleId}${description ? ` ${descriptionId}` : ""}`} tabIndex={0} onPointerMove={selectFromPointer} onPointerLeave={() => setActiveIndex(null)} onFocus={() => setActiveIndex((current) => current ?? 0)} onBlur={() => setActiveIndex(null)} onKeyDown={(event) => { if (event.key === "ArrowLeft" || event.key === "ArrowRight") { event.preventDefault(); setActiveIndex((current) => Math.max(0, Math.min(data.length - 1, (current ?? 0) + (event.key === "ArrowLeft" ? -1 : 1)))) } }}>
+          <line x1={left - 6} y1={baseline} x2={width - right + 6} y2={baseline} stroke="var(--chart-grid)" strokeWidth="0.8" />
+          {data.map((_, index) => <line key={index} x1={xAt(index)} x2={xAt(index)} y1={baseline} y2={baseline - (index % 7 === 5 || index % 7 === 6 ? 8 : 5)} stroke="var(--chart-faint)" strokeWidth="0.65" vectorEffect="non-scaling-stroke" />)}
+          {visibleSeries.map((item, seriesIndex) => {
+            const points = data.flatMap((datum, index) => {
               const value = getChartValue(datum, item.key)
-              if (value == null) {
-                if (segment.length) segments.push(segment)
-                segment = []
-                return
-              }
-              segment.push({ x: xAt(index), y: yAt(value) })
+              return value === null || value === undefined ? [] : [{ x: xAt(index), y: yAt(value), value, index }]
             })
-            if (segment.length) segments.push(segment)
-            const path = segments
-              .map((points) =>
-                points
-                  .map(
-                    (point, index) =>
-                      `${index === 0 ? "M" : "L"}${point.x},${point.y}`
-                  )
-                  .join(" ")
-              )
-              .join(" ")
-            const color =
-              item.color ?? chartColors[seriesIndex % chartColors.length]
-            const dash =
-              item.strokeDasharray ??
-              linePatterns[seriesIndex % linePatterns.length]
-
-            return (
-              <g key={item.key}>
-                {fillOpacity > 0
-                  ? segments.map((points, segmentIndex) => {
-                      const baseline =
-                        scale.min <= 0 && scale.max >= 0
-                          ? yAt(0)
-                          : yAt(scale.min)
-                      const areaPath = `${points
-                        .map(
-                          (point, index) =>
-                            `${index === 0 ? "M" : "L"}${point.x},${point.y}`
-                        )
-                        .join(
-                          " "
-                        )} L${points.at(-1)!.x},${baseline} L${points[0].x},${baseline} Z`
-                      return (
-                        <path
-                          key={segmentIndex}
-                          d={areaPath}
-                          fill={color}
-                          fillOpacity={fillOpacity}
-                        />
-                      )
-                    })
-                  : null}
-                <path
-                  d={path}
-                  fill="none"
-                  stroke={color}
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeDasharray={dash}
-                  vectorEffect="non-scaling-stroke"
-                />
-                {showDots
-                  ? data.map((datum, index) => {
-                      const value = getChartValue(datum, item.key)
-                      return value == null ? null : (
-                        <circle
-                          key={index}
-                          cx={xAt(index)}
-                          cy={yAt(value)}
-                          r={activeIndex === index ? 4 : 2.5}
-                          fill="var(--background)"
-                          stroke={color}
-                          strokeWidth="2"
-                          vectorEffect="non-scaling-stroke"
-                        />
-                      )
-                    })
-                  : null}
-              </g>
-            )
+            const peak = points.reduce((best, point) => point.value > best.value ? point : best, points[0])
+            const color = item.color ?? chartColors[seriesIndex % chartColors.length]
+            const path = points.map((point, index) => `${index === 0 ? "M" : "L"}${point.x} ${point.y}`).join(" ")
+            return <g key={item.key}>
+              {fillOpacity > 0 ? points.map((point) => <line key={point.index} x1={point.x} y1={baseline} x2={point.x} y2={point.y} stroke={color} strokeWidth={seriesIndex === 0 ? "0.65" : "0.45"} opacity={seriesIndex === 0 ? Math.min(0.9, Math.max(0.35, fillOpacity * 3)) : 0.38} vectorEffect="non-scaling-stroke" />) : null}
+              <path d={path} fill="none" stroke={color} strokeWidth="1.15" strokeLinejoin="round" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
+              {showDots ? points.map((point) => {
+                const weekend = point.index % 7 === 5 || point.index % 7 === 6
+                const isPeak = peak?.index === point.index
+                return <g key={point.index}><circle cx={point.x} cy={point.y} r={isPeak || activeIndex === point.index ? "4.1" : "2.1"} fill={weekend ? "var(--chart-bg)" : color} stroke={color} strokeWidth={weekend ? "1" : "0"} vectorEffect="non-scaling-stroke" />{isPeak ? <text x={point.x} y={point.y - 10} textAnchor="middle" fill="var(--chart-ink)" fontSize="9.5" fontWeight="800" style={{ fontVariantNumeric: "tabular-nums" }}>{valueFormatter(point.value, item, data[point.index])}</text> : null}</g>
+              }) : null}
+            </g>
           })}
-
-          {referenceLines.map((reference, index) => {
-            const y = yAt(reference.value)
-            return (
-              <g key={index}>
-                <line
-                  x1={layout.left}
-                  x2={width - layout.right}
-                  y1={y}
-                  y2={y}
-                  stroke={reference.color ?? "var(--foreground)"}
-                  strokeOpacity="0.6"
-                  strokeDasharray={reference.strokeDasharray ?? "4 4"}
-                  vectorEffect="non-scaling-stroke"
-                />
-                {reference.label ? (
-                  <text
-                    x={width - layout.right}
-                    y={y - 6}
-                    textAnchor="end"
-                    fill={reference.color ?? "var(--foreground)"}
-                    fontSize="10"
-                  >
-                    {reference.label}
-                  </text>
-                ) : null}
-              </g>
-            )
-          })}
-
-          {activeIndex != null ? (
-            <line
-              x1={xAt(activeIndex)}
-              x2={xAt(activeIndex)}
-              y1={layout.top}
-              y2={layout.top + layout.plotHeight}
-              stroke="var(--foreground)"
-              strokeOpacity="0.3"
-              strokeDasharray="3 3"
-              vectorEffect="non-scaling-stroke"
-            />
-          ) : null}
+          {labelIndexes.map((index) => <text key={index} x={xAt(index)} y={baseline + 19} textAnchor={index === 0 ? "start" : index === data.length - 1 ? "end" : "middle"} fill="var(--chart-muted)" fontSize="7.5" fontWeight="600" letterSpacing="0.08em">{labelFormatter(data[index]?.[xKey] as string | number, data[index])}</text>)}
+          <text x={width / 2} y={height - 4} textAnchor="middle" fill="var(--chart-faint)" fontSize="7" fontWeight="600" letterSpacing="0.12em">ONE DOT = ONE DATE · HOLLOW = WEEKEND · BARCODE KEEPS THE CALENDAR HONEST</text>
+          {activeIndex !== null ? <line x1={xAt(activeIndex)} x2={xAt(activeIndex)} y1={22} y2={baseline} stroke="var(--chart-ink)" strokeOpacity="0.22" strokeDasharray="2 4" vectorEffect="non-scaling-stroke" /> : null}
         </svg>
-
-        <ChartTooltip
-          active={activeDatum != null}
-          x={activeIndex == null ? 0 : xAt(activeIndex)}
-          y={layout.top}
-          width={width}
-          label={
-            activeDatum
-              ? labelFormatter(
-                  activeDatum[xKey] as string | number,
-                  activeDatum
-                )
-              : ""
-          }
-          rows={
-            activeDatum
-              ? series.flatMap((item, index) => {
-                  const value = getChartValue(activeDatum, item.key)
-                  return value == null
-                    ? []
-                    : [
-                        {
-                          key: item.key,
-                          label: item.label ?? item.key,
-                          value: valueFormatter(value, item, activeDatum),
-                          color:
-                            item.color ??
-                            chartColors[index % chartColors.length],
-                        },
-                      ]
-                })
-              : []
-          }
-        />
+        <ChartTooltip active={activeDatum !== null} x={activeIndex === null ? 0 : xAt(activeIndex)} y={22} width={width} label={activeDatum ? labelFormatter(activeDatum[xKey] as string | number, activeDatum) : ""} rows={activeDatum ? visibleSeries.flatMap((item, index) => { const value = getChartValue(activeDatum, item.key); return value === null || value === undefined ? [] : [{ key: item.key, label: item.label ?? item.key, value: valueFormatter(value, item, activeDatum), color: item.color ?? chartColors[index % chartColors.length] }] }) : []} />
       </div>
-      <ChartDataTable data={data} xKey={xKey} series={series} />
-    </div>
+      <ChartDataTable data={data} xKey={xKey} series={visibleSeries} />
+    </ChartFrame>
   )
 }
 
 export { LineChart }
-export type {
-  ChartDatum,
-  ChartLabelFormatter,
-  ChartReferenceLine,
-  ChartSeries,
-  ChartValueFormatter,
-}
+export type { ChartDatum, ChartLabelFormatter, ChartReferenceLine, ChartSeries, ChartValueFormatter }

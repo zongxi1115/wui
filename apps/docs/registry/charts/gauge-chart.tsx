@@ -1,10 +1,14 @@
 "use client"
 
 import * as React from "react"
+
 import { cn } from "@/registry/lib/utils"
+
 import {
+  ChartFrame,
   ChartHeader,
   useChartSize,
+  type ChartVariant,
 } from "./chart-core"
 
 export interface GaugeZone {
@@ -12,7 +16,7 @@ export interface GaugeZone {
   from: number
   /** 区间终止数值。 */
   to: number
-  /** 该区间对应的色彩（可传 CSS 变量或颜色名）。 */
+  /** 该区间对应的色彩（仅用于下方说明）。 */
   color: string
   /** 可选的区间名称。 */
   label?: string
@@ -22,23 +26,27 @@ export interface GaugeChartProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "children" | "title"> {
   /** 图表标题。 */
   title: React.ReactNode
-  /** 补充说明或副标题。 */
+  /** 补充说明或副标题；应明确目标口径。 */
   description?: React.ReactNode
   /** 标题右侧操作区。 */
   actions?: React.ReactNode
+  /** Lieflat 色彩系统；单指标进度适合 porcelain。 @default "mono" */
+  variant?: ChartVariant
+  /** 模板来源行，例如“TICK GAUGE · QUARTERLY TARGET · OPS”。 */
+  source?: React.ReactNode
   /** 当前读数数值。 */
   value: number
   /** 仪表盘最小值。 @default 0 */
   min?: number
   /** 仪表盘最大值。 @default 100 */
   max?: number
-  /** 环形圆弧厚度（像素）。 @default 16 */
+  /** 保留以兼容旧调用；Tick Gauge 以细刻度而非粗圆弧呈现。 */
   thickness?: number
   /** 绘图区高度（像素）。 @default 240 */
   height?: number
-  /** 仪表盘分段目标区间配置。 */
+  /** 可选的业务阈值说明。 */
   zones?: GaugeZone[]
-  /** 是否展示刻度标签。 @default true */
+  /** 是否展示 25%、50%、75%、100% 里程碑。 @default true */
   showTicks?: boolean
   /** 单位文本（如 "%", "ms", "GB"）。 */
   unit?: string
@@ -46,79 +54,57 @@ export interface GaugeChartProps
   valueFormatter?: (value: number) => React.ReactNode
 }
 
-function polarToCoord(cx: number, cy: number, r: number, angleDeg: number) {
-  const rad = ((angleDeg - 90) * Math.PI) / 180.0
+function polar(cx: number, cy: number, radius: number, degrees: number) {
+  const radians = (degrees * Math.PI) / 180
   return {
-    x: cx + r * Math.cos(rad),
-    y: cy + r * Math.sin(rad),
+    x: cx + radius * Math.cos(radians),
+    y: cy + radius * Math.sin(radians),
   }
 }
 
-function createArcPath(
-  cx: number,
-  cy: number,
-  r: number,
-  startAngle: number,
-  endAngle: number
-) {
-  const start = polarToCoord(cx, cy, r, endAngle)
-  const end = polarToCoord(cx, cy, r, startAngle)
-  const largeArcFlag = endAngle - startAngle <= 180 ? 0 : 1
-
-  return `M ${start.x} ${start.y} A ${r} ${r} 0 ${largeArcFlag} 0 ${end.x} ${end.y}`
+function tickVariation(index: number, seed: number) {
+  return Math.abs(((index * 73856093) ^ (seed * 19349663)) % 1000) / 1000
 }
 
-/** 仪表盘图表，展示核心度量指标的当前水平与阈值区间。 */
+/** F11 Tick Gauge：一根细刻度代表目标的一个百分比。 */
 function GaugeChart({
   title,
   description,
   actions,
+  variant = "mono",
+  source,
   value,
   min = 0,
   max = 100,
-  thickness = 16,
+  thickness: _thickness,
   height = 240,
   zones,
   showTicks = true,
   unit = "",
-  valueFormatter = (val) => val.toString(),
+  valueFormatter = (current) => current.toString(),
   className,
   ...props
 }: GaugeChartProps) {
   const { ref, width } = useChartSize()
-
-  const startAngle = -120
-  const endAngle = 120
-  const totalAngleSpan = endAngle - startAngle
-
-  const clampedValue = Math.max(min, Math.min(max, value))
-  const progressRatio = max > min ? (clampedValue - min) / (max - min) : 0
-  const currentAngle = startAngle + progressRatio * totalAngleSpan
-
-  const cx = width / 2
-  const cy = height * 0.65
-  const radius = Math.max(40, Math.min(cx - 32, cy - 20))
-
-  const activeColor = React.useMemo(() => {
-    if (zones && zones.length > 0) {
-      for (const z of zones) {
-        if (clampedValue >= z.from && clampedValue <= z.to) {
-          return z.color
-        }
-      }
-    }
-    return "var(--primary)"
-  }, [clampedValue, zones])
-
   const id = React.useId()
   const titleId = `${id}-title`
   const descriptionId = `${id}-description`
+  const ratio = max > min ? Math.max(0, Math.min(1, (value - min) / (max - min))) : 0
+  const progress = Math.round(ratio * 100)
+  const cx = width / 2
+  const cy = height * 0.72
+  const radius = Math.max(48, Math.min(width * 0.28, height * 0.46))
+  const startAngle = -195
+  const sweep = 210
+  const remaining = Math.max(0, 100 - progress)
 
   return (
-    <div
+    <ChartFrame
       ref={ref}
+      variant={variant}
+      source={source}
       data-slot="gauge-chart"
-      className={cn("flex flex-col gap-3 rounded-xl border border-border bg-card p-4", className)}
+      className={cn(className)}
       {...props}
     >
       <ChartHeader
@@ -129,107 +115,112 @@ function GaugeChart({
         descriptionId={descriptionId}
       />
 
-      <div className="relative flex items-center justify-center select-none" style={{ height }}>
-        <svg width={width} height={height} className="overflow-visible">
-          {/* Background Track */}
-          <path
-            d={createArcPath(cx, cy, radius, startAngle, endAngle)}
-            fill="none"
-            stroke="var(--muted)"
-            strokeWidth={thickness}
-            strokeLinecap="round"
-          />
-
-          {/* Zones Track */}
-          {zones &&
-            zones.map((zone, idx) => {
-              const zStartRatio = Math.max(0, (zone.from - min) / (max - min))
-              const zEndRatio = Math.min(1, (zone.to - min) / (max - min))
-              const zStartAngle = startAngle + zStartRatio * totalAngleSpan
-              const zEndAngle = startAngle + zEndRatio * totalAngleSpan
-
-              if (zEndAngle <= zStartAngle) return null
-
-              return (
-                <path
-                  key={idx}
-                  d={createArcPath(cx, cy, radius, zStartAngle, zEndAngle)}
-                  fill="none"
-                  stroke={zone.color}
-                  strokeWidth={thickness}
-                  strokeOpacity="0.4"
-                />
-              )
-            })}
-
-          {/* Active Value Progress Arc */}
-          {progressRatio > 0 && (
-            <path
-              d={createArcPath(cx, cy, radius, startAngle, currentAngle)}
-              fill="none"
-              stroke={activeColor}
-              strokeWidth={thickness}
-              strokeLinecap="round"
-              className="transition-all duration-500 ease-out"
+      <svg
+        className="block w-full overflow-visible"
+        width={width}
+        height={height}
+        viewBox={`0 0 ${width} ${height}`}
+        role="img"
+        aria-labelledby={`${titleId}${description ? ` ${descriptionId}` : ""}`}
+      >
+        {Array.from({ length: 100 }, (_, index) => {
+          const angle = startAngle + (index / 100) * sweep
+          const complete = index < progress
+          const length = complete ? 13 + tickVariation(index + 1, 3) * 6 : 5 + tickVariation(index + 1, 7) * 2.5
+          const from = polar(cx, cy, radius, angle)
+          const to = polar(cx, cy, radius + length, angle)
+          return (
+            <line
+              key={index}
+              x1={from.x}
+              y1={from.y}
+              x2={to.x}
+              y2={to.y}
+              stroke={complete ? "var(--chart-ink)" : "var(--chart-grid)"}
+              strokeWidth={complete ? 1 : 0.65}
+              vectorEffect="non-scaling-stroke"
             />
-          )}
+          )
+        })}
 
-          {/* Center Value Text */}
-          <text
-            x={cx}
-            y={cy - 12}
-            textAnchor="middle"
-            className="fill-foreground font-mono text-3xl font-bold tracking-tight"
-          >
-            {valueFormatter(clampedValue)}
-            {unit && <tspan className="text-base font-medium text-muted-foreground ml-1"> {unit}</tspan>}
-          </text>
+        {showTicks
+          ? [25, 50, 75, 100].map((milestone) => {
+              const angle = startAngle + (milestone / 100) * sweep
+              const dot = polar(cx, cy, radius - 7, angle)
+              const label = polar(cx, cy, radius - 20, angle)
+              return (
+                <g key={milestone}>
+                  <circle cx={dot.x} cy={dot.y} r="1" fill="var(--chart-faint)" />
+                  <text
+                    x={label.x}
+                    y={label.y + 3}
+                    textAnchor="middle"
+                    fill="var(--chart-faint)"
+                    fontSize="7"
+                    fontWeight="600"
+                    style={{ fontVariantNumeric: "tabular-nums" }}
+                  >
+                    {milestone}
+                  </text>
+                </g>
+              )
+            })
+          : null}
 
-          {/* Min & Max Labels */}
-          {showTicks && (
-            <>
-              {(() => {
-                const minPt = polarToCoord(cx, cy, radius + thickness + 12, startAngle)
-                const maxPt = polarToCoord(cx, cy, radius + thickness + 12, endAngle)
-                return (
-                  <>
-                    <text
-                      x={minPt.x}
-                      y={minPt.y}
-                      textAnchor="middle"
-                      className="fill-muted-foreground text-xs font-mono"
-                    >
-                      {min}
-                    </text>
-                    <text
-                      x={maxPt.x}
-                      y={maxPt.y}
-                      textAnchor="middle"
-                      className="fill-muted-foreground text-xs font-mono"
-                    >
-                      {max}
-                    </text>
-                  </>
-                )
-              })()}
-            </>
-          )}
-        </svg>
-      </div>
+        {progress > 0 ? (() => {
+          const tip = polar(cx, cy, radius + 20, startAngle + (progress / 100) * sweep)
+          return <circle cx={tip.x} cy={tip.y} r="2.4" fill="var(--chart-ink)" />
+        })() : null}
 
-      {zones && zones.length > 0 && (
-        <div className="flex flex-wrap items-center justify-center gap-4 text-xs text-muted-foreground border-t border-border/50 pt-2.5">
-          {zones.map((z, idx) => (
-            <div key={idx} className="flex items-center gap-1.5">
-              <span className="size-2 rounded-full" style={{ backgroundColor: z.color }} />
-              <span>
-                {z.label ?? `${z.from} - ${z.to}`}
-              </span>
-            </div>
+        <text
+          x={cx}
+          y={cy - 4}
+          textAnchor="middle"
+          fill="var(--chart-ink)"
+          fontSize="34"
+          fontWeight="800"
+          letterSpacing="-0.04em"
+          style={{ fontVariantNumeric: "tabular-nums" }}
+        >
+          {valueFormatter(Math.max(min, Math.min(max, value)))}
+          {unit ? <tspan fontSize="14" fontWeight="600"> {unit}</tspan> : null}
+        </text>
+        <text
+          x={cx}
+          y={cy + 17}
+          textAnchor="middle"
+          fill="var(--chart-muted)"
+          fontSize="8"
+          fontWeight="600"
+          letterSpacing="0.1em"
+          style={{ fontVariantNumeric: "tabular-nums" }}
+        >
+          {remaining} TICKS TO GO
+        </text>
+        <text
+          x={cx}
+          y={height - 8}
+          textAnchor="middle"
+          fill="var(--chart-faint)"
+          fontSize="7"
+          fontWeight="600"
+          letterSpacing="0.12em"
+        >
+          ONE TICK = 1% OF TARGET · INKED = EARNED
+        </text>
+      </svg>
+
+      {zones?.length ? (
+        <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-[11px] text-[var(--chart-muted)]">
+          {zones.map((zone) => (
+            <span key={`${zone.from}-${zone.to}`} className="inline-flex items-center gap-1.5">
+              <span className="size-1.5 rounded-none" style={{ backgroundColor: zone.color }} />
+              {zone.label ?? `${zone.from}–${zone.to}`}
+            </span>
           ))}
         </div>
-      )}
-    </div>
+      ) : null}
+    </ChartFrame>
   )
 }
 

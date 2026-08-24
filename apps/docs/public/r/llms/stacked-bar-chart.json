@@ -40,7 +40,7 @@
       "type": "ReactNode",
       "required": false,
       "control": "text",
-      "description": "补充单位、时间范围或分母口径的副标题。"
+      "description": "补充单位、时间范围或分母口径；应说明一梯级代表多少单位。"
     },
     {
       "name": "actions",
@@ -48,6 +48,27 @@
       "required": false,
       "control": "text",
       "description": "标题右侧的操作区。"
+    },
+    {
+      "name": "variant",
+      "type": "\"mono\" | \"porcelain\" | \"palm\" | \"wire\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "mono",
+        "porcelain",
+        "palm",
+        "wire"
+      ],
+      "defaultValue": "mono",
+      "description": "Lieflat 色彩系统；并列构成且不超过四类时可用 palm。"
+    },
+    {
+      "name": "source",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "模板来源行，例如“STACKED RUNGS · REVENUE MIX · BILLING”。"
     },
     {
       "name": "data",
@@ -68,7 +89,7 @@
       "type": "ChartSeries[]",
       "required": true,
       "control": "text",
-      "description": "参与堆叠的数值序列。"
+      "description": "参与堆叠的数值序列，F7 最多四段。"
     },
     {
       "name": "layout",
@@ -79,8 +100,7 @@
         "horizontal",
         "vertical"
       ],
-      "defaultValue": "vertical",
-      "description": "柱形方向。"
+      "description": "F7 为纵向梯级堆叠；该属性仅为兼容旧调用保留。"
     },
     {
       "name": "normalize",
@@ -103,16 +123,14 @@
       "type": "number",
       "required": false,
       "control": "number",
-      "defaultValue": "112",
-      "description": "横向布局为分类标签保留的宽度。"
+      "description": "保留以兼容旧调用。"
     },
     {
       "name": "showGrid",
       "type": "boolean",
       "required": false,
       "control": "boolean",
-      "defaultValue": "true",
-      "description": "是否显示数值参考网格。"
+      "description": "保留以兼容旧调用。"
     },
     {
       "name": "showLegend",
@@ -128,7 +146,14 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "false",
-      "description": "是否在足够宽的堆叠段内显示数值。"
+      "description": "是否在每段旁显示数值。"
+    },
+    {
+      "name": "rungStep",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "description": "每一横档代表的真实数值；省略时按数据自动取易读单位。"
     },
     {
       "name": "valueFormatter",
@@ -143,7 +168,7 @@
       "type": "ChartLabelFormatter",
       "required": false,
       "control": "text",
-      "defaultValue": "(value) => String(value)",
+      "defaultValue": "(label) => String(label)",
       "description": "自定义分类标签。"
     },
     {

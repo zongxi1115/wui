@@ -48,6 +48,27 @@
       "description": "标题右侧的操作区。"
     },
     {
+      "name": "variant",
+      "type": "\"mono\" | \"porcelain\" | \"palm\" | \"wire\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "mono",
+        "porcelain",
+        "palm",
+        "wire"
+      ],
+      "defaultValue": "mono",
+      "description": "Lieflat 色彩系统；有序时间数据适合 porcelain。"
+    },
+    {
+      "name": "source",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "模板来源行，例如“HAIRLINE LINE · DAILY · GROWTH”。"
+    },
+    {
       "name": "data",
       "type": "ChartDatum[]",
       "required": true,
@@ -124,7 +145,7 @@
       "type": "((value: string | number, datum: ChartDatum) => number)",
       "required": false,
       "control": "text",
-      "defaultValue": "(value) =>\r\n    typeof value === \"number\" ? value : new Date(value).getTime()",
+      "defaultValue": "(value) =>\n    typeof value === \"number\" ? value : new Date(value).getTime()",
       "description": "自定义日期值到时间戳的转换。"
     },
     {
@@ -132,7 +153,7 @@
       "type": "((timestamp: number, datum?: ChartDatum) => ReactNode)",
       "required": false,
       "control": "text",
-      "defaultValue": "(timestamp) =>\r\n    new Intl.DateTimeFormat(\"zh-CN\", {\r\n      month: \"short\",\r\n      day: \"numeric\",\r\n    }).format(timestamp)",
+      "defaultValue": "(timestamp) =>\n    new Intl.DateTimeFormat(\"zh-CN\", {\n      month: \"short\",\n      day: \"numeric\",\n    }).format(timestamp)",
       "description": "自定义横轴日期格式。"
     },
     {

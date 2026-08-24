@@ -47,6 +47,27 @@
       "description": "标题右侧操作区。"
     },
     {
+      "name": "variant",
+      "type": "\"mono\" | \"porcelain\" | \"palm\" | \"wire\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "mono",
+        "porcelain",
+        "palm",
+        "wire"
+      ],
+      "defaultValue": "mono",
+      "description": "仅换 Lieflat token，不改变原生雷达图语义。"
+    },
+    {
+      "name": "source",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "模板来源行，例如“RADAR · PRODUCT PANEL · RESEARCH”。"
+    },
+    {
       "name": "data",
       "type": "ChartDatum[]",
       "required": true,

@@ -12,7 +12,8 @@ export default function GaugeChartDemo() {
     <div className="flex w-full max-w-sm flex-col gap-4">
       <GaugeChart
         title="GPU 计算集群负载"
-        description="集群综合显存占用率与计算负荷监控"
+        description="集群综合显存占用率 · 每一刻度 = 1%"
+        source="TICK GAUGE · CLUSTER LOAD · OPS"
         actions={
           <Badge variant="outline" className="text-[10px] py-0">
             实时刷新

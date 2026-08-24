@@ -35,14 +35,35 @@
       "type": "ReactNode",
       "required": false,
       "control": "text",
-      "description": "补充单位、样本范围或筛选条件的副标题。"
+      "description": "补充单位、样本范围或筛选条件；应明确一梯级对应一条记录。"
     },
     {
       "name": "actions",
       "type": "ReactNode",
       "required": false,
       "control": "text",
-      "description": "标题右侧的操作区，适合组合 Button、Select 或业务工具栏。"
+      "description": "标题右侧的操作区。"
+    },
+    {
+      "name": "variant",
+      "type": "\"mono\" | \"porcelain\" | \"palm\" | \"wire\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "mono",
+        "porcelain",
+        "palm",
+        "wire"
+      ],
+      "defaultValue": "mono",
+      "description": "Lieflat 色彩系统；有序分箱适合 porcelain。"
+    },
+    {
+      "name": "source",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "模板来源行，例如“RUNG HISTOGRAM · RESPONSE TIME · SUPPORT”。"
     },
     {
       "name": "data",
@@ -86,8 +107,7 @@
       "type": "boolean",
       "required": false,
       "control": "boolean",
-      "defaultValue": "true",
-      "description": "是否显示水平参考网格。"
+      "description": "保留以兼容旧调用；F14 用连续箱界而非网格。"
     },
     {
       "name": "showValues",
@@ -95,14 +115,14 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "false",
-      "description": "是否在柱形末端显示频数。"
+      "description": "是否在最高分箱显示频数。"
     },
     {
       "name": "binFormatter",
       "type": "((min: number, max: number, index: number) => string)",
       "required": false,
       "control": "text",
-      "defaultValue": "(min, max) =>\r\n    `${defaultValueFormatter(min)}–${defaultValueFormatter(max)}`",
+      "defaultValue": "(min, max) => `${defaultValueFormatter(min)}–${defaultValueFormatter(max)}`",
       "description": "自定义分箱边界的显示格式。"
     },
     {

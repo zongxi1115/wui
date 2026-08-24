@@ -17,7 +17,8 @@ export default function FunnelChartDemo() {
     <div className="w-full max-w-xl">
       <FunnelChart
         title="用户获取与付费漏斗"
-        description="从首页访问到最终订阅的各阶段流转率与流失分析"
+        description="从访问到订阅的流束 · 每一刻度 = 2,000 人"
+        source="HOURGLASS STREAM · ACQUISITION · GROWTH"
         actions={
           <Badge variant="secondary" className="text-[10px] py-0">
             总转化率 4.0%
@@ -27,6 +28,7 @@ export default function FunnelChartDemo() {
         nameKey="stage"
         valueKey="count"
         valueFormatter={(val) => `${val.toLocaleString()} 人`}
+        tickStep={2000}
         height={320}
       />
     </div>

@@ -46,6 +46,27 @@
       "description": "标题右侧操作区。"
     },
     {
+      "name": "variant",
+      "type": "\"mono\" | \"porcelain\" | \"palm\" | \"wire\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "mono",
+        "porcelain",
+        "palm",
+        "wire"
+      ],
+      "defaultValue": "mono",
+      "description": "Lieflat 色彩系统；连续日期值适合 porcelain。"
+    },
+    {
+      "name": "source",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "模板来源行，例如“CALENDAR HEAT · DEPLOY LOG · ENGINEERING”。"
+    },
+    {
       "name": "data",
       "type": "HeatmapDatum[]",
       "required": true,
@@ -88,7 +109,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "2",
-      "description": "格子圆角半径（像素）。"
+      "description": "日点的最小半径（像素）；用于保留静默日。"
     },
     {
       "name": "showWeekdayLabels",

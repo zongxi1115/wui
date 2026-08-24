@@ -5,25 +5,28 @@ import * as React from "react"
 import { cn } from "@/registry/lib/utils"
 
 import {
+  ChartFrame,
   ChartHeader,
   ChartTooltip,
   chartColors,
   defaultValueFormatter,
   useChartSize,
   type ChartDatum,
+  type ChartVariant,
 } from "./chart-core"
 
-export interface PieChartProps extends Omit<
-  React.HTMLAttributes<HTMLDivElement>,
-  "children" | "title"
-> {
-  /** 图表标题，用于说明正在展示的构成指标。 */
+export interface PieChartProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "children" | "title"> {
+  /** 图表标题，用于说明正在展示的 100% 构成指标。 */
   title: React.ReactNode
-  /** 补充总体、时间范围或数据口径的副标题。 */
+  /** 补充总体、时间范围或数据口径；应明确整体分母。 */
   description?: React.ReactNode
-  /** 标题右侧的操作区，适合组合 Button、Select 或业务工具栏。 */
+  /** 标题右侧的操作区。 */
   actions?: React.ReactNode
-  /** 每行代表一个构成类别的数据。 */
+  /** Lieflat 色彩系统；无序构成不超过四类时可用 palm。 @default "mono" */
+  variant?: ChartVariant
+  /** 模板来源行，例如“TICK DONUT · ACQUISITION · ANALYTICS”。 */
+  source?: React.ReactNode
+  /** 每行代表一个构成类别的数据，最多六类。 */
   data: ChartDatum[]
   /** 类别名称字段。 */
   nameKey: string
@@ -33,9 +36,9 @@ export interface PieChartProps extends Omit<
   colorKey?: string
   /** 图表绘图区高度，单位为像素。 @default 320 */
   height?: number
-  /** 内圈相对外圈的比例；大于零时显示为环图。 @default 0 */
+  /** 保留以兼容旧调用；F4 固定采用刻度环。 */
   innerRadius?: number
-  /** 扇区之间的角度间隔。 @default 1 */
+  /** 保留以兼容旧调用；刻度段之间自然留白。 */
   padAngle?: number
   /** 是否显示类别和占比标签。 @default true */
   showLabels?: boolean
@@ -46,67 +49,37 @@ export interface PieChartProps extends Omit<
   /** 自定义数值的显示格式。 */
   valueFormatter?: (value: number, datum: ChartDatum) => React.ReactNode
   /** 自定义类别标签。 */
-  labelFormatter?: (
-    name: string,
-    value: number,
-    percentage: number,
-    datum: ChartDatum
-  ) => React.ReactNode
+  labelFormatter?: (name: string, value: number, percentage: number, datum: ChartDatum) => React.ReactNode
 }
 
-function polarPoint(cx: number, cy: number, radius: number, angle: number) {
-  return {
-    x: cx + Math.cos(angle) * radius,
-    y: cy + Math.sin(angle) * radius,
-  }
+function polar(cx: number, cy: number, radius: number, degrees: number) {
+  const radians = (degrees * Math.PI) / 180
+  return { x: cx + Math.cos(radians) * radius, y: cy + Math.sin(radians) * radius }
 }
 
-function arcPath({
-  cx,
-  cy,
-  outerRadius,
-  innerRadius,
-  startAngle,
-  endAngle,
-}: {
-  cx: number
-  cy: number
-  outerRadius: number
-  innerRadius: number
-  startAngle: number
-  endAngle: number
-}) {
-  const outerStart = polarPoint(cx, cy, outerRadius, startAngle)
-  const outerEnd = polarPoint(cx, cy, outerRadius, endAngle)
-  const largeArc = endAngle - startAngle > Math.PI ? 1 : 0
-
-  if (innerRadius <= 0) {
-    return `M${cx},${cy} L${outerStart.x},${outerStart.y} A${outerRadius},${outerRadius} 0 ${largeArc} 1 ${outerEnd.x},${outerEnd.y} Z`
-  }
-
-  const innerEnd = polarPoint(cx, cy, innerRadius, endAngle)
-  const innerStart = polarPoint(cx, cy, innerRadius, startAngle)
-  return `M${outerStart.x},${outerStart.y} A${outerRadius},${outerRadius} 0 ${largeArc} 1 ${outerEnd.x},${outerEnd.y} L${innerEnd.x},${innerEnd.y} A${innerRadius},${innerRadius} 0 ${largeArc} 0 ${innerStart.x},${innerStart.y} Z`
+function variation(index: number, seed: number) {
+  return Math.abs(((index * 73856093) ^ (seed * 19349663)) % 1000) / 1000
 }
 
-/** 展示少量类别的部分与整体关系，并支持饼图和环图形态。 */
+/** F4 Tick Donut：一个细刻度代表整体的一个百分点，而不是一块扇形。 */
 function PieChart({
   title,
   description,
   actions,
+  variant = "mono",
+  source,
   data,
   nameKey,
   valueKey,
   colorKey,
   height = 320,
-  innerRadius = 0,
-  padAngle = 1,
+  innerRadius: _innerRadius,
+  padAngle: _padAngle,
   showLabels = true,
   showLegend = true,
   centerContent,
   valueFormatter = (value) => defaultValueFormatter(value),
-  labelFormatter = (name, _value, percentage) =>
-    `${name} ${Math.round(percentage * 100)}%`,
+  labelFormatter = (name, _value, percentage) => `${name} · ${Math.round(percentage * 100)}%`,
   className,
   ...props
 }: PieChartProps) {
@@ -115,178 +88,68 @@ function PieChart({
   const descriptionId = `${id}-description`
   const { ref, width } = useChartSize()
   const [activeIndex, setActiveIndex] = React.useState<number | null>(null)
-  const total = data.reduce(
-    (sum, datum) => sum + (datum[valueKey] as number),
-    0
-  )
+  const entries = data.slice(0, 6)
+  const total = entries.reduce((sum, datum) => sum + Math.max(0, Number(datum[valueKey]) || 0), 0)
   const cx = width / 2
-  const cy = height / 2
-  const outerRadius = Math.min(width, height) * (showLabels ? 0.29 : 0.36)
-  const holeRadius = outerRadius * Math.min(0.8, Math.max(0, innerRadius))
-  const pad = (padAngle * Math.PI) / 180
-  let cursor = -Math.PI / 2
-  const sectors = data.map((datum, index) => {
-    const value = datum[valueKey] as number
-    const angle = (value / total) * Math.PI * 2
-    const startAngle = cursor + pad / 2
-    const endAngle = cursor + angle - pad / 2
-    const middleAngle = cursor + angle / 2
-    cursor += angle
-    return {
-      datum,
-      value,
-      startAngle,
-      endAngle,
-      middleAngle,
-      color:
-        (colorKey ? (datum[colorKey] as string | undefined) : undefined) ??
-        chartColors[index % chartColors.length],
-    }
+  const cy = height * 0.47
+  const radius = Math.min(width, height) * (showLabels ? 0.2 : 0.25)
+  let cursor = 0
+  const segments = entries.map((datum, index) => {
+    const value = Math.max(0, Number(datum[valueKey]) || 0)
+    const percentage = total > 0 ? value / total : 0
+    const ticks = Math.round(percentage * 100)
+    const start = cursor
+    cursor += ticks
+    const color = (colorKey ? (datum[colorKey] as string | undefined) : undefined) ?? chartColors[index % chartColors.length]
+    return { datum, value, percentage, ticks, start, color }
   })
-  const activeSector = activeIndex == null ? null : sectors[activeIndex]
-  const tooltipPoint = activeSector
-    ? polarPoint(cx, cy, outerRadius * 0.72, activeSector.middleAngle)
-    : { x: 0, y: 0 }
+  const activeSegment = activeIndex === null ? null : segments[activeIndex]
+  const tooltipPoint = activeSegment ? polar(cx, cy, radius + 18, -90 + (activeSegment.start + activeSegment.ticks / 2) * 3.6) : { x: 0, y: 0 }
 
   return (
-    <div className={cn("w-full", className)} {...props}>
-      <ChartHeader
-        title={title}
-        description={description}
-        actions={actions}
-        titleId={titleId}
-        descriptionId={descriptionId}
-      />
+    <ChartFrame variant={variant} source={source} className={cn(className)} {...props}>
+      <ChartHeader title={title} description={description} actions={actions} titleId={titleId} descriptionId={descriptionId} />
       <div ref={ref} className="relative w-full">
-        <svg
-          className="block w-full overflow-visible"
-          width={width}
-          height={height}
-          viewBox={`0 0 ${width} ${height}`}
-          role="img"
-          aria-labelledby={`${titleId}${description ? ` ${descriptionId}` : ""}`}
-        >
-          {sectors.map((sector, index) => {
-            const labelPoint = polarPoint(
-              cx,
-              cy,
-              outerRadius + 18,
-              sector.middleAngle
-            )
+        <svg className="block w-full overflow-visible" width={width} height={height} viewBox={`0 0 ${width} ${height}`} role="img" aria-labelledby={`${titleId}${description ? ` ${descriptionId}` : ""}`}>
+          {segments.map((segment, segmentIndex) => {
+            const middle = -90 + (segment.start + segment.ticks / 2) * 3.6
+            const labelPoint = polar(cx, cy, radius + 37, middle)
+            const guideStart = polar(cx, cy, radius + 19, middle)
+            const guideEnd = polar(cx, cy, radius + 31, middle)
+            const anchor = Math.cos((middle * Math.PI) / 180) > 0.3 ? "start" : Math.cos((middle * Math.PI) / 180) < -0.3 ? "end" : "middle"
             return (
-              <g key={index}>
-                <path
-                  d={arcPath({
-                    cx,
-                    cy,
-                    outerRadius:
-                      activeIndex === index ? outerRadius + 3 : outerRadius,
-                    innerRadius: holeRadius,
-                    startAngle: sector.startAngle,
-                    endAngle: sector.endAngle,
-                  })}
-                  fill={sector.color}
-                  stroke="var(--background)"
-                  strokeWidth="1.5"
-                  tabIndex={0}
-                  className="focus-visible:stroke-foreground outline-none"
-                  onPointerEnter={() => setActiveIndex(index)}
-                  onPointerLeave={() => setActiveIndex(null)}
-                  onFocus={() => setActiveIndex(index)}
-                  onBlur={() => setActiveIndex(null)}
-                />
-                {showLabels && sector.value / total >= 0.06 ? (
-                  <text
-                    x={labelPoint.x}
-                    y={labelPoint.y}
-                    dy="0.32em"
-                    textAnchor={labelPoint.x < cx ? "end" : "start"}
-                    fill="var(--foreground)"
-                    fontSize="10"
-                  >
-                    {labelFormatter(
-                      String(sector.datum[nameKey]),
-                      sector.value,
-                      sector.value / total,
-                      sector.datum
-                    )}
+              <g key={segmentIndex} opacity={activeIndex === null || activeIndex === segmentIndex ? 1 : 0.42} tabIndex={0} className="outline-none" onPointerEnter={() => setActiveIndex(segmentIndex)} onPointerLeave={() => setActiveIndex(null)} onFocus={() => setActiveIndex(segmentIndex)} onBlur={() => setActiveIndex(null)}>
+                {Array.from({ length: segment.ticks }, (_, tickIndex) => {
+                  const index = segment.start + tickIndex
+                  const angle = -90 + index * 3.6
+                  const from = polar(cx, cy, radius, angle)
+                  const to = polar(cx, cy, radius + 10 + variation(index + 1, segmentIndex + 2) * 6, angle)
+                  return <line key={tickIndex} x1={from.x} y1={from.y} x2={to.x} y2={to.y} stroke={segment.color} strokeWidth="1" vectorEffect="non-scaling-stroke" />
+                })}
+                {showLabels && segment.ticks >= 5 ? <g>
+                  <line x1={guideStart.x} y1={guideStart.y} x2={guideEnd.x} y2={guideEnd.y} stroke="var(--chart-faint)" strokeWidth="0.7" strokeDasharray="1 3" />
+                  <text x={labelPoint.x} y={labelPoint.y + 3} textAnchor={anchor} fill={segment.color} fontSize="8" fontWeight="800" letterSpacing="0.04em">
+                    {labelFormatter(String(segment.datum[nameKey]), segment.value, segment.percentage, segment.datum)}
                   </text>
-                ) : null}
+                </g> : null}
               </g>
             )
           })}
-          {holeRadius > 0 && centerContent ? (
-            <foreignObject
-              x={cx - holeRadius}
-              y={cy - holeRadius / 2}
-              width={holeRadius * 2}
-              height={holeRadius}
-            >
-              <div className="flex size-full items-center justify-center text-center text-sm font-semibold">
-                {centerContent}
-              </div>
-            </foreignObject>
-          ) : null}
+          {Array.from({ length: 10 }, (_, index) => {
+            const point = polar(cx, cy, radius - 5, -90 + index * 36)
+            return <circle key={index} cx={point.x} cy={point.y} r="0.8" fill="var(--chart-faint)" />
+          })}
+          {centerContent ? <foreignObject x={cx - radius * 0.72} y={cy - 16} width={radius * 1.44} height="32"><div className="flex size-full items-center justify-center text-center text-sm font-semibold">{centerContent}</div></foreignObject> : <>
+            <text x={cx} y={cy - 2} textAnchor="middle" fill="var(--chart-ink)" fontSize="22" fontWeight="800" style={{ fontVariantNumeric: "tabular-nums" }}>100</text>
+            <text x={cx} y={cy + 14} textAnchor="middle" fill="var(--chart-muted)" fontSize="7" fontWeight="600" letterSpacing="0.1em">TICKS · ONE = 1%</text>
+          </>}
+          <text x={cx} y={height - 8} textAnchor="middle" fill="var(--chart-faint)" fontSize="7" fontWeight="600" letterSpacing="0.12em">TWELVE O’CLOCK IS ZERO · DOT MARKS EVERY TENTH</text>
         </svg>
-        <ChartTooltip
-          active={activeSector != null}
-          x={tooltipPoint.x}
-          y={tooltipPoint.y}
-          width={width}
-          label={activeSector ? String(activeSector.datum[nameKey]) : ""}
-          rows={
-            activeSector
-              ? [
-                  {
-                    key: valueKey,
-                    label: `${Math.round((activeSector.value / total) * 100)}%`,
-                    value: valueFormatter(
-                      activeSector.value,
-                      activeSector.datum
-                    ),
-                    color: activeSector.color,
-                  },
-                ]
-              : []
-          }
-        />
+        <ChartTooltip active={activeSegment !== null} x={tooltipPoint.x} y={tooltipPoint.y} width={width} label={activeSegment ? String(activeSegment.datum[nameKey]) : ""} rows={activeSegment ? [{ key: valueKey, label: `${Math.round(activeSegment.percentage * 100)}%`, value: valueFormatter(activeSegment.value, activeSegment.datum), color: activeSegment.color }] : []} />
       </div>
-      {showLegend ? (
-        <div
-          className="flex flex-wrap justify-center gap-x-5 gap-y-2"
-          aria-hidden="true"
-        >
-          {sectors.map((sector, index) => (
-            <span
-              key={index}
-              className="text-muted-foreground inline-flex items-center gap-2 text-xs"
-            >
-              <span
-                className="size-2.5"
-                style={{ backgroundColor: sector.color }}
-              />
-              {String(sector.datum[nameKey])}
-            </span>
-          ))}
-        </div>
-      ) : null}
-      <table className="sr-only">
-        <thead>
-          <tr>
-            <th>{nameKey}</th>
-            <th>{valueKey}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((datum, index) => (
-            <tr key={index}>
-              <th>{String(datum[nameKey])}</th>
-              <td>{String(datum[valueKey])}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+      {showLegend ? <div className="flex flex-wrap justify-center gap-x-5 gap-y-2" aria-hidden="true">{segments.map((segment, index) => <span key={index} className="inline-flex items-center gap-2 text-xs text-[var(--chart-muted)]"><span className="size-1.5 rounded-none" style={{ backgroundColor: segment.color }} />{String(segment.datum[nameKey])}</span>)}</div> : null}
+      <table className="sr-only"><thead><tr><th>{nameKey}</th><th>{valueKey}</th></tr></thead><tbody>{entries.map((datum, index) => <tr key={index}><th>{String(datum[nameKey])}</th><td>{String(datum[valueKey])}</td></tr>)}</tbody></table>
+    </ChartFrame>
   )
 }
 

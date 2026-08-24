@@ -46,6 +46,27 @@
       "description": "标题右侧的操作区，适合组合 Button、Select 或业务工具栏。"
     },
     {
+      "name": "variant",
+      "type": "\"mono\" | \"porcelain\" | \"palm\" | \"wire\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "mono",
+        "porcelain",
+        "palm",
+        "wire"
+      ],
+      "defaultValue": "mono",
+      "description": "Lieflat 色彩系统。"
+    },
+    {
+      "name": "source",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "模板来源行，例如“PLUMB SCATTER · PRODUCT PANEL · RESEARCH”。"
+    },
+    {
       "name": "data",
       "type": "ChartDatum[]",
       "required": true,

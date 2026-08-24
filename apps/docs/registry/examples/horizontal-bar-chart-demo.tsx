@@ -14,12 +14,13 @@ export default function HorizontalBarChartDemo() {
     <div className="w-full max-w-3xl">
       <HorizontalBarChart
         title="产品收入排名"
-        description="本季度确认收入 · 单位：万元"
+        description="本季度确认收入 · 每一格 = 200 万元"
+        source="TICK ROWS · Q2 REVENUE · BILLING"
         data={data}
         categoryKey="product"
         series={[{ key: "revenue", label: "收入" }]}
         height={320}
-        showLegend={false}
+        tickStep={200}
         showValues
         valueFormatter={(value) => `${value.toLocaleString("zh-CN")} 万`}
       />

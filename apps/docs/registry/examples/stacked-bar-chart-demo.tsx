@@ -12,7 +12,8 @@ export default function StackedBarChartDemo() {
     <div className="w-full max-w-3xl">
       <StackedBarChart
         title="访问终端构成"
-        description="季度会话占比 · 每组总计 100%"
+        description="季度会话占比 · 每一横档 = 5%"
+        source="STACKED RUNGS · DEVICE MIX · ANALYTICS"
         data={data}
         categoryKey="quarter"
         series={[
@@ -22,6 +23,7 @@ export default function StackedBarChartDemo() {
         ]}
         normalize
         showValues
+        rungStep={5}
       />
     </div>
   )

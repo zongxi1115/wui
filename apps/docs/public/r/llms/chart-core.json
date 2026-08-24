@@ -6,9 +6,10 @@
   "categories": [
     "charts"
   ],
-  "import": "import { ChartDataTable, ChartHeader, ChartLegend, ChartTooltip, chartColors, chartMargin, defaultValueFormatter, getChartLayout, getChartScale, getChartValue, linePatterns, scaleValue, useChartSize } from \"@/components/charts/chart-core\"",
+  "import": "import { ChartDataTable, ChartFrame, ChartHeader, ChartLegend, ChartTooltip, chartColors, chartMargin, defaultValueFormatter, getChartLayout, getChartScale, getChartValue, linePatterns, scaleValue, useChartSize } from \"@/components/charts/chart-core\"",
   "exports": [
     "ChartDataTable",
+    "ChartFrame",
     "ChartHeader",
     "ChartLegend",
     "ChartTooltip",
@@ -24,10 +25,12 @@
   ],
   "typeExports": [
     "ChartDatum",
+    "ChartFrameProps",
     "ChartLabelFormatter",
     "ChartReferenceLine",
     "ChartSeries",
-    "ChartValueFormatter"
+    "ChartValueFormatter",
+    "ChartVariant"
   ],
   "install": {
     "wui": "pnpm dlx @wui-design/cli@latest add @wui/chart-core",

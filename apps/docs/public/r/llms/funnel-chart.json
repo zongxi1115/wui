@@ -35,7 +35,7 @@
       "type": "ReactNode",
       "required": false,
       "control": "text",
-      "description": "补充说明或副标题。"
+      "description": "补充说明或副标题；应明确每一刻度代表多少人或单位。"
     },
     {
       "name": "actions",
@@ -43,6 +43,27 @@
       "required": false,
       "control": "text",
       "description": "标题右侧操作区。"
+    },
+    {
+      "name": "variant",
+      "type": "\"mono\" | \"porcelain\" | \"palm\" | \"wire\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "mono",
+        "porcelain",
+        "palm",
+        "wire"
+      ],
+      "defaultValue": "mono",
+      "description": "Lieflat 色彩系统；漏斗默认 mono。"
+    },
+    {
+      "name": "source",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "模板来源行，例如“HOURGLASS STREAM · FUNNEL · GROWTH”。"
     },
     {
       "name": "data",
@@ -79,7 +100,7 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "true",
-      "description": "是否展示基于首阶段的转化率百分比。"
+      "description": "是否展示相邻阶段转化率。"
     },
     {
       "name": "showDropOff",
@@ -87,7 +108,14 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "true",
-      "description": "是否展示相邻阶段之间的流失率。"
+      "description": "是否展示相邻阶段流失率。"
+    },
+    {
+      "name": "tickStep",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "description": "每一竖刻度代表的真实数量；省略时自动取易读单位。"
     },
     {
       "name": "valueFormatter",

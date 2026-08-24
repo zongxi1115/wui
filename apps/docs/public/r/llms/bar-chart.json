@@ -40,14 +40,35 @@
       "type": "ReactNode",
       "required": false,
       "control": "text",
-      "description": "补充单位、时间范围或筛选条件的副标题。"
+      "description": "补充单位、时间范围或筛选条件的副标题；应说明每一梯级的单位。"
     },
     {
       "name": "actions",
       "type": "ReactNode",
       "required": false,
       "control": "text",
-      "description": "标题右侧的操作区，适合组合 Button、Select 或业务工具栏。"
+      "description": "标题右侧的操作区。"
+    },
+    {
+      "name": "variant",
+      "type": "\"mono\" | \"porcelain\" | \"palm\" | \"wire\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "mono",
+        "porcelain",
+        "palm",
+        "wire"
+      ],
+      "defaultValue": "mono",
+      "description": "Lieflat 色彩系统。类目超过 6 个时建议使用 mono。"
+    },
+    {
+      "name": "source",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "模板来源行，例如“PAIRED RUNGS · MRR · BILLING”。"
     },
     {
       "name": "data",
@@ -68,7 +89,7 @@
       "type": "ChartSeries[]",
       "required": true,
       "control": "text",
-      "description": "要比较的数值序列。"
+      "description": "要比较的数值序列；一组使用 F1，两组使用 F6。"
     },
     {
       "name": "height",
@@ -79,27 +100,33 @@
       "description": "图表绘图区高度，单位为像素。"
     },
     {
+      "name": "rungStep",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "description": "每一横档代表的真实数值；省略时按数据自动取易读单位。"
+    },
+    {
       "name": "domain",
       "type": "[number, number]",
       "required": false,
       "control": "text",
-      "description": "手动指定纵轴最小值和最大值，范围应包含零。"
+      "description": "手动指定纵轴最小值和最大值。保留以兼容旧调用。"
     },
     {
       "name": "showGrid",
       "type": "boolean",
       "required": false,
       "control": "boolean",
-      "defaultValue": "true",
-      "description": "是否显示水平参考网格。"
+      "description": "是否显示水平参考网格。保留以兼容旧调用。"
     },
     {
       "name": "showValues",
       "type": "boolean",
       "required": false,
       "control": "boolean",
-      "defaultValue": "false",
-      "description": "是否在柱形末端显示精确数值。"
+      "defaultValue": "true",
+      "description": "是否在梯级顶部显示精确数值。"
     },
     {
       "name": "showLegend",
@@ -107,38 +134,35 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "true",
-      "description": "是否在多序列时显示图例。"
+      "description": "是否在两组数据时显示图例。"
     },
     {
       "name": "gap",
       "type": "number",
       "required": false,
       "control": "number",
-      "defaultValue": "0.2",
-      "description": "柱形之间的间距比例。"
+      "description": "柱形之间的间距比例。保留以兼容旧调用。"
     },
     {
       "name": "radius",
       "type": "number",
       "required": false,
       "control": "number",
-      "defaultValue": "1.5",
-      "description": "柱形圆角，单位为像素。"
+      "description": "柱形圆角。保留以兼容旧调用。"
     },
     {
       "name": "referenceLines",
       "type": "ChartReferenceLine[]",
       "required": false,
       "control": "text",
-      "defaultValue": "[]",
-      "description": "目标值、均值或阈值等纵轴参考线。"
+      "description": "目标值、均值或阈值等参考线。保留以兼容旧调用。"
     },
     {
       "name": "yAxisFormatter",
       "type": "((value: number) => ReactNode)",
       "required": false,
       "control": "text",
-      "description": "自定义纵轴刻度的显示格式。"
+      "description": "自定义纵轴刻度的显示格式。保留以兼容旧调用。"
     },
     {
       "name": "valueFormatter",
@@ -153,7 +177,7 @@
       "type": "ChartLabelFormatter",
       "required": false,
       "control": "text",
-      "defaultValue": "(value) => String(value)",
+      "defaultValue": "(label) => String(label)",
       "description": "自定义横轴标签和提示框标题的显示格式。"
     }
   ],

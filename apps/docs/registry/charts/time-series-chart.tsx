@@ -6,6 +6,7 @@ import { cn } from "@/registry/lib/utils"
 
 import {
   ChartDataTable,
+  ChartFrame,
   ChartHeader,
   ChartLegend,
   ChartTooltip,
@@ -20,6 +21,7 @@ import {
   type ChartDatum,
   type ChartSeries,
   type ChartValueFormatter,
+  type ChartVariant,
 } from "./chart-core"
 
 export interface TimeSeriesChartProps extends Omit<
@@ -32,6 +34,10 @@ export interface TimeSeriesChartProps extends Omit<
   description?: React.ReactNode
   /** 标题右侧的操作区。 */
   actions?: React.ReactNode
+  /** Lieflat 色彩系统；有序时间数据适合 porcelain。 @default "mono" */
+  variant?: ChartVariant
+  /** 模板来源行，例如“HAIRLINE LINE · DAILY · GROWTH”。 */
+  source?: React.ReactNode
   /** 每行代表一个时间观测点的数据。 */
   data: ChartDatum[]
   /** ISO 日期、时间戳或可解析日期字段。 */
@@ -67,6 +73,8 @@ function TimeSeriesChart({
   title,
   description,
   actions,
+  variant = "mono",
+  source,
   data,
   timeKey,
   series,
@@ -150,7 +158,7 @@ function TimeSeriesChart({
   }
 
   return (
-    <div className={cn("w-full", className)} {...props}>
+    <ChartFrame variant={variant} source={source} className={cn(className)} {...props}>
       <ChartHeader
         title={title}
         description={description}
@@ -201,7 +209,7 @@ function TimeSeriesChart({
                     x2={width - layout.right}
                     y1={y}
                     y2={y}
-                    stroke="var(--border)"
+                    stroke="var(--chart-grid)"
                     vectorEffect="non-scaling-stroke"
                   />
                 ) : null}
@@ -210,9 +218,9 @@ function TimeSeriesChart({
                   y={y}
                   dy="0.32em"
                   textAnchor="end"
-                  fill="var(--muted-foreground)"
-                  fontSize="11"
-                  className="font-mono tabular-nums"
+                  fill="var(--chart-muted)"
+                  fontSize="9.5"
+                  fontWeight="600"
                 >
                   {defaultValueFormatter(tick)}
                 </text>
@@ -232,8 +240,9 @@ function TimeSeriesChart({
                       ? "end"
                       : "middle"
                 }
-                fill="var(--muted-foreground)"
-                fontSize="11"
+                fill="var(--chart-muted)"
+                fontSize="9.5"
+                fontWeight="600"
               >
                 {dateFormatter(timestamps[index], datum)}
               </text>
@@ -260,7 +269,7 @@ function TimeSeriesChart({
                   d={path}
                   fill="none"
                   stroke={color}
-                  strokeWidth="2"
+                  strokeWidth="1.2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeDasharray={
@@ -276,7 +285,7 @@ function TimeSeriesChart({
                         cx={point.x}
                         cy={point.y}
                         r={activeIndex === point.index ? 4 : 2.5}
-                        fill="var(--background)"
+                        fill="var(--chart-bg)"
                         stroke={color}
                         strokeWidth="2"
                       />
@@ -291,7 +300,7 @@ function TimeSeriesChart({
               x2={xAt(timestamps[activeIndex])}
               y1={layout.top}
               y2={layout.top + layout.plotHeight}
-              stroke="var(--foreground)"
+              stroke="var(--chart-ink)"
               strokeOpacity="0.35"
               strokeDasharray="3 3"
             />
@@ -344,7 +353,7 @@ function TimeSeriesChart({
         )}
       </div>
       <ChartDataTable data={data} xKey={timeKey} series={series} />
-    </div>
+    </ChartFrame>
   )
 }
 

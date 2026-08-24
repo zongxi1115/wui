@@ -1,0 +1,29 @@
+---
+title: 图表变体 Chart Variants
+description: 使用 Lieflat Charts 的受控色彩系统，让颜色表达数据语义而非装饰。
+---
+
+## 语义化变体
+
+<ComponentPreview name="chart-variants-demo" previewClassName="min-h-0 p-6 sm:p-8" />
+
+所有图表都支持 `variant` 和 `source`。同一张图只能使用一个变体；颜色须与数据结构对应。
+
+- `mono`：默认。高密度记录、多序列或颜色没有稳定含义时使用。
+- `porcelain`：单色相明度梯，适合时间、有序排名、进度和热力。
+- `palm`：低饱和分类色，适合不超过四个并列类别。
+- `wire`：灰阶承载数据，仅用一处橙色强调主角。
+
+```tsx
+<LineChart
+  variant="porcelain"
+  source="HAIRLINE LINE · DAILY ACTIVE · PRODUCT"
+  title="活跃用户连续五个月增长"
+  description="有序单序列 · 单位：万"
+  data={data}
+  xKey="month"
+  series={[{ key: "active", label: "活跃用户" }]}
+/>
+```
+
+不要为“好看”混用颜色：类目超过六个、没有颜色语义或同页图表无法共享一个色彩系统时，回到 `mono`。
