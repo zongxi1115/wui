@@ -2,12 +2,27 @@
 
 import * as React from "react"
 import * as lucideAnimatedIcons from "@animateicons/react/lucide"
-import { CheckIcon, SearchIcon } from "lucide-react"
+import {
+  ArrowRightIcon,
+  CheckIcon,
+  PlayIcon,
+  RotateCcwIcon,
+  SearchIcon,
+} from "lucide-react"
+import { useReducedMotion } from "motion/react"
 import * as svglideIcons from "svglide"
 
 import * as itsHoverAnimatedIcons from "@/registry/icons/animated"
 import { cn } from "@/registry/lib/utils"
 import type { AnimatedIconHandle } from "@/registry/ui/animated-icon"
+import { Button } from "@/registry/ui/button"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/registry/ui/select"
 
 const PAGE_SIZE = 96
 
@@ -67,7 +82,8 @@ const svgGlideEntries = Object.entries(svglideIcons)
   .filter(
     ([name, icon]) =>
       !existingNames.has(toSearchName(name)) &&
-      (typeof icon === "function" || (typeof icon === "object" && icon !== null))
+      (typeof icon === "function" ||
+        (typeof icon === "object" && icon !== null))
   )
   .map(([name, icon]) => ({
     name,
@@ -80,6 +96,106 @@ const animatedIcons: AnimatedIconEntry[] = [
   ...itsHoverEntries,
   ...svgGlideEntries,
 ].sort((a, b) => toSearchName(a.name).localeCompare(toSearchName(b.name)))
+
+const DEFAULT_FROM_ICON = "animateicons:MenuIcon"
+const DEFAULT_TO_ICON = "animateicons:XIcon"
+
+function getEntryId(entry: AnimatedIconEntry) {
+  return `${entry.source}:${entry.name}`
+}
+
+const MORPH_SAMPLE_POINTS = 32
+
+type MorphPoint = { x: number; y: number }
+
+type MorphPath = {
+  from: MorphPoint[]
+  to: MorphPoint[]
+  fromVisible: boolean
+  toVisible: boolean
+}
+
+function getViewBox(svg: SVGSVGElement) {
+  const values = svg
+    .getAttribute("viewBox")
+    ?.trim()
+    .split(/[\s,]+/)
+    .map(Number)
+
+  return values?.length === 4 && values[2] > 0 && values[3] > 0
+    ? values
+    : [0, 0, 24, 24]
+}
+
+function samplePath(path: SVGGeometryElement, viewBox: number[]) {
+  const [minX, minY, width, height] = viewBox
+  const length = path.getTotalLength()
+
+  return Array.from({ length: MORPH_SAMPLE_POINTS }, (_, index) => {
+    const point = path.getPointAtLength(
+      (length * index) / (MORPH_SAMPLE_POINTS - 1)
+    )
+
+    return {
+      x: ((point.x - minX) / width) * 24,
+      y: ((point.y - minY) / height) * 24,
+    }
+  })
+}
+
+function extractIconPaths(container: HTMLDivElement | null) {
+  const svg = container?.querySelector("svg")
+  if (!svg) return []
+
+  const viewBox = getViewBox(svg)
+  return Array.from(
+    svg.querySelectorAll<SVGGeometryElement>(
+      "path, circle, ellipse, line, polygon, polyline, rect"
+    )
+  ).map((path) => samplePath(path, viewBox))
+}
+
+function collapsedPath(point: MorphPoint = { x: 12, y: 12 }) {
+  return Array.from({ length: MORPH_SAMPLE_POINTS }, () => point)
+}
+
+function createMorphPaths(from: MorphPoint[][], to: MorphPoint[][]) {
+  return Array.from(
+    { length: Math.max(from.length, to.length) },
+    (_, index): MorphPath => ({
+      from:
+        from[index] ??
+        collapsedPath(to[index]?.[Math.floor(MORPH_SAMPLE_POINTS / 2)]),
+      to:
+        to[index] ??
+        collapsedPath(from[index]?.[Math.floor(MORPH_SAMPLE_POINTS / 2)]),
+      fromVisible: Boolean(from[index]),
+      toVisible: Boolean(to[index]),
+    })
+  )
+}
+
+function toMorphPath(
+  points: MorphPoint[],
+  target: MorphPoint[],
+  progress: number
+) {
+  return points
+    .map((point, index) => {
+      const end = target[index]
+      const x = point.x + (end.x - point.x) * progress
+      const y = point.y + (end.y - point.y) * progress
+      const command = index === 0 ? "M" : "L"
+      return `${command}${x.toFixed(2)} ${y.toFixed(2)}`
+    })
+    .join(" ")
+}
+
+function easeInOutCubic(value: number) {
+  return value < 0.5
+    ? 4 * value * value * value
+    : 1 - Math.pow(-2 * value + 2, 3) / 2
+}
 
 const sourceFilters: Array<{ value: SourceFilter; label: string }> = [
   { value: "all", label: "全部" },
@@ -148,7 +264,22 @@ export function AnimatedIconLibrary() {
   const [source, setSource] = React.useState<SourceFilter>("all")
   const [limit, setLimit] = React.useState(PAGE_SIZE)
   const [copied, setCopied] = React.useState<string | null>(null)
+  const [fromIcon, setFromIcon] = React.useState(DEFAULT_FROM_ICON)
+  const [toIcon, setToIcon] = React.useState(DEFAULT_TO_ICON)
+  const [morphPaths, setMorphPaths] = React.useState<MorphPath[]>([])
+  const [progress, setProgress] = React.useState(0)
+  const [hasPlayed, setHasPlayed] = React.useState(false)
+  const fromSourceRef = React.useRef<HTMLDivElement>(null)
+  const toSourceRef = React.useRef<HTMLDivElement>(null)
+  const animationFrameRef = React.useRef<number | null>(null)
+  const reduceMotion = useReducedMotion()
   const deferredQuery = React.useDeferredValue(query.trim().toLowerCase())
+  const fromEntry = animatedIcons.find(
+    (entry) => getEntryId(entry) === fromIcon
+  )!
+  const toEntry = animatedIcons.find((entry) => getEntryId(entry) === toIcon)!
+  const FromGlyph = fromEntry.icon
+  const ToGlyph = toEntry.icon
 
   const filtered = React.useMemo(
     () =>
@@ -165,6 +296,61 @@ export function AnimatedIconLibrary() {
 
   React.useEffect(() => setLimit(PAGE_SIZE), [deferredQuery, source])
 
+  React.useLayoutEffect(() => {
+    const fromPaths = extractIconPaths(fromSourceRef.current)
+    const toPaths = extractIconPaths(toSourceRef.current)
+
+    setMorphPaths(createMorphPaths(fromPaths, toPaths))
+    setProgress(0)
+    setHasPlayed(false)
+  }, [fromIcon, toIcon])
+
+  React.useEffect(
+    () => () => {
+      if (animationFrameRef.current !== null) {
+        window.cancelAnimationFrame(animationFrameRef.current)
+      }
+    },
+    []
+  )
+
+  function resetPreview() {
+    if (animationFrameRef.current !== null) {
+      window.cancelAnimationFrame(animationFrameRef.current)
+      animationFrameRef.current = null
+    }
+
+    setProgress(0)
+    setHasPlayed(false)
+  }
+
+  function playPreview() {
+    if (!morphPaths.length || hasPlayed) return
+
+    setHasPlayed(true)
+
+    if (reduceMotion) {
+      setProgress(1)
+      return
+    }
+
+    const startTime = window.performance.now()
+    const duration = 600
+
+    function animate(now: number) {
+      const elapsed = Math.min((now - startTime) / duration, 1)
+      setProgress(easeInOutCubic(elapsed))
+
+      if (elapsed < 1) {
+        animationFrameRef.current = window.requestAnimationFrame(animate)
+      } else {
+        animationFrameRef.current = null
+      }
+    }
+
+    animationFrameRef.current = window.requestAnimationFrame(animate)
+  }
+
   async function copyImport(entry: AnimatedIconEntry) {
     const importPath = {
       animateicons: "@animateicons/react/lucide",
@@ -180,7 +366,116 @@ export function AnimatedIconLibrary() {
   }
 
   return (
-    <section className="not-prose my-6 border-y">
+    <section className="not-prose relative my-6 border-y">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute size-px overflow-hidden opacity-0"
+      >
+        <div ref={fromSourceRef}>
+          <FromGlyph size={24} />
+        </div>
+        <div ref={toSourceRef}>
+          <ToGlyph size={24} />
+        </div>
+      </div>
+      <div className="bg-muted/20 grid gap-4 border-b px-4 py-5 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
+        <div className="grid gap-3 sm:grid-cols-2">
+          <div className="grid gap-1.5 text-xs font-medium">
+            <span id="animated-icon-from-label">From</span>
+            <Select
+              value={fromIcon}
+              onValueChange={(value) => {
+                setFromIcon(value)
+                resetPreview()
+              }}
+            >
+              <SelectTrigger
+                size="sm"
+                aria-labelledby="animated-icon-from-label"
+                className="w-full"
+              >
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {animatedIcons.map((entry) => (
+                  <SelectItem key={getEntryId(entry)} value={getEntryId(entry)}>
+                    {entry.source} · {toSearchName(entry.name)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="grid gap-1.5 text-xs font-medium">
+            <span id="animated-icon-to-label">To</span>
+            <Select
+              value={toIcon}
+              onValueChange={(value) => {
+                setToIcon(value)
+                resetPreview()
+              }}
+            >
+              <SelectTrigger
+                size="sm"
+                aria-labelledby="animated-icon-to-label"
+                className="w-full"
+              >
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {animatedIcons.map((entry) => (
+                  <SelectItem key={getEntryId(entry)} value={getEntryId(entry)}>
+                    {entry.source} · {toSearchName(entry.name)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+        <div className="flex items-center justify-between gap-4 sm:justify-start">
+          <div className="text-muted-foreground flex items-center gap-2">
+            <svg
+              aria-hidden
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="size-7 shrink-0"
+            >
+              {morphPaths.map((path, index) => {
+                const opacity =
+                  path.fromVisible === path.toVisible
+                    ? 1
+                    : path.toVisible
+                      ? progress
+                      : 1 - progress
+
+                return (
+                  <path
+                    key={index}
+                    d={toMorphPath(path.from, path.to, progress)}
+                    opacity={opacity}
+                  />
+                )
+              })}
+            </svg>
+            <ArrowRightIcon aria-hidden className="size-4" />
+          </div>
+          <Button
+            size="sm"
+            onClick={hasPlayed ? resetPreview : playPreview}
+            disabled={!morphPaths.length}
+          >
+            {hasPlayed ? (
+              <RotateCcwIcon aria-hidden className="size-3.5" />
+            ) : (
+              <PlayIcon aria-hidden className="size-3.5" />
+            )}
+            {hasPlayed ? "Reset" : "Play"}
+          </Button>
+        </div>
+      </div>
       <div className="flex flex-col gap-3 border-b py-4">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <label className="relative block w-full sm:max-w-sm">
@@ -209,7 +504,8 @@ export function AnimatedIconLibrary() {
               onClick={() => setSource(filter.value)}
               className={cn(
                 "text-muted-foreground hover:text-foreground focus-visible:ring-ring/40 text-xs font-medium outline-none transition-colors focus-visible:ring-[3px]",
-                source === filter.value && "text-foreground underline underline-offset-4"
+                source === filter.value &&
+                  "text-foreground underline underline-offset-4"
               )}
             >
               {filter.label}
