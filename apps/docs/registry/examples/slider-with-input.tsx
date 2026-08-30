@@ -15,7 +15,7 @@ export default function SliderWithInput() {
   }
 
   return (
-    <div className="w-full max-w-sm space-y-3 rounded-lg border border-border bg-card p-4 text-card-foreground shadow-xs">
+    <div className="border-border bg-card text-card-foreground shadow-xs w-full max-w-sm space-y-3 rounded-lg border p-4">
       <div className="flex items-center justify-between">
         <label htmlFor="radius-slider" className="text-sm font-medium">
           元素圆角半径 (Border Radius)
@@ -41,8 +41,10 @@ export default function SliderWithInput() {
             max={100}
             value={value[0]}
             onChange={handleInputChange}
-            visualSize="sm"
-            endContent={<span className="text-xs text-muted-foreground">px</span>}
+            size="sm"
+            endContent={
+              <span className="text-muted-foreground text-xs">px</span>
+            }
             aria-label="圆角精确数值"
           />
         </div>
@@ -50,7 +52,7 @@ export default function SliderWithInput() {
 
       <div className="flex items-center justify-center pt-2">
         <div
-          className="size-16 border-2 border-dashed border-primary bg-primary/10 transition-all duration-150"
+          className="border-primary bg-primary/10 size-16 border-2 border-dashed transition-all duration-150"
           style={{ borderRadius: `${value[0]}px` }}
         />
       </div>

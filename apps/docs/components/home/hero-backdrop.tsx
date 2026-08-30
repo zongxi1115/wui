@@ -172,7 +172,7 @@ const sliderCard = (
 const inputCard = (
   <Card key="input">
     <CardLabel>Input</CardLabel>
-    <Input placeholder="搜索组件…" visualSize="sm" readOnly />
+    <Input placeholder="搜索组件…" size="sm" readOnly />
   </Card>
 )
 

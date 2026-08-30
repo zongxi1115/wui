@@ -26,13 +26,13 @@
   "props": [
     {
       "name": "shape",
-      "type": "\"default\" | \"circle\" | \"text\"",
+      "type": "\"circle\" | \"text\" | \"default\"",
       "required": false,
       "control": "select",
       "options": [
-        "default",
         "circle",
-        "text"
+        "text",
+        "default"
       ],
       "defaultValue": "default",
       "description": "占位骨架的圆角样式。"

@@ -28,11 +28,14 @@ const inputShellVariants = cva(
   }
 )
 
-export interface InputProps extends React.ComponentProps<"input"> {
+export interface InputProps extends Omit<
+  React.ComponentProps<"input">,
+  "size"
+> {
   /** Surface treatment of the input. @default "default" */
   variant?: "default" | "underline"
   /** Visual height preset. @default "default" */
-  visualSize?: "sm" | "default" | "lg"
+  size?: "sm" | "default" | "lg"
   /** Floating label shown inside the field until focus or input. */
   label?: React.ReactNode
   /** Decorative or actionable content before the input. */
@@ -48,7 +51,7 @@ function Input({
   className,
   wrapperClassName,
   variant = "default",
-  visualSize = "default",
+  size = "default",
   label,
   startContent,
   endContent,
@@ -62,17 +65,14 @@ function Input({
   return (
     <div
       data-slot="input-shell"
-      data-size={visualSize}
+      data-size={size}
       data-variant={variant}
-      className={cn(
-        inputShellVariants({ variant, size: visualSize }),
-        wrapperClassName
-      )}
+      className={cn(inputShellVariants({ variant, size }), wrapperClassName)}
     >
       {startContent ? (
         <span
           data-slot="input-start"
-          className="ml-3 flex shrink-0 items-center justify-center text-muted-foreground transition-colors group-focus-within:text-foreground [&_svg]:size-4"
+          className="text-muted-foreground group-focus-within:text-foreground ml-3 flex shrink-0 items-center justify-center transition-colors [&_svg]:size-4"
         >
           {startContent}
         </span>
@@ -82,8 +82,8 @@ function Input({
         data-slot="input"
         placeholder={label ? " " : placeholder}
         className={cn(
-          "peer h-full min-w-0 flex-1 bg-transparent px-3 text-sm outline-none placeholder:text-muted-foreground/75 disabled:cursor-not-allowed",
-          visualSize === "lg" && "px-4 text-base",
+          "placeholder:text-muted-foreground/75 peer h-full min-w-0 flex-1 bg-transparent px-3 text-sm outline-none disabled:cursor-not-allowed",
+          size === "lg" && "px-4 text-base",
           startContent && "pl-2.5",
           endContent && "pr-2.5",
           label && "pb-1 pt-4",
@@ -98,7 +98,7 @@ function Input({
           data-slot="input-label"
           htmlFor={inputId}
           className={cn(
-            "pointer-events-none absolute top-1.5 origin-left text-[10px] font-medium leading-none text-muted-foreground transition-[top,transform,font-size,color] duration-200 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-sm peer-focus:top-1.5 peer-focus:translate-y-0 peer-focus:text-[10px] peer-focus:text-foreground",
+            "text-muted-foreground peer-focus:text-foreground pointer-events-none absolute top-1.5 origin-left text-[10px] font-medium leading-none transition-[top,transform,font-size,color] duration-200 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-sm peer-focus:top-1.5 peer-focus:translate-y-0 peer-focus:text-[10px]",
             variant === "underline" ? "left-0" : "left-3",
             startContent && (variant === "underline" ? "left-6" : "left-9")
           )}
@@ -109,7 +109,7 @@ function Input({
       {endContent ? (
         <span
           data-slot="input-end"
-          className="mr-3 flex shrink-0 items-center justify-center text-muted-foreground transition-colors group-focus-within:text-foreground [&_button]:-mr-1 [&_svg]:size-4"
+          className="text-muted-foreground group-focus-within:text-foreground mr-3 flex shrink-0 items-center justify-center transition-colors [&_button]:-mr-1 [&_svg]:size-4"
         >
           {endContent}
         </span>

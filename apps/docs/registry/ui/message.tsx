@@ -19,19 +19,10 @@ import {
 import { cn } from "@/registry/lib/utils"
 
 export type MessageVariant =
-  | "default"
-  | "info"
-  | "success"
-  | "warning"
-  | "destructive"
+  "default" | "info" | "success" | "warning" | "destructive"
 
 export type MessagePosition =
-  | "top-left"
-  | "top"
-  | "top-right"
-  | "bottom-left"
-  | "bottom"
-  | "bottom-right"
+  "top-left" | "top" | "top-right" | "bottom-left" | "bottom" | "bottom-right"
 
 export interface MessageMotionConfig {
   /** Distance travelled while entering and leaving, in pixels. @default 16 */
@@ -178,9 +169,15 @@ const messagePositionClasses: Record<MessagePosition, string> = {
   "bottom-right": "bottom-0 right-0 items-end",
 }
 
-const messagePositions = Object.keys(messagePositionClasses) as MessagePosition[]
+const messagePositions = Object.keys(
+  messagePositionClasses
+) as MessagePosition[]
 
-function getViewportStyle(position: MessagePosition, offset: number, gap: number) {
+function getViewportStyle(
+  position: MessagePosition,
+  offset: number,
+  gap: number
+) {
   return {
     gap,
     ...(position.startsWith("top") ? { top: offset } : { bottom: offset }),
@@ -251,9 +248,7 @@ function MessageItem({
       : stackDirection * stackIndex * stackGap
     : 0
   const stackScale =
-    stacked && !expanded
-      ? Math.max(0.7, 1 - stackIndex * scaleFactor)
-      : 1
+    stacked && !expanded ? Math.max(0.7, 1 - stackIndex * scaleFactor) : 1
   const enterTransition: Transition = {
     type: "spring",
     stiffness: config.stiffness,
@@ -293,11 +288,20 @@ function MessageItem({
           : "status"
       }
       className={cn(
-        "pointer-events-auto flex min-h-12 max-w-full items-center gap-3 rounded-md border border-border/80 bg-popover px-4 py-3 text-sm text-popover-foreground shadow-md",
+        "text-popover-foreground pointer-events-auto flex min-h-12 max-w-full items-center gap-3 rounded-md border px-4 py-3 text-sm shadow-md",
+        (message.variant === undefined || message.variant === "default") &&
+          "border-border/80 bg-popover",
+        message.variant === "info" && "border-info/30 bg-info/10",
+        message.variant === "success" && "border-success/30 bg-success/10",
+        message.variant === "warning" && "border-warning/30 bg-warning/10",
+        message.variant === "destructive" &&
+          "border-destructive/30 bg-destructive/10",
         stacked && "absolute inset-x-0",
         stacked && message.position.startsWith("top") && "top-0",
         stacked && message.position.startsWith("bottom") && "bottom-0",
-        stacked && !expanded && !isFrontmost &&
+        stacked &&
+          !expanded &&
+          !isFrontmost &&
           "pointer-events-none overflow-hidden",
         hidden && "pointer-events-none",
         canDrag && "cursor-grab active:cursor-grabbing",
@@ -305,8 +309,7 @@ function MessageItem({
       )}
       style={{
         zIndex: stacked ? 100 - stackIndex : undefined,
-        height:
-          stacked && !expanded && !isFrontmost ? frontHeight : undefined,
+        height: stacked && !expanded && !isFrontmost ? frontHeight : undefined,
       }}
       drag={canDrag ? "x" : false}
       dragConstraints={{ left: 0, right: 0 }}
@@ -361,7 +364,7 @@ function MessageItem({
         <span
           data-slot="message-icon"
           className={cn(
-            "flex size-5 shrink-0 items-center justify-center text-muted-foreground [&>div]:flex [&>div]:items-center",
+            "text-muted-foreground flex size-5 shrink-0 items-center justify-center [&>div]:flex [&>div]:items-center",
             message.variant === "info" && "text-info",
             message.variant === "success" && "text-success",
             message.variant === "warning" && "text-warning",
@@ -384,7 +387,7 @@ function MessageItem({
           data-slot="message-close"
           aria-label="Close message"
           tabIndex={isInteractive ? undefined : -1}
-          className="-mr-1 flex size-6 shrink-0 items-center justify-center rounded-sm text-muted-foreground outline-none transition-colors hover:bg-accent hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/30 [&_svg]:size-3.5"
+          className="text-muted-foreground hover:bg-accent hover:text-foreground focus-visible:ring-ring/30 -mr-1 flex size-6 shrink-0 items-center justify-center rounded-sm outline-none transition-colors focus-visible:ring-[3px] [&_svg]:size-3.5"
           onClick={() => onDismiss(message.id)}
         >
           <CloseIcon />
@@ -472,7 +475,10 @@ function MessageProvider({
       })
 
       if (messageDuration > 0) {
-        timers.current.set(id, setTimeout(() => dismiss(id), messageDuration))
+        timers.current.set(
+          id,
+          setTimeout(() => dismiss(id), messageDuration)
+        )
       }
       return id
     },

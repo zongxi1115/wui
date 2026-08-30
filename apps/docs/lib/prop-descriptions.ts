@@ -114,7 +114,8 @@ export const PropDescriptions: Record<string, Record<string, string>> = {
     defaultOpen: "非受控模式下对话框的初始打开状态。",
     onOpenChange: "对话框打开或关闭状态变化时触发。",
     children: "对话框主体内容区域展示的自定义子元素。",
-    loading: "是否处于异步提交中的加载状态，加载期间确认按钮展示旋转指示器并禁用操作。",
+    loading:
+      "是否处于异步提交中的加载状态，加载期间确认按钮展示旋转指示器并禁用操作。",
   },
   motion: {
     preset: "入场动画的预设名称。",
@@ -212,7 +213,7 @@ export const PropDescriptions: Record<string, Record<string, string>> = {
   collapsible: { ...common },
   input: {
     variant: "输入框的外观样式。",
-    visualSize: "输入框的视觉尺寸。",
+    size: "输入框的视觉尺寸。",
     label: "输入框获得焦点或有值前显示在输入区域内的浮动标签。",
     startContent: "显示在输入内容前的装饰或操作内容。",
     endContent: "显示在输入内容后的装饰或操作内容。",

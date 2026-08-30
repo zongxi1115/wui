@@ -57,12 +57,12 @@
     },
     {
       "name": "blendMode",
-      "type": "\"inherit\" | \"color\" | \"initial\" | \"-moz-initial\" | \"revert\" | \"revert-layer\" | \"unset\" | \"color-burn\" | \"color-dodge\" | \"darken\" | \"difference\" | \"exclusion\" | \"hard-light\" | \"hue\" | \"lighten\" | \"luminosity\" | \"multiply\" | \"normal\" | \"overlay\" | \"saturation\" | \"screen\" | \"soft-light\" | \"plus-darker\" | \"plus-lighter\"",
+      "type": "\"color\" | \"inherit\" | \"initial\" | \"-moz-initial\" | \"revert\" | \"revert-layer\" | \"unset\" | \"color-burn\" | \"color-dodge\" | \"darken\" | \"difference\" | \"exclusion\" | \"hard-light\" | \"hue\" | \"lighten\" | \"luminosity\" | \"multiply\" | \"normal\" | \"overlay\" | \"saturation\" | \"screen\" | \"soft-light\" | \"plus-darker\" | \"plus-lighter\"",
       "required": false,
       "control": "select",
       "options": [
-        "inherit",
         "color",
+        "inherit",
         "initial",
         "-moz-initial",
         "revert",

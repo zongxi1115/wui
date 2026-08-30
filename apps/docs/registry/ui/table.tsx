@@ -21,8 +21,7 @@ const tableVariants = cva("w-full caption-bottom text-sm", {
   },
 })
 
-export interface TableProps
-  extends React.ComponentProps<"table"> {
+export interface TableProps extends React.ComponentProps<"table"> {
   /** Extra classes applied to the horizontal overflow container. */
   containerClassName?: string
   /** Controls cell padding and row height. @default "default" */
@@ -46,7 +45,7 @@ function Table({
     <div
       data-slot="table-container"
       className={cn(
-        "relative isolate w-full overflow-auto overscroll-contain",
+        "relative isolate w-full overflow-auto overscroll-x-contain",
         containerClassName
       )}
     >
@@ -56,7 +55,7 @@ function Table({
         className={cn(
           tableVariants({ density, striped }),
           stickyHeader &&
-            "[&_[data-slot=table-header]]:sticky [&_[data-slot=table-header]]:top-0 [&_[data-slot=table-header]]:z-20 [&_[data-slot=table-header]]:bg-background",
+            "[&_[data-slot=table-header]]:bg-background [&_[data-slot=table-header]]:sticky [&_[data-slot=table-header]]:top-0 [&_[data-slot=table-header]]:z-20",
           className
         )}
         {...props}
@@ -65,10 +64,7 @@ function Table({
   )
 }
 
-function TableHeader({
-  className,
-  ...props
-}: React.ComponentProps<"thead">) {
+function TableHeader({ className, ...props }: React.ComponentProps<"thead">) {
   return (
     <thead
       data-slot="table-header"
@@ -78,10 +74,7 @@ function TableHeader({
   )
 }
 
-function TableBody({
-  className,
-  ...props
-}: React.ComponentProps<"tbody">) {
+function TableBody({ className, ...props }: React.ComponentProps<"tbody">) {
   return (
     <tbody
       data-slot="table-body"
@@ -91,15 +84,12 @@ function TableBody({
   )
 }
 
-function TableFooter({
-  className,
-  ...props
-}: React.ComponentProps<"tfoot">) {
+function TableFooter({ className, ...props }: React.ComponentProps<"tfoot">) {
   return (
     <tfoot
       data-slot="table-footer"
       className={cn(
-        "border-t bg-muted/50 font-medium [&>tr]:last:border-b-0",
+        "bg-muted/50 border-t font-medium [&>tr]:last:border-b-0",
         className
       )}
       {...props}
@@ -107,15 +97,12 @@ function TableFooter({
   )
 }
 
-function TableRow({
-  className,
-  ...props
-}: React.ComponentProps<"tr">) {
+function TableRow({ className, ...props }: React.ComponentProps<"tr">) {
   return (
     <tr
       data-slot="table-row"
       className={cn(
-        "group/row border-b transition-colors hover:bg-muted/50 data-[dragging=true]:opacity-45 data-[state=selected]:bg-muted",
+        "group/row hover:bg-muted/50 data-[state=selected]:bg-muted border-b transition-colors data-[dragging=true]:opacity-45",
         className
       )}
       {...props}
@@ -142,9 +129,9 @@ function TableHead({
       data-slot="table-head"
       data-pinned={pinned}
       className={cn(
-        "h-10 whitespace-nowrap px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0",
+        "text-muted-foreground h-10 whitespace-nowrap px-4 text-left align-middle font-medium [&:has([role=checkbox])]:pr-0",
         pinned &&
-          "z-30 bg-background group-hover/row:bg-muted/50 group-data-[state=selected]/row:bg-muted",
+          "bg-background group-hover/row:bg-muted/50 group-data-[state=selected]/row:bg-muted z-30",
         pinned === "left" && "border-r",
         pinned === "right" && "border-l",
         className
@@ -185,7 +172,7 @@ function TableCell({
       className={cn(
         "whitespace-nowrap p-4 align-middle [&:has([role=checkbox])]:pr-0",
         pinned &&
-          "z-10 bg-background group-hover/row:bg-muted/50 group-data-[state=selected]/row:bg-muted",
+          "bg-background group-hover/row:bg-muted/50 group-data-[state=selected]/row:bg-muted z-10",
         pinned === "left" && "border-r",
         pinned === "right" && "border-l",
         className
@@ -212,7 +199,7 @@ function TableCaption({
   return (
     <caption
       data-slot="table-caption"
-      className={cn("mt-4 text-sm text-muted-foreground", className)}
+      className={cn("text-muted-foreground mt-4 text-sm", className)}
       {...props}
     />
   )

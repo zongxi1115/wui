@@ -35,7 +35,7 @@
       "description": "输入框的外观样式。"
     },
     {
-      "name": "visualSize",
+      "name": "size",
       "type": "\"default\" | \"sm\" | \"lg\"",
       "required": false,
       "control": "select",

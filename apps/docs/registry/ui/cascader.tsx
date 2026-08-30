@@ -266,7 +266,7 @@ function Cascader({
                       onChange={(event) => setQuery(event.target.value)}
                       placeholder={searchPlaceholder}
                       aria-label={searchPlaceholder}
-                      visualSize="sm"
+                      size="sm"
                       startContent={<SearchIcon />}
                     />
                   </div>

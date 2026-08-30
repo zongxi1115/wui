@@ -40,34 +40,40 @@ pnpm add class-variance-authority clsx tailwind-merge
       prop: "variant",
       type: '"default" | "underline"',
       default: '"default"',
-      description: "输入框的外观变体风格。\"default\" 为四周带圆角边框的标准卡片风格，\"underline\" 为极简底部下划线风格。",
+      description:
+        '输入框的外观变体风格。"default" 为四周带圆角边框的标准卡片风格，"underline" 为极简底部下划线风格。',
     },
     {
-      prop: "visualSize",
+      prop: "size",
       type: '"sm" | "default" | "lg"',
       default: '"default"',
-      description: "输入框的垂直高度与字号尺寸预设（sm: 32px, default: 40px, lg: 48px）。注意区分原生 HTML 的 size 属性。",
+      description:
+        "输入框的垂直高度与字号尺寸预设（sm: 32px, default: 40px, lg: 48px）。",
     },
     {
       prop: "label",
       type: "React.ReactNode",
-      description: "浮动标签文本。传入后，标签在未聚焦且无内容时居中浮动，获得焦点或有内容时平滑缩小并移至顶部。",
+      description:
+        "浮动标签文本。传入后，标签在未聚焦且无内容时居中浮动，获得焦点或有内容时平滑缩小并移至顶部。",
     },
     {
       prop: "startContent",
       type: "React.ReactNode",
-      description: "位于输入框左侧的前置内容（如搜索图标、国家区号、币种符号）。",
+      description:
+        "位于输入框左侧的前置内容（如搜索图标、国家区号、币种符号）。",
     },
     {
       prop: "endContent",
       type: "React.ReactNode",
-      description: "位于输入框右侧的后置内容（如密码显隐开关、一键清空按钮、快捷键提示、复制按钮）。",
+      description:
+        "位于输入框右侧的后置内容（如密码显隐开关、一键清空按钮、快捷键提示、复制按钮）。",
     },
     {
       prop: "type",
       type: "string",
       default: '"text"',
-      description: "原生 input 类型（例如 \"text\"、\"password\"、\"email\"、\"number\"、\"search\"、\"tel\"、\"url\" 等）。",
+      description:
+        '原生 input 类型（例如 "text"、"password"、"email"、"number"、"search"、"tel"、"url" 等）。',
     },
     {
       prop: "value",
@@ -111,7 +117,8 @@ pnpm add class-variance-authority clsx tailwind-merge
       prop: "aria-invalid",
       type: 'boolean | "true" | "false"',
       default: "false",
-      description: "标记当前输入是否校验失败。设为 true 时输入框外边框与聚焦光圈将自动切换为高亮警示破坏色（destructive）。",
+      description:
+        "标记当前输入是否校验失败。设为 true 时输入框外边框与聚焦光圈将自动切换为高亮警示破坏色（destructive）。",
     },
     {
       prop: "wrapperClassName",
@@ -148,7 +155,8 @@ pnpm add class-variance-authority clsx tailwind-merge
     {
       prop: "onKeyDown",
       type: "(event: React.KeyboardEvent<HTMLInputElement>) => void",
-      description: "在输入框获得焦点时按下键盘按键触发（如监听 Enter 提交或 Esc 清空）。",
+      description:
+        "在输入框获得焦点时按下键盘按键触发（如监听 Enter 提交或 Esc 清空）。",
     },
     {
       prop: "onInput",
@@ -164,12 +172,12 @@ pnpm add class-variance-authority clsx tailwind-merge
 
 ### 输入类组件选型对比
 
-| 控件类型 | 适用行数 | 输入特性 | 典型业务场景 |
-| :--- | :--- | :--- | :--- |
-| **Input** | 单行 | 基础文本、邮箱、密码、搜索框 | 登录/注册表单、搜索栏、配置名称 |
-| **Textarea** | 多行（可换行） | 备注、长篇描述、反馈意见、评论 | 工单描述、个人简介、文章摘要 |
-| **InputOTP** | 单字符分段 | 验证码、双因子认证 PIN 码 | 短信验证码、Google Authenticator 6 位验证码 |
-| **InputNumber** | 数值专用 | 步进加减、上下限区间约束、高精度格式化 | 商品购买数量、金额充值、库存配置 |
+| 控件类型        | 适用行数       | 输入特性                               | 典型业务场景                                |
+| :-------------- | :------------- | :------------------------------------- | :------------------------------------------ |
+| **Input**       | 单行           | 基础文本、邮箱、密码、搜索框           | 登录/注册表单、搜索栏、配置名称             |
+| **Textarea**    | 多行（可换行） | 备注、长篇描述、反馈意见、评论         | 工单描述、个人简介、文章摘要                |
+| **InputOTP**    | 单字符分段     | 验证码、双因子认证 PIN 码              | 短信验证码、Google Authenticator 6 位验证码 |
+| **InputNumber** | 数值专用       | 步进加减、上下限区间约束、高精度格式化 | 商品购买数量、金额充值、库存配置            |
 
 ### 设计最佳实践
 
@@ -253,7 +261,8 @@ return (
   - 通过 `aria-describedby` 关联下方的辅助说明或错误文本 ID。
   - 必填项支持声明 `aria-required="true"` 或原生 `required` 属性。
 - **键盘交互与焦点管理**：
-  - <kbd>Tab</kbd>：按 DOM 顺序移动焦点，输入框获得焦点时显示清晰的高对比度焦点光圈（Focus Ring）。
+  - <kbd>Tab</kbd>：按 DOM
+    顺序移动焦点，输入框获得焦点时显示清晰的高对比度焦点光圈（Focus Ring）。
   - 内置的清除按钮或密码显隐切换按钮具有独立的 `type="button"` 与 `aria-label`，可通过键盘 <kbd>Tab</kbd> 单独聚焦并通过 <kbd>Space</kbd> / <kbd>Enter</kbd> 触发。
 - **屏幕阅读器支持**：
   - 始终推荐使用 `<label htmlFor="inputId">` 关联输入框。若使用无文字包裹的独立搜索框，务必添加 `aria-label`。

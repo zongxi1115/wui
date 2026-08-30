@@ -12,9 +12,9 @@ const switchVariants = cva(
   {
     variants: {
       size: {
-        sm: "h-5 w-9 p-0.5",
-        default: "h-7 w-12 p-0.5",
-        lg: "h-8 w-14 p-0.5",
+        sm: "h-4 w-7 p-0.5",
+        default: "h-5 w-9 p-0.5",
+        lg: "h-6 w-11 p-0.5",
       },
     },
     defaultVariants: { size: "default" },
@@ -22,13 +22,15 @@ const switchVariants = cva(
 )
 
 const thumbSize = {
-  sm: { size: 16, travel: 16 },
-  default: { size: 24, travel: 20 },
-  lg: { size: 28, travel: 24 },
+  sm: { size: 12, travel: 12 },
+  default: { size: 16, travel: 16 },
+  lg: { size: 20, travel: 20 },
 } as const
 
-export interface SwitchProps
-  extends Omit<React.ComponentProps<typeof SwitchPrimitive.Root>, "children"> {
+export interface SwitchProps extends Omit<
+  React.ComponentProps<typeof SwitchPrimitive.Root>,
+  "children"
+> {
   /** Physical size of the switch. @default "default" */
   size?: "sm" | "default" | "lg"
 }
@@ -65,7 +67,7 @@ function Switch({
       <SwitchPrimitive.Thumb asChild>
         <motion.span
           data-slot="switch-thumb"
-          className="pointer-events-none block rounded-full bg-background shadow-sm"
+          className="bg-background pointer-events-none block rounded-full shadow-sm"
           style={{ width: metrics.size, height: metrics.size }}
           animate={{ x: isChecked ? metrics.travel : 0 }}
           transition={

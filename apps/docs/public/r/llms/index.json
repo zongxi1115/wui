@@ -3,6 +3,25 @@
   "homepage": "https://ui.wzx.wang",
   "items": [
     {
+      "name": "rich-text-editor",
+      "type": "registry:ui",
+      "title": "富文本编辑器 Rich Text Editor",
+      "description": "基于浏览器原生编辑能力的轻量富文本输入组件，内置常用格式化工具栏。",
+      "categories": [
+        "form",
+        "data-entry"
+      ],
+      "keyProps": [
+        "value: string",
+        "defaultValue: string",
+        "onValueChange: ((value: string) => void)",
+        "placeholder: string",
+        "disabled: boolean",
+        "hideToolbar: boolean"
+      ],
+      "exampleCount": 1
+    },
+    {
       "name": "ai-prompt",
       "type": "registry:ui",
       "title": "AI 输入框 AI Prompt",
@@ -543,7 +562,7 @@
       "title": "按钮 Button",
       "description": "用于触发即时操作、提交表单或进行页面跳转的基础交互组件，支持多种语义变体、尺寸密度以及可选的微动效与涟漪反馈。",
       "keyProps": [
-        "variant: default|link|secondary|destructive|outline|ghost",
+        "variant: link|default|secondary|destructive|outline|ghost",
         "size: default|sm|lg|icon",
         "asChild: boolean",
         "motion: boolean",
@@ -1071,7 +1090,7 @@
       "description": "用于录入单行文本、邮箱、密码及搜索词的基础表单控件，支持前后置内容、浮动标签、下划线风格与多重校验状态。",
       "keyProps": [
         "variant: default|underline",
-        "visualSize: default|sm|lg",
+        "size: default|sm|lg",
         "label: ReactNode",
         "startContent: ReactNode",
         "endContent: ReactNode",
@@ -1204,7 +1223,7 @@
       "title": "骨架屏 Skeleton",
       "description": "在内容异步加载期间维持页面版式结构，降低累积布局偏移（CLS）与用户等待的不确定感。",
       "keyProps": [
-        "shape: default|circle|text",
+        "shape: circle|text|default",
         "animation: none|pulse"
       ],
       "exampleCount": 4
@@ -1676,7 +1695,7 @@
         "frequency: number",
         "octaves: number",
         "seed: number",
-        "blendMode: inherit|color|initial|-moz-initial|revert|revert-layer|unset|color-burn|color-dodge|darken|difference|exclusion|hard-light|hue|lighten|luminosity|multiply|normal|overlay|saturation|screen|soft-light|plus-darker|plus-lighter"
+        "blendMode: color|inherit|initial|-moz-initial|revert|revert-layer|unset|color-burn|color-dodge|darken|difference|exclusion|hard-light|hue|lighten|luminosity|multiply|normal|overlay|saturation|screen|soft-light|plus-darker|plus-lighter"
       ],
       "exampleCount": 2
     },

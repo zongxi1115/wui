@@ -184,7 +184,7 @@ function SortLabel({
   return (
     <button
       type="button"
-      className="-ml-2 inline-flex h-7 items-center gap-1.5 px-2 text-xs font-medium text-foreground outline-none hover:text-primary focus-visible:ring-2 focus-visible:ring-ring/40"
+      className="text-foreground hover:text-primary focus-visible:ring-ring/40 -ml-2 inline-flex h-7 items-center gap-1.5 px-2 text-xs font-medium outline-none focus-visible:ring-2"
       onClick={() => onSort(column)}
     >
       {label}
@@ -257,8 +257,7 @@ export default function TableAdvanced() {
     ): Array<{ item: WorkItem; depth: number }> =>
       items.flatMap((item) => [
         { item, depth },
-        ...(item.children &&
-        (expanded.has(item.id) || filterActive)
+        ...(item.children && (expanded.has(item.id) || filterActive)
           ? flatten(item.children, depth + 1)
           : []),
       ])
@@ -284,23 +283,22 @@ export default function TableAdvanced() {
   }
 
   const allVisibleSelected =
-    flatRows.length > 0 &&
-    flatRows.every(({ item }) => selected.has(item.id))
+    flatRows.length > 0 && flatRows.every(({ item }) => selected.has(item.id))
 
   return (
     <div className="w-full min-w-0">
-      <div className="flex flex-wrap items-center justify-between gap-3 border border-b-0 bg-muted/20 px-3 py-2.5">
+      <div className="bg-muted/20 flex flex-wrap items-center justify-between gap-3 border border-b-0 px-3 py-2.5">
         <div className="flex min-w-[220px] flex-1 items-center gap-2">
           <Input
             aria-label="搜索工作项"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder="搜索工作项或负责人"
-            visualSize="sm"
+            size="sm"
             startContent={<Search />}
             wrapperClassName="max-w-[280px] bg-background"
           />
-          <span className="hidden text-xs text-muted-foreground sm:inline">
+          <span className="text-muted-foreground hidden text-xs sm:inline">
             {flatRows.length} 条结果
             {selected.size > 0 ? ` · 已选 ${selected.size}` : ""}
           </span>
@@ -312,9 +310,7 @@ export default function TableAdvanced() {
             size="sm"
             onClick={() =>
               setExpanded(
-                expanded.size
-                  ? new Set()
-                  : new Set(["website", "growth"])
+                expanded.size ? new Set() : new Set(["website", "growth"])
               )
             }
           >
@@ -333,7 +329,12 @@ export default function TableAdvanced() {
             <span className="hidden sm:inline">紧凑</span>
           </Button>
           {filterActive ? (
-            <Button type="button" variant="ghost" size="sm" onClick={resetFilters}>
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              onClick={resetFilters}
+            >
               <X />
               清除
             </Button>
@@ -363,7 +364,7 @@ export default function TableAdvanced() {
             <TableHead
               rowSpan={2}
               pinned="left"
-              className="w-11 bg-muted/35 px-3 text-center"
+              className="bg-muted/35 w-11 px-3 text-center"
             >
               <Checkbox
                 size="sm"
@@ -388,23 +389,23 @@ export default function TableAdvanced() {
               rowSpan={2}
               pinned="left"
               pinOffset={44}
-              className="w-9 bg-muted/35 px-2"
+              className="bg-muted/35 w-9 px-2"
             >
               <span className="sr-only">拖动排序</span>
             </TableHead>
-            <TableHead colSpan={2} className="border-r bg-muted/35 text-xs">
+            <TableHead colSpan={2} className="bg-muted/35 border-r text-xs">
               工作项
             </TableHead>
-            <TableHead colSpan={2} className="border-r bg-muted/35 text-xs">
+            <TableHead colSpan={2} className="bg-muted/35 border-r text-xs">
               计划周期
             </TableHead>
-            <TableHead colSpan={2} className="border-r bg-muted/35 text-xs">
+            <TableHead colSpan={2} className="bg-muted/35 border-r text-xs">
               交付状态
             </TableHead>
             <TableHead
               rowSpan={2}
               pinned="right"
-              className="w-[120px] bg-muted/35 text-right"
+              className="bg-muted/35 w-[120px] text-right"
             >
               <SortLabel
                 label="预算"
@@ -418,7 +419,7 @@ export default function TableAdvanced() {
             <TableHead
               pinned="left"
               pinOffset={80}
-              className="w-[260px] bg-muted/15"
+              className="bg-muted/15 w-[260px]"
             >
               <SortLabel
                 label="名称"
@@ -448,14 +449,11 @@ export default function TableAdvanced() {
             </TableHead>
           </TableRow>
           <TableRow className="bg-background hover:bg-background">
-            <TableHead
-              pinned="left"
-              className="w-11 bg-background px-3"
-            />
+            <TableHead pinned="left" className="bg-background w-11 px-3" />
             <TableHead
               pinned="left"
               pinOffset={44}
-              className="w-9 bg-background px-2"
+              className="bg-background w-9 px-2"
             />
             <TableHead
               pinned="left"
@@ -467,7 +465,7 @@ export default function TableAdvanced() {
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
                 placeholder="筛选名称…"
-                className="h-7 w-full border-b bg-transparent px-1 text-xs text-foreground outline-none placeholder:text-muted-foreground focus:border-foreground"
+                className="text-foreground placeholder:text-muted-foreground focus:border-foreground h-7 w-full border-b bg-transparent px-1 text-xs outline-none"
               />
             </TableHead>
             <TableHead className="px-2">
@@ -475,7 +473,7 @@ export default function TableAdvanced() {
                 aria-label="按负责人筛选"
                 value={owner}
                 onChange={(event) => setOwner(event.target.value)}
-                className="h-7 w-full border-b bg-transparent text-xs text-foreground outline-none focus:border-foreground"
+                className="text-foreground focus:border-foreground h-7 w-full border-b bg-transparent text-xs outline-none"
               >
                 <option value="all">全部负责人</option>
                 <option value="林澈">林澈</option>
@@ -484,8 +482,10 @@ export default function TableAdvanced() {
                 <option value="唐可">唐可</option>
               </select>
             </TableHead>
-            <TableHead className="px-2 text-xs text-muted-foreground">—</TableHead>
-            <TableHead className="border-r px-2 text-xs text-muted-foreground">
+            <TableHead className="text-muted-foreground px-2 text-xs">
+              —
+            </TableHead>
+            <TableHead className="text-muted-foreground border-r px-2 text-xs">
               —
             </TableHead>
             <TableHead className="px-2">
@@ -493,7 +493,7 @@ export default function TableAdvanced() {
                 aria-label="按状态筛选"
                 value={status}
                 onChange={(event) => setStatus(event.target.value)}
-                className="h-7 w-full border-b bg-transparent text-xs text-foreground outline-none focus:border-foreground"
+                className="text-foreground focus:border-foreground h-7 w-full border-b bg-transparent text-xs outline-none"
               >
                 <option value="all">全部状态</option>
                 <option value="进行中">进行中</option>
@@ -502,11 +502,11 @@ export default function TableAdvanced() {
                 <option value="已完成">已完成</option>
               </select>
             </TableHead>
-            <TableHead className="border-r px-2 text-xs text-muted-foreground">
+            <TableHead className="text-muted-foreground border-r px-2 text-xs">
               —
             </TableHead>
             <TableHead pinned="right" className="bg-background px-2 text-right">
-              <span className="text-xs text-muted-foreground">固定列</span>
+              <span className="text-muted-foreground text-xs">固定列</span>
             </TableHead>
           </TableRow>
         </TableHeader>
@@ -523,9 +523,9 @@ export default function TableAdvanced() {
                 data-dragging={draggingId === item.id}
                 data-state={selected.has(item.id) ? "selected" : undefined}
                 onPointerDownCapture={(event) => {
-                  dragHandleRef.current = (
-                    event.target as HTMLElement
-                  ).closest("[data-slot=table-drag-handle]")
+                  dragHandleRef.current = (event.target as HTMLElement).closest(
+                    "[data-slot=table-drag-handle]"
+                  )
                     ? item.id
                     : null
                 }}
@@ -576,12 +576,12 @@ export default function TableAdvanced() {
                 <TableCell
                   pinned="left"
                   pinOffset={44}
-                  className="w-9 px-2 text-muted-foreground"
+                  className="text-muted-foreground w-9 px-2"
                 >
                   <button
                     type="button"
                     data-slot="table-drag-handle"
-                    className="cursor-grab touch-none p-1 outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/40 active:cursor-grabbing"
+                    className="hover:text-foreground focus-visible:ring-ring/40 cursor-grab touch-none p-1 outline-none focus-visible:ring-2 active:cursor-grabbing"
                     aria-label={`拖动${item.name}`}
                   >
                     <GripVertical className="size-4" />
@@ -599,7 +599,7 @@ export default function TableAdvanced() {
                     {hasChildren ? (
                       <button
                         type="button"
-                        className="flex size-6 shrink-0 items-center justify-center text-muted-foreground outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/40"
+                        className="text-muted-foreground hover:text-foreground focus-visible:ring-ring/40 flex size-6 shrink-0 items-center justify-center outline-none focus-visible:ring-2"
                         aria-label={isExpanded ? "收起子项" : "展开子项"}
                         onClick={() =>
                           setExpanded((current) => {
@@ -622,14 +622,14 @@ export default function TableAdvanced() {
                     )}
                     <span>{item.name}</span>
                     {hasChildren ? (
-                      <span className="text-[11px] font-normal text-muted-foreground">
+                      <span className="text-muted-foreground text-[11px] font-normal">
                         {item.children?.length}
                       </span>
                     ) : null}
                   </div>
                 </TableCell>
                 <TableCell>{item.owner}</TableCell>
-                <TableCell className="tabular-nums text-muted-foreground">
+                <TableCell className="text-muted-foreground tabular-nums">
                   {item.start}
                 </TableCell>
                 <TableCell className="border-r tabular-nums">
@@ -647,7 +647,7 @@ export default function TableAdvanced() {
                 </TableCell>
                 <TableCell className="border-r">
                   <div className="flex items-center gap-2">
-                    <div className="h-1.5 w-20 overflow-hidden bg-muted">
+                    <div className="bg-muted h-1.5 w-20 overflow-hidden">
                       <div
                         className={cn(
                           "h-full",
@@ -658,7 +658,7 @@ export default function TableAdvanced() {
                         style={{ width: `${item.progress}%` }}
                       />
                     </div>
-                    <span className="w-8 text-right text-xs tabular-nums text-muted-foreground">
+                    <span className="text-muted-foreground w-8 text-right text-xs tabular-nums">
                       {item.progress}%
                     </span>
                   </div>
@@ -676,7 +676,7 @@ export default function TableAdvanced() {
             <TableRow>
               <TableCell
                 colSpan={9}
-                className="h-32 text-center text-muted-foreground"
+                className="text-muted-foreground h-32 text-center"
               >
                 没有符合当前筛选条件的工作项
               </TableCell>
@@ -684,7 +684,7 @@ export default function TableAdvanced() {
           ) : null}
         </TableBody>
       </Table>
-      <p className="mt-2 text-xs text-muted-foreground">
+      <p className="text-muted-foreground mt-2 text-xs">
         拖动手柄可在同级内排序；横向滚动时，选择、拖动、名称和预算列保持固定。
       </p>
     </div>
