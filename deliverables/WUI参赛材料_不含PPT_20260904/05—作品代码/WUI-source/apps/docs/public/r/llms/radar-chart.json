@@ -1,0 +1,140 @@
+{
+  "name": "radar-chart",
+  "type": "registry:component",
+  "title": "雷达图 Radar Chart",
+  "description": "用于在极坐标系上展示多维度能力评估、多系列性能对比或平衡指标的图表。",
+  "categories": [
+    "charts",
+    "comparison"
+  ],
+  "import": "import { RadarChart } from \"@/components/charts/radar-chart\"",
+  "exports": [
+    "RadarChart"
+  ],
+  "typeExports": [
+    "ChartDatum",
+    "ChartSeries",
+    "RadarChartProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/radar-chart",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/radar-chart.json",
+    "npmDependencies": [],
+    "registryDependencies": [
+      "chart-core"
+    ]
+  },
+  "props": [
+    {
+      "name": "title",
+      "type": "ReactNode",
+      "required": true,
+      "control": "text",
+      "description": "图表标题。"
+    },
+    {
+      "name": "description",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "补充说明或副标题。"
+    },
+    {
+      "name": "actions",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "标题右侧操作区。"
+    },
+    {
+      "name": "data",
+      "type": "ChartDatum[]",
+      "required": true,
+      "control": "text",
+      "description": "图表数据列表，每项代表一个雷达维度。"
+    },
+    {
+      "name": "nameKey",
+      "type": "string",
+      "required": true,
+      "control": "text",
+      "description": "维度名称字段。"
+    },
+    {
+      "name": "series",
+      "type": "ChartSeries[]",
+      "required": true,
+      "control": "text",
+      "description": "需要绘制的数据系列列表。"
+    },
+    {
+      "name": "maxValue",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "description": "雷达轴的最大刻度值；未传时根据数据自动推导。"
+    },
+    {
+      "name": "gridShape",
+      "type": "\"circle\" | \"polygon\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "circle",
+        "polygon"
+      ],
+      "defaultValue": "polygon",
+      "description": "雷达网格形状（多边形或同心圆）。"
+    },
+    {
+      "name": "gridLevels",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "4",
+      "description": "同心网格层数。"
+    },
+    {
+      "name": "height",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "340",
+      "description": "绘图区高度（像素）。"
+    },
+    {
+      "name": "showLegend",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否展示图例。"
+    },
+    {
+      "name": "showLabels",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否展示各维度标签。"
+    },
+    {
+      "name": "valueFormatter",
+      "type": "((value: number, series: ChartSeries, datum: ChartDatum) => ReactNode)",
+      "required": false,
+      "control": "text",
+      "description": "数值格式化函数。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "radar-chart-demo",
+      "title": "基础示例 · Basic example"
+    }
+  ],
+  "files": [
+    "registry/charts/radar-chart.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/charts/radar-chart",
+  "sourceUrl": "https://ui.wzx.wang/r/radar-chart.json"
+}

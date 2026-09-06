@@ -1,0 +1,103 @@
+{
+  "name": "ai-conversation-timeline",
+  "type": "registry:ui",
+  "title": "AI 对话时间线 AI Conversation Timeline",
+  "description": "用紧凑刻度浏览长对话与 Agent 执行轨迹，悬停即时预览并快速定位到指定轮次。",
+  "categories": [
+    "ai"
+  ],
+  "import": "import { AiConversationTimeline } from \"@/components/ui/ai-conversation-timeline\"",
+  "exports": [
+    "AiConversationTimeline"
+  ],
+  "typeExports": [
+    "AiConversationTimelineItem",
+    "AiConversationTimelineProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/ai-conversation-timeline",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/ai-conversation-timeline.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "items",
+      "type": "readonly AiConversationTimelineItem[]",
+      "required": true,
+      "control": "text",
+      "description": "按对话发生顺序排列的轮次数据。"
+    },
+    {
+      "name": "activeId",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "当前激活轮次的受控 ID。"
+    },
+    {
+      "name": "defaultActiveId",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "非受控模式下初始激活轮次的 ID。"
+    },
+    {
+      "name": "previewSide",
+      "type": "\"right\" | \"left\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "right",
+        "left"
+      ],
+      "defaultValue": "right",
+      "description": "悬停预览卡片显示在时间线的哪一侧。"
+    },
+    {
+      "name": "preview",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否显示悬停预览卡片。"
+    },
+    {
+      "name": "onActiveChange",
+      "type": "((id: string) => void)",
+      "required": false,
+      "control": "text",
+      "description": "时间线标记变为激活状态时触发。"
+    },
+    {
+      "name": "onNavigate",
+      "type": "((item: AiConversationTimelineItem, index: number) => void)",
+      "required": false,
+      "control": "text",
+      "description": "用户选择某个时间线标记时触发。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "ai-conversation-timeline-demo",
+      "title": "与聊天消息视口双向联动"
+    },
+    {
+      "name": "ai-conversation-timeline-left-preview",
+      "title": "右侧停靠与向左展开预览"
+    },
+    {
+      "name": "ai-conversation-timeline-levels",
+      "title": "多层级 Agent 执行链路追踪"
+    }
+  ],
+  "files": [
+    "registry/ui/ai-conversation-timeline.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/ai-conversation-timeline",
+  "sourceUrl": "https://ui.wzx.wang/r/ai-conversation-timeline.json"
+}

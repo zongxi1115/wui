@@ -1,0 +1,61 @@
+{
+  "name": "toolbar",
+  "type": "registry:ui",
+  "title": "工具栏 Toolbar",
+  "description": "为一组紧凑操作提供排列、分组与方向键导航，并复用现有按钮外观。",
+  "import": "import { Toolbar, ToolbarButton, ToolbarGroup, ToolbarSeparator } from \"@/components/ui/toolbar\"",
+  "exports": [
+    "Toolbar",
+    "ToolbarButton",
+    "ToolbarGroup",
+    "ToolbarSeparator"
+  ],
+  "typeExports": [
+    "ToolbarButtonProps",
+    "ToolbarProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/toolbar",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/toolbar.json",
+    "npmDependencies": [
+      "radix-ui"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "asChild",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "是否将 Toolbar 的行为合并到唯一的子元素上。"
+    },
+    {
+      "name": "orientation",
+      "type": "\"horizontal\" | \"vertical\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "horizontal",
+        "vertical"
+      ],
+      "defaultValue": "horizontal",
+      "description": "工具项的排列方向。"
+    }
+  ],
+  "events": "工具栏只协调布局和键盘导航，各个按钮、链接和选择器继续处理自己的业务事件。",
+  "examples": [
+    {
+      "name": "toolbar-demo",
+      "title": "基础用法"
+    }
+  ],
+  "files": [
+    "registry/ui/toolbar.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/toolbar",
+  "sourceUrl": "https://ui.wzx.wang/r/toolbar.json"
+}

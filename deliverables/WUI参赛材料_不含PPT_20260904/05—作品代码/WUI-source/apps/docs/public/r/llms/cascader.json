@@ -1,0 +1,161 @@
+{
+  "name": "cascader",
+  "type": "registry:ui",
+  "title": "级联选择 Cascader",
+  "description": "用于在多层级树状数据结构中逐级展开、浏览并选取特定路径的分栏级联选择器。",
+  "import": "import { Cascader } from \"@/components/ui/cascader\"",
+  "exports": [
+    "Cascader"
+  ],
+  "typeExports": [
+    "CascaderOption",
+    "CascaderProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/cascader",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/cascader.json",
+    "npmDependencies": [
+      "radix-ui",
+      "lucide-react",
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils",
+      "input"
+    ]
+  },
+  "props": [
+    {
+      "name": "options",
+      "type": "CascaderOption[]",
+      "required": true,
+      "control": "text",
+      "description": "级联选项树。"
+    },
+    {
+      "name": "value",
+      "type": "string[]",
+      "required": false,
+      "control": "text",
+      "description": "受控模式下当前选中的完整路径。"
+    },
+    {
+      "name": "defaultValue",
+      "type": "string[]",
+      "required": false,
+      "control": "text",
+      "defaultValue": "[]",
+      "description": "非受控模式下初始选中的完整路径。"
+    },
+    {
+      "name": "onValueChange",
+      "type": "((value: string[], options: CascaderOption[]) => void)",
+      "required": false,
+      "control": "text",
+      "description": "选中路径变化时触发，并返回当前路径及对应选项。"
+    },
+    {
+      "name": "placeholder",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "defaultValue": "请选择地区",
+      "description": "未选择完整路径时显示的占位文本。"
+    },
+    {
+      "name": "separator",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "defaultValue": "/",
+      "description": "已选路径各层级之间显示的分隔符。"
+    },
+    {
+      "name": "closeOnSelect",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "选择叶子节点后是否自动关闭选项面板。"
+    },
+    {
+      "name": "panelLabel",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "defaultValue": "级联选项",
+      "description": "选项面板的无障碍名称。"
+    },
+    {
+      "name": "contentClassName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "应用于浮层面板的额外 CSS 类名。"
+    },
+    {
+      "name": "renderValue",
+      "type": "((options: CascaderOption[]) => ReactNode)",
+      "required": false,
+      "control": "text",
+      "description": "自定义触发器中已选路径的渲染方式。"
+    },
+    {
+      "name": "searchable",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "在面板顶部显示路径搜索框。@default false"
+    },
+    {
+      "name": "searchPlaceholder",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "defaultValue": "搜索选项",
+      "description": "搜索框占位文本。@default \"搜索选项\""
+    },
+    {
+      "name": "filterOption",
+      "type": "((query: string, path: CascaderOption[]) => boolean)",
+      "required": false,
+      "control": "text",
+      "description": "自定义路径匹配逻辑。"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "是否禁用组件。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "cascader-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "cascader-search",
+      "title": "拼音与关键词模糊搜索"
+    },
+    {
+      "name": "cascader-department",
+      "title": "组织架构与多级部门"
+    },
+    {
+      "name": "cascader-custom-render",
+      "title": "自定义选中值渲染"
+    },
+    {
+      "name": "cascader-disabled",
+      "title": "节点禁用与整控件禁用"
+    }
+  ],
+  "files": [
+    "registry/ui/cascader.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/cascader",
+  "sourceUrl": "https://ui.wzx.wang/r/cascader.json"
+}

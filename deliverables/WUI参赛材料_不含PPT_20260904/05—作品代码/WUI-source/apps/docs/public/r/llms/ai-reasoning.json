@@ -1,0 +1,86 @@
+{
+  "name": "ai-reasoning",
+  "type": "registry:ui",
+  "title": "AI 推理过程 AI Reasoning",
+  "description": "用结构化的折叠步骤与连线展示大语言模型或智能体（Agent）的思考过程、决策链路与执行进度。",
+  "categories": [
+    "ai"
+  ],
+  "import": "import { AiReasoning, AiReasoningContent, AiReasoningStep, AiReasoningTrigger, aiReasoningStepVariants } from \"@/components/ui/ai-reasoning\"",
+  "exports": [
+    "AiReasoning",
+    "AiReasoningContent",
+    "AiReasoningStep",
+    "AiReasoningTrigger",
+    "aiReasoningStepVariants"
+  ],
+  "typeExports": [
+    "AiReasoningProps",
+    "AiReasoningStepProps",
+    "AiReasoningTriggerProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/ai-reasoning",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/ai-reasoning.json",
+    "npmDependencies": [
+      "radix-ui",
+      "class-variance-authority",
+      "lucide-react",
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils",
+      "ai-stream"
+    ]
+  },
+  "props": [
+    {
+      "name": "isStreaming",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "是否仍在接收推理过程。"
+    },
+    {
+      "name": "duration",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "description": "已完成的推理耗时，单位为秒。"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "是否禁用组件。"
+    },
+    {
+      "name": "asChild",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "ai-reasoning-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "ai-reasoning-advanced",
+      "title": "综合步骤与工具调用组合"
+    },
+    {
+      "name": "ai-reasoning-interactive",
+      "title": "实时流式推进演练"
+    }
+  ],
+  "files": [
+    "registry/ui/ai-reasoning.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/ai-reasoning",
+  "sourceUrl": "https://ui.wzx.wang/r/ai-reasoning.json"
+}

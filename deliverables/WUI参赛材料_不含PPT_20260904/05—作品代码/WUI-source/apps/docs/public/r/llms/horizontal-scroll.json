@@ -1,0 +1,80 @@
+{
+  "name": "horizontal-scroll",
+  "type": "registry:ui",
+  "title": "横向滚动转换 Horizontal Scroll",
+  "description": "将用户的垂直滚动行为（Page Scroll）无缝映射并锁定转换为宽画幅横向轨道平移的视差布局组件。",
+  "categories": [
+    "scroll",
+    "motion"
+  ],
+  "import": "import { HorizontalScroll } from \"@/components/ui/horizontal-scroll\"",
+  "exports": [
+    "HorizontalScroll"
+  ],
+  "typeExports": [
+    "HorizontalScrollProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/horizontal-scroll",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/horizontal-scroll.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": true,
+      "control": "text",
+      "description": "区块固定时沿水平方向移动的宽内容。"
+    },
+    {
+      "name": "container",
+      "type": "RefObject<HTMLElement | null>",
+      "required": false,
+      "control": "text",
+      "description": "要监听的滚动容器；未设置时监听页面。"
+    },
+    {
+      "name": "scrollPadding",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0",
+      "description": "额外增加的垂直滚动距离，单位为像素。"
+    },
+    {
+      "name": "viewportClassName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "应用于固定视口的 CSS 类名。"
+    },
+    {
+      "name": "trackClassName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "应用于水平移动轨道的 CSS 类名。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "horizontal-scroll-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "horizontal-scroll-cards",
+      "title": "模块子系统全景"
+    }
+  ],
+  "files": [
+    "registry/ui/horizontal-scroll.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/horizontal-scroll",
+  "sourceUrl": "https://ui.wzx.wang/r/horizontal-scroll.json"
+}

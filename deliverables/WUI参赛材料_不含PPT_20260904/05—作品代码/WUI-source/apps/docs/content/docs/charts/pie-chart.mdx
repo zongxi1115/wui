@@ -1,0 +1,26 @@
+---
+title: 饼图 Pie Chart
+description: 展示少量类别的部分与整体关系，并支持饼图和环图形态。
+component: pie-chart
+---
+
+## 基础用法
+
+<ComponentPreview name="pie-chart-demo" previewClassName="min-h-0 p-6 sm:p-8" />
+
+<CodeTabs command="@wui-design/cli@latest add @wui/pie-chart" />
+
+<ComponentSource name="pie-chart" title="components/charts/pie-chart.tsx" />
+
+## 使用场景
+
+`PieChart` 用于少量类别的粗略构成比较。默认使用饼图；传入 `innerRadius` 后切换为环图，并可通过 `centerContent` 放置总量。
+类别超过五项时应合并为 Top N 与“其他”，需要精确比较时改用堆叠条形图或表格。
+
+## 属性
+
+<PropsTable name="pie-chart" />
+
+## 事件
+
+扇区支持指针悬停和键盘聚焦读取，不产生业务事件。每个类别仍会输出到辅助技术可见的数据表。

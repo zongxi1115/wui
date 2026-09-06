@@ -1,0 +1,90 @@
+{
+  "name": "ai-tool",
+  "type": "registry:ui",
+  "title": "AI 工具调用 AI Tool",
+  "description": "用于展示智能体（Agent）工具调用的执行状态、参数入参、输出结果、错误堆栈与人工审批确认。",
+  "categories": [
+    "ai"
+  ],
+  "import": "import { AiTool, AiToolCode, AiToolContent, AiToolError, AiToolLabel, AiToolSection, AiToolStatus, AiToolTrigger, aiToolStatusVariants } from \"@/components/ui/ai-tool\"",
+  "exports": [
+    "AiTool",
+    "AiToolCode",
+    "AiToolContent",
+    "AiToolError",
+    "AiToolLabel",
+    "AiToolSection",
+    "AiToolStatus",
+    "AiToolTrigger",
+    "aiToolStatusVariants"
+  ],
+  "typeExports": [
+    "AiToolProps",
+    "AiToolStatus",
+    "AiToolStatusProps",
+    "AiToolTriggerProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/ai-tool",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/ai-tool.json",
+    "npmDependencies": [
+      "radix-ui",
+      "class-variance-authority",
+      "lucide-react"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "status",
+      "type": "\"error\" | \"pending\" | \"approval\" | \"running\" | \"success\" | \"denied\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "error",
+        "pending",
+        "approval",
+        "running",
+        "success",
+        "denied"
+      ],
+      "defaultValue": "pending",
+      "description": "工具调用的当前状态，例如执行中、成功或失败。"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "是否禁用组件。"
+    },
+    {
+      "name": "asChild",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "ai-tool-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "ai-tool-approval",
+      "title": "人工确认与审批授权 (Human-in-the-Loop)"
+    },
+    {
+      "name": "ai-tool-chain",
+      "title": "链式工具调用流水线"
+    }
+  ],
+  "files": [
+    "registry/ui/ai-tool.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/ai-tool",
+  "sourceUrl": "https://ui.wzx.wang/r/ai-tool.json"
+}

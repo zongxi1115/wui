@@ -1,0 +1,119 @@
+{
+  "name": "text-shimmer-wave",
+  "type": "registry:ui",
+  "title": "文本波光 Text Shimmer Wave",
+  "description": "逐字符传播的立体位移与高光波浪。",
+  "categories": [
+    "motion",
+    "text-effect"
+  ],
+  "import": "import { TextShimmerWave } from \"@/components/ui/text-shimmer-wave\"",
+  "exports": [
+    "TextShimmerWave"
+  ],
+  "typeExports": [
+    "TextShimmerWaveProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/text-shimmer-wave",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/text-shimmer-wave.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "string",
+      "required": true,
+      "control": "text",
+      "description": "按字符播放立体波浪动画的文字。"
+    },
+    {
+      "name": "as",
+      "type": "ElementType<any, keyof IntrinsicElements>",
+      "required": false,
+      "control": "text",
+      "defaultValue": "span",
+      "description": "组件实际渲染的 HTML 元素。"
+    },
+    {
+      "name": "duration",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "1.5",
+      "description": "完整波浪动画循环的时长，单位为秒。"
+    },
+    {
+      "name": "zDistance",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "10",
+      "description": "字符沿 Z 轴移动的距离，单位为像素。"
+    },
+    {
+      "name": "xDistance",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "2",
+      "description": "字符沿水平方向移动的距离，单位为像素。"
+    },
+    {
+      "name": "yDistance",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "-2",
+      "description": "字符沿垂直方向移动的距离，单位为像素。"
+    },
+    {
+      "name": "spread",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "1",
+      "description": "相邻字符波浪相位之间的距离。"
+    },
+    {
+      "name": "scaleDistance",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "1.1",
+      "description": "字符达到的最大缩放比例。"
+    },
+    {
+      "name": "rotateYDistance",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "10",
+      "description": "字符达到的最大 Y 轴旋转角度，单位为度。"
+    },
+    {
+      "name": "transition",
+      "type": "Transition",
+      "required": false,
+      "control": "text",
+      "description": "合并到每个字符上的过渡动画。"
+    }
+  ],
+  "events": "组件没有自有事件，底层元素事件继续透传。用户开启“减少动态效果”时只显示静态文字。",
+  "examples": [
+    {
+      "name": "text-shimmer-wave-demo",
+      "title": "基础用法"
+    }
+  ],
+  "files": [
+    "registry/ui/text-shimmer-wave.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/text-shimmer-wave",
+  "sourceUrl": "https://ui.wzx.wang/r/text-shimmer-wave.json"
+}

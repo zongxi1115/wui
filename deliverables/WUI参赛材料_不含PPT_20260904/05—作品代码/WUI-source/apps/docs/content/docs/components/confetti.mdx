@@ -1,0 +1,37 @@
+---
+title: 庆祝纸屑 Confetti
+description: 用于在用户完成关键目标、解锁成就或支付成功时触发轻量高性能的 Canvas 粒子庆祝特效。
+component: confetti
+---
+
+## 基础示例 · Basic example
+
+<ComponentPreview name="confetti-demo" previewClassName="min-h-0 p-6 flex justify-center" />
+
+<CodeTabs command="@wui-design/cli@latest add @wui/confetti" />
+
+<ComponentSource name="confetti" title="components/ui/confetti.tsx" />
+
+## 组件作用 · What it's for
+
+`Confetti` 为核心里程碑操作提供具有成就感的即时视觉反馈。
+
+### 适用场景
+- **目标达成与等级提升**：用户完成挑战、表单提交成功或积分升级。
+- **支付与购买成功**：电商结算或 SaaS 订阅完成时的庆祝。
+- **免除外部冗余依赖**：纯原生 Canvas 与 requestAnimationFrame 实现，轻量零负担。
+
+### 何时不建议使用
+- 避免在常规高频操作（如普通按钮点击或翻页）中滥用，以免分散用户注意力。
+
+## 组件属性 · Props
+
+<PropsTable name="confetti" />
+
+## 事件 · Events
+
+- 支持通过 `fireConfetti({ particleCount, spread, origin })` 随时在任意异步回调中命令式触发。
+
+## 拓展使用 · Extended usage
+
+可自定义 `colors` 传入品牌主题色，或控制 `origin` 实现从屏幕两侧、底部或鼠标点击位置发射粒子。

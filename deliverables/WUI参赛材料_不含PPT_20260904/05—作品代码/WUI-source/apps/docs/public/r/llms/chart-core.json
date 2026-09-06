@@ -1,0 +1,47 @@
+{
+  "name": "chart-core",
+  "type": "registry:lib",
+  "title": "图表基础 Chart Core",
+  "description": "折线图与条形图共享的尺寸、坐标、图例、提示框和无障碍基础能力。",
+  "categories": [
+    "charts"
+  ],
+  "import": "import { ChartDataTable, ChartHeader, ChartLegend, ChartTooltip, chartColors, chartMargin, defaultValueFormatter, getChartLayout, getChartScale, getChartValue, linePatterns, scaleValue, useChartSize } from \"@/components/charts/chart-core\"",
+  "exports": [
+    "ChartDataTable",
+    "ChartHeader",
+    "ChartLegend",
+    "ChartTooltip",
+    "chartColors",
+    "chartMargin",
+    "defaultValueFormatter",
+    "getChartLayout",
+    "getChartScale",
+    "getChartValue",
+    "linePatterns",
+    "scaleValue",
+    "useChartSize"
+  ],
+  "typeExports": [
+    "ChartDatum",
+    "ChartLabelFormatter",
+    "ChartReferenceLine",
+    "ChartSeries",
+    "ChartValueFormatter"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/chart-core",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/chart-core.json",
+    "npmDependencies": [],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [],
+  "examples": [],
+  "files": [
+    "registry/charts/chart-core.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/charts/chart-core",
+  "sourceUrl": "https://ui.wzx.wang/r/chart-core.json"
+}

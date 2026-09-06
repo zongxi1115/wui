@@ -1,0 +1,121 @@
+{
+  "name": "watermark",
+  "type": "registry:ui",
+  "title": "水印 Watermark",
+  "description": "在页面、卡片或敏感数据区域平铺防泄密版权文本或自定义图章的无干扰背景水印组件。",
+  "import": "import { Watermark } from \"@/components/ui/watermark\"",
+  "exports": [
+    "Watermark"
+  ],
+  "typeExports": [
+    "WatermarkFont",
+    "WatermarkProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/watermark",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/watermark.json",
+    "npmDependencies": [],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "content",
+      "type": "string | string[]",
+      "required": false,
+      "control": "text",
+      "defaultValue": "\"WUI\"",
+      "description": "要重复显示的一行或多行水印文字。"
+    },
+    {
+      "name": "image",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "重复显示的水印图片地址。设置后优先使用图片，不再使用 content。"
+    },
+    {
+      "name": "rotate",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "-22",
+      "description": "水印的顺时针旋转角度，单位为度。"
+    },
+    {
+      "name": "gap",
+      "type": "[number, number]",
+      "required": false,
+      "control": "text",
+      "defaultValue": "[80, 80]",
+      "description": "水印单元之间的水平和垂直间距。"
+    },
+    {
+      "name": "offset",
+      "type": "[number, number]",
+      "required": false,
+      "control": "text",
+      "defaultValue": "[0, 0]",
+      "description": "重复图案的水平和垂直偏移量。"
+    },
+    {
+      "name": "width",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "160",
+      "description": "单个水印标记的宽度，单位为像素。"
+    },
+    {
+      "name": "height",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "64",
+      "description": "单个水印标记的高度，单位为像素。"
+    },
+    {
+      "name": "font",
+      "type": "WatermarkFont",
+      "required": false,
+      "control": "text",
+      "description": "水印文字的排版设置。"
+    },
+    {
+      "name": "opacity",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0.15",
+      "description": "水印图层的不透明度。"
+    },
+    {
+      "name": "zIndex",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "10",
+      "description": "水印图层的堆叠层级。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "watermark-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "watermark-custom",
+      "title": "多行自定义内容"
+    },
+    {
+      "name": "watermark-image",
+      "title": "自定义图章图片"
+    }
+  ],
+  "files": [
+    "registry/ui/watermark.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/watermark",
+  "sourceUrl": "https://ui.wzx.wang/r/watermark.json"
+}

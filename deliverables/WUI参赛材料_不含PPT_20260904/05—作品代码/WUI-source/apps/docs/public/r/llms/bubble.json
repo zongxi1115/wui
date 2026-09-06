@@ -1,0 +1,65 @@
+{
+  "name": "bubble",
+  "type": "registry:ui",
+  "title": "气泡 Bubble",
+  "description": "用于在即时通讯、AI 对话流、评论列表与活动时间线中组合展示头像、昵称、正文内容、时间戳与快捷操作的通用消息气泡。",
+  "import": "import { Bubble, BubbleActions, BubbleAvatar, BubbleBody, BubbleContent, BubbleFooter, BubbleHeader, bubbleContentVariants, bubbleVariants } from \"@/components/ui/bubble\"",
+  "exports": [
+    "Bubble",
+    "BubbleActions",
+    "BubbleAvatar",
+    "BubbleBody",
+    "BubbleContent",
+    "BubbleFooter",
+    "BubbleHeader",
+    "bubbleContentVariants",
+    "bubbleVariants"
+  ],
+  "typeExports": [
+    "BubbleContentProps",
+    "BubbleProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/bubble",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/bubble.json",
+    "npmDependencies": [
+      "class-variance-authority"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "side",
+      "type": "\"start\" | \"end\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "start",
+        "end"
+      ],
+      "defaultValue": "start",
+      "description": "消息气泡的水平对齐方向。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "bubble-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "bubble-ai-chat",
+      "title": "AI 智能体对话与代码块"
+    },
+    {
+      "name": "bubble-variants",
+      "title": "四种表面质感 (Variants)"
+    }
+  ],
+  "files": [
+    "registry/ui/bubble.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/bubble",
+  "sourceUrl": "https://ui.wzx.wang/r/bubble.json"
+}

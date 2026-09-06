@@ -1,0 +1,52 @@
+{
+  "name": "ai-todo",
+  "type": "registry:ui",
+  "title": "AI 任务清单 AI Todo",
+  "description": "用于清晰展示 AI Agent 的执行计划分解、当前执行阶段与子任务实时进度。",
+  "categories": [
+    "ai"
+  ],
+  "import": "import { AiTodo, AiTodoHeader, AiTodoItem, AiTodoList, aiTodoIndicatorVariants } from \"@/components/ui/ai-todo\"",
+  "exports": [
+    "AiTodo",
+    "AiTodoHeader",
+    "AiTodoItem",
+    "AiTodoList",
+    "aiTodoIndicatorVariants"
+  ],
+  "typeExports": [
+    "AiTodoItemProps",
+    "AiTodoStatus"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/ai-todo",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/ai-todo.json",
+    "npmDependencies": [
+      "class-variance-authority",
+      "lucide-react"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [],
+  "examples": [
+    {
+      "name": "ai-todo-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "ai-todo-interactive",
+      "title": "实时自动化执行演示"
+    },
+    {
+      "name": "ai-todo-workflow",
+      "title": "只读式发布部署工作流"
+    }
+  ],
+  "files": [
+    "registry/ui/ai-todo.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/ai-todo",
+  "sourceUrl": "https://ui.wzx.wang/r/ai-todo.json"
+}

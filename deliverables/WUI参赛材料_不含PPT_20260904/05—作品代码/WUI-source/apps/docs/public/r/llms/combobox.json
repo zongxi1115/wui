@@ -1,0 +1,147 @@
+{
+  "name": "combobox",
+  "type": "registry:ui",
+  "title": "组合选择器 Combobox",
+  "description": "融合文本输入搜索与下拉单选列表的复合选择控件，支持拼音模糊检索、别名过滤、一键清空与丰富的自定义选项渲染。",
+  "import": "import { Combobox, comboboxVariants } from \"@/components/ui/combobox\"",
+  "exports": [
+    "Combobox",
+    "comboboxVariants"
+  ],
+  "typeExports": [
+    "ComboboxOption",
+    "ComboboxProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/combobox",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/combobox.json",
+    "npmDependencies": [
+      "lucide-react"
+    ],
+    "registryDependencies": [
+      "utils",
+      "command",
+      "popover"
+    ]
+  },
+  "props": [
+    {
+      "name": "options",
+      "type": "ComboboxOption[]",
+      "required": true,
+      "control": "text",
+      "description": "可搜索的选项集合。"
+    },
+    {
+      "name": "value",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "受控模式下的选中值。"
+    },
+    {
+      "name": "defaultValue",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "非受控模式下的初始选中值。"
+    },
+    {
+      "name": "onValueChange",
+      "type": "((value: string) => void)",
+      "required": false,
+      "control": "text",
+      "description": "选中值变化或清空时触发。"
+    },
+    {
+      "name": "placeholder",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "defaultValue": "请选择",
+      "description": "未选中时显示的文本。@default \"请选择\""
+    },
+    {
+      "name": "searchPlaceholder",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "defaultValue": "搜索选项",
+      "description": "搜索框占位文本。@default \"搜索选项\""
+    },
+    {
+      "name": "emptyText",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "defaultValue": "没有匹配的选项",
+      "description": "没有匹配项时显示的文本。@default \"没有匹配的选项\""
+    },
+    {
+      "name": "clearable",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否显示清空按钮。@default true"
+    },
+    {
+      "name": "size",
+      "type": "\"default\" | \"sm\" | \"lg\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "default",
+        "sm",
+        "lg"
+      ],
+      "defaultValue": "default",
+      "description": "尺寸密度。@default \"default\""
+    },
+    {
+      "name": "contentClassName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "应用于浮层的额外类名。"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "是否禁用组件。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "combobox-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "combobox-controlled",
+      "title": "受控模式与外部联动"
+    },
+    {
+      "name": "combobox-sizes",
+      "title": "尺寸规格"
+    },
+    {
+      "name": "combobox-custom-option",
+      "title": "自定义选项渲染与副标题"
+    },
+    {
+      "name": "combobox-clearable",
+      "title": "清空与自定义空状态"
+    },
+    {
+      "name": "combobox-form",
+      "title": "复杂表单集成"
+    }
+  ],
+  "files": [
+    "registry/ui/combobox.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/combobox",
+  "sourceUrl": "https://ui.wzx.wang/r/combobox.json"
+}

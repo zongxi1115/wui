@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "button-group",
+  "type": "registry:ui",
+  "title": "按钮组 ButtonGroup",
+  "description": "将一组紧密相关的按钮连接为方向明确的操作单元。",
+  "registryDependencies": [
+    "utils",
+    "button"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/button-group.tsx",
+      "type": "registry:ui",
+      "content": "import * as React from \"react\"\n\nimport { cn } from \"@/registry/lib/utils\"\n\nexport interface ButtonGroupProps extends React.ComponentProps<\"div\"> {\n  /** 按钮排列方向。 @default \"horizontal\" */\n  orientation?: \"horizontal\" | \"vertical\"\n}\n\n/** 将一组相关按钮连接为单个操作单元。子项应使用 `Button`。 */\nfunction ButtonGroup({\n  className,\n  orientation = \"horizontal\",\n  role = \"group\",\n  ...props\n}: ButtonGroupProps) {\n  return (\n    <div\n      data-slot=\"button-group\"\n      data-orientation={orientation}\n      role={role}\n      className={cn(\n        \"isolate inline-flex w-fit [&>[data-slot=button]]:relative [&>[data-slot=button]]:focus-visible:z-10\",\n        orientation === \"horizontal\" &&\n          \"flex-row [&>[data-slot=button]:not(:first-child)]:-ml-px [&>[data-slot=button]:not(:first-child)]:rounded-l-none [&>[data-slot=button]:not(:last-child)]:rounded-r-none\",\n        orientation === \"vertical\" &&\n          \"flex-col [&>[data-slot=button]:not(:first-child)]:-mt-px [&>[data-slot=button]:not(:first-child)]:rounded-t-none [&>[data-slot=button]:not(:last-child)]:rounded-b-none\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nexport { ButtonGroup }\n"
+    }
+  ]
+}

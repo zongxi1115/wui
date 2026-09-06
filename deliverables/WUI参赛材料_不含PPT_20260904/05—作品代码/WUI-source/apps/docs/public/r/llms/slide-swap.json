@@ -1,0 +1,81 @@
+{
+  "name": "slide-swap",
+  "type": "registry:ui",
+  "title": "滑动替换 Slide Swap",
+  "description": "悬停或激活时将当前内容向上/向下平移滑出，同时无缝滑入相同形态副本的微动效组件。",
+  "categories": [
+    "motion"
+  ],
+  "import": "import { SlideSwap } from \"@/components/ui/slide-swap\"",
+  "exports": [
+    "SlideSwap"
+  ],
+  "typeExports": [
+    "SlideSwapProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/slide-swap",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/slide-swap.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": true,
+      "control": "text",
+      "description": "同时用于离场和入场图层的内容。"
+    },
+    {
+      "name": "direction",
+      "type": "\"up\" | \"down\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "up",
+        "down"
+      ],
+      "defaultValue": "up",
+      "description": "当前可见图层离场的方向。"
+    },
+    {
+      "name": "active",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "是否从组件外部强制切换到交换状态。"
+    },
+    {
+      "name": "transition",
+      "type": "Transition",
+      "required": false,
+      "control": "text",
+      "defaultValue": "{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }",
+      "description": "两个内容图层共用的过渡动画。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "slide-swap-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "slide-swap-button",
+      "title": "多形态按钮组合"
+    },
+    {
+      "name": "slide-swap-badge",
+      "title": "顶部通知药丸徽章"
+    }
+  ],
+  "files": [
+    "registry/ui/slide-swap.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/slide-swap",
+  "sourceUrl": "https://ui.wzx.wang/r/slide-swap.json"
+}

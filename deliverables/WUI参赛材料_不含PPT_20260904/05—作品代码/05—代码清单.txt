@@ -1,0 +1,4 @@
+﻿源码文件数：1686
+源码总大小：16.10 MB
+排除目录：.git、node_modules、.next、dist、build、coverage、.turbo、.tmp、deliverables、缓存目录
+排除文件：.env*、*.log、*.tsbuildinfo、Python 字节码

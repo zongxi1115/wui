@@ -1,0 +1,90 @@
+{
+  "name": "image-trail",
+  "type": "registry:ui",
+  "title": "图像拖尾 Image Trail",
+  "description": "随着鼠标在画布或容器内移动，在指针移动轨迹上按序生成短暂停留并渐隐消失的视觉元素拖尾组件。",
+  "categories": [
+    "pointer",
+    "motion",
+    "fancy"
+  ],
+  "import": "import { ImageTrail } from \"@/components/ui/image-trail\"",
+  "exports": [
+    "ImageTrail"
+  ],
+  "typeExports": [
+    "ImageTrailProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/image-trail",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/image-trail.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "items",
+      "type": "ReactNode[]",
+      "required": true,
+      "control": "text",
+      "description": "指针移动时依次循环显示的视觉内容。"
+    },
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "交互区域内始终显示的静态内容。"
+    },
+    {
+      "name": "distance",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "72",
+      "description": "新增一项轨迹内容前指针需要移动的距离，单位为像素。"
+    },
+    {
+      "name": "lifetime",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "720",
+      "description": "每项轨迹内容的显示时长，单位为毫秒。"
+    },
+    {
+      "name": "maxItems",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "8",
+      "description": "同时渲染的轨迹内容数量上限。"
+    },
+    {
+      "name": "itemClassName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "应用于每个定位轨迹项的 CSS 类名。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "image-trail-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "image-trail-cards",
+      "title": "浮动徽章流"
+    }
+  ],
+  "files": [
+    "registry/ui/image-trail.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/image-trail",
+  "sourceUrl": "https://ui.wzx.wang/r/image-trail.json"
+}

@@ -1,0 +1,132 @@
+---
+title: 粘性层叠卡片 Sticky Stack
+description: 卡片在向下滚动时依次吸顶、层叠堆积并微弱退后缩小的多层视觉递进组件。
+component: sticky-stack
+---
+
+## 基础用法
+
+向下滚动查看多张技术支柱卡片，前一张卡片吸顶后随新卡片到来而微微缩小下沉，形成立体层叠感：
+
+<ComponentPreview name="sticky-stack-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
+
+<CodeTabs command="@wui-design/cli@latest add @wui/sticky-stack" />
+
+<Steps>
+
+<Step>安装基础依赖与动效库</Step>
+
+```bash
+pnpm add motion lucide-react class-variance-authority clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/sticky-stack.tsx`</Step>
+
+<ComponentSource name="sticky-stack" title="components/ui/sticky-stack.tsx" />
+
+</Steps>
+
+## 属性 Props
+
+### StickyStack
+
+<PropsTable
+  data={[
+    {
+      prop: "children",
+      type: "React.ReactNode",
+      description: "包含的多个 StickyStackItem 卡片子节点。",
+    },
+    {
+      prop: "top",
+      type: "number",
+      default: "24",
+      description: "第一张卡片吸顶时距离视口顶部的像素距离。",
+    },
+    {
+      prop: "gap",
+      type: "number",
+      default: "12",
+      description: "后续层叠卡片相较于上一张卡片在顶部露出的垂直间距（像素）。",
+    },
+    {
+      prop: "scaleStep",
+      type: "number",
+      default: "0.035",
+      description: "每被一张新卡片盖在上方时，底层卡片逐级衰减缩小的比例步进值（如 0.035 代表缩小 3.5%）。",
+    },
+    {
+      prop: "container",
+      type: "React.RefObject<HTMLElement | null>",
+      description: "局部滚动容器的 ref 引用（不传时监听整个页面滚动）。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于外层容器的额外 CSS 类名。",
+    },
+  ]}
+/>
+
+### StickyStackItem
+
+<PropsTable
+  data={[
+    {
+      prop: "children",
+      type: "React.ReactNode",
+      description: "单张层叠卡片内部的完整图文、徽章与操作按钮内容。",
+    },
+    {
+      prop: "index",
+      type: "number",
+      description: "当前卡片在堆栈中的序号。作为直接子元素时无需传递，组件会自动推断索引。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于单张卡片主体的 CSS 类名。",
+    },
+  ]}
+/>
+
+## 事件 Events
+
+<PropsTable
+  data={[
+    {
+      prop: "onAnimationStart",
+      type: "() => void",
+      description: "当卡片因滚动进入层叠与缩放动画区间时触发。",
+    },
+    {
+      prop: "onAnimationComplete",
+      type: "() => void",
+      description: "当卡片缩放到达稳定终态时触发。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`StickyStack` 适用于**核心功能三大支柱、递进式流程步骤、定价套餐等级对比**：
+
+- **强化叙事节奏**：相比一次性列出所有卡片，粘性层叠让用户的注意力一次只聚焦在一张核心内容上，滚动时带来强烈的成就感与进展感。
+- **色彩与层级呼应**：为不同顺序的卡片搭配轻微的渐变背景或顶部色条，可以让堆叠后的顶端露白显得井然有序。
+
+## 场景示例
+
+### RAG 知识库流水线执行阶段
+
+展示复杂流程（数据摄取、语义检索、回答生成）的分阶段堆叠推进：
+
+<ComponentPreview name="sticky-stack-features" />
+
+## 无障碍与交互 Accessibility
+
+- **自动降级**：当用户开启 `prefers-reduced-motion: reduce` 时，卡片将锁定 scale 为 1，仅保留标准的 CSS `position: sticky` 堆叠，完全消除缩放造成的视觉冲击。
+- **DOM 结构平铺**：卡片在 DOM 树中依然保持自然的先后顺序，屏幕阅读器与读屏软件可以线性无歧义地逐项读取所有卡片文本。

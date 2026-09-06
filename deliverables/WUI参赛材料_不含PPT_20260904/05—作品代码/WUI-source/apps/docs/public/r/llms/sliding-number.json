@@ -1,0 +1,87 @@
+{
+  "name": "sliding-number",
+  "type": "registry:ui",
+  "title": "数字滚动 Sliding Number",
+  "description": "每个数位独立运行垂直滚轮滚动，支持弹性阻尼过渡、浮点小数与补零格式化的数字动效组件。",
+  "categories": [
+    "motion",
+    "number-effect"
+  ],
+  "import": "import { SlidingNumber } from \"@/components/ui/sliding-number\"",
+  "exports": [
+    "SlidingNumber"
+  ],
+  "typeExports": [
+    "SlidingNumberProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/sliding-number",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/sliding-number.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "value",
+      "type": "string | number",
+      "required": true,
+      "control": "text",
+      "description": "要显示的数字或数字字符串。"
+    },
+    {
+      "name": "padStart",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "是否为一位整数补充前导零。"
+    },
+    {
+      "name": "decimalSeparator",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "defaultValue": ".",
+      "description": "替代小数点显示的字符。"
+    },
+    {
+      "name": "transition",
+      "type": "Transition",
+      "required": false,
+      "control": "text",
+      "defaultValue": "{\n  type: \"spring\",\n  stiffness: 260,\n  damping: 28,\n}",
+      "description": "每个数字滚轮使用的过渡动画。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "sliding-number-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "sliding-number-clock",
+      "title": "实时数字时钟"
+    },
+    {
+      "name": "sliding-number-stats",
+      "title": "SaaS 数据大屏遥测监控"
+    },
+    {
+      "name": "sliding-number-price-toggle",
+      "title": "套餐计费周期切换"
+    },
+    {
+      "name": "sliding-number-countdown",
+      "title": "发布会活动倒计时"
+    }
+  ],
+  "files": [
+    "registry/ui/sliding-number.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/sliding-number",
+  "sourceUrl": "https://ui.wzx.wang/r/sliding-number.json"
+}

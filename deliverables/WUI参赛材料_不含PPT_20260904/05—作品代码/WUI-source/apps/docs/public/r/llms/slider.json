@@ -1,0 +1,121 @@
+{
+  "name": "slider",
+  "type": "registry:ui",
+  "title": "滑动输入 Slider",
+  "description": "允许用户在预定义数值区间内通过拖动滑块或键盘快捷键进行连续或离散调整的交互控件。",
+  "import": "import { Slider, sliderTrackVariants } from \"@/components/ui/slider\"",
+  "exports": [
+    "Slider",
+    "sliderTrackVariants"
+  ],
+  "typeExports": [
+    "SliderProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/slider",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/slider.json",
+    "npmDependencies": [
+      "radix-ui",
+      "class-variance-authority"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "variant",
+      "type": "\"default\" | \"expand\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "default",
+        "expand"
+      ],
+      "defaultValue": "default",
+      "description": "轨道的默认或交互展开样式。"
+    },
+    {
+      "name": "showValue",
+      "type": "\"always\" | \"hover\" | \"never\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "always",
+        "hover",
+        "never"
+      ],
+      "defaultValue": "hover",
+      "description": "控制数值标签的显示时机。"
+    },
+    {
+      "name": "formatValue",
+      "type": "((value: number) => ReactNode)",
+      "required": false,
+      "control": "text",
+      "defaultValue": "(current) => current",
+      "description": "格式化滑块手柄上方显示的数值。"
+    },
+    {
+      "name": "marks",
+      "type": "number[]",
+      "required": false,
+      "control": "text",
+      "defaultValue": "[]",
+      "description": "在轨道上显示为圆点的刻度值数组。"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "是否禁用组件。"
+    },
+    {
+      "name": "asChild",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "slider-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "slider-controlled",
+      "title": "受控模式与快捷预设"
+    },
+    {
+      "name": "slider-range",
+      "title": "双端范围选择 (Range)"
+    },
+    {
+      "name": "slider-step-marks",
+      "title": "步长与离散刻度标记 (Marks)"
+    },
+    {
+      "name": "slider-tooltip",
+      "title": "浮动数值标签 (Tooltip)"
+    },
+    {
+      "name": "slider-with-input",
+      "title": "与数字输入框联动"
+    },
+    {
+      "name": "slider-expand",
+      "title": "悬停展开变体 (Expand Variant)"
+    },
+    {
+      "name": "slider-disabled",
+      "title": "禁用状态"
+    }
+  ],
+  "files": [
+    "registry/ui/slider.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/slider",
+  "sourceUrl": "https://ui.wzx.wang/r/slider.json"
+}

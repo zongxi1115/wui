@@ -1,0 +1,148 @@
+{
+  "name": "button",
+  "type": "registry:ui",
+  "title": "按钮 Button",
+  "description": "用于触发即时操作、提交表单或进行页面跳转的基础交互组件，支持多种语义变体、尺寸密度以及可选的微动效与涟漪反馈。",
+  "import": "import { Button, buttonVariants } from \"@/components/ui/button\"",
+  "exports": [
+    "Button",
+    "buttonVariants"
+  ],
+  "typeExports": [
+    "ButtonProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/button",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/button.json",
+    "npmDependencies": [
+      "radix-ui",
+      "class-variance-authority",
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "variant",
+      "type": "\"link\" | \"default\" | \"secondary\" | \"destructive\" | \"outline\" | \"ghost\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "link",
+        "default",
+        "secondary",
+        "destructive",
+        "outline",
+        "ghost"
+      ],
+      "defaultValue": "default",
+      "description": "按钮的视觉样式。"
+    },
+    {
+      "name": "size",
+      "type": "\"default\" | \"sm\" | \"lg\" | \"icon\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "default",
+        "sm",
+        "lg",
+        "icon"
+      ],
+      "defaultValue": "default",
+      "description": "按钮的高度和内边距。设置为 icon 时用于仅显示图标的方形按钮。"
+    },
+    {
+      "name": "asChild",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
+    },
+    {
+      "name": "motion",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "是否启用轻微的弹性按压和悬停动效。开启 prefers-reduced-motion 时会自动停用。"
+    },
+    {
+      "name": "ripple",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "是否启用从指针位置向外扩散的点击涟漪效果。开启 prefers-reduced-motion 时会自动停用。"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "是否禁用组件。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "button-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "button-variants",
+      "title": "视觉变体"
+    },
+    {
+      "name": "button-sizes",
+      "title": "尺寸密度"
+    },
+    {
+      "name": "button-with-icon",
+      "title": "搭配图标"
+    },
+    {
+      "name": "button-async-action",
+      "title": "异步请求与加载反馈"
+    },
+    {
+      "name": "button-loading",
+      "title": "异步请求与加载反馈"
+    },
+    {
+      "name": "button-link",
+      "title": "动态下划线链接"
+    },
+    {
+      "name": "button-as-child",
+      "title": "语义化跳转（asChild）"
+    },
+    {
+      "name": "button-motion",
+      "title": "微交互与物理弹簧（motion）"
+    },
+    {
+      "name": "button-ripple",
+      "title": "坐标扩散涟漪（ripple）"
+    },
+    {
+      "name": "button-group-advanced"
+    },
+    {
+      "name": "button-group-demo"
+    },
+    {
+      "name": "button-group-split"
+    },
+    {
+      "name": "button-group-toolbar"
+    }
+  ],
+  "files": [
+    "registry/ui/button.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/button",
+  "sourceUrl": "https://ui.wzx.wang/r/button.json"
+}

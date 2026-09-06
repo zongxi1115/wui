@@ -1,0 +1,90 @@
+{
+  "name": "textarea",
+  "type": "registry:ui",
+  "title": "文本域 Textarea",
+  "description": "用于录入多行长文本的多功能输入控件，支持动态字符计数、最大字数限制与尺寸缩放方向约束。",
+  "import": "import { Textarea } from \"@/components/ui/textarea\"",
+  "exports": [
+    "Textarea"
+  ],
+  "typeExports": [
+    "TextareaProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/textarea",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/textarea.json",
+    "npmDependencies": [],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "showCount",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "是否在文本域右下角显示当前字符数。"
+    },
+    {
+      "name": "resize",
+      "type": "\"none\" | \"both\" | \"horizontal\" | \"vertical\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "none",
+        "both",
+        "horizontal",
+        "vertical"
+      ],
+      "defaultValue": "vertical",
+      "description": "用户可以拖动调整文本域尺寸的方向。"
+    },
+    {
+      "name": "wrapperClassName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "应用于最外层容器的额外 CSS 类名。"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "是否禁用组件。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "textarea-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "textarea-controlled",
+      "title": "受控模式"
+    },
+    {
+      "name": "textarea-count",
+      "title": "字符计数与最大字数限制"
+    },
+    {
+      "name": "textarea-resize",
+      "title": "缩放方向控制 (Resize)"
+    },
+    {
+      "name": "textarea-states",
+      "title": "状态展示与校验错误"
+    },
+    {
+      "name": "textarea-form",
+      "title": "完整反馈提交表单"
+    }
+  ],
+  "files": [
+    "registry/ui/textarea.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/textarea",
+  "sourceUrl": "https://ui.wzx.wang/r/textarea.json"
+}

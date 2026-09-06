@@ -1,0 +1,79 @@
+{
+  "name": "magnetic",
+  "type": "registry:ui",
+  "title": "鼠标跟随磁吸 Magnetic",
+  "description": "让按钮与图标在光标悬停时产生朝向指针的物理吸附微位移，并在光标移出后通过弹簧平滑回正。",
+  "categories": [
+    "motion"
+  ],
+  "import": "import { Magnetic } from \"@/components/ui/magnetic\"",
+  "exports": [
+    "Magnetic"
+  ],
+  "typeExports": [
+    "MagneticProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/magnetic",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/magnetic.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "strength",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0.18",
+      "description": "内容跟随指针移动的强度。"
+    },
+    {
+      "name": "maxDistance",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "12",
+      "description": "任一方向允许移动的最大距离，单位为像素。"
+    },
+    {
+      "name": "springConfig",
+      "type": "SpringOptions",
+      "required": false,
+      "control": "text",
+      "defaultValue": "{ stiffness: 260, damping: 22, mass: 0.35 }",
+      "description": "内容移动和回弹时使用的弹簧参数。"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "是否停用指针跟随，同时保留原有布局。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "magnetic-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "magnetic-social-dock",
+      "title": "浮动社交操作栏（Dock）"
+    },
+    {
+      "name": "magnetic-hero-cta",
+      "title": "首屏核心行动点（Hero CTA）"
+    }
+  ],
+  "files": [
+    "registry/ui/magnetic.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/magnetic",
+  "sourceUrl": "https://ui.wzx.wang/r/magnetic.json"
+}

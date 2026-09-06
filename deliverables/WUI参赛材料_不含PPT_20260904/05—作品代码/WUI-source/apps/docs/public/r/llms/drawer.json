@@ -1,0 +1,90 @@
+{
+  "name": "drawer",
+  "type": "registry:ui",
+  "title": "抽屉 Drawer",
+  "description": "从屏幕边缘平滑滑出的焦点抽屉面板，用于承载查看详情、多步表单与辅助配置，同时保留主页面的上下文环境。",
+  "import": "import { Drawer, DrawerBody, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerPortal, DrawerTitle, DrawerTrigger } from \"@/components/ui/drawer\"",
+  "exports": [
+    "Drawer",
+    "DrawerBody",
+    "DrawerClose",
+    "DrawerContent",
+    "DrawerDescription",
+    "DrawerFooter",
+    "DrawerHeader",
+    "DrawerPortal",
+    "DrawerTitle",
+    "DrawerTrigger"
+  ],
+  "typeExports": [
+    "DrawerContentProps",
+    "DrawerProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/drawer",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/drawer.json",
+    "npmDependencies": [
+      "radix-ui",
+      "lucide-react",
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "open",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "受控模式下抽屉是否打开。"
+    },
+    {
+      "name": "defaultOpen",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "非受控模式下抽屉的初始打开状态。"
+    },
+    {
+      "name": "onOpenChange",
+      "type": "((open: boolean) => void)",
+      "required": false,
+      "control": "text",
+      "description": "抽屉请求改变显示状态时触发。"
+    },
+    {
+      "name": "modal",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否锁定焦点并禁止与抽屉外部内容交互。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "drawer-demo",
+      "title": "详情预览面板"
+    },
+    {
+      "name": "drawer-placement",
+      "title": "四向滑出位置"
+    },
+    {
+      "name": "drawer-form",
+      "title": "复杂表单与固定底部栏"
+    },
+    {
+      "name": "drawer-sizes",
+      "title": "尺寸预设与响应式"
+    }
+  ],
+  "files": [
+    "registry/ui/drawer.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/drawer",
+  "sourceUrl": "https://ui.wzx.wang/r/drawer.json"
+}

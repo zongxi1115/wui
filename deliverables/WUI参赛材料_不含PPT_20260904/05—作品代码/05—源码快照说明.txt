@@ -1,0 +1,33 @@
+﻿作品名称：WUI
+快照日期：2026-09-04
+基准提交：4e8f491
+提交日期：2026-08-30
+
+本快照包含打包时工作区中的源文件和未提交修改。
+已排除：.git、node_modules、.next、dist、build、coverage、.turbo、.tmp、deliverables、环境变量文件和常见缓存。
+
+打包时工作区状态：
+M apps/docs/app/global.css
+ M apps/docs/content/docs/components/meta.json
+ M apps/docs/lib/prop-descriptions.ts
+ M apps/docs/public/llms.txt
+ M apps/docs/public/r/cascader.json
+ M apps/docs/public/r/index.json
+ M apps/docs/public/r/llms/examples.json
+ M apps/docs/public/r/llms/index.json
+ M apps/docs/public/r/llms/overview.json
+ M apps/docs/public/r/select.json
+ M apps/docs/registry.json
+ M apps/docs/registry/ui/cascader.tsx
+ M apps/docs/registry/ui/date-picker.tsx
+ M apps/docs/registry/ui/dialog.tsx
+ M apps/docs/registry/ui/form.tsx
+ M apps/docs/registry/ui/image-preview.tsx
+ M apps/docs/registry/ui/message.tsx
+ M apps/docs/registry/ui/select.tsx
+ M apps/docs/tsconfig.tsbuildinfo
+?? apps/docs/content/docs/components/multi-select.mdx
+?? apps/docs/public/r/llms/multi-select.json
+?? apps/docs/public/r/multi-select.json
+?? apps/docs/registry/examples/multi-select-demo.tsx
+?? apps/docs/registry/ui/multi-select.tsx

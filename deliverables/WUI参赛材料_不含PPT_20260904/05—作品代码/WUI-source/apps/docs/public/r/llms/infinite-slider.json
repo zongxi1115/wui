@@ -1,0 +1,97 @@
+{
+  "name": "infinite-slider",
+  "type": "registry:ui",
+  "title": "无限轮播 Infinite Slider",
+  "description": "沿着水平或垂直轴无缝无间断循环滚动的连续内容展示轨道，支持悬停变速与暂停。",
+  "categories": [
+    "motion"
+  ],
+  "import": "import { InfiniteSlider } from \"@/components/ui/infinite-slider\"",
+  "exports": [
+    "InfiniteSlider"
+  ],
+  "typeExports": [
+    "InfiniteSliderProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/infinite-slider",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/infinite-slider.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": true,
+      "control": "text",
+      "description": "在持续循环轨道中显示的内容。"
+    },
+    {
+      "name": "gap",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "16",
+      "description": "各项内容之间的间距，单位为像素。"
+    },
+    {
+      "name": "speed",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "64",
+      "description": "轨道移动速度，单位为每秒像素数。"
+    },
+    {
+      "name": "speedOnHover",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "description": "鼠标悬停时的轨道速度。设置为 0 可在悬停时暂停。"
+    },
+    {
+      "name": "direction",
+      "type": "\"horizontal\" | \"vertical\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "horizontal",
+        "vertical"
+      ],
+      "defaultValue": "horizontal",
+      "description": "滑块移动的方向。"
+    },
+    {
+      "name": "reverse",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "是否反转移动方向。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "infinite-slider-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "infinite-slider-vertical",
+      "title": "垂直方向滚动"
+    },
+    {
+      "name": "infinite-slider-hover-pause",
+      "title": "客户评价与悬停即停"
+    }
+  ],
+  "files": [
+    "registry/ui/infinite-slider.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/infinite-slider",
+  "sourceUrl": "https://ui.wzx.wang/r/infinite-slider.json"
+}

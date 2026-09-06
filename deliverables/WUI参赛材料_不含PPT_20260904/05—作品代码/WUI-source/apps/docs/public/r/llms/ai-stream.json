@@ -1,0 +1,74 @@
+{
+  "name": "ai-stream",
+  "type": "registry:ui",
+  "title": "AI 流式文本 AI Stream",
+  "description": "用于大语言模型打字流式输出与思考过程文字动效的高性能渲染组件，支持平滑边缘羽化与 Delta 分段增量过渡。",
+  "categories": [
+    "ai"
+  ],
+  "import": "import { AiStream, AiStreamDeltas, AiStreamEdge } from \"@/components/ui/ai-stream\"",
+  "exports": [
+    "AiStream",
+    "AiStreamDeltas",
+    "AiStreamEdge"
+  ],
+  "typeExports": [
+    "AiStreamDeltasProps",
+    "AiStreamEdgeProps",
+    "AiStreamProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/ai-stream",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/ai-stream.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "string",
+      "required": true,
+      "control": "text",
+      "description": "已经接收到的完整文本内容。"
+    },
+    {
+      "name": "isStreaming",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "是否仍在接收后续文本。"
+    },
+    {
+      "name": "featherLength",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "18",
+      "description": "实时渐隐效果覆盖的末尾字符数量。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "ai-stream-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "ai-stream-deltas",
+      "title": "Delta 分段增量模式"
+    },
+    {
+      "name": "ai-stream-interactive",
+      "title": "交互式流式控制器"
+    }
+  ],
+  "files": [
+    "registry/ui/ai-stream.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/ai-stream",
+  "sourceUrl": "https://ui.wzx.wang/r/ai-stream.json"
+}

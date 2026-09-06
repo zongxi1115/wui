@@ -1,0 +1,91 @@
+{
+  "name": "tilt-card",
+  "type": "registry:ui",
+  "title": "透视倾斜 Tilt Card",
+  "description": "卡片跟随光标指针在三维空间中产生细腻的 3D 透视倾斜与反光眩光，并基于物理弹簧平滑回正。",
+  "categories": [
+    "pointer",
+    "motion",
+    "fancy"
+  ],
+  "import": "import { TiltCard } from \"@/components/ui/tilt-card\"",
+  "exports": [
+    "TiltCard"
+  ],
+  "typeExports": [
+    "TiltCardProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/tilt-card",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/tilt-card.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": true,
+      "control": "text",
+      "description": "显示在 3D 倾斜平面上的内容。"
+    },
+    {
+      "name": "maxTilt",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "9",
+      "description": "任一方向允许的最大旋转角度，单位为度。"
+    },
+    {
+      "name": "perspective",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "900",
+      "description": "透视深度，单位为像素。"
+    },
+    {
+      "name": "hoverScale",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "1.015",
+      "description": "指针悬停在卡片上时使用的缩放比例。"
+    },
+    {
+      "name": "glare",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "是否显示随指针移动的高光图层。"
+    },
+    {
+      "name": "glareClassName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "应用于可选高光图层的 CSS 类名。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "tilt-card-demo",
+      "title": "视觉艺术作品画廊"
+    },
+    {
+      "name": "tilt-card-member-pass",
+      "title": "3D 开发者通票 / 数字会员卡"
+    }
+  ],
+  "files": [
+    "registry/ui/tilt-card.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/tilt-card",
+  "sourceUrl": "https://ui.wzx.wang/r/tilt-card.json"
+}

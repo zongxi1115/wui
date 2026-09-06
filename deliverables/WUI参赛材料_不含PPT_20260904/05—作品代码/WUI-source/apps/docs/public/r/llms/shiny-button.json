@@ -1,0 +1,74 @@
+{
+  "name": "shiny-button",
+  "type": "registry:ui",
+  "title": "闪光按钮 Shiny Button",
+  "description": "带有连续平滑流动扫光效果的高亮展示型按钮，用于强化页面核心行动点（CTA）与转化入口。",
+  "categories": [
+    "fancy"
+  ],
+  "import": "import { ShinyButton } from \"@/components/ui/shiny-button\"",
+  "exports": [
+    "ShinyButton"
+  ],
+  "typeExports": [
+    "ShinyButtonProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/shiny-button",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/shiny-button.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "speed",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "3",
+      "description": "光带完整扫过按钮一次所需的时间，单位为秒。"
+    },
+    {
+      "name": "gap",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "1.2",
+      "description": "两次光带扫过之间的停顿时间，单位为秒。"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "是否禁用组件。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "shiny-button-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "shiny-button-pricing",
+      "title": "定价与方案升级对比"
+    },
+    {
+      "name": "shiny-button-card",
+      "title": "早鸟与产品宣传横幅"
+    },
+    {
+      "name": "shiny-button-variants",
+      "title": "尺寸与形状变体"
+    }
+  ],
+  "files": [
+    "registry/ui/shiny-button.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/shiny-button",
+  "sourceUrl": "https://ui.wzx.wang/r/shiny-button.json"
+}

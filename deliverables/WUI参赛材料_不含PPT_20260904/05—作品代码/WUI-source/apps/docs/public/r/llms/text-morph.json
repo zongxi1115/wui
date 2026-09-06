@@ -1,0 +1,67 @@
+{
+  "name": "text-morph",
+  "type": "registry:ui",
+  "title": "文本形变 Text Morph",
+  "description": "在词汇与文本发生变化时，自动追踪共有字符并基于弹性物理模型实现平滑位移与形变过渡。",
+  "categories": [
+    "motion",
+    "text-effect"
+  ],
+  "import": "import { TextMorph } from \"@/components/ui/text-morph\"",
+  "exports": [
+    "TextMorph"
+  ],
+  "typeExports": [
+    "TextMorphProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/text-morph",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/text-morph.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "string",
+      "required": true,
+      "control": "text",
+      "description": "字符位置发生变化时需要进行形变的文字。"
+    },
+    {
+      "name": "as",
+      "type": "ElementType<any, keyof IntrinsicElements>",
+      "required": false,
+      "control": "text",
+      "defaultValue": "p",
+      "description": "组件实际渲染的 HTML 元素。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "text-morph-demo",
+      "title": "状态操作按钮"
+    },
+    {
+      "name": "text-morph-tabs",
+      "title": "分段筛选标签栏"
+    },
+    {
+      "name": "text-morph-search-bar",
+      "title": "智能搜索提示轮播"
+    },
+    {
+      "name": "text-morph-stepper",
+      "title": "CI/CD 部署流水线状态"
+    }
+  ],
+  "files": [
+    "registry/ui/text-morph.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/text-morph",
+  "sourceUrl": "https://ui.wzx.wang/r/text-morph.json"
+}

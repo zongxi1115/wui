@@ -1,0 +1,106 @@
+{
+  "name": "text-scramble",
+  "type": "registry:ui",
+  "title": "文本扰动解码 Text Scramble",
+  "description": "通过随机字符的高频采样闪烁并按时序平滑收敛，营造黑客终端、密码破译与数字解密质感的文本动效组件。",
+  "categories": [
+    "motion",
+    "text-effect"
+  ],
+  "import": "import { TextScramble } from \"@/components/ui/text-scramble\"",
+  "exports": [
+    "TextScramble"
+  ],
+  "typeExports": [
+    "TextScrambleProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/text-scramble",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/text-scramble.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "string",
+      "required": true,
+      "control": "text",
+      "description": "通过扰码效果最终显示的目标文字。"
+    },
+    {
+      "name": "as",
+      "type": "ElementType<any, keyof IntrinsicElements>",
+      "required": false,
+      "control": "text",
+      "defaultValue": "p",
+      "description": "组件实际渲染的 HTML 元素。"
+    },
+    {
+      "name": "duration",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0.8",
+      "description": "完整揭示文字所需的时间，单位为秒。"
+    },
+    {
+      "name": "speed",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0.04",
+      "description": "两次扰码帧之间的间隔，单位为秒。"
+    },
+    {
+      "name": "characterSet",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "defaultValue": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&*",
+      "description": "扰码过程中随机抽取的字符集合。"
+    },
+    {
+      "name": "trigger",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否播放扰码效果。先切换为 false 再切换为 true 可重新播放。"
+    },
+    {
+      "name": "onScrambleComplete",
+      "type": "(() => void)",
+      "required": false,
+      "control": "text",
+      "description": "每个字符都解析为最终值后触发。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "text-scramble-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "text-scramble-character-sets",
+      "title": "自定义字符采样集"
+    },
+    {
+      "name": "text-scramble-auth-token",
+      "title": "密钥解密与一键复制"
+    },
+    {
+      "name": "text-scramble-status-card",
+      "title": "集群遥测状态解码"
+    }
+  ],
+  "files": [
+    "registry/ui/text-scramble.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/text-scramble",
+  "sourceUrl": "https://ui.wzx.wang/r/text-scramble.json"
+}

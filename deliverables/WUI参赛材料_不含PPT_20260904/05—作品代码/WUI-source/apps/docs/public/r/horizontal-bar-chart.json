@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "horizontal-bar-chart",
+  "type": "registry:component",
+  "title": "横向条形图 Horizontal Bar Chart",
+  "description": "横向比较长分类名称对应的单序列或多序列数值。",
+  "registryDependencies": [
+    "stacked-bar-chart"
+  ],
+  "files": [
+    {
+      "path": "registry/charts/horizontal-bar-chart.tsx",
+      "type": "registry:component",
+      "target": "@components/charts/horizontal-bar-chart.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { StackedBarChart, type StackedBarChartProps } from \"./stacked-bar-chart\"\n\nexport interface HorizontalBarChartProps extends Omit<\n  StackedBarChartProps,\n  \"layout\" | \"normalize\"\n> {}\n\n/** 使用横向空间容纳长分类标签，适合排名与分类比较。 */\nfunction HorizontalBarChart(props: HorizontalBarChartProps) {\n  return <StackedBarChart layout=\"horizontal\" normalize={false} {...props} />\n}\n\nexport { HorizontalBarChart }\n"
+    }
+  ],
+  "categories": [
+    "charts",
+    "comparison"
+  ]
+}

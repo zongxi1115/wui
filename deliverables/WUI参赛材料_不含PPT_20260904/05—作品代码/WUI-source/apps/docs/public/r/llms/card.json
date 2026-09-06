@@ -1,0 +1,78 @@
+{
+  "name": "card",
+  "type": "registry:ui",
+  "title": "卡片 Card",
+  "description": "将同一主题的内容、状态与操作组织在具备清晰视觉层级与微动效的容器表面中。",
+  "import": "import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardMedia, CardTitle } from \"@/components/ui/card\"",
+  "exports": [
+    "Card",
+    "CardAction",
+    "CardContent",
+    "CardDescription",
+    "CardFooter",
+    "CardHeader",
+    "CardMedia",
+    "CardTitle"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/card",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/card.json",
+    "npmDependencies": [],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "variant",
+      "type": "\"outline\" | \"elevated\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "outline",
+        "elevated"
+      ],
+      "defaultValue": "elevated",
+      "description": "卡片的表面样式。"
+    },
+    {
+      "name": "interactive",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "卡片作为整体可操作时，是否显示按压反馈。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "card-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "card-variants",
+      "title": "表面风格 (Variants)"
+    },
+    {
+      "name": "card-interactive",
+      "title": "可交互卡片 (Interactive)"
+    },
+    {
+      "name": "card-media",
+      "title": "顶部媒体通栏 (CardMedia)"
+    },
+    {
+      "name": "card-composition",
+      "title": "紧凑型组合"
+    },
+    {
+      "name": "card-business",
+      "title": "业务场景：云服务器节点监控卡片"
+    }
+  ],
+  "files": [
+    "registry/ui/card.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/card",
+  "sourceUrl": "https://ui.wzx.wang/r/card.json"
+}

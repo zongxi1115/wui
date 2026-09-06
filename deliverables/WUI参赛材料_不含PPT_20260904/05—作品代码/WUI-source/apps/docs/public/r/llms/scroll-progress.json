@@ -1,0 +1,136 @@
+{
+  "name": "scroll-progress",
+  "type": "registry:ui",
+  "title": "滚动进度 Scroll Progress",
+  "description": "实时计算整页、特定滚动容器或指定 DOM 节点的滚动通过比例，支持线性条状与环形仪表两种形态，并内置弹簧滤波平滑算法。",
+  "categories": [
+    "scroll",
+    "motion"
+  ],
+  "import": "import { ScrollProgress } from \"@/components/ui/scroll-progress\"",
+  "exports": [
+    "ScrollProgress"
+  ],
+  "typeExports": [
+    "ScrollProgressProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/scroll-progress",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/scroll-progress.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "variant",
+      "type": "\"circle\" | \"bar\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "circle",
+        "bar"
+      ],
+      "defaultValue": "bar",
+      "description": "进度指示器的视觉形式。"
+    },
+    {
+      "name": "position",
+      "type": "\"inline\" | \"top\" | \"bottom\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "inline",
+        "top",
+        "bottom"
+      ],
+      "defaultValue": "top",
+      "description": "固定进度条所在的边缘。使用 inline 可让它保留在正常文档流中。"
+    },
+    {
+      "name": "container",
+      "type": "RefObject<HTMLElement | null>",
+      "required": false,
+      "control": "text",
+      "description": "要监听的滚动容器；未设置时监听页面。"
+    },
+    {
+      "name": "target",
+      "type": "RefObject<HTMLElement | null>",
+      "required": false,
+      "control": "text",
+      "description": "用于计算进度的目标元素。目标元素经过视口时会推动进度变化。"
+    },
+    {
+      "name": "offset",
+      "type": "ScrollOffset",
+      "required": false,
+      "control": "text",
+      "description": "设置 target 后使用的 Motion 滚动偏移范围。"
+    },
+    {
+      "name": "size",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "44",
+      "description": "环形指示器的直径，单位为像素。"
+    },
+    {
+      "name": "strokeWidth",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "3",
+      "description": "环形指示器的描边宽度，单位为像素。"
+    },
+    {
+      "name": "smooth",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否使用弹簧平滑处理突然的滚动进度变化。"
+    },
+    {
+      "name": "trackClassName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "应用于未完成轨道的 CSS 类名。"
+    },
+    {
+      "name": "indicatorClassName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "应用于移动进度指示器的 CSS 类名。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "scroll-progress-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "scroll-progress-container",
+      "title": "协议条款通读验证"
+    },
+    {
+      "name": "scroll-progress-steps",
+      "title": "特定章节视口穿越追踪"
+    },
+    {
+      "name": "scroll-progress-variants",
+      "title": "自定义渐变与环形样式"
+    }
+  ],
+  "files": [
+    "registry/ui/scroll-progress.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/scroll-progress",
+  "sourceUrl": "https://ui.wzx.wang/r/scroll-progress.json"
+}

@@ -1,0 +1,109 @@
+{
+  "name": "navbar",
+  "type": "registry:ui",
+  "title": "导航栏 Navbar",
+  "description": "适用于页面全局顶部栏与应用级侧边抽屉栏的高可组合性导航组件，支持横向/纵向排版、折叠收起、二级悬浮子菜单及徽标标记。",
+  "categories": [
+    "navigation"
+  ],
+  "import": "import { Navbar, NavbarBadge, NavbarBrand, NavbarBrandLabel, NavbarCollapseTrigger, NavbarContent, NavbarFooter, NavbarGroup, NavbarHeader, NavbarItem, NavbarLabel, NavbarLink, NavbarLinkAccessory, NavbarLinkLabel, NavbarList, NavbarSeparator, NavbarSubLink, NavbarSubList, NavbarSubmenu, NavbarSubmenuContent, NavbarSubmenuTrigger, navbarVariants } from \"@/components/ui/navbar\"",
+  "exports": [
+    "Navbar",
+    "NavbarBadge",
+    "NavbarBrand",
+    "NavbarBrandLabel",
+    "NavbarCollapseTrigger",
+    "NavbarContent",
+    "NavbarFooter",
+    "NavbarGroup",
+    "NavbarHeader",
+    "NavbarItem",
+    "NavbarLabel",
+    "NavbarLink",
+    "NavbarLinkAccessory",
+    "NavbarLinkLabel",
+    "NavbarList",
+    "NavbarSeparator",
+    "NavbarSubLink",
+    "NavbarSubList",
+    "NavbarSubmenu",
+    "NavbarSubmenuContent",
+    "NavbarSubmenuTrigger",
+    "navbarVariants"
+  ],
+  "typeExports": [
+    "NavbarLinkProps",
+    "NavbarProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/navbar",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/navbar.json",
+    "npmDependencies": [
+      "radix-ui",
+      "class-variance-authority",
+      "lucide-react"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "orientation",
+      "type": "\"horizontal\" | \"vertical\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "horizontal",
+        "vertical"
+      ],
+      "defaultValue": "horizontal",
+      "description": "导航栏方向。vertical 适合应用级左侧导航。"
+    },
+    {
+      "name": "collapsed",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "受控模式下垂直导航栏是否处于紧凑状态。"
+    },
+    {
+      "name": "defaultCollapsed",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "非受控模式下导航栏的初始紧凑状态。"
+    },
+    {
+      "name": "onCollapsedChange",
+      "type": "((collapsed: boolean) => void)",
+      "required": false,
+      "control": "text",
+      "description": "垂直导航栏在展开和紧凑状态之间切换时触发。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "navbar-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "navbar-app-header",
+      "title": "应用级顶部全局头栏"
+    },
+    {
+      "name": "navbar-vertical",
+      "title": "后台纵向侧栏与二级子菜单"
+    },
+    {
+      "name": "navbar-controlled",
+      "title": "受控模式与折叠收起"
+    }
+  ],
+  "files": [
+    "registry/ui/navbar.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/navbar",
+  "sourceUrl": "https://ui.wzx.wang/r/navbar.json"
+}

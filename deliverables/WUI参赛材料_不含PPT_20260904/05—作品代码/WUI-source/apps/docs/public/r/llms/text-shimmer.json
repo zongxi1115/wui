@@ -1,0 +1,86 @@
+{
+  "name": "text-shimmer",
+  "type": "registry:ui",
+  "title": "文字微光 Text Shimmer",
+  "description": "运用纯 CSS 渐变遮罩与 GPU 渲染管线，在文字表面平滑扫过一道灵动高光的微动效组件。",
+  "categories": [
+    "motion",
+    "text-effect"
+  ],
+  "import": "import { TextShimmer } from \"@/components/ui/text-shimmer\"",
+  "exports": [
+    "TextShimmer"
+  ],
+  "typeExports": [
+    "TextShimmerProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/text-shimmer",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/text-shimmer.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "string",
+      "required": true,
+      "control": "text",
+      "description": "承载扫光效果的文字。"
+    },
+    {
+      "name": "as",
+      "type": "ElementType<any, keyof IntrinsicElements>",
+      "required": false,
+      "control": "text",
+      "defaultValue": "span",
+      "description": "组件实际渲染的 HTML 元素。"
+    },
+    {
+      "name": "duration",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "2",
+      "description": "高光完整扫过一次所需的时间，单位为秒。"
+    },
+    {
+      "name": "spread",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "2",
+      "description": "高光渐变相对文字宽度的范围。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "text-shimmer-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "text-shimmer-button",
+      "title": "高优先级行动按钮"
+    },
+    {
+      "name": "text-shimmer-card",
+      "title": "后台处理状态卡片"
+    },
+    {
+      "name": "text-shimmer-colors",
+      "title": "自定义主题配色"
+    },
+    {
+      "name": "text-shimmer-wave-demo"
+    }
+  ],
+  "files": [
+    "registry/ui/text-shimmer.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/text-shimmer",
+  "sourceUrl": "https://ui.wzx.wang/r/text-shimmer.json"
+}

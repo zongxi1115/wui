@@ -1,0 +1,111 @@
+{
+  "name": "annotation",
+  "type": "registry:ui",
+  "title": "手绘批注与高亮 Annotation",
+  "description": "带有手绘笔触风格的动态荧光笔扫掠高亮、手绘箭头引导与路径圈注组件。",
+  "categories": [
+    "fancy",
+    "motion"
+  ],
+  "import": "import { AnnotationHighlight, AnnotationPath } from \"@/components/ui/annotation\"",
+  "exports": [
+    "AnnotationHighlight",
+    "AnnotationPath"
+  ],
+  "typeExports": [
+    "AnnotationHighlightProps",
+    "AnnotationPathProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/annotation",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/annotation.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": true,
+      "control": "text",
+      "description": "显示在标注线条上方的行内内容。"
+    },
+    {
+      "name": "variant",
+      "type": "\"smooth\" | \"rough\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "smooth",
+        "rough"
+      ],
+      "defaultValue": "smooth",
+      "description": "标注线条的形状。"
+    },
+    {
+      "name": "color",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "defaultValue": "oklch(0.88 0.16 92 / 0.58)",
+      "description": "标注线条的颜色。"
+    },
+    {
+      "name": "duration",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0.65",
+      "description": "线条扫过内容一次所需的时间，单位为秒。"
+    },
+    {
+      "name": "delay",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0",
+      "description": "开始高亮前等待的时间，单位为秒。"
+    },
+    {
+      "name": "inView",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否在内容进入视口时开始高亮。"
+    },
+    {
+      "name": "once",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否只在内容第一次进入视口时高亮。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "annotation-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "annotation-callout",
+      "title": "引导发布操作按钮"
+    },
+    {
+      "name": "annotation-shapes"
+    },
+    {
+      "name": "annotation-variants"
+    }
+  ],
+  "files": [
+    "registry/ui/annotation.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/annotation",
+  "sourceUrl": "https://ui.wzx.wang/r/annotation.json"
+}

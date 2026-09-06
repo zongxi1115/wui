@@ -1,0 +1,88 @@
+{
+  "name": "morphing-popover",
+  "type": "registry:ui",
+  "title": "形变气泡卡片 Morphing Popover",
+  "description": "将紧凑型按钮原地扩展为轻量级表单、快捷输入框或上下文操作浮层的形变交互组件。",
+  "categories": [
+    "motion",
+    "advanced"
+  ],
+  "import": "import { MorphingPopover, MorphingPopoverClose, MorphingPopoverContent, MorphingPopoverTrigger } from \"@/components/ui/morphing-popover\"",
+  "exports": [
+    "MorphingPopover",
+    "MorphingPopoverClose",
+    "MorphingPopoverContent",
+    "MorphingPopoverTrigger"
+  ],
+  "typeExports": [
+    "MorphingPopoverCloseProps",
+    "MorphingPopoverContentProps",
+    "MorphingPopoverProps",
+    "MorphingPopoverTriggerProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/morphing-popover",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/morphing-popover.json",
+    "npmDependencies": [
+      "radix-ui",
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "open",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "受控模式下弹出层是否打开。"
+    },
+    {
+      "name": "defaultOpen",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "非受控模式下弹出层的初始打开状态。"
+    },
+    {
+      "name": "onOpenChange",
+      "type": "((open: boolean) => void)",
+      "required": false,
+      "control": "text",
+      "description": "弹出层打开状态变化时触发。"
+    },
+    {
+      "name": "transition",
+      "type": "Transition",
+      "required": false,
+      "control": "text",
+      "defaultValue": "{\n  type: \"spring\",\n  stiffness: 460,\n  damping: 36,\n  mass: 0.65,\n} as const",
+      "description": "控制触发元素与弹出层之间形变过程的弹簧或补间动画。"
+    },
+    {
+      "name": "variants",
+      "type": "Variants",
+      "required": false,
+      "control": "text",
+      "description": "配置内容展开和收起时使用的 Motion 动画变体。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "morphing-popover-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "morphing-popover-form",
+      "title": "快捷反馈卡片"
+    }
+  ],
+  "files": [
+    "registry/ui/morphing-popover.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/morphing-popover",
+  "sourceUrl": "https://ui.wzx.wang/r/morphing-popover.json"
+}

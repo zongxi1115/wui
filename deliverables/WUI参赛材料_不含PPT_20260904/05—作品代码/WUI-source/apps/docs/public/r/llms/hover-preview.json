@@ -1,0 +1,93 @@
+{
+  "name": "hover-preview",
+  "type": "registry:ui",
+  "title": "悬停预览 Hover Preview",
+  "description": "当鼠标悬停在列表行、链接或触发元素上时，在其近旁展示跟随弹簧浮动的图文富媒体预览卡片。",
+  "categories": [
+    "pointer",
+    "motion",
+    "fancy"
+  ],
+  "import": "import { HoverPreview } from \"@/components/ui/hover-preview\"",
+  "exports": [
+    "HoverPreview"
+  ],
+  "typeExports": [
+    "HoverPreviewProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/hover-preview",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/hover-preview.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": true,
+      "control": "text",
+      "description": "触发预览的交互行、链接或控件。"
+    },
+    {
+      "name": "preview",
+      "type": "ReactNode",
+      "required": true,
+      "control": "text",
+      "description": "显示在指针旁边的预览内容。"
+    },
+    {
+      "name": "offsetX",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "24",
+      "description": "预览相对指针的水平偏移量，单位为像素。"
+    },
+    {
+      "name": "offsetY",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "20",
+      "description": "预览相对指针的垂直偏移量，单位为像素。"
+    },
+    {
+      "name": "open",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "受控模式下预览是否显示。"
+    },
+    {
+      "name": "previewClassName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "应用于浮动预览的 CSS 类名。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "hover-preview-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "hover-preview-link",
+      "title": "文本链接卡片预览"
+    },
+    {
+      "name": "hover-preview-user",
+      "title": "用户资料名片"
+    }
+  ],
+  "files": [
+    "registry/ui/hover-preview.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/hover-preview",
+  "sourceUrl": "https://ui.wzx.wang/r/hover-preview.json"
+}

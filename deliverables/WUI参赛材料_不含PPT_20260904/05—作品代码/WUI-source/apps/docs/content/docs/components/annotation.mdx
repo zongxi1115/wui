@@ -1,0 +1,183 @@
+---
+title: 手绘批注与高亮 Annotation
+description: 带有手绘笔触风格的动态荧光笔扫掠高亮、手绘箭头引导与路径圈注组件。
+component: annotation
+---
+
+## 基础用法
+
+进入视口时，关键词被荧光笔动态扫掠高亮，关键指标被手绘椭圆路径圈出，箭头指向核心 CTA 按钮：
+
+<ComponentPreview name="annotation-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
+
+<CodeTabs command="@wui-design/cli@latest add @wui/annotation" />
+
+<Steps>
+
+<Step>安装基础依赖与动效库</Step>
+
+```bash
+pnpm add motion lucide-react class-variance-authority clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/annotation.tsx`</Step>
+
+<ComponentSource name="annotation" title="components/ui/annotation.tsx" />
+
+</Steps>
+
+## 属性 Props
+
+### AnnotationHighlight
+
+`AnnotationHighlight` 用于在行内文字下方绘制动态扫过的荧光高亮笔触：
+
+<PropsTable
+  data={[
+    {
+      prop: "children",
+      type: "React.ReactNode",
+      description: "被高亮包裹的行内文字或短语。",
+    },
+    {
+      prop: "variant",
+      type: '"smooth" | "rough"',
+      default: '"smooth"',
+      description: "笔触风格。`smooth` 为平整荧光笔刷，`rough` 为带有自然抖动手绘感的双层笔触。",
+    },
+    {
+      prop: "color",
+      type: "string",
+      default: '"oklch(0.88 0.16 92 / 0.58)"',
+      description: "高亮笔触颜色（支持 OKLCH、Hex、RGBA 等任意有效 CSS 颜色）。",
+    },
+    {
+      prop: "duration",
+      type: "number",
+      default: "0.65",
+      description: "高亮笔触从左向右扫掠完成所需的秒数。",
+    },
+    {
+      prop: "delay",
+      type: "number",
+      default: "0",
+      description: "动画开始前的等待延迟时间（秒）。",
+    },
+    {
+      prop: "inView",
+      type: "boolean",
+      default: "true",
+      description: "是否在文字滚动进入视口时才触发动画绘制。",
+    },
+    {
+      prop: "once",
+      type: "boolean",
+      default: "true",
+      description: "是否仅在第一次进入视口时绘制一次。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于行内包装容器的 CSS 类名。",
+    },
+  ]}
+/>
+
+### AnnotationPath
+
+`AnnotationPath` 用于绘制任意自定义 SVG 路径（如箭头、圈注、涂鸦线）：
+
+<PropsTable
+  data={[
+    {
+      prop: "path",
+      type: "string",
+      default: '"M5 70C35 70 30 17 72 22C108 26 112 61 154 10"',
+      description: "SVG 路径字符串（d 属性）。",
+    },
+    {
+      prop: "viewBox",
+      type: "string",
+      default: '"0 0 160 80"',
+      description: "SVG 画布的 viewBox 属性。",
+    },
+    {
+      prop: "color",
+      type: "string",
+      default: '"currentColor"',
+      description: "线条描边与箭头的填充颜色。",
+    },
+    {
+      prop: "strokeWidth",
+      type: "number",
+      default: "3",
+      description: "SVG 线条描边粗细。",
+    },
+    {
+      prop: "arrow",
+      type: "boolean",
+      default: "true",
+      description: "路径终点是否自动添加手绘箭头。",
+    },
+    {
+      prop: "duration",
+      type: "number",
+      default: "0.8",
+      description: "路径绘制总时长（秒）。",
+    },
+    {
+      prop: "delay",
+      type: "number",
+      default: "0",
+      description: "开始绘制前的延迟时间（秒）。",
+    },
+    {
+      prop: "inView",
+      type: "boolean",
+      default: "true",
+      description: "是否随视口进入触发。",
+    },
+    {
+      prop: "once",
+      type: "boolean",
+      default: "true",
+      description: "是否仅执行一次。",
+    },
+  ]}
+/>
+
+## 事件 Events
+
+<PropsTable
+  data={[
+    {
+      prop: "onAnimationComplete",
+      type: "() => void",
+      description: "当路径绘制或高亮扫掠动画结束时触发。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`Annotation` 适用于**营销主标题强调、表单指引引导、核心数据圈注、操作引导提示**：
+
+- **聚焦重点而非通篇标注**：每屏建议只放置 1 ~ 2 处批注或高亮，过多的手绘元素反而会分散用户的视觉焦点。
+- **与上下文语义相符**：荧光笔高亮通常用于正向关键卖点，红色/橙色箭头用于引导转化动作。
+
+## 场景示例
+
+### 引导发布操作按钮
+
+手绘箭头精确指向发布按钮：
+
+<ComponentPreview name="annotation-callout" />
+
+## 无障碍与交互 Accessibility
+
+- **文本选区与朗读无阻碍**：高亮笔触位于文字底层（`z-0`），文字始终保持在最顶层（`z-10`），用户可以正常选中并复制文字。
+- **动态效果减弱**：在 `prefers-reduced-motion: reduce` 下，路径与笔触直接以 100% 完整形态呈现，跳过 pathLength 描绘过程。

@@ -1,0 +1,100 @@
+{
+  "name": "hover-marquee",
+  "type": "registry:ui",
+  "title": "悬停跑马灯 Hover Marquee",
+  "description": "当列表行被悬停或聚焦时，原地替换为水平无限循环滚动的跑马灯轨道预览。",
+  "categories": [
+    "fancy",
+    "motion"
+  ],
+  "import": "import { HoverMarquee } from \"@/components/ui/hover-marquee\"",
+  "exports": [
+    "HoverMarquee"
+  ],
+  "typeExports": [
+    "HoverMarqueeProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/hover-marquee",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/hover-marquee.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils",
+      "infinite-slider"
+    ]
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": true,
+      "control": "text",
+      "description": "列表行未激活时显示的内容。"
+    },
+    {
+      "name": "marquee",
+      "type": "ReactNode",
+      "required": true,
+      "control": "text",
+      "description": "浮入预览轨道中循环显示的内容。"
+    },
+    {
+      "name": "speed",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "96",
+      "description": "预览轨道移动速度，单位为每秒像素数。"
+    },
+    {
+      "name": "gap",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "32",
+      "description": "重复预览项之间的间距，单位为像素。"
+    },
+    {
+      "name": "reverse",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "是否反转预览轨道的移动方向。"
+    },
+    {
+      "name": "active",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "是否从组件外部强制打开预览。"
+    },
+    {
+      "name": "marqueeClassName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "应用于移动预览层的 CSS 类名。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "hover-marquee-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "hover-marquee-tags",
+      "title": "技术栈与技能矩阵"
+    },
+    {
+      "name": "hover-marquee-catalog"
+    }
+  ],
+  "files": [
+    "registry/ui/hover-marquee.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/hover-marquee",
+  "sourceUrl": "https://ui.wzx.wang/r/hover-marquee.json"
+}

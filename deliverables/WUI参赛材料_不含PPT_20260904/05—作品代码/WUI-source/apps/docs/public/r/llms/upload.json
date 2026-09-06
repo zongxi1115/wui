@@ -1,0 +1,141 @@
+{
+  "name": "upload",
+  "type": "registry:ui",
+  "title": "上传 Upload",
+  "description": "支持点击选取、文件拖拽放置、上传进度百分比展示与状态生命周期反馈的文件上传控件。",
+  "import": "import { Upload, uploadVariants } from \"@/components/ui/upload\"",
+  "exports": [
+    "Upload",
+    "uploadVariants"
+  ],
+  "typeExports": [
+    "UploadProps",
+    "UploadStatus"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/upload",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/upload.json",
+    "npmDependencies": [
+      "lucide-react",
+      "class-variance-authority",
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "label",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "defaultValue": "Drop files here or click to browse",
+      "description": "拖放区域内显示的主要操作提示。"
+    },
+    {
+      "name": "description",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "主要提示下方显示的补充说明。"
+    },
+    {
+      "name": "status",
+      "type": "\"idle\" | \"error\" | \"complete\" | \"uploading\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "idle",
+        "error",
+        "complete",
+        "uploading"
+      ],
+      "defaultValue": "\"idle\"",
+      "description": "上传流程的当前状态。"
+    },
+    {
+      "name": "progress",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0",
+      "description": "确定进度的上传进度，取值范围为 0 到 100。"
+    },
+    {
+      "name": "size",
+      "type": "\"compact\" | \"default\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "compact",
+        "default"
+      ],
+      "defaultValue": "default",
+      "description": "控件的高度和间距尺寸。"
+    },
+    {
+      "name": "multiple",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "是否允许一次选择多个文件。"
+    },
+    {
+      "name": "accept",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "允许选择的 MIME 类型或文件扩展名，多个值用逗号分隔。"
+    },
+    {
+      "name": "onFilesChange",
+      "type": "((files: File[]) => void)",
+      "required": false,
+      "control": "text",
+      "description": "选择或拖入文件时触发。"
+    },
+    {
+      "name": "onUpload",
+      "type": "((files: File[]) => void | Promise<void>)",
+      "required": false,
+      "control": "text",
+      "description": "文件选择完成并更新内部上传状态后触发。"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "是否禁用组件。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "upload-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "upload-avatar",
+      "title": "用户头像即时预览上传"
+    },
+    {
+      "name": "upload-progress-simulated",
+      "title": "进度条百分比反馈"
+    },
+    {
+      "name": "upload-dropzone",
+      "title": "多文件批量拖拽清单"
+    },
+    {
+      "name": "upload-states",
+      "title": "状态与尺寸矩阵"
+    }
+  ],
+  "files": [
+    "registry/ui/upload.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/upload",
+  "sourceUrl": "https://ui.wzx.wang/r/upload.json"
+}

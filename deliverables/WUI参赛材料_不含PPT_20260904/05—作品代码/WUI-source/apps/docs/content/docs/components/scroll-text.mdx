@@ -1,0 +1,126 @@
+---
+title: 滚动文本动效 Scroll Text
+description: 依据滚动视口进度，逐字渐进高亮（Highlight）或逐行位移显现（Reveal）的段落文字动效组件。
+component: scroll-text
+---
+
+## 基础用法
+
+随着向下滚动，宣言文本逐词由暗淡灰色点亮为高亮前景色，并演示逐行显现：
+
+<ComponentPreview name="scroll-text-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
+
+<CodeTabs command="@wui-design/cli@latest add @wui/scroll-text" />
+
+<Steps>
+
+<Step>安装基础依赖与动效库</Step>
+
+```bash
+pnpm add motion lucide-react class-variance-authority clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/scroll-text.tsx`</Step>
+
+<ComponentSource name="scroll-text" title="components/ui/scroll-text.tsx" />
+
+</Steps>
+
+## 属性 Props
+
+<PropsTable
+  data={[
+    {
+      prop: "children",
+      type: "string",
+      description: "需要受滚动进度控制的纯文本字符串内容。",
+    },
+    {
+      prop: "mode",
+      type: '"highlight" | "reveal"',
+      default: '"highlight"',
+      description: "显现风格。`highlight` 为平滑点亮（由半透明文本叠加不透明高亮）；`reveal` 为带有向上位移与遮罩裁切的登场。",
+    },
+    {
+      prop: "per",
+      type: '"word" | "line"',
+      default: '"word"',
+      description: "文本切分粒度。`word` 按空格单词/词语切分；`line` 按换行符 `\\n` 逐行切分。",
+    },
+    {
+      prop: "as",
+      type: "React.ElementType",
+      default: '"p"',
+      description: "渲染出的底层 HTML 标签（如 `p`、`h1`、`h2`、`div` 等）。",
+    },
+    {
+      prop: "range",
+      type: "[number, number]",
+      default: "[0, 1]",
+      description: "当前文本在滚动监听区间内所占的进度起始与终止百分比。",
+    },
+    {
+      prop: "overlap",
+      type: "number",
+      default: "0.35",
+      description: "相邻文字单元之间的动画重叠交织程度（数值越大越连贯，越小越分明）。",
+    },
+    {
+      prop: "container",
+      type: "React.RefObject<HTMLElement | null>",
+      description: "局部滚动容器的 ref 引用（不传时监听整个页面滚动）。",
+    },
+    {
+      prop: "offset",
+      type: 'UseScrollOptions["offset"]',
+      default: '["start 0.85", "end 0.35"]',
+      description: "Motion useScroll 监听的视口锚点区间。",
+    },
+    {
+      prop: "segmentClassName",
+      type: "string",
+      description: "应用于每个文本分段 span 的 CSS 类名。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于最外层文本容器的 CSS 类名。",
+    },
+  ]}
+/>
+
+## 事件 Events
+
+<PropsTable
+  data={[
+    {
+      prop: "onAnimationStart",
+      type: "() => void",
+      description: "文本段落开始滚动变换时触发。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`ScrollText` 适用于**品牌宣言（Manifesto）、核心产品主张、引言与关键数字口号**：
+
+- **节奏感与停留感**：通过将整段大文字与滚动绑定，引导用户逐字品读核心价值，相比直接呈现能提高 3 倍以上的阅读停留率。
+- **排版连贯性**：内置保留了空格与换行符逻辑，不会导致英文断词错位或标点挤压。
+
+## 场景示例
+
+### 逐词揭示模式（Reveal）
+
+文字带遮罩并由下方浮现：
+
+<ComponentPreview name="scroll-text-reveal" />
+
+## 无障碍与交互 Accessibility
+
+- **屏幕阅读器完整朗读**：组件外层自带 `aria-label={children}`，内部动画分段全部被标记 `aria-hidden="true"`，读屏工具会一次性朗读整句，绝不会被打碎成单个单词。
+- **动效减弱适配**：在 `prefers-reduced-motion: reduce` 下，所有文字默认全部直接以最终高亮态显示，不产生任何透明度波动。

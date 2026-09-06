@@ -1,0 +1,164 @@
+{
+  "name": "line-chart",
+  "type": "registry:component",
+  "title": "折线图 Line Chart",
+  "description": "展示有序数据趋势，并支持多序列比较与键盘浏览。",
+  "categories": [
+    "charts",
+    "trend"
+  ],
+  "import": "import { LineChart } from \"@/components/charts/line-chart\"",
+  "exports": [
+    "LineChart"
+  ],
+  "typeExports": [
+    "ChartDatum",
+    "ChartLabelFormatter",
+    "ChartReferenceLine",
+    "ChartSeries",
+    "ChartValueFormatter",
+    "LineChartProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/line-chart",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/line-chart.json",
+    "npmDependencies": [],
+    "registryDependencies": [
+      "chart-core"
+    ]
+  },
+  "props": [
+    {
+      "name": "title",
+      "type": "ReactNode",
+      "required": true,
+      "control": "text",
+      "description": "图表标题，用于说明正在展示的指标。"
+    },
+    {
+      "name": "description",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "补充单位、时间范围或筛选条件的副标题。"
+    },
+    {
+      "name": "actions",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "标题右侧的操作区，适合组合 Button、Select 或业务工具栏。"
+    },
+    {
+      "name": "data",
+      "type": "ChartDatum[]",
+      "required": true,
+      "control": "text",
+      "description": "每行代表一个横轴节点的数据。"
+    },
+    {
+      "name": "xKey",
+      "type": "string",
+      "required": true,
+      "control": "text",
+      "description": "用作横轴标签的数据字段。"
+    },
+    {
+      "name": "series",
+      "type": "ChartSeries[]",
+      "required": true,
+      "control": "text",
+      "description": "要绘制的数值序列。"
+    },
+    {
+      "name": "height",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "280",
+      "description": "图表绘图区高度，单位为像素。"
+    },
+    {
+      "name": "domain",
+      "type": "[number, number]",
+      "required": false,
+      "control": "text",
+      "description": "手动指定纵轴最小值和最大值。"
+    },
+    {
+      "name": "showGrid",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否显示水平参考网格。"
+    },
+    {
+      "name": "showDots",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否显示数据节点。"
+    },
+    {
+      "name": "showLegend",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否在多序列时显示图例。"
+    },
+    {
+      "name": "fillOpacity",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0",
+      "description": "面积填充的不透明度；大于零时绘制为面积趋势。"
+    },
+    {
+      "name": "referenceLines",
+      "type": "ChartReferenceLine[]",
+      "required": false,
+      "control": "text",
+      "defaultValue": "[]",
+      "description": "目标值、均值或阈值等纵轴参考线。"
+    },
+    {
+      "name": "yAxisFormatter",
+      "type": "((value: number) => ReactNode)",
+      "required": false,
+      "control": "text",
+      "description": "自定义纵轴刻度的显示格式。"
+    },
+    {
+      "name": "valueFormatter",
+      "type": "ChartValueFormatter",
+      "required": false,
+      "control": "text",
+      "defaultValue": "(value) => defaultValueFormatter(value)",
+      "description": "自定义数值的显示格式。"
+    },
+    {
+      "name": "labelFormatter",
+      "type": "ChartLabelFormatter",
+      "required": false,
+      "control": "text",
+      "defaultValue": "(value) => String(value)",
+      "description": "自定义横轴标签和提示框标题的显示格式。"
+    }
+  ],
+  "usage": "- `data` 中的横轴字段可为字符串或数字，序列字段应为有限数值；`null` 会在对应序列中形成断点。\n- 纵轴默认根据数据范围生成易读刻度，不强制包含零；需要跨图保持一致时通过 `domain` 明确指定范围。\n- 用 `valueFormatter` 统一处理数值、单位和提示框显示，用 `labelFormatter` 处理横轴标签。",
+  "events": "图表不产生业务事件，指针与键盘交互只用于读取数据。根元素会透传原生 `div` 属性，数据本身同时输出为仅辅助技术可见的表格。",
+  "examples": [
+    {
+      "name": "line-chart-demo"
+    }
+  ],
+  "files": [
+    "registry/charts/line-chart.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/charts/line-chart",
+  "sourceUrl": "https://ui.wzx.wang/r/line-chart.json"
+}

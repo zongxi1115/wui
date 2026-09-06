@@ -1,0 +1,28 @@
+---
+title: 时间序列图 Time Series Chart
+description: 按真实时间间隔绘制趋势，并支持线性与对数纵轴。
+component: time-series-chart
+---
+
+## 基础用法
+
+<ComponentPreview
+  name="time-series-chart-demo"
+  previewClassName="min-h-0 p-6 sm:p-8"
+/>
+
+<CodeTabs command="@wui-design/cli@latest add @wui/time-series-chart" />
+
+<ComponentSource
+  name="time-series-chart"
+  title="components/charts/time-series-chart.tsx"
+/>
+
+## 使用场景
+
+与等距分类折线图不同，`TimeSeriesChart` 会根据时间戳间隔定位数据点。`scale="log"` 适用于跨多个数量级且全部为正数的指标，不能用于零值或负值。
+`renderTooltip` 与 `renderLegend` 可替换默认内容，但外层间距、颜色和信息密度仍建议沿用现有图表样式。
+
+## 属性
+
+<PropsTable name="time-series-chart" />

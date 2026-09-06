@@ -1,0 +1,37 @@
+---
+title: 热力图 Heatmap
+description: 仿 GitHub 贡献日历风格的时间序列活跃度与活动密度热力矩阵图表。
+component: heatmap
+---
+
+## 基础示例 · Basic example
+
+<ComponentPreview name="heatmap-demo" previewClassName="min-h-0 p-6 flex justify-center" />
+
+<CodeTabs command="@wui-design/cli@latest add @wui/heatmap" />
+
+<ComponentSource name="heatmap" title="charts/heatmap.tsx" />
+
+## 组件作用 · What it's for
+
+`Heatmap` 将时间轴折叠为星期×周次网格，利用颜色深浅映射活动频次或数值密度。
+
+### 适用场景
+- **用户活跃度与贡献记录**：代码提交记录、学习打卡天数、用户每日登录频率。
+- **监控与异常分布**：接口调用错误频次按日分布、系统告警时间点聚集分析。
+- **支持横向自适应滚动**：在窄屏视口中优雅横向滚动，兼顾整洁与信息密度。
+
+### 何时不建议使用
+- 如果需要观察连续的多指标波动趋势，建议使用折线图（`LineChart`）或时间序列图（`TimeSeriesChart`）。
+
+## 组件属性 · Props
+
+<PropsTable name="heatmap" />
+
+## 事件 · Events
+
+- 鼠标悬停任意日期格子触发 `ChartTooltip` 详情提示。
+
+## 拓展使用 · Extended usage
+
+可通过 `cellSize`、`cellGap` 与 `cellRadius` 灵活调整格子大小与圆角风格。

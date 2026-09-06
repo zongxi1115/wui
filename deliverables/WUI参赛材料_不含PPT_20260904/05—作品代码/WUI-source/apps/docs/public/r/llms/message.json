@@ -1,0 +1,169 @@
+{
+  "name": "message",
+  "type": "registry:ui",
+  "title": "全局提示 Message",
+  "description": "用于在用户操作后提供轻量、非阻塞的全局反馈通知，支持卡片堆叠队列、手势拖拽移除与流畅物理微动效。",
+  "import": "import { MessageProvider, useMessage } from \"@/components/ui/message\"",
+  "exports": [
+    "MessageProvider",
+    "useMessage"
+  ],
+  "typeExports": [
+    "MessageApi",
+    "MessageMotionConfig",
+    "MessageOptions",
+    "MessagePosition",
+    "MessageProviderProps",
+    "MessageVariant"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/message",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/message.json",
+    "npmDependencies": [
+      "radix-ui",
+      "lucide-react",
+      "@animateicons/react",
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "position",
+      "type": "\"top\" | \"bottom\" | \"top-left\" | \"top-right\" | \"bottom-left\" | \"bottom-right\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "top",
+        "bottom",
+        "top-left",
+        "top-right",
+        "bottom-left",
+        "bottom-right"
+      ],
+      "defaultValue": "top",
+      "description": "消息默认显示在屏幕上的位置。"
+    },
+    {
+      "name": "duration",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "3000",
+      "description": "消息默认显示时长，单位为毫秒。"
+    },
+    {
+      "name": "maxCount",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "5",
+      "description": "同时显示的消息数量上限。超出后优先移除较早的消息。"
+    },
+    {
+      "name": "offset",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "20",
+      "description": "消息与视口边缘的距离，单位为像素。"
+    },
+    {
+      "name": "gap",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "10",
+      "description": "堆叠消息之间的间距，单位为像素。"
+    },
+    {
+      "name": "stacked",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否将消息重叠堆叠显示，而不是显示为纵向列表。"
+    },
+    {
+      "name": "maxVisibleMessages",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "3",
+      "description": "堆叠队列中同时显示的最大层数。"
+    },
+    {
+      "name": "scaleFactor",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0.05",
+      "description": "每增加一层时应用的缩放幅度。"
+    },
+    {
+      "name": "expandOnHover",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "鼠标悬停或键盘聚焦时是否展开消息堆。"
+    },
+    {
+      "name": "dragToDismiss",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否允许通过水平拖动移除消息。"
+    },
+    {
+      "name": "dragThreshold",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "72",
+      "description": "触发拖动移除所需的水平距离，单位为像素。"
+    },
+    {
+      "name": "motion",
+      "type": "Partial<MessageMotionConfig>",
+      "required": false,
+      "control": "text",
+      "defaultValue": "{}",
+      "description": "所有消息共用的动效配置。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "message-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "message-positions",
+      "title": "弹出方位 (Positions)"
+    },
+    {
+      "name": "message-duration",
+      "title": "停留时长与异步加载 (Duration)"
+    },
+    {
+      "name": "message-stack",
+      "title": "卡片堆叠与手势移除 (Stacked & Drag)"
+    },
+    {
+      "name": "message-motion",
+      "title": "自定义动效与透明度 (Motion & Opacity)"
+    },
+    {
+      "name": "message-business",
+      "title": "业务场景：复制密钥、上传同步与撤销操作"
+    }
+  ],
+  "files": [
+    "registry/ui/message.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/message",
+  "sourceUrl": "https://ui.wzx.wang/r/message.json"
+}

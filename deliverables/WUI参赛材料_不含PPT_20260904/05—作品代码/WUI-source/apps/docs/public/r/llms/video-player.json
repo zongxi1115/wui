@@ -1,0 +1,51 @@
+{
+  "name": "video-player",
+  "type": "registry:ui",
+  "title": "视频播放器 Video Player",
+  "description": "由可自由组合的小组件构成，支持播放、进度、音量、快捷键和全屏的视频播放器。",
+  "import": "import { VideoPlayer, VideoPlayerControlBar, VideoPlayerControlGroup, VideoPlayerControls, VideoPlayerFullscreenButton, VideoPlayerMuteButton, VideoPlayerPlayButton, VideoPlayerSeek, VideoPlayerTime, VideoPlayerVideo, VideoPlayerVolume, formatTime, useVideoPlayer } from \"@/components/ui/video-player\"",
+  "exports": [
+    "VideoPlayer",
+    "VideoPlayerControlBar",
+    "VideoPlayerControlGroup",
+    "VideoPlayerControls",
+    "VideoPlayerFullscreenButton",
+    "VideoPlayerMuteButton",
+    "VideoPlayerPlayButton",
+    "VideoPlayerSeek",
+    "VideoPlayerTime",
+    "VideoPlayerVideo",
+    "VideoPlayerVolume",
+    "formatTime",
+    "useVideoPlayer"
+  ],
+  "typeExports": [
+    "VideoPlayerProps",
+    "VideoPlayerVideoProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/video-player",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/video-player.json",
+    "npmDependencies": [
+      "lucide-react"
+    ],
+    "registryDependencies": [
+      "utils",
+      "button",
+      "slider",
+      "tooltip"
+    ]
+  },
+  "props": [],
+  "examples": [
+    {
+      "name": "video-player-demo",
+      "title": "基础用法"
+    }
+  ],
+  "files": [
+    "registry/ui/video-player.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/video-player",
+  "sourceUrl": "https://ui.wzx.wang/r/video-player.json"
+}

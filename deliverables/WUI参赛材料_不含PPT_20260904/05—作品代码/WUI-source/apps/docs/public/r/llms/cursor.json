@@ -1,0 +1,101 @@
+{
+  "name": "cursor",
+  "type": "registry:ui",
+  "title": "自定义光标 Cursor",
+  "description": "附着于页面或特定容器的物理弹簧跟随自定义光标，为创意展示与画布操作提供高交互沉浸感。",
+  "categories": [
+    "motion"
+  ],
+  "import": "import { Cursor } from \"@/components/ui/cursor\"",
+  "exports": [
+    "Cursor"
+  ],
+  "typeExports": [
+    "CursorProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/cursor",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/cursor.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": true,
+      "control": "text",
+      "description": "显示在指针位置的视觉内容。"
+    },
+    {
+      "name": "springConfig",
+      "type": "SpringOptions",
+      "required": false,
+      "control": "text",
+      "defaultValue": "{ stiffness: 500, damping: 35, mass: 0.2 }",
+      "description": "跟随指针移动时使用的弹簧参数。"
+    },
+    {
+      "name": "attachToParent",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "是否将指针视觉限制在组件父元素范围内。"
+    },
+    {
+      "name": "transition",
+      "type": "Transition",
+      "required": false,
+      "control": "text",
+      "defaultValue": "{ duration: 0.15 }",
+      "description": "指针视觉进入和离开时使用的过渡动画。"
+    },
+    {
+      "name": "variants",
+      "type": "Variants",
+      "required": false,
+      "control": "text",
+      "defaultValue": "{\n  initial: { opacity: 0, scale: 0.75 },\n  animated: { opacity: 1, scale: 1 },\n  exit: { opacity: 0, scale: 0.75 },\n}",
+      "description": "指针视觉的初始、播放中和离开状态。"
+    },
+    {
+      "name": "hideNativeCursor",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "激活区域内是否隐藏系统原生指针。"
+    },
+    {
+      "name": "onPositionChange",
+      "type": "((position: CursorPosition) => void)",
+      "required": false,
+      "control": "text",
+      "description": "指针坐标变化时触发。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "cursor-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "cursor-parent",
+      "title": "容器边界与坐标监听"
+    },
+    {
+      "name": "cursor-card",
+      "title": "创意卡片交互"
+    }
+  ],
+  "files": [
+    "registry/ui/cursor.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/cursor",
+  "sourceUrl": "https://ui.wzx.wang/r/cursor.json"
+}

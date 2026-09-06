@@ -1,0 +1,175 @@
+{
+  "name": "text-effect",
+  "type": "registry:ui",
+  "title": "文本入场 Text Effect",
+  "description": "支持按字符、单词或行级粒度拆分，并提供多种高质感入场动效预设与自定义物理过渡的文本动效组件。",
+  "categories": [
+    "motion",
+    "text-effect"
+  ],
+  "import": "import { TextEffect, textEffectPresets } from \"@/components/ui/text-effect\"",
+  "exports": [
+    "TextEffect",
+    "textEffectPresets"
+  ],
+  "typeExports": [
+    "TextEffectPreset",
+    "TextEffectProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/text-effect",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/text-effect.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "string",
+      "required": true,
+      "control": "text",
+      "description": "要拆分并播放动画的文本。"
+    },
+    {
+      "name": "per",
+      "type": "\"line\" | \"word\" | \"char\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "line",
+        "word",
+        "char"
+      ],
+      "defaultValue": "word",
+      "description": "文本拆分粒度：行、单词或字符。"
+    },
+    {
+      "name": "as",
+      "type": "ElementType<any, keyof IntrinsicElements>",
+      "required": false,
+      "control": "text",
+      "defaultValue": "p",
+      "description": "组件实际渲染的 HTML 元素。"
+    },
+    {
+      "name": "preset",
+      "type": "\"scale\" | \"fade\" | \"blur-sm\" | \"fade-in-blur\" | \"slide\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "scale",
+        "fade",
+        "blur-sm",
+        "fade-in-blur",
+        "slide"
+      ],
+      "defaultValue": "fade",
+      "description": "内置的片段入场动画。"
+    },
+    {
+      "name": "variants",
+      "type": "{ container?: Variants; item?: Variants; } | undefined",
+      "required": false,
+      "control": "text",
+      "description": "自定义容器和文本片段的动画变体。"
+    },
+    {
+      "name": "delay",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0",
+      "description": "开始揭示文本前等待的时间，单位为秒。"
+    },
+    {
+      "name": "trigger",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否显示文本。切换为 false 可隐藏文本。"
+    },
+    {
+      "name": "speedReveal",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "1",
+      "description": "容器交错动画速度的倍率。"
+    },
+    {
+      "name": "speedSegment",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "1",
+      "description": "每个文本片段动画速度的倍率。"
+    },
+    {
+      "name": "segmentWrapperClassName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "应用于每个文本片段包装元素的额外 CSS 类名。"
+    },
+    {
+      "name": "containerTransition",
+      "type": "Transition",
+      "required": false,
+      "control": "text",
+      "description": "容器使用的自定义过渡动画。"
+    },
+    {
+      "name": "segmentTransition",
+      "type": "Transition",
+      "required": false,
+      "control": "text",
+      "description": "每个文本片段使用的自定义过渡动画。"
+    },
+    {
+      "name": "onAnimationStart",
+      "type": "(() => void)",
+      "required": false,
+      "control": "text",
+      "description": "文本揭示动画开始时触发。"
+    },
+    {
+      "name": "onAnimationComplete",
+      "type": "(() => void)",
+      "required": false,
+      "control": "text",
+      "description": "文本揭示动画完成时触发。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "text-effect-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "text-effect-presets",
+      "title": "动效预设"
+    },
+    {
+      "name": "text-effect-granularity",
+      "title": "拆分颗粒度比较"
+    },
+    {
+      "name": "text-effect-custom-variants",
+      "title": "自定义 Motion 动画变体"
+    },
+    {
+      "name": "text-effect-card",
+      "title": "业务卡片级联入场"
+    }
+  ],
+  "files": [
+    "registry/ui/text-effect.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/text-effect",
+  "sourceUrl": "https://ui.wzx.wang/r/text-effect.json"
+}

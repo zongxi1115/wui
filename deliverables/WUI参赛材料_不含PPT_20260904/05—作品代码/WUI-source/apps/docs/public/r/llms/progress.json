@@ -1,0 +1,116 @@
+{
+  "name": "progress",
+  "type": "registry:ui",
+  "title": "进度条 Progress",
+  "description": "细腻克制的线性与环形进度指示器，支持确定性百分比与不确定动态状态。",
+  "import": "import { Progress, progressVariants } from \"@/components/ui/progress\"",
+  "exports": [
+    "Progress",
+    "progressVariants"
+  ],
+  "typeExports": [
+    "ProgressProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/progress",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/progress.json",
+    "npmDependencies": [
+      "radix-ui",
+      "class-variance-authority"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "variant",
+      "type": "\"linear\" | \"circular\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "linear",
+        "circular"
+      ],
+      "defaultValue": "linear",
+      "description": "进度指示器的布局形式。"
+    },
+    {
+      "name": "size",
+      "type": "\"default\" | \"sm\" | \"lg\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "default",
+        "sm",
+        "lg"
+      ],
+      "defaultValue": "default",
+      "description": "线性进度条的厚度，或环形进度的直径。"
+    },
+    {
+      "name": "color",
+      "type": "\"destructive\" | \"success\" | \"warning\" | \"primary\" | \"blue\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "destructive",
+        "success",
+        "warning",
+        "primary",
+        "blue"
+      ],
+      "defaultValue": "primary",
+      "description": "已完成部分使用的语义强调色。"
+    },
+    {
+      "name": "showValue",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "是否在环形进度中显示当前百分比。"
+    },
+    {
+      "name": "indicatorClassName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "应用于已完成部分的额外 CSS 类名。"
+    },
+    {
+      "name": "asChild",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "progress-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "progress-variants",
+      "title": "语义色彩与环形形态"
+    },
+    {
+      "name": "progress-sizes",
+      "title": "尺寸规格对比"
+    },
+    {
+      "name": "progress-dynamic",
+      "title": "动态任务流（文件上传）"
+    },
+    {
+      "name": "progress-dashboard",
+      "title": "仪表盘资源监控看板"
+    }
+  ],
+  "files": [
+    "registry/ui/progress.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/progress",
+  "sourceUrl": "https://ui.wzx.wang/r/progress.json"
+}

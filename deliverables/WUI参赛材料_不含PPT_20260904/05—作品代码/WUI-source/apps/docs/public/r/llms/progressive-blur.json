@@ -1,0 +1,75 @@
+{
+  "name": "progressive-blur",
+  "type": "registry:ui",
+  "title": "渐进模糊 Progressive Blur",
+  "description": "利用多层重叠梯度遮罩与 Backdrop Filter 实现边缘平滑衰减虚化、防止硬截断的视觉层次组件。",
+  "categories": [
+    "motion",
+    "advanced"
+  ],
+  "import": "import { ProgressiveBlur, gradientAngles } from \"@/components/ui/progressive-blur\"",
+  "exports": [
+    "ProgressiveBlur",
+    "gradientAngles"
+  ],
+  "typeExports": [
+    "ProgressiveBlurProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/progressive-blur",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/progressive-blur.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "direction",
+      "type": "\"top\" | \"right\" | \"bottom\" | \"left\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "top",
+        "right",
+        "bottom",
+        "left"
+      ],
+      "defaultValue": "bottom",
+      "description": "模糊效果最强的一侧。"
+    },
+    {
+      "name": "blurLayers",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "8",
+      "description": "叠加的遮罩层数量，小于 2 时会按 2 层处理。"
+    },
+    {
+      "name": "blurIntensity",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0.25",
+      "description": "每增加一层时叠加的模糊强度，单位为像素。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "progressive-blur-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "progressive-blur-directions",
+      "title": "上下方多方向虚化对比"
+    }
+  ],
+  "files": [
+    "registry/ui/progressive-blur.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/progressive-blur",
+  "sourceUrl": "https://ui.wzx.wang/r/progressive-blur.json"
+}

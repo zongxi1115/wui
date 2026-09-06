@@ -1,0 +1,125 @@
+{
+  "name": "rich-text-editor",
+  "type": "registry:ui",
+  "title": "富文本编辑器 Rich Text Editor",
+  "description": "基于浏览器原生编辑能力的轻量富文本输入组件，内置常用格式化工具栏。",
+  "categories": [
+    "form",
+    "data-entry"
+  ],
+  "import": "import { RichTextEditor } from \"@/components/ui/rich-text-editor\"",
+  "exports": [
+    "RichTextEditor"
+  ],
+  "typeExports": [
+    "RichTextEditorAttachment",
+    "RichTextEditorImage",
+    "RichTextEditorProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/rich-text-editor",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/rich-text-editor.json",
+    "npmDependencies": [
+      "lucide-react"
+    ],
+    "registryDependencies": [
+      "utils",
+      "button"
+    ]
+  },
+  "props": [
+    {
+      "name": "value",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "受控模式下的 HTML 内容。"
+    },
+    {
+      "name": "defaultValue",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "非受控模式下的初始 HTML 内容。"
+    },
+    {
+      "name": "onValueChange",
+      "type": "((value: string) => void)",
+      "required": false,
+      "control": "text",
+      "description": "内容变化时返回编辑器当前的 HTML。"
+    },
+    {
+      "name": "placeholder",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "defaultValue": "输入内容…",
+      "description": "编辑区为空时显示的提示文案。"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "是否禁用编辑与格式化操作。"
+    },
+    {
+      "name": "hideToolbar",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "是否隐藏默认工具栏。"
+    },
+    {
+      "name": "accept",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "可选择的附件类型，使用原生 input accept 格式。"
+    },
+    {
+      "name": "multiple",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否允许一次选择多个附件。"
+    },
+    {
+      "name": "onFileUpload",
+      "type": "((files: File[]) => RichTextEditorAttachment[] | Promise<RichTextEditorAttachment[]>)",
+      "required": false,
+      "control": "text",
+      "description": "接管文件上传，并返回可公开访问的附件地址；成功后编辑器会将它们插入为链接。\n未提供时，附件按钮不会显示。"
+    },
+    {
+      "name": "onImageUpload",
+      "type": "((files: File[]) => RichTextEditorImage[] | Promise<RichTextEditorImage[]>)",
+      "required": false,
+      "control": "text",
+      "description": "接管图片上传，并返回可公开访问的图片地址；成功后编辑器会将它们插入。"
+    },
+    {
+      "name": "editorClassName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "应用于可编辑内容区域的额外类名。"
+    }
+  ],
+  "usage": "组件输出 HTML；若要在其他位置展示用户编辑的内容，请在服务端或渲染前完成 HTML 清洗。工具栏提供标题、文本样式、列表、引用、代码、链接、附件、图片以及撤销/重做操作，也保留浏览器原生快捷键。当编辑光标位于正文链接或附件链接内时，会在链接上方出现“打开链接”按钮。\n\n附件上传由 `onFileUpload` 接管：将 `File[]` 上传到你的服务，并返回 `{ name, url }` 数组，组件会把链接插入当前光标位置。\n\n图片上传由 `onImageUpload` 接管：返回 `{ url, alt? }` 数组，组件会将图片插入当前光标位置。",
+  "examples": [
+    {
+      "name": "rich-text-editor-demo",
+      "title": "基础用法"
+    }
+  ],
+  "files": [
+    "registry/ui/rich-text-editor.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/rich-text-editor",
+  "sourceUrl": "https://ui.wzx.wang/r/rich-text-editor.json"
+}

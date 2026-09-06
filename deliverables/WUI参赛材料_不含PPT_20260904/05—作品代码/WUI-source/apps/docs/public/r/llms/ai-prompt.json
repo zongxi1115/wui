@@ -1,0 +1,116 @@
+{
+  "name": "ai-prompt",
+  "type": "registry:ui",
+  "title": "AI 输入框 AI Prompt",
+  "description": "专为现代 AI 对话与智能体（Agent）场景设计的组合式输入框，支持 @ 提及、模型切换、文件附件、引用上下文与思考强度调节。",
+  "categories": [
+    "ai"
+  ],
+  "import": "import { AiModelProviderIcon, AiModelSelector, AiModelSelectorContent, AiModelSelectorGroup, AiModelSelectorItem, AiModelSelectorLabel, AiModelSelectorSeparator, AiModelSelectorTrigger, AiModelSelectorValue, AiPrompt, AiPromptAction, AiPromptAttachment, AiPromptAttachmentButton, AiPromptAttachments, AiPromptCapabilitySelector, AiPromptContent, AiPromptFooter, AiPromptHeader, AiPromptMention, AiPromptMentionMenu, AiPromptQuote, AiPromptSubmit, AiPromptTextarea, AiPromptTools, aiPromptVariants } from \"@/components/ui/ai-prompt\"",
+  "exports": [
+    "AiModelProviderIcon",
+    "AiModelSelector",
+    "AiModelSelectorContent",
+    "AiModelSelectorGroup",
+    "AiModelSelectorItem",
+    "AiModelSelectorLabel",
+    "AiModelSelectorSeparator",
+    "AiModelSelectorTrigger",
+    "AiModelSelectorValue",
+    "AiPrompt",
+    "AiPromptAction",
+    "AiPromptAttachment",
+    "AiPromptAttachmentButton",
+    "AiPromptAttachments",
+    "AiPromptCapabilitySelector",
+    "AiPromptContent",
+    "AiPromptFooter",
+    "AiPromptHeader",
+    "AiPromptMention",
+    "AiPromptMentionMenu",
+    "AiPromptQuote",
+    "AiPromptSubmit",
+    "AiPromptTextarea",
+    "AiPromptTools",
+    "aiPromptVariants"
+  ],
+  "typeExports": [
+    "AiModelProvider",
+    "AiModelProviderIconProps",
+    "AiModelSelectorItemProps",
+    "AiModelSelectorTriggerProps",
+    "AiPromptActionProps",
+    "AiPromptAttachmentButtonProps",
+    "AiPromptAttachmentProps",
+    "AiPromptCapabilitySelectorProps",
+    "AiPromptMentionItem",
+    "AiPromptMentionMenuProps",
+    "AiPromptMentionProps",
+    "AiPromptProps",
+    "AiPromptQuoteProps",
+    "AiPromptStatus",
+    "AiPromptSubmitProps",
+    "AiPromptTextareaProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/ai-prompt",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/ai-prompt.json",
+    "npmDependencies": [
+      "class-variance-authority",
+      "lucide-react"
+    ],
+    "registryDependencies": [
+      "utils",
+      "button",
+      "select",
+      "cascader",
+      "animated-icon-collection"
+    ]
+  },
+  "props": [
+    {
+      "name": "size",
+      "type": "\"compact\" | \"default\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "compact",
+        "default"
+      ],
+      "defaultValue": "default",
+      "description": "输入框的尺寸密度。compact 适合紧凑布局，default 为标准尺寸。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "ai-prompt-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "ai-prompt-mentions",
+      "title": "提及成员与引用上下文"
+    },
+    {
+      "name": "ai-prompt-advanced",
+      "title": "高级参数与多模态附件"
+    },
+    {
+      "name": "ai-prompt-compact",
+      "title": "紧凑悬浮输入条"
+    },
+    {
+      "name": "ai-prompt-suggestions-chips"
+    },
+    {
+      "name": "ai-prompt-suggestions-demo"
+    },
+    {
+      "name": "ai-prompt-suggestions-scroll"
+    }
+  ],
+  "files": [
+    "registry/ui/ai-prompt.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/ai-prompt",
+  "sourceUrl": "https://ui.wzx.wang/r/ai-prompt.json"
+}

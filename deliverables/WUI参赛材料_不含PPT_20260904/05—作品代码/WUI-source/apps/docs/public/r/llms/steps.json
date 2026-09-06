@@ -1,0 +1,76 @@
+{
+  "name": "steps",
+  "type": "registry:ui",
+  "title": "步骤 Steps",
+  "description": "清晰呈现任务流程、当前进度与各阶段状态。",
+  "import": "import { Steps } from \"@/components/ui/steps\"",
+  "exports": [
+    "Steps"
+  ],
+  "typeExports": [
+    "StepItem",
+    "StepStatus",
+    "StepsProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/steps",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/steps.json",
+    "npmDependencies": [
+      "lucide-react"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "items",
+      "type": "StepItem[]",
+      "required": true,
+      "control": "text",
+      "description": "按顺序展示的步骤。"
+    },
+    {
+      "name": "current",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0",
+      "description": "当前步骤的索引，从 0 开始。@default 0"
+    },
+    {
+      "name": "orientation",
+      "type": "\"horizontal\" | \"vertical\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "horizontal",
+        "vertical"
+      ],
+      "defaultValue": "horizontal",
+      "description": "步骤排列方向。@default \"horizontal\""
+    },
+    {
+      "name": "onCurrentChange",
+      "type": "((current: number) => void)",
+      "required": false,
+      "control": "text",
+      "description": "点击可用步骤时触发；提供后步骤标题会呈现为按钮。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "steps-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "steps-vertical",
+      "title": "纵向与可交互步骤"
+    }
+  ],
+  "files": [
+    "registry/ui/steps.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/steps",
+  "sourceUrl": "https://ui.wzx.wang/r/steps.json"
+}

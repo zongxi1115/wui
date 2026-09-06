@@ -1,0 +1,95 @@
+{
+  "name": "scroll-sequence",
+  "type": "registry:ui",
+  "title": "滚动叙事序列 Scroll Sequence",
+  "description": "将吸顶视口与滚动进度深度绑定，随着用户向下滚动在原地依次平滑切换阶段步骤或故事画面的组件。",
+  "categories": [
+    "scroll",
+    "motion"
+  ],
+  "import": "import { ScrollSequence } from \"@/components/ui/scroll-sequence\"",
+  "exports": [
+    "ScrollSequence"
+  ],
+  "typeExports": [
+    "ScrollSequenceProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/scroll-sequence",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/scroll-sequence.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": true,
+      "control": "text",
+      "description": "固定视口中按顺序逐个显示的步骤内容。"
+    },
+    {
+      "name": "stepLength",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0.65",
+      "description": "每次切换占用的滚动距离，以视口高度为单位。"
+    },
+    {
+      "name": "container",
+      "type": "RefObject<HTMLElement | null>",
+      "required": false,
+      "control": "text",
+      "description": "要监听的滚动容器；未设置时监听页面。"
+    },
+    {
+      "name": "showProgress",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否显示紧凑的步骤指示器。"
+    },
+    {
+      "name": "onStepChange",
+      "type": "((index: number) => void)",
+      "required": false,
+      "control": "text",
+      "description": "当前步骤变化时触发。"
+    },
+    {
+      "name": "viewportClassName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "应用于固定视口的 CSS 类名。"
+    },
+    {
+      "name": "stepClassName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "应用于当前步骤包装元素的 CSS 类名。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "scroll-sequence-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "scroll-sequence-story",
+      "title": "极简流水线阶段演进"
+    }
+  ],
+  "files": [
+    "registry/ui/scroll-sequence.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/scroll-sequence",
+  "sourceUrl": "https://ui.wzx.wang/r/scroll-sequence.json"
+}

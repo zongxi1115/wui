@@ -1,0 +1,134 @@
+{
+  "name": "calendar",
+  "type": "registry:ui",
+  "title": "日历 Calendar",
+  "description": "具备完整月份网格、流畅悬停跟随动效、无障碍键盘移动与事件排期能力的月视图日历与面板组件。",
+  "import": "import { Calendar, CalendarPanel, sameDay, startOfMonth } from \"@/components/ui/calendar\"",
+  "exports": [
+    "Calendar",
+    "CalendarPanel",
+    "sameDay",
+    "startOfMonth"
+  ],
+  "typeExports": [
+    "CalendarEvent",
+    "CalendarEventTone",
+    "CalendarPanelProps",
+    "CalendarProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/calendar",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/calendar.json",
+    "npmDependencies": [
+      "lucide-react",
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "value",
+      "type": "Date",
+      "required": false,
+      "control": "text",
+      "description": "当前选中的日期。"
+    },
+    {
+      "name": "defaultValue",
+      "type": "Date",
+      "required": false,
+      "control": "text",
+      "description": "非受控模式下初始选中的日期。"
+    },
+    {
+      "name": "onValueChange",
+      "type": "((date: Date) => void)",
+      "required": false,
+      "control": "text",
+      "description": "用户选择日期时触发。"
+    },
+    {
+      "name": "month",
+      "type": "Date",
+      "required": false,
+      "control": "text",
+      "description": "当前显示的月份。"
+    },
+    {
+      "name": "defaultMonth",
+      "type": "Date",
+      "required": false,
+      "control": "text",
+      "description": "非受控模式下初始显示的月份。"
+    },
+    {
+      "name": "onMonthChange",
+      "type": "((month: Date) => void)",
+      "required": false,
+      "control": "text",
+      "description": "用户切换月份导致显示月份变化时触发。"
+    },
+    {
+      "name": "min",
+      "type": "Date",
+      "required": false,
+      "control": "text",
+      "description": "允许选择的最早日期。"
+    },
+    {
+      "name": "max",
+      "type": "Date",
+      "required": false,
+      "control": "text",
+      "description": "允许选择的最晚日期。"
+    },
+    {
+      "name": "disabled",
+      "type": "((date: Date) => boolean)",
+      "required": false,
+      "control": "text",
+      "description": "用于判断日期是否禁用的匹配函数。"
+    },
+    {
+      "name": "showOutsideDays",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否显示当前月份前后相邻月份的日期。"
+    },
+    {
+      "name": "locale",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "defaultValue": "zh-CN",
+      "description": "格式化月份标题时使用的地区设置。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "calendar-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "calendar-disabled-dates",
+      "title": "自定义禁用规则与工作日限制"
+    },
+    {
+      "name": "calendar-booking",
+      "title": "会议与专家咨询时段预约"
+    },
+    {
+      "name": "calendar-panel",
+      "title": "大型月度日程与排期面板"
+    }
+  ],
+  "files": [
+    "registry/ui/calendar.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/calendar",
+  "sourceUrl": "https://ui.wzx.wang/r/calendar.json"
+}

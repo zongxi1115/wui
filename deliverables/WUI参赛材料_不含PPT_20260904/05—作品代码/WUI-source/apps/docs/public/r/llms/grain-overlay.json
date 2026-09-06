@@ -1,0 +1,108 @@
+{
+  "name": "grain-overlay",
+  "type": "registry:ui",
+  "title": "颗粒纹理遮罩 Grain Overlay",
+  "description": "利用 SVG 分形噪点（feTurbulence）滤镜为卡片、大图与渐变背景增添电影级胶片质感与材质温度的纹理组件。",
+  "categories": [
+    "background",
+    "fancy"
+  ],
+  "import": "import { GrainOverlay } from \"@/components/ui/grain-overlay\"",
+  "exports": [
+    "GrainOverlay"
+  ],
+  "typeExports": [
+    "GrainOverlayProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/grain-overlay",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/grain-overlay.json",
+    "npmDependencies": [],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "opacity",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0.16",
+      "description": "颗粒图层的不透明度。"
+    },
+    {
+      "name": "frequency",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0.72",
+      "description": "基础湍流频率。"
+    },
+    {
+      "name": "octaves",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "3",
+      "description": "分形噪声的叠加层数。"
+    },
+    {
+      "name": "seed",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "8",
+      "description": "用于生成可复现噪声的随机种子。"
+    },
+    {
+      "name": "blendMode",
+      "type": "\"color\" | \"inherit\" | \"initial\" | \"-moz-initial\" | \"revert\" | \"revert-layer\" | \"unset\" | \"color-burn\" | \"color-dodge\" | \"darken\" | \"difference\" | \"exclusion\" | \"hard-light\" | \"hue\" | \"lighten\" | \"luminosity\" | \"multiply\" | \"normal\" | \"overlay\" | \"saturation\" | \"screen\" | \"soft-light\" | \"plus-darker\" | \"plus-lighter\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "color",
+        "inherit",
+        "initial",
+        "-moz-initial",
+        "revert",
+        "revert-layer",
+        "unset",
+        "color-burn",
+        "color-dodge",
+        "darken",
+        "difference",
+        "exclusion",
+        "hard-light",
+        "hue",
+        "lighten",
+        "luminosity",
+        "multiply",
+        "normal",
+        "overlay",
+        "saturation",
+        "screen",
+        "soft-light",
+        "plus-darker",
+        "plus-lighter"
+      ],
+      "defaultValue": "soft-light",
+      "description": "遮罩图层使用的 CSS 混合模式。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "grain-overlay-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "grain-overlay-card",
+      "title": "暗黑质感卡片"
+    }
+  ],
+  "files": [
+    "registry/ui/grain-overlay.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/grain-overlay",
+  "sourceUrl": "https://ui.wzx.wang/r/grain-overlay.json"
+}

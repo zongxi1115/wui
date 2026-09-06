@@ -1,0 +1,115 @@
+{
+  "name": "form",
+  "type": "registry:ui",
+  "title": "表单 Form",
+  "description": "具备完整语义化结构、自动无障碍 ARIA 关联、字段校验动画与微动效反馈的表单容器体系。",
+  "import": "import { Form, FormActions, FormControl, FormDescription, FormField, FormLabel, FormLegend, FormMessage, FormSection } from \"@/components/ui/form\"",
+  "exports": [
+    "Form",
+    "FormActions",
+    "FormControl",
+    "FormDescription",
+    "FormField",
+    "FormLabel",
+    "FormLegend",
+    "FormMessage",
+    "FormSection"
+  ],
+  "typeExports": [
+    "FormControlProps",
+    "FormFieldProps",
+    "FormProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/form",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/form.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "animated",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "挂载表单时是否播放入场动效。"
+    },
+    {
+      "name": "autoComplete",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "是否启用浏览器的表单自动填充。"
+    },
+    {
+      "name": "target",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "提交结果打开的浏览上下文。"
+    },
+    {
+      "name": "method",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "提交表单时使用的 HTTP 方法。"
+    },
+    {
+      "name": "acceptCharset",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "提交表单使用的字符编码。"
+    },
+    {
+      "name": "action",
+      "type": "string | ((formData: FormData) => void | Promise<void>)",
+      "required": false,
+      "control": "text",
+      "description": "表单提交的目标地址。"
+    },
+    {
+      "name": "encType",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "提交表单时使用的编码类型。"
+    },
+    {
+      "name": "noValidate",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "是否跳过浏览器原生表单校验。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "form-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "form-validation",
+      "title": "实时表单校验与错误抖动"
+    },
+    {
+      "name": "form-layout",
+      "title": "多列排版与业务配置表单"
+    },
+    {
+      "name": "form-controlled",
+      "title": "异步请求与加载反馈"
+    }
+  ],
+  "files": [
+    "registry/ui/form.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/form",
+  "sourceUrl": "https://ui.wzx.wang/r/form.json"
+}

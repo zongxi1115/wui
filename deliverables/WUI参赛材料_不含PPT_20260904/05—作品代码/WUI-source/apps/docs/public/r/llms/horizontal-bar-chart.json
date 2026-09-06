@@ -1,0 +1,140 @@
+{
+  "name": "horizontal-bar-chart",
+  "type": "registry:component",
+  "title": "横向条形图 Horizontal Bar Chart",
+  "description": "为长分类标签和排名比较保留充足的水平阅读空间。",
+  "categories": [
+    "charts",
+    "comparison"
+  ],
+  "import": "import { HorizontalBarChart } from \"@/components/charts/horizontal-bar-chart\"",
+  "exports": [
+    "HorizontalBarChart"
+  ],
+  "typeExports": [
+    "HorizontalBarChartProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/horizontal-bar-chart",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/horizontal-bar-chart.json",
+    "npmDependencies": [],
+    "registryDependencies": [
+      "stacked-bar-chart"
+    ]
+  },
+  "props": [
+    {
+      "name": "data",
+      "type": "ChartDatum[]",
+      "required": true,
+      "control": "text",
+      "description": "每行代表一个分类的数据。"
+    },
+    {
+      "name": "title",
+      "type": "ReactNode",
+      "required": true,
+      "control": "text",
+      "description": "图表标题，用于说明正在比较的总量或构成。"
+    },
+    {
+      "name": "height",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "300",
+      "description": "图表绘图区高度，单位为像素。"
+    },
+    {
+      "name": "description",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "补充单位、时间范围或分母口径的副标题。"
+    },
+    {
+      "name": "actions",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "标题右侧的操作区。"
+    },
+    {
+      "name": "series",
+      "type": "ChartSeries[]",
+      "required": true,
+      "control": "text",
+      "description": "参与堆叠的数值序列。"
+    },
+    {
+      "name": "showGrid",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否显示数值参考网格。"
+    },
+    {
+      "name": "showLegend",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否显示图例。"
+    },
+    {
+      "name": "valueFormatter",
+      "type": "ChartValueFormatter",
+      "required": false,
+      "control": "text",
+      "description": "自定义原始数值的显示格式。"
+    },
+    {
+      "name": "labelFormatter",
+      "type": "ChartLabelFormatter",
+      "required": false,
+      "control": "text",
+      "description": "自定义分类标签。"
+    },
+    {
+      "name": "categoryKey",
+      "type": "string",
+      "required": true,
+      "control": "text",
+      "description": "分类名称字段。"
+    },
+    {
+      "name": "labelWidth",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "112",
+      "description": "横向布局为分类标签保留的宽度。"
+    },
+    {
+      "name": "showValues",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "是否在足够宽的堆叠段内显示数值。"
+    },
+    {
+      "name": "onValueSelect",
+      "type": "((datum: ChartDatum, series: ChartSeries, value: number) => void)",
+      "required": false,
+      "control": "text",
+      "description": "点击某个堆叠段时触发。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "horizontal-bar-chart-demo"
+    }
+  ],
+  "files": [
+    "registry/charts/horizontal-bar-chart.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/charts/horizontal-bar-chart",
+  "sourceUrl": "https://ui.wzx.wang/r/horizontal-bar-chart.json"
+}

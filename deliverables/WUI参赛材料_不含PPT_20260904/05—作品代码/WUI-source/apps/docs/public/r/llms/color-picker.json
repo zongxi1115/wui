@@ -1,0 +1,121 @@
+{
+  "name": "color-picker",
+  "type": "registry:ui",
+  "title": "颜色选择器 ColorPicker",
+  "description": "支持新一代 OKLCH 感知色彩空间与传统 RGB/HEX 的现代化颜色选择器，内置色板预设、透明度通道与精确 CSS 代码输入。",
+  "import": "import { ColorPicker, colorPickerTriggerVariants, formatColorValue, parseColorValue, parseHexValue } from \"@/components/ui/color-picker\"",
+  "exports": [
+    "ColorPicker",
+    "colorPickerTriggerVariants",
+    "formatColorValue",
+    "parseColorValue",
+    "parseHexValue"
+  ],
+  "typeExports": [
+    "ColorPickerProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/color-picker",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/color-picker.json",
+    "npmDependencies": [
+      "radix-ui"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "value",
+      "type": "string",
+      "required": true,
+      "control": "text",
+      "description": "当前颜色的 CSS OKLCH 值。"
+    },
+    {
+      "name": "onValueChange",
+      "type": "(value: string) => void",
+      "required": true,
+      "control": "text",
+      "description": "颜色通道或完整颜色值变化时持续触发。"
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "defaultValue": "选择颜色",
+      "description": "颜色选择器触发按钮的无障碍名称。"
+    },
+    {
+      "name": "showAlpha",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否显示透明度通道。"
+    },
+    {
+      "name": "swatches",
+      "type": "string[]",
+      "required": false,
+      "control": "text",
+      "defaultValue": "[\r\n  \"oklch(0.546 0.245 262.881)\", // wui-token-audit-allow -- picker color data\r\n  \"oklch(0.585 0.233 277.117)\", // wui-token-audit-allow -- picker color data\r\n  \"oklch(0.577 0.245 27.325)\", // wui-token-audit-allow -- picker color data\r\n  \"oklch(0.666 0.179 58.318)\", // wui-token-audit-allow -- picker color data\r\n  \"oklch(0.527 0.154 150.069)\", // wui-token-audit-allow -- picker color data\r\n  \"oklch(0.6 0.118 184.704)\", // wui-token-audit-allow -- picker color data\r\n]",
+      "description": "可供快速选择的 OKLCH 颜色。"
+    },
+    {
+      "name": "size",
+      "type": "\"default\" | \"sm\" | \"lg\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "default",
+        "sm",
+        "lg"
+      ],
+      "defaultValue": "default",
+      "description": "触发器尺寸密度。@default \"default\""
+    },
+    {
+      "name": "className",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "应用于触发器按钮的额外类名。"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "是否禁用组件。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "color-picker-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "color-picker-controlled",
+      "title": "受控模式与快捷预设"
+    },
+    {
+      "name": "color-picker-alpha",
+      "title": "透明度通道控制"
+    },
+    {
+      "name": "color-picker-swatches",
+      "title": "自定义主题预设色板"
+    },
+    {
+      "name": "color-picker-form",
+      "title": "品牌主题配置面板"
+    }
+  ],
+  "files": [
+    "registry/ui/color-picker.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/color-picker",
+  "sourceUrl": "https://ui.wzx.wang/r/color-picker.json"
+}

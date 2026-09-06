@@ -1,0 +1,180 @@
+{
+  "name": "composed-chart",
+  "type": "registry:component",
+  "title": "组合图 Composed Chart",
+  "description": "在共享横轴上组合柱形与折线，并支持双纵轴和对数尺度。",
+  "categories": [
+    "charts",
+    "comparison"
+  ],
+  "import": "import { ComposedChart } from \"@/components/charts/composed-chart\"",
+  "exports": [
+    "ComposedChart"
+  ],
+  "typeExports": [
+    "ChartDatum",
+    "ChartSeries",
+    "ComposedChartProps",
+    "ComposedSeries"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/composed-chart",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/composed-chart.json",
+    "npmDependencies": [],
+    "registryDependencies": [
+      "chart-core"
+    ]
+  },
+  "props": [
+    {
+      "name": "title",
+      "type": "ReactNode",
+      "required": true,
+      "control": "text",
+      "description": "图表标题，用于说明组合比较指标。"
+    },
+    {
+      "name": "description",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "补充单位、时间范围或口径的副标题。"
+    },
+    {
+      "name": "actions",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "标题右侧的操作区。"
+    },
+    {
+      "name": "data",
+      "type": "ChartDatum[]",
+      "required": true,
+      "control": "text",
+      "description": "每行代表一个横轴分类的数据。"
+    },
+    {
+      "name": "xKey",
+      "type": "string",
+      "required": true,
+      "control": "text",
+      "description": "横轴标签字段。"
+    },
+    {
+      "name": "series",
+      "type": "ComposedSeries[]",
+      "required": true,
+      "control": "text",
+      "description": "柱形和折线序列配置。"
+    },
+    {
+      "name": "height",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "300",
+      "description": "图表绘图区高度，单位为像素。"
+    },
+    {
+      "name": "leftDomain",
+      "type": "[number, number]",
+      "required": false,
+      "control": "text",
+      "description": "左侧纵轴范围。"
+    },
+    {
+      "name": "rightDomain",
+      "type": "[number, number]",
+      "required": false,
+      "control": "text",
+      "description": "右侧纵轴范围。"
+    },
+    {
+      "name": "leftScale",
+      "type": "\"log\" | \"linear\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "log",
+        "linear"
+      ],
+      "defaultValue": "linear",
+      "description": "左侧纵轴尺度。"
+    },
+    {
+      "name": "rightScale",
+      "type": "\"log\" | \"linear\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "log",
+        "linear"
+      ],
+      "defaultValue": "linear",
+      "description": "右侧纵轴尺度。"
+    },
+    {
+      "name": "leftFormatter",
+      "type": "((value: number) => ReactNode)",
+      "required": false,
+      "control": "text",
+      "description": "左侧纵轴刻度格式。"
+    },
+    {
+      "name": "rightFormatter",
+      "type": "((value: number) => ReactNode)",
+      "required": false,
+      "control": "text",
+      "description": "右侧纵轴刻度格式。"
+    },
+    {
+      "name": "labelFormatter",
+      "type": "((value: string | number, datum: ChartDatum) => ReactNode)",
+      "required": false,
+      "control": "text",
+      "defaultValue": "(value) => String(value)",
+      "description": "横轴标签格式。"
+    },
+    {
+      "name": "valueFormatter",
+      "type": "((value: number, series: ComposedSeries, datum: ChartDatum) => ReactNode)",
+      "required": false,
+      "control": "text",
+      "defaultValue": "(value) => defaultValueFormatter(value)",
+      "description": "当前数值的提示格式。"
+    },
+    {
+      "name": "showGrid",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否显示水平参考网格。"
+    },
+    {
+      "name": "renderLegend",
+      "type": "((series: ComposedSeries[]) => ReactNode)",
+      "required": false,
+      "control": "text",
+      "description": "完全替换默认图例内容。"
+    },
+    {
+      "name": "renderTooltip",
+      "type": "((datum: ChartDatum, index: number) => ReactNode)",
+      "required": false,
+      "control": "text",
+      "description": "完全替换当前分类的默认提示内容。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "composed-chart-demo"
+    }
+  ],
+  "files": [
+    "registry/charts/composed-chart.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/charts/composed-chart",
+  "sourceUrl": "https://ui.wzx.wang/r/composed-chart.json"
+}

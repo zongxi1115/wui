@@ -1,0 +1,5 @@
+﻿在线 Demo：https://ui.wzx.wang
+组件文档：https://ui.wzx.wang/docs/components/button
+Registry 示例：https://ui.wzx.wang/r/button.json
+MCP 服务：https://ui.wzx.wang/api/mcp
+公开代码仓库：https://github.com/zongxi1115/wui

@@ -1,0 +1,23 @@
+{
+  "name": "animated-icon-collection",
+  "type": "registry:ui",
+  "title": "动态图标集合 Animated Icon Collection",
+  "description": "去重后的 AnimateIcons、ItsHover 和 SVGlide 路径动态图标完整集合。",
+  "exports": [],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/animated-icon-collection",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/animated-icon-collection.json",
+    "npmDependencies": [
+      "motion",
+      "svglide"
+    ],
+    "registryDependencies": [
+      "animated-icon"
+    ]
+  },
+  "props": [],
+  "examples": [],
+  "files": [],
+  "docsUrl": "https://ui.wzx.wang/docs/components/animated-icon-collection",
+  "sourceUrl": "https://ui.wzx.wang/r/animated-icon-collection.json"
+}

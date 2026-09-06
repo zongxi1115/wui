@@ -1,0 +1,57 @@
+{
+  "name": "use-ai-stream",
+  "type": "registry:hook",
+  "title": "AI 流协议 Hook useAiStream",
+  "description": "消费 Vercel AI SDK UI Message Stream，并兼容 Zonix 的流式事件。",
+  "categories": [
+    "ai"
+  ],
+  "import": "import { useAiStream } from \"@/hooks/use-ai-stream\"",
+  "exports": [
+    "useAiStream"
+  ],
+  "typeExports": [
+    "AiStreamChunk",
+    "AiStreamCustomPart",
+    "AiStreamDataPart",
+    "AiStreamFilePart",
+    "AiStreamMessage",
+    "AiStreamMessagePart",
+    "AiStreamReasoningPart",
+    "AiStreamSendOptions",
+    "AiStreamSourceDocumentPart",
+    "AiStreamSourceUrlPart",
+    "AiStreamStatus",
+    "AiStreamStepPart",
+    "AiStreamTextPart",
+    "AiStreamToolApproval",
+    "AiStreamToolPart",
+    "UseAiStreamOptions"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/use-ai-stream",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/use-ai-stream.json",
+    "npmDependencies": [],
+    "registryDependencies": []
+  },
+  "props": [],
+  "examples": [
+    {
+      "name": "use-ai-stream-text-demo",
+      "title": "文本回答与请求控制"
+    },
+    {
+      "name": "use-ai-stream-demo",
+      "title": "Zonix 推理与工具调用"
+    },
+    {
+      "name": "use-ai-stream-generative-demo",
+      "title": "Generative UI 数据部件"
+    }
+  ],
+  "files": [
+    "registry/hooks/use-ai-stream.ts"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/hooks/use-ai-stream",
+  "sourceUrl": "https://ui.wzx.wang/r/use-ai-stream.json"
+}

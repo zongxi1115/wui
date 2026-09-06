@@ -1,0 +1,96 @@
+{
+  "name": "badge",
+  "type": "registry:ui",
+  "title": "徽章 Badge",
+  "description": "用于展示状态、分类标签或简短元数据的紧凑视觉标记组件。",
+  "import": "import { Badge, badgeVariants } from \"@/components/ui/badge\"",
+  "exports": [
+    "Badge",
+    "badgeVariants"
+  ],
+  "typeExports": [
+    "BadgeProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/badge",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/badge.json",
+    "npmDependencies": [
+      "radix-ui",
+      "class-variance-authority"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "variant",
+      "type": "\"default\" | \"secondary\" | \"destructive\" | \"outline\" | \"success\" | \"warning\" | \"info\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "default",
+        "secondary",
+        "destructive",
+        "outline",
+        "success",
+        "warning",
+        "info"
+      ],
+      "defaultValue": "default",
+      "description": "徽章的视觉样式，用于区分状态或语义。"
+    },
+    {
+      "name": "size",
+      "type": "\"default\" | \"sm\" | \"lg\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "default",
+        "sm",
+        "lg"
+      ],
+      "defaultValue": "default",
+      "description": "徽章的高度和左右内边距。"
+    },
+    {
+      "name": "asChild",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "badge-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "badge-sizes",
+      "title": "尺寸预设"
+    },
+    {
+      "name": "badge-dot",
+      "title": "状态指示圆点"
+    },
+    {
+      "name": "badge-with-icon",
+      "title": "搭配图标"
+    },
+    {
+      "name": "badge-as-child",
+      "title": "作为链接或交互项 (asChild)"
+    },
+    {
+      "name": "badge-business",
+      "title": "业务场景：服务部署列表"
+    }
+  ],
+  "files": [
+    "registry/ui/badge.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/badge",
+  "sourceUrl": "https://ui.wzx.wang/r/badge.json"
+}

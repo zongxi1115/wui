@@ -1,0 +1,40 @@
+---
+title: 多选下拉 Multi Select
+description: 支持搜索、键盘导航、选中摘要与一键清空的多选下拉控件。
+component: multi-select
+---
+
+## 基础用法
+
+适合服务年度、标签和人员等扁平数据的多选场景：
+
+<ComponentPreview name="multi-select-demo" />
+
+## 安装与引入
+
+<CodeTabs command="@wui-design/cli@latest add @wui/multi-select" />
+
+<Steps>
+
+<Step>安装依赖</Step>
+
+```bash
+pnpm add radix-ui lucide-react class-variance-authority clsx tailwind-merge
+```
+
+<Step>确保已添加 Command 与 Popover，并复制组件源码</Step>
+
+<ComponentSource name="multi-select" title="components/ui/multi-select.tsx" />
+
+</Steps>
+
+## 属性 Props
+
+<PropsTable component="multi-select" />
+
+## 使用建议
+
+- 选项较多时保留搜索框；选项较少时仍可使用相同组件保持表单一致性。
+- 触发器只展示前 `maxDisplay` 个选项，其余以数量摘要呈现，避免表单被大量标签撑高。
+- 选择面板保持打开，便于连续选择；按 <kbd>Esc</kbd> 或点击外部关闭。
+- 层级数据请使用 `Cascader`，单选数据请使用 `Select` 或 `Combobox`。

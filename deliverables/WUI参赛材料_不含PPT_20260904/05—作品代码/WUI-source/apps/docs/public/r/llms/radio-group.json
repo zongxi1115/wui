@@ -1,0 +1,81 @@
+{
+  "name": "radio-group",
+  "type": "registry:ui",
+  "title": "单选框组 Radio Group",
+  "description": "用于在一组互斥选项中选取单一值的表单控件，提供流畅的视觉反馈与完整的键盘无障碍导航。",
+  "import": "import { RadioGroup, RadioGroupItem, radioGroupItemVariants } from \"@/components/ui/radio-group\"",
+  "exports": [
+    "RadioGroup",
+    "RadioGroupItem",
+    "radioGroupItemVariants"
+  ],
+  "typeExports": [
+    "RadioGroupItemProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/radio-group",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/radio-group.json",
+    "npmDependencies": [
+      "radix-ui",
+      "class-variance-authority"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "是否禁用组件。"
+    },
+    {
+      "name": "asChild",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "radio-group-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "radio-group-controlled",
+      "title": "受控模式"
+    },
+    {
+      "name": "radio-group-sizes",
+      "title": "尺寸"
+    },
+    {
+      "name": "radio-group-with-description",
+      "title": "带辅助描述文本"
+    },
+    {
+      "name": "radio-group-horizontal",
+      "title": "水平排列布局"
+    },
+    {
+      "name": "radio-group-disabled",
+      "title": "禁用状态"
+    },
+    {
+      "name": "radio-group-cards",
+      "title": "交互式单选卡片组"
+    },
+    {
+      "name": "radio-group-form",
+      "title": "表单校验与提交"
+    }
+  ],
+  "files": [
+    "registry/ui/radio-group.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/radio-group",
+  "sourceUrl": "https://ui.wzx.wang/r/radio-group.json"
+}

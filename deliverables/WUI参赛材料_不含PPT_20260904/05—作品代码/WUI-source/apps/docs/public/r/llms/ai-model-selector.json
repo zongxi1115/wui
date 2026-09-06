@@ -1,0 +1,85 @@
+{
+  "name": "ai-model-selector",
+  "type": "registry:ui",
+  "title": "AI 模型选择器 AI Model Selector",
+  "description": "专为大语言模型切换、推理特性与能力标签展示，以及上下文 Token / Context Window 消耗进度指示设计的下拉选择器。",
+  "categories": [
+    "ai"
+  ],
+  "import": "import { AiModelGroup, AiModelItem, AiModelSelector, AiModelSelectorContent, AiModelSelectorTrigger, AiTokenUsage, aiModelSelectorTriggerVariants } from \"@/components/ui/ai-model-selector\"",
+  "exports": [
+    "AiModelGroup",
+    "AiModelItem",
+    "AiModelSelector",
+    "AiModelSelectorContent",
+    "AiModelSelectorTrigger",
+    "AiTokenUsage",
+    "aiModelSelectorTriggerVariants"
+  ],
+  "typeExports": [
+    "AiModelGroupProps",
+    "AiModelItemProps",
+    "AiModelSelectorContentProps",
+    "AiModelSelectorProps",
+    "AiModelSelectorTriggerProps",
+    "AiTokenUsageProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/ai-model-selector",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/ai-model-selector.json",
+    "npmDependencies": [
+      "radix-ui",
+      "class-variance-authority",
+      "lucide-react"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "defaultOpen",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "默认是否展开模型选择弹层（非受控）。"
+    },
+    {
+      "name": "open",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "是否展开模型选择弹层（受控）。"
+    },
+    {
+      "name": "onOpenChange",
+      "type": "((open: boolean) => void)",
+      "required": false,
+      "control": "text",
+      "description": "弹层展开或关闭状态改变时的回调函数。"
+    },
+    {
+      "name": "modal",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "是否以模态方式呈现。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "ai-model-selector-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "ai-model-selector-advanced",
+      "title": "旗舰推理与极速轻量模型分级配置"
+    }
+  ],
+  "files": [
+    "registry/ui/ai-model-selector.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/ai-model-selector",
+  "sourceUrl": "https://ui.wzx.wang/r/ai-model-selector.json"
+}

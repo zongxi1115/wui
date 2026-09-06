@@ -1,0 +1,60 @@
+{
+  "name": "@wui-design/cli",
+  "version": "0.1.1",
+  "description": "wui — pull shadcn-style components into your project on demand.",
+  "keywords": [
+    "wui",
+    "shadcn",
+    "registry",
+    "react",
+    "tailwindcss",
+    "components",
+    "ui",
+    "cli"
+  ],
+  "license": "MIT",
+  "author": "wangzongxi",
+  "homepage": "https://ui.wzx.wang",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zongxi1115/wui.git",
+    "directory": "packages/cli"
+  },
+  "bugs": {
+    "url": "https://github.com/zongxi1115/wui/issues"
+  },
+  "type": "module",
+  "bin": {
+    "wui": "./dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "start": "node dist/index.js",
+    "prepublishOnly": "pnpm run build"
+  },
+  "dependencies": {
+    "commander": "^13.0.0",
+    "picocolors": "^1.1.1",
+    "prompts": "^2.4.2",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.7",
+    "@types/prompts": "^2.4.9",
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.3",
+    "vitest": "^2.1.8"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

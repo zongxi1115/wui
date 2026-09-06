@@ -1,0 +1,104 @@
+{
+  "name": "time-picker",
+  "type": "registry:ui",
+  "title": "时间选择器 Time Picker",
+  "description": "通过小时、分钟与 AM/PM 时制分栏，用于在表单中快速定位与设定特定时刻的紧凑选择控件。",
+  "import": "import { TimePicker, formatTime, parseTime } from \"@/components/ui/time-picker\"",
+  "exports": [
+    "TimePicker",
+    "formatTime",
+    "parseTime"
+  ],
+  "typeExports": [
+    "TimePickerProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/time-picker",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/time-picker.json",
+    "npmDependencies": [
+      "radix-ui",
+      "lucide-react",
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "value",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "当前选中的时间，格式为 24 小时制 HH:mm。"
+    },
+    {
+      "name": "defaultValue",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "非受控模式下初始选中的时间。"
+    },
+    {
+      "name": "onValueChange",
+      "type": "((value: string) => void)",
+      "required": false,
+      "control": "text",
+      "description": "时间变化时触发，并返回 24 小时制 HH:mm 值。"
+    },
+    {
+      "name": "hourCycle",
+      "type": "enum",
+      "required": false,
+      "control": "text",
+      "defaultValue": "24",
+      "description": "时间显示使用 12 小时制还是 24 小时制。"
+    },
+    {
+      "name": "minuteStep",
+      "type": "enum",
+      "required": false,
+      "control": "text",
+      "defaultValue": "5",
+      "description": "分钟选择的间隔。"
+    },
+    {
+      "name": "placeholder",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "defaultValue": "选择时间",
+      "description": "没有选中时间时显示的占位文本。"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "是否禁用组件。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "time-picker-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "time-picker-12-hour",
+      "title": "12 小时制 (AM/PM)"
+    },
+    {
+      "name": "time-picker-range-form",
+      "title": "会议室起止时间区间校验"
+    },
+    {
+      "name": "time-picker-minute-step",
+      "title": "分钟步进粒度控制"
+    }
+  ],
+  "files": [
+    "registry/ui/time-picker.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/time-picker",
+  "sourceUrl": "https://ui.wzx.wang/r/time-picker.json"
+}

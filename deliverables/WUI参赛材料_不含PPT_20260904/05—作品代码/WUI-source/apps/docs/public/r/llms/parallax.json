@@ -1,0 +1,93 @@
+{
+  "name": "parallax",
+  "type": "registry:ui",
+  "title": "视差滚动 Parallax",
+  "description": "依据页面或局部容器滚动进度，以差异化速率与缩放变换驱动图层位移的深度空间视觉组件。",
+  "categories": [
+    "scroll",
+    "motion"
+  ],
+  "import": "import { Parallax } from \"@/components/ui/parallax\"",
+  "exports": [
+    "Parallax"
+  ],
+  "typeExports": [
+    "ParallaxProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/parallax",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/parallax.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": true,
+      "control": "text",
+      "description": "随包装容器经过视口而产生位移的内容。"
+    },
+    {
+      "name": "axis",
+      "type": "\"x\" | \"y\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "x",
+        "y"
+      ],
+      "defaultValue": "y",
+      "description": "内容移动的方向。"
+    },
+    {
+      "name": "distance",
+      "type": "[number, number]",
+      "required": false,
+      "control": "text",
+      "defaultValue": "[-48, 48]",
+      "description": "从滚动开始到结束的位移范围，单位为像素。"
+    },
+    {
+      "name": "scale",
+      "type": "[number, number]",
+      "required": false,
+      "control": "text",
+      "description": "可选的缩放范围，适合在画框中展示图片时使用。"
+    },
+    {
+      "name": "container",
+      "type": "RefObject<HTMLElement | null>",
+      "required": false,
+      "control": "text",
+      "description": "要监听的滚动容器；未设置时监听页面。"
+    },
+    {
+      "name": "offset",
+      "type": "ScrollOffset",
+      "required": false,
+      "control": "text",
+      "defaultValue": "[\"start end\", \"end start\"]",
+      "description": "包装容器使用的 Motion 滚动偏移范围。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "parallax-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "parallax-scale",
+      "title": "深度缩放视差"
+    }
+  ],
+  "files": [
+    "registry/ui/parallax.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/parallax",
+  "sourceUrl": "https://ui.wzx.wang/r/parallax.json"
+}

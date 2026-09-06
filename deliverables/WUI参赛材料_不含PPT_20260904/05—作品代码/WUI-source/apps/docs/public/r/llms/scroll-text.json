@@ -1,0 +1,122 @@
+{
+  "name": "scroll-text",
+  "type": "registry:ui",
+  "title": "滚动文本动效 Scroll Text",
+  "description": "依据滚动视口进度，逐字渐进高亮（Highlight）或逐行位移显现（Reveal）的段落文字动效组件。",
+  "categories": [
+    "scroll",
+    "motion",
+    "text-effect"
+  ],
+  "import": "import { ScrollText } from \"@/components/ui/scroll-text\"",
+  "exports": [
+    "ScrollText"
+  ],
+  "typeExports": [
+    "ScrollTextProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/scroll-text",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/scroll-text.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "string",
+      "required": true,
+      "control": "text",
+      "description": "要按滚动进度控制显示效果的文字。"
+    },
+    {
+      "name": "mode",
+      "type": "\"highlight\" | \"reveal\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "highlight",
+        "reveal"
+      ],
+      "defaultValue": "highlight",
+      "description": "文字揭示方式。highlight 会将文字从弱化色逐步变为前景色。"
+    },
+    {
+      "name": "per",
+      "type": "\"line\" | \"word\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "line",
+        "word"
+      ],
+      "defaultValue": "word",
+      "description": "文字拆分的粒度：行、单词或字符。"
+    },
+    {
+      "name": "as",
+      "type": "ElementType<any, keyof IntrinsicElements>",
+      "required": false,
+      "control": "text",
+      "defaultValue": "p",
+      "description": "组件实际渲染的 HTML 元素。"
+    },
+    {
+      "name": "range",
+      "type": "readonly [number, number]",
+      "required": false,
+      "control": "text",
+      "defaultValue": "[0, 1]",
+      "description": "分配给全部文字片段的滚动进度范围。"
+    },
+    {
+      "name": "overlap",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0.35",
+      "description": "相邻文字片段之间重叠的进度范围。"
+    },
+    {
+      "name": "container",
+      "type": "RefObject<HTMLElement | null>",
+      "required": false,
+      "control": "text",
+      "description": "要监听的滚动容器；未设置时监听页面。"
+    },
+    {
+      "name": "offset",
+      "type": "ScrollOffset",
+      "required": false,
+      "control": "text",
+      "defaultValue": "[\"start 0.85\", \"end 0.35\"]",
+      "description": "文字区块使用的 Motion 滚动偏移范围。"
+    },
+    {
+      "name": "segmentClassName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "应用于每个文字片段的 CSS 类名。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "scroll-text-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "scroll-text-reveal",
+      "title": "逐词揭示模式（Reveal）"
+    }
+  ],
+  "files": [
+    "registry/ui/scroll-text.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/scroll-text",
+  "sourceUrl": "https://ui.wzx.wang/r/scroll-text.json"
+}

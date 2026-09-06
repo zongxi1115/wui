@@ -1,0 +1,58 @@
+{
+  "name": "kbd",
+  "type": "registry:ui",
+  "title": "键盘提示 Kbd",
+  "description": "用紧凑、高对比度且克制的按键样式展示快捷键与键盘操作提示。",
+  "import": "import { Kbd, KbdGroup, kbdVariants } from \"@/components/ui/kbd\"",
+  "exports": [
+    "Kbd",
+    "KbdGroup",
+    "kbdVariants"
+  ],
+  "typeExports": [
+    "KbdProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/kbd",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/kbd.json",
+    "npmDependencies": [
+      "class-variance-authority"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "size",
+      "type": "\"default\" | \"sm\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "default",
+        "sm"
+      ],
+      "defaultValue": "default",
+      "description": "键盘按键提示的尺寸。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "kbd-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "kbd-sizes",
+      "title": "尺寸对比 (Default vs Small)"
+    },
+    {
+      "name": "kbd-in-menu",
+      "title": "下拉菜单与命令面板中的快捷键提示"
+    }
+  ],
+  "files": [
+    "registry/ui/kbd.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/kbd",
+  "sourceUrl": "https://ui.wzx.wang/r/kbd.json"
+}

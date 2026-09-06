@@ -1,0 +1,93 @@
+{
+  "name": "table",
+  "type": "registry:ui",
+  "title": "表格 Table",
+  "description": "保留原生语义与无障碍结构的响应式表格组件，支持紧凑密度、斑马纹、冻结表头与左右固定列。",
+  "import": "import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, tableVariants } from \"@/components/ui/table\"",
+  "exports": [
+    "Table",
+    "TableBody",
+    "TableCaption",
+    "TableCell",
+    "TableFooter",
+    "TableHead",
+    "TableHeader",
+    "TableRow",
+    "tableVariants"
+  ],
+  "typeExports": [
+    "TableCellProps",
+    "TableHeadProps",
+    "TableProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/table",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/table.json",
+    "npmDependencies": [
+      "class-variance-authority"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "containerClassName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "应用于横向滚动容器的额外 CSS 类名。"
+    },
+    {
+      "name": "density",
+      "type": "\"compact\" | \"default\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "compact",
+        "default"
+      ],
+      "defaultValue": "default",
+      "description": "控制单元格内边距和行高。"
+    },
+    {
+      "name": "striped",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "是否为表格主体的交替行添加浅色背景。"
+    },
+    {
+      "name": "stickyHeader",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "表格容器滚动时是否保持表头可见。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "table-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "table-compact",
+      "title": "紧凑密度与斑马纹"
+    },
+    {
+      "name": "table-selection",
+      "title": "行选择与批量操作"
+    },
+    {
+      "name": "table-advanced",
+      "title": "复杂数据表格（固定列 / 树形 / 排序 / 筛选 / 拖拽）"
+    }
+  ],
+  "files": [
+    "registry/ui/table.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/table",
+  "sourceUrl": "https://ui.wzx.wang/r/table.json"
+}

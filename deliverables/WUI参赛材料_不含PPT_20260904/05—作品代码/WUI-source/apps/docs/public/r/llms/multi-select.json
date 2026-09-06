@@ -1,0 +1,142 @@
+{
+  "name": "multi-select",
+  "type": "registry:ui",
+  "title": "多选下拉 Multi Select",
+  "description": "支持搜索、键盘导航、选中摘要与一键清空的多选下拉控件。",
+  "categories": [
+    "form",
+    "data-entry"
+  ],
+  "import": "import { MultiSelect, multiSelectVariants } from \"@/components/ui/multi-select\"",
+  "exports": [
+    "MultiSelect",
+    "multiSelectVariants"
+  ],
+  "typeExports": [
+    "MultiSelectOption",
+    "MultiSelectProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/multi-select",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/multi-select.json",
+    "npmDependencies": [
+      "lucide-react",
+      "class-variance-authority"
+    ],
+    "registryDependencies": [
+      "utils",
+      "command",
+      "popover",
+      "checkbox"
+    ]
+  },
+  "props": [
+    {
+      "name": "options",
+      "type": "MultiSelectOption[]",
+      "required": true,
+      "control": "text",
+      "description": "可供选择的选项集合。"
+    },
+    {
+      "name": "value",
+      "type": "string[]",
+      "required": false,
+      "control": "text",
+      "description": "受控模式下当前选中的值数组。"
+    },
+    {
+      "name": "defaultValue",
+      "type": "string[]",
+      "required": false,
+      "control": "text",
+      "defaultValue": "[]",
+      "description": "非受控模式下初始选中的值数组。"
+    },
+    {
+      "name": "onValueChange",
+      "type": "((value: string[]) => void)",
+      "required": false,
+      "control": "text",
+      "description": "选中值变化或清空时触发。"
+    },
+    {
+      "name": "placeholder",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "defaultValue": "请选择",
+      "description": "未选择任何选项时显示的占位文本。"
+    },
+    {
+      "name": "searchPlaceholder",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "defaultValue": "搜索选项",
+      "description": "下拉搜索输入框的占位文本。"
+    },
+    {
+      "name": "emptyText",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "defaultValue": "没有匹配的选项",
+      "description": "没有匹配选项时显示的内容。"
+    },
+    {
+      "name": "maxDisplay",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "2",
+      "description": "触发器内最多直接展示的已选项数量。"
+    },
+    {
+      "name": "clearable",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否显示一键清空按钮。"
+    },
+    {
+      "name": "size",
+      "type": "\"default\" | \"sm\" | \"lg\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "default",
+        "sm",
+        "lg"
+      ],
+      "defaultValue": "default",
+      "description": "组件的尺寸密度。"
+    },
+    {
+      "name": "contentClassName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "应用于浮层的额外类名。"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "是否禁用组件。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "multi-select-demo",
+      "title": "基础用法"
+    }
+  ],
+  "files": [
+    "registry/ui/multi-select.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/multi-select",
+  "sourceUrl": "https://ui.wzx.wang/r/multi-select.json"
+}

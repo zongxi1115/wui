@@ -1,0 +1,14 @@
+---
+title: 主题配置
+description: 在线调整 WUI 的语义设计 Token，实时预览并导出 CSS。
+---
+
+这里编辑的是组件库的语义 Token，而不是只对文档页面生效的临时样式。配置器直接读取 WUI registry 中的 `theme` 项，确保预览、复制结果和 CLI 安装使用同一份契约。
+
+<TokenConfigurator />
+
+## 使用说明
+
+- 浅色与深色 Token 独立维护，右上角可切换当前预览模式。
+- 修改会实时作用于当前文档站，并保存在当前浏览器；点击“重置”恢复 registry 默认值。
+- “复制 CSS”会输出 `:root`、`.dark` 和 `@theme inline` 三部分，可直接合并到项目的全局样式。

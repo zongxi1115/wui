@@ -1,0 +1,59 @@
+{
+  "name": "@wui-design/mcp",
+  "version": "0.1.0",
+  "description": "MCP server that exposes the wui component library (props, usage rules, examples) to LLM agents.",
+  "keywords": [
+    "wui",
+    "mcp",
+    "model-context-protocol",
+    "shadcn",
+    "registry",
+    "react",
+    "ui",
+    "llm"
+  ],
+  "license": "MIT",
+  "author": "wangzongxi",
+  "homepage": "https://ui.wzx.wang",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zongxi1115/wui.git",
+    "directory": "packages/mcp"
+  },
+  "bugs": {
+    "url": "https://github.com/zongxi1115/wui/issues"
+  },
+  "type": "module",
+  "bin": {
+    "wui-mcp": "./dist/index.js"
+  },
+  "exports": {
+    ".": "./dist/index.js",
+    "./core": "./src/core/index.ts"
+  },
+  "files": [
+    "dist",
+    "src/core"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "start": "node dist/index.js",
+    "prepublishOnly": "pnpm run build"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.7",
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.3"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

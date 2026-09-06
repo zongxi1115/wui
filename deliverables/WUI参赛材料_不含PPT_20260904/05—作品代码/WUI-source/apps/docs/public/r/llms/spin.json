@@ -1,0 +1,106 @@
+{
+  "name": "spin",
+  "type": "registry:ui",
+  "title": "加载中 Spin",
+  "description": "轻量且支持无障碍降级的动态加载指示器，支持独立展示、局部内容遮罩与全屏阻塞。",
+  "import": "import { Spin, spinIndicatorVariants } from \"@/components/ui/spin\"",
+  "exports": [
+    "Spin",
+    "spinIndicatorVariants"
+  ],
+  "typeExports": [
+    "SpinIndicatorProps",
+    "SpinProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/spin",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/spin.json",
+    "npmDependencies": [
+      "class-variance-authority",
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "spinning",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否显示加载状态。"
+    },
+    {
+      "name": "size",
+      "type": "\"default\" | \"sm\" | \"lg\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "default",
+        "sm",
+        "lg"
+      ],
+      "defaultValue": "default",
+      "description": "加载指示器的尺寸。"
+    },
+    {
+      "name": "label",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "显示在加载指示器旁边的无障碍提示文字。"
+    },
+    {
+      "name": "indicator",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "替换默认的轨道式加载指示器。"
+    },
+    {
+      "name": "delay",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0",
+      "description": "显示加载指示器前等待的时间，避免快速操作出现闪烁。"
+    },
+    {
+      "name": "fullscreen",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "是否覆盖整个视口，而不是在文档流中渲染。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "spin-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "spin-sizes",
+      "title": "尺寸对比"
+    },
+    {
+      "name": "spin-delay",
+      "title": "防闪烁延迟保护"
+    },
+    {
+      "name": "spin-custom",
+      "title": "自定义指示器"
+    },
+    {
+      "name": "spin-fullscreen",
+      "title": "全屏遮罩模式"
+    }
+  ],
+  "files": [
+    "registry/ui/spin.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/spin",
+  "sourceUrl": "https://ui.wzx.wang/r/spin.json"
+}

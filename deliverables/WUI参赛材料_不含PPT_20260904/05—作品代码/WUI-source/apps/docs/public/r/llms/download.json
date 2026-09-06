@@ -1,0 +1,124 @@
+{
+  "name": "download",
+  "type": "registry:ui",
+  "title": "下载 Download",
+  "description": "整合文件名识别、文件类型图标推导、下载进度跟踪与完成反馈于一体的卡片式下载组件。",
+  "import": "import { Download, downloadVariants } from \"@/components/ui/download\"",
+  "exports": [
+    "Download",
+    "downloadVariants"
+  ],
+  "typeExports": [
+    "DownloadProps",
+    "DownloadStatus"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/download",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/download.json",
+    "npmDependencies": [
+      "lucide-react",
+      "class-variance-authority",
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "filename",
+      "type": "string",
+      "required": true,
+      "control": "text",
+      "description": "控件中显示的文件名称。"
+    },
+    {
+      "name": "meta",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "文件类型、大小等补充信息。"
+    },
+    {
+      "name": "fileIcon",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "根据文件名推断的文件类型图标。传入节点可覆盖默认图标，传入 false 可隐藏图标。"
+    },
+    {
+      "name": "href",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "激活控件后下载的文件地址。"
+    },
+    {
+      "name": "status",
+      "type": "\"idle\" | \"error\" | \"complete\" | \"downloading\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "idle",
+        "error",
+        "complete",
+        "downloading"
+      ],
+      "defaultValue": "\"idle\"",
+      "description": "下载流程的当前状态。"
+    },
+    {
+      "name": "progress",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0",
+      "description": "确定进度的下载进度，取值范围为 0 到 100。"
+    },
+    {
+      "name": "size",
+      "type": "\"compact\" | \"default\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "compact",
+        "default"
+      ],
+      "defaultValue": "default",
+      "description": "控件的高度和间距尺寸。"
+    },
+    {
+      "name": "onDownload",
+      "type": "(() => void | Promise<void>)",
+      "required": false,
+      "control": "text",
+      "description": "用户请求下载时触发。"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "是否禁用组件。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "download-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "download-states",
+      "title": "各生命周期状态与自定义图标"
+    },
+    {
+      "name": "download-compact",
+      "title": "紧凑附件列表 (Compact List)"
+    }
+  ],
+  "files": [
+    "registry/ui/download.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/download",
+  "sourceUrl": "https://ui.wzx.wang/r/download.json"
+}

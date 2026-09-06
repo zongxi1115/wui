@@ -1,0 +1,37 @@
+---
+title: 漏斗图 Funnel Chart
+description: 用于追踪多阶段业务流转、步骤转化率与流失率分布的漏斗图表。
+component: funnel-chart
+---
+
+## 基础示例 · Basic example
+
+<ComponentPreview name="funnel-chart-demo" previewClassName="min-h-0 p-6 flex justify-center" />
+
+<CodeTabs command="@wui-design/cli@latest add @wui/funnel-chart" />
+
+<ComponentSource name="funnel-chart" title="charts/funnel-chart.tsx" />
+
+## 组件作用 · What it's for
+
+`FunnelChart` 将多阶段线性流转数据逐层呈现，清晰展示各个环节的留存量与流失瓶颈。
+
+### 适用场景
+- **用户注册与付费转化**：从访问、注册、激活到付费订阅的全链路漏斗。
+- **电商结账流**：加入购物车 → 填写地址 → 发起支付 → 支付成功。
+- **Agent 任务执行链路**：任务分解 → 工具调用 → 结果返回 → 最终达成。
+
+### 何时不建议使用
+- 如果数据没有先后递进或转化因果关系，应使用柱状图（`BarChart`）或饼图（`PieChart`）。
+
+## 组件属性 · Props
+
+<PropsTable name="funnel-chart" />
+
+## 事件 · Events
+
+- 鼠标悬停任意阶段条形块时触发 `ChartTooltip` 显示绝对量级与总转化率。
+
+## 拓展使用 · Extended usage
+
+可通过 `showDropOff` 开关控制是否显示相邻环节之间的流失百分比徽标。

@@ -1,0 +1,111 @@
+{
+  "name": "text-loop",
+  "type": "registry:ui",
+  "title": "文本循环 Text Loop",
+  "description": "在多段文本、关键词或行内节点之间自动平滑轮换切换的动效组件。",
+  "categories": [
+    "motion",
+    "text-effect"
+  ],
+  "import": "import { TextLoop } from \"@/components/ui/text-loop\"",
+  "exports": [
+    "TextLoop"
+  ],
+  "typeExports": [
+    "TextLoopProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/text-loop",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/text-loop.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "ReactNode[]",
+      "required": true,
+      "control": "text",
+      "description": "按顺序逐个显示的文本或行内内容。"
+    },
+    {
+      "name": "interval",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "2.5",
+      "description": "两项内容之间的切换间隔，单位为秒。"
+    },
+    {
+      "name": "transition",
+      "type": "Transition",
+      "required": false,
+      "control": "text",
+      "defaultValue": "{ duration: 0.35, ease: \"easeOut\" }",
+      "description": "每项内容使用的 Motion 过渡动画。"
+    },
+    {
+      "name": "variants",
+      "type": "Variants",
+      "required": false,
+      "control": "text",
+      "defaultValue": "{\n  initial: { y: 12, opacity: 0, filter: \"blur(4px)\" },\n  animate: { y: 0, opacity: 1, filter: \"blur(0px)\" },\n  exit: { y: -12, opacity: 0, filter: \"blur(4px)\" },\n}",
+      "description": "内容的初始、播放中和离场动画状态。"
+    },
+    {
+      "name": "onIndexChange",
+      "type": "((index: number) => void)",
+      "required": false,
+      "control": "text",
+      "description": "当前内容索引变化后触发。"
+    },
+    {
+      "name": "trigger",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否自动开始循环切换。"
+    },
+    {
+      "name": "mode",
+      "type": "\"sync\" | \"popLayout\" | \"wait\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "sync",
+        "popLayout",
+        "wait"
+      ],
+      "defaultValue": "popLayout",
+      "description": "AnimatePresence 使用的动画排队模式。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "text-loop-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "text-loop-badges",
+      "title": "业务动态与公告胶囊"
+    },
+    {
+      "name": "text-loop-custom-transitions",
+      "title": "自定义过渡方向与 3D 翻转"
+    },
+    {
+      "name": "text-loop-interactive",
+      "title": "悬停暂停与步骤指示器"
+    }
+  ],
+  "files": [
+    "registry/ui/text-loop.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/text-loop",
+  "sourceUrl": "https://ui.wzx.wang/r/text-loop.json"
+}

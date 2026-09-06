@@ -1,0 +1,240 @@
+---
+title: 全局提示 Message
+description: 用于在用户操作后提供轻量、非阻塞的全局反馈通知，支持卡片堆叠队列、手势拖拽移除与流畅物理微动效。
+component: message
+---
+
+## 基础用法
+
+通过 `useMessage()` 钩子可在任意组件内即时触发不同语义状态的浮层提示：
+
+<ComponentPreview name="message-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
+
+<CodeTabs command="@wui-design/cli@latest add @wui/message" />
+
+<Steps>
+
+<Step>安装依赖库与动效库</Step>
+
+```bash
+pnpm add radix-ui motion @animateicons/react lucide-react clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/message.tsx`</Step>
+
+<ComponentSource name="message" title="components/ui/message.tsx" />
+
+</Steps>
+
+## 属性 Props
+
+### MessageProvider
+
+全局 Provider 容器，负责管理所有浮动视口通道与堆叠消息队列：
+
+<PropsTable
+  data={[
+    {
+      prop: "position",
+      type: '"top-left" | "top" | "top-right" | "bottom-left" | "bottom" | "bottom-right"',
+      default: '"top"',
+      description: "消息在屏幕视口中的默认弹出停靠位置。",
+    },
+    {
+      prop: "duration",
+      type: "number",
+      default: "3000",
+      description: "默认自动关闭的停留时间（毫秒）。设为 0 则不自动关闭。",
+    },
+    {
+      prop: "maxCount",
+      type: "number",
+      default: "5",
+      description: "同时显示的最大消息总数，超出时最旧的消息将被自动移除。",
+    },
+    {
+      prop: "offset",
+      type: "number",
+      default: "20",
+      description: "消息视口距离屏幕边缘的物理像素距离。",
+    },
+    {
+      prop: "gap",
+      type: "number",
+      default: "10",
+      description: "消息之间的垂直间距或堆叠层级露出高度（像素）。",
+    },
+    {
+      prop: "stacked",
+      type: "boolean",
+      default: "true",
+      description: "是否开启卡片多层重叠堆叠模式（若为 false 则始终为普通纵向排列列表）。",
+    },
+    {
+      prop: "maxVisibleMessages",
+      type: "number",
+      default: "3",
+      description: "堆叠模式下最多露出的卡片层数。",
+    },
+    {
+      prop: "scaleFactor",
+      type: "number",
+      default: "0.05",
+      description: "堆叠队列中后置卡片按层级依次缩小的比例系数。",
+    },
+    {
+      prop: "expandOnHover",
+      type: "boolean",
+      default: "true",
+      description: "当鼠标悬停或键盘聚焦到消息堆时，是否自动展开为完整列表。",
+    },
+    {
+      prop: "dragToDismiss",
+      type: "boolean",
+      default: "true",
+      description: "是否允许通过鼠标或触控向左/向右滑动手势直接移除顶层消息。",
+    },
+    {
+      prop: "dragThreshold",
+      type: "number",
+      default: "72",
+      description: "触发手势滑动关闭所需的水平位移阈值（像素）。",
+    },
+    {
+      prop: "motion",
+      type: "Partial<MessageMotionConfig>",
+      description: "全局弹簧动效与滤镜过渡参数配置对象。",
+    },
+  ]}
+/>
+
+### MessageOptions (useMessage 触发参数)
+
+调用 `open`、`info`、`success`、`warning`、`error` 时传入的单条消息配置：
+
+<PropsTable
+  data={[
+    {
+      prop: "description",
+      type: "React.ReactNode",
+      description: "消息的核心文本或自定义结构内容。",
+    },
+    {
+      prop: "variant",
+      type: '"default" | "info" | "success" | "warning" | "destructive"',
+      default: '"default"',
+      description: "消息的色彩语义变体，同时决定动态图标样式。",
+    },
+    {
+      prop: "position",
+      type: "MessagePosition",
+      description: "单条消息弹出位置（覆盖 Provider 预设值）。",
+    },
+    {
+      prop: "duration",
+      type: "number",
+      description: "单条消息自动关闭毫秒数。设为 0 可使其一直保持显示。",
+    },
+    {
+      prop: "icon",
+      type: "React.ReactNode | false",
+      description: "自定义前导图标。传入 `false` 可完全隐藏左侧图标。",
+    },
+    {
+      prop: "closable",
+      type: "boolean",
+      default: "false",
+      description: "是否在右侧渲染显式的关闭叉号按钮。",
+    },
+    {
+      prop: "dragToDismiss",
+      type: "boolean",
+      description: "单独覆盖当前消息的手势拖拽关闭开关。",
+    },
+    {
+      prop: "opacity",
+      type: "number",
+      default: "1",
+      description: "消息外层卡片的最终不透明度（0 ~ 1）。",
+    },
+    {
+      prop: "motion",
+      type: "Partial<MessageMotionConfig>",
+      description: "单独覆盖当前消息的动画进入/退出物理参数。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于消息浮层卡片的额外 CSS 类名。",
+    },
+    {
+      prop: "onClose",
+      type: "() => void",
+      description: "消息被关闭（超时、手动移除或被挤出队列）后触发的回调函数。",
+    },
+  ]}
+/>
+
+## 事件 Events
+
+<PropsTable
+  data={[
+    {
+      prop: "onClose",
+      type: "() => void",
+      description: "单条消息因超时自动倒计时结束、点击叉号按钮、手势滑动移除或超出 maxCount 队列时触发。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`Message` 用于对用户的轻量级操作提供**即时非阻塞反馈**（如“复制成功”、“草稿已保存”、“正在上传”等）。
+
+- **非阻塞原则**：Message 通过 Portal 挂载在最顶层，不应抢占用户的交互焦点，也不应强制用户点击确认才能继续操作。
+- **简短精炼**：提示文字应尽量控制在 20 个字符以内（1~2 秒即可阅读完）。若需展示多行报错信息、排查说明或复杂表单错误，请使用 `Alert` 或 `Dialog`。
+- **避免多条轰炸**：若同一操作触发了多次异步回调，优先合并为单条更新，或依赖组件内置的 `stacked` 堆叠与 `maxCount` 机制避免屏幕被弹窗淹没。
+
+## 场景示例
+
+### 弹出方位 (Positions)
+
+支持 6 种视口停靠方位（`top-left`、`top`、`top-right`、`bottom-left`、`bottom`、`bottom-right`）：
+
+<ComponentPreview name="message-positions" />
+
+### 停留时长与异步加载 (Duration)
+
+可通过 `duration` 设置消息停留时间；将 `duration: 0` 配合自定义 Loading 图标可实现平滑的异步任务状态衔接：
+
+<ComponentPreview name="message-duration" />
+
+### 卡片堆叠与手势移除 (Stacked & Drag)
+
+多条提示默认智能分层重叠，鼠标悬浮时丝滑展开，支持左右滑动手势快速移除：
+
+<ComponentPreview name="message-stack" />
+
+### 自定义动效与透明度 (Motion & Opacity)
+
+可微调物理弹簧刚度（stiffness）、阻尼比（damping）与进出场位移：
+
+<ComponentPreview name="message-motion" />
+
+### 业务场景：复制密钥、上传同步与撤销操作
+
+在真实 SaaS 产品中，Message 可用于敏感密钥复制确认、后台资源同步以及支持即时“撤销”的数据归档：
+
+<ComponentPreview name="message-business" />
+
+## 无障碍与交互 Accessibility
+
+- **动态实时区域 (Live Region)**：
+  - `warning` 与 `destructive` 消息自动分配 `role="alert"`，协助读屏器及时播报错误。
+  - 普通信息与成功提示使用 `role="status"`，确保在不打断用户当前焦点操作的前提下进行提示。
+- **焦点与键盘交互**：当展开为列表并包含 `closable` 按钮或交互链接时，支持通过键盘进入并激活操作。
+- **减弱动态效果 (Reduced Motion)**：组件会自动监听操作系统的减弱动态效果偏好（`prefers-reduced-motion`），开启时将禁用位移、缩放与毛玻璃模糊动效，以纯淡入淡出形式呈现。

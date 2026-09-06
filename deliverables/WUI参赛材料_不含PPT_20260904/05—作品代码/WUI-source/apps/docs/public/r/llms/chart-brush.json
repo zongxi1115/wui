@@ -1,0 +1,91 @@
+{
+  "name": "chart-brush",
+  "type": "registry:component",
+  "title": "图表范围选择 Chart Brush",
+  "description": "复用 Slider 为趋势图提供受控范围选择和缩放窗口。",
+  "categories": [
+    "charts",
+    "interaction"
+  ],
+  "import": "import { ChartBrush } from \"@/components/charts/chart-brush\"",
+  "exports": [
+    "ChartBrush"
+  ],
+  "typeExports": [
+    "ChartBrushProps",
+    "ChartDatum"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/chart-brush",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/chart-brush.json",
+    "npmDependencies": [],
+    "registryDependencies": [
+      "slider",
+      "chart-core"
+    ]
+  },
+  "props": [
+    {
+      "name": "data",
+      "type": "ChartDatum[]",
+      "required": true,
+      "control": "text",
+      "description": "与主图横轴顺序一致的数据。"
+    },
+    {
+      "name": "labelKey",
+      "type": "string",
+      "required": true,
+      "control": "text",
+      "description": "用于显示选区边界的标签字段。"
+    },
+    {
+      "name": "value",
+      "type": "[number, number]",
+      "required": false,
+      "control": "text",
+      "description": "受控的起止索引。"
+    },
+    {
+      "name": "defaultValue",
+      "type": "[number, number]",
+      "required": false,
+      "control": "text",
+      "defaultValue": "[0, data.length - 1]",
+      "description": "非受控的初始起止索引。"
+    },
+    {
+      "name": "onValueChange",
+      "type": "((value: [number, number]) => void)",
+      "required": false,
+      "control": "text",
+      "description": "选区索引变化时触发。"
+    },
+    {
+      "name": "minPoints",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "2",
+      "description": "两个边界之间至少保留的数据点数量。"
+    },
+    {
+      "name": "labelFormatter",
+      "type": "((value: string | number, datum: ChartDatum) => ReactNode)",
+      "required": false,
+      "control": "text",
+      "defaultValue": "(next) => String(next)",
+      "description": "自定义边界标签。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "chart-brush-demo"
+    }
+  ],
+  "files": [
+    "registry/charts/chart-brush.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/charts/chart-brush",
+  "sourceUrl": "https://ui.wzx.wang/r/chart-brush.json"
+}

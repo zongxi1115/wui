@@ -1,0 +1,110 @@
+{
+  "name": "text-roll",
+  "type": "registry:ui",
+  "title": "文本翻滚 Text Roll",
+  "description": "将字符拆分为双层垂直滚动轨迹，在悬停或挂载时呈现如机械翻牌或流体波浪般的逐字滚动质感。",
+  "categories": [
+    "motion",
+    "text-effect"
+  ],
+  "import": "import { TextRoll } from \"@/components/ui/text-roll\"",
+  "exports": [
+    "TextRoll"
+  ],
+  "typeExports": [
+    "TextRollProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/text-roll",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/text-roll.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "string",
+      "required": true,
+      "control": "text",
+      "description": "按字符逐个翻滚显示的文字。"
+    },
+    {
+      "name": "duration",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0.45",
+      "description": "每个字符完成一次翻滚所需的时间，单位为秒。"
+    },
+    {
+      "name": "getEnterDelay",
+      "type": "((index: number) => number)",
+      "required": false,
+      "control": "text",
+      "defaultValue": "(index) => index * 0.025",
+      "description": "计算每个字符进入翻滚状态延迟的函数。"
+    },
+    {
+      "name": "getExitDelay",
+      "type": "((index: number) => number)",
+      "required": false,
+      "control": "text",
+      "defaultValue": "(index) => index * 0.02",
+      "description": "计算每个字符回到静止状态延迟的函数。"
+    },
+    {
+      "name": "transition",
+      "type": "Transition",
+      "required": false,
+      "control": "text",
+      "description": "合并到每个字符上的过渡动画。"
+    },
+    {
+      "name": "variants",
+      "type": "Variants",
+      "required": false,
+      "control": "text",
+      "defaultValue": "{\n  rest: { y: \"0%\" },\n  hover: { y: \"-50%\" },\n}",
+      "description": "每个字符轨道的静止和悬停状态。"
+    },
+    {
+      "name": "trigger",
+      "type": "\"hover\" | \"mount\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "hover",
+        "mount"
+      ],
+      "defaultValue": "hover",
+      "description": "是否在悬停时播放，或在挂载后立即播放。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "text-roll-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "text-roll-navigation",
+      "title": "导航栏菜单链接"
+    },
+    {
+      "name": "text-roll-button",
+      "title": "CTA 行动按钮"
+    },
+    {
+      "name": "text-roll-mount-stagger",
+      "title": "挂载即时翻滚"
+    }
+  ],
+  "files": [
+    "registry/ui/text-roll.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/text-roll",
+  "sourceUrl": "https://ui.wzx.wang/r/text-roll.json"
+}

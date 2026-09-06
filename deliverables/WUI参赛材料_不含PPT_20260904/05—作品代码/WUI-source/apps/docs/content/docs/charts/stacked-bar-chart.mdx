@@ -1,0 +1,28 @@
+---
+title: 堆叠条形图 Stacked Bar Chart
+description: 比较分类总量及其组成，支持横向、纵向与百分比堆叠。
+component: stacked-bar-chart
+---
+
+## 基础用法
+
+<ComponentPreview
+  name="stacked-bar-chart-demo"
+  previewClassName="min-h-0 p-6 sm:p-8"
+/>
+
+<CodeTabs command="@wui-design/cli@latest add @wui/stacked-bar-chart" />
+
+<ComponentSource
+  name="stacked-bar-chart"
+  title="components/charts/stacked-bar-chart.tsx"
+/>
+
+## 使用场景
+
+普通堆叠用于同时查看总量和组成，`normalize` 用于比较构成比例。序列应共享同一单位和分母；正负贡献、瀑布桥接等场景不要套用普通堆叠。
+点击业务钻取可使用 `onValueSelect`，键盘聚焦仍能逐段读取数据。
+
+## 属性
+
+<PropsTable name="stacked-bar-chart" />

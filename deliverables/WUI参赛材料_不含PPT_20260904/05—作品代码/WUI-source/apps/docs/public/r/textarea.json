@@ -1,0 +1,17 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "textarea",
+  "type": "registry:ui",
+  "title": "文本域 Textarea",
+  "description": "用于输入较长的多行文本，支持字符计数与缩放方向约束。",
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/textarea.tsx",
+      "type": "registry:ui",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { cn } from \"@/registry/lib/utils\"\n\nconst resizeClasses = {\n  none: \"resize-none\",\n  vertical: \"resize-y\",\n  horizontal: \"resize-x\",\n  both: \"resize\",\n} as const\n\nexport interface TextareaProps extends Omit<\n  React.ComponentProps<\"textarea\">,\n  \"children\"\n> {\n  /** 是否在右下角显示当前字符数。@default false */\n  showCount?: boolean\n  /** 文本域允许调整尺寸的方向。@default \"vertical\" */\n  resize?: keyof typeof resizeClasses\n  /** 应用于最外层容器的额外样式类。 */\n  wrapperClassName?: string\n}\n\n/** A multiline text field with optional character count and resize control. */\nfunction Textarea({\n  className,\n  wrapperClassName,\n  showCount = false,\n  resize = \"vertical\",\n  value,\n  defaultValue,\n  maxLength,\n  onChange,\n  \"aria-describedby\": ariaDescribedBy,\n  ...props\n}: TextareaProps) {\n  const counterId = React.useId()\n  const [internalValue, setInternalValue] = React.useState(defaultValue ?? \"\")\n  const currentValue = value ?? internalValue\n  const characterCount = String(currentValue).length\n\n  return (\n    <div\n      data-slot=\"textarea-shell\"\n      className={cn(\n        \"border-input bg-background shadow-xs focus-within:border-ring focus-within:ring-ring/30 has-[textarea[aria-invalid=true]]:border-destructive has-[textarea[aria-invalid=true]]:ring-destructive/20 relative w-full rounded-md border transition-[border-color,box-shadow] duration-200 ease-out focus-within:ring-[3px] has-[textarea:disabled]:cursor-not-allowed has-[textarea:disabled]:opacity-50 has-[textarea[aria-invalid=true]]:ring-[3px]\",\n        wrapperClassName\n      )}\n    >\n      <textarea\n        data-slot=\"textarea\"\n        value={value}\n        defaultValue={defaultValue}\n        maxLength={maxLength}\n        aria-describedby={\n          showCount\n            ? [ariaDescribedBy, counterId].filter(Boolean).join(\" \")\n            : ariaDescribedBy\n        }\n        onChange={(event) => {\n          if (value === undefined) setInternalValue(event.target.value)\n          onChange?.(event)\n        }}\n        className={cn(\n          \"placeholder:text-muted-foreground/75 block min-h-24 w-full rounded-[inherit] bg-transparent px-3 py-2.5 text-sm leading-6 outline-none disabled:cursor-not-allowed\",\n          resizeClasses[resize],\n          showCount && \"pb-7 pr-16\",\n          className\n        )}\n        {...props}\n      />\n      {showCount ? (\n        <span\n          id={counterId}\n          data-slot=\"textarea-count\"\n          aria-live=\"polite\"\n          className=\"text-muted-foreground pointer-events-none absolute bottom-2 right-3 text-xs tabular-nums\"\n        >\n          {characterCount}\n          {typeof maxLength === \"number\" ? ` / ${maxLength}` : null}\n        </span>\n      ) : null}\n    </div>\n  )\n}\n\nexport { Textarea }\n"
+    }
+  ]
+}

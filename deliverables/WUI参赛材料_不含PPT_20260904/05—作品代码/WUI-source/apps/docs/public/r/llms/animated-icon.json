@@ -1,0 +1,112 @@
+{
+  "name": "animated-icon",
+  "type": "registry:ui",
+  "title": "动态图标 Animated Icon",
+  "description": "图标内部路径会随交互运动的 Lucide 动态图标集合。",
+  "import": "import { AnimatedIcon, animatedIconColorVariants } from \"@/components/ui/animated-icon\"",
+  "exports": [
+    "AnimatedIcon",
+    "animatedIconColorVariants"
+  ],
+  "typeExports": [
+    "AnimatedIconColor",
+    "AnimatedIconGlyph",
+    "AnimatedIconGlyphProps",
+    "AnimatedIconHandle",
+    "AnimatedIconProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/animated-icon",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/animated-icon.json",
+    "npmDependencies": [
+      "@animateicons/react"
+    ],
+    "registryDependencies": []
+  },
+  "props": [
+    {
+      "name": "icon",
+      "type": "AnimatedIconGlyph",
+      "required": true,
+      "control": "text",
+      "description": "从 @animateicons/react/lucide 导入的路径动画图标。"
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "图标的无障碍名称。纯装饰图标无需设置。"
+    },
+    {
+      "name": "ref",
+      "type": "Ref<AnimatedIconHandle>",
+      "required": false,
+      "control": "text",
+      "description": "由动态路径图标暴露的命令式播放控制句柄。"
+    },
+    {
+      "name": "size",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "24",
+      "description": "图标尺寸，单位为像素。"
+    },
+    {
+      "name": "duration",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "description": "图标支持时，单次动画的时长，单位为秒。"
+    },
+    {
+      "name": "isAnimated",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "是否播放图标动画，具体效果取决于图标本身是否支持。"
+    },
+    {
+      "name": "variant",
+      "type": "\"default\" | \"secondary\" | \"destructive\" | \"success\" | \"warning\" | \"info\" | \"primary\" | \"muted\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "default",
+        "secondary",
+        "destructive",
+        "success",
+        "warning",
+        "info",
+        "primary",
+        "muted"
+      ],
+      "defaultValue": "default",
+      "description": "图标使用的语义文字颜色。"
+    },
+    {
+      "name": "color",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "自定义 CSS/SVG 颜色。设置后会覆盖 variant。"
+    }
+  ],
+  "usage": "```tsx\nimport { BellRingIcon, CopyIcon } from \"@animateicons/react/lucide\"\nimport {\n  AirplaneIcon,\n  BrandOpenaiIcon,\n} from \"@/components/ui/animated-icons\"\n\n<BellRingIcon size={24} />\n<CopyIcon size={24} duration={0.7} />\n<AirplaneIcon size={24} />\n<BrandOpenaiIcon size={24} />\n```\n\n每个图标默认在自身悬停时播放。如果交互区域比图标大，例如工具栏按钮或菜单项，建议使用 wui 的 `AnimatedIcon`，\n并通过 `ref` 让父元素控制动画。这样用户悬停按钮空白区域时，图标也会给出反馈。\n\nSVGlide 使用受控的 `data-hovered` 属性：\n\n```tsx\nimport { useState } from \"react\"\nimport { Activity } from \"svglide\"\n\nexport function ActivityButton() {\n  const [hovered, setHovered] = useState(false)\n\n  return (\n    <button\n      onPointerEnter={() => setHovered(true)}\n      onPointerLeave={() => setHovered(false)}\n      onFocus={() => setHovered(true)}\n      onBlur={() => setHovered(false)}\n    >\n      <Activity data-hovered={hovered} className=\"size-6\" />\n      Activity\n    </button>\n  )\n}\n```",
+  "examples": [
+    {
+      "name": "animated-icon-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "animated-icon-colors",
+      "title": "颜色变体"
+    }
+  ],
+  "files": [
+    "registry/ui/animated-icon.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/animated-icon",
+  "sourceUrl": "https://ui.wzx.wang/r/animated-icon.json"
+}

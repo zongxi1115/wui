@@ -1,0 +1,155 @@
+{
+  "name": "area-chart",
+  "type": "registry:component",
+  "title": "面积图 Area Chart",
+  "description": "在折线趋势下增加克制填充，用于强调连续数值的规模。",
+  "categories": [
+    "charts",
+    "trend"
+  ],
+  "import": "import { AreaChart } from \"@/components/charts/area-chart\"",
+  "exports": [
+    "AreaChart"
+  ],
+  "typeExports": [
+    "AreaChartProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/area-chart",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/area-chart.json",
+    "npmDependencies": [],
+    "registryDependencies": [
+      "line-chart"
+    ]
+  },
+  "props": [
+    {
+      "name": "fillOpacity",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0.14",
+      "description": "面积填充的不透明度。"
+    },
+    {
+      "name": "showDots",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "是否显示数据节点。"
+    },
+    {
+      "name": "data",
+      "type": "ChartDatum[]",
+      "required": true,
+      "control": "text",
+      "description": "每行代表一个横轴节点的数据。"
+    },
+    {
+      "name": "title",
+      "type": "ReactNode",
+      "required": true,
+      "control": "text",
+      "description": "图表标题，用于说明正在展示的指标。"
+    },
+    {
+      "name": "height",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "280",
+      "description": "图表绘图区高度，单位为像素。"
+    },
+    {
+      "name": "description",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "补充单位、时间范围或筛选条件的副标题。"
+    },
+    {
+      "name": "actions",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "标题右侧的操作区，适合组合 Button、Select 或业务工具栏。"
+    },
+    {
+      "name": "xKey",
+      "type": "string",
+      "required": true,
+      "control": "text",
+      "description": "用作横轴标签的数据字段。"
+    },
+    {
+      "name": "series",
+      "type": "ChartSeries[]",
+      "required": true,
+      "control": "text",
+      "description": "要绘制的数值序列。"
+    },
+    {
+      "name": "domain",
+      "type": "[number, number]",
+      "required": false,
+      "control": "text",
+      "description": "手动指定纵轴最小值和最大值。"
+    },
+    {
+      "name": "showGrid",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否显示水平参考网格。"
+    },
+    {
+      "name": "showLegend",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否在多序列时显示图例。"
+    },
+    {
+      "name": "referenceLines",
+      "type": "ChartReferenceLine[]",
+      "required": false,
+      "control": "text",
+      "description": "目标值、均值或阈值等纵轴参考线。"
+    },
+    {
+      "name": "yAxisFormatter",
+      "type": "((value: number) => ReactNode)",
+      "required": false,
+      "control": "text",
+      "description": "自定义纵轴刻度的显示格式。"
+    },
+    {
+      "name": "valueFormatter",
+      "type": "ChartValueFormatter",
+      "required": false,
+      "control": "text",
+      "description": "自定义数值的显示格式。"
+    },
+    {
+      "name": "labelFormatter",
+      "type": "ChartLabelFormatter",
+      "required": false,
+      "control": "text",
+      "description": "自定义横轴标签和提示框标题的显示格式。"
+    }
+  ],
+  "events": "图表不产生业务事件。工具区中的筛选、下载和刷新行为由传入 `actions` 的现有组件负责。",
+  "examples": [
+    {
+      "name": "area-chart-demo"
+    }
+  ],
+  "files": [
+    "registry/charts/area-chart.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/charts/area-chart",
+  "sourceUrl": "https://ui.wzx.wang/r/area-chart.json"
+}

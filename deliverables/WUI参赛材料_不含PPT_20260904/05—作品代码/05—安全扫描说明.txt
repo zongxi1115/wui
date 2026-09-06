@@ -1,0 +1,9 @@
+扫描日期：2026-09-04
+
+源码快照未包含 .env、私钥文件、访问令牌、依赖缓存或版本库内部数据。
+
+敏感信息特征扫描命中两处演示字符串，均不是有效凭据：
+1. apps/docs/registry/examples/form-controlled.tsx 中的 sk-xxxxxxxxxxxxxxxxxxxxxxxx，用于表单占位示例。
+2. apps/docs/registry/examples/textarea-states.tsx 中以 BEGIN RSA PRIVATE KEY 开头的截断文本，用于展示文本域状态。
+
+上述字符串为界面演示内容，不具备认证或解密能力。

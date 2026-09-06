@@ -1,0 +1,93 @@
+---
+title: 图标 Icon
+description: 基于 Lucide 的可搜索图标集合与无障碍渲染组件。
+component: icon
+---
+
+## 基础用法
+
+<ComponentPreview name="icon-demo" />
+
+## 颜色变体
+
+使用 `variant` 选择主题语义色。颜色来自 WUI 的设计令牌，会随明暗主题自动切换。
+
+<ComponentPreview name="icon-colors" />
+
+```tsx
+<Icon icon={CheckIcon} variant="success" />
+<Icon icon={InfoIcon} variant="info" />
+<Icon icon={TriangleAlertIcon} variant="warning" />
+<Icon icon={CircleXIcon} variant="destructive" />
+```
+
+支持 `default`、`primary`、`secondary`、`muted`、`info`、`success`、`warning` 和 `destructive`。
+需要使用自定义颜色时，直接传入 `color`；它会覆盖 `variant` 的语义色。
+
+```tsx
+<Icon icon={SparklesIcon} variant="primary" color="rebeccapurple" />
+```
+
+安装组件：
+
+<CodeTabs command="@wui-design/cli@latest add @wui/icon" />
+
+<Steps>
+
+<Step>安装图标依赖</Step>
+
+```bash
+pnpm add lucide-react
+```
+
+<Step>将组件源码复制到 `components/ui/icon.tsx`</Step>
+
+<ComponentSource name="icon" title="components/ui/icon.tsx" />
+
+</Steps>
+
+## 图标库
+
+这里收录当前 `lucide-react` 版本提供的全部图标。输入英文名称筛选，点击图标即可复制按需导入语句。
+图标按页加载，避免一次渲染整个集合；筛选不到时请尝试图标的英文名称或同义词。
+
+<IconLibrary />
+
+Lucide 采用 ISC 许可，可用于个人和商业项目。它不收录品牌标志；品牌图标建议单独选择并逐项核对商标与许可，不要混入基础产品图标集合。
+
+## 收集来源
+
+- [Lucide](https://lucide.dev/)：当前主库，线性风格统一，React 支持和按需导入完善。
+- [Simple Icons](https://simpleicons.org/)：只在需要品牌标志时参考；图形许可不等于获得品牌商标授权。
+- [Iconify](https://icon-sets.iconify.design/)：适合跨图标集检索和发现候选，但每个集合的许可不同，收录前需要单独核对。
+- [AnimateIcons](https://animateicons.in/icons/lucide)：动态主库，收录 248 个独立编排的逐路径动画。
+- [ItsHover](https://www.itshover.com/icons)：去重后本地化 207 个补充图标，与主库合计 455 个。
+
+## 使用说明
+
+```tsx
+import { SearchIcon } from "lucide-react"
+
+import { Icon } from "@/components/ui/icon"
+
+<Icon icon={SearchIcon} />
+<Icon icon={SearchIcon} size="lg" strokeWidth={1.75} />
+<Icon icon={SearchIcon} label="搜索" />
+```
+
+`label` 为空时，图标会被视为装饰并对辅助技术隐藏。如果图标单独传达含义，请提供 `label`；如果图标位于已经有文字
+或 `aria-label` 的按钮内，则保持装饰状态，避免读屏器把同一名称读两遍。
+
+## 尺寸
+
+`xs`、`sm`、`md`、`lg`、`xl` 分别对应 12、16、20、24、32px，也可以直接传入像素值。
+按钮、输入框和菜单应优先使用预设尺寸，让图标与同一控件中的文字保持稳定对齐。
+
+## 动态图标
+
+需要图标内部路径随交互运动时，使用 [`AnimatedIcon`](/docs/components/animated-icon)。动态组件会为铃铛、复制、菜单等图形
+保留各自的路径动画；普通图标不应为了装饰性效果强行替换为动态图标。
+
+## 属性
+
+<PropsTable name="icon" />

@@ -1,0 +1,28 @@
+{
+  "name": "utils",
+  "type": "registry:lib",
+  "title": "cn 工具函数",
+  "description": "供所有组件使用的 Tailwind 类名合并工具函数。",
+  "import": "import { cn } from \"@/lib/utils\"",
+  "exports": [
+    "cn"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/utils",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/utils.json",
+    "npmDependencies": [
+      "clsx",
+      "tailwind-merge"
+    ],
+    "registryDependencies": [
+      "theme"
+    ]
+  },
+  "props": [],
+  "examples": [],
+  "files": [
+    "registry/lib/utils.ts"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/utils",
+  "sourceUrl": "https://ui.wzx.wang/r/utils.json"
+}

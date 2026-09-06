@@ -1,0 +1,91 @@
+{
+  "name": "in-view",
+  "type": "registry:ui",
+  "title": "视口进入动效 In View",
+  "description": "当元素滚动进入视口可见范围时，自动触发淡入、位移或自定义变体动画的交叉观察（Intersection Observer）组件。",
+  "categories": [
+    "motion"
+  ],
+  "import": "import { InView } from \"@/components/ui/in-view\"",
+  "exports": [
+    "InView"
+  ],
+  "typeExports": [
+    "InViewProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/in-view",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/in-view.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": []
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": true,
+      "control": "text",
+      "description": "进入视口时需要播放动画的内容。"
+    },
+    {
+      "name": "variants",
+      "type": "Variants",
+      "required": false,
+      "control": "text",
+      "defaultValue": "{\n  hidden: { opacity: 0, y: 16 },\n  visible: { opacity: 1, y: 0 },\n}",
+      "description": "内容隐藏和显示时使用的动画变体。"
+    },
+    {
+      "name": "transition",
+      "type": "Transition",
+      "required": false,
+      "control": "text",
+      "defaultValue": "{ duration: 0.45, ease: \"easeOut\" }",
+      "description": "状态切换时使用的 Motion 过渡动画。"
+    },
+    {
+      "name": "viewOptions",
+      "type": "UseInViewOptions",
+      "required": false,
+      "control": "text",
+      "description": "Intersection Observer 配置，例如 margin 和 amount。"
+    },
+    {
+      "name": "once",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否只播放一次入场动画。"
+    },
+    {
+      "name": "as",
+      "type": "ElementType<any, keyof IntrinsicElements>",
+      "required": false,
+      "control": "text",
+      "defaultValue": "div",
+      "description": "组件实际渲染的 HTML 元素。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "in-view-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "in-view-image-reveal",
+      "title": "图片揭示"
+    },
+    {
+      "name": "in-view-stagger",
+      "title": "瀑布流/阶梯式卡片进场（Stagger）"
+    }
+  ],
+  "files": [
+    "registry/ui/in-view.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/in-view",
+  "sourceUrl": "https://ui.wzx.wang/r/in-view.json"
+}

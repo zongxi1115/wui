@@ -1,0 +1,76 @@
+---
+title: AI 流协议 Hook useAiStream
+description: 消费 Vercel AI SDK UI Message Stream，并兼容 Zonix 的流式事件。
+component: use-ai-stream
+---
+
+## 文本回答与请求控制
+
+使用 `send()` 发起请求，并通过 `stop()` 中止仍在生成的内容。这个示例还展示了 `source-url` 来源分片。
+
+<ComponentPreview name="use-ai-stream-text-demo" />
+
+## Zonix 推理与工具调用
+
+下面的流故意省略 `reasoning-start` 和 `reasoning-end`，用于演示 Hook 对 Zonix 0.3.x 推理事件的兼容，以及工具参数的增量解析。
+
+<ComponentPreview name="use-ai-stream-demo" />
+
+## Generative UI 数据部件
+
+自定义 `data-*` 不局限于展示 JSON。相同 `type + id` 的分片会原位更新，因此可以直接驱动进度、任务状态或业务组件。
+
+<ComponentPreview name="use-ai-stream-generative-demo" />
+
+<CodeTabs command="@wui-design/cli@latest add @wui/use-ai-stream" />
+
+<ComponentSource name="use-ai-stream" title="hooks/use-ai-stream.ts" />
+
+## 协议定位
+
+`useAiStream` 消费 `text/event-stream` 响应，并把 Vercel AI SDK UI Message Stream v1 的 chunk 整理为结构兼容
+`UIMessage` 的 `message.parts`。它不依赖 `ai` 或 `@ai-sdk/react`，适合 Zonix、FastAPI 等非 JavaScript 后端直接接入 WUI 的
+[`AiStream`](/docs/components/ai-stream)、[`AiReasoning`](/docs/components/ai-reasoning) 与
+[`AiTool`](/docs/components/ai-tool)。已经使用 AI SDK `useChat` 的项目应继续使用官方 transport。
+
+支持的内容包括文本、推理、工具输入与输出、审批、来源、文件、自定义 `data-*`、step 边界、消息 metadata、错误、终止和
+`[DONE]`。自定义 `data-*` 会保留在 `message.parts`；相同 `type + id` 的数据会原位更新，`transient: true` 只触发 `onData`。
+
+Zonix 0.3.x 的 `reasoning-delta` 没有配套 `reasoning-start` / `reasoning-end`。Hook 会为这类分片补齐前端状态，并在
+`finish` 或流结束时收口为 `done`；`finish.usage` 也会保留在 `message.usage`。这层兼容只作用于本 Hook，若直接使用 AI SDK
+`useChat`，后端仍应发送完整的 reasoning start/delta/end 序列。
+
+## 请求接口
+
+配置 `api` 后，`send(input)` 默认发送 JSON POST 请求：
+
+```tsx
+const stream = useAiStream({ api: "/api/agent" })
+
+await stream.send({ task: "检查登录页" })
+```
+
+已有 `Response`、自定义 transport 或测试流可以交给 `consume(response)`。`stop()` 会中止当前 fetch 并取消 body reader，
+`reset()` 还会清空当前消息。`status` 与 AI 输入组件一致，取值为 `idle`、`submitted`、`streaming` 或 `error`。
+
+渲染时可以直接使用聚合后的 `text`、`reasoning` 和 `toolParts`，也可以遍历完整的 `message.parts` 实现 Generative UI：
+
+```tsx
+const { message, text, isStreaming } = useAiStream({ api: "/api/agent" })
+
+return (
+  <>
+    <AiStream isStreaming={isStreaming}>{text}</AiStream>
+    {message?.parts
+      .filter((part) => part.type.startsWith("data-"))
+      .map((part) => renderGenerativePart(part))}
+  </>
+)
+```
+
+服务端响应需要使用以下头部，并以 `data: {...}\n\n` 发送每个 chunk：
+
+```http
+content-type: text/event-stream
+x-vercel-ai-ui-message-stream: v1
+```

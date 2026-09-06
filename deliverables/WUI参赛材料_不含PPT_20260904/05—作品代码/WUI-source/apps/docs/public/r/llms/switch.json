@@ -1,0 +1,90 @@
+{
+  "name": "switch",
+  "type": "registry:ui",
+  "title": "开关 Switch",
+  "description": "用于在两种互斥状态间即时切换的二元控制组件，内置弹性微动效与完整的键盘无障碍能力。",
+  "import": "import { Switch, switchVariants } from \"@/components/ui/switch\"",
+  "exports": [
+    "Switch",
+    "switchVariants"
+  ],
+  "typeExports": [
+    "SwitchProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/switch",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/switch.json",
+    "npmDependencies": [
+      "radix-ui",
+      "class-variance-authority",
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "size",
+      "type": "\"default\" | \"sm\" | \"lg\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "default",
+        "sm",
+        "lg"
+      ],
+      "defaultValue": "default",
+      "description": "开关的尺寸。"
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "是否禁用组件。"
+    },
+    {
+      "name": "asChild",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "switch-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "switch-controlled",
+      "title": "受控模式"
+    },
+    {
+      "name": "switch-sizes",
+      "title": "尺寸"
+    },
+    {
+      "name": "switch-with-label",
+      "title": "带标签与描述"
+    },
+    {
+      "name": "switch-disabled",
+      "title": "禁用状态"
+    },
+    {
+      "name": "switch-async",
+      "title": "异步请求与加载保护"
+    },
+    {
+      "name": "switch-form",
+      "title": "设置分组列表"
+    }
+  ],
+  "files": [
+    "registry/ui/switch.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/switch",
+  "sourceUrl": "https://ui.wzx.wang/r/switch.json"
+}

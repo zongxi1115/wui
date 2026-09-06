@@ -1,0 +1,69 @@
+{
+  "name": "ai-chat",
+  "type": "registry:ui",
+  "title": "AI 对话 AI Chat",
+  "description": "专为 AI 对话、智能助手与 Agent 编排设计的组合式容器，支持流式智能滚屏、角色气泡、多阶段思考链与工具调用状态渲染。",
+  "categories": [
+    "ai"
+  ],
+  "import": "import { AiChat, AiChatAvatar, AiChatEmptyState, AiChatMessage, AiChatMessageActions, AiChatMessageContent, AiChatMessages, AiChatPrompt, AiChatPromptFooter, AiChatPromptTools, AiChatScrollButton, AiChatSubmit, AiChatTextarea, aiChatMessageContentVariants, aiChatMessageVariants } from \"@/components/ui/ai-chat\"",
+  "exports": [
+    "AiChat",
+    "AiChatAvatar",
+    "AiChatEmptyState",
+    "AiChatMessage",
+    "AiChatMessageActions",
+    "AiChatMessageContent",
+    "AiChatMessages",
+    "AiChatPrompt",
+    "AiChatPromptFooter",
+    "AiChatPromptTools",
+    "AiChatScrollButton",
+    "AiChatSubmit",
+    "AiChatTextarea",
+    "aiChatMessageContentVariants",
+    "aiChatMessageVariants"
+  ],
+  "typeExports": [
+    "AiChatAvatarProps",
+    "AiChatMessageContentProps",
+    "AiChatMessageProps",
+    "AiChatMessagesProps",
+    "AiChatProps",
+    "AiChatSubmitProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/ai-chat",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/ai-chat.json",
+    "npmDependencies": [
+      "class-variance-authority",
+      "lucide-react"
+    ],
+    "registryDependencies": [
+      "utils",
+      "button",
+      "avatar",
+      "ai-prompt"
+    ]
+  },
+  "props": [],
+  "examples": [
+    {
+      "name": "ai-chat-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "ai-chat-agent",
+      "title": "智能体完整工作流 (Agent Workflow)"
+    },
+    {
+      "name": "ai-chat-empty",
+      "title": "欢迎页与空白引导态 (Empty State)"
+    }
+  ],
+  "files": [
+    "registry/ui/ai-chat.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/ai-chat",
+  "sourceUrl": "https://ui.wzx.wang/r/ai-chat.json"
+}

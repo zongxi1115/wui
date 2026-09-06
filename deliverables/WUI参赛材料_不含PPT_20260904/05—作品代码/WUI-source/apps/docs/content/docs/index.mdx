@@ -1,0 +1,34 @@
+---
+title: 介绍
+description: 一个真正属于你的 shadcn 风格 React 组件库。
+---
+
+**wui** 是一套基于 [Radix UI](https://www.radix-ui.com/) 和
+[Tailwind CSS v4](https://tailwindcss.com/) 构建的、无障碍且可组合的 React 组件。
+
+它**不是**一个组件依赖包。与 shadcn/ui 一样，组件源码会被复制到你的项目中，
+因此每个组件都真正属于你，并且可以自由修改。
+
+## 特点
+
+- **源码属于你。** 组件位于你的仓库中，而不是藏在 `node_modules` 里。
+- **按需使用。** 通过 `wui` CLI 只拉取需要的组件。
+- **支持主题。** 使用 Tailwind v4 CSS 变量（oklch），支持浅色和深色模式。
+- **文档完善。** 每个组件都提供实时预览、源码、属性、事件和进阶示例。
+- **AI 友好。** 通过 [MCP](/docs/mcp) 把真实的属性和用法提供给 Claude Code、Cursor
+  等工具，让它们不再猜 API。
+
+## 快速开始
+
+初始化项目：
+
+<CodeTabs command="@wui-design/cli@latest init" />
+
+然后添加组件：
+
+<CodeTabs command="@wui-design/cli@latest add @wui/button" />
+
+前往[安装](/docs/installation)页面查看完整配置，或直接浏览
+[按钮](/docs/components/button)组件。
+
+如果你用 AI 工具写代码，建议同时配置 [MCP 接入](/docs/mcp)。

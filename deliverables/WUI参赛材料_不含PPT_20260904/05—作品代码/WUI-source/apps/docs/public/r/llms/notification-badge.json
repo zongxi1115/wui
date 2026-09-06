@@ -1,0 +1,118 @@
+{
+  "name": "notification-badge",
+  "type": "registry:ui",
+  "title": "消息提示 Notification Badge",
+  "description": "在图标、头像或任意控件的右上角附着展示未读计数或红点提示。",
+  "import": "import { NotificationBadge, notificationBadgeVariants } from \"@/components/ui/notification-badge\"",
+  "exports": [
+    "NotificationBadge",
+    "notificationBadgeVariants"
+  ],
+  "typeExports": [
+    "NotificationBadgeProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/notification-badge",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/notification-badge.json",
+    "npmDependencies": [
+      "class-variance-authority"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "count",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "提示标记中显示的内容。传入数字时会受 max 限制。"
+    },
+    {
+      "name": "max",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "99",
+      "description": "显示数字前允许的最大值，超过后显示带加号的最大值。"
+    },
+    {
+      "name": "showZero",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "数值为 0 时是否仍显示标记。"
+    },
+    {
+      "name": "dot",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "是否显示小圆点，而不是显示 count 内容。"
+    },
+    {
+      "name": "visible",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "受控模式下提示标记是否显示。"
+    },
+    {
+      "name": "variant",
+      "type": "\"default\" | \"destructive\" | \"success\" | \"warning\" | \"info\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "default",
+        "destructive",
+        "success",
+        "warning",
+        "info"
+      ],
+      "defaultValue": "destructive",
+      "description": "提示标记使用的语义颜色。"
+    },
+    {
+      "name": "offset",
+      "type": "readonly [number, number]",
+      "required": false,
+      "control": "text",
+      "defaultValue": "[0, 0]",
+      "description": "标记相对右上角锚点的像素偏移量。"
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "提示标记的无障碍名称。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "notification-badge-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "notification-badge-variants",
+      "title": "语义色彩主题"
+    },
+    {
+      "name": "notification-badge-max",
+      "title": "数字上限与零值控制"
+    },
+    {
+      "name": "notification-badge-offset",
+      "title": "像素偏移定位微调"
+    }
+  ],
+  "files": [
+    "registry/ui/notification-badge.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/notification-badge",
+  "sourceUrl": "https://ui.wzx.wang/r/notification-badge.json"
+}

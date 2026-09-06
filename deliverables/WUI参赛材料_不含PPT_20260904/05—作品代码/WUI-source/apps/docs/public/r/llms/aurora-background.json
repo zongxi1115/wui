@@ -1,0 +1,83 @@
+{
+  "name": "aurora-background",
+  "type": "registry:ui",
+  "title": "极光动态背景 Aurora Background",
+  "description": "融合多重径向渐变光斑、柔和高斯模糊与无限平滑缓动的现代极光氛围背景组件。",
+  "categories": [
+    "background",
+    "motion",
+    "fancy"
+  ],
+  "import": "import { AuroraBackground } from \"@/components/ui/aurora-background\"",
+  "exports": [
+    "AuroraBackground"
+  ],
+  "typeExports": [
+    "AuroraBackgroundProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/aurora-background",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/aurora-background.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "显示在极光图层上方的前景内容。"
+    },
+    {
+      "name": "colors",
+      "type": "[string, string, string]",
+      "required": false,
+      "control": "text",
+      "defaultValue": "[\"var(--info)\", \"var(--success)\", \"var(--warning)\"]",
+      "description": "移动光场使用的三个 CSS 颜色。"
+    },
+    {
+      "name": "duration",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "18",
+      "description": "完整移动一轮所需的时间，单位为秒。"
+    },
+    {
+      "name": "blur",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "56",
+      "description": "光场的模糊强度，单位为像素。"
+    },
+    {
+      "name": "layerClassName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "应用于每个极光图层的 CSS 类名。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "aurora-background-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "aurora-background-card",
+      "title": "VIP 会员卡片与定价模块"
+    }
+  ],
+  "files": [
+    "registry/ui/aurora-background.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/aurora-background",
+  "sourceUrl": "https://ui.wzx.wang/r/aurora-background.json"
+}

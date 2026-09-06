@@ -1,0 +1,139 @@
+---
+title: 动态图标 Animated Icon
+description: 图标内部路径会随交互运动的 Lucide 动态图标集合。
+component: animated-icon
+---
+
+## 基础用法
+
+这些图标不是对整个 SVG 做统一缩放或旋转。每个图标都配有自己的路径动画：铃铛会摆动，复制图层会分离，
+菜单线条会重排，齿轮会转动。这样可以让动画和图形含义对应起来。
+
+<ComponentPreview name="animated-icon-demo" />
+
+## 颜色变体
+
+`AnimatedIcon` 使用与 `Icon` 相同的语义色变体。颜色通过 `currentColor` 传给动态图标内部的 SVG 路径，因此不会影响图标本身的动画编排。
+
+<ComponentPreview name="animated-icon-colors" />
+
+```tsx
+<AnimatedIcon icon={HeartIcon} variant="success" size={24} />
+<AnimatedIcon icon={TriangleAlertIcon} variant="warning" size={24} />
+<AnimatedIcon icon={CircleXIcon} variant="destructive" size={24} />
+```
+
+支持 `default`、`primary`、`secondary`、`muted`、`info`、`success`、`warning` 和 `destructive`。需要自定义颜色时，传入 `color`；它会覆盖 `variant` 的语义色。
+
+```tsx
+<AnimatedIcon icon={HeartIcon} variant="primary" color="#e11d48" />
+```
+
+安装完整集合：
+
+<CodeTabs command="@wui-design/cli@latest add @wui/animated-icon-collection" />
+
+完整集合包含 AnimateIcons 的 248 个图标、ItsHover 去重后独有的 207 个图标，以及 SVGlide 的 333 个 Lucide 动态图标。
+图标库会按名称过滤重复项，但不同来源仍可能存在风格和参数差异。安装命令会同时加入对应依赖、本地 ItsHover 图标源码
+和统一适配组件；只需要少量图标时，按需导入可以减少依赖体积。
+
+<ComponentSource name="animated-icon" title="components/ui/animated-icon.tsx" />
+
+## 动态图标库
+
+悬停或键盘聚焦任意图标即可预览动画，点击会复制对应来源的按需导入语句。可以在“全部 / AnimateIcons / ItsHover / SVGlide”之间切换。
+顶部的 From / To 预览可直接选择任意两枚图库图标：Play 会以 SVG 路径 morph 从 From 播到 To，随后切换为 Reset。
+
+<AnimatedIconLibrary />
+
+## 直接使用
+
+```tsx
+import { BellRingIcon, CopyIcon } from "@animateicons/react/lucide"
+import {
+  AirplaneIcon,
+  BrandOpenaiIcon,
+} from "@/components/ui/animated-icons"
+
+<BellRingIcon size={24} />
+<CopyIcon size={24} duration={0.7} />
+<AirplaneIcon size={24} />
+<BrandOpenaiIcon size={24} />
+```
+
+每个图标默认在自身悬停时播放。如果交互区域比图标大，例如工具栏按钮或菜单项，建议使用 wui 的 `AnimatedIcon`，
+并通过 `ref` 让父元素控制动画。这样用户悬停按钮空白区域时，图标也会给出反馈。
+
+SVGlide 使用受控的 `data-hovered` 属性：
+
+```tsx
+import { useState } from "react"
+import { Activity } from "svglide"
+
+export function ActivityButton() {
+  const [hovered, setHovered] = useState(false)
+
+  return (
+    <button
+      onPointerEnter={() => setHovered(true)}
+      onPointerLeave={() => setHovered(false)}
+      onFocus={() => setHovered(true)}
+      onBlur={() => setHovered(false)}
+    >
+      <Activity data-hovered={hovered} className="size-6" />
+      Activity
+    </button>
+  )
+}
+```
+
+## 从父元素控制
+
+```tsx
+"use client"
+
+import { useRef } from "react"
+import { BellRingIcon } from "@animateicons/react/lucide"
+
+import {
+  AnimatedIcon,
+  type AnimatedIconHandle,
+} from "@/components/ui/animated-icon"
+
+export function Notifications() {
+  const iconRef = useRef<AnimatedIconHandle>(null)
+
+  return (
+    <button
+      aria-label="通知"
+      onMouseEnter={() => iconRef.current?.startAnimation()}
+      onMouseLeave={() => iconRef.current?.stopAnimation()}
+      onFocus={() => iconRef.current?.startAnimation()}
+      onBlur={() => iconRef.current?.stopAnimation()}
+    >
+      <AnimatedIcon ref={iconRef} icon={BellRingIcon} size={24} />
+    </button>
+  )
+}
+```
+
+`startAnimation()` 与 `stopAnimation()` 适合按钮、菜单项和保存状态等由父元素控制的场景。组件只控制播放时机，
+仍会保留每个图标自己的动画编排，不会把所有图标替换成同一种动效。
+
+<Callout title="减少动态效果">
+  AnimateIcons 会读取用户的减少动态效果偏好；本地化的 ItsHover
+  图标通过统一导出层停止悬停和命令式播放。请从 `@/components/ui/animated-icons`
+  导入 ItsHover 图标，不要绕过入口直接引用内部文件。
+</Callout>
+
+## 图标来源
+
+- [AnimateIcons](https://animateicons.in/icons/lucide)：248 个主集合图标，MIT 许可，通过 npm 按需导入。
+- [ItsHover](https://www.itshover.com/icons)：本地化 207 个去重后的补充图标，保留 Apache 2.0 许可证和来源说明。
+- [SVGlide](https://svglide.vercel.app/)：333 个 Lucide 动态图标，通过 npm 按需导入并使用 `data-hovered` 控制播放。其仓库 README 与 package.json 的许可证标注不一致，使用时需以项目最终发布的许可证文件为准。
+
+品牌图标的源码许可不代表获得对应品牌的商标授权，实际产品使用前仍需核对品牌规范。
+
+## 属性
+
+<PropsTable name="animated-icon" />

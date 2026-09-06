@@ -1,0 +1,119 @@
+{
+  "name": "timeline",
+  "type": "registry:ui",
+  "title": "时间轴 Timeline",
+  "description": "按照明确的时间先后顺序呈现事件流转、操作日志、发布进度与业务里程碑。",
+  "import": "import { Timeline, TimelineCard, TimelineContent, TimelineDescription, TimelineDot, TimelineHeader, TimelineItem, TimelineMeta, TimelineSeparator, TimelineTime, TimelineTitle, timelineDotVariants } from \"@/components/ui/timeline\"",
+  "exports": [
+    "Timeline",
+    "TimelineCard",
+    "TimelineContent",
+    "TimelineDescription",
+    "TimelineDot",
+    "TimelineHeader",
+    "TimelineItem",
+    "TimelineMeta",
+    "TimelineSeparator",
+    "TimelineTime",
+    "TimelineTitle",
+    "timelineDotVariants"
+  ],
+  "typeExports": [
+    "TimelineDotProps",
+    "TimelineItemProps",
+    "TimelineProps",
+    "TimelineSeparatorProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/timeline",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/timeline.json",
+    "npmDependencies": [
+      "class-variance-authority",
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "orientation",
+      "type": "\"horizontal\" | \"vertical\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "horizontal",
+        "vertical"
+      ],
+      "defaultValue": "vertical",
+      "description": "时间线的排列方向。"
+    },
+    {
+      "name": "align",
+      "type": "\"start\" | \"alternate\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "start",
+        "alternate"
+      ],
+      "defaultValue": "start",
+      "description": "内容相对时间线的对齐方式。交错对齐仅在纵向布局中生效。"
+    },
+    {
+      "name": "density",
+      "type": "\"compact\" | \"default\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "compact",
+        "default"
+      ],
+      "defaultValue": "default",
+      "description": "事件之间的间距尺寸。"
+    },
+    {
+      "name": "connector",
+      "type": "\"solid\" | \"dashed\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "solid",
+        "dashed"
+      ],
+      "defaultValue": "solid",
+      "description": "连接线的视觉样式。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "timeline-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "timeline-status",
+      "title": "流程阶段与呼吸脉冲"
+    },
+    {
+      "name": "timeline-icons",
+      "title": "图标节点与独立卡片"
+    },
+    {
+      "name": "timeline-alternate",
+      "title": "左右交错里程碑 (Alternate)"
+    },
+    {
+      "name": "timeline-horizontal",
+      "title": "横向向导流程 (Horizontal)"
+    },
+    {
+      "name": "timeline-compact",
+      "title": "紧凑型系统审计日志 (Compact)"
+    }
+  ],
+  "files": [
+    "registry/ui/timeline.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/timeline",
+  "sourceUrl": "https://ui.wzx.wang/r/timeline.json"
+}

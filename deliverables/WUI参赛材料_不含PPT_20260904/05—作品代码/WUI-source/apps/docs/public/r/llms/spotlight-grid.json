@@ -1,0 +1,101 @@
+{
+  "name": "spotlight-grid",
+  "type": "registry:ui",
+  "title": "聚光灯网格背景 Spotlight Grid",
+  "description": "随鼠标指针移动动态照亮周围网格或点阵阵列的高交互性背景组件。",
+  "categories": [
+    "background",
+    "pointer",
+    "fancy"
+  ],
+  "import": "import { SpotlightGrid } from \"@/components/ui/spotlight-grid\"",
+  "exports": [
+    "SpotlightGrid"
+  ],
+  "typeExports": [
+    "SpotlightGridProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/spotlight-grid",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/spotlight-grid.json",
+    "npmDependencies": [],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "显示在网格图案上方的内容。"
+    },
+    {
+      "name": "pattern",
+      "type": "\"grid\" | \"dots\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "grid",
+        "dots"
+      ],
+      "defaultValue": "grid",
+      "description": "要显示的背景图案。"
+    },
+    {
+      "name": "size",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "28",
+      "description": "图案单元格的尺寸，单位为像素。"
+    },
+    {
+      "name": "radius",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "240",
+      "description": "指针聚光区域的半径，单位为像素。"
+    },
+    {
+      "name": "patternColor",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "defaultValue": "currentColor",
+      "description": "图案使用的 CSS 颜色。"
+    },
+    {
+      "name": "baseOpacity",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0.1",
+      "description": "始终显示的基础图案不透明度。"
+    },
+    {
+      "name": "patternClassName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "应用于两层图案的 CSS 类名。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "spotlight-grid-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "spotlight-grid-dots",
+      "title": "点阵模式（Dots）"
+    }
+  ],
+  "files": [
+    "registry/ui/spotlight-grid.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/spotlight-grid",
+  "sourceUrl": "https://ui.wzx.wang/r/spotlight-grid.json"
+}

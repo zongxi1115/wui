@@ -1,0 +1,87 @@
+{
+  "name": "avatar",
+  "type": "registry:ui",
+  "title": "头像 Avatar",
+  "description": "用于展示用户、团队或机器人身份的图形元素，内置图片加载回退、在线状态徽章与多头像重叠组能力。",
+  "import": "import { Avatar, AvatarBadge, AvatarFallback, AvatarGroup, AvatarGroupCount, AvatarImage, avatarBadgeVariants, avatarVariants } from \"@/components/ui/avatar\"",
+  "exports": [
+    "Avatar",
+    "AvatarBadge",
+    "AvatarFallback",
+    "AvatarGroup",
+    "AvatarGroupCount",
+    "AvatarImage",
+    "avatarBadgeVariants",
+    "avatarVariants"
+  ],
+  "typeExports": [
+    "AvatarBadgeProps",
+    "AvatarGroupCountProps",
+    "AvatarProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/avatar",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/avatar.json",
+    "npmDependencies": [
+      "radix-ui",
+      "class-variance-authority"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "size",
+      "type": "\"default\" | \"sm\" | \"lg\" | \"xs\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "default",
+        "sm",
+        "lg",
+        "xs"
+      ],
+      "defaultValue": "default",
+      "description": "头像尺寸。"
+    },
+    {
+      "name": "asChild",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "avatar-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "avatar-sizes",
+      "title": "尺寸规格"
+    },
+    {
+      "name": "avatar-status",
+      "title": "在线状态指示"
+    },
+    {
+      "name": "avatar-fallback",
+      "title": "回退策略与自定义占位"
+    },
+    {
+      "name": "avatar-group",
+      "title": "头像重叠组 (AvatarGroup)"
+    },
+    {
+      "name": "avatar-business",
+      "title": "业务场景：协作者管理面板"
+    }
+  ],
+  "files": [
+    "registry/ui/avatar.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/avatar",
+  "sourceUrl": "https://ui.wzx.wang/r/avatar.json"
+}

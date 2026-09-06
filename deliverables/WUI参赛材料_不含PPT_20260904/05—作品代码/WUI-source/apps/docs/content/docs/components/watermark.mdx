@@ -1,0 +1,136 @@
+---
+title: 水印 Watermark
+description: 在页面、卡片或敏感数据区域平铺防泄密版权文本或自定义图章的无干扰背景水印组件。
+component: watermark
+---
+
+## 基础用法
+
+为财务卡片区域添加平铺倾斜的版权与防泄漏水印：
+
+<ComponentPreview name="watermark-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
+
+<CodeTabs command="@wui-design/cli@latest add @wui/watermark" />
+
+<Steps>
+
+<Step>安装基础依赖</Step>
+
+```bash
+pnpm add class-variance-authority clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/watermark.tsx`</Step>
+
+<ComponentSource name="watermark" title="components/ui/watermark.tsx" />
+
+</Steps>
+
+## 属性 Props
+
+<PropsTable
+  data={[
+    {
+      prop: "children",
+      type: "React.ReactNode",
+      description: "受水印保护的页面或卡片子内容。",
+    },
+    {
+      prop: "content",
+      type: "string | string[]",
+      default: '"WUI"',
+      description: "水印展示的单行文字或多行文字数组（多行会自动计算垂直居中）。",
+    },
+    {
+      prop: "image",
+      type: "string",
+      description: "水印图片的 URL 路径（传入图片时将优先于文字渲染）。",
+    },
+    {
+      prop: "rotate",
+      type: "number",
+      default: "-22",
+      description: "水印旋转角度（以顺时针度数为单位）。",
+    },
+    {
+      prop: "gap",
+      type: "[number, number]",
+      default: "[80, 80]",
+      description: "相邻水印单元之间的水平与垂直间距 [gapX, gapY]（像素）。",
+    },
+    {
+      prop: "offset",
+      type: "[number, number]",
+      default: "[0, 0]",
+      description: "水印图案在画布上的初始 [offsetX, offsetY] 偏移（像素）。",
+    },
+    {
+      prop: "width",
+      type: "number",
+      default: "160",
+      description: "单个水印单元的绘制宽度（像素）。",
+    },
+    {
+      prop: "height",
+      type: "number",
+      default: "64",
+      description: "单个水印单元的绘制高度（像素）。",
+    },
+    {
+      prop: "font",
+      type: "WatermarkFont",
+      description: "文字排版配置对象：包含 `color`、`fontSize`（默认 16）、`fontWeight`、`fontFamily`、`fontStyle`。",
+    },
+    {
+      prop: "opacity",
+      type: "number",
+      default: "0.15",
+      description: "水印图层的不透明度（0 到 1 之间）。",
+    },
+    {
+      prop: "zIndex",
+      type: "number",
+      default: "10",
+      description: "水印图层的层叠顺序（z-index）。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于外层容器的 CSS 类名。",
+    },
+  ]}
+/>
+
+## 事件 Events
+
+该组件为纯展示型安全与版权图层，不阻挡交互且不派发专用事件。
+
+## 使用场景与设计规范
+
+`Watermark` 适用于**敏感后台报表、企业内部保密文档、证件与发票预览、图片防盗**：
+
+- **防篡改与轻量**：基于 SVG `<pattern>` 原生能力构建，无需 Canvas 手动计算重绘，DOM 体积极小且缩放无失真。
+- **不影响日常操作**：始终配置 `pointer-events-none` 与 `user-select: none`，用户可正常选中底层数据文本或点击表格行。
+
+## 场景示例
+
+### 多行自定义内容
+
+展示员工姓名、工号与时间戳的多行水印：
+
+<ComponentPreview name="watermark-custom" />
+
+### 自定义图章图片
+
+使用企业品牌 Logo 作为平铺水印：
+
+<ComponentPreview name="watermark-image" />
+
+## 无障碍与交互 Accessibility
+
+- **交互零阻挡**：鼠标点击、滚动、文本拖拽选择均直接穿透到子内容。
+- **无障碍树忽略**：水印 SVG 默认标记 `aria-hidden="true"`，屏幕阅读器不受多余重复文本的干扰。

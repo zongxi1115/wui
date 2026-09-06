@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "chart-brush",
+  "type": "registry:component",
+  "title": "图表范围选择 Chart Brush",
+  "description": "复用 Slider 为图表提供受控的范围筛选与缩放。",
+  "registryDependencies": [
+    "slider",
+    "chart-core"
+  ],
+  "files": [
+    {
+      "path": "registry/charts/chart-brush.tsx",
+      "type": "registry:component",
+      "target": "@components/charts/chart-brush.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { Slider } from \"@/registry/ui/slider\"\n\nimport { cn } from \"@/registry/lib/utils\"\n\nimport type { ChartDatum } from \"./chart-core\"\n\nexport interface ChartBrushProps extends Omit<\n  React.HTMLAttributes<HTMLDivElement>,\n  \"defaultValue\"\n> {\n  /** 与主图横轴顺序一致的数据。 */\n  data: ChartDatum[]\n  /** 用于显示选区边界的标签字段。 */\n  labelKey: string\n  /** 受控的起止索引。 */\n  value?: [number, number]\n  /** 非受控的初始起止索引。 */\n  defaultValue?: [number, number]\n  /** 选区索引变化时触发。 */\n  onValueChange?: (value: [number, number]) => void\n  /** 两个边界之间至少保留的数据点数量。 @default 2 */\n  minPoints?: number\n  /** 自定义边界标签。 */\n  labelFormatter?: (\n    value: string | number,\n    datum: ChartDatum\n  ) => React.ReactNode\n}\n\n/** 复用 Slider 提供图表范围选择，可用于缩放或时间窗口过滤。 */\nfunction ChartBrush({\n  data,\n  labelKey,\n  value,\n  defaultValue = [0, data.length - 1],\n  onValueChange,\n  minPoints = 2,\n  labelFormatter = (next) => String(next),\n  className,\n  ...props\n}: ChartBrushProps) {\n  const [internalValue, setInternalValue] =\n    React.useState<[number, number]>(defaultValue)\n  const current = value ?? internalValue\n\n  function handleValueChange(next: number[]) {\n    const range: [number, number] = [next[0], next[1]]\n    if (!value) setInternalValue(range)\n    onValueChange?.(range)\n  }\n\n  return (\n    <div\n      data-slot=\"chart-brush\"\n      className={cn(\n        \"mt-4 grid grid-cols-[auto_1fr_auto] items-center gap-3\",\n        className\n      )}\n      {...props}\n    >\n      <span className=\"text-muted-foreground min-w-10 text-xs\">\n        {labelFormatter(\n          data[current[0]][labelKey] as string | number,\n          data[current[0]]\n        )}\n      </span>\n      <Slider\n        value={current}\n        min={0}\n        max={data.length - 1}\n        step={1}\n        minStepsBetweenThumbs={minPoints - 1}\n        showValue=\"never\"\n        variant=\"expand\"\n        aria-label=\"图表显示范围\"\n        onValueChange={handleValueChange}\n      />\n      <span className=\"text-muted-foreground min-w-10 text-right text-xs\">\n        {labelFormatter(\n          data[current[1]][labelKey] as string | number,\n          data[current[1]]\n        )}\n      </span>\n    </div>\n  )\n}\n\nexport { ChartBrush }\nexport type { ChartDatum }\n"
+    }
+  ],
+  "categories": [
+    "charts",
+    "interaction"
+  ]
+}

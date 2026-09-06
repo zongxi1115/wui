@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "aspect-ratio",
+  "type": "registry:ui",
+  "title": "宽高比 Aspect Ratio",
+  "description": "在响应式布局中为图片、视频或占位内容维持稳定比例。",
+  "dependencies": [
+    "radix-ui"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/aspect-ratio.tsx",
+      "type": "registry:ui",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { AspectRatio as AspectRatioPrimitive } from \"radix-ui\"\n\nimport { cn } from \"@/registry/lib/utils\"\n\nexport interface AspectRatioProps extends React.ComponentProps<\n  typeof AspectRatioPrimitive.Root\n> {\n  /** 宽度与高度的比例，例如 16 / 9。@default 1 */\n  ratio?: number\n}\n\n/** 在响应式宽度下保持媒体或内容的固定宽高比。 */\nfunction AspectRatio({ className, ratio = 1, ...props }: AspectRatioProps) {\n  return (\n    <AspectRatioPrimitive.Root\n      data-slot=\"aspect-ratio\"\n      ratio={ratio}\n      className={cn(\"relative overflow-hidden\", className)}\n      {...props}\n    />\n  )\n}\n\nexport { AspectRatio }\n"
+    }
+  ]
+}

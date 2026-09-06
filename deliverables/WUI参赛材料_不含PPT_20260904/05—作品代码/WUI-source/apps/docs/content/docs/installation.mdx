@@ -1,0 +1,30 @@
+---
+title: 安装
+description: 在你的项目中配置 wui。
+---
+
+## 1. 初始化
+
+在 React 项目根目录运行 `init`：
+
+<CodeTabs command="@wui-design/cli@latest init" />
+
+该命令会创建 `wui.json` 配置文件，在 `lib/utils.ts` 中添加 `cn` 工具函数，
+并准备组件与主题的安装位置。第一次执行 `wui add` 时，组件依赖的 WUI 主题令牌会幂等写入
+`wui.json` 指向的全局样式表；也可以先单独执行 `wui add @wui/theme` 安装主题。
+
+## 2. 添加组件
+
+<CodeTabs command="@wui-design/cli@latest add @wui/button @wui/dialog" />
+
+每个组件及其所需的 registry 依赖都会写入你的项目中（例如
+`components/ui/button.tsx`）。由于源码位于你的仓库中，你可以按需自由修改。
+
+## 兼容 shadcn
+
+wui registry 遵循 shadcn 的 `registry-item.json` 规范，因此也可以使用
+shadcn 官方 CLI：
+
+```bash
+pnpm dlx shadcn@latest add @wui/button
+```

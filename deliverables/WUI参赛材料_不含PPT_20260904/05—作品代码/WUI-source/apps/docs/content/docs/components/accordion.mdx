@@ -1,0 +1,37 @@
+---
+title: 手风琴 Accordion
+description: 用于在有限空间内组织多段相关信息的互斥或多开可折叠面板。
+component: accordion
+---
+
+## 基础示例 · Basic example
+
+<ComponentPreview name="accordion-demo" previewClassName="min-h-0 p-6 flex justify-center" />
+
+<CodeTabs command="@wui-design/cli@latest add @wui/accordion" />
+
+<ComponentSource name="accordion" title="components/ui/accordion.tsx" />
+
+## 组件作用 · What it's for
+
+`Accordion` 适合将大量分步信息、常见问题解答（FAQ）、配置项分组或长篇说明以折叠列表形式组织。
+
+### 适用场景
+- **常见问题解答 (FAQ)**：提供紧凑整洁的折叠面板，点击标题展开详细解答。
+- **复杂表单与配置分组**：在设置页按模块折叠次要配置项。
+- **单选互斥与多开支持**：通过 `type="single"` 或 `type="multiple"` 自由控制展开行为。
+
+### 何时不建议使用
+- 如果只有单一独立的展开/折叠块，推荐直接使用更轻量的 `Collapsible`。
+
+## 组件属性 · Props
+
+<PropsTable name="accordion" />
+
+## 事件 · Events
+
+- `onValueChange?: (value: string | string[]) => void`：当展开项发生改变时触发的回调。
+
+## 拓展使用 · Extended usage
+
+支持通过 `variant="default" | "bordered" | "separated"` 切换通栏分割、圆角外框以及独立卡片式 3 种视觉形态。

@@ -1,0 +1,66 @@
+{
+  "name": "morphing-dialog",
+  "type": "registry:ui",
+  "title": "形变对话框 Morphing Dialog",
+  "description": "通过共享布局动画（Shared Layout）将触发器表面平滑无缝扩展为居中模态对话框的连续过渡组件。",
+  "categories": [
+    "motion",
+    "advanced"
+  ],
+  "import": "import { MorphingDialog, MorphingDialogClose, MorphingDialogContent, MorphingDialogDescription, MorphingDialogImage, MorphingDialogSubtitle, MorphingDialogTitle, MorphingDialogTrigger } from \"@/components/ui/morphing-dialog\"",
+  "exports": [
+    "MorphingDialog",
+    "MorphingDialogClose",
+    "MorphingDialogContent",
+    "MorphingDialogDescription",
+    "MorphingDialogImage",
+    "MorphingDialogSubtitle",
+    "MorphingDialogTitle",
+    "MorphingDialogTrigger"
+  ],
+  "typeExports": [
+    "MorphingDialogContentProps",
+    "MorphingDialogProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/morphing-dialog",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/morphing-dialog.json",
+    "npmDependencies": [
+      "radix-ui",
+      "lucide-react",
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "transition",
+      "type": "Transition",
+      "required": false,
+      "control": "text",
+      "defaultValue": "{\n  type: \"spring\",\n  stiffness: 420,\n  damping: 34,\n  mass: 0.7,\n} as const",
+      "description": "控制触发元素与对话框之间形变过程的弹簧或补间动画。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "morphing-dialog-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "morphing-dialog-media",
+      "title": "媒体画廊展开"
+    },
+    {
+      "name": "morphing-dialog-card",
+      "title": "业务卡片展开详情"
+    }
+  ],
+  "files": [
+    "registry/ui/morphing-dialog.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/morphing-dialog",
+  "sourceUrl": "https://ui.wzx.wang/r/morphing-dialog.json"
+}

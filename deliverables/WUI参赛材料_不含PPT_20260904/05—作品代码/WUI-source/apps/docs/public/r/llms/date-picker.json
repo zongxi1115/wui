@@ -1,0 +1,152 @@
+{
+  "name": "date-picker",
+  "type": "registry:ui",
+  "title": "日期选择器 DatePicker",
+  "description": "基于日历弹层的现代化单日期选择控件，支持多语言本地化、日期范围约束、自定义禁用规则与快捷清空。",
+  "import": "import { DatePicker, datePickerVariants } from \"@/components/ui/date-picker\"",
+  "exports": [
+    "DatePicker",
+    "datePickerVariants"
+  ],
+  "typeExports": [
+    "DatePickerProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/date-picker",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/date-picker.json",
+    "npmDependencies": [
+      "radix-ui",
+      "lucide-react"
+    ],
+    "registryDependencies": [
+      "utils",
+      "calendar"
+    ]
+  },
+  "props": [
+    {
+      "name": "value",
+      "type": "Date",
+      "required": false,
+      "control": "text",
+      "description": "当前选中的日期。"
+    },
+    {
+      "name": "defaultValue",
+      "type": "Date",
+      "required": false,
+      "control": "text",
+      "description": "非受控模式下初始选中的日期。"
+    },
+    {
+      "name": "onValueChange",
+      "type": "((date: Date) => void)",
+      "required": false,
+      "control": "text",
+      "description": "选择或清除日期后触发。"
+    },
+    {
+      "name": "placeholder",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "defaultValue": "选择日期",
+      "description": "没有选中日期时显示的占位文本。"
+    },
+    {
+      "name": "locale",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "defaultValue": "zh-CN",
+      "description": "格式化日期时使用的地区设置。"
+    },
+    {
+      "name": "formatOptions",
+      "type": "DateTimeFormatOptions",
+      "required": false,
+      "control": "text",
+      "description": "传递给 Intl.DateTimeFormat 的日期格式化选项。"
+    },
+    {
+      "name": "clearable",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否允许清除当前日期。"
+    },
+    {
+      "name": "min",
+      "type": "Date",
+      "required": false,
+      "control": "text",
+      "description": "允许选择的最早日期。"
+    },
+    {
+      "name": "max",
+      "type": "Date",
+      "required": false,
+      "control": "text",
+      "description": "允许选择的最晚日期。"
+    },
+    {
+      "name": "disabledDate",
+      "type": "((date: Date) => boolean)",
+      "required": false,
+      "control": "text",
+      "description": "用于判断日期是否禁用的匹配函数。"
+    },
+    {
+      "name": "size",
+      "type": "\"default\" | \"sm\" | \"lg\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "default",
+        "sm",
+        "lg"
+      ],
+      "defaultValue": "default",
+      "description": "尺寸密度。@default \"default\""
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "是否禁用组件。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "date-picker-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "date-picker-controlled",
+      "title": "受控模式与快捷预设"
+    },
+    {
+      "name": "date-picker-sizes",
+      "title": "尺寸规格"
+    },
+    {
+      "name": "date-picker-disabled-dates",
+      "title": "禁用特定日期与日期范围"
+    },
+    {
+      "name": "date-picker-custom-format",
+      "title": "国际化与自定义格式化"
+    },
+    {
+      "name": "date-picker-form",
+      "title": "任务日程表单集成"
+    }
+  ],
+  "files": [
+    "registry/ui/date-picker.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/date-picker",
+  "sourceUrl": "https://ui.wzx.wang/r/date-picker.json"
+}

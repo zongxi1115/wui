@@ -1,0 +1,56 @@
+{
+  "name": "kanban",
+  "type": "registry:ui",
+  "title": "看板 Kanban",
+  "description": "用于敏捷项目管理、需求流转与线索阶段跟踪的可组合看板组件，内置 HTML5 原生拖拽流转与悬停响应。",
+  "import": "import { Kanban, KanbanCard, KanbanColumn, KanbanColumnBody, KanbanColumnCount, KanbanColumnHeader, KanbanColumnTitle } from \"@/components/ui/kanban\"",
+  "exports": [
+    "Kanban",
+    "KanbanCard",
+    "KanbanColumn",
+    "KanbanColumnBody",
+    "KanbanColumnCount",
+    "KanbanColumnHeader",
+    "KanbanColumnTitle"
+  ],
+  "typeExports": [
+    "KanbanCardProps",
+    "KanbanColumnProps",
+    "KanbanMove",
+    "KanbanProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/kanban",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/kanban.json",
+    "npmDependencies": [
+      "lucide-react"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "onMove",
+      "type": "((move: KanbanMove) => void)",
+      "required": false,
+      "control": "text",
+      "description": "卡片被拖入其他列后触发。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "kanban-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "kanban-project-board",
+      "title": "敏捷开发 Sprint 任务流转板"
+    }
+  ],
+  "files": [
+    "registry/ui/kanban.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/kanban",
+  "sourceUrl": "https://ui.wzx.wang/r/kanban.json"
+}

@@ -1,0 +1,25 @@
+---
+title: 图表范围选择 Chart Brush
+description: 复用 Slider 为趋势图提供受控范围选择和缩放窗口。
+component: chart-brush
+---
+
+## 基础用法
+
+<ComponentPreview
+  name="chart-brush-demo"
+  previewClassName="min-h-0 p-6 sm:p-8"
+/>
+
+<CodeTabs command="@wui-design/cli@latest add @wui/chart-brush" />
+
+<ComponentSource name="chart-brush" title="components/charts/chart-brush.tsx" />
+
+## 使用场景
+
+`ChartBrush` 直接复用现有 `Slider` 的双 Thumb、键盘和触摸交互，只负责返回起止索引。主图的数据切片和请求范围由业务状态控制，
+因此它可以与折线、面积、时间序列或其他有序图表组合。
+
+## 属性
+
+<PropsTable name="chart-brush" />

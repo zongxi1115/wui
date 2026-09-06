@@ -1,0 +1,76 @@
+{
+  "name": "skeleton",
+  "type": "registry:ui",
+  "title": "骨架屏 Skeleton",
+  "description": "在内容异步加载期间维持页面版式结构，降低累积布局偏移（CLS）与用户等待的不确定感。",
+  "import": "import { Skeleton, SkeletonText, skeletonVariants } from \"@/components/ui/skeleton\"",
+  "exports": [
+    "Skeleton",
+    "SkeletonText",
+    "skeletonVariants"
+  ],
+  "typeExports": [
+    "SkeletonProps",
+    "SkeletonTextProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/skeleton",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/skeleton.json",
+    "npmDependencies": [
+      "class-variance-authority"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "shape",
+      "type": "\"circle\" | \"text\" | \"default\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "circle",
+        "text",
+        "default"
+      ],
+      "defaultValue": "default",
+      "description": "占位骨架的圆角样式。"
+    },
+    {
+      "name": "animation",
+      "type": "\"none\" | \"pulse\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "none",
+        "pulse"
+      ],
+      "defaultValue": "pulse",
+      "description": "加载时使用的动画样式。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "skeleton-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "skeleton-layout",
+      "title": "图文资讯卡片布局"
+    },
+    {
+      "name": "skeleton-table",
+      "title": "数据表格加载骨架"
+    },
+    {
+      "name": "skeleton-dashboard",
+      "title": "复杂数据分析仪表盘"
+    }
+  ],
+  "files": [
+    "registry/ui/skeleton.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/skeleton",
+  "sourceUrl": "https://ui.wzx.wang/r/skeleton.json"
+}

@@ -1,0 +1,19 @@
+stages:
+  - deploy
+
+deploy_production:
+  stage: deploy
+  tags:
+    - wui-production
+  resource_group: wui-production
+  timeout: 30m
+  variables:
+    NEXT_TELEMETRY_DISABLED: "1"
+  script:
+    - bash scripts/deploy-production.sh "${CI_PIPELINE_ID}-${CI_COMMIT_SHORT_SHA}" "${CI_PROJECT_DIR}"
+  environment:
+    name: production
+    url: http://192.168.9.235:3010
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+

@@ -1,0 +1,58 @@
+{
+  "name": "pagination",
+  "type": "registry:ui",
+  "title": "分页 Pagination",
+  "description": "用于在海量数据或长列表中实现按页加载与分段导航，清晰传达当前页码、总页数及折叠区间。",
+  "categories": [
+    "navigation"
+  ],
+  "import": "import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from \"@/components/ui/pagination\"",
+  "exports": [
+    "Pagination",
+    "PaginationContent",
+    "PaginationEllipsis",
+    "PaginationItem",
+    "PaginationLink",
+    "PaginationNext",
+    "PaginationPrevious"
+  ],
+  "typeExports": [
+    "PaginationLinkProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/pagination",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/pagination.json",
+    "npmDependencies": [
+      "lucide-react",
+      "radix-ui"
+    ],
+    "registryDependencies": [
+      "utils",
+      "button"
+    ]
+  },
+  "props": [],
+  "examples": [
+    {
+      "name": "pagination-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "pagination-table",
+      "title": "完整业务表格分页条"
+    },
+    {
+      "name": "pagination-advanced",
+      "title": "受控模式与翻页回调"
+    },
+    {
+      "name": "pagination-sizes",
+      "title": "尺寸预设"
+    }
+  ],
+  "files": [
+    "registry/ui/pagination.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/pagination",
+  "sourceUrl": "https://ui.wzx.wang/r/pagination.json"
+}

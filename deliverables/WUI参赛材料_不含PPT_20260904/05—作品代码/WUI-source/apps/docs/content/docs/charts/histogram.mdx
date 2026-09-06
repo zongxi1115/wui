@@ -1,0 +1,26 @@
+---
+title: 直方图 Histogram
+description: 将连续数值自动分箱，用于观察分布形状与集中区间。
+component: histogram
+---
+
+## 基础用法
+
+<ComponentPreview name="histogram-demo" previewClassName="min-h-0 p-6 sm:p-8" />
+
+<CodeTabs command="@wui-design/cli@latest add @wui/histogram" />
+
+<ComponentSource name="histogram" title="components/charts/histogram.tsx" />
+
+## 使用场景
+
+`Histogram` 对连续数值进行等宽分箱，并复用 [`BarChart`](/docs/charts/bar-chart) 的坐标、提示框和无障碍能力。
+它用于观察偏态、集中区间和长尾，不用于比较名称型分类；多个群组的分布比较应改用箱线图或分面直方图。
+
+## 属性
+
+<PropsTable name="histogram" />
+
+## 事件
+
+图表不产生业务事件。通过 `bins` 调整分箱数量，通过 `domain` 固定多个直方图之间的可比范围。

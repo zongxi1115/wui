@@ -1,0 +1,167 @@
+{
+  "name": "stacked-bar-chart",
+  "type": "registry:component",
+  "title": "堆叠条形图 Stacked Bar Chart",
+  "description": "比较分类总量及其组成，支持横向、纵向与百分比堆叠。",
+  "categories": [
+    "charts",
+    "comparison",
+    "composition"
+  ],
+  "import": "import { StackedBarChart } from \"@/components/charts/stacked-bar-chart\"",
+  "exports": [
+    "StackedBarChart"
+  ],
+  "typeExports": [
+    "ChartDatum",
+    "ChartLabelFormatter",
+    "ChartSeries",
+    "ChartValueFormatter",
+    "StackedBarChartProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/stacked-bar-chart",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/stacked-bar-chart.json",
+    "npmDependencies": [],
+    "registryDependencies": [
+      "chart-core"
+    ]
+  },
+  "props": [
+    {
+      "name": "title",
+      "type": "ReactNode",
+      "required": true,
+      "control": "text",
+      "description": "图表标题，用于说明正在比较的总量或构成。"
+    },
+    {
+      "name": "description",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "补充单位、时间范围或分母口径的副标题。"
+    },
+    {
+      "name": "actions",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "标题右侧的操作区。"
+    },
+    {
+      "name": "data",
+      "type": "ChartDatum[]",
+      "required": true,
+      "control": "text",
+      "description": "每行代表一个分类的数据。"
+    },
+    {
+      "name": "categoryKey",
+      "type": "string",
+      "required": true,
+      "control": "text",
+      "description": "分类名称字段。"
+    },
+    {
+      "name": "series",
+      "type": "ChartSeries[]",
+      "required": true,
+      "control": "text",
+      "description": "参与堆叠的数值序列。"
+    },
+    {
+      "name": "layout",
+      "type": "\"horizontal\" | \"vertical\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "horizontal",
+        "vertical"
+      ],
+      "defaultValue": "vertical",
+      "description": "柱形方向。"
+    },
+    {
+      "name": "normalize",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "是否把每个分类归一化为百分比。"
+    },
+    {
+      "name": "height",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "300",
+      "description": "图表绘图区高度，单位为像素。"
+    },
+    {
+      "name": "labelWidth",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "112",
+      "description": "横向布局为分类标签保留的宽度。"
+    },
+    {
+      "name": "showGrid",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否显示数值参考网格。"
+    },
+    {
+      "name": "showLegend",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否显示图例。"
+    },
+    {
+      "name": "showValues",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "是否在足够宽的堆叠段内显示数值。"
+    },
+    {
+      "name": "valueFormatter",
+      "type": "ChartValueFormatter",
+      "required": false,
+      "control": "text",
+      "defaultValue": "(value) => defaultValueFormatter(value)",
+      "description": "自定义原始数值的显示格式。"
+    },
+    {
+      "name": "labelFormatter",
+      "type": "ChartLabelFormatter",
+      "required": false,
+      "control": "text",
+      "defaultValue": "(value) => String(value)",
+      "description": "自定义分类标签。"
+    },
+    {
+      "name": "onValueSelect",
+      "type": "((datum: ChartDatum, series: ChartSeries, value: number) => void)",
+      "required": false,
+      "control": "text",
+      "description": "点击某个堆叠段时触发。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "stacked-bar-chart-demo"
+    }
+  ],
+  "files": [
+    "registry/charts/stacked-bar-chart.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/charts/stacked-bar-chart",
+  "sourceUrl": "https://ui.wzx.wang/r/stacked-bar-chart.json"
+}

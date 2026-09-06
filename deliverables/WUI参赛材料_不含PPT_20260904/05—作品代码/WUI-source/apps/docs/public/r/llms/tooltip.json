@@ -1,0 +1,96 @@
+{
+  "name": "tooltip",
+  "type": "registry:ui",
+  "title": "文字提示 Tooltip",
+  "description": "在鼠标悬停或键盘聚焦时，为图标或紧凑控件浮层展示简短的上下文说明与快捷键。",
+  "import": "import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, tooltipContentVariants } from \"@/components/ui/tooltip\"",
+  "exports": [
+    "Tooltip",
+    "TooltipContent",
+    "TooltipProvider",
+    "TooltipTrigger",
+    "tooltipContentVariants"
+  ],
+  "typeExports": [
+    "TooltipContentProps",
+    "TooltipProps",
+    "TooltipProviderProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/tooltip",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/tooltip.json",
+    "npmDependencies": [
+      "radix-ui",
+      "class-variance-authority"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "open",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "受控模式下提示内容是否打开。"
+    },
+    {
+      "name": "defaultOpen",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "非受控模式下提示内容的初始打开状态。"
+    },
+    {
+      "name": "onOpenChange",
+      "type": "((open: boolean) => void)",
+      "required": false,
+      "control": "text",
+      "description": "提示内容打开状态变化时触发。"
+    },
+    {
+      "name": "delayDuration",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "description": "鼠标悬停后显示提示的延迟时间，单位为毫秒。"
+    },
+    {
+      "name": "disableHoverableContent",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "指针离开触发元素后是否立即关闭提示，而不允许指针移入提示内容。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "tooltip-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "tooltip-placement",
+      "title": "弹出方位与指示箭头"
+    },
+    {
+      "name": "tooltip-sizes",
+      "title": "尺寸规格与快捷键徽标"
+    },
+    {
+      "name": "tooltip-rich",
+      "title": "丰富上下文说明（多行/状态说明）"
+    },
+    {
+      "name": "tooltip-controlled",
+      "title": "受控模式"
+    }
+  ],
+  "files": [
+    "registry/ui/tooltip.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/tooltip",
+  "sourceUrl": "https://ui.wzx.wang/r/tooltip.json"
+}
