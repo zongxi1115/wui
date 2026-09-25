@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "animated-list",
+  "type": "registry:ui",
+  "title": "动画列表 Animated List",
+  "description": "逐条揭示列表项并将最新一条置顶，其余条目以弹簧动画下移。",
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/animated-list.tsx",
+      "type": "registry:ui",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport {\n  AnimatePresence,\n  motion,\n  useReducedMotion,\n  type Transition,\n} from \"motion/react\"\n\nimport { cn } from \"@/registry/lib/utils\"\n\nexport interface AnimatedListProps\n  extends Omit<React.ComponentProps<\"ul\">, \"children\"> {\n  /** Keyed items in chronological order; the newest (last) item shows on top. */\n  children: React.ReactNode\n  /**\n   * Milliseconds between two reveals. Items not shown yet are revealed one at a\n   * time; `0` shows every item immediately. @default 1000\n   */\n  delay?: number\n  /** Maximum number of items kept on screen; older ones leave at the bottom. */\n  max?: number\n  /** Transition of entering items and of items shifting down. */\n  transition?: Transition\n  /** Class applied to every item wrapper. */\n  itemClassName?: string\n}\n\nconst defaultTransition: Transition = {\n  type: \"spring\",\n  stiffness: 380,\n  damping: 32,\n  mass: 0.8,\n}\n\n/**\n * A feed that reveals keyed items one by one with the newest on top, while\n * existing items slide down with a spring.\n */\nfunction AnimatedList({\n  children,\n  delay = 1000,\n  max,\n  transition = defaultTransition,\n  itemClassName,\n  className,\n  ...props\n}: AnimatedListProps) {\n  const reduceMotion = useReducedMotion()\n  const items = React.Children.toArray(children).filter(React.isValidElement)\n  const [revealed, setRevealed] = React.useState<ReadonlySet<React.Key>>(\n    () => new Set()\n  )\n  const isRevealed = (item: React.ReactElement) =>\n    delay === 0 || revealed.has(item.key!)\n  const pendingKey = items.find((item) => !isRevealed(item))?.key ?? null\n\n  React.useEffect(() => {\n    if (pendingKey === null) return\n    const timer = window.setTimeout(\n      () => setRevealed((current) => new Set(current).add(pendingKey)),\n      delay\n    )\n    return () => window.clearTimeout(timer)\n  }, [delay, pendingKey])\n\n  const visible = items.filter(isRevealed).reverse()\n  const shown = max === undefined ? visible : visible.slice(0, max)\n  const itemTransition = reduceMotion ? { duration: 0 } : transition\n\n  return (\n    <ul\n      data-slot=\"animated-list\"\n      aria-live=\"polite\"\n      className={cn(\"relative flex flex-col gap-2\", className)}\n      {...props}\n    >\n      <AnimatePresence initial={false} mode=\"popLayout\">\n        {shown.map((item) => (\n          <motion.li\n            key={item.key}\n            layout\n            data-slot=\"animated-list-item\"\n            className={itemClassName}\n            initial={{ opacity: 0, y: -12, scale: 0.96 }}\n            animate={{ opacity: 1, y: 0, scale: 1 }}\n            exit={{ opacity: 0, scale: 0.96 }}\n            transition={itemTransition}\n          >\n            {item}\n          </motion.li>\n        ))}\n      </AnimatePresence>\n    </ul>\n  )\n}\n\nexport { AnimatedList }\n"
+    }
+  ],
+  "categories": [
+    "motion"
+  ]
+}

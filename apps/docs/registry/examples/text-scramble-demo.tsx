@@ -1,49 +1,40 @@
 "use client"
 
 import * as React from "react"
-import { RefreshCw, Terminal } from "lucide-react"
+import { GiftIcon } from "lucide-react"
 
 import { Button } from "@/registry/ui/button"
 import { TextScramble } from "@/registry/ui/text-scramble"
 
 export default function TextScrambleDemo() {
-  const [trigger, setTrigger] = React.useState(true)
-
-  const replay = () => {
-    setTrigger(false)
-    window.setTimeout(() => setTrigger(true), 50)
-  }
+  const [revealed, setRevealed] = React.useState(false)
+  const [round, setRound] = React.useState(0)
 
   return (
-    <div className="flex w-full max-w-md flex-col items-center justify-center gap-5 rounded-xl border border-border bg-card p-8 text-center shadow-xs">
-      <div className="flex size-9 items-center justify-center rounded-lg bg-muted text-foreground">
-        <Terminal className="size-4" />
-      </div>
-
-      <div className="space-y-2">
+    <div className="flex w-full max-w-xs flex-col items-center gap-4 text-center">
+      <GiftIcon className="text-muted-foreground size-6" />
+      <div>
+        <p className="text-muted-foreground text-xs">会员兑换码</p>
         <TextScramble
-          as="h3"
-          trigger={trigger}
-          duration={1.2}
-          characterSet="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*"
-          className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl"
+          key={round}
+          as="p"
+          trigger={revealed}
+          duration={1.1}
+          characterSet="ABCDEFGHJKLMNPQRSTUVWXYZ23456789"
+          className="mt-2 text-2xl font-semibold tracking-widest"
         >
-          Decentralized Protocols
+          {revealed ? "WUI8-F3KQ-7ZPM" : "••••-••••-••••"}
         </TextScramble>
-        <p className="text-xs text-muted-foreground">
-          随机字符快速跳变并按时序平滑收敛至目标文案。
-        </p>
       </div>
-
       <Button
-        type="button"
         variant="outline"
         size="sm"
-        onClick={replay}
-        className="gap-1.5 text-xs font-medium"
+        onClick={() => {
+          setRevealed(true)
+          setRound((value) => value + 1)
+        }}
       >
-        <RefreshCw className="size-3" />
-        重新解码 Re-decode
+        {revealed ? "再解码一次" : "刮开兑换码"}
       </Button>
     </div>
   )

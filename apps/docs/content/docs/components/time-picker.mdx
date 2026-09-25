@@ -21,7 +21,7 @@ component: time-picker
 <Step>安装基础依赖与动效库</Step>
 
 ```bash
-pnpm add radix-ui motion lucide-react clsx tailwind-merge
+pnpm add radix-ui motion lucide-react class-variance-authority clsx tailwind-merge
 ```
 
 <Step>复制组件源码到 `components/ui/time-picker.tsx`</Step>
@@ -68,6 +68,18 @@ pnpm add radix-ui motion lucide-react clsx tailwind-merge
       type: "string",
       default: '"选择时间"',
       description: "未选定任何时间时输入框内展示的占位提示文本。",
+    },
+    {
+      prop: "size",
+      type: '"sm" | "default" | "lg"',
+      default: '"default"',
+      description: "触发器尺寸密度，高度分别为 32 / 40 / 48px，与 Select、DatePicker 对齐。",
+    },
+    {
+      prop: "showNow",
+      type: "boolean",
+      default: "true",
+      description: "是否在面板底部显示“此刻”按钮，点击后按分钟步进取整并立即确认。",
     },
     {
       prop: "disabled",
@@ -138,9 +150,10 @@ pnpm add radix-ui motion lucide-react clsx tailwind-merge
 
 ## 无障碍与交互 Accessibility
 
-- **ARIA 规范**：触发按钮挂载 `role="button"`、`aria-haspopup="dialog"`；分栏列内的可选项均挂载 `role="button"` 与 `aria-pressed` 反映当前激活状态。
+- **ARIA 规范**：触发按钮由 Popover 管理 `aria-haspopup="dialog"` 与 `aria-expanded`；每一列为带标签的 `role="listbox"`，选项为 `role="option"` 并同步 `aria-selected`。
 - **键盘支持**：
-  - <kbd>Tab</kbd>：在时、分、时制分栏以及确定按钮之间顺序导航。
-  - <kbd>Space</kbd> / <kbd>Enter</kbd>：选定时分数值或激活确定按钮。
-  - <kbd>Esc</kbd>：取消修改并立即关闭时间选择弹出层。
-- **平滑高亮动效**：选中的时间胶囊背景使用 Framer Motion `layoutId` 进行物理弹簧过渡，在开启减弱动态效果时平稳退化。
+  - <kbd>Tab</kbd>：在时、分、上/下午三列与底部按钮之间移动（每列只有选中项可聚焦）。
+  - <kbd>↑</kbd> / <kbd>↓</kbd>、<kbd>Home</kbd> / <kbd>End</kbd>：在当前列内切换数值。
+  - <kbd>Esc</kbd>：放弃修改并关闭弹层。
+- **动效**：打开时选中项自动定位到列中部，切换时平滑滚动；选中背景以弹簧动画在单元格间滑动；标题中的时间数字逐位滚动。开启 `prefers-reduced-motion` 时全部瞬间切换。
+- **数据兜底**：当已有值不在分钟步进上（如步进 5 分钟而值为 `08:03`）时，该分钟会被补入列表，保证已选时间始终可见。

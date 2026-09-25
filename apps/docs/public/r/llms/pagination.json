@@ -6,10 +6,11 @@
   "categories": [
     "navigation"
   ],
-  "import": "import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from \"@/components/ui/pagination\"",
+  "import": "import { Pagination, PaginationContent, PaginationCounter, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from \"@/components/ui/pagination\"",
   "exports": [
     "Pagination",
     "PaginationContent",
+    "PaginationCounter",
     "PaginationEllipsis",
     "PaginationItem",
     "PaginationLink",
@@ -17,6 +18,7 @@
     "PaginationPrevious"
   ],
   "typeExports": [
+    "PaginationCounterProps",
     "PaginationLinkProps"
   ],
   "install": {
@@ -24,7 +26,8 @@
     "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/pagination.json",
     "npmDependencies": [
       "lucide-react",
-      "radix-ui"
+      "radix-ui",
+      "motion"
     ],
     "registryDependencies": [
       "utils",
@@ -43,11 +46,15 @@
     },
     {
       "name": "pagination-advanced",
-      "title": "受控模式与翻页回调"
+      "title": "页码窗口平移"
     },
     {
       "name": "pagination-sizes",
       "title": "尺寸预设"
+    },
+    {
+      "name": "pagination-simple",
+      "title": "简洁分页"
     }
   ],
   "files": [

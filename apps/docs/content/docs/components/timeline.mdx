@@ -62,6 +62,12 @@ pnpm add motion class-variance-authority lucide-react clsx tailwind-merge
       default: '"solid"',
       description: "相邻节点之间的连线样式。'solid' 实线，'dashed' 虚线。",
     },
+    {
+      prop: "animated",
+      type: "boolean",
+      default: "true",
+      description: "节点滚动进入视口时依次淡入、圆点弹出并由上至下绘制连线；同一帧进入视口的节点自动错峰。系统开启减弱动态效果时自动关闭。",
+    },
   ]}
 />
 
@@ -156,9 +162,16 @@ pnpm add motion class-variance-authority lucide-react clsx tailwind-merge
   - `primary`：当前执行中（建议搭配 `pulse` 水波动效）。
   - `destructive`：异常报错、构建失败、阻断拦截。
   - `warning`：警告、排队等待中。
-- **动效降级保障**：`TimelineDot` 的 `pulse` 呼吸扩散动效在系统启用“减少动态效果（prefers-reduced-motion）”时会自动降级为静态微透光环。
+- **入场动效**：默认开启的 `animated` 让节点在滚动进入视口时淡入、圆点弹出、连线由上至下（横向为由左至右）绘制；超长的审计日志可传 `animated={false}` 直接呈现。
+- **动效降级保障**：`TimelineDot` 的 `pulse` 呼吸扩散动效与节点入场动效在系统启用“减少动态效果（prefers-reduced-motion）”时会自动关闭，`pulse` 降级为静态微透光环。
 
 ## 场景示例
+
+### 实时推进的发布流程
+
+状态切换时圆点颜色平滑过渡，当前阶段带呼吸脉冲；点击「重放」可重新观察入场与连线绘制动效：
+
+<ComponentPreview name="timeline-live" />
 
 ### 流程阶段与呼吸脉冲
 

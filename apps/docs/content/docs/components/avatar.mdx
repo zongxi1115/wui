@@ -149,6 +149,12 @@ pnpm add radix-ui class-variance-authority clsx tailwind-merge
 <PropsTable
   data={[
     {
+      prop: "spreadOnHover",
+      type: "boolean",
+      default: "false",
+      description: "仅 AvatarGroup。悬停时头像组平滑展开、当前头像轻微上浮，便于逐一辨认成员；展开期间头像组宽度会变化。",
+    },
+    {
       prop: "size",
       type: '"xs" | "sm" | "default" | "lg"',
       default: '"default"',
@@ -212,13 +218,13 @@ pnpm add radix-ui class-variance-authority clsx tailwind-merge
 
 ### 回退策略与自定义占位
 
-当头像图片因网络错误无法加载时，`AvatarFallback` 会自动平滑展现。支持文字缩写、品牌底色、系统图标等多种形式：
+图片加载完成后 `AvatarImage` 会淡入呈现；当头像图片因网络错误无法加载时，`AvatarFallback` 会自动展现。支持文字缩写、品牌底色、系统图标等多种形式：
 
 <ComponentPreview name="avatar-fallback" />
 
 ### 头像重叠组 (AvatarGroup)
 
-在任务看板、项目协作或权限管理中，使用 `AvatarGroup` 紧凑展示团队参与者：
+在任务看板、项目协作或权限管理中，使用 `AvatarGroup` 紧凑展示团队参与者。开启 `spreadOnHover` 后，悬停时头像平滑展开，可配合 `Tooltip` 展示成员姓名：
 
 <ComponentPreview name="avatar-group" />
 
@@ -231,6 +237,7 @@ pnpm add radix-ui class-variance-authority clsx tailwind-merge
 ## 无障碍与交互 Accessibility
 
 - **替代文本 (Alt Text)**：始终在 `AvatarImage` 上传入准确描述用户名称的 `alt` 属性（如 `alt="张三"`），读屏器会自动朗读。
-- **状态播报**：`AvatarBadge` 默认带有对应的 `aria-label`（如 `aria-label="online"`），确保视障用户也能感知当前实体的在线状态。
+- **状态播报**：`AvatarBadge` 默认渲染 `role="img"` 与中文 `aria-label`（在线 / 离开 / 忙碌 / 离线），确保视障用户也能感知当前实体的在线状态；可通过传入 `aria-label` 覆盖。
+- **动效降级**：图片淡入与头像组展开动效在系统开启“减少动态效果”时自动关闭。
 - **分组语义**：`AvatarGroup` 自带 `role="group"`，方便屏幕阅读器将一系列关联头像理解为一个整体团队单元。
 - **平滑过渡**：内置图片加载与回退逻辑支持 `delayMs` 防抖，避免在快速网络环境下出现 Fallback 瞬时闪烁现象。

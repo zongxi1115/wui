@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { SparklesIcon, PaperclipIcon } from "lucide-react"
+import { PaperclipIcon } from "lucide-react"
 
 import {
   AiPrompt,
@@ -10,72 +10,80 @@ import {
   AiPromptSubmit,
   AiPromptTextarea,
   AiPromptTools,
+  type AiPromptStatus,
 } from "@/registry/ui/ai-prompt"
 import { Button } from "@/registry/ui/button"
 
 export default function AiPromptCompact() {
   const [value, setValue] = React.useState("")
-  const [status, setStatus] = React.useState<"idle" | "streaming">("idle")
+  const [status, setStatus] = React.useState<AiPromptStatus>("idle")
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!value.trim() || status === "streaming") return
+  // submitted → streaming → idle, so the submit button morphs through
+  // loading and stop before returning to send.
+  React.useEffect(() => {
+    if (status === "idle") return
+    const timer = window.setTimeout(
+      () => setStatus(status === "submitted" ? "streaming" : "idle"),
+      status === "submitted" ? 900 : 2400
+    )
+    return () => window.clearTimeout(timer)
+  }, [status])
 
-    setStatus("streaming")
-    setTimeout(() => {
-      setStatus("idle")
-      setValue("")
-    }, 2500)
-  }
+  const busy = status !== "idle"
 
   return (
-    <div className="w-full max-w-xl mx-auto py-4">
-      <AiPrompt
-        size="compact"
-        className="rounded-full border border-border/80 bg-background/95 shadow-sm transition-all focus-within:shadow-md focus-within:border-ring"
-        onSubmit={handleSubmit}
-      >
-        <AiPromptFooter className="min-h-10 items-center px-2 py-1 gap-1">
-          <AiPromptTools>
-            <div className="flex size-7 items-center justify-center rounded-full bg-primary/10 text-primary">
-              <SparklesIcon className="size-3.5" />
-            </div>
-          </AiPromptTools>
+    <AiPrompt
+      size="compact"
+      className="mx-auto max-w-xl"
+      onSubmit={(event) => {
+        event.preventDefault()
+        if (!value.trim() || busy) return
+        setValue("")
+        setStatus("submitted")
+      }}
+    >
+      <AiPromptFooter className="min-h-11 items-center gap-1 px-1.5 py-1">
+        <AiPromptTools>
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            className="size-8 text-muted-foreground"
+            aria-label="添加附件"
+          >
+            <PaperclipIcon />
+          </Button>
+        </AiPromptTools>
 
-          <AiPromptContent className="min-w-0 flex-1">
-            <AiPromptTextarea
-              value={value}
-              placeholder="向 AI Copilot 提问或快速执行指令…"
-              className="py-1 text-xs"
-              maxHeight={80}
-              onChange={(e) => setValue(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && !e.shiftKey) {
-                  e.preventDefault()
-                  e.currentTarget.form?.requestSubmit()
-                }
-              }}
-            />
-          </AiPromptContent>
+        <AiPromptContent className="min-w-0 flex-1">
+          <AiPromptTextarea
+            value={value}
+            placeholder={busy ? "正在生成，可随时停止…" : "问点什么，Enter 发送"}
+            className="py-1.5 text-sm"
+            maxHeight={96}
+            onChange={(event) => setValue(event.currentTarget.value)}
+            onKeyDown={(event) => {
+              if (
+                event.key === "Enter" &&
+                !event.shiftKey &&
+                !event.nativeEvent.isComposing
+              ) {
+                event.preventDefault()
+                event.currentTarget.form?.requestSubmit()
+              }
+            }}
+          />
+        </AiPromptContent>
 
-          <div className="flex items-center gap-1">
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon"
-              className="size-7 rounded-full text-muted-foreground hover:text-foreground"
-              aria-label="上传附件"
-            >
-              <PaperclipIcon className="size-3.5" />
-            </Button>
-            <AiPromptSubmit
-              status={status}
-              disabled={!value.trim() && status === "idle"}
-              className="size-7 rounded-full text-xs"
-            />
-          </div>
-        </AiPromptFooter>
-      </AiPrompt>
-    </div>
+        <AiPromptSubmit
+          status={status}
+          disabled={!busy && !value.trim()}
+          className="size-8"
+          onClick={() => {
+            if (busy) setStatus("idle")
+          }}
+        />
+      </AiPromptFooter>
+    </AiPrompt>
   )
 }

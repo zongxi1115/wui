@@ -1,12 +1,10 @@
 "use client"
 
-import {
-  BellIcon,
-  HelpCircleIcon,
-  SearchIcon,
-  SparklesIcon,
-} from "lucide-react"
+import * as React from "react"
+import { BellIcon, CircleHelpIcon, SearchIcon } from "lucide-react"
 
+import { Avatar, AvatarFallback } from "@/registry/ui/avatar"
+import { Button } from "@/registry/ui/button"
 import {
   Navbar,
   NavbarBadge,
@@ -19,72 +17,83 @@ import {
   NavbarList,
   NavbarSeparator,
 } from "@/registry/ui/navbar"
-import { Button } from "@/registry/ui/button"
+
+const links = [
+  { id: "console", label: "控制台" },
+  { id: "agents", label: "智能体编排", badge: "新" },
+  { id: "data", label: "数据服务" },
+  { id: "alerts", label: "监控告警" },
+]
 
 export default function NavbarAppHeader() {
+  const [active, setActive] = React.useState("console")
+
   return (
-    <div className="w-full rounded-xl border bg-background shadow-xs">
-      <Navbar aria-label="应用全局导航" className="h-16 px-4">
-        {/* 左侧品牌与工作区 */}
+    <div className="bg-background w-full overflow-hidden rounded-lg border">
+      <Navbar aria-label="应用全局导航" className="h-14 border-b-0 px-4">
         <NavbarHeader>
           <NavbarBrand href="#" className="gap-2.5">
-            <div className="flex size-8 items-center justify-center rounded-lg bg-primary font-bold text-primary-foreground">
-              <SparklesIcon className="size-4" />
-            </div>
-            <div className="flex flex-col text-left">
+            <span className="bg-primary text-primary-foreground flex size-7 items-center justify-center rounded-md text-xs font-bold">
+              V
+            </span>
+            <span className="flex flex-col text-left">
               <span className="text-sm font-semibold leading-none">Vibe Cloud</span>
-              <span className="text-[11px] text-muted-foreground">企业版 · Prod-01</span>
-            </div>
+              <span className="text-muted-foreground mt-1 text-[11px] font-normal leading-none">
+                企业版 · prod-01
+              </span>
+            </span>
           </NavbarBrand>
         </NavbarHeader>
 
-        {/* 中间核心导航条 */}
-        <NavbarContent>
-          <NavbarList className="gap-1">
-            <NavbarItem>
-              <NavbarLink href="#" active>
-                控制台
-              </NavbarLink>
-            </NavbarItem>
-            <NavbarItem>
-              <NavbarLink href="#">
-                AI Agent 编排
-                <NavbarBadge className="bg-primary/10 text-primary">新功能</NavbarBadge>
-              </NavbarLink>
-            </NavbarItem>
-            <NavbarItem>
-              <NavbarLink href="#">数据服务</NavbarLink>
-            </NavbarItem>
-            <NavbarItem>
-              <NavbarLink href="#">监控告警</NavbarLink>
-            </NavbarItem>
+        <NavbarContent className="hidden md:flex">
+          <NavbarList>
+            {links.map((link) => (
+              <NavbarItem key={link.id}>
+                <NavbarLink
+                  href={`#${link.id}`}
+                  active={active === link.id}
+                  onClick={(event) => {
+                    event.preventDefault()
+                    setActive(link.id)
+                  }}
+                >
+                  {link.label}
+                  {link.badge ? (
+                    <NavbarBadge className="bg-primary/10 text-primary ml-0">
+                      {link.badge}
+                    </NavbarBadge>
+                  ) : null}
+                </NavbarLink>
+              </NavbarItem>
+            ))}
           </NavbarList>
         </NavbarContent>
 
-        {/* 右侧搜索、通知与操作区 */}
-        <NavbarFooter className="gap-2">
-          <div className="hidden sm:flex items-center gap-2 rounded-md border bg-muted/40 px-2.5 py-1 text-xs text-muted-foreground">
-            <SearchIcon className="size-3.5" />
-            <span>快速检索文档与资源...</span>
-            <kbd className="ml-2 rounded border bg-background px-1.5 py-0.5 font-mono text-[10px] text-foreground">
+        <NavbarFooter className="gap-1">
+          <Button
+            variant="outline"
+            size="sm"
+            className="text-muted-foreground hidden w-52 justify-start font-normal lg:inline-flex"
+          >
+            <SearchIcon />
+            搜索资源与文档
+            <kbd className="bg-muted ml-auto rounded px-1.5 py-0.5 font-mono text-[10px]">
               ⌘K
             </kbd>
-          </div>
+          </Button>
 
           <NavbarSeparator />
 
-          <Button variant="ghost" size="icon" className="relative size-9" aria-label="通知中心">
-            <BellIcon className="size-4" />
-            <span className="absolute right-2 top-2 size-2 rounded-full bg-destructive" />
+          <Button variant="ghost" size="icon" className="relative" aria-label="通知中心，3 条未读">
+            <BellIcon />
+            <span className="bg-destructive ring-background absolute right-2.5 top-2.5 size-1.5 rounded-full ring-2" />
           </Button>
-
-          <Button variant="ghost" size="icon" className="size-9 text-muted-foreground" aria-label="帮助文档">
-            <HelpCircleIcon className="size-4" />
+          <Button variant="ghost" size="icon" aria-label="帮助文档">
+            <CircleHelpIcon />
           </Button>
-
-          <div className="ml-1 flex size-8 items-center justify-center rounded-full bg-gradient-to-tr from-indigo-500 to-violet-500 text-xs font-semibold text-white">
-            JD
-          </div>
+          <Avatar size="sm" className="ml-1">
+            <AvatarFallback>林</AvatarFallback>
+          </Avatar>
         </NavbarFooter>
       </Navbar>
     </div>

@@ -40,7 +40,7 @@ pnpm add motion lucide-react class-variance-authority clsx tailwind-merge
       prop: "variant",
       type: '"ghost" | "bordered"',
       default: '"ghost"',
-      description: "操作栏的外观样式变体。ghost 为扁平轻量风格，bordered 为独立浮动卡片边框风格。",
+      description: "操作栏的外观样式变体。ghost 为扁平轻量风格，bordered 为带细边框的独立工具条。",
     },
     {
       prop: "className",
@@ -187,9 +187,9 @@ pnpm add motion lucide-react class-variance-authority clsx tailwind-merge
 
 ## 场景示例
 
-### 边框浮动卡片风格
+### 带边框的工具条
 
-通过设置 `variant="bordered"`，操作栏将呈现带边框与背景模糊的独立浮动微卡片形态，并可自由组合收藏、分享等自定义动作按钮：
+通过设置 `variant="bordered"`，操作栏呈现为带细边框的独立工具条，可自由组合收藏、分享等自定义动作按钮：
 
 <ComponentPreview name="ai-message-actions-bordered" />
 

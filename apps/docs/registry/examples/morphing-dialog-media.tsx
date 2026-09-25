@@ -1,5 +1,3 @@
-import { PlayIcon, Volume2Icon } from "lucide-react"
-
 import { Button } from "@/registry/ui/button"
 import {
   MorphingDialog,
@@ -14,70 +12,54 @@ import {
 
 export default function MorphingDialogMedia() {
   return (
-    <div className="flex w-full max-w-sm flex-col items-center justify-center p-4">
+    <div>
       <MorphingDialog>
-        <MorphingDialogTrigger className="group relative block w-full overflow-hidden rounded-xl border bg-card p-0 text-left shadow-xs transition-shadow hover:shadow-md">
-          <div className="relative aspect-video w-full overflow-hidden bg-muted">
+        <MorphingDialogTrigger className="flex w-72 flex-col items-stretch overflow-hidden rounded-lg p-0 text-left">
+          <span className="block aspect-[4/3] overflow-hidden">
             <MorphingDialogImage
-              src="https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=800&q=80"
-              alt="Art exhibition cover"
-              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+              src="/wui/demo/field-notes/cliff-horizon.jpg"
+              alt="悬崖与海平线"
+              className="size-full"
             />
-            <div className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 transition-opacity group-hover:opacity-100">
-              <div className="flex size-12 items-center justify-center rounded-full bg-white/90 text-black shadow-md">
-                <PlayIcon className="size-5 fill-current pl-0.5" />
-              </div>
-            </div>
-          </div>
-          <div className="p-4">
-            <h4 className="font-semibold text-foreground">
-              Masterpieces in Neon & Geometry
-            </h4>
-            <p className="mt-1 text-xs text-muted-foreground">
-              Modern digital art retrospective · 4 min video preview
-            </p>
-          </div>
+          </span>
+          <span className="block p-3">
+            <span className="block text-sm font-medium">海平线以北</span>
+            <span className="text-muted-foreground mt-0.5 block text-xs">
+              摄影集 · 24 张
+            </span>
+          </span>
         </MorphingDialogTrigger>
 
-        <MorphingDialogContent className="max-w-lg overflow-hidden p-0">
-          <div className="relative aspect-video w-full bg-black">
-            <MorphingDialogImage
-              src="https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=1200&q=80"
-              alt="Art exhibition high-res"
-              className="h-full w-full object-cover"
-            />
-            <div className="absolute bottom-3 left-3 flex items-center gap-2 rounded-full bg-black/60 px-3 py-1 text-xs text-white backdrop-blur-xs">
-              <Volume2Icon className="size-3.5" />
-              <span>Audio guide included</span>
-            </div>
-          </div>
-          <div className="p-6">
-            <MorphingDialogTitle className="text-xl">
-              Masterpieces in Neon & Geometry
-            </MorphingDialogTitle>
-            <MorphingDialogSubtitle className="text-muted-foreground">
-              Curated by Studio Lumière · Exhibition Series 2026
-            </MorphingDialogSubtitle>
-            <MorphingDialogDescription className="mt-3 text-sm leading-relaxed text-muted-foreground">
-              Explore the boundary where classic impressionist light meets modern
-              algorithmic procedural generation. This showcase presents high-definition
-              motion studies and responsive visual compositions.
-            </MorphingDialogDescription>
-            <div className="mt-6 flex items-center justify-between border-t pt-4">
-              <span className="text-xs text-muted-foreground">
-                High dynamic range video available in 4K
-              </span>
-              <div className="flex gap-2">
-                <MorphingDialogClose asChild>
-                  <Button variant="outline" size="sm">
-                    Close
-                  </Button>
-                </MorphingDialogClose>
-                <Button size="sm">Start Tour</Button>
+        <MorphingDialogContent
+          className="max-w-lg"
+          media={
+            <>
+              <div className="aspect-[4/3]">
+                <MorphingDialogImage
+                  src="/wui/demo/field-notes/cliff-horizon.jpg"
+                  alt="悬崖与海平线"
+                  className="size-full"
+                />
               </div>
-            </div>
+              <MorphingDialogClose className="bg-background/80 text-foreground hover:bg-background" />
+            </>
+          }
+        >
+          <MorphingDialogTitle>海平线以北</MorphingDialogTitle>
+          <MorphingDialogSubtitle className="text-muted-foreground">
+            拍摄于 2025 年冬 · 北大西洋沿岸
+          </MorphingDialogSubtitle>
+          <MorphingDialogDescription>
+            一组关于风、岩石与光线的长期记录。封面图从卡片中的位置平滑放大到弹窗，关闭时再原路收回。
+          </MorphingDialogDescription>
+          <div className="mt-6 flex justify-end gap-2">
+            <MorphingDialogClose asChild>
+              <Button variant="ghost" size="sm">
+                关闭
+              </Button>
+            </MorphingDialogClose>
+            <Button size="sm">查看全部</Button>
           </div>
-          <MorphingDialogClose />
         </MorphingDialogContent>
       </MorphingDialog>
     </div>

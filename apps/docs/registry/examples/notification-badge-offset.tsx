@@ -8,7 +8,7 @@ export default function NotificationBadgeOffset() {
       <div className="flex flex-col items-center gap-2">
         <NotificationBadge dot variant="success" offset={[-2, 2]}>
           <Avatar>
-            <AvatarImage src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&auto=format&fit=crop&q=80" alt="Avatar" />
+            <AvatarImage src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&auto=format&fit=crop&q=80" alt="林澈的头像" />
             <AvatarFallback>LC</AvatarFallback>
           </Avatar>
         </NotificationBadge>
@@ -23,7 +23,7 @@ export default function NotificationBadgeOffset() {
       </div>
 
       <div className="flex flex-col items-center gap-2">
-        <NotificationBadge count="HOT" variant="destructive" offset={[6, -2]}>
+        <NotificationBadge count="新" variant="destructive" offset={[10, -2]}>
           <span className="text-sm font-medium">新版特性</span>
         </NotificationBadge>
         <span className="text-xs text-muted-foreground">纯文本标签徽标</span>

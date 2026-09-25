@@ -2,17 +2,19 @@
   "name": "code-block",
   "type": "registry:ui",
   "title": "代码块 Code Block",
-  "description": "用于在页面中优雅展示结构化源代码的高亮容器，内置行号、高亮行与一键复制。",
+  "description": "用于在页面中展示结构化源代码的容器，内置行号、滑动高亮带、多文件切换、折叠展开与带动效反馈的一键复制。",
   "categories": [
     "data-display"
   ],
-  "import": "import { CodeBlock, CodeBlockActions, CodeBlockBody, CodeBlockCopy, CodeBlockHeader, CodeBlockTitle, codeBlockVariants } from \"@/components/ui/code-block\"",
+  "import": "import { CodeBlock, CodeBlockActions, CodeBlockBody, CodeBlockCopy, CodeBlockHeader, CodeBlockTab, CodeBlockTabs, CodeBlockTitle, codeBlockVariants } from \"@/components/ui/code-block\"",
   "exports": [
     "CodeBlock",
     "CodeBlockActions",
     "CodeBlockBody",
     "CodeBlockCopy",
     "CodeBlockHeader",
+    "CodeBlockTab",
+    "CodeBlockTabs",
     "CodeBlockTitle",
     "codeBlockVariants"
   ],
@@ -28,7 +30,8 @@
     "npmDependencies": [
       "class-variance-authority",
       "lucide-react",
-      "motion"
+      "motion",
+      "radix-ui"
     ],
     "registryDependencies": [
       "utils"
@@ -54,14 +57,14 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "true",
-      "description": "是否展示左侧行号。"
+      "description": "是否为内部的 CodeBlockBody 展示行号。"
     },
     {
       "name": "maxHeight",
       "type": "string | number",
       "required": false,
       "control": "text",
-      "description": "最大高度，超出时支持垂直滚动。"
+      "description": "代码区最大高度，超出时垂直滚动；开启 expandable 时作为折叠高度。"
     },
     {
       "name": "expandable",
@@ -69,21 +72,61 @@
       "required": false,
       "control": "boolean",
       "defaultValue": "false",
-      "description": "是否支持超长代码折叠与展开。"
+      "description": "是否支持超长代码折叠与展开，内容超过折叠高度时显示切换按钮。"
     },
     {
       "name": "highlightLines",
-      "type": "number[]",
+      "type": "HighlightLines",
       "required": false,
       "control": "text",
       "defaultValue": "[]",
-      "description": "高亮行号列表（例如 [2, 4] 或 [\"2-4\"]）。"
+      "description": "高亮行，支持行号与区间（例如 [2, \"5-7\"]），高亮带会在行之间平滑滑动。"
+    },
+    {
+      "name": "value",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "多文件模式下当前激活的文件（受控）。"
+    },
+    {
+      "name": "defaultValue",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "多文件模式下默认激活的文件（非受控）。"
+    },
+    {
+      "name": "onValueChange",
+      "type": "((value: string) => void)",
+      "required": false,
+      "control": "text",
+      "description": "激活文件变化时的回调。"
+    },
+    {
+      "name": "asChild",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
     }
   ],
   "examples": [
     {
       "name": "code-block-demo",
-      "title": "基础示例 · Basic example"
+      "title": "基础用法"
+    },
+    {
+      "name": "code-block-tabs",
+      "title": "多文件切换"
+    },
+    {
+      "name": "code-block-walkthrough",
+      "title": "分步讲解"
+    },
+    {
+      "name": "code-block-expandable",
+      "title": "折叠长代码"
     }
   ],
   "files": [

@@ -10,10 +10,10 @@ import { cn } from "@/registry/lib/utils"
 
 type SheetContextValue = {
   open: boolean
+  modal: boolean
 }
 
 const SheetContext = React.createContext<SheetContextValue | null>(null)
-const MotionOverlay = motion.create(SheetPrimitive.Overlay)
 const MotionContent = motion.create(SheetPrimitive.Content)
 
 function useSheetContext() {
@@ -38,6 +38,7 @@ function Sheet({
   open: openProp,
   defaultOpen,
   onOpenChange,
+  modal = true,
   children,
   ...props
 }: SheetProps) {
@@ -53,11 +54,12 @@ function Sheet({
   )
 
   return (
-    <SheetContext.Provider value={{ open }}>
+    <SheetContext.Provider value={{ open, modal }}>
       <SheetPrimitive.Root
         data-slot="sheet"
         open={open}
         onOpenChange={handleOpenChange}
+        modal={modal}
         {...props}
       >
         {children}
@@ -85,7 +87,7 @@ function SheetPortal(
 }
 
 const sheetContentVariants = cva(
-  "fixed z-50 flex flex-col bg-background shadow-xl outline-none",
+  "fixed z-50 flex flex-col bg-background shadow-lg outline-none",
   {
     variants: {
       side: {
@@ -129,17 +131,15 @@ function SheetContent({
   hideClose = false,
   ...props
 }: SheetContentProps) {
-  const { open } = useSheetContext()
+  const { open, modal } = useSheetContext()
   const reduceMotion = useReducedMotion()
   const horizontal = side === "left" || side === "right"
 
   const hidden = reduceMotion
     ? { opacity: 0 }
     : {
-        opacity: 0.72,
         x: side === "left" ? "-100%" : side === "right" ? "100%" : 0,
         y: side === "top" ? "-100%" : side === "bottom" ? "100%" : 0,
-        scale: 0.985,
       }
 
   const dimensions = horizontal
@@ -158,52 +158,76 @@ function SheetContent({
         full: "h-screen",
       }[size]
 
+  const panel = (
+    <MotionContent
+      forceMount
+      data-slot="sheet-content"
+      data-side={side}
+      data-size={size}
+      className={cn(
+        sheetContentVariants({ side }),
+        dimensions,
+        className
+      )}
+      initial={hidden}
+      animate={reduceMotion ? { opacity: 1 } : { x: 0, y: 0 }}
+      exit={{
+        ...hidden,
+        transition: reduceMotion
+          ? { duration: 0.12 }
+          : { duration: 0.24, ease: [0.4, 0, 1, 1] },
+      }}
+      transition={
+        reduceMotion
+          ? { duration: 0.12 }
+          : { type: "spring", stiffness: 380, damping: 40, mass: 0.8 }
+      }
+      {...(props as unknown as React.ComponentProps<
+        typeof MotionContent
+      >)}
+    >
+      {children}
+      {hideClose ? null : (
+        <SheetPrimitive.Close
+          data-slot="sheet-close-btn"
+          className="absolute right-4 top-4 flex size-8 items-center justify-center rounded-md text-muted-foreground outline-none transition-colors hover:bg-accent hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/40"
+        >
+          <XIcon className="size-4" />
+          <span className="sr-only">关闭</span>
+        </SheetPrimitive.Close>
+      )}
+    </MotionContent>
+  )
+
   return (
     <AnimatePresence>
       {open ? (
         <SheetPortal forceMount>
-          <MotionOverlay
-            forceMount
-            data-slot="sheet-overlay"
-            className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: reduceMotion ? 0 : 0.2, ease: "easeOut" }}
-          />
-          <MotionContent
-            forceMount
-            data-slot="sheet-content"
-            data-side={side}
-            data-size={size}
-            className={cn(
-              sheetContentVariants({ side }),
-              dimensions,
-              className
-            )}
-            initial={hidden}
-            animate={{ opacity: 1, x: 0, y: 0, scale: 1 }}
-            exit={hidden}
-            transition={
-              reduceMotion
-                ? { duration: 0 }
-                : { type: "spring", stiffness: 360, damping: 38, mass: 0.82 }
-            }
-            {...(props as unknown as React.ComponentProps<
-              typeof MotionContent
-            >)}
-          >
-            {children}
-            {hideClose ? null : (
-              <SheetPrimitive.Close
-                data-slot="sheet-close-btn"
-                className="absolute right-4 top-4 flex size-8 items-center justify-center rounded-md text-muted-foreground outline-none transition-colors hover:bg-accent hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/40"
-              >
-                <XIcon className="size-4" />
-                <span className="sr-only">关闭</span>
-              </SheetPrimitive.Close>
-            )}
-          </MotionContent>
+          {/*
+            The overlay owns the panel in the React tree so portalled controls
+            inside the sheet stay scrollable under Radix's scroll lock. The dim
+            layer is separate, so its fade never fades the panel itself.
+          */}
+          {modal ? (
+            <SheetPrimitive.Overlay
+              forceMount
+              data-slot="sheet-overlay"
+              className="fixed inset-0 z-50"
+            >
+              <motion.div
+                data-slot="sheet-backdrop"
+                aria-hidden="true"
+                className="bg-overlay absolute inset-0"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: reduceMotion ? 0 : 0.22, ease: "easeOut" }}
+              />
+              {panel}
+            </SheetPrimitive.Overlay>
+          ) : (
+            panel
+          )}
         </SheetPortal>
       ) : null}
     </AnimatePresence>

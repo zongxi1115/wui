@@ -5,7 +5,8 @@
   "title": "组合图 Composed Chart",
   "description": "在同一分类轴上组合条形与折线，并为量级不同的指标提供双轴。",
   "registryDependencies": [
-    "chart-core"
+    "chart-core",
+    "utils"
   ],
   "files": [
     {

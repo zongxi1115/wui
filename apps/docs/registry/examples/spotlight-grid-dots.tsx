@@ -1,42 +1,20 @@
-import { TerminalIcon } from "lucide-react"
-
-import { Button } from "@/registry/ui/button"
 import { SpotlightGrid } from "@/registry/ui/spotlight-grid"
 
 export default function SpotlightGridDots() {
   return (
     <SpotlightGrid
       pattern="dots"
-      size={24}
-      radius={200}
-      patternColor="var(--primary)"
-      baseOpacity={0.08}
-      className="w-full max-w-xl rounded-2xl border bg-card p-6 shadow-md text-card-foreground"
+      size={18}
+      radius={160}
+      baseOpacity={0.14}
+      patternColor="var(--chart-1)"
+      className="bg-card w-full max-w-md rounded-lg border"
     >
-      <div className="flex items-center gap-3">
-        <div className="flex size-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
-          <TerminalIcon className="size-5" />
-        </div>
-        <div>
-          <h4 className="font-semibold text-foreground">
-            Dot Matrix Spotlight
-          </h4>
-          <p className="text-xs text-muted-foreground">
-            Move your cursor across this surface to illuminate radial matrix points.
-          </p>
-        </div>
-      </div>
-
-      <div className="mt-6 rounded-xl border bg-muted/40 p-4 font-mono text-xs text-muted-foreground">
-        <span className="text-primary">$</span> pnpm add @wui-design/cli@latest
-        <br />
-        <span className="text-emerald-600 dark:text-emerald-400">✓</span> Initialized WUI engine in 42ms
-      </div>
-
-      <div className="mt-4 flex justify-end">
-        <Button size="sm" variant="outline">
-          Inspect Node
-        </Button>
+      <div className="flex h-56 flex-col items-center justify-center text-center">
+        <p className="font-medium">拖拽文件到这里上传</p>
+        <p className="text-muted-foreground mt-1 text-sm">
+          支持 PNG、JPG、PDF，单个文件不超过 20MB
+        </p>
       </div>
     </SpotlightGrid>
   )

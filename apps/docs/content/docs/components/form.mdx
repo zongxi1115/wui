@@ -45,6 +45,13 @@ pnpm add motion clsx tailwind-merge
       description: "挂载初次渲染时是否播放轻量平滑的向上渐入过渡动效。",
     },
     {
+      prop: "noValidate",
+      type: "boolean",
+      default: "true",
+      description:
+        "是否跳过浏览器原生的校验气泡，统一由 `FormField` 与 `FormMessage` 呈现错误。字段上的 `required` 仍会写入原生属性与 `aria-required`。",
+    },
+    {
       prop: "onSubmit",
       type: "(event: React.FormEvent<HTMLFormElement>) => void",
       description: "表单提交时的原生回调事件。",
@@ -115,7 +122,11 @@ pnpm add motion clsx tailwind-merge
 ### FormDescription 与 FormMessage
 
 - `<FormDescription>`：显示字段的帮助说明文本，自动与控件的 `aria-describedby` 关联。
-- `<FormMessage>`：校验错误提示文本，在 `invalid={true}` 时带高度与透明度渐入动效展开，挂载 `role="alert"`。
+- `<FormMessage>`：校验错误提示文本，在 `invalid={true}` 且有内容时展开，挂载 `role="alert"`。展开与收起同步过渡高度与透明度，并抵消字段内的栅格间距，出现和消失都不会让下方内容跳动。
+
+<Callout title="让错误提示完整地收起">
+  请始终渲染 `<FormMessage>{error}</FormMessage>`，由 `invalid` 控制显隐；不要写成 `invalid ? <FormMessage /> : null`。条件卸载会让组件来不及播放收起动效。
+</Callout>
 
 ### FormSection, FormLegend, FormActions
 
@@ -151,15 +162,15 @@ pnpm add motion clsx tailwind-merge
 
 ## 场景示例
 
-### 实时表单校验与错误抖动
+### 实时表单校验
 
-结合实时数据校验，在失焦或提交时展示字段错误与平滑动效：
+在失焦或提交时校验字段，错误提示平滑展开，修正后平滑收起；提交成功后表单与结果视图之间淡入切换：
 
 <ComponentPreview name="form-validation" />
 
 ### 多列排版与业务配置表单
 
-在复杂配置面板中，使用 `FormSection`、多列网格与开关组合高密度表单：
+在配置面板中，使用 `FormSection`、多列网格、`InputNumber` 与开关组合高密度表单，并根据是否有修改控制操作按钮：
 
 <ComponentPreview name="form-layout" />
 

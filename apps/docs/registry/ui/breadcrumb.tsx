@@ -54,7 +54,7 @@ function BreadcrumbLink({
     <Comp
       data-slot="breadcrumb-link"
       className={cn(
-        "hover:text-foreground focus-visible:ring-ring/40 rounded-sm no-underline outline-none transition-colors focus-visible:ring-[3px]",
+        "hover:text-foreground focus-visible:ring-ring/40 rounded-sm no-underline outline-none transition-colors duration-200 focus-visible:ring-[3px]",
         className
       )}
       {...props}
@@ -100,13 +100,11 @@ function BreadcrumbEllipsis({
 }: React.ComponentProps<"span">) {
   return (
     <span
-      aria-hidden="true"
       data-slot="breadcrumb-ellipsis"
-      role="presentation"
       className={cn("flex size-7 items-center justify-center", className)}
       {...props}
     >
-      <MoreHorizontalIcon className="size-4" />
+      <MoreHorizontalIcon aria-hidden="true" className="size-4" />
       <span className="sr-only">更多层级</span>
     </span>
   )

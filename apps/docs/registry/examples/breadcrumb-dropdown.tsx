@@ -30,10 +30,12 @@ export default function BreadcrumbDropdown() {
         </BreadcrumbSeparator>
         <BreadcrumbItem>
           <DropdownMenu>
-            <DropdownMenuTrigger className="flex items-center gap-1 hover:text-foreground">
+            <DropdownMenuTrigger
+              aria-label="展开折叠路径"
+              className="hover:text-foreground focus-visible:ring-ring/40 data-[state=open]:text-foreground flex items-center gap-0.5 rounded-sm outline-none transition-colors focus-visible:ring-[3px]"
+            >
               <BreadcrumbEllipsis className="size-6" />
-              <ChevronDownIcon className="size-3.5 opacity-60" />
-              <span className="sr-only">展开折叠路径</span>
+              <ChevronDownIcon className="size-3.5 opacity-60 transition-transform duration-200 [[data-state=open]>&]:rotate-180" />
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start">
               <DropdownMenuItem asChild>

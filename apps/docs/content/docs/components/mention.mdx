@@ -6,7 +6,7 @@ component: mention
 
 ## 基础示例 · Basic example
 
-<ComponentPreview name="mention-demo" previewClassName="min-h-0 p-6 flex justify-center" />
+<ComponentPreview name="mention-demo" previewClassName="min-h-[400px] items-end" />
 
 <CodeTabs command="@wui-design/cli@latest add @wui/mention" />
 
@@ -35,4 +35,13 @@ component: mention
 
 ## 拓展使用 · Extended usage
 
-可通过 `trigger` 属性自定义触发符号，例如传入 `#` 实现话题标签自动补全，或传入 `/` 实现斜杠快捷指令。
+可通过 `trigger` 属性自定义触发符号，例如传入 `#` 实现话题标签自动补全，或传入 `/` 实现斜杠快捷指令。配合 `onSelectOption` 可以把选中的话题同步到外部，用 `MentionBadge` 展示：
+
+<ComponentPreview name="mention-topics" previewClassName="min-h-[320px] items-end" />
+
+## 交互与无障碍 · Accessibility
+
+- 候选浮层以轻微的上移与缩放进入、退出；键盘或鼠标移动高亮时，高亮底色会在选项之间滑动，并自动滚动到可视区域。
+- 输入框声明为 `role="combobox"`，浮层为 `role="listbox"`，通过 `aria-activedescendant` 指向当前高亮项，屏幕阅读器能够读出候选内容。
+- 点击候选项不会让输入框失焦；输入框失焦或按 <kbd>Esc</kbd> 时浮层关闭。
+- 所有过渡在 `prefers-reduced-motion` 下关闭。

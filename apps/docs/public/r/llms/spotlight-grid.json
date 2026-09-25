@@ -76,6 +76,22 @@
       "description": "始终显示的基础图案不透明度。"
     },
     {
+      "name": "fadeEdges",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "是否让常驻的网格图案向边缘渐隐。"
+    },
+    {
+      "name": "smooth",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "光斑是否以缓动方式跟随指针，而不是直接跳到指针位置。"
+    },
+    {
       "name": "patternClassName",
       "type": "string",
       "required": false,

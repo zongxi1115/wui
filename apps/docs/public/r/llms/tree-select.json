@@ -14,7 +14,8 @@
     "wui": "pnpm dlx @wui-design/cli@latest add @wui/tree-select",
     "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/tree-select.json",
     "npmDependencies": [
-      "lucide-react"
+      "lucide-react",
+      "motion"
     ],
     "registryDependencies": [
       "utils",

@@ -44,7 +44,7 @@ export default function AiStreamDeltasDemo() {
   return (
     <div className="mx-auto w-full max-w-xl space-y-4">
       <div className="text-foreground text-sm leading-7">
-        <AiStreamDeltas deltas={deltas} isStreaming={streaming} />
+        <AiStreamDeltas deltas={deltas} isStreaming={streaming} caret />
       </div>
       <Button
         type="button"

@@ -45,7 +45,7 @@ export default {
       <DialogTrigger asChild>
         <Button variant="outline">
           <Code2Icon />
-          查看配置文件 (宽版弹窗)
+          查看配置文件
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[640px]">
@@ -65,8 +65,8 @@ export default {
           >
             {copied ? (
               <>
-                <CheckIcon className="size-3.5 text-emerald-500" />
-                <span className="text-xs text-emerald-500">已复制</span>
+                <CheckIcon className="text-success size-3.5" />
+                <span className="text-success text-xs">已复制</span>
               </>
             ) : (
               <>

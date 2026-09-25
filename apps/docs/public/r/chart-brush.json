@@ -6,7 +6,8 @@
   "description": "复用 Slider 为图表提供受控的范围筛选与缩放。",
   "registryDependencies": [
     "slider",
-    "chart-core"
+    "chart-core",
+    "utils"
   ],
   "files": [
     {

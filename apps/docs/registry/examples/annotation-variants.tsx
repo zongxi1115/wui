@@ -2,57 +2,42 @@ import { AnnotationHighlight } from "@/registry/ui/annotation"
 
 export default function AnnotationVariantsDemo() {
   return (
-    <div className="flex w-full flex-col gap-6 p-4 sm:p-8">
-      {/* Smooth Variant */}
-      <div className="border-border/60 bg-muted/20 rounded-xl border p-5">
-        <p className="text-muted-foreground font-mono text-xs uppercase tracking-wider">
-          Smooth Marker · 平整荧光笔
-        </p>
-        <p className="mt-3 text-base leading-relaxed">
-          Standard highlights with{" "}
-          <AnnotationHighlight color="oklch(0.88 0.16 92 / 0.58)">
-            classic amber
-          </AnnotationHighlight>
-          , vibrant{" "}
+    <div className="w-full max-w-xl divide-y border-y">
+      <div className="py-5">
+        <p className="text-muted-foreground text-xs">variant=&quot;smooth&quot;</p>
+        <p className="mt-2 text-base leading-8">
+          平整的荧光笔适合文档与说明：
+          <AnnotationHighlight>默认琥珀色</AnnotationHighlight>、
           <AnnotationHighlight
-            color="oklch(0.82 0.14 160 / 0.5)"
+            color="color-mix(in oklch, var(--success) 25%, transparent)"
             delay={0.2}
           >
-            mint emerald
+            成功绿
           </AnnotationHighlight>
-          , or calming{" "}
+          ，或者
           <AnnotationHighlight
-            color="oklch(0.82 0.12 240 / 0.5)"
+            color="color-mix(in oklch, var(--info) 25%, transparent)"
             delay={0.4}
           >
-            sky azure
-          </AnnotationHighlight>{" "}
-          strokes for clean documentation.
+            信息蓝
+          </AnnotationHighlight>
+          。
         </p>
       </div>
-
-      {/* Rough Variant */}
-      <div className="border-border/60 bg-muted/20 rounded-xl border p-5">
-        <p className="text-muted-foreground font-mono text-xs uppercase tracking-wider">
-          Rough Marker · 手绘纹理笔触
-        </p>
-        <p className="mt-3 text-base leading-relaxed">
-          Textured double-stroke marker for an authentic{" "}
+      <div className="py-5">
+        <p className="text-muted-foreground text-xs">variant=&quot;rough&quot;</p>
+        <p className="mt-2 text-base leading-8">
+          双层笔触带来
+          <AnnotationHighlight variant="rough">手写批注的质感</AnnotationHighlight>
+          ，适合
           <AnnotationHighlight
             variant="rough"
-            color="oklch(0.85 0.16 85 / 0.55)"
-          >
-            handcrafted feel
-          </AnnotationHighlight>
-          , perfect for{" "}
-          <AnnotationHighlight
-            variant="rough"
-            color="oklch(0.8 0.15 25 / 0.45)"
+            color="color-mix(in oklch, var(--destructive) 22%, transparent)"
             delay={0.3}
           >
-            design reviews
-          </AnnotationHighlight>{" "}
-          and editorial notes.
+            设计评审
+          </AnnotationHighlight>
+          与编辑修订。
         </p>
       </div>
     </div>

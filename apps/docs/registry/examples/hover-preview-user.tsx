@@ -1,52 +1,58 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/registry/ui/avatar"
-import { Badge } from "@/registry/ui/badge"
-import { Button } from "@/registry/ui/button"
 import { HoverPreview } from "@/registry/ui/hover-preview"
 
 export default function HoverPreviewUser() {
   return (
-    <div className="flex flex-col items-center justify-center p-8">
-      <div className="rounded-xl border bg-card p-4 shadow-xs">
-        <p className="text-sm text-foreground">
-          Reviewed by{" "}
+    <div className="flex w-full max-w-md gap-3">
+      <Avatar className="size-8">
+        <AvatarImage src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80" />
+        <AvatarFallback>林</AvatarFallback>
+      </Avatar>
+      <div className="text-sm">
+        <div>
           <HoverPreview
             className="inline-block"
-            previewClassName="w-64 rounded-xl border bg-popover p-4 shadow-xl text-popover-foreground"
+            tilt={0}
+            offsetY={16}
+            previewClassName="bg-popover text-popover-foreground w-64 rounded-md border p-4 shadow-lg"
             preview={
-              <div className="space-y-3">
+              <div>
                 <div className="flex items-center gap-3">
                   <Avatar className="size-10">
                     <AvatarImage src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80" />
-                    <AvatarFallback>SC</AvatarFallback>
+                    <AvatarFallback>林</AvatarFallback>
                   </Avatar>
                   <div>
-                    <div className="text-sm font-semibold text-foreground">
-                      Sarah Chen
-                    </div>
-                    <div className="text-xs text-muted-foreground">
-                      @sarahchen
-                    </div>
+                    <p className="font-medium">林知夏</p>
+                    <p className="text-muted-foreground text-xs">
+                      设计系统负责人
+                    </p>
                   </div>
                 </div>
-                <p className="text-xs text-muted-foreground">
-                  Principal Design Engineer at WUI. Passionate about web standards & accessible animations.
+                <p className="text-muted-foreground mt-3 text-xs leading-5">
+                  维护组件库与动效规范，关注可访问性与跨端一致性。
                 </p>
-                <div className="flex items-center justify-between border-t pt-2.5">
-                  <Badge variant="secondary" className="text-[10px]">
-                    12 PRs merged
-                  </Badge>
-                  <Button size="sm" variant="outline">
-                    Follow
-                  </Button>
+                <div className="text-muted-foreground mt-3 flex gap-4 border-t pt-3 text-xs">
+                  <span>
+                    <span className="text-foreground font-medium">128</span>{" "}
+                    次评审
+                  </span>
+                  <span>
+                    <span className="text-foreground font-medium">12</span>{" "}
+                    个 PR 本月合并
+                  </span>
                 </div>
               </div>
             }
           >
-            <span className="cursor-pointer font-medium text-primary underline underline-offset-4">
-              Sarah Chen
-            </span>
-          </HoverPreview>{" "}
-          on August 18, 2026.
+            <a href="#" className="font-medium hover:underline">
+              林知夏
+            </a>
+          </HoverPreview>
+          <span className="text-muted-foreground"> · 2 小时前</span>
+        </div>
+        <p className="text-muted-foreground mt-1 leading-6">
+          按钮的按压反馈改成了 0.97 缩放，在低端机上也很稳定，可以合并。
         </p>
       </div>
     </div>

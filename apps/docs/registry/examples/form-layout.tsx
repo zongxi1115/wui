@@ -1,7 +1,8 @@
 "use client"
 
 import * as React from "react"
-import { GlobeIcon, ServerIcon, SlidersIcon } from "lucide-react"
+import { AnimatePresence, motion, useReducedMotion } from "motion/react"
+import { GlobeIcon, ServerIcon } from "lucide-react"
 
 import { Button } from "@/registry/ui/button"
 import {
@@ -15,118 +16,141 @@ import {
   FormSection,
 } from "@/registry/ui/form"
 import { Input } from "@/registry/ui/input"
+import { InputNumber } from "@/registry/ui/input-number"
 import { Switch } from "@/registry/ui/switch"
 
+const initialConfig = {
+  name: "checkout-api",
+  region: "cn-shanghai",
+  maxReplicas: 12 as number | null,
+  https: true,
+  autoScaling: true,
+}
+
 export default function FormLayout() {
-  const [formData, setFormData] = React.useState({
-    projectName: "wui-production-cluster",
-    region: "ap-east-1",
-    maxReplicas: "12",
-    enableHttps: true,
-    enableAutoScaling: true,
-  })
+  const reduceMotion = useReducedMotion()
+  const [config, setConfig] = React.useState(initialConfig)
+  const [saved, setSaved] = React.useState(false)
+  const dirty = JSON.stringify(config) !== JSON.stringify(initialConfig)
+
+  function patch(next: Partial<typeof initialConfig>) {
+    setConfig((current) => ({ ...current, ...next }))
+    setSaved(false)
+  }
 
   return (
-    <div className="bg-background w-full max-w-2xl rounded-2xl border p-6 shadow-xs sm:p-8">
-      <Form
-        onSubmit={(e) => {
-          e.preventDefault()
-          alert("配置已提交保存！")
-        }}
-      >
-        <FormSection>
-          <FormLegend className="flex items-center gap-2 text-lg">
-            <SlidersIcon className="text-primary size-5" />
-            服务集群基础与弹性伸缩配置
-          </FormLegend>
-          <p className="text-muted-foreground -mt-2 mb-2 text-xs">
-            组织多列排版与开关项组合的高密度业务配置表单
-          </p>
+    <Form
+      className="w-full max-w-2xl"
+      onSubmit={(event) => {
+        event.preventDefault()
+        setSaved(true)
+      }}
+    >
+      <FormSection>
+        <FormLegend>服务配置</FormLegend>
+        <p className="text-muted-foreground -mt-2 text-sm">
+          修改后需要重新部署才会生效。
+        </p>
 
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <FormField required>
-              <FormLabel>集群服务名称</FormLabel>
-              <FormControl>
-                <Input
-                  value={formData.projectName}
-                  onChange={(e) =>
-                    setFormData((v) => ({ ...v, projectName: e.target.value }))
-                  }
-                  startContent={<ServerIcon />}
-                />
-              </FormControl>
-              <FormDescription>全局唯一的集群资源标识</FormDescription>
-            </FormField>
-
-            <FormField required>
-              <FormLabel>部署主地域</FormLabel>
-              <FormControl>
-                <Input
-                  value={formData.region}
-                  onChange={(e) =>
-                    setFormData((v) => ({ ...v, region: e.target.value }))
-                  }
-                  startContent={<GlobeIcon />}
-                />
-              </FormControl>
-              <FormDescription>就近物理机房集群代码</FormDescription>
-            </FormField>
-          </div>
-
-          <FormField>
-            <FormLabel>最大副本数量限制</FormLabel>
+        <div className="grid gap-4 sm:grid-cols-2">
+          <FormField required>
+            <FormLabel>服务名称</FormLabel>
             <FormControl>
               <Input
-                type="number"
-                value={formData.maxReplicas}
-                onChange={(e) =>
-                  setFormData((v) => ({ ...v, maxReplicas: e.target.value }))
-                }
+                value={config.name}
+                onChange={(event) => patch({ name: event.target.value })}
+                startContent={<ServerIcon />}
               />
             </FormControl>
-            <FormDescription>高并发流量峰值时最大可自动扩展的 Pod 数</FormDescription>
+            <FormDescription>小写字母、数字与连字符</FormDescription>
           </FormField>
 
-          <div className="bg-muted/40 divide-border/60 mt-2 divide-y rounded-lg border p-3.5">
-            <div className="flex items-center justify-between pb-3">
-              <div className="space-y-0.5">
-                <p className="text-sm font-medium">强制开启 HTTPS 重定向</p>
-                <p className="text-muted-foreground text-xs">
-                  自动签发免费 TLS 证书并拦截全部明文 HTTP 请求
-                </p>
-              </div>
-              <Switch
-                checked={formData.enableHttps}
-                onCheckedChange={(checked) =>
-                  setFormData((v) => ({ ...v, enableHttps: checked }))
-                }
+          <FormField required>
+            <FormLabel>部署地域</FormLabel>
+            <FormControl>
+              <Input
+                value={config.region}
+                onChange={(event) => patch({ region: event.target.value })}
+                startContent={<GlobeIcon />}
               />
-            </div>
+            </FormControl>
+            <FormDescription>建议选择离用户最近的地域</FormDescription>
+          </FormField>
+        </div>
 
-            <div className="flex items-center justify-between pt-3">
-              <div className="space-y-0.5">
-                <p className="text-sm font-medium">智能弹性伸缩 (Auto Scaling)</p>
-                <p className="text-muted-foreground text-xs">
-                  CPU 使用率高于 80% 时自动扩容节点
-                </p>
-              </div>
-              <Switch
-                checked={formData.enableAutoScaling}
-                onCheckedChange={(checked) =>
-                  setFormData((v) => ({ ...v, enableAutoScaling: checked }))
-                }
-              />
-            </div>
+        <FormField className="sm:max-w-[calc(50%-0.5rem)]">
+          <FormLabel>最大副本数</FormLabel>
+          <FormControl>
+            <InputNumber
+              value={config.maxReplicas}
+              onValueChange={(maxReplicas) => patch({ maxReplicas })}
+              min={1}
+              max={50}
+              suffix="个"
+            />
+          </FormControl>
+          <FormDescription>流量高峰时最多扩容到的实例数量</FormDescription>
+        </FormField>
+      </FormSection>
+
+      <FormSection className="gap-0 divide-y border-y">
+        {(
+          [
+            {
+              key: "https",
+              title: "强制 HTTPS",
+              description: "自动签发证书，并将 HTTP 请求重定向到 HTTPS",
+            },
+            {
+              key: "autoScaling",
+              title: "弹性伸缩",
+              description: "CPU 使用率持续 5 分钟高于 80% 时自动扩容",
+            },
+          ] as const
+        ).map((item) => (
+          <div key={item.key} className="flex items-center justify-between gap-6 py-3.5">
+            <label htmlFor={`config-${item.key}`} className="grid cursor-pointer gap-1">
+              <span className="text-sm font-medium leading-none">{item.title}</span>
+              <span className="text-muted-foreground text-xs">{item.description}</span>
+            </label>
+            <Switch
+              id={`config-${item.key}`}
+              checked={config[item.key]}
+              onCheckedChange={(checked) => patch({ [item.key]: checked })}
+            />
           </div>
-        </FormSection>
+        ))}
+      </FormSection>
 
-        <FormActions>
-          <Button variant="outline" type="button">
-            重置更改
-          </Button>
-          <Button type="submit">保存集群配置</Button>
-        </FormActions>
-      </Form>
-    </div>
+      <FormActions>
+        <AnimatePresence initial={false}>
+          {saved ? (
+            <motion.span
+              key="saved"
+              className="text-success mr-auto text-xs font-medium"
+              initial={reduceMotion ? false : { opacity: 0, y: 4 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+            >
+              配置已保存，将在下次部署时生效
+            </motion.span>
+          ) : null}
+        </AnimatePresence>
+        <Button
+          type="button"
+          variant="ghost"
+          disabled={!dirty}
+          onClick={() => {
+            setConfig(initialConfig)
+            setSaved(false)
+          }}
+        >
+          撤销修改
+        </Button>
+        <Button type="submit" disabled={!dirty || saved}>
+          保存配置
+        </Button>
+      </FormActions>
+    </Form>
   )
 }

@@ -57,8 +57,8 @@ pnpm add radix-ui motion lucide-react class-variance-authority clsx tailwind-mer
     {
       prop: "transition",
       type: "Transition",
-      default: '{ type: "spring", stiffness: 420, damping: 34, mass: 0.7 }',
-      description: "跨布局形变表面与共享元素所使用的 Motion 动画配置。",
+      default: '{ type: "spring", bounce: 0.12, visualDuration: 0.42 }',
+      description: "跨布局形变表面与共享元素所使用的 Motion 动画配置。默认弹簧带有极轻的回弹，表面圆角会随形变一同插值并做缩放校正，不会被拉伸变形。",
     },
     {
       prop: "children",
@@ -82,8 +82,13 @@ pnpm add radix-ui motion lucide-react class-variance-authority clsx tailwind-mer
     {
       prop: "variants",
       type: "Variants",
-      default: '{ initial: { opacity: 0, y: 8, filter: "blur(4px)" }, animate: { opacity: 1, y: 0, filter: "blur(0px)" }, exit: { opacity: 0, y: 4, filter: "blur(3px)" } }',
-      description: "弹窗内部主体内容进场与离场的 Motion 变体动画。",
+      default: '{ initial: { opacity: 0, y: 10, scale: 0.98, filter: "blur(6px)" }, animate: { opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }, exit: { opacity: 0, y: 6, filter: "blur(4px)" } }',
+      description: "弹窗内部主体内容进场与离场的 Motion 变体动画。主体在表面形变开始后稍晚淡入，关闭时则先快速淡出，让表面收回更干净。",
+    },
+    {
+      prop: "media",
+      type: "React.ReactNode",
+      description: "渲染在主体上方、不参与淡入的媒体区域，通常放置 MorphingDialogImage，让共享图片在形变全程保持可见。",
     },
     {
       prop: "className",
@@ -111,7 +116,7 @@ pnpm add radix-ui motion lucide-react class-variance-authority clsx tailwind-mer
     {
       prop: "className",
       type: "string",
-      description: "应用于触发器外层包装容器的样式类名。",
+      description: "应用于触发器按钮的样式类名。形变表面会读取触发器的圆角，因此设置 rounded-* 后展开与收回都能保持一致的圆角过渡。",
     },
     {
       prop: "children",
@@ -177,13 +182,13 @@ pnpm add radix-ui motion lucide-react class-variance-authority clsx tailwind-mer
 
 ### 媒体画廊展开
 
-在缩略图卡片与详情弹窗之间实现顺滑的图片缩放形变：
+通过 `media` 插槽放置共享图片，在缩略图卡片与详情弹窗之间实现全程可见的图片缩放形变：
 
 <ComponentPreview name="morphing-dialog-media" />
 
 ### 业务卡片展开详情
 
-适用于金融卡片、资产账户或监控卡片从概览形态平滑过渡为管理面板：
+适用于费用卡、资产账户或监控卡片从概览形态平滑过渡为详情面板：
 
 <ComponentPreview name="morphing-dialog-card" />
 

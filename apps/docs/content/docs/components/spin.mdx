@@ -61,6 +61,12 @@ pnpm add motion class-variance-authority clsx tailwind-merge
       description: "自定义指示器图标，传入后将完全替代默认的轨道旋转 SVG 图标。",
     },
     {
+      prop: "variant",
+      type: '"ring" | "dots"',
+      default: '"ring"',
+      description: "内置指示器样式；传入 `indicator` 时忽略。",
+    },
+    {
       prop: "delay",
       type: "number",
       default: "0",
@@ -87,10 +93,16 @@ pnpm add motion class-variance-authority clsx tailwind-merge
 
 ### SpinIndicator
 
-底层旋转指示器组件：
+底层旋转指示器组件，可单独用于按钮或行内状态：
 
 <PropsTable
   data={[
+    {
+      prop: "variant",
+      type: '"ring" | "dots"',
+      default: '"ring"',
+      description: "指示器样式。\"ring\" 为旋转中伸缩的圆弧；\"dots\" 为依次起伏的三个圆点，适合行内与按钮内的轻量状态。",
+    },
     {
       prop: "size",
       type: '"sm" | "default" | "lg"',
@@ -144,9 +156,9 @@ pnpm add motion class-variance-authority clsx tailwind-merge
 
 <ComponentPreview name="spin-delay" />
 
-### 自定义指示器
+### 指示器样式与自定义
 
-传入 `indicator` 属性自定义业务专属的动画图标或品牌 Logo：
+内置 `ring`（伸缩圆弧）与 `dots`（起伏圆点）两种样式；也可以通过 `indicator` 传入业务专属的图标：
 
 <ComponentPreview name="spin-custom" />
 
@@ -158,6 +170,6 @@ pnpm add motion class-variance-authority clsx tailwind-merge
 
 ## 无障碍与交互 Accessibility
 
-- **状态通报**：指示器文本区域自动绑定 `role="status"` 和 `aria-live="polite"`，屏幕阅读器在进入加载状态时会主动向视障用户通报加载文字；若未提供 `label`，会自动提供隐藏的 `<span className="sr-only">Loading</span>` 兜底。
+- **状态通报**：指示器文本区域自动绑定 `role="status"` 和 `aria-live="polite"`，屏幕阅读器在进入加载状态时会主动向视障用户通报加载文字；若未提供 `label`，会自动提供隐藏的 `<span className="sr-only">加载中</span>` 兜底。
 - **忙碌指示**：被包裹的容器会自动根据 `visible` 状态同步 `aria-busy="true"` 属性。
 - **动效降级适配**：内部集成 `motion/react` 的 `useReducedMotion()`。当操作系统开启“减少动态效果（Reduce Motion）”时，SVG 旋转和弹性伸缩动画将完全停用，直接静态呈现，避免造成前庭觉不适。

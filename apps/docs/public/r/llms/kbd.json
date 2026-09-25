@@ -34,6 +34,14 @@
       ],
       "defaultValue": "default",
       "description": "键盘按键提示的尺寸。"
+    },
+    {
+      "name": "pressed",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "是否以按下状态高亮按键，适合实时映射键盘输入。"
     }
   ],
   "examples": [
@@ -44,6 +52,10 @@
     {
       "name": "kbd-sizes",
       "title": "尺寸对比 (Default vs Small)"
+    },
+    {
+      "name": "kbd-live",
+      "title": "实时按键反馈（pressed）"
     },
     {
       "name": "kbd-in-menu",

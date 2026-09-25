@@ -59,6 +59,22 @@ pnpm add radix-ui motion class-variance-authority clsx tailwind-merge
       description: "开关的物理尺寸密度。",
     },
     {
+      prop: "checkedIcon",
+      type: "React.ReactNode",
+      description: "开启状态下渲染在滑块内部的图标，切换时带旋转缩放过渡。",
+    },
+    {
+      prop: "uncheckedIcon",
+      type: "React.ReactNode",
+      description: "关闭状态下渲染在滑块内部的图标。",
+    },
+    {
+      prop: "loading",
+      type: "boolean",
+      default: "false",
+      description: "在滑块内显示加载指示并阻止交互，适合等待接口确认的场景。同时设置 `aria-busy`。",
+    },
+    {
       prop: "disabled",
       type: "boolean",
       default: "false",
@@ -170,6 +186,12 @@ return (
 
 <ComponentPreview name="switch-with-label" />
 
+### 滑块图标
+
+通过 `checkedIcon` 与 `uncheckedIcon` 在滑块内放置状态图标，切换时图标会随滑块滚动方向旋转进出。按住开关时滑块会轻微拉伸，松开后回弹到目标位置：
+
+<ComponentPreview name="switch-icons" />
+
 ### 禁用状态
 
 当用户无权限操作、配置处于只读模式或前置依赖未满足时，可以使用 `disabled` 禁用开关：
@@ -178,7 +200,7 @@ return (
 
 ### 异步请求与加载保护
 
-当开关切换需要调用后端 API 同步设置时，应在请求处理（Pending）期间将开关设为禁用状态并展示加载反馈，防止用户重复连续点击；若接口调用失败，需将开关状态回滚为之前的值：
+当开关切换需要调用后端 API 同步设置时，传入 `loading` 在滑块内显示加载指示并阻止重复点击；若接口调用失败，保持原有的 `checked` 值即可让开关回到之前的状态。示例中第二次切换会模拟失败：
 
 <ComponentPreview name="switch-async" />
 
@@ -194,5 +216,5 @@ return (
 - **键盘导航**：
   - <kbd>Tab</kbd>：聚焦到开关上，展示高对比度的焦点轮廓圈（Focus Ring）。
   - <kbd>Space</kbd> / <kbd>Enter</kbd>：切换开启与关闭状态。
-- **动效降级**：内置的平滑弹性滑块动效会自动监听系统的 `prefers-reduced-motion` 设置。当用户启用了“减少动态效果”时，滑块将直接跳变至目标位置，保障无障碍体验。
+- **动效降级**：滑块位移、按压拉伸与图标切换都会监听系统的 `prefers-reduced-motion` 设置。当用户启用了“减少动态效果”时，滑块直接跳变至目标位置且不再拉伸。
 - **标签关联**：建议始终使用 `<label htmlFor="...">` 显式关联开关 `id`，或在独立开关上添加 `aria-label` / `aria-labelledby` 属性。

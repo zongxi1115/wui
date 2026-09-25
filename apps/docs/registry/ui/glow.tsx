@@ -10,9 +10,9 @@ export interface GlowProps extends Omit<HTMLMotionProps<"div">, "children"> {
   children: React.ReactNode
   /** Visual treatment for the illuminated edge. @default "rainbow" */
   variant?: "rainbow" | "solid"
-  /** CSS color used by the solid variant. @default "oklch(0.7 0.2 260)" */
+  /** CSS color used by the solid variant. @default "var(--chart-1)" */
   color?: string
-  /** Colors distributed around the rainbow edge. */
+  /** Colors distributed around the rainbow edge. Defaults to the theme chart palette. */
   colors?: string[]
   /** Distance the light spreads beyond the edge, in pixels. @default 18 */
   spread?: number
@@ -30,8 +30,14 @@ export interface GlowProps extends Omit<HTMLMotionProps<"div">, "children"> {
 function Glow({
   children,
   variant = "rainbow",
-  color = "oklch(0.7 0.2 260)",
-  colors = ["#ff3d81", "#ffb800", "#34d399", "#38bdf8", "#8b5cf6", "#ff3d81"],
+  color = "var(--chart-1)",
+  colors = [
+    "var(--chart-1)",
+    "var(--chart-5)",
+    "var(--chart-2)",
+    "var(--chart-3)",
+    "var(--chart-1)",
+  ],
   spread = 18,
   borderWidth = 1,
   glowOpacity = 0.7,

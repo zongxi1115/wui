@@ -1,15 +1,12 @@
 "use client"
 
 import * as React from "react"
-import {
-  AlertCircleIcon,
-  CheckCircle2Icon,
-  ClockIcon,
-  FlameIcon,
-  PlusIcon,
-  TagIcon,
-} from "lucide-react"
+import { PlusIcon } from "lucide-react"
 
+import { cn } from "@/registry/lib/utils"
+import { Avatar, AvatarFallback } from "@/registry/ui/avatar"
+import { Button } from "@/registry/ui/button"
+import { Kbd } from "@/registry/ui/kbd"
 import {
   Kanban,
   KanbanCard,
@@ -18,159 +15,150 @@ import {
   KanbanColumnCount,
   KanbanColumnHeader,
   KanbanColumnTitle,
-  type KanbanMove,
+  moveKanbanItem,
 } from "@/registry/ui/kanban"
-import { Badge } from "@/registry/ui/badge"
-import { Button } from "@/registry/ui/button"
+
+type Priority = "urgent" | "high" | "medium" | "low"
 
 type Task = {
   id: string
   title: string
-  tag: string
-  priority: "high" | "medium" | "low"
+  label: string
+  priority: Priority
   points: number
   assignee: string
 }
 
-type BoardData = Record<string, Task[]>
+const priorities: Record<Priority, { label: string; className: string }> = {
+  urgent: { label: "紧急", className: "bg-destructive" },
+  high: { label: "高", className: "bg-warning" },
+  medium: { label: "中", className: "bg-info" },
+  low: { label: "低", className: "bg-muted-foreground/50" },
+}
 
-const INITIAL_BOARD: BoardData = {
+const columns = [
+  { id: "todo", title: "待开发", limit: undefined },
+  { id: "doing", title: "开发中", limit: 3 },
+  { id: "review", title: "代码评审", limit: 2 },
+  { id: "done", title: "已发布", limit: undefined },
+]
+
+const initialBoard: Record<string, Task[]> = {
   todo: [
-    {
-      id: "TASK-101",
-      title: "实现 OAuth 2.0 第三方快捷登录",
-      tag: "Auth",
-      priority: "high",
-      points: 5,
-      assignee: "Alex",
-    },
-    {
-      id: "TASK-102",
-      title: "优化大屏图表在移动端的响应式排版",
-      tag: "UI/UX",
-      priority: "low",
-      points: 2,
-      assignee: "Zongxi",
-    },
+    { id: "FE-231", title: "企业微信扫码登录", label: "账号", priority: "high", points: 5, assignee: "陈默" },
+    { id: "FE-236", title: "数据大屏在 1280 宽度下的栅格适配", label: "可视化", priority: "low", points: 2, assignee: "周以宁" },
   ],
-  in_progress: [
-    {
-      id: "TASK-103",
-      title: "流式 AI 对话 Markdown 代码块高亮与复制",
-      tag: "AI Agent",
-      priority: "high",
-      points: 8,
-      assignee: "David",
-    },
+  doing: [
+    { id: "FE-219", title: "流式回复中的代码块高亮与复制", label: "AI 助手", priority: "urgent", points: 8, assignee: "林澈" },
+    { id: "FE-224", title: "表格列宽拖拽与本地持久化", label: "表格", priority: "medium", points: 3, assignee: "许嘉" },
   ],
   review: [
-    {
-      id: "TASK-104",
-      title: "补充全组件库 ARIA 键盘无障碍焦点审查",
-      tag: "A11y",
-      priority: "medium",
-      points: 3,
-      assignee: "Elena",
-    },
+    { id: "FE-212", title: "全局快捷键冲突检测", label: "基础设施", priority: "medium", points: 3, assignee: "周以宁" },
   ],
   done: [
-    {
-      id: "TASK-105",
-      title: "升级 Tailwind CSS v4 与 Motion 12 核心依赖",
-      tag: "Core",
-      priority: "medium",
-      points: 5,
-      assignee: "Alex",
-    },
+    { id: "FE-205", title: "升级 Tailwind CSS v4 与 Motion 12", label: "基础设施", priority: "medium", points: 5, assignee: "林澈" },
   ],
 }
 
-const COLUMN_CONFIG = [
-  { id: "todo", title: "待办需求 (Todo)", icon: ClockIcon },
-  { id: "in_progress", title: "开发中 (In Progress)", icon: FlameIcon },
-  { id: "review", title: "代码评审 (Code Review)", icon: AlertCircleIcon },
-  { id: "done", title: "已发布 (Done)", icon: CheckCircle2Icon },
+const backlog: Omit<Task, "id">[] = [
+  { title: "上传组件支持断点续传", label: "文件", priority: "high", points: 5, assignee: "许嘉" },
+  { title: "消息通知聚合与免打扰时段", label: "通知", priority: "medium", points: 3, assignee: "陈默" },
+  { title: "暗色模式下图表配色校准", label: "可视化", priority: "low", points: 2, assignee: "周以宁" },
 ]
 
 export default function KanbanProjectBoard() {
-  const [board, setBoard] = React.useState<BoardData>(INITIAL_BOARD)
+  const [board, setBoard] = React.useState(initialBoard)
+  const nextId = React.useRef(240)
 
-  const handleMove = ({ itemId, from, to }: KanbanMove) => {
-    setBoard((current) => {
-      const task = current[from]?.find((t) => t.id === itemId)
-      if (!task) return current
-      return {
-        ...current,
-        [from]: current[from].filter((t) => t.id !== itemId),
-        [to]: [...(current[to] || []), task],
-      }
-    })
+  function createTask() {
+    const id = nextId.current++
+    const template = backlog[id % backlog.length]
+    setBoard((current) => ({
+      ...current,
+      todo: [{ ...template, id: `FE-${id}` }, ...current.todo],
+    }))
   }
+
+  const totalPoints = Object.values(board)
+    .flat()
+    .reduce((sum, task) => sum + task.points, 0)
+  const donePoints = board.done.reduce((sum, task) => sum + task.points, 0)
 
   return (
     <div className="w-full space-y-3">
-      <div className="flex items-center justify-between">
-        <div className="text-xs text-muted-foreground">
-          提示：直接鼠标<strong>按住卡片并拖拽</strong>至其他列即可完成流转。
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <p className="text-sm font-medium">Sprint 24 · 前端</p>
+          <p className="text-muted-foreground mt-0.5 text-xs tabular-nums">
+            已完成 {donePoints} / {totalPoints} 点 · 拖拽卡片，或聚焦后按 <Kbd>Space</Kbd> 用方向键移动
+          </p>
         </div>
-        <Button variant="outline" size="sm" className="h-8 gap-1.5 text-xs">
-          <PlusIcon className="size-3.5" />
+        <Button variant="outline" size="sm" onClick={createTask}>
+          <PlusIcon />
           新建任务
         </Button>
       </div>
 
-      <Kanban onMove={handleMove} className="w-full">
-        {COLUMN_CONFIG.map(({ id, title, icon: Icon }) => {
-          const tasks = board[id] || []
+      <Kanban
+        className="w-full"
+        onMove={(move) =>
+          setBoard((current) => moveKanbanItem(current, move, (task) => task.id))
+        }
+      >
+        {columns.map((column) => {
+          const tasks = board[column.id]
+          const overLimit = column.limit !== undefined && tasks.length > column.limit
           return (
-            <KanbanColumn key={id} value={id}>
+            <KanbanColumn key={column.id} value={column.id}>
               <KanbanColumnHeader>
                 <div className="flex items-center gap-2">
-                  <Icon className="size-3.5 text-muted-foreground" />
-                  <KanbanColumnTitle>{title}</KanbanColumnTitle>
-                  <KanbanColumnCount>{tasks.length}</KanbanColumnCount>
+                  <KanbanColumnTitle>{column.title}</KanbanColumnTitle>
+                  <KanbanColumnCount
+                    className={cn(
+                      "transition-colors duration-200",
+                      overLimit && "bg-warning-subtle text-warning"
+                    )}
+                  >
+                    {tasks.length}
+                  </KanbanColumnCount>
                 </div>
+                {column.limit !== undefined ? (
+                  <span
+                    className={cn(
+                      "text-muted-foreground text-xs transition-colors duration-200",
+                      overLimit && "text-warning"
+                    )}
+                  >
+                    上限 {column.limit}
+                  </span>
+                ) : null}
               </KanbanColumnHeader>
 
               <KanbanColumnBody>
-                {tasks.map((task) => (
-                  <KanbanCard key={task.id} value={task.id} className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <span className="font-mono text-[10px] text-muted-foreground">
-                        {task.id}
-                      </span>
-                      <Badge
-                        variant={
-                          task.priority === "high"
-                            ? "destructive"
-                            : task.priority === "medium"
-                            ? "default"
-                            : "secondary"
-                        }
-                        className="h-4 px-1 text-[9px]"
-                      >
-                        {task.priority.toUpperCase()}
-                      </Badge>
-                    </div>
-
-                    <p className="font-medium text-xs leading-relaxed text-foreground">
-                      {task.title}
-                    </p>
-
-                    <div className="flex items-center justify-between pt-1 border-t text-[11px] text-muted-foreground">
-                      <div className="flex items-center gap-1">
-                        <TagIcon className="size-3" />
-                        <span>{task.tag}</span>
-                      </div>
-                      <div className="flex items-center gap-1.5 font-medium">
-                        <span className="flex size-5 items-center justify-center rounded-full bg-primary/10 text-[10px] text-primary">
-                          {task.assignee.slice(0, 1)}
+                {tasks.map((task) => {
+                  const priority = priorities[task.priority]
+                  return (
+                    <KanbanCard key={task.id} value={task.id} aria-label={`${task.id} ${task.title}`}>
+                      <div className="text-muted-foreground flex items-center gap-2 pr-5 text-xs">
+                        <span className="font-mono">{task.id}</span>
+                        <span className="flex items-center gap-1">
+                          <span className={cn("size-1.5 rounded-full", priority.className)} />
+                          {priority.label}
                         </span>
-                        <span className="tabular-nums">{task.points} pts</span>
                       </div>
-                    </div>
-                  </KanbanCard>
-                ))}
+                      <p className="mt-1.5 font-medium leading-5">{task.title}</p>
+                      <div className="text-muted-foreground mt-3 flex items-center justify-between text-xs">
+                        <span className="bg-muted rounded px-1.5 py-0.5">{task.label}</span>
+                        <div className="flex items-center gap-2">
+                          <span className="tabular-nums">{task.points} 点</span>
+                          <Avatar size="xs" title={task.assignee}>
+                            <AvatarFallback>{task.assignee.slice(0, 1)}</AvatarFallback>
+                          </Avatar>
+                        </div>
+                      </div>
+                    </KanbanCard>
+                  )
+                })}
               </KanbanColumnBody>
             </KanbanColumn>
           )

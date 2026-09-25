@@ -53,7 +53,7 @@
 - [分页 Pagination](https://ui.wzx.wang/docs/components/pagination): 用于在海量数据或长列表中实现按页加载与分段导航，清晰传达当前页码、总页数及折叠区间。
 - [折叠面板 Collapsible](https://ui.wzx.wang/docs/components/collapsible): 按需展开与收起补充内容的渐进式披露组件，内置平滑高度补间动效与完整的键盘无障碍控制。
 - [手风琴 Accordion](https://ui.wzx.wang/docs/components/accordion): 用于在有限空间内组织多段相关信息的互斥或多开可折叠面板。
-- [代码块 Code Block](https://ui.wzx.wang/docs/components/code-block): 用于在页面中优雅展示结构化源代码的高亮容器，内置行号、高亮行与一键复制。
+- [代码块 Code Block](https://ui.wzx.wang/docs/components/code-block): 用于在页面中展示结构化源代码的容器，内置行号、滑动高亮带、多文件切换、折叠展开与带动效反馈的一键复制。
 - [提及输入 Mention](https://ui.wzx.wang/docs/components/mention): 用于协同评论、讨论区或 AI 输入框中键入 @、# 或 / 快速匹配并插入人员、话题或指令。
 - [庆祝纸屑 Confetti](https://ui.wzx.wang/docs/components/confetti): 用于在用户完成关键目标、解锁成就或支付成功时触发轻量高性能的 Canvas 粒子庆祝特效。
 - [悬浮底栏 Dock](https://ui.wzx.wang/docs/components/dock): 仿 macOS 风格的弹性放大底栏导航，随着鼠标经过产生丝滑的近邻放大动效。
@@ -67,7 +67,7 @@
 - [上传 Upload](https://ui.wzx.wang/docs/components/upload): 支持点击选取、文件拖拽放置、上传进度百分比展示与状态生命周期反馈的文件上传控件。
 - [键盘提示 Kbd](https://ui.wzx.wang/docs/components/kbd): 用紧凑、高对比度且克制的按键样式展示快捷键与键盘操作提示。
 - [文字提示 Tooltip](https://ui.wzx.wang/docs/components/tooltip): 在鼠标悬停或键盘聚焦时，为图标或紧凑控件浮层展示简短的上下文说明与快捷键。
-- [图片预览 Image Preview](https://ui.wzx.wang/docs/components/image-preview): 点击缩略图进入沉浸式大图灯箱预览，支持平滑缩放、旋转、拖拽平移与原图下载。
+- [图片预览 Image Preview](https://ui.wzx.wang/docs/components/image-preview): 点击缩略图进入沉浸式大图灯箱预览，支持平滑缩放、旋转、拖拽平移、多图切换与原图下载。
 - [视频播放器 Video Player](https://ui.wzx.wang/docs/components/video-player): 由可自由组合的小组件构成，支持播放、进度、音量、快捷键和全屏的视频播放器。
 - [骨架屏 Skeleton](https://ui.wzx.wang/docs/components/skeleton): 在内容异步加载期间维持页面版式结构，降低累积布局偏移（CLS）与用户等待的不确定感。
 - [警告提示 Alert](https://ui.wzx.wang/docs/components/alert): 用于在页面流中展示需要持久保留的状态通告、错误排查指引与操作建议。
@@ -76,7 +76,7 @@
 - [滚动进度 Scroll Progress](https://ui.wzx.wang/docs/components/scroll-progress): 实时计算整页、特定滚动容器或指定 DOM 节点的滚动通过比例，支持线性条状与环形仪表两种形态，并内置弹簧滤波平滑算法。
 - [平滑滚动 Smooth Scroll](https://ui.wzx.wang/docs/components/smooth-scroll): 用 Lenis 为页面或自定义容器提供惯性平滑滚动基座。
 - [视差滚动 Parallax](https://ui.wzx.wang/docs/components/parallax): 依据页面或局部容器滚动进度，以差异化速率与缩放变换驱动图层位移的深度空间视觉组件。
-- [滚动文本动效 Scroll Text](https://ui.wzx.wang/docs/components/scroll-text): 依据滚动视口进度，逐字渐进高亮（Highlight）或逐行位移显现（Reveal）的段落文字动效组件。
+- [滚动文本动效 Scroll Text](https://ui.wzx.wang/docs/components/scroll-text): 依据滚动视口进度，逐字渐进高亮（Highlight）、遮罩位移显现（Reveal）或模糊聚焦（Blur）的段落文字动效组件。
 - [粘性层叠卡片 Sticky Stack](https://ui.wzx.wang/docs/components/sticky-stack): 卡片在向下滚动时依次吸顶、层叠堆积并微弱退后缩小的多层视觉递进组件。
 - [横向滚动转换 Horizontal Scroll](https://ui.wzx.wang/docs/components/horizontal-scroll): 将用户的垂直滚动行为（Page Scroll）无缝映射并锁定转换为宽画幅横向轨道平移的视差布局组件。
 - [滚动速度跑马灯 Velocity Marquee](https://ui.wzx.wang/docs/components/velocity-marquee): 跑马灯根据滚动速度加速，并随滚动方向反转。
@@ -89,6 +89,11 @@
 - [渐变环绕发光 Glow](https://ui.wzx.wang/docs/components/glow): 让多色彩虹渐变或单色呼吸光效沿内容边缘持续环绕流动，形成柔和漫射光晕，用于打造高视觉吸引力的重点卡片与推荐位。
 - [手绘批注与高亮 Annotation](https://ui.wzx.wang/docs/components/annotation): 带有手绘笔触风格的动态荧光笔扫掠高亮、手绘箭头引导与路径圈注组件。
 - [滑动替换 Slide Swap](https://ui.wzx.wang/docs/components/slide-swap): 悬停或激活时将当前内容向上/向下平移滑出，同时无缝滑入相同形态副本的微动效组件。
+- [滑动高亮 Animated Background](https://ui.wzx.wang/docs/components/animated-background): 在悬停或选中的子元素之间平滑滑动一块共享的高亮背景，适用于导航、列表与选择器。
+- [过渡面板 Transition Panel](https://ui.wzx.wang/docs/components/transition-panel): 按索引切换一组面板，带方向感知的滑入、淡出与模糊过渡，容器高度随新面板平滑变化。
+- [动画组 Animated Group](https://ui.wzx.wang/docs/components/animated-group): 为一组子元素按统一预设错峰播放入场动画，支持挂载时或滚动进入视口时触发。
+- [动画列表 Animated List](https://ui.wzx.wang/docs/components/animated-list): 逐条揭示列表项并将最新一条置顶，已有条目以弹簧动画下移，适用于通知流与活动记录。
+- [边框光束 Border Beam](https://ui.wzx.wang/docs/components/border-beam): 沿元素边框循环流动的一段细光束，用于强调推荐项、处理中状态或需要吸引注意的输入区域。
 - [悬停跑马灯 Hover Marquee](https://ui.wzx.wang/docs/components/hover-marquee): 当列表行被悬停或聚焦时，原地替换为水平无限循环滚动的跑马灯轨道预览。
 - [聚光卡片 Spotlight Card](https://ui.wzx.wang/docs/components/spotlight-card): 根据光标指针移动在卡片表面渲染跟随式局部径向光照，为静态卡片注入灵动的空间立体感。
 - [透视倾斜 Tilt Card](https://ui.wzx.wang/docs/components/tilt-card): 卡片跟随光标指针在三维空间中产生细腻的 3D 透视倾斜与反光眩光，并基于物理弹簧平滑回正。
@@ -104,12 +109,16 @@
 - [文本扰动解码 Text Scramble](https://ui.wzx.wang/docs/components/text-scramble): 通过随机字符的高频采样闪烁并按时序平滑收敛，营造黑客终端、密码破译与数字解密质感的文本动效组件。
 - [文字微光 Text Shimmer](https://ui.wzx.wang/docs/components/text-shimmer): 运用纯 CSS 渐变遮罩与 GPU 渲染管线，在文字表面平滑扫过一道灵动高光的微动效组件。
 - [文本波光 Text Shimmer Wave](https://ui.wzx.wang/docs/components/text-shimmer-wave): 逐字符传播的立体位移与高光波浪。
+- [文本轮转 Text Rotate](https://ui.wzx.wang/docs/components/text-rotate): 逐字符、单词或整行错峰轮换一组文本：旧文本向上移出、新文本自下方进入，容器宽度随新内容平滑过渡。
+- [打字机 Typewriter](https://ui.wzx.wang/docs/components/typewriter): 带闪烁光标的逐字输入效果，依次输入、停留、删除并切换多段文本。
+- [文本高亮 Text Highlight](https://ui.wzx.wang/docs/components/text-highlight): 进入视口、悬停或挂载时，在文字背后划出马克笔式的高亮，跨行文本会逐行依次划过。
 - [数字滚动 Sliding Number](https://ui.wzx.wang/docs/components/sliding-number): 每个数位独立运行垂直滚轮滚动，支持弹性阻尼过渡、浮点小数与补零格式化的数字动效组件。
+- [数字滚动 Number Ticker](https://ui.wzx.wang/docs/components/number-ticker): 进入视口时从起始值计数到目标值，数值变化时从当前值平滑过渡，支持本地化格式、小数位与前后缀。
 - [表格 Table](https://ui.wzx.wang/docs/components/table): 保留原生语义与无障碍结构的响应式表格组件，支持紧凑密度、斑马纹、冻结表头与左右固定列。
 - [日历 Calendar](https://ui.wzx.wang/docs/components/calendar): 具备完整月份网格、流畅悬停跟随动效、无障碍键盘移动与事件排期能力的月视图日历与面板组件。
 - [日期选择器 DatePicker](https://ui.wzx.wang/docs/components/date-picker): 基于日历弹层的现代化单日期选择控件，支持多语言本地化、日期范围约束、自定义禁用规则与快捷清空。
 - [时间选择器 Time Picker](https://ui.wzx.wang/docs/components/time-picker): 通过小时、分钟与 AM/PM 时制分栏，用于在表单中快速定位与设定特定时刻的紧凑选择控件。
-- [看板 Kanban](https://ui.wzx.wang/docs/components/kanban): 用于敏捷项目管理、需求流转与线索阶段跟踪的可组合看板组件，内置 HTML5 原生拖拽流转与悬停响应。
+- [看板 Kanban](https://ui.wzx.wang/docs/components/kanban): 用于敏捷项目管理、需求流转与线索阶段跟踪的可组合看板组件，支持跨列拖拽、列内排序、键盘移动与布局过渡动画。
 - [时间轴 Timeline](https://ui.wzx.wang/docs/components/timeline): 按照明确的时间先后顺序呈现事件流转、操作日志、发布进度与业务里程碑。
 - [空状态 Empty State](https://ui.wzx.wang/docs/components/empty-state): 在页面或模块无数据、无搜索结果或未配置时，清晰解释现状并引导用户开展下一步动作。
 - [加载中 Spin](https://ui.wzx.wang/docs/components/spin): 轻量且支持无障碍降级的动态加载指示器，支持独立展示、局部内容遮罩与全屏阻塞。
@@ -119,7 +128,7 @@
 - [卡片 Card](https://ui.wzx.wang/docs/components/card): 将同一主题的内容、状态与操作组织在具备清晰视觉层级与微动效的容器表面中。
 - [切换按钮 Toggle](https://ui.wzx.wang/docs/components/toggle): 用于在激活（On）与未激活（Off）两种双态之间切换并持久保持状态的轻量级动作按钮。
 - [切换按钮组 Toggle Group](https://ui.wzx.wang/docs/components/toggle-group): 将多个双态切换按钮组合为单选互斥（Single）或并列多选（Multiple）的分组控件。
-- [轮播 Carousel](https://ui.wzx.wang/docs/components/carousel): 基于原生 CSS 滚动与 scroll-snap 物理吸附机制构建的高性能轮播组件，支持横向/纵向滑动、循环滚动与多列响应式排版。
+- [轮播 Carousel](https://ui.wzx.wang/docs/components/carousel): 基于原生 CSS 滚动与 scroll-snap 吸附机制构建的轮播组件，支持横向/纵向滑动、循环、自动播放与多列响应式排版。
 - [排版 Typography](https://ui.wzx.wang/docs/components/typography): 为标题、引言、正文、列表、引用和代码提供严格且优美的一致性阅读层级系统。
 - [数字输入框 InputNumber](https://ui.wzx.wang/docs/components/input-number): 专为数值录入设计的精度步进输入组件，支持上下范围约束、浮点数精度保持、键盘加速微调与表单校验。
 - [验证码输入框 InputOTP](https://ui.wzx.wang/docs/components/input-otp): 专为一次性验证码（OTP）、PIN 密码与安全兑换码设计的分格输入组件，内置剪贴板智能分发、方向键跳格与完成回调。

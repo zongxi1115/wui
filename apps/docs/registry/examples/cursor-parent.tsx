@@ -1,37 +1,37 @@
+"use client"
+
 import * as React from "react"
-import { EyeIcon } from "lucide-react"
 
 import { Cursor } from "@/registry/ui/cursor"
 
 export default function CursorParent() {
-  const [pos, setPos] = React.useState({ x: 0, y: 0 })
+  const [position, setPosition] = React.useState({ x: 0, y: 0 })
 
   return (
-    <div className="relative flex h-72 w-full max-w-xl flex-col items-center justify-center overflow-hidden rounded-2xl border bg-card p-6 shadow-xs">
+    <div className="relative h-72 w-full max-w-xl overflow-hidden rounded-lg border bg-[radial-gradient(var(--border)_1px,transparent_1px)] [background-size:16px_16px]">
       <Cursor
         attachToParent
-        springConfig={{ stiffness: 400, damping: 30, mass: 0.2 }}
-        onPositionChange={setPos}
+        springConfig={{ stiffness: 600, damping: 40, mass: 0.2 }}
+        onPositionChange={setPosition}
+        variants={{
+          initial: { opacity: 0, scale: 0.5 },
+          animated: { opacity: 1, scale: 1 },
+          exit: { opacity: 0, scale: 0.5 },
+        }}
       >
-        <div className="flex items-center gap-1.5 rounded-full bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground shadow-md backdrop-blur-xs">
-          <EyeIcon className="size-3.5" />
-          <span>Inspect ({Math.round(pos.x)}, {Math.round(pos.y)})</span>
-        </div>
+        <span className="relative block">
+          <span className="border-foreground block size-5 rounded-full border-2" />
+          <span className="bg-foreground text-background absolute left-6 top-4 whitespace-nowrap rounded px-1.5 py-0.5 font-mono text-[10px] tabular-nums">
+            {Math.round(position.x)}, {Math.round(position.y)}
+          </span>
+        </span>
       </Cursor>
 
-      <div className="text-center">
-        <h3 className="text-lg font-semibold tracking-tight text-foreground">
-          Interactive Canvas Surface
-        </h3>
-        <p className="mt-1 max-w-md text-sm text-muted-foreground">
-          The custom cursor tracks pointer movement exclusively within this parent
-          boundary with real-time coordinate inspection.
+      <div className="pointer-events-none absolute left-4 top-4">
+        <p className="text-sm font-medium">画布取点</p>
+        <p className="text-muted-foreground text-xs">
+          通过 onPositionChange 实时读取光标在容器内的坐标
         </p>
-      </div>
-
-      <div className="mt-6 flex gap-3 text-xs text-muted-foreground">
-        <span className="rounded-md border bg-muted/50 px-2.5 py-1">Pointer: Fine</span>
-        <span className="rounded-md border bg-muted/50 px-2.5 py-1">Spring: 400/30</span>
       </div>
     </div>
   )

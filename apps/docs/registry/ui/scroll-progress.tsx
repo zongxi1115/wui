@@ -7,6 +7,7 @@ import {
   useReducedMotion,
   useScroll,
   useSpring,
+  useTransform,
   type HTMLMotionProps,
   type UseScrollOptions,
 } from "motion/react"
@@ -21,6 +22,8 @@ export interface ScrollProgressProps extends Omit<
   variant?: "bar" | "circle"
   /** Edge used by a fixed bar. Use `inline` to keep it in normal flow. @default "top" */
   position?: "top" | "bottom" | "inline"
+  /** Scroll axis to observe. Use `x` for horizontal scrollers. @default "y" */
+  axis?: "x" | "y"
   /** Scrollable element to observe instead of the page. */
   container?: React.RefObject<HTMLElement | null>
   /** Element whose passage through the viewport defines the progress. */
@@ -31,6 +34,8 @@ export interface ScrollProgressProps extends Omit<
   size?: number
   /** Stroke width of the circular indicator in pixels. @default 3 */
   strokeWidth?: number
+  /** Show the percentage inside the circular indicator. @default true */
+  showValue?: boolean
   /** Smooth abrupt scroll updates with a spring. @default true */
   smooth?: boolean
   /** Classes applied to the inactive track. */
@@ -43,11 +48,13 @@ export interface ScrollProgressProps extends Omit<
 function ScrollProgress({
   variant = "bar",
   position = "top",
+  axis = "y",
   container,
   target,
   offset,
   size = 44,
   strokeWidth = 3,
+  showValue = true,
   smooth = true,
   className,
   trackClassName,
@@ -55,18 +62,28 @@ function ScrollProgress({
   ...props
 }: ScrollProgressProps) {
   const reduceMotion = useReducedMotion()
-  const { scrollYProgress } = useScroll({ container, target, offset })
-  const springProgress = useSpring(scrollYProgress, {
-    stiffness: 180,
-    damping: 28,
-    mass: 0.35,
+  const { scrollXProgress, scrollYProgress } = useScroll({
+    container,
+    target,
+    offset,
+    axis,
   })
-  const progress = smooth && !reduceMotion ? springProgress : scrollYProgress
+  const rawProgress = axis === "x" ? scrollXProgress : scrollYProgress
+  const springProgress = useSpring(rawProgress, {
+    stiffness: 220,
+    damping: 32,
+    mass: 0.3,
+    restDelta: 0.0005,
+  })
+  const progress = smooth && !reduceMotion ? springProgress : rawProgress
+  const percent = useTransform(progress, (latest) =>
+    Math.round(Math.min(Math.max(latest, 0), 1) * 100)
+  )
+  // Hides the round line cap that would otherwise render as a dot at 0%.
+  const ringOpacity = useTransform(progress, [0, 0.004], [0, 1])
   const [value, setValue] = React.useState(0)
 
-  useMotionValueEvent(progress, "change", (latest) => {
-    setValue(Math.round(latest * 100))
-  })
+  useMotionValueEvent(percent, "change", setValue)
 
   if (variant === "circle") {
     const radius = Math.max((size - strokeWidth) / 2, 1)
@@ -109,10 +126,14 @@ function ScrollProgress({
             strokeWidth={strokeWidth}
             strokeLinecap="round"
             className={cn("text-foreground", indicatorClassName)}
-            style={{ pathLength: progress }}
+            style={{ pathLength: progress, opacity: ringOpacity }}
           />
         </svg>
-        <span className="text-[10px] font-medium tabular-nums">{value}</span>
+        {showValue ? (
+          <motion.span className="text-[10px] font-medium tabular-nums">
+            {percent}
+          </motion.span>
+        ) : null}
       </motion.div>
     )
   }
@@ -139,7 +160,10 @@ function ScrollProgress({
     >
       <motion.div
         data-slot="scroll-progress-indicator"
-        className={cn("bg-foreground h-full origin-left", indicatorClassName)}
+        className={cn(
+          "bg-foreground h-full origin-left will-change-transform",
+          indicatorClassName
+        )}
         style={{ scaleX: progress }}
       />
     </motion.div>

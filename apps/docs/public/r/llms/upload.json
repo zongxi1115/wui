@@ -3,12 +3,15 @@
   "type": "registry:ui",
   "title": "上传 Upload",
   "description": "支持点击选取、文件拖拽放置、上传进度百分比展示与状态生命周期反馈的文件上传控件。",
-  "import": "import { Upload, uploadVariants } from \"@/components/ui/upload\"",
+  "import": "import { Upload, UploadFileItem, UploadFileList, uploadVariants } from \"@/components/ui/upload\"",
   "exports": [
     "Upload",
+    "UploadFileItem",
+    "UploadFileList",
     "uploadVariants"
   ],
   "typeExports": [
+    "UploadFileItemProps",
     "UploadProps",
     "UploadStatus"
   ],
@@ -30,7 +33,7 @@
       "type": "string",
       "required": false,
       "control": "text",
-      "defaultValue": "Drop files here or click to browse",
+      "defaultValue": "拖拽文件到此处，或点击选择",
       "description": "拖放区域内显示的主要操作提示。"
     },
     {

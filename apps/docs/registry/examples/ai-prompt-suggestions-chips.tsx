@@ -1,64 +1,86 @@
 "use client"
 
 import * as React from "react"
-import { SendIcon, Wand2Icon } from "lucide-react"
 
+import {
+  AiPrompt,
+  AiPromptContent,
+  AiPromptFooter,
+  AiPromptSubmit,
+  AiPromptTextarea,
+} from "@/registry/ui/ai-prompt"
 import {
   AiPromptSuggestionItem,
   AiPromptSuggestions,
 } from "@/registry/ui/ai-prompt-suggestions"
 
-export default function AiPromptSuggestionsChips() {
-  const [inputValue, setInputValue] = React.useState("")
+const FOLLOW_UPS = [
+  { title: "提炼 3 条要点", prompt: "把上面的回答整理成 3 条要点，每条不超过 20 字。" },
+  { title: "改成邮件语气", prompt: "把这段内容改写成发给客户的正式邮件。" },
+  { title: "翻译成英文", prompt: "把回答翻译成自然的英文商务表达。" },
+  { title: "列出风险点", prompt: "这个方案上线前还有哪些风险需要确认？" },
+]
 
-  const suggestions = [
-    { title: "提炼核心要点", prompt: "请将上文内容整理为 3 条结构清晰的核心要点" },
-    { title: "改写为专业公文风", prompt: "请将这段草稿重写为规范严谨的商业邮件风格" },
-    { title: "翻译为地道英文", prompt: "请将以上内容翻译为符合母语习惯的英语商务表达" },
-    { title: "代码安全性审查", prompt: "请全面审查这段代码中是否存在 SQL 注入或 XSS 风险" },
-  ]
+export default function AiPromptSuggestionsChips() {
+  const [value, setValue] = React.useState("")
+  const [sent, setSent] = React.useState<string[]>([])
 
   return (
-    <div className="w-full max-w-xl space-y-3 rounded-xl border bg-card p-4 shadow-xs">
-      <div className="flex items-center gap-1.5 text-xs font-semibold text-primary">
-        <Wand2Icon className="size-3.5" />
-        <span>快捷追问与指令建议</span>
-      </div>
+    <div className="mx-auto w-full max-w-xl space-y-3">
+      {sent.length ? (
+        <div className="flex flex-col items-end gap-2">
+          {sent.map((message, index) => (
+            <div
+              key={index}
+              className="max-w-[80%] rounded-2xl rounded-br-md bg-primary px-3.5 py-2 text-sm text-primary-foreground duration-300 animate-in fade-in-0 slide-in-from-right-2"
+            >
+              {message}
+            </div>
+          ))}
+        </div>
+      ) : null}
 
-      {/* 胶囊标签组 */}
       <AiPromptSuggestions layout="chips">
-        {suggestions.map((item) => (
+        {FOLLOW_UPS.map((item) => (
           <AiPromptSuggestionItem
             key={item.title}
             variant="chip"
             title={item.title}
             promptText={item.prompt}
-            onSelectPrompt={(p) => setInputValue(p)}
+            onSelectPrompt={setValue}
           />
         ))}
       </AiPromptSuggestions>
 
-      {/* 模拟输入框 */}
-      <div className="relative mt-2 flex items-center rounded-lg border bg-background px-3 py-2 shadow-inner">
-        <input
-          type="text"
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-          placeholder="输入问题或点击上方胶囊标签..."
-          className="w-full bg-transparent text-xs text-foreground placeholder:text-muted-foreground focus:outline-none"
-        />
-        <button
-          type="button"
-          disabled={!inputValue.trim()}
-          className="ml-2 flex size-7 shrink-0 items-center justify-center rounded-md bg-primary text-primary-foreground transition-opacity disabled:opacity-30"
-          onClick={() => {
-            alert(`发送提问: ${inputValue}`)
-            setInputValue("")
-          }}
-        >
-          <SendIcon className="size-3.5" />
-        </button>
-      </div>
+      <AiPrompt
+        onSubmit={(event) => {
+          event.preventDefault()
+          if (!value.trim()) return
+          setSent((current) => [...current, value.trim()])
+          setValue("")
+        }}
+      >
+        <AiPromptFooter>
+          <AiPromptContent className="min-w-0 flex-1">
+            <AiPromptTextarea
+              value={value}
+              placeholder="继续追问，或选择上方的建议…"
+              onChange={(event) => setValue(event.currentTarget.value)}
+              onKeyDown={(event) => {
+                if (
+                  event.key === "Enter" &&
+                  !event.shiftKey &&
+                  !event.nativeEvent.isComposing
+                ) {
+                  event.preventDefault()
+                  event.currentTarget.form?.requestSubmit()
+                }
+              }}
+            />
+          </AiPromptContent>
+          <AiPromptSubmit disabled={!value.trim()} />
+        </AiPromptFooter>
+      </AiPrompt>
     </div>
   )
 }

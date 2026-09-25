@@ -189,7 +189,7 @@ function AiConversationTimeline({
         >
           <div
             ref={cardRef}
-            className="relative -translate-y-1/2 rounded-xl border border-border/60 bg-popover/85 p-3 text-popover-foreground shadow-[0_8px_28px_-14px_rgb(0_0_0/0.5)] backdrop-blur-md supports-[backdrop-filter]:bg-popover/70"
+            className="relative -translate-y-1/2 rounded-lg border bg-popover p-3 text-popover-foreground shadow-md"
           >
             <span
               className={cn(
@@ -206,7 +206,7 @@ function AiConversationTimeline({
                 transition={reduceMotion ? { duration: 0 } : { duration: 0.12 }}
               >
                 <div className="flex items-center gap-2">
-                  <span className="rounded-[5px] bg-muted px-1.5 py-0.5 font-mono text-[10px] leading-4 tabular-nums text-muted-foreground">
+                  <span className="rounded-sm bg-muted px-1.5 py-0.5 font-mono text-[10px] leading-4 tabular-nums text-muted-foreground">
                     {String(Math.max(cardIndex, 0) + 1).padStart(2, "0")}
                   </span>
                   <span className="text-[11px] tabular-nums text-muted-foreground/70">
@@ -296,9 +296,12 @@ function Tick({
     const tickCenter = center.get()
     return y < 0 ? 0 : Math.exp(-((y - tickCenter) ** 2) / (2 * SPREAD ** 2))
   })
-  const widthTarget = useTransform(proximity, (p) => rest + (peak - rest) * p)
+  // The active turn rests a little longer and fully opaque, so moving the
+  // reading position springs one tick out while the previous one settles back.
+  const base = active ? rest + 6 : rest
+  const widthTarget = useTransform(proximity, (p) => base + (peak - base) * p)
   const opacityTarget = useTransform(proximity, (p) =>
-    Math.min(1, (active ? 0.5 : 0.22) + p * 0.78)
+    Math.min(1, (active ? 1 : 0.24) + p * 0.76)
   )
   const springWidth = useSpring(widthTarget, spring)
   const springOpacity = useSpring(opacityTarget, spring)

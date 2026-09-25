@@ -87,7 +87,7 @@ pnpm add motion clsx tailwind-merge
     {
       prop: "onScrambleComplete",
       type: "() => void",
-      description: "当整段文字的所有字符全部完成解码并锁定为最终值时触发的回调函数。",
+      description: "当整段文字的所有字符全部完成解码并锁定为最终值时触发的回调函数。回调通过 ref 读取，传入内联函数不会导致动画重新开始。",
     },
   ]}
 />
@@ -116,11 +116,11 @@ pnpm add motion clsx tailwind-merge
 
 ### 集群遥测状态解码
 
-在系统服务监控面板中，结合 `onScrambleComplete` 实现遥测数据加载与校验状态流转：
+在系统服务监控面板中，文本变化时自动重新解码，并在 `onScrambleComplete` 中切换状态指示点：
 
 <ComponentPreview name="text-scramble-status-card" />
 
 ## 无障碍与交互 Accessibility
 
-- **完整的屏幕阅读器直读**：容器外层挂载 `aria-label={children}`，内部跳动的扰动字符包装在 `aria-hidden="true"` 的 span 标签中。辅助技术将立即把最终真实文案朗读给视障用户，绝不会朗读瞬态的无意义随机乱码。
+- **完整的屏幕阅读器直读**：组件内部保留一份视觉隐藏（`sr-only`）的最终文本，内部跳动的扰动字符包装在 `aria-hidden="true"` 的 span 标签中。辅助技术将立即把最终真实文案朗读给视障用户，绝不会朗读瞬态的无意义随机乱码。
 - **系统减少动态偏好（Reduced Motion）**：在系统启用了 `prefers-reduced-motion` 时，组件将直接跳过定时器与字符随机化逻辑，立即渲染最终纯文本。

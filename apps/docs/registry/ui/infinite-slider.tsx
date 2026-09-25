@@ -43,12 +43,22 @@ function InfiniteSlider({
   ...props
 }: InfiniteSliderProps) {
   const containerRef = React.useRef<HTMLDivElement>(null)
+  const trackRef = React.useRef<HTMLDivElement>(null)
   const groupRef = React.useRef<HTMLDivElement>(null)
   const progressRef = React.useRef(0)
+  const hoveredRef = React.useRef(false)
+  const currentSpeedRef = React.useRef(speed)
   const [groupSize, setGroupSize] = React.useState(0)
-  const [hovered, setHovered] = React.useState(false)
   const reduceMotion = useReducedMotion()
   const inView = useInView(containerRef)
+  // Switch to the static, scrollable layout only after hydration so the
+  // server and client markup always match.
+  const [staticLayout, setStaticLayout] = React.useState(false)
+
+  React.useEffect(() => {
+    setStaticLayout(Boolean(reduceMotion))
+    if (reduceMotion && trackRef.current) trackRef.current.style.transform = ""
+  }, [reduceMotion])
 
   React.useEffect(() => {
     const group = groupRef.current
@@ -63,17 +73,23 @@ function InfiniteSlider({
     const observer = new ResizeObserver(measure)
     observer.observe(group)
     return () => observer.disconnect()
-  }, [direction, gap, children])
+  }, [direction])
 
   useAnimationFrame((_, delta) => {
-    if (reduceMotion || !inView || groupSize === 0) return
-    const currentSpeed =
-      hovered && speedOnHover !== undefined ? speedOnHover : speed
-    progressRef.current =
-      (progressRef.current + (currentSpeed * delta) / 1000) % groupSize
+    const track = trackRef.current
+    if (staticLayout || !inView || groupSize === 0 || !track) return
 
-    const track = groupRef.current?.parentElement
-    if (!track) return
+    // Ease toward the target speed so hover slow-downs and pauses glide
+    // instead of snapping.
+    const targetSpeed =
+      hoveredRef.current && speedOnHover !== undefined ? speedOnHover : speed
+    const smoothing = 1 - Math.exp(-delta / 180)
+    currentSpeedRef.current +=
+      (targetSpeed - currentSpeedRef.current) * smoothing
+
+    const next = progressRef.current + (currentSpeedRef.current * delta) / 1000
+    progressRef.current = ((next % groupSize) + groupSize) % groupSize
+
     const progress = progressRef.current
     const offset = reverse ? progress - groupSize : -progress
     track.style.transform =
@@ -96,7 +112,7 @@ function InfiniteSlider({
       ref={containerRef}
       data-slot="infinite-slider"
       className={cn(
-        reduceMotion
+        staticLayout
           ? direction === "horizontal"
             ? "overflow-x-auto"
             : "overflow-y-auto"
@@ -104,16 +120,17 @@ function InfiniteSlider({
         className
       )}
       onMouseEnter={(event) => {
-        setHovered(true)
+        hoveredRef.current = true
         onMouseEnter?.(event)
       }}
       onMouseLeave={(event) => {
-        setHovered(false)
+        hoveredRef.current = false
         onMouseLeave?.(event)
       }}
       {...props}
     >
       <div
+        ref={trackRef}
         data-slot="infinite-slider-track"
         className={cn(
           "flex w-max will-change-transform",
@@ -128,7 +145,7 @@ function InfiniteSlider({
         >
           {children}
         </div>
-        {reduceMotion ? null : (
+        {staticLayout ? null : (
           <div
             aria-hidden="true"
             inert

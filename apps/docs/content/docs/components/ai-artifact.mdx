@@ -201,18 +201,19 @@ pnpm add motion class-variance-authority lucide-react clsx tailwind-merge
 
 ### 多标签多模态工作区 (Preview + Code + Console)
 
-展示包含真实数据仪表盘预览、TypeScript 源码面板与实时事件控制台的多标签产物：
+包含预览、源码与构建日志三个标签。点击「重新生成」时自动切到代码标签，头部出现生成进度线，代码逐段写入：
 
 <ComponentPreview name="ai-artifact-multi" />
 
 ## 无障碍与交互 Accessibility
 
 - **Tablist 规范 (WAI-ARIA Tabs)**：
-  - 标签栏挂载 `role="tablist"`，各触发按钮挂载 `role="tab"` 与 `aria-selected`；
-  - 内容面板挂载 `role="tabpanel"`，保证键盘与屏幕阅读器无障碍对应。
+  - 标签栏挂载 `role="tablist"`，各触发按钮挂载 `role="tab"`、`aria-selected` 与 `aria-controls`，并采用漫游焦点（仅当前标签可 Tab 聚焦）；
+  - 内容面板挂载 `role="tabpanel"` 与 `aria-labelledby`，保证键盘与屏幕阅读器无障碍对应。
 - **全屏模态焦点管理**：
-  - 进入全屏模式后，高层级置顶并提供明显的退出全屏按钮；
+  - 进入全屏模式后显示遮罩层，点击遮罩或按 <kbd>Esc</kbd> 即可退出全屏；
   - 复制成功后按钮具有明确的动效勾选与 `aria-label="已复制"` 提示。
 - **键盘导航支持**：
-  - <kbd>Tab</kbd> / <kbd>Shift</kbd> + <kbd>Tab</kbd>：在标签页与操作按钮之间轮转焦点；
+  - <kbd>Tab</kbd> / <kbd>Shift</kbd> + <kbd>Tab</kbd>：在标签栏与操作按钮之间轮转焦点；
+  - <kbd>←</kbd> / <kbd>→</kbd> / <kbd>Home</kbd> / <kbd>End</kbd>：在标签之间切换；
   - <kbd>Space</kbd> / <kbd>Enter</kbd>：激活选中的标签页或触发复制。

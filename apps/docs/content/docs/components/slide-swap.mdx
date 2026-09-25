@@ -46,9 +46,15 @@ pnpm add motion lucide-react class-variance-authority clsx tailwind-merge
       description: "滑动的位移方向。`up` 为向上推挤替换，`down` 为向下推挤替换。",
     },
     {
+      prop: "trigger",
+      type: '"hover" | "parent"',
+      default: '"hover"',
+      description: "触发方式。hover 仅监听组件自身；parent 监听最近的按钮或链接（含内边距区域），并在键盘聚焦（focus-visible）时同样播放。放在按钮内部时推荐使用 parent。",
+    },
+    {
       prop: "active",
       type: "boolean",
-      description: "受控模式下强制保持替换激活状态（常用于由外部父容器 hover 驱动）。",
+      description: "受控模式下强制保持替换激活状态，优先级高于 trigger。",
     },
     {
       prop: "transition",
@@ -92,17 +98,18 @@ pnpm add motion lucide-react class-variance-authority clsx tailwind-merge
 
 ### 多形态按钮组合
 
-在主按钮、次级按钮以及代码复制按钮上使用不同方向的滑动替换：
+在主按钮、描边按钮与幽灵按钮上使用不同方向的滑动替换。`trigger="parent"` 让整个按钮（包括内边距）都能触发，键盘聚焦同样有效：
 
 <ComponentPreview name="slide-swap-button" />
 
 ### 顶部通知药丸徽章
 
-鼠标悬停在全站公告横幅上展示生动的向上滚动提示：
+悬停或聚焦公告徽章时，文案整体向上替换一次，提示这是可点击的入口：
 
 <ComponentPreview name="slide-swap-badge" />
 
 ## 无障碍与交互 Accessibility
 
 - **克隆图层惰性（inert）**：自动克隆生成的第二层文本节点默认添加 `aria-hidden="true"` 和 `inert`，屏幕阅读器仅会朗读一次真实内容。
+- **键盘可达**：`trigger="parent"` 时同时监听父级的 `focusin` / `focusout`，仅在 `:focus-visible` 状态下播放，鼠标点击不会误触发。
 - **动效减弱适配**：当用户开启 `prefers-reduced-motion: reduce` 时，滑动位移距离强制重置为 0，不再发生位移晃动。

@@ -1,0 +1,107 @@
+---
+title: 边框光束 Border Beam
+description: 沿元素边框循环流动的一段细光束，用于强调推荐项、处理中状态或需要吸引注意的输入区域。
+component: border-beam
+---
+
+## 基础用法
+
+把 `BorderBeam` 作为最后一个子元素放进带圆角的 `relative` 容器中，光束会贴合容器边框并继承其圆角。下例在点击发送后显示光束，表示内容正在生成：
+
+<ComponentPreview name="border-beam-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
+
+<CodeTabs command="@wui-design/cli@latest add @wui/border-beam" />
+
+<Steps>
+
+<Step>安装基础依赖与 Motion 动效库</Step>
+
+```bash
+pnpm add motion clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/border-beam.tsx`</Step>
+
+<ComponentSource name="border-beam" title="components/ui/border-beam.tsx" />
+
+</Steps>
+
+## 属性 Props
+
+`BorderBeam` 支持以下配置属性，并继承原生 `<div>` 的其余 HTML 属性：
+
+<PropsTable
+  data={[
+    {
+      prop: "size",
+      type: "number",
+      default: "80",
+      description: "光束沿边框方向的长度（像素）。",
+    },
+    {
+      prop: "duration",
+      type: "number",
+      default: "6",
+      description: "绕边框一圈的时长（秒）。",
+    },
+    {
+      prop: "delay",
+      type: "number",
+      default: "0",
+      description: "起始进度偏移（秒），多条光束错开时使用，例如 `duration / 2`。",
+    },
+    {
+      prop: "borderWidth",
+      type: "number",
+      default: "1",
+      description: "光束粗细，应与父元素的边框宽度一致。",
+    },
+    {
+      prop: "color",
+      type: "string",
+      default: '"var(--primary)"',
+      description: "光束颜色，支持任意 CSS 颜色或变量。光束尾部自动渐隐为透明。",
+    },
+    {
+      prop: "reverse",
+      type: "boolean",
+      default: "false",
+      description: "是否逆时针运动。",
+    },
+    {
+      prop: "initialOffset",
+      type: "number",
+      default: "0",
+      description: "起始位置，取值 0–100，表示沿边框的百分比。",
+    },
+    {
+      prop: "transition",
+      type: "Transition",
+      description: "覆盖默认的线性无限循环过渡。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+- **表达状态而非装饰**：光束最适合表达“正在处理”或“推荐选择”。静态页面中同时出现的光束不应超过一处。
+- **保持克制**：默认使用主题色且只有 1px 宽，尾部渐隐。不建议使用多色渐变或加粗光束，以免喧宾夺主。
+- **放在边框上**：光束会覆盖在父元素的边框位置，因此父元素不能设置 `overflow: hidden`，否则光束会被裁剪。需要裁剪内容时，请在内部再包一层。
+
+## 场景示例
+
+### 推荐套餐
+
+两条相同速度、错开半圈的光束（`delay={duration / 2}`）让推荐套餐的边框更均匀地流动：
+
+<ComponentPreview name="border-beam-pricing" />
+
+## 无障碍与交互 Accessibility
+
+- **纯装饰元素**：光束设置了 `aria-hidden` 与 `pointer-events: none`，不影响点击与读屏。其表达的状态（如“正在生成”）应同时通过文字呈现。
+- **减少动态效果**：开启 `prefers-reduced-motion` 时不渲染光束，请确保推荐项仍有边框颜色、标签等静态区分。
+- **浏览器支持**：光束路径基于 CSS `offset-path: rect()` 与 `mask-composite`，需要较新的 Chrome、Edge、Safari 与 Firefox。

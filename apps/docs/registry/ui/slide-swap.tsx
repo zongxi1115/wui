@@ -18,6 +18,13 @@ export interface SlideSwapProps extends Omit<
   children: React.ReactNode
   /** Direction the visible layer leaves. @default "up" */
   direction?: "up" | "down"
+  /**
+   * What activates the swap. `"hover"` listens on the component itself;
+   * `"parent"` listens on the closest link or button (or the parent element),
+   * so hovering the whole control — padding included — or focusing it with
+   * the keyboard plays the swap. @default "hover"
+   */
+  trigger?: "hover" | "parent"
   /** Force the swapped state from outside the component. */
   active?: boolean
   /** Transition shared by both content layers. */
@@ -28,6 +35,7 @@ export interface SlideSwapProps extends Omit<
 function SlideSwap({
   children,
   direction = "up",
+  trigger = "hover",
   active,
   transition = { duration: 0.42, ease: [0.22, 1, 0.36, 1] },
   className,
@@ -35,6 +43,7 @@ function SlideSwap({
   onPointerLeave,
   ...props
 }: SlideSwapProps) {
+  const ref = React.useRef<HTMLSpanElement>(null)
   const [hovered, setHovered] = React.useState(false)
   const reduceMotion = useReducedMotion()
   const swapped = active ?? hovered
@@ -45,16 +54,44 @@ function SlideSwap({
     ? { y: 0 }
     : { y: swapped ? 0 : incomingStart }
 
+  React.useEffect(() => {
+    const element = ref.current
+    if (trigger !== "parent" || !element) return
+    const target =
+      element.parentElement?.closest<HTMLElement>(
+        "a, button, [role='button'], [data-slide-swap-trigger]"
+      ) ?? element.parentElement
+    if (!target) return
+
+    const enter = () => setHovered(true)
+    const leave = () => setHovered(false)
+    const focusIn = () => {
+      if (target.matches(":focus-visible")) setHovered(true)
+    }
+    target.addEventListener("pointerenter", enter)
+    target.addEventListener("pointerleave", leave)
+    target.addEventListener("focusin", focusIn)
+    target.addEventListener("focusout", leave)
+    return () => {
+      target.removeEventListener("pointerenter", enter)
+      target.removeEventListener("pointerleave", leave)
+      target.removeEventListener("focusin", focusIn)
+      target.removeEventListener("focusout", leave)
+    }
+  }, [trigger])
+
   return (
     <motion.span
+      ref={ref}
       data-slot="slide-swap"
+      data-state={swapped ? "swapped" : "idle"}
       className={cn("relative inline-block overflow-hidden", className)}
       onPointerEnter={(event) => {
-        setHovered(true)
+        if (trigger === "hover") setHovered(true)
         onPointerEnter?.(event)
       }}
       onPointerLeave={(event) => {
-        setHovered(false)
+        if (trigger === "hover") setHovered(false)
         onPointerLeave?.(event)
       }}
       {...props}

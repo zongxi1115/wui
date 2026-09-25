@@ -23,7 +23,7 @@ import {
   CommandSeparator,
   CommandShortcut,
 } from "@/registry/ui/command"
-import { Dialog, DialogContent } from "@/registry/ui/dialog"
+import { Dialog, DialogContent, DialogTitle } from "@/registry/ui/dialog"
 import { Button } from "@/registry/ui/button"
 
 export default function CommandPalette() {
@@ -52,10 +52,10 @@ export default function CommandPalette() {
         <Button
           variant="outline"
           onClick={() => setOpen(true)}
-          className="relative h-10 w-64 justify-start text-xs text-muted-foreground"
+          className="text-muted-foreground w-64 justify-between font-normal"
         >
-          <span>快速唤起命令菜单...</span>
-          <kbd className="pointer-events-none absolute right-2 top-2.5 hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex">
+          <span>搜索命令或资源…</span>
+          <kbd className="bg-muted pointer-events-none hidden h-5 select-none items-center gap-0.5 rounded border px-1.5 font-mono text-[10px] font-medium sm:flex">
             <span className="text-xs">⌘</span>K
           </kbd>
         </Button>
@@ -68,9 +68,10 @@ export default function CommandPalette() {
       ) : null}
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="overflow-hidden p-0 max-w-xl">
+        <DialogContent className="max-w-xl overflow-hidden p-0">
+          <DialogTitle className="sr-only">命令菜单</DialogTitle>
           <Command className="[&_[data-slot=command-input-wrapper]]:h-12">
-            <CommandInput placeholder="输入指令或搜索全局资源..." />
+            <CommandInput placeholder="输入指令或搜索全局资源…" />
             <CommandList className="max-h-[340px]">
               <CommandEmpty>未找到相关指令或资源</CommandEmpty>
 

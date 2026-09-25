@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { ChevronDownIcon, XIcon } from "lucide-react"
+import { AnimatePresence, motion, useReducedMotion } from "motion/react"
 import { cva } from "class-variance-authority"
 
 import { cn } from "@/registry/lib/utils"
@@ -14,6 +15,9 @@ import {
   CommandList,
 } from "@/registry/ui/command"
 import { Popover, PopoverContent, PopoverTrigger } from "@/registry/ui/popover"
+import { SlidingNumber } from "@/registry/ui/sliding-number"
+
+const tagTransition = { type: "spring", stiffness: 520, damping: 38, mass: 0.7 } as const
 
 const multiSelectVariants = cva(
   "border-input bg-background shadow-xs focus-within:border-ring focus-within:ring-ring/30 has-[button[aria-invalid=true]]:border-destructive has-[button[aria-invalid=true]]:ring-[3px] has-[button[aria-invalid=true]]:ring-destructive/20 flex w-full items-center rounded-md border transition-[border-color,box-shadow,background-color] duration-200 focus-within:ring-[3px] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50",
@@ -85,6 +89,7 @@ function MultiSelect({
   disabled,
   ...props
 }: MultiSelectProps) {
+  const reduceMotion = useReducedMotion()
   const [open, setOpen] = React.useState(false)
   const [internalValue, setInternalValue] = React.useState(defaultValue)
   const selectedValue = value ?? internalValue
@@ -123,54 +128,86 @@ function MultiSelect({
             className="flex min-h-[inherit] min-w-0 flex-1 items-center gap-1.5 px-3 text-left outline-none disabled:cursor-not-allowed"
             {...props}
           >
-            <span className="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 py-1">
-              {visibleOptions.length ? (
-                <>
-                  {visibleOptions.map((option) => (
-                    <span
+            <span className="relative flex min-w-0 flex-1 flex-wrap items-center gap-1.5 py-1">
+              <AnimatePresence initial={false} mode="popLayout">
+                {visibleOptions.length ? (
+                  visibleOptions.map((option) => (
+                    <motion.span
                       key={option.value}
+                      layout={!reduceMotion}
+                      data-slot="multi-select-tag"
                       className="bg-secondary text-secondary-foreground inline-flex max-w-40 items-center truncate rounded-sm px-1.5 py-0.5 text-[0.85em] font-medium"
+                      initial={reduceMotion ? false : { opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={reduceMotion ? undefined : { opacity: 0, scale: 0.8 }}
+                      transition={reduceMotion ? { duration: 0 } : tagTransition}
                     >
-                      {option.label}
-                    </span>
-                  ))}
-                  {hiddenCount ? (
-                    <span className="bg-muted text-muted-foreground inline-flex rounded-sm px-1.5 py-0.5 text-[0.85em] font-medium tabular-nums">
-                      +{hiddenCount}
-                    </span>
-                  ) : null}
-                </>
-              ) : (
-                <span className="text-muted-foreground truncate">{placeholder}</span>
-              )}
+                      <span className="truncate">{option.label}</span>
+                    </motion.span>
+                  ))
+                ) : (
+                  <motion.span
+                    key="__placeholder"
+                    className="text-muted-foreground truncate"
+                    initial={reduceMotion ? false : { opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={reduceMotion ? undefined : { opacity: 0 }}
+                    transition={{ duration: 0.15 }}
+                  >
+                    {placeholder}
+                  </motion.span>
+                )}
+                {hiddenCount ? (
+                  <motion.span
+                    key="__overflow"
+                    layout={!reduceMotion}
+                    data-slot="multi-select-overflow"
+                    aria-label={`另有 ${hiddenCount} 项`}
+                    className="bg-muted text-muted-foreground inline-flex items-center rounded-sm px-1.5 py-0.5 text-[0.85em] font-medium tabular-nums"
+                    initial={reduceMotion ? false : { opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={reduceMotion ? undefined : { opacity: 0, scale: 0.8 }}
+                    transition={reduceMotion ? { duration: 0 } : tagTransition}
+                  >
+                    +<SlidingNumber value={hiddenCount} />
+                  </motion.span>
+                ) : null}
+              </AnimatePresence>
             </span>
             <ChevronDownIcon
               className={cn(
-                "text-muted-foreground size-4 shrink-0 transition-transform duration-200",
+                "text-muted-foreground size-4 shrink-0 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
                 open && "rotate-180"
               )}
             />
           </button>
         </PopoverTrigger>
 
-        {clearable && selectedValue.length ? (
-          <button
-            type="button"
-            aria-label="清空选择"
-            disabled={disabled}
-            className="text-muted-foreground hover:text-foreground focus-visible:ring-ring mr-2 flex size-6 shrink-0 items-center justify-center rounded-sm outline-none transition-colors focus-visible:ring-2"
-            onClick={() => changeValue([])}
-          >
-            <XIcon className="size-3.5" />
-          </button>
-        ) : null}
+        <AnimatePresence initial={false}>
+          {clearable && selectedValue.length ? (
+            <motion.button
+              type="button"
+              data-slot="multi-select-clear"
+              aria-label="清空选择"
+              disabled={disabled}
+              className="text-muted-foreground hover:bg-accent hover:text-foreground focus-visible:ring-ring/40 mr-2 flex size-6 shrink-0 items-center justify-center rounded-sm outline-none transition-colors focus-visible:ring-2"
+              initial={reduceMotion ? false : { opacity: 0, scale: 0.6 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={reduceMotion ? undefined : { opacity: 0, scale: 0.6 }}
+              transition={{ duration: 0.16, ease: [0.22, 1, 0.36, 1] }}
+              onClick={() => changeValue([])}
+            >
+              <XIcon className="size-3.5" />
+            </motion.button>
+          ) : null}
+        </AnimatePresence>
       </div>
 
       <PopoverContent
         data-slot="multi-select-content"
         align="start"
         className={cn(
-          "w-[var(--radix-popover-trigger-width)] p-0",
+          "w-[var(--radix-popover-trigger-width)] origin-(--radix-popover-content-transform-origin) p-0",
           contentClassName
         )}
       >

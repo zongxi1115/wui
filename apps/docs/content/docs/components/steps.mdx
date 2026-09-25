@@ -6,6 +6,8 @@ component: steps
 
 ## 基础用法
 
+点击「下一步」推进流程：连接线从左向右填充，完成的步骤以描边动画画出对勾，当前步骤带有柔和的聚焦光环。
+
 <ComponentPreview name="steps-demo" />
 
 <CodeTabs command="@wui-design/cli@latest add @wui/steps" />
@@ -30,6 +32,14 @@ component: steps
 - `error` 表示步骤需要用户处理。
 
 未指定 `status` 时，组件会根据 `current` 自动推导状态；单个步骤传入 `status` 可以覆盖推导结果。
+
+状态切换带有过渡动效：序号与对勾 / 叉号交叉缩放切换，连接线在前一步完成时填充。系统开启「减弱动态效果」时，所有状态立即切换。
+
+### 状态覆盖与失败重试
+
+以部署流水线为例，通过为单个步骤传入 `status: "error"` 标记失败阶段，重试后恢复自动推导：
+
+<ComponentPreview name="steps-status" />
 
 ## 扩展用法
 

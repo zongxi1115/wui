@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { ChevronDownIcon, SearchIcon, XIcon } from "lucide-react"
+import { AnimatePresence, motion, useReducedMotion } from "motion/react"
 
 import { cn } from "@/registry/lib/utils"
 import { Input } from "@/registry/ui/input"
@@ -40,6 +41,20 @@ function findNode(items: TreeNode[], value: string): TreeNode | undefined {
   for (const node of items) {
     if (node.value === value) return node
     const match = node.children ? findNode(node.children, value) : undefined
+    if (match) return match
+  }
+}
+
+function findAncestors(
+  items: TreeNode[],
+  value: string,
+  trail: string[] = []
+): string[] | undefined {
+  for (const node of items) {
+    if (node.value === value) return trail
+    const match = node.children
+      ? findAncestors(node.children, value, [...trail, node.value])
+      : undefined
     if (match) return match
   }
 }
@@ -89,8 +104,10 @@ function TreeSelect({
   disabled,
   ...props
 }: TreeSelectProps) {
+  const reduceMotion = useReducedMotion()
   const [open, setOpen] = React.useState(false)
   const [query, setQuery] = React.useState("")
+  const [expanded, setExpanded] = React.useState<string[]>([])
   const [internalValue, setInternalValue] = React.useState(defaultValue)
   const selectedValue = value ?? internalValue
   const selectedNode = findNode(items, selectedValue)
@@ -110,7 +127,8 @@ function TreeSelect({
 
   function changeOpen(nextOpen: boolean) {
     setOpen(nextOpen)
-    if (!nextOpen) setQuery("")
+    if (nextOpen) setExpanded(findAncestors(items, selectedValue) ?? [])
+    else setQuery("")
   }
 
   return (
@@ -119,7 +137,7 @@ function TreeSelect({
         data-slot="tree-select"
         data-disabled={disabled || undefined}
         className={cn(
-          "border-input bg-background shadow-xs focus-within:border-ring focus-within:ring-ring/30 flex h-10 w-full min-w-56 items-center rounded-md border transition-[border-color,box-shadow] focus-within:ring-[3px] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50",
+          "border-input bg-background shadow-xs focus-within:border-ring focus-within:ring-ring/30 has-[button[aria-invalid=true]]:border-destructive has-[button[aria-invalid=true]]:ring-[3px] has-[button[aria-invalid=true]]:ring-destructive/20 flex h-10 w-full min-w-56 items-center rounded-md border transition-[border-color,box-shadow] duration-200 focus-within:ring-[3px] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50",
           className
         )}
       >
@@ -133,61 +151,76 @@ function TreeSelect({
             className="flex h-full min-w-0 flex-1 items-center gap-2 rounded-l-md px-3 text-left text-sm outline-none"
             {...props}
           >
-            <span
-              data-placeholder={!selectedNode || undefined}
-              className="data-[placeholder=true]:text-muted-foreground min-w-0 flex-1 truncate"
-            >
-              {selectedNode?.label ?? placeholder}
+            <span className="relative flex min-w-0 flex-1 overflow-hidden">
+              <AnimatePresence initial={false} mode="popLayout">
+                <motion.span
+                  key={selectedNode?.value ?? "__placeholder"}
+                  data-placeholder={!selectedNode || undefined}
+                  className="data-[placeholder=true]:text-muted-foreground min-w-0 flex-1 truncate"
+                  initial={reduceMotion ? false : { opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={reduceMotion ? undefined : { opacity: 0, y: -6 }}
+                  transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  {selectedNode?.label ?? placeholder}
+                </motion.span>
+              </AnimatePresence>
             </span>
             <ChevronDownIcon
               className={cn(
-                "text-muted-foreground size-4 shrink-0 transition-transform",
+                "text-muted-foreground size-4 shrink-0 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
                 open && "rotate-180"
               )}
             />
           </button>
         </PopoverTrigger>
-        {clearable && selectedNode ? (
-          <button
-            type="button"
-            data-slot="tree-select-clear"
-            aria-label="清空选择"
-            disabled={disabled}
-            className="text-muted-foreground hover:text-foreground focus-visible:ring-ring mr-2 flex size-6 shrink-0 items-center justify-center rounded-sm outline-none focus-visible:ring-2"
-            onClick={() => changeValue("")}
-          >
-            <XIcon className="size-3.5" />
-          </button>
-        ) : null}
+        <AnimatePresence initial={false}>
+          {clearable && selectedNode ? (
+            <motion.button
+              type="button"
+              data-slot="tree-select-clear"
+              aria-label="清空选择"
+              disabled={disabled}
+              className="text-muted-foreground hover:bg-accent hover:text-foreground focus-visible:ring-ring/40 mr-2 flex size-6 shrink-0 items-center justify-center rounded-sm outline-none transition-colors focus-visible:ring-2"
+              initial={reduceMotion ? false : { opacity: 0, scale: 0.6 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={reduceMotion ? undefined : { opacity: 0, scale: 0.6 }}
+              transition={{ duration: 0.16, ease: [0.22, 1, 0.36, 1] }}
+              onClick={() => changeValue("")}
+            >
+              <XIcon className="size-3.5" />
+            </motion.button>
+          ) : null}
+        </AnimatePresence>
       </div>
       <PopoverContent
         data-slot="tree-select-content"
         align="start"
         className={cn(
-          "w-[var(--radix-popover-trigger-width)] min-w-64 p-1.5",
+          "w-[var(--radix-popover-trigger-width)] min-w-64 origin-(--radix-popover-content-transform-origin) p-1.5",
           contentClassName
         )}
       >
         {searchable ? (
-          <div className="relative mb-1.5">
-            <SearchIcon className="text-muted-foreground pointer-events-none absolute left-2.5 top-1/2 size-4 -translate-y-1/2" />
-            <Input
-              data-slot="tree-select-search"
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              placeholder={searchPlaceholder}
-              className="h-9 pl-8"
-              autoFocus
-            />
-          </div>
+          <Input
+            data-slot="tree-select-search"
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder={searchPlaceholder}
+            aria-label={searchPlaceholder}
+            size="sm"
+            startContent={<SearchIcon />}
+            wrapperClassName="mb-1.5"
+            autoFocus
+          />
         ) : null}
-        <div className="max-h-72 overflow-y-auto">
+        <div className="max-h-72 overflow-y-auto overscroll-contain">
           {filteredItems.length ? (
             <Tree
               items={filteredItems}
               value={selectedValue}
-              expanded={searchExpanded}
-              defaultExpanded={searchExpanded ? undefined : []}
+              expanded={searchExpanded ?? expanded}
+              onExpandedChange={searchExpanded ? undefined : setExpanded}
               onValueChange={(nextValue, node) => {
                 changeValue(nextValue, node)
                 changeOpen(false)

@@ -40,7 +40,7 @@ pnpm add motion clsx tailwind-merge
       prop: "value",
       type: "number | string",
       required: true,
-      description: "当前待展示的目标数值（支持整数、浮点数以及带前缀符号的数字字符串）。",
+      description: "当前待展示的目标数值（支持整数、浮点数以及带千分位、前缀符号的数字字符串，如 \"12,480\"；判断滚动方向时会忽略非数字字符）。",
     },
     {
       prop: "padStart",
@@ -87,7 +87,8 @@ pnpm add motion clsx tailwind-merge
 `SlidingNumber` 适用于需要**强调量化变化趋势与实时动态**的界面场景，例如实时遥测仪表盘、计费套餐切换、时钟日历以及倒计时。
 
 - **开启等宽数字（Tabular Nums）**：组件内置了 `tabular-nums` 类名，确保数字 `1` 与 `8` 占用完全相同的字宽，避免因数位宽度变动导致整行文字左右晃动。
-- **智能方向识别**：组件内部会自动比较最新值与前次值（Previous Value），当数值上升时滚轮向上滚动，数值下降时滚轮向下倒退，提供精准直观的物理方向映射。
+- **智能方向识别**：组件内部会自动比较最新值与前次值（Previous Value），当数值上升时每一位都向上滚动（9 → 0 也继续向上绕一圈），数值下降时向下倒退；新增或移除的数位同样沿该方向滑入、滑出。
+- **稳定的动画**：滚动方向与 `transition` 通过 ref 读取，父组件因其他原因重新渲染时不会打断正在进行的滚动。
 - **高频更新性能优化**：每个数位由独立的 `MotionValue` 和 `transform` 驱动，仅改变 GPU 复合层的 `transform: translateY`，不会触发整行 DOM 的回流（Reflow）。
 
 ## 场景示例
@@ -98,9 +99,9 @@ pnpm add motion clsx tailwind-merge
 
 <ComponentPreview name="sliding-number-clock" />
 
-### SaaS 数据大屏遥测监控
+### 实时指标看板
 
-在业务分析看板中，以物理滚动直观展示并发请求、在线用户与响应延迟的微小波动：
+在业务看板中，以滚动直观展示在线用户、请求量与延迟的实时波动，右侧箭头提示变化方向：
 
 <ComponentPreview name="sliding-number-stats" />
 
@@ -112,7 +113,7 @@ pnpm add motion clsx tailwind-merge
 
 ### 发布会活动倒计时
 
-将天、时、分、秒分别绑定至 `SlidingNumber`，构建极具期待感的重要发布会倒计时模块：
+将天、时、分、秒分别绑定至 `SlidingNumber` 并开启 `padStart`，构建发布会倒计时：
 
 <ComponentPreview name="sliding-number-countdown" />
 

@@ -1,56 +1,31 @@
-import { ArrowRight, CheckCircle2, ShieldCheck, Sparkles, Zap } from "lucide-react"
+import { ChevronRightIcon } from "lucide-react"
 
 import { TextLoop } from "@/registry/ui/text-loop"
 
 const announcements = [
-  {
-    icon: <Sparkles className="size-3.5 text-primary" />,
-    tag: "New Feature",
-    text: "AI Copilot v4.0 is now live in all regions",
-  },
-  {
-    icon: <Zap className="size-3.5 text-amber-500" />,
-    tag: "Performance",
-    text: "Sub-millisecond Edge streaming enabled",
-  },
-  {
-    icon: <ShieldCheck className="size-3.5 text-emerald-500" />,
-    tag: "Security",
-    text: "SOC 2 Type II compliance audit passed",
-  },
-  {
-    icon: <CheckCircle2 className="size-3.5 text-blue-500" />,
-    tag: "Status",
-    text: "All 12 cluster zones 99.99% operational",
-  },
+  { tag: "新功能", text: "审批流模板市场正式上线" },
+  { tag: "优化", text: "报表导出速度提升 3 倍" },
+  { tag: "安全", text: "已支持企业单点登录（SSO）" },
+  { tag: "公告", text: "10 月 2 日凌晨进行例行维护" },
 ]
 
 export default function TextLoopBadges() {
   return (
-    <div className="flex w-full max-w-lg flex-col items-center gap-4 rounded-xl border border-border bg-card p-6 shadow-xs">
-      <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-        业务动态与状态通告栏
-      </div>
-
-      <div className="group flex items-center gap-2.5 rounded-full border border-border bg-muted/30 px-4 py-1.5 transition-colors hover:border-primary/40 hover:bg-muted/50">
-        <TextLoop interval={3} className="inline-flex items-center">
-          {announcements.map((item, index) => (
-            <div
-              key={index}
-              className="flex items-center gap-2 text-xs font-medium text-foreground"
-            >
-              {item.icon}
-              <span className="rounded bg-primary/10 px-1.5 py-0.5 text-[10px] font-semibold text-primary">
-                {item.tag}
-              </span>
-              <span className="truncate max-w-[240px] sm:max-w-[320px]">
-                {item.text}
-              </span>
-            </div>
-          ))}
-        </TextLoop>
-        <ArrowRight className="size-3 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-foreground" />
-      </div>
-    </div>
+    <a
+      href="#text-loop-badges"
+      className="bg-muted/60 hover:bg-muted focus-visible:ring-ring/50 group inline-flex items-center gap-2 rounded-full border py-1 pl-1 pr-3 text-xs outline-none transition-colors focus-visible:ring-[3px]"
+    >
+      <TextLoop interval={3} animateWidth>
+        {announcements.map((item) => (
+          <span key={item.text} className="flex items-center gap-2">
+            <span className="bg-background rounded-full border px-2 py-0.5 font-medium">
+              {item.tag}
+            </span>
+            <span>{item.text}</span>
+          </span>
+        ))}
+      </TextLoop>
+      <ChevronRightIcon className="text-muted-foreground size-3.5 transition-transform group-hover:translate-x-0.5" />
+    </a>
   )
 }

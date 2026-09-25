@@ -45,31 +45,34 @@ export interface DescriptionsProps extends Omit<
 
 type DescriptionItemElement = React.ReactElement<DescriptionsItemProps>
 
+type DescriptionCell = { item: DescriptionItemElement; span: number }
+
+/** Packs items into rows; the last item of an incomplete row stretches to fill it. */
 function groupItems(children: React.ReactNode, columns: number) {
   const items = React.Children.toArray(children).filter(
     React.isValidElement
   ) as DescriptionItemElement[]
-  const rows: DescriptionItemElement[][] = []
-  let row: DescriptionItemElement[] = []
+  const rows: DescriptionCell[][] = []
+  let row: DescriptionCell[] = []
   let occupied = 0
+
+  const flush = () => {
+    const last = row.at(-1)
+    if (last) last.span += columns - occupied
+    rows.push(row)
+    row = []
+    occupied = 0
+  }
 
   items.forEach((item) => {
     const span = Math.min(item.props.span ?? 1, columns)
-    if (occupied > 0 && occupied + span > columns) {
-      rows.push(row)
-      row = []
-      occupied = 0
-    }
-    row.push(item)
+    if (occupied > 0 && occupied + span > columns) flush()
+    row.push({ item, span })
     occupied += span
-    if (occupied === columns) {
-      rows.push(row)
-      row = []
-      occupied = 0
-    }
+    if (occupied === columns) flush()
   })
 
-  if (row.length) rows.push(row)
+  if (row.length) flush()
   return rows
 }
 
@@ -89,6 +92,7 @@ function Descriptions({
   const rows = groupItems(children, columns)
   const horizontal = layout === "horizontal"
   const cellPadding = size === "sm" ? "px-3 py-2" : "px-4 py-3"
+  const compactPadding = size === "sm" ? "py-1" : "py-2"
   const normalizedLabelWidth =
     typeof labelWidth === "number" ? `${labelWidth}px` : labelWidth
 
@@ -147,17 +151,16 @@ function Descriptions({
               if (horizontal) {
                 return (
                   <tr key={rowIndex}>
-                    {row.map((item, itemIndex) => {
+                    {row.map(({ item, span }, itemIndex) => {
                       const {
                         label,
-                        span = 1,
+                        span: _span,
                         labelClassName,
                         contentClassName,
                         className: itemClassName,
                         children: value,
                         ...itemProps
                       } = item.props
-                      const safeSpan = Math.min(span, columns)
                       return (
                         <React.Fragment key={item.key ?? itemIndex}>
                           <th
@@ -165,8 +168,9 @@ function Descriptions({
                             data-slot="descriptions-label"
                             className={cn(
                               "text-muted-foreground align-top font-medium",
-                              cellPadding,
-                              bordered && "bg-muted/45 border",
+                              bordered
+                                ? cn(cellPadding, "bg-muted/45 border")
+                                : cn(compactPadding, "pr-4"),
                               labelClassName
                             )}
                           >
@@ -174,11 +178,12 @@ function Descriptions({
                           </th>
                           <td
                             data-slot="descriptions-value"
-                            colSpan={safeSpan * 2 - 1}
+                            colSpan={span * 2 - 1}
                             className={cn(
                               "text-foreground min-w-0 break-words align-top",
-                              cellPadding,
-                              bordered && "border",
+                              bordered
+                                ? cn(cellPadding, "border")
+                                : cn(compactPadding, "pr-6"),
                               itemClassName,
                               contentClassName
                             )}
@@ -195,17 +200,18 @@ function Descriptions({
 
               return [
                 <tr key={`${rowIndex}-labels`}>
-                  {row.map((item, itemIndex) => {
-                    const safeSpan = Math.min(item.props.span ?? 1, columns)
+                  {row.map(({ item, span }, itemIndex) => {
                     return (
                       <th
                         key={item.key ?? itemIndex}
                         scope="col"
-                        colSpan={safeSpan}
+                        colSpan={span}
                         data-slot="descriptions-label"
                         className={cn(
-                          "text-muted-foreground pb-1 align-top font-medium",
-                          bordered && cn(cellPadding, "bg-muted/45 border"),
+                          "text-muted-foreground align-top font-medium",
+                          bordered
+                            ? cn(cellPadding, "bg-muted/45 border")
+                            : "pr-6 pb-1",
                           item.props.labelClassName
                         )}
                       >
@@ -215,9 +221,9 @@ function Descriptions({
                   })}
                 </tr>,
                 <tr key={`${rowIndex}-values`}>
-                  {row.map((item, itemIndex) => {
+                  {row.map(({ item, span }, itemIndex) => {
                     const {
-                      span = 1,
+                      span: _span,
                       label: _label,
                       labelClassName: _labelClassName,
                       contentClassName,
@@ -228,12 +234,13 @@ function Descriptions({
                     return (
                       <td
                         key={item.key ?? itemIndex}
-                        colSpan={Math.min(span, columns)}
+                        colSpan={span}
                         data-slot="descriptions-value"
                         className={cn(
                           "text-foreground min-w-0 break-words align-top",
-                          !bordered && "pb-4",
-                          bordered && cn(cellPadding, "border"),
+                          bordered
+                            ? cn(cellPadding, "border")
+                            : cn("pr-6", size === "sm" ? "pb-3" : "pb-4"),
                           itemClassName,
                           contentClassName
                         )}

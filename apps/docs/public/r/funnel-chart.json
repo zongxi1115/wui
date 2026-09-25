@@ -5,7 +5,8 @@
   "title": "漏斗图 Funnel Chart",
   "description": "用于追踪多阶段业务流转、步骤转化率与流失率分布的漏斗图表。",
   "registryDependencies": [
-    "chart-core"
+    "chart-core",
+    "utils"
   ],
   "files": [
     {

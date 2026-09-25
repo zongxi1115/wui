@@ -83,7 +83,7 @@
       "type": "boolean",
       "required": false,
       "control": "boolean",
-      "defaultValue": "true",
+      "defaultValue": "false",
       "description": "是否将消息重叠堆叠显示，而不是显示为纵向列表。"
     },
     {
@@ -117,6 +117,14 @@
       "control": "boolean",
       "defaultValue": "true",
       "description": "是否允许通过水平拖动移除消息。"
+    },
+    {
+      "name": "pauseOnHover",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "鼠标悬停在消息上时是否暂停自动关闭计时。"
     },
     {
       "name": "dragThreshold",

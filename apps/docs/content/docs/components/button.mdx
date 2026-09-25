@@ -67,6 +67,12 @@ pnpm add radix-ui motion class-variance-authority clsx tailwind-merge
       description: "是否开启从光标点击坐标向外扩散的 Material 风格涟漪动效。支持与 motion 组合使用。",
     },
     {
+      prop: "loading",
+      type: "boolean",
+      default: "false",
+      description: "加载状态。开启后加载指示器会从文案左侧平滑展开（icon 尺寸下与图标交叉淡入替换），同时禁用按钮并设置 aria-busy。使用 asChild 时仅同步状态属性，不注入指示器。",
+    },
+    {
       prop: "disabled",
       type: "boolean",
       default: "false",
@@ -75,8 +81,8 @@ pnpm add radix-ui motion class-variance-authority clsx tailwind-merge
     {
       prop: "type",
       type: '"button" | "submit" | "reset"',
-      default: '"button"',
-      description: "原生表单按钮类型。在表单中提交请显式声明为 submit。",
+      default: '"submit"',
+      description: "原生表单按钮类型，未声明时遵循浏览器默认值 submit。表单内的非提交按钮请显式声明为 button。",
     },
     {
       prop: "className",
@@ -155,13 +161,17 @@ pnpm add radix-ui motion class-variance-authority clsx tailwind-merge
 
 <ComponentPreview name="button-with-icon" />
 
-### 异步请求与加载反馈
+### 加载状态（loading）
 
-在执行耗时操作（如数据提交、云端同步）时，展示加载状态并禁用二次点击：
-
-<ComponentPreview name="button-async-action" />
+设置 `loading` 后，加载指示器会从文案左侧以弹簧曲线展开，按钮宽度随之平滑过渡；纯图标按钮则在原图标与指示器之间交叉淡入。加载期间按钮自动禁用并声明 `aria-busy`：
 
 <ComponentPreview name="button-loading" />
+
+### 异步请求与结果反馈
+
+组合 `loading` 与结果状态，完整表达“发起 → 处理中 → 成功”的请求生命周期：
+
+<ComponentPreview name="button-async-action" />
 
 ### 动态下划线链接
 
@@ -206,5 +216,6 @@ export function NavLink() {
 - **键盘导航**：
   - <kbd>Tab</kbd>：按 DOM 顺序聚焦至按钮，展示清晰的高对比度外发光焦点轮廓（Focus Ring）。
   - <kbd>Enter</kbd> / <kbd>Space</kbd>：触发按钮的点击操作。
-- **动效降级**：内置的 `motion` 弹簧缩放与 `ripple` 涟漪动画均自动监听系统 `prefers-reduced-motion`。当用户开启减少动态效果时，动效层自动关闭，确保舒适无干扰的交互。
+- **按压反馈**：所有非 link 变体在按下时有轻微的缩放回弹（0.97），提供触感反馈。
+- **动效降级**：内置的按压缩放、`loading` 指示器过渡、`motion` 弹簧缩放与 `ripple` 涟漪动画均自动监听系统 `prefers-reduced-motion`。当用户开启减少动态效果时，动效层自动关闭，确保舒适无干扰的交互。
 - **纯图标可访问性**：纯图标按钮必须配置 `aria-label="操作描述"`，确保屏幕阅读器用户能明确按钮用途。

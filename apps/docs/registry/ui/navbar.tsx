@@ -4,20 +4,38 @@ import * as React from "react"
 import { HoverCard, Slot } from "radix-ui"
 import { cva, type VariantProps } from "class-variance-authority"
 import { PanelLeftCloseIcon, PanelLeftOpenIcon } from "lucide-react"
+import { AnimatePresence, motion, useReducedMotion } from "motion/react"
 
 import { cn } from "@/registry/lib/utils"
 
 type NavbarOrientation = "horizontal" | "vertical"
 
+const HIGHLIGHT_SPRING = {
+  type: "spring",
+  stiffness: 520,
+  damping: 40,
+  mass: 0.7,
+} as const
+
 const NavbarContext = React.createContext<{
   orientation: NavbarOrientation
   collapsed: boolean
   setCollapsed: (collapsed: boolean) => void
+  /** Shared-layout id of the active-page indicator, unique per navbar. */
+  layoutId: string
 }>({
   orientation: "horizontal",
   collapsed: false,
   setCollapsed: () => undefined,
+  layoutId: "wui-navbar",
 })
+
+/** Tracks the hovered link of one list so a single highlight can glide between items. */
+const NavbarListContext = React.createContext<{
+  layoutId: string
+  hovered: string | null
+  setHovered: (id: string | null) => void
+} | null>(null)
 
 const navbarVariants = cva("bg-background text-foreground", {
   variants: {
@@ -56,6 +74,7 @@ function Navbar({
     React.useState(defaultCollapsed)
   const resolvedCollapsed =
     orientation === "vertical" ? (collapsed ?? internalCollapsed) : false
+  const layoutId = React.useId()
 
   function setCollapsed(next: boolean) {
     if (collapsed === undefined) setInternalCollapsed(next)
@@ -68,6 +87,7 @@ function Navbar({
         orientation,
         collapsed: resolvedCollapsed,
         setCollapsed,
+        layoutId,
       }}
     >
       <nav
@@ -172,21 +192,31 @@ function NavbarLabel({
 
 function NavbarList({
   className,
+  onPointerLeave,
   ...props
 }: React.ComponentProps<"ul">) {
   const { orientation } = React.useContext(NavbarContext)
+  const layoutId = React.useId()
+  const [hovered, setHovered] = React.useState<string | null>(null)
+
   return (
-    <ul
-      data-slot="navbar-list"
-      className={cn(
-        "m-0 flex min-w-0 list-none p-0 [&>li]:m-0",
-        orientation === "vertical"
-          ? "w-full flex-col gap-0.5"
-          : "items-center gap-1",
-        className
-      )}
-      {...props}
-    />
+    <NavbarListContext.Provider value={{ layoutId, hovered, setHovered }}>
+      <ul
+        data-slot="navbar-list"
+        className={cn(
+          "m-0 flex min-w-0 list-none p-0 [&>li]:m-0",
+          orientation === "vertical"
+            ? "w-full flex-col gap-0.5"
+            : "items-center gap-1",
+          className
+        )}
+        onPointerLeave={(event) => {
+          setHovered(null)
+          onPointerLeave?.(event)
+        }}
+        {...props}
+      />
+    </NavbarListContext.Provider>
   )
 }
 
@@ -214,25 +244,67 @@ function NavbarLink({
   className,
   active = false,
   asChild = false,
+  children,
+  onPointerEnter,
   ...props
 }: NavbarLinkProps) {
-  const { collapsed, orientation } = React.useContext(NavbarContext)
+  const { collapsed, orientation, layoutId } = React.useContext(NavbarContext)
+  const list = React.useContext(NavbarListContext)
+  const reduceMotion = useReducedMotion()
+  const itemId = React.useId()
   const Component = asChild ? Slot.Root : "a"
+  const vertical = orientation === "vertical"
+  const transition = reduceMotion ? { duration: 0 } : HIGHLIGHT_SPRING
+
   return (
     <Component
       data-slot="navbar-link"
       data-active={active ? "true" : "false"}
       aria-current={active ? "page" : undefined}
       className={cn(
-        "relative flex min-w-0 items-center gap-2.5 rounded-md text-sm font-medium text-muted-foreground no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground hover:no-underline focus-visible:ring-[3px] focus-visible:ring-ring/35 [&_svg]:size-4 [&_svg]:shrink-0",
-        orientation === "vertical"
-          ? "h-9 w-full px-3 before:absolute before:left-0 before:h-4 before:w-0.5 before:scale-y-0 before:rounded-full before:bg-primary before:transition-transform data-[active=true]:bg-accent data-[active=true]:text-accent-foreground data-[active=true]:before:scale-y-100"
-          : "h-9 px-3 data-[active=true]:bg-accent data-[active=true]:text-accent-foreground",
-        collapsed && "justify-center px-0 before:hidden",
+        "relative isolate flex h-9 min-w-0 items-center gap-2.5 rounded-md px-3 text-sm font-medium text-muted-foreground no-underline outline-none transition-colors duration-200 hover:text-foreground hover:no-underline focus-visible:ring-[3px] focus-visible:ring-ring/35 data-[active=true]:text-foreground [&_svg]:size-4 [&_svg]:shrink-0",
+        // Links outside a NavbarList (e.g. icon actions) fall back to a static hover surface.
+        !list && "hover:bg-accent",
+        vertical && "w-full",
+        collapsed && "justify-center px-0",
         className
       )}
+      onPointerEnter={(event: React.PointerEvent<HTMLAnchorElement>) => {
+        list?.setHovered(itemId)
+        onPointerEnter?.(event)
+      }}
       {...props}
-    />
+    >
+      <AnimatePresence>
+        {list && list.hovered === itemId ? (
+          <motion.span
+            key="hover"
+            aria-hidden
+            data-slot="navbar-hover-highlight"
+            layoutId={`${list.layoutId}-hover`}
+            className="absolute inset-0 -z-10 rounded-md bg-accent/60"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ ...transition, opacity: { duration: reduceMotion ? 0 : 0.15 } }}
+          />
+        ) : null}
+      </AnimatePresence>
+      {active ? (
+        <motion.span
+          aria-hidden
+          data-slot="navbar-active-indicator"
+          layoutId={`${layoutId}-active`}
+          className="absolute inset-0 -z-10 rounded-md bg-accent"
+          transition={transition}
+        >
+          {vertical && !collapsed ? (
+            <span className="absolute inset-y-2.5 -left-px w-0.5 rounded-full bg-primary" />
+          ) : null}
+        </motion.span>
+      ) : null}
+      <Slot.Slottable>{children}</Slot.Slottable>
+    </Component>
   )
 }
 

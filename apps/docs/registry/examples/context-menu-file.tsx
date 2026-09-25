@@ -97,7 +97,7 @@ export default function ContextMenuFile() {
           checked={isReadOnly}
           onCheckedChange={(checked) => setIsReadOnly(checked === true)}
         >
-          <LockIcon className="mr-2 size-3.5" />
+          <LockIcon />
           <span>锁定为只读文件</span>
         </ContextMenuCheckboxItem>
 

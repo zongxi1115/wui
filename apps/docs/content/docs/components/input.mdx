@@ -6,7 +6,7 @@ component: input
 
 ## 基础用法
 
-最常用的单行搜索与文本输入框。支持前置搜索图标、快捷键徽标及一键清空操作：
+最常用的单行搜索与文本输入框。开启 `allowClear` 后，输入内容时清空按钮会以缩放淡入的方式出现，清空后淡出：
 
 <ComponentPreview name="input-demo" />
 
@@ -67,6 +67,18 @@ pnpm add class-variance-authority clsx tailwind-merge
       type: "React.ReactNode",
       description:
         "位于输入框右侧的后置内容（如密码显隐开关、一键清空按钮、快捷键提示、复制按钮）。",
+    },
+    {
+      prop: "allowClear",
+      type: "boolean",
+      default: "false",
+      description:
+        "有内容时显示清空按钮，按钮带缩放淡入淡出过渡。清空会以空值触发 `onChange`，受控与非受控模式均可使用；禁用或只读时不显示。",
+    },
+    {
+      prop: "onClear",
+      type: "() => void",
+      description: "点击清空按钮并清空内容后触发。",
     },
     {
       prop: "type",
@@ -263,6 +275,7 @@ return (
 - **键盘交互与焦点管理**：
   - <kbd>Tab</kbd>：按 DOM
     顺序移动焦点，输入框获得焦点时显示清晰的高对比度焦点光圈（Focus Ring）。
-  - 内置的清除按钮或密码显隐切换按钮具有独立的 `type="button"` 与 `aria-label`，可通过键盘 <kbd>Tab</kbd> 单独聚焦并通过 <kbd>Space</kbd> / <kbd>Enter</kbd> 触发。
+  - `allowClear` 的清空按钮带有 `aria-label="清空内容"`，但不进入 Tab 序列，避免打断表单间的焦点移动；键盘用户可直接全选删除。点击后焦点会回到输入框。
+  - 通过 `endContent` 放入的操作按钮（如密码显隐切换）应使用 `type="button"` 与明确的 `aria-label`。
 - **屏幕阅读器支持**：
   - 始终推荐使用 `<label htmlFor="inputId">` 关联输入框。若使用无文字包裹的独立搜索框，务必添加 `aria-label`。

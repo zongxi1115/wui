@@ -1,7 +1,6 @@
 "use client"
 
 import * as React from "react"
-import { Loader2Icon } from "lucide-react"
 
 import { Button } from "@/registry/ui/button"
 import { MessageProvider, useMessage } from "@/registry/ui/message"
@@ -16,27 +15,20 @@ export default function MessageDurationDemo() {
 
 function MessageDurationButtons() {
   const message = useMessage()
-  const [loading, setLoading] = React.useState(false)
+  const [exporting, setExporting] = React.useState(false)
 
-  const handleAsyncAction = () => {
-    setLoading(true)
-    const id = message.open({
-      description: (
-        <span className="flex items-center gap-2">
-          <Loader2Icon className="size-4 animate-spin text-primary" />
-          正在导出数据报表，请稍候...
-        </span>
-      ),
-      duration: 0,
-      icon: false,
-      closable: false,
-    })
+  const exportReport = () => {
+    setExporting(true)
+    const id = message.loading("正在导出 9 月经营报表…")
 
-    setTimeout(() => {
-      message.dismiss(id)
-      message.success("报表导出完成，已自动触发下载！", { duration: 4000 })
-      setLoading(false)
-    }, 2500)
+    window.setTimeout(() => {
+      // 原地把加载消息变为成功消息，并按默认时长自动关闭。
+      message.update(id, {
+        variant: "success",
+        description: "报表导出完成，已开始下载。",
+      })
+      setExporting(false)
+    }, 2400)
   }
 
   return (
@@ -45,33 +37,25 @@ function MessageDurationButtons() {
         variant="outline"
         size="sm"
         onClick={() =>
-          message.info("此消息将在 6 秒后自动消失", { duration: 6000 })
+          message.info("此消息将在 6 秒后关闭，悬停可暂停计时。", { duration: 6000 })
         }
       >
-        长延时 (6s)
+        停留 6 秒
       </Button>
-
       <Button
         variant="outline"
         size="sm"
         onClick={() =>
-          message.open({
-            description: "此消息不会自动关闭，需手动点击关闭按钮。",
+          message.warning("证书将在 3 天后过期，请尽快续期。", {
             duration: 0,
             closable: true,
-            variant: "warning",
           })
         }
       >
-        不自动消失 (duration: 0)
+        不自动关闭
       </Button>
-
-      <Button
-        size="sm"
-        disabled={loading}
-        onClick={handleAsyncAction}
-      >
-        模拟异步流程
+      <Button size="sm" disabled={exporting} onClick={exportReport}>
+        导出报表
       </Button>
     </div>
   )

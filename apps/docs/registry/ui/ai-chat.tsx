@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { cva } from "class-variance-authority"
+import { motion, useReducedMotion } from "motion/react"
 import {
   ArrowDownIcon,
   BotIcon,
@@ -22,6 +23,9 @@ import { Button } from "@/registry/ui/button"
 type AiChatRole = "user" | "assistant" | "system"
 type AiChatStatus = "idle" | "submitted" | "streaming" | "error"
 
+/** Distance from the bottom, in pixels, still treated as "at the bottom". */
+const BOTTOM_THRESHOLD = 24
+
 const AiChatContext = React.createContext<{
   atBottom: boolean
   setAtBottom: React.Dispatch<React.SetStateAction<boolean>>
@@ -29,16 +33,19 @@ const AiChatContext = React.createContext<{
   scrollToBottom: (behavior?: ScrollBehavior) => void
 } | null>(null)
 
-const aiChatMessageVariants = cva("flex w-full gap-3", {
-  variants: {
-    role: {
-      user: "justify-end",
-      assistant: "justify-start",
-      system: "justify-center",
+const aiChatMessageVariants = cva(
+  "flex w-full gap-3 fill-mode-both animation-duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-safe:animate-in motion-safe:fade-in-0",
+  {
+    variants: {
+      role: {
+        user: "justify-end motion-safe:slide-in-from-right-3",
+        assistant: "justify-start motion-safe:slide-in-from-bottom-2",
+        system: "justify-center",
+      },
     },
-  },
-  defaultVariants: { role: "assistant" },
-})
+    defaultVariants: { role: "assistant" },
+  }
+)
 
 const aiChatMessageContentVariants = cva(
   "min-w-0 text-sm leading-6",
@@ -68,13 +75,17 @@ export interface AiChatProps extends React.ComponentProps<"section"> {}
 function AiChat({ className, ...props }: AiChatProps) {
   const viewportRef = React.useRef<HTMLDivElement>(null)
   const [atBottom, setAtBottom] = React.useState(true)
+  const reduceMotion = useReducedMotion()
 
-  const scrollToBottom = React.useCallback((behavior: ScrollBehavior = "smooth") => {
-    viewportRef.current?.scrollTo({
-      top: viewportRef.current.scrollHeight,
-      behavior,
-    })
-  }, [])
+  const scrollToBottom = React.useCallback(
+    (behavior: ScrollBehavior = "smooth") => {
+      viewportRef.current?.scrollTo({
+        top: viewportRef.current.scrollHeight,
+        behavior: reduceMotion ? "auto" : behavior,
+      })
+    },
+    [reduceMotion]
+  )
 
   return (
     <AiChatContext.Provider
@@ -106,12 +117,28 @@ function AiChatMessages({
   ...props
 }: AiChatMessagesProps) {
   const { viewportRef, atBottom, setAtBottom, scrollToBottom } = useAiChat()
+  const contentRef = React.useRef<HTMLDivElement>(null)
+  const atBottomRef = React.useRef(atBottom)
+  atBottomRef.current = atBottom
 
   React.useImperativeHandle(ref, () => viewportRef.current as HTMLDivElement)
 
   React.useEffect(() => {
     if (followOutput && atBottom) scrollToBottom("auto")
   }, [children, followOutput, atBottom, scrollToBottom])
+
+  // Content can grow without a parent re-render (a streaming child, an image
+  // loading, a disclosure opening). Follow those size changes too.
+  React.useEffect(() => {
+    const content = contentRef.current
+    if (!followOutput || !content) return
+
+    const observer = new ResizeObserver(() => {
+      if (atBottomRef.current) scrollToBottom("auto")
+    })
+    observer.observe(content)
+    return () => observer.disconnect()
+  }, [followOutput, scrollToBottom])
 
   return (
     <div
@@ -124,13 +151,20 @@ function AiChatMessages({
       onScroll={(event) => {
         const element = event.currentTarget
         setAtBottom(
-          element.scrollHeight - element.scrollTop - element.clientHeight < 24
+          element.scrollHeight - element.scrollTop - element.clientHeight <
+            BOTTOM_THRESHOLD
         )
         onScroll?.(event)
       }}
       {...props}
     >
-      <div className="mx-auto flex w-full max-w-3xl flex-col gap-5">
+      <div
+        ref={contentRef}
+        role="log"
+        aria-live="polite"
+        aria-relevant="additions"
+        className="mx-auto flex w-full max-w-3xl flex-col gap-5"
+      >
         {children}
       </div>
     </div>
@@ -145,7 +179,7 @@ function AiChatEmptyState({
     <div
       data-slot="ai-chat-empty-state"
       className={cn(
-        "mx-auto flex min-h-64 max-w-sm flex-col items-center justify-center px-6 text-center",
+        "mx-auto flex min-h-64 max-w-sm flex-col items-center justify-center px-6 text-center duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-safe:animate-in motion-safe:fade-in-0 motion-safe:slide-in-from-bottom-2",
         className
       )}
       {...props}
@@ -154,7 +188,7 @@ function AiChatEmptyState({
 }
 
 export interface AiChatMessageProps extends React.ComponentProps<"article"> {
-  /** Sender role, used for alignment and tone. @default "assistant" */
+  /** Sender role, used for alignment, tone, and entrance direction. @default "assistant" */
   role?: AiChatRole
 }
 
@@ -233,11 +267,59 @@ function AiChatMessageActions({
     <div
       data-slot="ai-chat-message-actions"
       className={cn(
-        "flex items-center gap-0.5 text-muted-foreground",
+        "flex items-center gap-0.5 text-muted-foreground duration-300 motion-safe:animate-in motion-safe:fade-in-0",
         className
       )}
       {...props}
     />
+  )
+}
+
+export interface AiChatLoadingProps extends React.ComponentProps<"div"> {
+  /** Accessible status text. @default "正在生成回复" */
+  label?: string
+}
+
+/** Three softly pulsing dots shown after submit and before the first token. */
+function AiChatLoading({
+  className,
+  label = "正在生成回复",
+  ...props
+}: AiChatLoadingProps) {
+  const reduceMotion = useReducedMotion()
+
+  return (
+    <div
+      role="status"
+      aria-label={label}
+      data-slot="ai-chat-loading"
+      className={cn("flex h-6 items-center gap-1 text-muted-foreground", className)}
+      {...props}
+    >
+      {[0, 1, 2].map((index) => (
+        <motion.span
+          key={index}
+          aria-hidden
+          className="size-1.5 rounded-full bg-current"
+          initial={false}
+          animate={
+            reduceMotion
+              ? { opacity: 0.6 }
+              : { opacity: [0.3, 1, 0.3], y: [0, -3, 0] }
+          }
+          transition={
+            reduceMotion
+              ? { duration: 0 }
+              : {
+                  duration: 1,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: index * 0.16,
+                }
+          }
+        />
+      ))}
+    </div>
   )
 }
 
@@ -247,7 +329,6 @@ function AiChatScrollButton({
   ...props
 }: React.ComponentProps<typeof Button>) {
   const { atBottom, scrollToBottom } = useAiChat()
-  if (atBottom) return null
 
   return (
     <Button
@@ -255,9 +336,12 @@ function AiChatScrollButton({
       variant="outline"
       size="icon"
       aria-label="滚动到最新消息"
+      aria-hidden={atBottom || undefined}
+      inert={atBottom}
       data-slot="ai-chat-scroll-button"
+      data-visible={atBottom ? "false" : "true"}
       className={cn(
-        "absolute bottom-24 left-1/2 z-10 size-8 -translate-x-1/2 rounded-full bg-background",
+        "absolute bottom-24 left-1/2 z-10 size-8 -translate-x-1/2 rounded-full bg-background shadow-sm transition-[opacity,scale,translate,background-color,color] duration-200 ease-out data-[visible=false]:pointer-events-none data-[visible=false]:translate-y-2 data-[visible=false]:scale-90 data-[visible=false]:opacity-0 motion-reduce:transition-none",
         className
       )}
       onClick={(event) => {
@@ -279,7 +363,7 @@ function AiChatPrompt({
     <AiPrompt
       data-slot="ai-chat-prompt"
       className={cn(
-        "rounded-none border-x-0 border-b-0 bg-background p-2 focus-within:ring-0",
+        "rounded-none border-x-0 border-b-0 bg-background p-2 focus-within:border-border focus-within:ring-0",
         className
       )}
       {...props}
@@ -358,6 +442,7 @@ export {
   AiChat,
   AiChatAvatar,
   AiChatEmptyState,
+  AiChatLoading,
   AiChatMessage,
   AiChatMessageActions,
   AiChatMessageContent,

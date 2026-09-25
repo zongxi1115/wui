@@ -6,7 +6,7 @@ component: spotlight-card
 
 ## 基础用法
 
-最简单的聚光卡片用法。当光标在卡片上移动时，光晕会跟随指针位置实时点亮：
+光标在卡片上移动时，柔和的光晕带着轻微惯性跟随指针，`borderColor` 同时点亮指针附近的边缘：
 
 <ComponentPreview name="spotlight-card-demo" />
 
@@ -54,6 +54,17 @@ pnpm add clsx tailwind-merge
       description: "聚光灯中心点的 CSS 颜色值，支持透明度颜色或主题变量。",
     },
     {
+      prop: "borderColor",
+      type: "string",
+      description: "跟随指针的 1px 边缘高光颜色。不传则不渲染边缘高光。",
+    },
+    {
+      prop: "smooth",
+      type: "boolean",
+      default: "true",
+      description: "光晕是否以缓动方式追随指针。关闭后光晕直接吸附到指针位置；系统开启“减少动态效果”时自动关闭。",
+    },
+    {
       prop: "spotlightClassName",
       type: "string",
       description: "应用于内部聚光光斑图层的额外 CSS 类名。",
@@ -80,7 +91,7 @@ pnpm add clsx tailwind-merge
     {
       prop: "onPointerMove",
       type: "(event: React.PointerEvent<HTMLDivElement>) => void",
-      description: "光标指针在卡片内移动时触发，内部实时更新光斑坐标 CSS 变量。",
+      description: "光标指针在卡片内移动时触发，内部通过 requestAnimationFrame 缓动更新光斑坐标 CSS 变量。",
     },
     {
       prop: "onPointerLeave",
@@ -99,23 +110,17 @@ pnpm add clsx tailwind-merge
   - **作品集与案例展示（Portfolio）**：鼠标滑动时产生渐进式照明，提升视觉沉浸感。
   - **定价与方案卡片**：突出重点套餐或企业方案。
 - **性能与渲染优势**：
-  - 内部基于 CSS 自定义属性（`--spotlight-x`, `--spotlight-y`）与原生硬件加速的 `radial-gradient` 实现，无需引入重量级 3D 渲染引擎或繁重的 React 重渲染，保持 120 FPS 极度流畅。
+  - 坐标写入卡片根节点的 CSS 自定义属性（`--spotlight-x`、`--spotlight-y`），光晕与边缘高光共享同一组变量；整个过程不触发 React 重渲染，缓动循环在光晕到位后自动停止。
 - **色彩与饱和度建议**：
   - 聚光属于辅助视觉层，光晕透明度应保持在 `10%~20%` 之间，避免过于刺眼影响卡片中文字内容的可读性。
 
 ## 场景示例
 
-### 多色主题光晕
+### 指标卡配色
 
-根据卡片所代表的业务类型（如安全、算力、多租户）定制不同的光晕色彩：
+为不同指标分别传入主题图表色，光晕与边缘高光同色呼应：
 
 <ComponentPreview name="spotlight-card-colors" />
-
-### 产品功能展示网格
-
-结合图片封面、分类标签与性能基准数据构建完整的功能卡片：
-
-<ComponentPreview name="spotlight-card-demo" />
 
 ## 无障碍与交互 Accessibility
 

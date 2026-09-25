@@ -100,7 +100,8 @@
       "keyProps": [
         "children: string",
         "isStreaming: boolean",
-        "featherLength: number"
+        "featherLength: number",
+        "caret: boolean"
       ],
       "exampleCount": 3
     },
@@ -183,7 +184,7 @@
         "onOpenChange: ((open: boolean) => void)",
         "disabled: boolean"
       ],
-      "exampleCount": 2
+      "exampleCount": 3
     },
     {
       "name": "ai-message-actions",
@@ -265,7 +266,7 @@
         "size: default|sm|lg",
         "asChild: boolean"
       ],
-      "exampleCount": 6
+      "exampleCount": 7
     },
     {
       "name": "bubble",
@@ -273,9 +274,10 @@
       "title": "气泡 Bubble",
       "description": "用于在即时通讯、AI 对话流、评论列表与活动时间线中组合展示头像、昵称、正文内容、时间戳与快捷操作的通用消息气泡。",
       "keyProps": [
-        "side: start|end"
+        "side: start|end",
+        "animated: boolean"
       ],
-      "exampleCount": 3
+      "exampleCount": 4
     },
     {
       "name": "toolbar",
@@ -567,7 +569,7 @@
         "asChild: boolean",
         "motion: boolean",
         "ripple: boolean",
-        "disabled: boolean"
+        "loading: boolean"
       ],
       "exampleCount": 14
     },
@@ -642,7 +644,7 @@
         "offset: [number, number]",
         "width: number"
       ],
-      "exampleCount": 3
+      "exampleCount": 4
     },
     {
       "name": "confirm-dialog",
@@ -665,8 +667,8 @@
       "title": "动效 Motion",
       "description": "基于 Motion 构建的声明式动画包装组件与预设库，提供开箱即用的入场动效、视口触发与无障碍降级。",
       "keyProps": [
-        "preset: pop|scale|fade|slide-up|slide-down|slide-left|slide-right|blur",
-        "transition: Transition | \"smooth\" | \"spring\" | \"snappy\"",
+        "preset: pop|scale|fade|slide-up|slide-down|slide-left|slide-right|blur|blur-up|zoom-in|zoom-out|flip",
+        "transition: Transition | \"smooth\" | \"spring\" | \"snappy\" | \"gentle\" | \"bouncy\"",
         "delay: number",
         "inView: boolean",
         "once: boolean",
@@ -733,10 +735,13 @@
       "description": "用于在两种互斥状态间即时切换的二元控制组件，内置弹性微动效与完整的键盘无障碍能力。",
       "keyProps": [
         "size: default|sm|lg",
+        "checkedIcon: ReactNode",
+        "uncheckedIcon: ReactNode",
+        "loading: boolean",
         "disabled: boolean",
         "asChild: boolean"
       ],
-      "exampleCount": 7
+      "exampleCount": 8
     },
     {
       "name": "progress",
@@ -751,7 +756,7 @@
         "indicatorClassName: string",
         "asChild: boolean"
       ],
-      "exampleCount": 5
+      "exampleCount": 6
     },
     {
       "name": "slider",
@@ -848,7 +853,7 @@
         "placeholder: string",
         "searchPlaceholder: string"
       ],
-      "exampleCount": 1
+      "exampleCount": 2
     },
     {
       "name": "form",
@@ -857,11 +862,11 @@
       "description": "具备完整语义化结构、自动无障碍 ARIA 关联、字段校验动画与微动效反馈的表单容器体系。",
       "keyProps": [
         "animated: boolean",
+        "noValidate: boolean",
         "autoComplete: string",
         "target: string",
         "method: string",
-        "acceptCharset: string",
-        "action: string | ((formData: FormData) => void | Promise<void>)"
+        "acceptCharset: string"
       ],
       "exampleCount": 4
     },
@@ -873,7 +878,7 @@
       "keyProps": [
         "asChild: boolean"
       ],
-      "exampleCount": 4
+      "exampleCount": 5
     },
     {
       "name": "navbar",
@@ -900,7 +905,7 @@
         "navigation"
       ],
       "keyProps": [],
-      "exampleCount": 5
+      "exampleCount": 6
     },
     {
       "name": "pagination",
@@ -911,7 +916,7 @@
         "navigation"
       ],
       "keyProps": [],
-      "exampleCount": 4
+      "exampleCount": 5
     },
     {
       "name": "collapsible",
@@ -941,13 +946,13 @@
         "asChild: boolean",
         "variant: default|bordered|separated"
       ],
-      "exampleCount": 1
+      "exampleCount": 2
     },
     {
       "name": "code-block",
       "type": "registry:ui",
       "title": "代码块 Code Block",
-      "description": "用于在页面中优雅展示结构化源代码的高亮容器，内置行号、高亮行与一键复制。",
+      "description": "用于在页面中展示结构化源代码的容器，内置行号、滑动高亮带、多文件切换、折叠展开与带动效反馈的一键复制。",
       "categories": [
         "data-display"
       ],
@@ -956,9 +961,10 @@
         "showLineNumbers: boolean",
         "maxHeight: string | number",
         "expandable: boolean",
-        "highlightLines: number[]"
+        "highlightLines: HighlightLines",
+        "value: string"
       ],
-      "exampleCount": 1
+      "exampleCount": 4
     },
     {
       "name": "mention",
@@ -976,7 +982,7 @@
         "onValueChange: ((value: string) => void)",
         "onSelectOption: ((option: MentionOption) => void)"
       ],
-      "exampleCount": 1
+      "exampleCount": 2
     },
     {
       "name": "confetti",
@@ -1005,7 +1011,7 @@
         "distance: number",
         "direction: horizontal|vertical"
       ],
-      "exampleCount": 1
+      "exampleCount": 2
     },
     {
       "name": "radar-chart",
@@ -1125,10 +1131,11 @@
       "keyProps": [
         "showCount: boolean",
         "resize: none|both|horizontal|vertical",
+        "autoSize: boolean | TextareaAutoSize",
         "wrapperClassName: string",
         "disabled: boolean"
       ],
-      "exampleCount": 6
+      "exampleCount": 7
     },
     {
       "name": "command",
@@ -1140,7 +1147,8 @@
         "defaultQuery: string",
         "onQueryChange: ((query: string) => void)",
         "shouldFilter: boolean",
-        "filter: ((value: string, query: string, keywords: string[]) => boolean)"
+        "filter: ((value: string, query: string, keywords: string[]) => boolean)",
+        "defaultActiveValue: string"
       ],
       "exampleCount": 3
     },
@@ -1195,9 +1203,10 @@
       "title": "键盘提示 Kbd",
       "description": "用紧凑、高对比度且克制的按键样式展示快捷键与键盘操作提示。",
       "keyProps": [
-        "size: default|sm"
+        "size: default|sm",
+        "pressed: boolean"
       ],
-      "exampleCount": 3
+      "exampleCount": 4
     },
     {
       "name": "tooltip",
@@ -1217,7 +1226,7 @@
       "name": "image-preview",
       "type": "registry:ui",
       "title": "图片预览 Image Preview",
-      "description": "点击缩略图进入沉浸式大图灯箱预览，支持平滑缩放、旋转、拖拽平移与原图下载。",
+      "description": "点击缩略图进入沉浸式大图灯箱预览，支持平滑缩放、旋转、拖拽平移、多图切换与原图下载。",
       "keyProps": [
         "src: string",
         "alt: string",
@@ -1234,7 +1243,7 @@
       "title": "视频播放器 Video Player",
       "description": "由可自由组合的小组件构成，支持播放、进度、音量、快捷键和全屏的视频播放器。",
       "keyProps": [],
-      "exampleCount": 1
+      "exampleCount": 2
     },
     {
       "name": "skeleton",
@@ -1243,9 +1252,9 @@
       "description": "在内容异步加载期间维持页面版式结构，降低累积布局偏移（CLS）与用户等待的不确定感。",
       "keyProps": [
         "shape: circle|text|default",
-        "animation: none|pulse"
+        "animation: none|pulse|shimmer"
       ],
-      "exampleCount": 4
+      "exampleCount": 6
     },
     {
       "name": "alert",
@@ -1307,10 +1316,10 @@
       "keyProps": [
         "variant: circle|bar",
         "position: inline|top|bottom",
+        "axis: x|y",
         "container: RefObject<HTMLElement | null>",
         "target: RefObject<HTMLElement | null>",
-        "offset: ScrollOffset",
-        "size: number"
+        "offset: ScrollOffset"
       ],
       "exampleCount": 4
     },
@@ -1347,8 +1356,8 @@
         "axis: x|y",
         "distance: [number, number]",
         "scale: [number, number]",
-        "container: RefObject<HTMLElement | null>",
-        "offset: ScrollOffset"
+        "rotate: [number, number]",
+        "opacity: [number, number]"
       ],
       "exampleCount": 2
     },
@@ -1356,7 +1365,7 @@
       "name": "scroll-text",
       "type": "registry:ui",
       "title": "滚动文本动效 Scroll Text",
-      "description": "依据滚动视口进度，逐字渐进高亮（Highlight）或逐行位移显现（Reveal）的段落文字动效组件。",
+      "description": "依据滚动视口进度，逐字渐进高亮（Highlight）、遮罩位移显现（Reveal）或模糊聚焦（Blur）的段落文字动效组件。",
       "categories": [
         "scroll",
         "motion",
@@ -1364,13 +1373,13 @@
       ],
       "keyProps": [
         "children: string",
-        "mode: highlight|reveal",
-        "per: line|word",
+        "mode: blur|highlight|reveal",
+        "per: line|word|char",
         "as: ElementType<any, keyof IntrinsicElements>",
         "range: readonly [number, number]",
         "overlap: number"
       ],
-      "exampleCount": 2
+      "exampleCount": 3
     },
     {
       "name": "sticky-stack",
@@ -1386,6 +1395,7 @@
         "top: number",
         "gap: number",
         "scaleStep: number",
+        "dim: number",
         "container: RefObject<HTMLElement | null>"
       ],
       "exampleCount": 2
@@ -1403,6 +1413,7 @@
         "children: ReactNode",
         "container: RefObject<HTMLElement | null>",
         "scrollPadding: number",
+        "smooth: boolean",
         "viewportClassName: string",
         "trackClassName: string"
       ],
@@ -1425,7 +1436,7 @@
         "gap: number",
         "reverse: boolean"
       ],
-      "exampleCount": 1
+      "exampleCount": 2
     },
     {
       "name": "scroll-expand",
@@ -1442,7 +1453,7 @@
         "inset: number",
         "radius: number",
         "scrollLength: number",
-        "container: RefObject<HTMLElement | null>"
+        "contentScale: number"
       ],
       "exampleCount": 2
     },
@@ -1458,10 +1469,10 @@
       "keyProps": [
         "children: ReactNode",
         "stepLength: number",
+        "effect: fade|blur|slide",
         "container: RefObject<HTMLElement | null>",
         "showProgress: boolean",
-        "onStepChange: ((index: number) => void)",
-        "viewportClassName: string"
+        "onStepChange: ((index: number) => void)"
       ],
       "exampleCount": 2
     },
@@ -1476,7 +1487,8 @@
       "keyProps": [
         "axis: x|y",
         "strictness: mandatory|proximity",
-        "hideScrollbar: boolean"
+        "hideScrollbar: boolean",
+        "onActiveChange: ((index: number) => void)"
       ],
       "exampleCount": 2
     },
@@ -1580,10 +1592,100 @@
       "keyProps": [
         "children: ReactNode",
         "direction: up|down",
+        "trigger: hover|parent",
         "active: boolean",
         "transition: Transition"
       ],
       "exampleCount": 3
+    },
+    {
+      "name": "animated-background",
+      "type": "registry:ui",
+      "title": "滑动高亮 Animated Background",
+      "description": "在悬停或选中的子元素之间平滑滑动一块共享的高亮背景，适用于导航、列表与选择器。",
+      "categories": [
+        "motion"
+      ],
+      "keyProps": [
+        "children: ReactElement<AnimatedBackgroundItemProps, string | JSXElementConstructor<any>> | ReactElement<AnimatedBackgroundItemProps, string | JSXElementConstructor<...>>[]",
+        "mode: hover|click",
+        "value: string | null",
+        "defaultValue: string | null",
+        "onValueChange: ((value: string) => void)",
+        "highlightClassName: string"
+      ],
+      "exampleCount": 3
+    },
+    {
+      "name": "transition-panel",
+      "type": "registry:ui",
+      "title": "过渡面板 Transition Panel",
+      "description": "按索引切换一组面板，带方向感知的滑入、淡出与模糊过渡，容器高度随新面板平滑变化。",
+      "categories": [
+        "motion"
+      ],
+      "keyProps": [
+        "children: ReactNode[]",
+        "activeIndex: number",
+        "axis: x|y",
+        "offset: number",
+        "blur: boolean",
+        "animateHeight: boolean"
+      ],
+      "exampleCount": 2
+    },
+    {
+      "name": "animated-group",
+      "type": "registry:ui",
+      "title": "动画组 Animated Group",
+      "description": "为一组子元素按统一预设错峰播放入场动画，支持挂载时或滚动进入视口时触发。",
+      "categories": [
+        "motion"
+      ],
+      "keyProps": [
+        "children: ReactNode",
+        "preset: scale|zoom|bounce|fade|flip|slide|blur-slide",
+        "variants: Variants",
+        "stagger: number",
+        "delay: number",
+        "inView: boolean"
+      ],
+      "exampleCount": 2
+    },
+    {
+      "name": "animated-list",
+      "type": "registry:ui",
+      "title": "动画列表 Animated List",
+      "description": "逐条揭示列表项并将最新一条置顶，已有条目以弹簧动画下移，适用于通知流与活动记录。",
+      "categories": [
+        "motion"
+      ],
+      "keyProps": [
+        "children: ReactNode",
+        "delay: number",
+        "max: number",
+        "transition: Transition",
+        "itemClassName: string"
+      ],
+      "exampleCount": 2
+    },
+    {
+      "name": "border-beam",
+      "type": "registry:ui",
+      "title": "边框光束 Border Beam",
+      "description": "沿元素边框循环流动的一段细光束，用于强调推荐项、处理中状态或需要吸引注意的输入区域。",
+      "categories": [
+        "motion"
+      ],
+      "keyProps": [
+        "size: number",
+        "duration: number",
+        "delay: number",
+        "borderWidth: number",
+        "color: string",
+        "reverse: boolean"
+      ],
+      "exampleCount": 2
     },
     {
       "name": "hover-marquee",
@@ -1617,6 +1719,8 @@
         "children: ReactNode",
         "radius: number",
         "color: string",
+        "borderColor: string",
+        "smooth: boolean",
         "spotlightClassName: string"
       ],
       "exampleCount": 2
@@ -1637,7 +1741,7 @@
         "perspective: number",
         "hoverScale: number",
         "glare: boolean",
-        "glareClassName: string"
+        "glareOpacity: number"
       ],
       "exampleCount": 2
     },
@@ -1657,7 +1761,7 @@
         "distance: number",
         "lifetime: number",
         "maxItems: number",
-        "itemClassName: string"
+        "rotation: number"
       ],
       "exampleCount": 2
     },
@@ -1676,8 +1780,8 @@
         "preview: ReactNode",
         "offsetX: number",
         "offsetY: number",
-        "open: boolean",
-        "previewClassName: string"
+        "tilt: number",
+        "open: boolean"
       ],
       "exampleCount": 3
     },
@@ -1696,6 +1800,7 @@
         "colors: [string, string, string]",
         "duration: number",
         "blur: number",
+        "interactive: boolean",
         "layerClassName: string"
       ],
       "exampleCount": 2
@@ -1714,7 +1819,8 @@
         "frequency: number",
         "octaves: number",
         "seed: number",
-        "blendMode: color|inherit|initial|-moz-initial|revert|revert-layer|unset|color-burn|color-dodge|darken|difference|exclusion|hard-light|hue|lighten|luminosity|multiply|normal|overlay|saturation|screen|soft-light|plus-darker|plus-lighter"
+        "blendMode: color|inherit|initial|-moz-initial|revert|revert-layer|unset|color-burn|color-dodge|darken|difference|exclusion|hard-light|hue|lighten|luminosity|multiply|normal|overlay|saturation|screen|soft-light|plus-darker|plus-lighter",
+        "animated: boolean"
       ],
       "exampleCount": 2
     },
@@ -1751,7 +1857,7 @@
         "children: string",
         "per: line|word|char",
         "as: ElementType<any, keyof IntrinsicElements>",
-        "preset: scale|fade|blur-sm|fade-in-blur|slide",
+        "preset: scale|fade|blur|flip|slide|blur-sm|fade-in-blur|rise|drop",
         "variants: { container?: Variants; item?: Variants; } | undefined",
         "delay: number"
       ],
@@ -1769,12 +1875,12 @@
       "keyProps": [
         "children: ReactNode[]",
         "interval: number",
+        "direction: up|down",
         "transition: Transition",
         "variants: Variants",
-        "onIndexChange: ((index: number) => void)",
-        "trigger: boolean"
+        "animateWidth: boolean"
       ],
-      "exampleCount": 4
+      "exampleCount": 5
     },
     {
       "name": "text-morph",
@@ -1787,7 +1893,9 @@
       ],
       "keyProps": [
         "children: string",
-        "as: ElementType<any, keyof IntrinsicElements>"
+        "as: ElementType<any, keyof IntrinsicElements>",
+        "transition: Transition",
+        "variants: Variants"
       ],
       "exampleCount": 4
     },
@@ -1866,6 +1974,63 @@
       "exampleCount": 1
     },
     {
+      "name": "text-rotate",
+      "type": "registry:ui",
+      "title": "文本轮转 Text Rotate",
+      "description": "逐字符、单词或整行错峰轮换一组文本：旧文本向上移出、新文本自下方进入，容器宽度随新内容平滑过渡。",
+      "categories": [
+        "motion",
+        "text-effect"
+      ],
+      "keyProps": [
+        "texts: string[]",
+        "ref: Ref<TextRotateHandle>",
+        "index: number",
+        "defaultIndex: number",
+        "onIndexChange: ((index: number) => void)",
+        "auto: boolean"
+      ],
+      "exampleCount": 4
+    },
+    {
+      "name": "typewriter",
+      "type": "registry:ui",
+      "title": "打字机 Typewriter",
+      "description": "带闪烁光标的逐字输入效果，依次输入、停留、删除并切换多段文本。",
+      "categories": [
+        "motion",
+        "text-effect"
+      ],
+      "keyProps": [
+        "texts: string[]",
+        "typeSpeed: number",
+        "deleteSpeed: number",
+        "pauseDuration: number",
+        "startDelay: number",
+        "loop: boolean"
+      ],
+      "exampleCount": 3
+    },
+    {
+      "name": "text-highlight",
+      "type": "registry:ui",
+      "title": "文本高亮 Text Highlight",
+      "description": "进入视口、悬停或挂载时，在文字背后划出马克笔式的高亮，跨行文本会逐行依次划过。",
+      "categories": [
+        "motion",
+        "text-effect"
+      ],
+      "keyProps": [
+        "children: ReactNode",
+        "trigger: always|hover|inView",
+        "active: boolean",
+        "variant: underline|block",
+        "color: string",
+        "from: right|left"
+      ],
+      "exampleCount": 2
+    },
+    {
       "name": "sliding-number",
       "type": "registry:ui",
       "title": "数字滚动 Sliding Number",
@@ -1883,6 +2048,25 @@
       "exampleCount": 5
     },
     {
+      "name": "number-ticker",
+      "type": "registry:ui",
+      "title": "数字滚动 Number Ticker",
+      "description": "进入视口时从起始值计数到目标值，数值变化时从当前值平滑过渡，支持本地化格式、小数位与前后缀。",
+      "categories": [
+        "motion",
+        "number-effect"
+      ],
+      "keyProps": [
+        "value: number",
+        "from: number",
+        "delay: number",
+        "decimalPlaces: number",
+        "locale: string",
+        "formatOptions: NumberFormatOptions"
+      ],
+      "exampleCount": 3
+    },
+    {
       "name": "table",
       "type": "registry:ui",
       "title": "表格 Table",
@@ -1893,7 +2077,7 @@
         "striped: boolean",
         "stickyHeader: boolean"
       ],
-      "exampleCount": 4
+      "exampleCount": 5
     },
     {
       "name": "calendar",
@@ -1916,14 +2100,14 @@
       "title": "日期选择器 DatePicker",
       "description": "基于日历弹层的现代化单日期选择控件，支持多语言本地化、日期范围约束、自定义禁用规则与快捷清空。",
       "keyProps": [
-        "value: Date",
-        "defaultValue: Date",
+        "value: string | Date",
+        "defaultValue: string | Date",
         "onValueChange: ((date: Date) => void)",
         "placeholder: string",
         "locale: string",
         "formatOptions: DateTimeFormatOptions"
       ],
-      "exampleCount": 6
+      "exampleCount": 7
     },
     {
       "name": "time-picker",
@@ -1944,7 +2128,7 @@
       "name": "kanban",
       "type": "registry:ui",
       "title": "看板 Kanban",
-      "description": "用于敏捷项目管理、需求流转与线索阶段跟踪的可组合看板组件，内置 HTML5 原生拖拽流转与悬停响应。",
+      "description": "用于敏捷项目管理、需求流转与线索阶段跟踪的可组合看板组件，支持跨列拖拽、列内排序、键盘移动与布局过渡动画。",
       "keyProps": [
         "onMove: ((move: KanbanMove) => void)"
       ],
@@ -1959,9 +2143,10 @@
         "orientation: horizontal|vertical",
         "align: start|alternate",
         "density: compact|default",
-        "connector: solid|dashed"
+        "connector: solid|dashed",
+        "animated: boolean"
       ],
-      "exampleCount": 6
+      "exampleCount": 7
     },
     {
       "name": "empty-state",
@@ -1969,9 +2154,10 @@
       "title": "空状态 Empty State",
       "description": "在页面或模块无数据、无搜索结果或未配置时，清晰解释现状并引导用户开展下一步动作。",
       "keyProps": [
-        "size: default|sm|lg"
+        "size: default|sm|lg",
+        "animated: boolean"
       ],
-      "exampleCount": 4
+      "exampleCount": 5
     },
     {
       "name": "spin",
@@ -1983,8 +2169,8 @@
         "size: default|sm|lg",
         "label: ReactNode",
         "indicator: ReactNode",
-        "delay: number",
-        "fullscreen: boolean"
+        "variant: dots|ring",
+        "delay: number"
       ],
       "exampleCount": 5
     },
@@ -1998,8 +2184,8 @@
         "max: number",
         "showZero: boolean",
         "dot: boolean",
-        "visible: boolean",
-        "variant: default|destructive|success|warning|info"
+        "pulse: boolean",
+        "visible: boolean"
       ],
       "exampleCount": 4
     },
@@ -2014,7 +2200,7 @@
         "onOpenChange: ((open: boolean) => void)",
         "modal: boolean"
       ],
-      "exampleCount": 4
+      "exampleCount": 5
     },
     {
       "name": "descriptions",
@@ -2072,14 +2258,15 @@
       "name": "carousel",
       "type": "registry:ui",
       "title": "轮播 Carousel",
-      "description": "基于原生 CSS 滚动与 scroll-snap 物理吸附机制构建的高性能轮播组件，支持横向/纵向滑动、循环滚动与多列响应式排版。",
+      "description": "基于原生 CSS 滚动与 scroll-snap 吸附机制构建的轮播组件，支持横向/纵向滑动、循环、自动播放与多列响应式排版。",
       "keyProps": [
         "orientation: horizontal|vertical",
         "loop: boolean",
         "defaultIndex: number",
-        "onIndexChange: ((index: number) => void)"
+        "onIndexChange: ((index: number) => void)",
+        "autoplay: number | boolean"
       ],
-      "exampleCount": 3
+      "exampleCount": 4
     },
     {
       "name": "typography",
@@ -2173,7 +2360,7 @@
         "orientation: horizontal|vertical",
         "onCurrentChange: ((current: number) => void)"
       ],
-      "exampleCount": 2
+      "exampleCount": 3
     },
     {
       "name": "tree",

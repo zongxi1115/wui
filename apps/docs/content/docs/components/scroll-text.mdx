@@ -1,14 +1,14 @@
 ---
 title: 滚动文本动效 Scroll Text
-description: 依据滚动视口进度，逐字渐进高亮（Highlight）或逐行位移显现（Reveal）的段落文字动效组件。
+description: 依据滚动视口进度，逐字渐进高亮（Highlight）、遮罩位移显现（Reveal）或模糊聚焦（Blur）的段落文字动效组件。
 component: scroll-text
 ---
 
 ## 基础用法
 
-随着向下滚动，宣言文本逐词由暗淡灰色点亮为高亮前景色，并演示逐行显现：
+随着向下滚动，文字由弱化色逐字点亮为前景色。中文按字切分，英文按单词切分：
 
-<ComponentPreview name="scroll-text-demo" />
+<ComponentPreview name="scroll-text-demo" previewClassName="min-h-0 p-0" />
 
 ## 安装与引入
 
@@ -41,15 +41,15 @@ pnpm add motion lucide-react class-variance-authority clsx tailwind-merge
     },
     {
       prop: "mode",
-      type: '"highlight" | "reveal"',
+      type: '"highlight" | "reveal" | "blur"',
       default: '"highlight"',
-      description: "显现风格。`highlight` 为平滑点亮（由半透明文本叠加不透明高亮）；`reveal` 为带有向上位移与遮罩裁切的登场。",
+      description: "显现风格。`highlight` 由弱化色点亮为前景色；`reveal` 带遮罩裁切自下而上登场；`blur` 由模糊、透明逐渐聚焦。",
     },
     {
       prop: "per",
-      type: '"word" | "line"',
+      type: '"word" | "char" | "line"',
       default: '"word"',
-      description: "文本切分粒度。`word` 按空格单词/词语切分；`line` 按换行符 `\\n` 逐行切分。",
+      description: "文本切分粒度。`word` 英文按单词、中日韩文字按单字切分（标点跟随前一字）；`char` 逐字符切分且不会在英文单词内部换行；`line` 按换行符 `\\n` 逐行切分。",
     },
     {
       prop: "as",
@@ -68,6 +68,12 @@ pnpm add motion lucide-react class-variance-authority clsx tailwind-merge
       type: "number",
       default: "0.35",
       description: "相邻文字单元之间的动画重叠交织程度（数值越大越连贯，越小越分明）。",
+    },
+    {
+      prop: "smooth",
+      type: "boolean",
+      default: "true",
+      description: "通过轻量弹簧跟随滚动进度，让快速滚动时的文字过渡更柔和。",
     },
     {
       prop: "container",
@@ -93,34 +99,29 @@ pnpm add motion lucide-react class-variance-authority clsx tailwind-merge
   ]}
 />
 
-## 事件 Events
-
-<PropsTable
-  data={[
-    {
-      prop: "onAnimationStart",
-      type: "() => void",
-      description: "文本段落开始滚动变换时触发。",
-    },
-  ]}
-/>
-
 ## 使用场景与设计规范
 
 `ScrollText` 适用于**品牌宣言（Manifesto）、核心产品主张、引言与关键数字口号**：
 
 - **节奏感与停留感**：通过将整段大文字与滚动绑定，引导用户逐字品读核心价值，相比直接呈现能提高 3 倍以上的阅读停留率。
-- **排版连贯性**：内置保留了空格与换行符逻辑，不会导致英文断词错位或标点挤压。
+- **排版连贯性**：内置保留了空格与换行符逻辑，中文标点会与前一个字绑定，避免出现在行首。
+- **模糊模式的成本**：`blur` 会逐段动画 `filter`，适合标题与短句，不建议用于长段落。
 
 ## 场景示例
 
-### 逐词揭示模式（Reveal）
+### 逐行揭示（Reveal）
 
-文字带遮罩并由下方浮现：
+每一行带遮罩由下方浮现，适合年度回顾、关键数字等分行叙述：
 
-<ComponentPreview name="scroll-text-reveal" />
+<ComponentPreview name="scroll-text-reveal" previewClassName="min-h-0 p-0" />
+
+### 逐字聚焦（Blur）
+
+标题逐字由模糊聚焦，配合 `per="char"` 与较大的 `overlap` 形成连贯的波浪感：
+
+<ComponentPreview name="scroll-text-blur" previewClassName="min-h-0 p-0" />
 
 ## 无障碍与交互 Accessibility
 
-- **屏幕阅读器完整朗读**：组件外层自带 `aria-label={children}`，内部动画分段全部被标记 `aria-hidden="true"`，读屏工具会一次性朗读整句，绝不会被打碎成单个单词。
+- **屏幕阅读器完整朗读**：组件内部渲染一份视觉隐藏（`sr-only`）的完整文本，动画分段整体标记为 `aria-hidden="true"`，读屏工具会一次性朗读整句，而不会被打碎成单个字词。
 - **动效减弱适配**：在 `prefers-reduced-motion: reduce` 下，所有文字默认全部直接以最终高亮态显示，不产生任何透明度波动。

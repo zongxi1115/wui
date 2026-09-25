@@ -21,7 +21,7 @@ component: combobox
 <Step>安装依赖组件与图标库</Step>
 
 ```bash
-pnpm add radix-ui cmdk lucide-react class-variance-authority clsx tailwind-merge
+pnpm add radix-ui motion lucide-react class-variance-authority clsx tailwind-merge
 ```
 
 <Step>确保已添加 Popover 与 Command 基础组件，并将源码复制到 `components/ui/combobox.tsx`</Step>
@@ -235,3 +235,5 @@ return (
   - <kbd>Enter</kbd>：确认选中当前高亮的选项，自动关闭下拉面板并将焦点归还至触发器。
   - <kbd>Escape</kbd>：关闭下拉面板并不作选择。
 - **清空操作隔离**：清空按钮内置事件冒泡拦截（`stopPropagation`），点击清空时不会误触打开下拉浮层。
+- **打开即定位**：再次打开时高亮自动落在当前已选项并滚动到可见区域。
+- **动效**：浮层从触发器方向展开；高亮背景在选项之间滑动；选中值在触发器中上移淡入刷新，勾选图标弹出；清空按钮缩放出现。均遵循 `prefers-reduced-motion`。

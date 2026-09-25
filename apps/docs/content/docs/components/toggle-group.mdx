@@ -6,7 +6,7 @@ component: toggle-group
 
 ## 基础用法
 
-单选互斥模式（`type="single"`）。在网格视图、舒适列表与紧凑列表之间互斥切换：
+单选互斥模式（`type="single"`）。在网格视图、舒适列表与紧凑列表之间互斥切换，选中背景会以弹簧曲线在选项之间平滑滑动：
 
 <ComponentPreview name="toggle-group-demo" />
 
@@ -155,24 +155,26 @@ pnpm add radix-ui class-variance-authority clsx tailwind-merge
   - `type="single"`：视图模式切换（网格 / 列表）、对齐方式（左 / 中 / 右）。
   - `type="multiple"`：富文本样式（加粗 + 斜体 + 下划线）、复合标签筛选。
 - **图标子项必须配备 ARIA 标签**：在纯图标按钮组中，每个 `ToggleGroupItem` 都应配备精准的 `aria-label`。
+- **选中动效**：单选模式下，选中背景是一个共享布局的指示层（`data-slot="toggle-group-indicator"`），会在选项之间滑动；多选模式下每个选项的指示层独立缩放淡入。每个 `ToggleGroup` 实例使用独立的布局 ID，同页多个实例互不干扰；系统开启“减少动态效果”时直接切换。
+- **自定义选中色**：选中背景由指示层绘制，请通过 `className="[&>[data-slot=toggle-group-indicator]]:bg-primary/10"` 调整，而不是覆盖 `data-[state=on]:bg-*`。
 
 ## 场景示例
 
 ### 富文本排版与格式工具栏
 
-将单选对齐方式与多选文字修饰样式组合，构成紧凑完整的文本编辑器工具栏：
+将单选对齐方式与多选文字修饰样式组合，构成紧凑完整的文本编辑器工具栏，并实时作用于下方段落：
 
 <ComponentPreview name="toggle-group-alignment" />
 
 ### 响应式画布设备视口切换
 
-在设计器或页面预览中，通过单选切换按钮组在桌面端、平板和移动端视口间自由跳转：
+在设计器或页面预览中，通过单选切换按钮组在桌面端、平板和移动端视口间切换，预览画布宽度随之以弹簧过渡：
 
 <ComponentPreview name="toggle-group-device-preview" />
 
 ### 状态标签多维筛选
 
-多选模式配合数量徽章（Badge），构建轻巧直观的工单或订单状态过滤器：
+多选模式配合数量提示，构建轻巧直观的工单或订单状态过滤器：
 
 <ComponentPreview name="toggle-group-filter" />
 

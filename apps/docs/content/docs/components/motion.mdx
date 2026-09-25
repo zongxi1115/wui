@@ -38,21 +38,21 @@ pnpm add motion radix-ui
   data={[
     {
       prop: "preset",
-      type: '"fade" | "scale" | "slide-up" | "slide-down" | "slide-left" | "slide-right" | "pop" | "blur"',
+      type: '"fade" | "scale" | "slide-up" | "slide-down" | "slide-left" | "slide-right" | "pop" | "blur" | "blur-up" | "zoom-in" | "zoom-out" | "flip"',
       default: '"fade"',
-      description: "命名的入场动画预设，包含透明度、位移、缩放与高斯模糊等组合效果。",
+      description: "命名的入场动画预设，包含透明度、位移、缩放、翻转与高斯模糊等组合效果。位于 MotionGroup 内且未设置时继承分组预设。",
     },
     {
       prop: "transition",
-      type: '"smooth" | "spring" | "snappy" | Transition',
+      type: '"smooth" | "spring" | "snappy" | "gentle" | "bouncy" | Transition',
       default: '"smooth"',
-      description: "过渡动画曲线预设，也可传入 Motion 原生的 Transition 自定义对象。",
+      description: "过渡动画曲线预设：smooth 为缓出补间，spring / snappy 为紧致弹簧，gentle 为无回弹的柔和弹簧，bouncy 带轻微回弹。也可传入 Motion 原生的 Transition 对象。",
     },
     {
       prop: "delay",
       type: "number",
       default: "0",
-      description: "动画开始前的延迟等待时间（秒），常用于列表项的交错排队入场（Stagger）。",
+      description: "动画开始前的延迟等待时间（秒）。位于 MotionGroup 内时由分组统一编排，此属性被忽略。",
     },
     {
       prop: "inView",
@@ -76,6 +76,55 @@ pnpm add motion radix-ui
       prop: "className",
       type: "string",
       description: "应用于外层容器的额外 CSS 类名。",
+    },
+  ]}
+/>
+
+### MotionGroup
+
+`MotionGroup` 负责编排内部的 `Motion` 子元素依次入场，子元素无需再手动计算 `delay`：
+
+<PropsTable
+  data={[
+    {
+      prop: "stagger",
+      type: "number",
+      default: "0.06",
+      description: "相邻子元素开始动画的时间间隔（秒）。",
+    },
+    {
+      prop: "delay",
+      type: "number",
+      default: "0",
+      description: "第一个子元素开始前的等待时间（秒）。",
+    },
+    {
+      prop: "preset",
+      type: "MotionPreset",
+      description: "子元素未设置 preset 时使用的默认预设。",
+    },
+    {
+      prop: "transition",
+      type: "MotionTransition | Transition",
+      description: "子元素未设置 transition 时使用的默认过渡。",
+    },
+    {
+      prop: "inView",
+      type: "boolean",
+      default: "false",
+      description: "整组滚动进入视口时才开始依次播放。",
+    },
+    {
+      prop: "once",
+      type: "boolean",
+      default: "true",
+      description: "配合 inView 使用，是否只播放一次。",
+    },
+    {
+      prop: "asChild",
+      type: "boolean",
+      default: "false",
+      description: "将分组能力合并到唯一子元素上（如 ul），不额外渲染 div。",
     },
   ]}
 />
@@ -117,7 +166,7 @@ pnpm add motion radix-ui
   - 入场动效应该“润物细无声”，推荐位移距离控制在 `12px` 以内、时长控制在 `200ms~400ms` 之间。
   - 避免在用户高频操作（如快速切换 Tab、表格分页切换）中加入冗长动效，这会增加用户的等待感知。
 - **交错动画（Staggering）**：
-  - 渲染列表、数据卡片网格或时间线时，通过为每一项增加递增的 `delay={index * 0.08}`，营造富有秩序感的连贯登场体验。
+  - 渲染列表、数据卡片网格或时间线时，用 `MotionGroup` 包裹各项 `Motion`，由分组统一设置间隔与预设，营造有秩序感的连贯登场。
 - **DOM 结构精简**：
   - 当需要给现有组件（如 `Button`、`Card`）增加入场动效时，优先使用 `asChild` 属性，保持语义结构扁平干净。
 
@@ -125,7 +174,7 @@ pnpm add motion radix-ui
 
 ### 动画预设库（Presets）
 
-内置 8 种精调的入场动效方案，覆盖绝大部分界面动画需求：
+内置 12 种精调的入场动效方案，覆盖绝大部分界面动画需求，点击任意格子重播：
 
 <ComponentPreview name="motion-presets" />
 
@@ -135,10 +184,13 @@ pnpm add motion radix-ui
 - `slide-left` / `slide-right`：水平方向滑入，适合侧边抽屉或向导流程。
 - `pop`：弹性质感缩放，适合徽标或重点提示。
 - `blur`：高斯模糊消散淡入，呈现现代质感。
+- `blur-up`：模糊对焦的同时轻微上浮，适合通知、结果反馈与首屏标题。
+- `zoom-in` / `zoom-out`：从小放大或从大收拢，适合空状态插图、媒体预览。
+- `flip`：沿 X 轴翻转立起，适合卡片翻面与数据刷新。
 
 ### 列表交错排队入场（Stagger）
 
-结合 `delay` 属性实现列表卡片从上至下的自然交错进场：
+用 `MotionGroup` 统一编排列表项的交错进场，子项继承分组的 `preset` 与 `transition`：
 
 <ComponentPreview name="motion-stagger-list" />
 
@@ -156,5 +208,5 @@ pnpm add motion radix-ui
 
 ## 无障碍与交互 Accessibility
 
-- **自动无障碍降级**：`Motion` 内部深度集成了 `useReducedMotion` 钩子。当用户系统开启了“减少动态效果（prefers-reduced-motion）”时，组件将直接以最终可见状态（Static Visible）渲染，不执行任何透明度或位移变换，彻底避免晕动症风险。
+- **自动无障碍降级**：`Motion` 与 `MotionGroup` 内部集成了 `useReducedMotion` 钩子。当用户系统开启了“减少动态效果（prefers-reduced-motion）”时，组件保持相同的 DOM 结构（避免服务端与客户端渲染不一致），并以零时长直接跳到最终可见状态，不产生位移或缩放过程。
 - **子元素焦点与事件保留**：使用 `asChild` 时，子组件的原生事件、键盘 Tab 导航与 Focus Ring 均能完美透传，不破坏原有的可访问性树结构。

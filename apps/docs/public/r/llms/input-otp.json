@@ -13,7 +13,9 @@
   "install": {
     "wui": "pnpm dlx @wui-design/cli@latest add @wui/input-otp",
     "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/input-otp.json",
-    "npmDependencies": [],
+    "npmDependencies": [
+      "motion"
+    ],
     "registryDependencies": [
       "utils"
     ]
@@ -64,11 +66,27 @@
       "description": "是否只接受数字。"
     },
     {
+      "name": "mask",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "是否以圆点遮挡已输入内容，适用于支付密码等敏感场景。"
+    },
+    {
       "name": "disabled",
       "type": "boolean",
       "required": false,
       "control": "boolean",
       "description": "是否禁用全部输入位。"
+    },
+    {
+      "name": "invalid",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "标记为校验失败，输入位边框切换为危险色。"
     },
     {
       "name": "inputClassName",
@@ -97,7 +115,7 @@
     },
     {
       "name": "input-otp-pin",
-      "title": "4 位支付交易密码 (PIN)"
+      "title": "支付密码 (Mask)"
     },
     {
       "name": "input-otp-alphanumeric",

@@ -12,6 +12,9 @@ component: video-player
 
 <ComponentSource name="video-player" title="components/ui/video-player.tsx" />
 
+播放后指针静止 2.5 秒，控制栏会淡出并隐藏光标，移动指针或按键即恢复；播放 / 暂停、静音和全屏图标切换时带有缩放与模糊过渡，
+进度条在播放时逐帧更新，不会随 `timeupdate` 跳动。点击画面或使用快捷键时，画面中央会短暂显示对应操作的反馈。
+
 ## 使用场景
 
 `VideoPlayer` 负责共享媒体状态和键盘交互，界面由多个独立部件组合而成。可以替换控制栏布局、隐藏音量、加入业务按钮，
@@ -21,7 +24,8 @@ component: video-player
 
 - `VideoPlayer`：状态容器和可聚焦的播放器根节点。
 - `VideoPlayerVideo`：连接状态容器的原生 `<video>`，其余媒体属性会透传。
-- `VideoPlayerControls`：贴在视频底部的控制区域。
+- `VideoPlayerOverlay`：画面中央的图层。首次播放前显示大号播放按钮，之后在点击画面或使用快捷键时显示操作反馈。
+- `VideoPlayerControls`：贴在视频底部的控制区域，播放中指针闲置时自动淡出。
 - `VideoPlayerControlBar`、`VideoPlayerControlGroup`：控制按钮的布局积木。
 - `VideoPlayerPlayButton`、`VideoPlayerMuteButton`、`VideoPlayerFullscreenButton`：独立操作按钮。
 - `VideoPlayerSeek`、`VideoPlayerVolume`：复用 Slider 的进度和音量控制。
@@ -34,7 +38,18 @@ component: video-player
 所有组件都接受对应原生元素或基础组件的属性，可以通过 `className` 调整布局。`VideoPlayerVideo` 支持 `src`、`poster`、
 `crossOrigin`、`preload`、`playsInline` 等原生视频属性。自动播放是否成功仍取决于浏览器的媒体策略。
 
+## 精简组合
+
+只组合媒体节点、中央图层、静音按钮和一条细进度条，适合商品卡片或信息流中的短视频：
+
+<ComponentPreview name="video-player-minimal" />
+
+根节点在控制栏隐藏时带有 `data-idle` 属性，脱离 `VideoPlayerControls` 的部件可以用 `group-data-[idle]/video:` 变体跟随淡出，
+如示例中的进度条。
+
 ## 键盘操作
 
-播放器根节点聚焦后，可以使用空格或 `K` 播放 / 暂停、`M` 静音、`F` 切换全屏，左右方向键前后跳转 5 秒。
+播放器根节点聚焦后，可以使用空格或 `K` 播放 / 暂停、`M` 静音、`F` 切换全屏，左右方向键前后跳转 5 秒，上下方向键调节 10% 音量。
 焦点位于按钮或滑杆时，按键由对应控件处理，不会被播放器根节点重复消费。
+
+系统开启“减少动态效果”时，图标切换和中央反馈不再播放动画，控制栏的显隐改为瞬时完成。

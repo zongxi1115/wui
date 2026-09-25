@@ -2,17 +2,24 @@
 
 import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
-import { motion, useMotionValue, useSpring, useTransform, useReducedMotion } from "motion/react"
+import {
+  motion,
+  useMotionValue,
+  useReducedMotion,
+  useSpring,
+  useTransform,
+  type MotionValue,
+} from "motion/react"
 
 import { cn } from "@/registry/lib/utils"
 
 const dockVariants = cva(
-  "inline-flex items-center gap-2 rounded-2xl border border-border/80 bg-background/80 p-2 shadow-lg backdrop-blur-md",
+  "group/dock inline-flex gap-1.5 rounded-xl border bg-background p-1.5 shadow-sm",
   {
     variants: {
       direction: {
-        horizontal: "flex-row",
-        vertical: "flex-col",
+        horizontal: "flex-row items-end",
+        vertical: "flex-col items-start",
       },
     },
     defaultVariants: {
@@ -22,7 +29,8 @@ const dockVariants = cva(
 )
 
 interface DockContextValue {
-  mouseX: ReturnType<typeof useMotionValue<number>>
+  pointer: MotionValue<number>
+  direction: "horizontal" | "vertical"
   magnification: number
   distance: number
 }
@@ -40,36 +48,47 @@ export interface DockProps
   direction?: "horizontal" | "vertical"
 }
 
-/** macOS 风格的弹性放大悬浮底栏，随着鼠标经过产生流畅的连续缩放微动效。 */
+/**
+ * macOS 风格的弹性放大底栏。图标沿垂直于排列方向的一侧放大溢出，底栏自身
+ * 尺寸保持不变，相邻图标被平滑推开。
+ */
 function Dock({
   className,
   direction = "horizontal",
   magnification = 56,
   distance = 120,
   children,
-  onMouseMove,
-  onMouseLeave,
+  onPointerMove,
+  onPointerLeave,
   ...props
 }: DockProps) {
-  const mouseX = useMotionValue(Infinity)
+  const pointer = useMotionValue(Infinity)
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    mouseX.set(direction === "horizontal" ? e.pageX : e.pageY)
-    onMouseMove?.(e)
+  const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
+    onPointerMove?.(event)
+    if (event.pointerType === "touch") return
+    pointer.set(direction === "horizontal" ? event.clientX : event.clientY)
   }
 
-  const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
-    mouseX.set(Infinity)
-    onMouseLeave?.(e)
+  const handlePointerLeave = (event: React.PointerEvent<HTMLDivElement>) => {
+    onPointerLeave?.(event)
+    pointer.set(Infinity)
   }
+
+  const context = React.useMemo(
+    () => ({ pointer, direction, magnification, distance }),
+    [pointer, direction, magnification, distance]
+  )
 
   return (
-    <DockContext.Provider value={{ mouseX, magnification, distance }}>
+    <DockContext.Provider value={context}>
       <div
+        role="toolbar"
+        aria-orientation={direction}
         data-slot="dock"
         data-direction={direction}
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
+        onPointerMove={handlePointerMove}
+        onPointerLeave={handlePointerLeave}
         className={cn(dockVariants({ direction }), className)}
         {...props}
       >
@@ -79,68 +98,113 @@ function Dock({
   )
 }
 
-export interface DockItemProps extends Omit<React.ComponentProps<typeof motion.button>, "children"> {
+export interface DockItemProps extends Omit<
+  React.ComponentProps<typeof motion.button>,
+  "children"
+> {
   /** 基础默认尺寸（像素）。 @default 40 */
   size?: number
-  /** 提示标签文案。 */
+  /** 提示标签文案，同时作为无障碍名称。 */
   label?: string
-  /** 子元素内容。 */
+  /** 标记为当前激活项，在图标下方显示指示点。 */
+  active?: boolean
+  /** 子元素内容，内部 SVG 图标会随尺寸等比放大。 */
   children?: React.ReactNode
 }
+
+const springConfig = { mass: 0.1, stiffness: 170, damping: 14 }
 
 function DockItem({
   className,
   size = 40,
   label,
+  active = false,
   children,
+  style,
   ...props
 }: DockItemProps) {
-  const ref = React.useRef<HTMLButtonElement>(null)
+  const slotRef = React.useRef<HTMLDivElement>(null)
+  const fallbackPointer = useMotionValue(Infinity)
   const context = React.useContext(DockContext)
   const reduceMotion = useReducedMotion()
 
-  const mousePos = context?.mouseX ?? useMotionValue(Infinity)
+  const pointer = context?.pointer ?? fallbackPointer
+  const direction = context?.direction ?? "horizontal"
   const magnification = context?.magnification ?? 56
   const distance = context?.distance ?? 120
 
-  const distanceCalc = useTransform(mousePos, (val: number) => {
-    const bounds = ref.current?.getBoundingClientRect() ?? { x: 0, y: 0, width: 0, height: 0 }
-    const center = bounds.x + bounds.width / 2
-    return val - center
+  // Measure the in-flow slot; the button is absolutely positioned inside it
+  // and overflows the dock as it grows.
+  const offset = useTransform(pointer, (value: number) => {
+    const bounds = slotRef.current?.getBoundingClientRect()
+    if (!bounds || !Number.isFinite(value)) return Infinity
+    const center =
+      direction === "horizontal"
+        ? bounds.left + bounds.width / 2
+        : bounds.top + bounds.height / 2
+    return value - center
   })
-
-  const widthSync = useTransform(
-    distanceCalc,
+  const targetSize = useTransform(
+    offset,
     [-distance, 0, distance],
     [size, magnification, size]
   )
-
-  const springConfig = { mass: 0.1, stiffness: 160, damping: 12 }
-  const width = useSpring(widthSync, springConfig)
+  const animatedSize = useSpring(targetSize, springConfig)
+  const itemSize = reduceMotion ? size : animatedSize
 
   return (
-    <motion.button
-      ref={ref}
-      type="button"
-      data-slot="dock-item"
-      title={label}
-      aria-label={label}
-      style={reduceMotion ? { width: size, height: size } : { width, height: width }}
-      className={cn(
-        "group relative flex items-center justify-center rounded-xl bg-card border border-border/60 text-foreground transition-colors hover:border-border hover:bg-muted/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/35 cursor-pointer shadow-xs",
-        className
-      )}
-      {...props}
+    <motion.div
+      ref={slotRef}
+      data-slot="dock-item-slot"
+      className="relative shrink-0"
+      style={
+        direction === "horizontal"
+          ? { width: itemSize, height: size }
+          : { width: size, height: itemSize }
+      }
     >
-      <div className="flex size-full items-center justify-center pointer-events-none">
+      <motion.button
+        type="button"
+        data-slot="dock-item"
+        data-active={active || undefined}
+        aria-label={label}
+        style={{ ...style, width: itemSize, height: itemSize }}
+        className={cn(
+          "group/dock-item absolute flex cursor-pointer items-center justify-center rounded-lg bg-muted/70 text-foreground outline-none transition-colors hover:bg-muted focus-visible:ring-[3px] focus-visible:ring-ring/50 data-[active]:bg-muted [&_svg]:size-[45%] [&_svg]:shrink-0",
+          direction === "horizontal"
+            ? "bottom-0 left-1/2 -translate-x-1/2"
+            : "left-0 top-1/2 -translate-y-1/2",
+          className
+        )}
+        {...props}
+      >
         {children}
-      </div>
-      {label && (
-        <span className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 rounded-md bg-popover px-2 py-0.5 text-[10px] font-medium text-popover-foreground shadow-md opacity-0 transition-opacity duration-150 group-hover:opacity-100 whitespace-nowrap">
-          {label}
-        </span>
-      )}
-    </motion.button>
+        {active ? (
+          <span
+            aria-hidden="true"
+            className={cn(
+              "bg-foreground/70 pointer-events-none absolute size-1 rounded-full",
+              direction === "horizontal"
+                ? "-bottom-1.5 left-1/2 -translate-x-1/2"
+                : "-left-1.5 top-1/2 -translate-y-1/2"
+            )}
+          />
+        ) : null}
+        {label ? (
+          <span
+            aria-hidden="true"
+            className={cn(
+              "bg-foreground text-background pointer-events-none absolute whitespace-nowrap rounded-md px-2 py-1 text-xs font-medium opacity-0 transition-[opacity,translate] duration-150 ease-out group-hover/dock-item:opacity-100 group-focus-visible/dock-item:opacity-100",
+              direction === "horizontal"
+                ? "bottom-full left-1/2 mb-2 -translate-x-1/2 translate-y-1 group-hover/dock-item:translate-y-0 group-focus-visible/dock-item:translate-y-0"
+                : "left-full top-1/2 ml-2 -translate-y-1/2 -translate-x-1 group-hover/dock-item:translate-x-0 group-focus-visible/dock-item:translate-x-0"
+            )}
+          >
+            {label}
+          </span>
+        ) : null}
+      </motion.button>
+    </motion.div>
   )
 }
 
@@ -150,8 +214,14 @@ function DockSeparator({
 }: React.ComponentProps<"div">) {
   return (
     <div
+      role="separator"
       data-slot="dock-separator"
-      className={cn("h-6 w-px bg-border/80 mx-1", className)}
+      className={cn(
+        "bg-border shrink-0 self-center",
+        "group-data-[direction=horizontal]/dock:mx-1 group-data-[direction=horizontal]/dock:h-6 group-data-[direction=horizontal]/dock:w-px",
+        "group-data-[direction=vertical]/dock:my-1 group-data-[direction=vertical]/dock:h-px group-data-[direction=vertical]/dock:w-6",
+        className
+      )}
       {...props}
     />
   )

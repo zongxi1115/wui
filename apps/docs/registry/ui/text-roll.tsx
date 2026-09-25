@@ -28,8 +28,14 @@ export interface TextRollProps extends React.ComponentProps<"span"> {
   transition?: Transition
   /** Rest and hover states for each character track. */
   variants?: Variants
-  /** Play on hover or immediately on mount. @default "hover" */
-  trigger?: "hover" | "mount"
+  /**
+   * What plays the roll. `"hover"` listens on the text itself, `"parent"`
+   * listens on the closest link or button (padding included, plus keyboard
+   * focus), and `"mount"` rolls once immediately. @default "hover"
+   */
+  trigger?: "hover" | "parent" | "mount"
+  /** Control the rolled state from outside the component. */
+  active?: boolean
 }
 
 /** Rolls a second copy of each character into view. */
@@ -42,34 +48,66 @@ function TextRoll({
   transition,
   variants = defaultVariants,
   trigger = "hover",
+  active: activeProp,
   onMouseEnter,
   onMouseLeave,
   ...props
 }: TextRollProps) {
+  const ref = React.useRef<HTMLSpanElement>(null)
   const reduceMotion = useReducedMotion()
   const [hovered, setHovered] = React.useState(false)
-  const active = trigger === "mount" || hovered
+  const active = activeProp ?? (trigger === "mount" || hovered)
+
+  React.useEffect(() => {
+    const element = ref.current
+    if (trigger !== "parent" || !element) return
+    const target =
+      element.parentElement?.closest<HTMLElement>(
+        "a, button, [role='button'], [data-text-roll-trigger]"
+      ) ?? element.parentElement
+    if (!target) return
+
+    const enter = () => setHovered(true)
+    const leave = () => setHovered(false)
+    const focusIn = () => {
+      if (target.matches(":focus-visible")) setHovered(true)
+    }
+    target.addEventListener("pointerenter", enter)
+    target.addEventListener("pointerleave", leave)
+    target.addEventListener("focusin", focusIn)
+    target.addEventListener("focusout", leave)
+    return () => {
+      target.removeEventListener("pointerenter", enter)
+      target.removeEventListener("pointerleave", leave)
+      target.removeEventListener("focusin", focusIn)
+      target.removeEventListener("focusout", leave)
+    }
+  }, [trigger])
 
   return (
     <span
-      aria-label={children}
+      ref={ref}
       data-slot="text-roll"
+      data-state={active ? "rolled" : "rest"}
       className={cn("inline-flex", className)}
       onMouseEnter={(event) => {
-        setHovered(true)
+        if (trigger === "hover") setHovered(true)
         onMouseEnter?.(event)
       }}
       onMouseLeave={(event) => {
-        setHovered(false)
+        if (trigger === "hover") setHovered(false)
         onMouseLeave?.(event)
       }}
       {...props}
     >
+      <span className="sr-only">{children}</span>
       {Array.from(children).map((character, index) => (
         <span
           aria-hidden="true"
           data-slot="text-roll-character"
-          className="inline-block h-[1em] overflow-hidden leading-none"
+          // 1.2em leaves room for ascenders and descenders (g, y, p) that a
+          // 1em window would clip.
+          className="inline-block h-[1.2em] overflow-hidden leading-[1.2]"
           key={`${character}-${index}`}
         >
           <motion.span
@@ -84,12 +122,8 @@ function TextRoll({
               ...transition,
             }}
           >
-            <span className="block h-[1em] whitespace-pre">
-              {character === " " ? "\u00a0" : character}
-            </span>
-            <span className="block h-[1em] whitespace-pre">
-              {character === " " ? "\u00a0" : character}
-            </span>
+            <span className="block h-[1.2em] whitespace-pre">{character}</span>
+            <span className="block h-[1.2em] whitespace-pre">{character}</span>
           </motion.span>
         </span>
       ))}

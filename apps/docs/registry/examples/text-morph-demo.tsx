@@ -1,58 +1,52 @@
 "use client"
 
 import * as React from "react"
-import { Check, Loader2, Sparkles } from "lucide-react"
+import { CheckIcon, LoaderCircleIcon, SaveIcon } from "lucide-react"
 
 import { Button } from "@/registry/ui/button"
 import { TextMorph } from "@/registry/ui/text-morph"
 
-type State = "idle" | "loading" | "success"
+type State = "idle" | "saving" | "saved"
+
+const labels: Record<State, string> = {
+  idle: "保存草稿",
+  saving: "正在保存草稿",
+  saved: "草稿已保存",
+}
+
+const icons: Record<State, React.ReactNode> = {
+  idle: <SaveIcon />,
+  saving: <LoaderCircleIcon className="animate-spin" />,
+  saved: <CheckIcon />,
+}
 
 export default function TextMorphDemo() {
   const [state, setState] = React.useState<State>("idle")
+  const timers = React.useRef<number[]>([])
 
-  const handleClick = () => {
+  React.useEffect(() => {
+    const pending = timers.current
+    return () => pending.forEach((timer) => window.clearTimeout(timer))
+  }, [])
+
+  const save = () => {
     if (state !== "idle") return
-    setState("loading")
-    setTimeout(() => {
-      setState("success")
-      setTimeout(() => setState("idle"), 2000)
-    }, 1200)
-  }
-
-  const labelMap = {
-    idle: "Generate UI",
-    loading: "Generating...",
-    success: "Generated!",
+    setState("saving")
+    timers.current.push(
+      window.setTimeout(() => setState("saved"), 1200),
+      window.setTimeout(() => setState("idle"), 3000)
+    )
   }
 
   return (
-    <div className="flex w-full max-w-md flex-col items-center justify-center gap-5 rounded-xl border border-border bg-card p-8 text-center shadow-xs">
-      <div className="space-y-1">
-        <h4 className="text-sm font-semibold text-foreground">状态形变按钮</h4>
-        <p className="text-xs text-muted-foreground">
-          点击按钮观察相同字符在不同状态词汇间的丝滑位移与形变。
-        </p>
-      </div>
-
-      <Button
-        type="button"
-        size="default"
-        disabled={state === "loading"}
-        onClick={handleClick}
-        className={`min-w-36 transition-all duration-300 ${
-          state === "success"
-            ? "bg-emerald-600 hover:bg-emerald-600 text-white"
-            : ""
-        }`}
-      >
-        {state === "idle" && <Sparkles className="size-3.5 mr-1.5" />}
-        {state === "loading" && (
-          <Loader2 className="size-3.5 mr-1.5 animate-spin" />
-        )}
-        {state === "success" && <Check className="size-3.5 mr-1.5" />}
-        <TextMorph as="span">{labelMap[state]}</TextMorph>
+    <div className="flex flex-col items-center gap-3">
+      <Button variant="outline" onClick={save} aria-live="polite">
+        {icons[state]}
+        <TextMorph as="span">{labels[state]}</TextMorph>
       </Button>
+      <p className="text-muted-foreground text-xs">
+        相同的字会滑到新位置，新出现的字淡入，消失的字淡出
+      </p>
     </div>
   )
 }

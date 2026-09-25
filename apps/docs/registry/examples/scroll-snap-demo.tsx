@@ -1,112 +1,105 @@
-import { ArrowDown, Bot, Globe, Zap } from "lucide-react"
+"use client"
 
-import { Badge } from "@/registry/ui/badge"
-import { Button } from "@/registry/ui/button"
+import * as React from "react"
+import { motion } from "motion/react"
+
+import { cn } from "@/registry/lib/utils"
 import { ScrollSnap, ScrollSnapItem } from "@/registry/ui/scroll-snap"
 
 const slides = [
   {
-    number: "01",
-    tag: "REACTIVITY",
-    title: "Sub-Millisecond State Flow",
-    description:
-      "Fine-grained reactive primitives update the DOM directly with zero unnecessary component re-renders.",
-    metric: "< 1ms Jitter",
-    image: "https://picsum.photos/seed/snap-ocean/1000/600",
-    icon: Zap,
+    kicker: "第一章",
+    title: "清晨五点的湖面",
+    body: "风还没醒，水面像一块没有打磨过的镜子。",
+    image:
+      "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1400&q=80",
   },
   {
-    number: "02",
-    tag: "AI CO-PILOT",
-    title: "Agentic Reasoning Pipeline",
-    description:
-      "Deploy context-aware AI tools and token-streaming workflows directly into your edge infrastructure.",
-    metric: "140 tps Stream Rate",
-    image: "https://picsum.photos/seed/snap-monolith/1000/600",
-    icon: Bot,
+    kicker: "第二章",
+    title: "穿过雾里的松林",
+    body: "能见度只有十米，脚下的路是唯一的参照。",
+    image:
+      "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=1400&q=80",
   },
   {
-    number: "03",
-    tag: "ENTERPRISE MESH",
-    title: "Zero-Downtime Edge Distribution",
-    description:
-      "Synchronize distributed state across 320+ edge regions with automated cryptographic key rotation.",
-    metric: "99.999% SLA",
-    image: "https://picsum.photos/seed/snap-geometric/1000/600",
-    icon: Globe,
+    kicker: "第三章",
+    title: "山顶的星轨",
+    body: "零下九度，我们等了四个小时，只为这一张照片。",
+    image:
+      "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1400&q=80",
   },
 ]
 
 export default function ScrollSnapDemo() {
+  const [active, setActive] = React.useState(0)
+  const rootRef = React.useRef<HTMLDivElement>(null)
+
   return (
-    <ScrollSnap
-      className="h-[32rem] w-full rounded-2xl border border-border bg-card text-card-foreground shadow-lg"
-      hideScrollbar
-    >
-      {slides.map((slide) => {
-        const Icon = slide.icon
-        return (
+    <div className="relative h-[26rem] w-full overflow-hidden rounded-b-lg">
+      <ScrollSnap
+        ref={rootRef}
+        hideScrollbar
+        onActiveChange={setActive}
+        className="h-full"
+      >
+        {slides.map((slide, index) => (
           <ScrollSnapItem
-            key={slide.number}
+            key={slide.title}
             stop
-            className="relative flex h-full flex-col justify-between overflow-hidden border-b border-border p-8 last:border-0 sm:p-10"
+            className="relative flex h-full items-end overflow-hidden"
           >
             <img
               src={slide.image}
               alt={slide.title}
-              className="absolute inset-0 size-full object-cover"
+              className="bg-muted absolute inset-0 size-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/30" />
-
-            <div className="relative z-10 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Badge
-                  variant="outline"
-                  className="border-white/30 bg-black/40 text-xs text-white backdrop-blur-md"
-                >
-                  <Icon className="size-3 text-sky-300" />
-                  {slide.tag}
-                </Badge>
-                <span className="font-mono text-xs text-white/80">
-                  SLIDE {slide.number} / 03
-                </span>
-              </div>
-
-              <div className="flex items-center gap-1 text-xs text-white/80">
-                <span>Scroll to snap</span>
-                <ArrowDown className="size-3.5 animate-bounce text-white" />
-              </div>
-            </div>
-
-            <div className="relative z-10 my-auto max-w-xl space-y-3 text-white">
-              <h3 className="text-2xl font-semibold tracking-tight text-white sm:text-4xl">
+            <div className="absolute inset-0 bg-black/35" />
+            <motion.div
+              className="relative p-8 text-white sm:p-10"
+              initial={false}
+              animate={
+                active === index
+                  ? { opacity: 1, y: 0, filter: "blur(0px)" }
+                  : { opacity: 0, y: 24, filter: "blur(6px)" }
+              }
+              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <p className="text-sm text-white/70">{slide.kicker}</p>
+              <h3 className="mt-1 text-3xl font-semibold tracking-tight">
                 {slide.title}
               </h3>
-              <p className="text-sm leading-relaxed text-zinc-300 sm:text-base">
-                {slide.description}
+              <p className="mt-2 max-w-sm text-sm leading-6 text-white/80">
+                {slide.body}
               </p>
-            </div>
-
-            <div className="relative z-10 flex items-center justify-between border-t border-white/20 pt-4 text-white">
-              <div>
-                <div className="text-[10px] uppercase tracking-wider text-zinc-400">
-                  Benchmark
-                </div>
-                <div className="text-base font-bold tracking-tight text-white">
-                  {slide.metric}
-                </div>
-              </div>
-
-              <Button
-                size="sm"
-                className="bg-white text-zinc-950 hover:bg-zinc-100"
-              >
-                Learn More
-              </Button>
-            </div>
+            </motion.div>
           </ScrollSnapItem>
-        )
-      })}
-    </ScrollSnap>
+        ))}
+      </ScrollSnap>
+
+      <div className="absolute top-1/2 right-5 flex -translate-y-1/2 flex-col gap-2">
+        {slides.map((slide, index) => (
+          <button
+            key={slide.title}
+            type="button"
+            aria-label={`跳转到${slide.kicker}`}
+            aria-current={active === index}
+            onClick={() =>
+              rootRef.current?.scrollTo({
+                top: index * rootRef.current.clientHeight,
+                behavior: "smooth",
+              })
+            }
+            className="flex h-6 w-3 items-center justify-center"
+          >
+            <span
+              className={cn(
+                "w-1 rounded-full bg-white transition-all duration-300",
+                active === index ? "h-6 opacity-100" : "h-1.5 opacity-50"
+              )}
+            />
+          </button>
+        ))}
+      </div>
+    </div>
   )
 }

@@ -1,9 +1,9 @@
 "use client"
 
 import * as React from "react"
-import { SearchIcon, RotateCcwIcon } from "lucide-react"
+import { FileTextIcon, RotateCcwIcon, SearchIcon } from "lucide-react"
+
 import { Button } from "@/registry/ui/button"
-import { Input } from "@/registry/ui/input"
 import {
   EmptyState,
   EmptyStateActions,
@@ -13,52 +13,65 @@ import {
   EmptyStateMedia,
   EmptyStateTitle,
 } from "@/registry/ui/empty-state"
+import { Input } from "@/registry/ui/input"
+
+const docs = [
+  { title: "REST API 鉴权与签名", updated: "3 天前" },
+  { title: "Webhook 事件订阅指南", updated: "1 周前" },
+  { title: "前端组件库接入规范", updated: "2 周前" },
+  { title: "灰度发布与回滚流程", updated: "1 个月前" },
+]
 
 export default function EmptyStateFilter() {
-  const [searchTerm, setSearchTerm] = React.useState("GraphQL API 架构指南")
+  const [query, setQuery] = React.useState("GraphQL 架构")
+  const keyword = query.trim().toLowerCase()
+  const results = docs.filter((doc) => doc.title.toLowerCase().includes(keyword))
 
   return (
-    <div className="w-full max-w-lg space-y-4 rounded-xl border bg-card p-6">
-      <div className="flex items-center gap-2">
-        <Input
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          placeholder="搜索知识库文档…"
-          startContent={<SearchIcon className="size-4 text-muted-foreground" />}
-        />
-        {searchTerm && (
-          <Button
-            size="sm"
-            variant="ghost"
-            onClick={() => setSearchTerm("")}
-          >
-            清空
-          </Button>
+    <div className="w-full max-w-lg space-y-3">
+      <Input
+        value={query}
+        onChange={(event) => setQuery(event.target.value)}
+        allowClear
+        onClear={() => setQuery("")}
+        placeholder="搜索知识库文档…"
+        aria-label="搜索知识库文档"
+        startContent={<SearchIcon />}
+      />
+
+      <div aria-live="polite" className="rounded-lg border">
+        {results.length > 0 ? (
+          <ul className="divide-y">
+            {results.map((doc) => (
+              <li key={doc.title} className="flex items-center gap-3 px-4 py-3">
+                <FileTextIcon className="text-muted-foreground size-4 shrink-0" />
+                <span className="flex-1 truncate text-sm">{doc.title}</span>
+                <span className="text-muted-foreground text-xs">{doc.updated}</span>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <EmptyState size="sm">
+            <EmptyStateMedia className="mb-4">
+              <EmptyStateIllustration variant="flat" name="search" className="w-24" />
+            </EmptyStateMedia>
+            <EmptyStateTitle>未找到相关文档</EmptyStateTitle>
+            <EmptyStateDescription>
+              没有与“<span className="text-foreground font-medium">{query}</span>
+              ”匹配的内容，换个关键词或清空搜索后再试。
+            </EmptyStateDescription>
+            <EmptyStateActions>
+              <Button size="sm" variant="outline" onClick={() => setQuery("")}>
+                <RotateCcwIcon />
+                清空搜索
+              </Button>
+            </EmptyStateActions>
+            <EmptyStateHint>
+              支持 <code className="font-mono">tag:api</code> 等标签语法精确过滤
+            </EmptyStateHint>
+          </EmptyState>
         )}
       </div>
-
-      <EmptyState className="py-6">
-        <EmptyStateMedia>
-          <EmptyStateIllustration variant="flat" name="search" className="w-28" />
-        </EmptyStateMedia>
-        <EmptyStateTitle>未找到相关文档</EmptyStateTitle>
-        <EmptyStateDescription>
-          没有找到与“<span className="text-foreground font-medium">{searchTerm}</span>”匹配的内容。请尝试更换关键词或缩减检索条件。
-        </EmptyStateDescription>
-        <EmptyStateActions>
-          <Button
-            size="sm"
-            variant="outline"
-            onClick={() => setSearchTerm("")}
-          >
-            <RotateCcwIcon className="size-3.5" />
-            重置搜索条件
-          </Button>
-        </EmptyStateActions>
-        <EmptyStateHint>
-          支持使用空格连接多个关键词，或使用标签语法如 <code>tag:api</code> 进行精确过滤
-        </EmptyStateHint>
-      </EmptyState>
     </div>
   )
 }

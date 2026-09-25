@@ -40,6 +40,37 @@ pnpm add lucide-react class-variance-authority clsx tailwind-merge
 
 继承原生 HTML `<header>` 元素的全部属性，通常包含任务标题与右侧完成度统计。
 
+<PropsTable
+  data={[
+    {
+      prop: "icon",
+      type: "React.ReactNode",
+      description: "标题前的图标，默认为清单图标；传入 `null` 可隐藏。",
+    },
+  ]}
+/>
+
+### AiTodoProgress Props
+
+放在 `AiTodoHeader` 下方的细进度条，完成度变化时以弹簧动画推进，全部完成后切换为成功色。
+
+<PropsTable
+  data={[
+    {
+      prop: "value",
+      type: "number",
+      required: true,
+      description: "已完成数量。",
+    },
+    {
+      prop: "max",
+      type: "number",
+      default: "100",
+      description: "总数量。",
+    },
+  ]}
+/>
+
 ### AiTodoList Props
 
 继承原生 HTML `<ol>` 元素的全部属性，内含具体的 `AiTodoItem` 任务条目。
@@ -63,12 +94,12 @@ pnpm add lucide-react class-variance-authority clsx tailwind-merge
       prop: "status",
       type: '"pending" | "in-progress" | "completed" | "cancelled"',
       default: '"pending"',
-      description: "任务当前的生命周期状态。pending 为待执行，in-progress 为执行中（带旋转动效），completed 为已完成，cancelled 为已取消（带删除线）。",
+      description: "任务当前的生命周期状态。pending 为待执行，in-progress 为执行中（带旋转动效与行高亮），completed 为已完成（勾选描边绘制、删除线从左向右划过），cancelled 为已取消。",
     },
     {
       prop: "onStatusChange",
       type: "(status: AiTodoStatus) => void",
-      description: "当传入该回调时，左侧状态图标会变成可交互按钮，点击可在 completed 与 pending 之间切换。",
+      description: "当传入该回调时，左侧状态图标会变成可交互按钮，点击可在 completed 与 pending 之间切换；未传入时渲染为带状态文案的只读图标。",
     },
     {
       prop: "className",

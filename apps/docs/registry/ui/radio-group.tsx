@@ -17,7 +17,7 @@ function RadioGroup({ className, ...props }: React.ComponentProps<typeof RadioGr
 }
 
 const radioGroupItemVariants = cva(
-  "peer inline-flex shrink-0 cursor-pointer items-center justify-center rounded-full border border-input bg-background shadow-xs outline-none transition-[border-color,box-shadow,transform] duration-150 ease-out hover:border-ring/70 active:scale-[0.94] focus-visible:ring-[3px] focus-visible:ring-ring/35 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:border-primary",
+  "peer inline-flex shrink-0 cursor-pointer items-center justify-center rounded-full border border-input bg-background shadow-xs outline-none transition-[border-color,box-shadow,scale] duration-200 ease-out hover:border-ring/70 active:scale-[0.9] focus-visible:ring-[3px] focus-visible:ring-ring/35 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-[3px] aria-invalid:ring-destructive/20 data-[state=checked]:border-primary motion-reduce:transition-none",
   {
     variants: {
       size: {
@@ -36,7 +36,7 @@ export interface RadioGroupItemProps
   size?: "sm" | "default" | "lg"
 }
 
-/** One option inside a RadioGroup. */
+/** One option inside a RadioGroup. The dot springs in when selected and shrinks away when deselected. */
 function RadioGroupItem({ className, size = "default", ...props }: RadioGroupItemProps) {
   return (
     <RadioGroupPrimitive.Item
@@ -46,8 +46,9 @@ function RadioGroupItem({ className, size = "default", ...props }: RadioGroupIte
       {...props}
     >
       <RadioGroupPrimitive.Indicator
+        forceMount
         data-slot="radio-group-indicator"
-        className="size-1/2 rounded-full bg-primary transition-transform duration-150 animate-in zoom-in-50"
+        className="size-1/2 scale-0 rounded-full bg-primary opacity-0 transition-[scale,opacity] duration-150 ease-in data-[state=checked]:scale-100 data-[state=checked]:opacity-100 data-[state=checked]:duration-300 data-[state=checked]:ease-[cubic-bezier(0.34,1.56,0.64,1)] motion-reduce:transition-none"
       />
     </RadioGroupPrimitive.Item>
   )

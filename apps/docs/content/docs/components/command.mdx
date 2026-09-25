@@ -21,7 +21,7 @@ component: command
 <Step>安装基础依赖与图标库</Step>
 
 ```bash
-pnpm add lucide-react clsx tailwind-merge
+pnpm add motion lucide-react clsx tailwind-merge
 ```
 
 <Step>复制组件源码到 `components/ui/command.tsx`</Step>
@@ -62,6 +62,11 @@ pnpm add lucide-react clsx tailwind-merge
       prop: "filter",
       type: "(value: string, query: string, keywords: string[]) => boolean",
       description: "自定义选项的模糊搜索匹配算法规则。",
+    },
+    {
+      prop: "defaultActiveValue",
+      type: "string",
+      description: "首次渲染时优先高亮的选项值，并自动滚动到可见区域；Combobox 用它让已选项在打开时可见。",
     },
   ]}
 />
@@ -178,6 +183,9 @@ pnpm add lucide-react clsx tailwind-merge
 - **Combobox & Listbox 角色模型**：输入框自动挂载 `role="combobox"` 与 `aria-autocomplete="list"`；列表容器挂载 `role="listbox"`；选项挂载 `role="option"`。
 - **活动后代指示（aria-activedescendant）**：当前通过上下方向键高亮的项目 ID 会实时同步至输入框的 `aria-activedescendant` 属性，读屏器无需移动焦点即可清晰播报当前选中的项目。
 - **全键盘流畅控制**：
-  - <kbd>↓</kbd> / <kbd>↑</kbd>：按顺序在可用命令项间循环切换高亮。
-  - <kbd>Enter</kbd>：直接执行当前高亮项的 `onSelect` 回调。
+  - <kbd>↓</kbd> / <kbd>↑</kbd>：按 DOM 顺序在可用命令项间循环切换高亮，并自动滚动到可见区域。
+  - <kbd>PageUp</kbd> / <kbd>PageDown</kbd>：跳到第一个或最后一个可用项。
+  - <kbd>Enter</kbd>：直接执行当前高亮项的 `onSelect` 回调；中文输入法组词期间不会误触发。
   - <kbd>Esc</kbd>：清空输入或在弹窗模式下关闭菜单。
+- **搜索行为**：输入关键词后高亮自动回到第一个匹配项；没有可见选项的 `CommandGroup` 会连同标题一起隐藏，`CommandSeparator` 在搜索时隐藏。
+- **动效**：高亮背景使用共享布局动画在选项之间平滑滑动（每个 `Command` 实例独立），空状态淡入；开启 `prefers-reduced-motion` 时瞬间切换。

@@ -2,14 +2,16 @@
   "name": "carousel",
   "type": "registry:ui",
   "title": "轮播 Carousel",
-  "description": "基于原生 CSS 滚动与 scroll-snap 物理吸附机制构建的高性能轮播组件，支持横向/纵向滑动、循环滚动与多列响应式排版。",
-  "import": "import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from \"@/components/ui/carousel\"",
+  "description": "基于原生 CSS 滚动与 scroll-snap 吸附机制构建的轮播组件，支持横向/纵向滑动、循环、自动播放与多列响应式排版。",
+  "import": "import { Carousel, CarouselContent, CarouselDots, CarouselItem, CarouselNext, CarouselPrevious, useCarousel } from \"@/components/ui/carousel\"",
   "exports": [
     "Carousel",
     "CarouselContent",
+    "CarouselDots",
     "CarouselItem",
     "CarouselNext",
-    "CarouselPrevious"
+    "CarouselPrevious",
+    "useCarousel"
   ],
   "typeExports": [
     "CarouselProps"
@@ -18,7 +20,8 @@
     "wui": "pnpm dlx @wui-design/cli@latest add @wui/carousel",
     "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/carousel.json",
     "npmDependencies": [
-      "lucide-react"
+      "lucide-react",
+      "motion"
     ],
     "registryDependencies": [
       "utils",
@@ -60,6 +63,14 @@
       "required": false,
       "control": "text",
       "description": "当前项目变化时触发。"
+    },
+    {
+      "name": "autoplay",
+      "type": "number | boolean",
+      "required": false,
+      "control": "text",
+      "defaultValue": "false",
+      "description": "自动播放。传入数字时作为每页停留的毫秒数，`true` 为 5000ms。\n指针悬停、键盘焦点位于轮播内或页面隐藏时自动暂停；到达末页后回到第一页。"
     }
   ],
   "examples": [
@@ -70,6 +81,10 @@
     {
       "name": "carousel-cards",
       "title": "多卡片响应式轮播 (Multi-card)"
+    },
+    {
+      "name": "carousel-autoplay",
+      "title": "自动播放 (Autoplay)"
     },
     {
       "name": "carousel-vertical",

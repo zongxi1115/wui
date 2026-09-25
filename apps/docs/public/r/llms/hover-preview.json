@@ -57,6 +57,14 @@
       "description": "预览相对指针的垂直偏移量，单位为像素。"
     },
     {
+      "name": "tilt",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "6",
+      "description": "根据指针横向速度产生的最大倾斜角度，设为 0 时关闭。"
+    },
+    {
       "name": "open",
       "type": "boolean",
       "required": false,

@@ -1,0 +1,142 @@
+---
+title: 数字滚动 Number Ticker
+description: 进入视口时从起始值计数到目标值，数值变化时从当前值平滑过渡，支持本地化格式、小数位与前后缀。
+component: number-ticker
+---
+
+## 基础用法
+
+传入目标值 `value`，数字会在滚动进入视口时从 `from`（默认 0）计数到目标值。默认使用无回弹的弹簧曲线，结尾减速自然且不会超出目标值：
+
+<ComponentPreview name="number-ticker-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
+
+<CodeTabs command="@wui-design/cli@latest add @wui/number-ticker" />
+
+<Steps>
+
+<Step>安装基础依赖与 Motion 动效库</Step>
+
+```bash
+pnpm add motion clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/number-ticker.tsx`</Step>
+
+<ComponentSource name="number-ticker" title="components/ui/number-ticker.tsx" />
+
+</Steps>
+
+## 属性 Props
+
+`NumberTicker` 支持以下配置属性，并继承原生 `<span>` 的其余 HTML 属性：
+
+<PropsTable
+  data={[
+    {
+      prop: "value",
+      type: "number",
+      required: true,
+      description: "目标数值。之后每次变化都会从当前显示值过渡到新值。",
+    },
+    {
+      prop: "from",
+      type: "number",
+      default: "0",
+      description: "首次计数的起始值。设为大于 `value` 的数即为倒数。",
+    },
+    {
+      prop: "delay",
+      type: "number",
+      default: "0",
+      description: "首次计数前的延迟（秒），可用于多个指标错峰启动。",
+    },
+    {
+      prop: "decimalPlaces",
+      type: "number",
+      default: "0",
+      description: "固定保留的小数位数，计数过程中位数保持不变，避免宽度抖动。",
+    },
+    {
+      prop: "locale",
+      type: "string",
+      default: '"zh-CN"',
+      description: "传给 `Intl.NumberFormat` 的语言区域，决定千分位与小数点符号。",
+    },
+    {
+      prop: "formatOptions",
+      type: "Intl.NumberFormatOptions",
+      description: "额外的格式化选项，例如货币 `{ style: \"currency\", currency: \"CNY\" }` 或紧凑记数 `{ notation: \"compact\" }`。",
+    },
+    {
+      prop: "prefix",
+      type: "React.ReactNode",
+      description: "数字前的内容，例如货币符号或趋势图标。",
+    },
+    {
+      prop: "suffix",
+      type: "React.ReactNode",
+      description: "数字后的内容，例如单位或百分号。",
+    },
+    {
+      prop: "startOnView",
+      type: "boolean",
+      default: "true",
+      description: "是否等到滚动进入视口再开始计数。关闭后挂载即开始。",
+    },
+    {
+      prop: "viewOptions",
+      type: "UseInViewOptions",
+      description: "视口检测参数，例如 `{ amount: 0.6 }` 或 `{ margin: \"-80px\" }`。",
+    },
+    {
+      prop: "transition",
+      type: "Transition",
+      default: '{ type: "spring", duration: 1.6, bounce: 0 }',
+      description: "计数使用的 Motion 过渡参数。",
+    },
+  ]}
+/>
+
+## 事件 Events
+
+<PropsTable
+  data={[
+    {
+      prop: "onComplete",
+      type: "(value: number) => void",
+      description: "每次计数结束时触发，参数为最终数值。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`NumberTicker` 适合营销页的规模数据、仪表盘 KPI 与余额等需要强调“变化”的数字。若需要逐位滚轮效果，请使用 [滑动数字 Sliding Number](/docs/components/sliding-number)。
+
+- **只动一次**：营销页的规模数据通常只需在首次进入视口时计数，不要反复播放。
+- **固定小数位与等宽数字**：组件默认启用 `tabular-nums`，配合 `decimalPlaces` 可以保证计数过程中宽度稳定。
+- **不要超调**：默认过渡没有回弹。自定义弹簧时请保持 `bounce: 0`，避免百分比等指标短暂超过 100%。
+
+## 场景示例
+
+### KPI 指标行
+
+多个指标通过 `delay` 错峰启动，货币使用 `formatOptions`，百分比使用 `decimalPlaces` 与 `suffix`：
+
+<ComponentPreview name="number-ticker-stats" previewClassName="min-h-0 p-10" />
+
+### 实时数值更新
+
+点击刷新切换数据快照，数字从当前值过渡到新值，而不是从 0 重新开始：
+
+<ComponentPreview name="number-ticker-live" />
+
+## 无障碍与交互 Accessibility
+
+- **只读最终值**：计数过程中的数字设置了 `aria-hidden`，组件另外输出包含前后缀与最终格式化结果的 `sr-only` 文本，读屏软件只会读到目标值。
+- **减少动态效果**：开启 `prefers-reduced-motion` 时直接显示目标值，不再计数。
+- **SSR 友好**：服务端与首屏渲染都输出 `from` 的格式化结果，计数在挂载后通过直接写入文本节点完成，不会触发整棵组件树的重复渲染。

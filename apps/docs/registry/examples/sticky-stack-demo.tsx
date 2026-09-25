@@ -1,42 +1,36 @@
 "use client"
 
 import * as React from "react"
-import { ArrowDown, Bot, Check, Globe, Layers, ShieldCheck } from "lucide-react"
 
-import { Badge } from "@/registry/ui/badge"
-import { Button } from "@/registry/ui/button"
 import { StickyStack, StickyStackItem } from "@/registry/ui/sticky-stack"
 
-const pillars = [
+const features = [
   {
-    number: "01",
-    tag: "ORCHESTRATION",
-    title: "Autonomous Agent Graph",
+    index: "01",
+    title: "文档",
+    heading: "把想法写下来，团队就能接着写",
     description:
-      "Coordinate multi-agent workflows with real-time token streaming, parallel tool synthesis, and dynamic fallback pipelines.",
-    stat: "10M+ daily runs",
-    image: "https://picsum.photos/seed/agent-stack/800/350",
-    icon: Bot,
+      "实时协作、行内评论与版本历史。每一次修改都有迹可循，不再需要在群里问“最新版是哪个”。",
+    image:
+      "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=900&q=80",
   },
   {
-    number: "02",
-    tag: "SECURITY",
-    title: "Zero-Trust Enclave Guard",
+    index: "02",
+    title: "看板",
+    heading: "让每个任务都有明确的下一步",
     description:
-      "Hardware-enforced encryption with sub-millisecond cryptographic verification and automated compliance auditing.",
-    stat: "SOC-2 Type II Verified",
-    image: "https://picsum.photos/seed/security-stack/800/350",
-    icon: ShieldCheck,
+      "拖拽即可流转状态，负责人与截止日期一目了然。延期的卡片会自动浮到最上方。",
+    image:
+      "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=900&q=80",
   },
   {
-    number: "03",
-    tag: "INFRASTRUCTURE",
-    title: "Global Low-Latency Mesh",
+    index: "03",
+    title: "自动化",
+    heading: "重复的事情，交给规则去做",
     description:
-      "Distribute state and serverless compute across 320+ edge data centers worldwide with sub-14ms median round-trip times.",
-    stat: "320+ Edge Pops",
-    image: "https://picsum.photos/seed/cloud-stack/800/350",
-    icon: Globe,
+      "合并请求通过后自动关闭任务，周五下午自动生成周报。配置一次，每周省下几个小时。",
+    image:
+      "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=900&q=80",
   },
 ]
 
@@ -46,72 +40,46 @@ export default function StickyStackDemo() {
   return (
     <div
       ref={container}
-      className="relative h-[32rem] w-full overflow-y-auto rounded-2xl border border-border bg-card px-6 py-8 text-card-foreground shadow-lg [scrollbar-width:thin] sm:px-10"
+      className="bg-muted/40 h-[28rem] w-full overflow-y-auto rounded-b-lg"
     >
-      <div className="mb-8 flex items-center justify-between border-b border-border pb-4">
-        <div>
-          <div className="flex items-center gap-2">
-            <Layers className="size-4 text-sky-500" />
-            <h3 className="font-semibold text-foreground">Platform Pillars</h3>
-          </div>
-          <p className="mt-1 text-xs text-muted-foreground">
-            Scroll down to watch capabilities stack and scale dynamically
-          </p>
-        </div>
-        <ArrowDown className="size-4 animate-bounce text-sky-500" />
+      <div className="mx-auto max-w-3xl px-6 pt-10 pb-6">
+        <p className="text-muted-foreground text-sm">一个工作区，三种能力</p>
+        <h3 className="mt-2 text-2xl font-semibold tracking-tight">
+          从记录到交付
+        </h3>
       </div>
 
-      <StickyStack container={container} top={20} gap={14} className="pb-32">
-        {pillars.map((pillar) => {
-          const Icon = pillar.icon
-          return (
-            <StickyStackItem
-              key={pillar.number}
-              className="overflow-hidden rounded-2xl border border-border bg-card p-6 shadow-xl sm:p-8"
-            >
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Badge variant="outline" className="text-xs">
-                    <Icon className="size-3 text-sky-500" />
-                    {pillar.tag}
-                  </Badge>
-                  <span className="text-xs text-muted-foreground font-mono">
-                    PILLAR {pillar.number}
-                  </span>
-                </div>
-                <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400">
-                  {pillar.stat}
-                </span>
+      <StickyStack
+        container={container}
+        top={16}
+        gap={12}
+        dim={0.5}
+        className="mx-auto max-w-3xl px-6 pb-24"
+      >
+        {features.map((feature) => (
+          <StickyStackItem
+            key={feature.index}
+            className="bg-background grid overflow-hidden rounded-lg border sm:grid-cols-[1fr_16rem]"
+          >
+            <div className="flex flex-col p-6">
+              <div className="text-muted-foreground flex items-center gap-2 text-xs">
+                <span className="font-mono">{feature.index}</span>
+                <span>{feature.title}</span>
               </div>
-
-              <div className="my-4 relative h-36 w-full overflow-hidden rounded-xl sm:h-44">
-                <img
-                  src={pillar.image}
-                  alt={pillar.title}
-                  className="size-full object-cover"
-                />
-              </div>
-
-              <h4 className="text-xl font-semibold text-foreground sm:text-2xl">
-                {pillar.title}
+              <h4 className="mt-6 text-lg font-semibold tracking-tight">
+                {feature.heading}
               </h4>
-
-              <p className="mt-2 text-xs leading-relaxed text-muted-foreground sm:text-sm">
-                {pillar.description}
+              <p className="text-muted-foreground mt-2 text-sm leading-6">
+                {feature.description}
               </p>
-
-              <div className="mt-5 flex items-center justify-between border-t border-border pt-4">
-                <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                  <Check className="size-3.5 text-emerald-500" />
-                  <span>Enterprise Ready</span>
-                </div>
-                <Button size="sm" variant="outline">
-                  Explore Architecture
-                </Button>
-              </div>
-            </StickyStackItem>
-          )
-        })}
+            </div>
+            <img
+              src={feature.image}
+              alt={feature.title}
+              className="bg-muted hidden h-full min-h-56 w-full object-cover sm:block"
+            />
+          </StickyStackItem>
+        ))}
       </StickyStack>
     </div>
   )

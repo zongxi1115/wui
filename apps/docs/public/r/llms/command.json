@@ -23,7 +23,8 @@
     "wui": "pnpm dlx @wui-design/cli@latest add @wui/command",
     "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/command.json",
     "npmDependencies": [
-      "lucide-react"
+      "lucide-react",
+      "motion"
     ],
     "registryDependencies": [
       "utils"
@@ -65,6 +66,13 @@
       "required": false,
       "control": "text",
       "description": "自定义选项匹配规则。"
+    },
+    {
+      "name": "defaultActiveValue",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "首次渲染时优先高亮的选项值，常用于让已选项在打开时可见。"
     }
   ],
   "examples": [

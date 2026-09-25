@@ -6,7 +6,7 @@ component: pagination
 
 ## 基础用法
 
-标准的分页导航结构。包含上一页、数字页码按钮、折叠省略号与下一页：
+标准的分页导航结构。当前页的高亮底块会以弹簧动效在页码之间滑动，首末页时上一页 / 下一页自动置灰：
 
 <ComponentPreview name="pagination-demo" />
 
@@ -21,10 +21,10 @@ component: pagination
 <Step>安装基础依赖与图标库</Step>
 
 ```bash
-pnpm add radix-ui lucide-react clsx tailwind-merge
+pnpm add radix-ui motion lucide-react clsx tailwind-merge
 ```
 
-<Step>复制组件源码到 `components/ui/pagination.tsx`</Step>
+<Step>复制组件源码到 `components/ui/pagination.tsx`（依赖 `Button` 的 `buttonVariants`）</Step>
 
 <ComponentSource name="pagination" title="components/ui/pagination.tsx" />
 
@@ -62,7 +62,13 @@ pnpm add radix-ui lucide-react clsx tailwind-merge
       prop: "isActive",
       type: "boolean",
       default: "false",
-      description: "当前页码是否处于选中激活态。开启后自动挂载 aria-current=\"page\" 并禁用重复点击。",
+      description: "当前页码是否处于选中激活态。开启后自动挂载 aria-current=\"page\" 并禁用重复点击；同一 PaginationContent 内的激活底块会在页码间滑动过渡。",
+    },
+    {
+      prop: "disabled",
+      type: "boolean",
+      default: "false",
+      description: "禁用链接：自动添加 aria-disabled、移出 Tab 序列、阻止点击并置灰。常用于首页的上一页与末页的下一页。",
     },
     {
       prop: "size",
@@ -96,9 +102,38 @@ pnpm add radix-ui lucide-react clsx tailwind-merge
       description: "自定义按钮文本，在小屏下内置响应式隐藏文字只显示箭头图标。",
     },
     {
-      prop: "aria-disabled",
+      prop: "disabled",
       type: "boolean",
-      description: "到达边界（如第 1 页或最后一页）时标记禁用态。",
+      default: "false",
+      description: "到达边界（如第 1 页或最后一页）时禁用按钮。仍兼容直接传入 `aria-disabled`，组件会自动应用置灰样式。",
+    },
+  ]}
+/>
+
+### PaginationItem
+
+列表项容器，继承原生 `<li>` 属性。页码窗口平移时，保留下来的项目会平滑滑动到新位置，新出现的项目淡入；建议以页码值作为 `key`，让动画能够正确追踪同一页码。
+
+### PaginationCounter
+
+紧凑的「当前页 / 总页数」读数，页码变化时数字按翻页方向上下滚动：
+
+<PropsTable
+  data={[
+    {
+      prop: "page",
+      type: "number",
+      description: "当前页码，从 1 开始。",
+    },
+    {
+      prop: "total",
+      type: "number",
+      description: "总页数。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于读数容器的额外 CSS 类名。",
     },
   ]}
 />
@@ -142,7 +177,7 @@ pnpm add radix-ui lucide-react clsx tailwind-merge
 - **无限滚动 vs 分页**：
   - **分页（Pagination）**：适合后台表格、交易明细、搜索结果等需要强定位与对比的场景。
   - **无限滚动（Infinite Scroll）**：适合社交动态 Feed、即时消息流等娱乐与探索类内容。
-- **边界禁用处理**：处于第 1 页时，上一页必须置灰并添加 `aria-disabled="true"` 与 `tabIndex={-1}`；处于末页时下一页同理。
+- **边界禁用处理**：处于第 1 页时为上一页传入 `disabled`（自动添加 `aria-disabled` 与 `tabIndex={-1}`）；处于末页时下一页同理。
 - **大页码智能折叠**：当总页数超过 7 页时，应动态保留首尾页与当前页周围的页码，中间插入 `PaginationEllipsis`。
 
 ## 场景示例
@@ -153,9 +188,9 @@ pnpm add radix-ui lucide-react clsx tailwind-merge
 
 <ComponentPreview name="pagination-table" />
 
-### 受控模式与翻页回调
+### 页码窗口平移
 
-在纯客户端状态下配合 `useState` 控制当前页码并实现边界安全检查：
+总页数较多时只保留首尾页与当前页两侧的页码。翻页时页码窗口整体平移，以页码为 `key` 的项目会滑到新位置，当前页指示器跟随目标页码：
 
 <ComponentPreview name="pagination-advanced" />
 
@@ -165,9 +200,16 @@ pnpm add radix-ui lucide-react clsx tailwind-merge
 
 <ComponentPreview name="pagination-sizes" />
 
+### 简洁分页
+
+移动端或卡片底部空间有限时，用 `PaginationCounter` 替代完整页码列表，数字随翻页方向滚动：
+
+<ComponentPreview name="pagination-simple" previewClassName="min-h-[200px]" />
+
 ## 无障碍与交互 Accessibility
 
 - **地标标识**：根组件输出 `<nav aria-label="分页导航">`，读屏软件能快速定位整个分页区块。
 - **当前页播报**：激活的 `PaginationLink` 自动挂载 `aria-current="page"`，读屏器会自动播报“当前页，第 X 页”。
-- **折叠项隔离**：`PaginationEllipsis` 内置 `aria-hidden="true"` 与辅助屏幕专用的 `<span className="sr-only">更多页面</span>`。
+- **折叠项播报**：`PaginationEllipsis` 的图标对读屏隐藏，仅保留 `<span className="sr-only">更多页面</span>` 供辅助技术识别。
+- **动效减弱**：系统开启「减弱动态效果」时，指示器滑动、页码平移与数字滚动全部改为即时切换。
 - **键盘遍历支持**：所有页码项均支持标准的 <kbd>Tab</kbd> 聚焦与 <kbd>Enter</kbd> 激活。

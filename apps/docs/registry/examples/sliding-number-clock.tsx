@@ -1,7 +1,6 @@
 "use client"
 
 import * as React from "react"
-import { Clock } from "lucide-react"
 
 import { SlidingNumber } from "@/registry/ui/sliding-number"
 
@@ -14,37 +13,22 @@ export default function SlidingNumberClock() {
     return () => window.clearInterval(timer)
   }, [])
 
-  if (!time) {
-    return (
-      <div className="flex h-32 w-full max-w-sm items-center justify-center rounded-xl border border-border bg-card p-6" />
-    )
-  }
-
-  const hours = time.getHours()
-  const minutes = time.getMinutes()
-  const seconds = time.getSeconds()
-  const isPm = hours >= 12
-  const displayHours = hours % 12 || 12
-
   return (
-    <div className="flex w-full max-w-sm flex-col items-center gap-4 rounded-xl border border-border bg-card p-6 text-center shadow-xs">
-      <div className="flex items-center gap-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-        <Clock className="size-3.5" />
-        <span>实时物理时钟 (UTC+8)</span>
+    <div className="flex flex-col items-center gap-2">
+      <div className="flex items-baseline font-mono text-5xl font-semibold tracking-tight">
+        {time ? (
+          <>
+            <SlidingNumber value={time.getHours()} padStart />
+            <span className="text-muted-foreground mx-1">:</span>
+            <SlidingNumber value={time.getMinutes()} padStart />
+            <span className="text-muted-foreground mx-1">:</span>
+            <SlidingNumber value={time.getSeconds()} padStart />
+          </>
+        ) : (
+          <span className="text-muted-foreground">--:--:--</span>
+        )}
       </div>
-
-      <div className="flex items-baseline gap-2 rounded-xl border border-border bg-muted/30 px-6 py-4">
-        <div className="font-mono text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
-          <SlidingNumber value={displayHours} padStart />
-          <span className="text-muted-foreground animate-pulse">:</span>
-          <SlidingNumber value={minutes} padStart />
-          <span className="text-muted-foreground animate-pulse">:</span>
-          <SlidingNumber value={seconds} padStart />
-        </div>
-        <span className="font-mono text-xs font-bold text-muted-foreground uppercase">
-          {isPm ? "PM" : "AM"}
-        </span>
-      </div>
+      <p className="text-muted-foreground text-xs">本地时间 · 每秒更新</p>
     </div>
   )
 }

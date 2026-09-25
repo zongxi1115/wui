@@ -8,7 +8,7 @@ component: scroll-expand
 
 向下滚动，带有圆角与内边距的画框媒体将平滑扩展为铺满视口边缘的全画幅大图：
 
-<ComponentPreview name="scroll-expand-demo" />
+<ComponentPreview name="scroll-expand-demo" previewClassName="min-h-0 p-0" />
 
 ## 安装与引入
 
@@ -64,6 +64,18 @@ pnpm add motion lucide-react class-variance-authority clsx tailwind-merge
       description: "动画占用的总滚动距离（以当前视口高度的倍数计算，例如 1.8 代表 1.8 个视口高度）。",
     },
     {
+      prop: "contentScale",
+      type: "number",
+      default: "1.08",
+      description: "紧凑状态下内部内容的缩放倍率，展开过程中回到 1，形成轻微的推近感。",
+    },
+    {
+      prop: "smooth",
+      type: "boolean",
+      default: "true",
+      description: "通过弹簧缓动滚动进度，并对裁切与缩放应用 easeInOut 曲线，让展开起止更柔和。",
+    },
+    {
       prop: "container",
       type: "React.RefObject<HTMLElement | null>",
       description: "局部滚动容器的 ref 引用（不传时监听整个全局页面滚动）。",
@@ -86,18 +98,6 @@ pnpm add motion lucide-react class-variance-authority clsx tailwind-merge
   ]}
 />
 
-## 事件 Events
-
-<PropsTable
-  data={[
-    {
-      prop: "onScroll",
-      type: "(event: React.UIEvent) => void",
-      description: "滚动事件监听函数。",
-    },
-  ]}
-/>
-
 ## 使用场景与设计规范
 
 `ScrollExpand` 适用于**大片级产品宣传、全景摄影展示、旗舰设备发布会网页**：
@@ -109,9 +109,9 @@ pnpm add motion lucide-react class-variance-authority clsx tailwind-merge
 
 ### 逆向收缩为卡片（Collapse）
 
-从全屏沉浸封面随滚动渐进收缩为紧凑的焦点卡片：
+从全幅封面随滚动收缩为画框，把注意力交还给后续正文：
 
-<ComponentPreview name="scroll-expand-collapse" />
+<ComponentPreview name="scroll-expand-collapse" previewClassName="min-h-0 p-0" />
 
 ## 无障碍与交互 Accessibility
 

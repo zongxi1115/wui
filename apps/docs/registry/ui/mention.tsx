@@ -3,6 +3,7 @@
 import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 import { AtSignIcon, HashIcon, SlashIcon } from "lucide-react"
+import { AnimatePresence, motion, useReducedMotion } from "motion/react"
 
 import { cn } from "@/registry/lib/utils"
 
@@ -22,12 +23,12 @@ export interface MentionOption {
 }
 
 const mentionVariants = cva(
-  "relative flex flex-col w-full rounded-xl border border-border bg-background transition-shadow duration-200 focus-within:ring-2 focus-within:ring-ring/35",
+  "relative flex w-full flex-col rounded-md border transition-[border-color,box-shadow,background-color] duration-200 ease-out focus-within:border-ring focus-within:ring-[3px] focus-within:ring-ring/30 motion-reduce:transition-none",
   {
     variants: {
       variant: {
-        default: "shadow-xs",
-        ghost: "border-transparent bg-muted/30 shadow-none",
+        default: "border-input bg-background shadow-xs",
+        ghost: "border-transparent bg-muted/50 focus-within:bg-background",
       },
     },
     defaultVariants: {
@@ -70,11 +71,15 @@ function Mention({
   placeholder = "输入 @ 提及成员或技能...",
   ...props
 }: MentionProps) {
+  const reduceMotion = useReducedMotion()
+  const baseId = React.useId()
+  const listId = `${baseId}-list`
   const [internalValue, setInternalValue] = React.useState(defaultValue)
   const [isOpen, setIsOpen] = React.useState(false)
   const [query, setQuery] = React.useState("")
   const [selectedIndex, setSelectedIndex] = React.useState(0)
   const inputRef = React.useRef<HTMLTextAreaElement>(null)
+  const listRef = React.useRef<HTMLDivElement>(null)
 
   const value = controlledValue !== undefined ? controlledValue : internalValue
 
@@ -87,6 +92,18 @@ function Mention({
         (opt.description && opt.description.toLowerCase().includes(q))
     )
   }, [options, query])
+
+  const showList = isOpen && filteredOptions.length > 0
+  const activeOption = showList ? filteredOptions[selectedIndex] : undefined
+  const optionId = (option: MentionOption) => `${baseId}-option-${option.id}`
+
+  React.useEffect(() => {
+    if (!activeOption) return
+    listRef.current
+      ?.querySelector(`[id="${CSS.escape(optionId(activeOption))}"]`)
+      ?.scrollIntoView({ block: "nearest" })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeOption?.id])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const nextValue = e.target.value
@@ -174,33 +191,69 @@ function Mention({
         value={value}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
+        onBlur={() => setIsOpen(false)}
         placeholder={placeholder}
         rows={3}
-        className="w-full resize-none bg-transparent p-3 text-xs sm:text-sm text-foreground placeholder:text-muted-foreground outline-none leading-relaxed"
+        role="combobox"
+        aria-autocomplete="list"
+        aria-expanded={showList}
+        aria-controls={showList ? listId : undefined}
+        aria-activedescendant={activeOption ? optionId(activeOption) : undefined}
+        className="text-foreground placeholder:text-muted-foreground w-full resize-none bg-transparent px-3 py-2.5 text-sm leading-6 outline-none"
       />
 
-      {isOpen && filteredOptions.length > 0 && (
-        <div
-          data-slot="mention-list"
-          className="absolute left-3 bottom-full mb-2 z-50 w-64 max-h-60 overflow-y-auto rounded-xl border border-border/80 bg-popover p-1 text-popover-foreground shadow-lg animate-in fade-in-0 zoom-in-95"
-        >
+      <AnimatePresence>
+        {showList ? (
+          <motion.div
+            ref={listRef}
+            id={listId}
+            role="listbox"
+            data-slot="mention-list"
+            className="bg-popover text-popover-foreground absolute bottom-full left-2 z-50 mb-2 max-h-60 w-64 origin-bottom-left overflow-y-auto rounded-lg border p-1 shadow-md"
+            initial={reduceMotion ? false : { opacity: 0, y: 6, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 4, scale: 0.98 }}
+            transition={
+              reduceMotion
+                ? { duration: 0 }
+                : { type: "spring", stiffness: 520, damping: 38, mass: 0.7 }
+            }
+            // Keep focus in the textarea while picking with the pointer.
+            onMouseDown={(event) => event.preventDefault()}
+          >
           <div className="flex flex-col gap-0.5">
             {filteredOptions.map((opt, idx) => {
               const isSelected = idx === selectedIndex
               return (
-                <button
+                <div
                   key={opt.id}
-                  type="button"
+                  id={optionId(opt)}
+                  role="option"
+                  aria-selected={isSelected}
                   data-slot="mention-item"
                   data-selected={isSelected ? "true" : "false"}
-                  onMouseEnter={() => setSelectedIndex(idx)}
+                  onMouseMove={() => {
+                    if (!isSelected) setSelectedIndex(idx)
+                  }}
                   onClick={() => handleSelect(opt)}
                   className={cn(
-                    "flex w-full items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-left text-xs transition-colors cursor-pointer outline-none",
-                    isSelected ? "bg-muted text-foreground font-medium" : "text-muted-foreground hover:bg-muted/60"
+                    "relative isolate flex w-full cursor-pointer items-center gap-2.5 rounded-md px-2.5 py-1.5 text-left text-xs outline-none transition-colors",
+                    isSelected ? "text-foreground" : "text-muted-foreground"
                   )}
                 >
-                  <span className="flex size-4 shrink-0 items-center justify-center text-muted-foreground">
+                  {isSelected ? (
+                    <motion.span
+                      aria-hidden="true"
+                      layoutId={`${baseId}-highlight`}
+                      className="bg-accent absolute inset-0 -z-10 rounded-md"
+                      transition={
+                        reduceMotion
+                          ? { duration: 0 }
+                          : { type: "spring", stiffness: 520, damping: 38, mass: 0.7 }
+                      }
+                    />
+                  ) : null}
+                  <span className="flex size-6 shrink-0 items-center justify-center text-muted-foreground">
                     {opt.icon ?? (
                       trigger === "@" ? (
                         <AtSignIcon className="size-3.5" />
@@ -222,12 +275,13 @@ function Mention({
                       </p>
                     )}
                   </div>
-                </button>
+                </div>
               )
             })}
           </div>
-        </div>
-      )}
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
     </div>
   )
 }

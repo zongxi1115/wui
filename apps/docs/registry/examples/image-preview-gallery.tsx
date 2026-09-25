@@ -1,64 +1,59 @@
-"use client"
+import { ImagePreview, ImagePreviewGroup } from "@/registry/ui/image-preview"
 
-import * as React from "react"
-import { ImagePreview } from "@/registry/ui/image-preview"
-
-const galleryItems = [
+const photos = [
   {
-    id: "1",
-    src: "/images/image-preview-landscape.svg",
-    alt: "北卡斯卡特国家公园晚霞",
-    caption: "拍摄于 2026 年初秋 · 曝光参数 1/250s f/4.0 ISO 100",
-    downloadName: "north-cascades-sunset.svg",
-    title: "国家公园晚霞",
-    size: "4.2 MB",
+    src: "/wui/demo/field-notes/coastal-hill.jpg",
+    alt: "海边山坡上的步道",
+    caption: "东极岛 · 环岛步道第 3 公里",
   },
   {
-    id: "2",
-    src: "/images/image-preview-landscape.svg",
-    alt: "现代极简建筑立面光影",
-    caption: "结构几何与晨曦反射 · 建筑设计案例",
-    downloadName: "architecture-study.svg",
-    title: "现代建筑光影",
-    size: "3.8 MB",
+    src: "/wui/demo/field-notes/silver-grass.jpg",
+    alt: "逆光下的芒草",
+    caption: "安吉 · 傍晚逆光",
   },
   {
-    id: "3",
-    src: "/images/image-preview-landscape.svg",
-    alt: "高山冷杉晨雾微光",
-    caption: "清晨山谷逆光场景 · 4K 原始底片",
-    downloadName: "alpine-morning.svg",
-    title: "高山晨雾微光",
-    size: "5.1 MB",
+    src: "/wui/demo/field-notes/storm-cliffs.jpg",
+    alt: "风暴过后的海岬",
+    caption: "崂山 · 雨后云层散开",
+  },
+  {
+    src: "/wui/demo/field-notes/aerial-coast.jpg",
+    alt: "俯瞰海岸线",
+    caption: "航拍 · 高度 120 m",
+  },
+  {
+    src: "/wui/demo/field-notes/dune-figure.jpg",
+    alt: "沙丘上的行人",
+    caption: "鸣沙山 · 日出前 20 分钟",
+  },
+  {
+    src: "/wui/demo/field-notes/white-stairs.jpg",
+    alt: "白色建筑中的楼梯",
+    caption: "城市漫步 · 美术馆东侧楼梯",
   },
 ]
 
 export default function ImagePreviewGallery() {
   return (
-    <div className="w-full max-w-2xl space-y-3">
-      <div className="flex items-center justify-between">
-        <span className="text-xs font-semibold text-foreground">高清摄影作品集 (Gallery)</span>
-        <span className="text-xs text-muted-foreground">点击任意图片进入大图交互模式</span>
+    <div className="w-full max-w-xl">
+      <div className="mb-3 flex items-baseline justify-between">
+        <h3 className="text-sm font-medium">国庆海岸行程</h3>
+        <span className="text-muted-foreground text-xs tabular-nums">
+          {photos.length} 张照片
+        </span>
       </div>
-
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        {galleryItems.map((item) => (
-          <div key={item.id} className="group overflow-hidden rounded-lg border bg-card p-2 shadow-xs">
-            <ImagePreview
-              src={item.src}
-              alt={item.alt}
-              caption={item.caption}
-              downloadName={item.downloadName}
-              className="aspect-[4/3] w-full"
-              thumbnailClassName="rounded-md"
-            />
-            <div className="mt-2 flex items-center justify-between px-1">
-              <span className="text-xs font-medium text-foreground truncate">{item.title}</span>
-              <span className="font-mono text-[10px] text-muted-foreground">{item.size}</span>
-            </div>
-          </div>
+      <ImagePreviewGroup className="grid grid-cols-3 gap-1.5">
+        {photos.map((photo, index) => (
+          <ImagePreview
+            key={photo.src}
+            src={photo.src}
+            alt={photo.alt}
+            caption={photo.caption}
+            downloadName={`coast-trip-${index + 1}.jpg`}
+            className="aspect-square w-full rounded-sm"
+          />
         ))}
-      </div>
+      </ImagePreviewGroup>
     </div>
   )
 }

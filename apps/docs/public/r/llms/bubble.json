@@ -3,7 +3,7 @@
   "type": "registry:ui",
   "title": "气泡 Bubble",
   "description": "用于在即时通讯、AI 对话流、评论列表与活动时间线中组合展示头像、昵称、正文内容、时间戳与快捷操作的通用消息气泡。",
-  "import": "import { Bubble, BubbleActions, BubbleAvatar, BubbleBody, BubbleContent, BubbleFooter, BubbleHeader, bubbleContentVariants, bubbleVariants } from \"@/components/ui/bubble\"",
+  "import": "import { Bubble, BubbleActions, BubbleAvatar, BubbleBody, BubbleContent, BubbleFooter, BubbleHeader, BubbleTyping, bubbleContentVariants, bubbleVariants } from \"@/components/ui/bubble\"",
   "exports": [
     "Bubble",
     "BubbleActions",
@@ -12,18 +12,21 @@
     "BubbleContent",
     "BubbleFooter",
     "BubbleHeader",
+    "BubbleTyping",
     "bubbleContentVariants",
     "bubbleVariants"
   ],
   "typeExports": [
     "BubbleContentProps",
-    "BubbleProps"
+    "BubbleProps",
+    "BubbleTypingProps"
   ],
   "install": {
     "wui": "pnpm dlx @wui-design/cli@latest add @wui/bubble",
     "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/bubble.json",
     "npmDependencies": [
-      "class-variance-authority"
+      "class-variance-authority",
+      "motion"
     ],
     "registryDependencies": [
       "utils"
@@ -41,6 +44,14 @@
       ],
       "defaultValue": "start",
       "description": "消息气泡的水平对齐方向。"
+    },
+    {
+      "name": "animated",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "消息挂载时是否播放从发送方一侧进入的动画。"
     }
   ],
   "examples": [
@@ -49,8 +60,12 @@
       "title": "基础用法"
     },
     {
+      "name": "bubble-conversation",
+      "title": "实时对话与输入状态"
+    },
+    {
       "name": "bubble-ai-chat",
-      "title": "AI 智能体对话与代码块"
+      "title": "AI 回答与 Markdown"
     },
     {
       "name": "bubble-variants",

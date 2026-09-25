@@ -119,13 +119,13 @@ pnpm add radix-ui class-variance-authority clsx tailwind-merge
 
 ### 收藏加星与业务状态
 
-在内容流中用作收藏（Bookmark）和标星（Star）切换，支持自定义激活状态下的高亮色系：
+在内容流中用作收藏（Bookmark）和标星（Star）切换，支持自定义激活状态下的高亮色系，激活时图标轻微弹跳反馈：
 
 <ComponentPreview name="toggle-bookmark" />
 
-### 音视频静音与窗口置顶
+### 音视频会议控制
 
-在通讯或音视频会议控制栏中切换麦克风静音与浮窗置顶：
+在会议控制栏中切换麦克风与摄像头，图标以旋转缩放的方式交叉切换。纯图标 Toggle 的 `aria-label` 应保持稳定，由 `aria-pressed` 表达当前状态：
 
 <ComponentPreview name="toggle-mute" />
 
@@ -142,3 +142,4 @@ pnpm add radix-ui class-variance-authority clsx tailwind-merge
   - <kbd>Tab</kbd>：按 DOM 顺序将焦点移动至切换按钮。
   - <kbd>Space</kbd> / <kbd>Enter</kbd>：触发状态切换。
 - **焦点环高亮**：提供统一的高对比度 `focus-visible:ring`，确保键盘导航清晰可见。
+- **按压反馈**：按下时有轻微缩放（0.96），系统开启“减少动态效果”时自动关闭。

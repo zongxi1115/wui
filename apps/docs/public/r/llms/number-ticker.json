@@ -1,0 +1,138 @@
+{
+  "name": "number-ticker",
+  "type": "registry:ui",
+  "title": "数字滚动 Number Ticker",
+  "description": "进入视口时从起始值计数到目标值，数值变化时从当前值平滑过渡，支持本地化格式、小数位与前后缀。",
+  "categories": [
+    "motion",
+    "number-effect"
+  ],
+  "import": "import { NumberTicker } from \"@/components/ui/number-ticker\"",
+  "exports": [
+    "NumberTicker"
+  ],
+  "typeExports": [
+    "NumberTickerProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/number-ticker",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/number-ticker.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "value",
+      "type": "number",
+      "required": true,
+      "control": "number",
+      "description": "数字最终滚动到的目标值。"
+    },
+    {
+      "name": "from",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0",
+      "description": "首次动画的起始值。"
+    },
+    {
+      "name": "delay",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0",
+      "description": "首次动画开始前的等待时长，单位为秒。"
+    },
+    {
+      "name": "decimalPlaces",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0",
+      "description": "固定保留的小数位数。"
+    },
+    {
+      "name": "locale",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "defaultValue": "zh-CN",
+      "description": "Intl.NumberFormat 使用的语言区域。"
+    },
+    {
+      "name": "formatOptions",
+      "type": "NumberFormatOptions",
+      "required": false,
+      "control": "text",
+      "description": "额外的 Intl.NumberFormat 选项，例如货币、百分比或紧凑记数。"
+    },
+    {
+      "name": "prefix",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "显示在数字前的内容。"
+    },
+    {
+      "name": "suffix",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "显示在数字后的内容。"
+    },
+    {
+      "name": "startOnView",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否等数字进入视口后才开始计数。"
+    },
+    {
+      "name": "viewOptions",
+      "type": "UseInViewOptions",
+      "required": false,
+      "control": "text",
+      "description": "startOnView 开启时使用的视口检测参数。"
+    },
+    {
+      "name": "transition",
+      "type": "Transition",
+      "required": false,
+      "control": "text",
+      "defaultValue": "{\n  type: \"spring\",\n  duration: 1.6,\n  bounce: 0,\n}",
+      "description": "每次计数使用的过渡配置，默认为无回弹的弹簧。"
+    },
+    {
+      "name": "onComplete",
+      "type": "((value: number) => void)",
+      "required": false,
+      "control": "text",
+      "description": "一次计数结束时触发，回调参数为最终值。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "number-ticker-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "number-ticker-stats",
+      "title": "KPI 指标行"
+    },
+    {
+      "name": "number-ticker-live",
+      "title": "实时数值更新"
+    }
+  ],
+  "files": [
+    "registry/ui/number-ticker.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/number-ticker",
+  "sourceUrl": "https://ui.wzx.wang/r/number-ticker.json"
+}

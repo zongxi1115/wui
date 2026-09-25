@@ -59,7 +59,7 @@
       "type": "number",
       "required": false,
       "control": "number",
-      "description": "实时音频电平归一化数值 [0.0 ~ 1.0]。"
+      "description": "实时音频电平归一化数值 [0.0 ~ 1.0]。省略时根据状态生成自然的模拟起伏。"
     },
     {
       "name": "barCount",
@@ -79,7 +79,7 @@
         "lg",
         "md"
       ],
-      "defaultValue": "\"md\"",
+      "defaultValue": "md",
       "description": "尺寸大小。"
     }
   ],

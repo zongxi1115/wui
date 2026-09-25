@@ -6,7 +6,7 @@ component: multi-select
 
 ## 基础用法
 
-适合服务年度、标签和人员等扁平数据的多选场景：
+适合标签、人员、渠道等扁平数据的多选场景。支持拼音关键词搜索，超过 `maxDisplay` 的选项折叠为数量摘要：
 
 <ComponentPreview name="multi-select-demo" />
 
@@ -19,14 +19,22 @@ component: multi-select
 <Step>安装依赖</Step>
 
 ```bash
-pnpm add radix-ui lucide-react class-variance-authority clsx tailwind-merge
+pnpm add radix-ui lucide-react motion class-variance-authority clsx tailwind-merge
 ```
 
-<Step>确保已添加 Command 与 Popover，并复制组件源码</Step>
+<Step>确保已添加 Command、Popover、Checkbox 与 SlidingNumber，并复制组件源码</Step>
 
 <ComponentSource name="multi-select" title="components/ui/multi-select.tsx" />
 
 </Steps>
+
+## 场景示例
+
+### 评审人指派
+
+结合外部按钮批量追加选项，触发器中的标签会依次弹入并平滑重排，超出部分以滚动数字摘要展示：
+
+<ComponentPreview name="multi-select-reviewers" />
 
 ## 属性 Props
 
@@ -38,3 +46,4 @@ pnpm add radix-ui lucide-react class-variance-authority clsx tailwind-merge
 - 触发器只展示前 `maxDisplay` 个选项，其余以数量摘要呈现，避免表单被大量标签撑高。
 - 选择面板保持打开，便于连续选择；按 <kbd>Esc</kbd> 或点击外部关闭。
 - 层级数据请使用 `Cascader`，单选数据请使用 `Select` 或 `Combobox`。
+- 标签增删带有弹入 / 弹出与重排动画，折叠数量逐位滚动；开启 `prefers-reduced-motion` 时瞬间切换。

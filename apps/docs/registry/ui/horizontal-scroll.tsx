@@ -5,6 +5,7 @@ import {
   motion,
   useReducedMotion,
   useScroll,
+  useSpring,
   useTransform,
   type HTMLMotionProps,
 } from "motion/react"
@@ -21,6 +22,8 @@ export interface HorizontalScrollProps extends Omit<
   container?: React.RefObject<HTMLElement | null>
   /** Extra vertical scrolling distance in pixels. @default 0 */
   scrollPadding?: number
+  /** Ease the track through a spring so wheel steps glide instead of jump. @default true */
+  smooth?: boolean
   /** Classes applied to the pinned viewport. */
   viewportClassName?: string
   /** Classes applied to the horizontally translated track. */
@@ -32,11 +35,22 @@ interface HorizontalMetrics {
   viewportHeight: number
 }
 
+function getViewportHeight(container?: HTMLElement | null) {
+  if (!container) return window.innerHeight
+  const style = window.getComputedStyle(container)
+  return (
+    container.clientHeight -
+    parseFloat(style.paddingTop) -
+    parseFloat(style.paddingBottom)
+  )
+}
+
 /** Converts vertical section progress into a pinned horizontal track. */
 function HorizontalScroll({
   children,
   container,
   scrollPadding = 0,
+  smooth = true,
   className,
   viewportClassName,
   trackClassName,
@@ -56,7 +70,14 @@ function HorizontalScroll({
     container,
     offset: ["start start", "end end"],
   })
-  const x = useTransform(scrollYProgress, [0, 1], [0, -metrics.distance])
+  const springProgress = useSpring(scrollYProgress, {
+    stiffness: 180,
+    damping: 32,
+    mass: 0.35,
+    restDelta: 0.0005,
+  })
+  const progress = smooth ? springProgress : scrollYProgress
+  const x = useTransform(progress, [0, 1], [0, -metrics.distance])
 
   React.useLayoutEffect(() => {
     const section = sectionRef.current
@@ -64,11 +85,9 @@ function HorizontalScroll({
     if (!section || !track) return
 
     const measure = () => {
-      const viewportHeight =
-        container?.current?.clientHeight ?? window.innerHeight
       setMetrics({
         distance: Math.max(track.scrollWidth - section.clientWidth, 0),
-        viewportHeight,
+        viewportHeight: getViewportHeight(container?.current),
       })
     }
 
@@ -83,7 +102,7 @@ function HorizontalScroll({
       observer.disconnect()
       window.removeEventListener("resize", measure)
     }
-  }, [children, container])
+  }, [container, reduceMotion])
 
   if (reduceMotion) {
     return (

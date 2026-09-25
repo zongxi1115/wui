@@ -161,3 +161,4 @@ pnpm add radix-ui lucide-react clsx tailwind-merge
 - **焦点管理**：浮层打开后，焦点会自动安全转移到浮层内的第一个可交互元素；关闭后焦点精确恢复至触发按钮。
 - **快捷键**：按下 <kbd>Esc</kbd> 即可随时安全退出并关闭浮层。
 - **视口碰撞翻转**：内置自动边界检测（Floating UI / Radix Popper），当屏幕下方空间不足时，自动翻转至上方或侧面，防止内容被浏览器视口截断。
+- **方向感知动效**：浮层以触发器一侧为缩放原点（`--radix-popover-content-transform-origin`）淡入展开并向外轻微滑入，收起时更快地淡出；系统开启“减少动态效果”时自动关闭。

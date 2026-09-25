@@ -1,91 +1,116 @@
 "use client"
 
 import * as React from "react"
-import { FileTextIcon, Trash2Icon } from "lucide-react"
 
-import { Upload } from "@/registry/ui/upload"
+import { Button } from "@/registry/ui/button"
+import {
+  Upload,
+  UploadFileItem,
+  UploadFileList,
+  type UploadStatus,
+} from "@/registry/ui/upload"
 
-interface FileItem {
+interface QueuedFile {
   id: string
   name: string
-  size: string
+  size: number
+  status: UploadStatus
+  progress: number
 }
 
+const MAX_SIZE = 20 * 1024 * 1024
+
+const seedFiles: QueuedFile[] = [
+  { id: "seed-1", name: "2026 Q3 审计底稿.pdf", size: 3_565_158, status: "complete", progress: 100 },
+  { id: "seed-2", name: "供应商对账单-九月.pdf", size: 1_258_291, status: "complete", progress: 100 },
+]
+
 export default function UploadDropzone() {
-  const [files, setFiles] = React.useState<FileItem[]>([
-    { id: "1", name: "2026_Q3_Financial_Audit.pdf", size: "3.4 MB" },
-    { id: "2", name: "Design_Tokens_Specification.pdf", size: "1.2 MB" },
-  ])
+  const [files, setFiles] = React.useState<QueuedFile[]>(seedFiles)
+  const timers = React.useRef(new Map<string, number>())
 
-  const handleFiles = (newFiles: File[]) => {
-    const items = newFiles.map((file) => ({
-      id: `${file.name}-${file.lastModified}-${Math.random()}`,
+  React.useEffect(() => {
+    const active = timers.current
+    return () => active.forEach((timer) => window.clearInterval(timer))
+  }, [])
+
+  function patch(id: string, next: Partial<QueuedFile>) {
+    setFiles((current) => current.map((file) => (file.id === id ? { ...file, ...next } : file)))
+  }
+
+  function simulateUpload(file: QueuedFile) {
+    let progress = 0
+    const timer = window.setInterval(() => {
+      progress = Math.min(100, progress + 8 + Math.random() * 18)
+      if (progress >= 100) {
+        window.clearInterval(timer)
+        timers.current.delete(file.id)
+        patch(file.id, { progress: 100, status: "complete" })
+      } else {
+        patch(file.id, { progress })
+      }
+    }, 260)
+    timers.current.set(file.id, timer)
+  }
+
+  function handleFiles(selected: File[]) {
+    const queued = selected.map((file) => ({
+      id: `${file.name}-${file.lastModified}-${Math.random().toString(36).slice(2)}`,
       name: file.name,
-      size: `${(file.size / (1024 * 1024)).toFixed(2)} MB`,
+      size: file.size,
+      status: (file.size > MAX_SIZE ? "error" : "uploading") as UploadStatus,
+      progress: 0,
     }))
-    setFiles((prev) => [...prev, ...items])
+    setFiles((current) => [...queued, ...current])
+    queued.filter((file) => file.status === "uploading").forEach(simulateUpload)
   }
 
-  const handleRemove = (id: string) => {
-    setFiles((prev) => prev.filter((f) => f.id !== id))
+  function remove(id: string) {
+    window.clearInterval(timers.current.get(id))
+    timers.current.delete(id)
+    setFiles((current) => current.filter((file) => file.id !== id))
   }
+
+  const uploading = files.filter((file) => file.status === "uploading").length
 
   return (
-    <div className="bg-background w-full max-w-lg rounded-2xl border p-5 shadow-xs">
-      <div className="mb-4">
-        <h4 className="text-sm font-semibold">项目审计材料上传</h4>
-        <p className="text-muted-foreground text-xs">
-          支持拖拽多个 PDF 审计底稿与签名凭单
-        </p>
-      </div>
-
+    <div className="grid w-full max-w-lg gap-4">
       <Upload
         multiple
         accept=".pdf"
-        label="拖拽文件到此处，或点击浏览选择"
-        description="仅支持 PDF 格式，支持批量拖放"
+        label="拖拽 PDF 到此处，或点击选择"
+        description="支持批量上传，单个文件不超过 20 MB"
         onFilesChange={handleFiles}
       />
 
-      {files.length > 0 ? (
-        <div className="mt-4 grid gap-2">
-          <div className="text-muted-foreground flex items-center justify-between text-xs font-medium">
-            <span>已选择文件 ({files.length})</span>
-            <button
-              type="button"
-              onClick={() => setFiles([])}
-              className="text-destructive hover:underline"
-            >
-              清空全部
-            </button>
-          </div>
+      <div className="flex items-center justify-between text-xs">
+        <span className="text-muted-foreground">
+          {files.length} 个文件{uploading ? `，${uploading} 个上传中` : ""}
+        </span>
+        <Button
+          variant="ghost"
+          size="sm"
+          className="text-muted-foreground h-7 px-2 text-xs"
+          disabled={!files.length}
+          onClick={() => files.forEach((file) => remove(file.id))}
+        >
+          全部移除
+        </Button>
+      </div>
 
-          <div className="max-h-48 divide-border/60 overflow-y-auto divide-y rounded-lg border">
-            {files.map((file) => (
-              <div
-                key={file.id}
-                className="hover:bg-accent/40 flex items-center justify-between p-2.5 text-xs transition-colors"
-              >
-                <div className="flex min-w-0 items-center gap-2">
-                  <FileTextIcon className="text-primary size-4 shrink-0" />
-                  <span className="truncate font-medium">{file.name}</span>
-                  <span className="text-muted-foreground shrink-0 tabular-nums">
-                    ({file.size})
-                  </span>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => handleRemove(file.id)}
-                  aria-label={`移除 ${file.name}`}
-                  className="text-muted-foreground hover:text-destructive ml-2 shrink-0 p-1 transition-colors"
-                >
-                  <Trash2Icon className="size-3.5" />
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
-      ) : null}
+      <UploadFileList aria-label="已选择的文件">
+        {files.map((file) => (
+          <UploadFileItem
+            key={file.id}
+            name={file.name}
+            size={file.size}
+            status={file.status}
+            progress={file.progress}
+            description={file.status === "error" ? "文件超过 20 MB，未上传" : undefined}
+            onRemove={() => remove(file.id)}
+          />
+        ))}
+      </UploadFileList>
     </div>
   )
 }

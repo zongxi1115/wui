@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "border-beam",
+  "type": "registry:ui",
+  "title": "边框光束 Border Beam",
+  "description": "沿元素边框循环流动的一段光束，用于强调推荐项或处理中状态。",
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/border-beam.tsx",
+      "type": "registry:ui",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { motion, useReducedMotion, type Transition } from \"motion/react\"\n\nimport { cn } from \"@/registry/lib/utils\"\n\nexport interface BorderBeamProps\n  extends Omit<React.ComponentProps<\"div\">, \"children\"> {\n  /** Length of the beam along the border, in pixels. @default 80 */\n  size?: number\n  /** Seconds for one full lap. @default 6 */\n  duration?: number\n  /** Seconds to offset the start, useful to stagger several beams. @default 0 */\n  delay?: number\n  /** Thickness of the beam; match the border width of the parent. @default 1 */\n  borderWidth?: number\n  /** Beam colour. Any CSS colour or variable. @default \"var(--primary)\" */\n  color?: string\n  /** Travel counter-clockwise. @default false */\n  reverse?: boolean\n  /** Starting position along the border, from 0 to 100. @default 0 */\n  initialOffset?: number\n  /** Overrides the looping transition. */\n  transition?: Transition\n}\n\n/**\n * A short light beam that travels along the border of its parent. Place it as\n * the last child of a `relative` element with a border radius; the beam sits\n * exactly on the parent's border and inherits its radius.\n */\nfunction BorderBeam({\n  size = 80,\n  duration = 6,\n  delay = 0,\n  borderWidth = 1,\n  color = \"var(--primary)\",\n  reverse = false,\n  initialOffset = 0,\n  transition,\n  className,\n  style,\n  ...props\n}: BorderBeamProps) {\n  const ref = React.useRef<HTMLDivElement>(null)\n  const reduceMotion = useReducedMotion()\n  const [radius, setRadius] = React.useState(0)\n\n  React.useEffect(() => {\n    const node = ref.current\n    if (!node) return\n    setRadius(Number.parseFloat(getComputedStyle(node).borderTopLeftRadius))\n  }, [])\n\n  if (reduceMotion) return null\n\n  const start = `${initialOffset}%`\n  const end = `${reverse ? initialOffset - 100 : initialOffset + 100}%`\n\n  return (\n    <div\n      ref={ref}\n      aria-hidden=\"true\"\n      data-slot=\"border-beam\"\n      className={cn(\"pointer-events-none absolute rounded-[inherit]\", className)}\n      style={{\n        inset: -borderWidth,\n        padding: borderWidth,\n        maskImage: \"linear-gradient(#000 0 0), linear-gradient(#000 0 0)\",\n        maskClip: \"content-box, border-box\",\n        maskComposite: \"exclude\",\n        ...style,\n      }}\n      {...props}\n    >\n      <motion.div\n        data-slot=\"border-beam-light\"\n        className=\"absolute aspect-square\"\n        style={{\n          width: size,\n          offsetPath: `rect(0 auto auto 0 round ${radius}px)`,\n          background: `linear-gradient(${reverse ? \"to right\" : \"to left\"}, ${color}, transparent)`,\n        }}\n        initial={{ offsetDistance: start }}\n        animate={{ offsetDistance: [start, end] }}\n        transition={{\n          repeat: Infinity,\n          ease: \"linear\",\n          duration,\n          delay: -delay,\n          ...transition,\n        }}\n      />\n    </div>\n  )\n}\n\nexport { BorderBeam }\n"
+    }
+  ],
+  "categories": [
+    "motion"
+  ]
+}

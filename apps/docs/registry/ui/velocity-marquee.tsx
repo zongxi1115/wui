@@ -30,6 +30,10 @@ export interface VelocityMarqueeProps extends Omit<
   gap?: number
   /** Invert the base and scroll-driven direction. @default false */
   reverse?: boolean
+  /** Maximum skew in degrees applied while scrolling fast. `0` disables it. @default 0 */
+  skew?: number
+  /** Ease the track to a stop while the pointer is over it. @default false */
+  pauseOnHover?: boolean
   /** Scrollable element to observe instead of the page. */
   container?: React.RefObject<HTMLElement | null>
   /** Classes applied to each repeated group. */
@@ -48,9 +52,13 @@ function VelocityMarquee({
   maxBoost = 180,
   gap = 32,
   reverse = false,
+  skew = 0,
+  pauseOnHover = false,
   container,
   className,
   groupClassName,
+  onPointerEnter,
+  onPointerLeave,
   ...props
 }: VelocityMarqueeProps) {
   const rootRef = React.useRef<HTMLDivElement>(null)
@@ -58,6 +66,8 @@ function VelocityMarquee({
   const trackRef = React.useRef<HTMLDivElement>(null)
   const positionRef = React.useRef(0)
   const directionRef = React.useRef(reverse ? -1 : 1)
+  const hoveredRef = React.useRef(false)
+  const speedFactorRef = React.useRef(1)
   const [groupSize, setGroupSize] = React.useState(0)
   const reduceMotion = useReducedMotion()
   const inView = useInView(rootRef)
@@ -72,28 +82,47 @@ function VelocityMarquee({
     const group = groupRef.current
     if (!group) return
 
-    const measure = () => setGroupSize(group.getBoundingClientRect().width)
-    measure()
-    const observer = new ResizeObserver(measure)
+    // Layout size from ResizeObserver ignores the skew transform on the track.
+    const observer = new ResizeObserver(([entry]) => {
+      setGroupSize(entry.borderBoxSize[0].inlineSize)
+    })
     observer.observe(group)
     return () => observer.disconnect()
-  }, [children, gap])
+  }, [])
+
+  React.useEffect(() => {
+    directionRef.current = reverse ? -1 : 1
+  }, [reverse])
 
   useAnimationFrame((_, delta) => {
     if (reduceMotion || !inView || groupSize === 0) return
 
+    // Clamp long frames (tab switches) so the track never teleports.
+    const seconds = Math.min(delta, 64) / 1000
     const velocity = scrollVelocity.get()
     if (Math.abs(velocity) > 4) {
       directionRef.current = (velocity < 0 ? -1 : 1) * (reverse ? -1 : 1)
     }
 
+    const targetFactor = pauseOnHover && hoveredRef.current ? 0 : 1
+    speedFactorRef.current +=
+      (targetFactor - speedFactorRef.current) * Math.min(seconds * 5, 1)
+
     const boost = Math.min(Math.abs(velocity) * sensitivity, maxBoost)
     positionRef.current +=
-      directionRef.current * (baseSpeed + boost) * (delta / 1000)
+      directionRef.current *
+      (baseSpeed + boost) *
+      speedFactorRef.current *
+      seconds
 
     if (trackRef.current) {
       const offset = -wrap(positionRef.current, groupSize)
-      trackRef.current.style.transform = `translate3d(${offset}px, 0, 0)`
+      const lean = skew
+        ? Math.max(-1, Math.min(1, velocity / 2400)) *
+          skew *
+          (reverse ? -1 : 1)
+        : 0
+      trackRef.current.style.transform = `translate3d(${offset}px, 0, 0) skewX(${-lean}deg)`
     }
   })
 
@@ -108,6 +137,14 @@ function VelocityMarquee({
         reduceMotion ? "overflow-x-auto" : "overflow-hidden",
         className
       )}
+      onPointerEnter={(event) => {
+        if (event.pointerType !== "touch") hoveredRef.current = true
+        onPointerEnter?.(event)
+      }}
+      onPointerLeave={(event) => {
+        hoveredRef.current = false
+        onPointerLeave?.(event)
+      }}
       {...props}
     >
       <div

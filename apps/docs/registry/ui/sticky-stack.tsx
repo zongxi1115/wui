@@ -16,6 +16,7 @@ interface StickyStackContextValue {
   count: number
   gap: number
   scaleStep: number
+  dim: number
   top: number
   progress: MotionValue<number>
   reduceMotion: boolean
@@ -37,6 +38,8 @@ export interface StickyStackProps extends Omit<
   gap?: number
   /** Scale removed for every card placed above an item. @default 0.035 */
   scaleStep?: number
+  /** Maximum opacity of the background veil laid over receding cards. `0` disables it. @default 0 */
+  dim?: number
   /** Scrollable element to observe instead of the page. */
   container?: React.RefObject<HTMLElement | null>
 }
@@ -61,6 +64,7 @@ function StickyStack({
   top = 24,
   gap = 12,
   scaleStep = 0.035,
+  dim = 0,
   container,
   className,
   ...props
@@ -80,6 +84,7 @@ function StickyStack({
         count: items.length,
         gap,
         scaleStep,
+        dim,
         top,
         progress: scrollYProgress,
         reduceMotion,
@@ -92,7 +97,8 @@ function StickyStack({
         {...props}
       >
         {items.map((child, stackIndex) =>
-          React.isValidElement<StickyStackItemInternalProps>(child)
+          React.isValidElement<StickyStackItemInternalProps>(child) &&
+          child.type === StickyStackItem
             ? React.cloneElement(child, { stackIndex })
             : child
         )}
@@ -123,6 +129,9 @@ function StickyStackItem({
     1 - (count - itemIndex - 1) * context.scaleStep
   )
   const scale = useTransform(context.progress, [start, 1], [1, targetScale])
+  const veilTarget =
+    (context.dim * (count - itemIndex - 1)) / Math.max(count - 1, 1)
+  const veil = useTransform(context.progress, [start, 1], [0, veilTarget])
 
   return (
     <motion.div
@@ -137,6 +146,14 @@ function StickyStackItem({
       {...props}
     >
       {children}
+      {context.dim > 0 && !context.reduceMotion ? (
+        <motion.div
+          aria-hidden="true"
+          data-slot="sticky-stack-item-veil"
+          className="bg-background pointer-events-none absolute inset-0 z-10 rounded-[inherit]"
+          style={{ opacity: veil }}
+        />
+      ) : null}
     </motion.div>
   )
 }

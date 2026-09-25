@@ -38,7 +38,7 @@ export default function BubbleDemo() {
           </BubbleContent>
           <BubbleFooter>
             已编辑
-            <BubbleActions>
+            <BubbleActions className="opacity-0 transition-opacity duration-200 group-hover/bubble:opacity-100 focus-within:opacity-100">
               <Button
                 variant="ghost"
                 size="icon"
@@ -78,7 +78,7 @@ export default function BubbleDemo() {
           </BubbleContent>
           <BubbleFooter>
             已送达
-            <BubbleActions>
+            <BubbleActions className="opacity-0 transition-opacity duration-200 group-hover/bubble:opacity-100 focus-within:opacity-100">
               <Button
                 variant="ghost"
                 size="icon"

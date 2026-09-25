@@ -3,6 +3,7 @@
 import * as React from "react"
 import { Collapsible as CollapsiblePrimitive } from "radix-ui"
 import { cva } from "class-variance-authority"
+import { AnimatePresence, motion, useReducedMotion } from "motion/react"
 import {
   CheckCircle2Icon,
   ChevronDownIcon,
@@ -27,8 +28,15 @@ const AiToolContext = React.createContext<{ status: AiToolStatus }>({
   status: "pending",
 })
 
+const statusSpring = {
+  type: "spring",
+  stiffness: 520,
+  damping: 32,
+  mass: 0.6,
+} as const
+
 const aiToolStatusVariants = cva(
-  "inline-flex items-center gap-1.5 text-xs font-medium",
+  "relative inline-flex items-center gap-1.5 text-xs font-medium transition-colors duration-300",
   {
     variants: {
       status: {
@@ -71,7 +79,10 @@ function AiTool({
       <CollapsiblePrimitive.Root
         data-slot="ai-tool"
         data-status={status}
-        className={cn("overflow-hidden rounded-md border bg-background", className)}
+        className={cn(
+          "overflow-hidden rounded-md border bg-background transition-colors duration-300 data-[status=approval]:border-warning-border data-[status=error]:border-destructive-border",
+          className
+        )}
         defaultOpen={defaultOpen ?? status === "error"}
         {...props}
       />
@@ -91,11 +102,14 @@ function AiToolTrigger({
   children,
   ...props
 }: AiToolTriggerProps) {
+  const { status } = React.useContext(AiToolContext)
+  const reduceMotion = useReducedMotion()
+
   return (
     <CollapsiblePrimitive.Trigger
       data-slot="ai-tool-trigger"
       className={cn(
-        "group flex w-full items-center gap-2.5 px-3 py-2.5 text-left outline-none transition-colors hover:bg-muted/60 focus-visible:ring-[3px] focus-visible:ring-ring/35",
+        "group relative flex w-full items-center gap-2.5 px-3 py-2.5 text-left outline-none transition-colors hover:bg-muted/60 focus-visible:ring-[3px] focus-visible:ring-inset focus-visible:ring-ring/35",
         className
       )}
       {...props}
@@ -107,9 +121,34 @@ function AiToolTrigger({
             {name}
           </span>
           <AiToolStatus />
-          <ChevronDownIcon className="size-4 shrink-0 text-muted-foreground transition-transform group-data-[state=open]:rotate-180" />
+          <ChevronDownIcon className="size-4 shrink-0 text-muted-foreground transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-data-[state=open]:rotate-180 motion-reduce:transition-none" />
         </>
       )}
+      <AnimatePresence>
+        {status === "running" && !reduceMotion ? (
+          <motion.span
+            key="progress"
+            aria-hidden
+            data-slot="ai-tool-progress"
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-px overflow-hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            <motion.span
+              className="block h-full w-1/3 bg-info"
+              initial={{ x: "-100%" }}
+              animate={{ x: "300%" }}
+              transition={{
+                duration: 1.3,
+                ease: [0.45, 0, 0.55, 1],
+                repeat: Infinity,
+              }}
+            />
+          </motion.span>
+        ) : null}
+      </AnimatePresence>
     </CollapsiblePrimitive.Trigger>
   )
 }
@@ -128,9 +167,11 @@ function AiToolStatus({
   ...props
 }: AiToolStatusProps) {
   const context = React.useContext(AiToolContext)
+  const reduceMotion = useReducedMotion()
   const status = statusProp ?? context.status
   const meta = statusMeta[status]
   const Icon = meta.icon
+  const text = label ?? meta.label
 
   return (
     <span
@@ -139,13 +180,40 @@ function AiToolStatus({
       className={cn(aiToolStatusVariants({ status }), className)}
       {...props}
     >
-      <Icon
-        className={cn(
-          "size-3.5",
-          status === "running" && "motion-safe:animate-spin"
-        )}
-      />
-      {label ?? meta.label}
+      <span className="relative flex size-3.5 items-center justify-center">
+        <AnimatePresence initial={false} mode="popLayout">
+          <motion.span
+            key={status}
+            className="flex items-center justify-center"
+            initial={reduceMotion ? false : { opacity: 0, scale: 0.4 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={reduceMotion ? undefined : { opacity: 0, scale: 0.4 }}
+            transition={reduceMotion ? { duration: 0 } : statusSpring}
+          >
+            <Icon
+              className={cn(
+                "size-3.5",
+                status === "running" && "motion-safe:animate-spin"
+              )}
+            />
+          </motion.span>
+        </AnimatePresence>
+      </span>
+      <AnimatePresence initial={false} mode="popLayout">
+        <motion.span
+          key={text}
+          initial={reduceMotion ? false : { opacity: 0, y: 5 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={reduceMotion ? undefined : { opacity: 0, y: -5 }}
+          transition={
+            reduceMotion
+              ? { duration: 0 }
+              : { duration: 0.22, ease: [0.22, 1, 0.36, 1] }
+          }
+        >
+          {text}
+        </motion.span>
+      </AnimatePresence>
     </span>
   )
 }
@@ -158,7 +226,7 @@ function AiToolContent({
     <CollapsiblePrimitive.Content
       data-slot="ai-tool-content"
       className={cn(
-        "overflow-hidden border-t text-sm",
+        "overflow-hidden border-t text-sm duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down motion-reduce:animate-none",
         className
       )}
       {...props}
@@ -220,7 +288,7 @@ function AiToolError({
       role="alert"
       data-slot="ai-tool-error"
       className={cn(
-        "rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive",
+        "rounded-md border border-destructive-border bg-destructive-subtle px-3 py-2 text-sm text-destructive",
         className
       )}
       {...props}

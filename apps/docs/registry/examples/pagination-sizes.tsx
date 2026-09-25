@@ -1,5 +1,7 @@
 "use client"
 
+import * as React from "react"
+
 import {
   Pagination,
   PaginationContent,
@@ -9,100 +11,75 @@ import {
   PaginationPrevious,
 } from "@/registry/ui/pagination"
 
+const sizes = [
+  { size: "sm", label: "sm · 32px", item: "size-8 px-0" },
+  { size: "default", label: "default · 36px", item: "size-9 px-0" },
+  { size: "lg", label: "lg · 40px", item: "size-10 px-0" },
+] as const
+
 export default function PaginationSizes() {
   return (
-    <div className="flex flex-col items-center gap-6">
-      {/* 紧凑尺寸 sm */}
-      <div className="space-y-1.5 text-center">
-        <p className="text-xs font-medium text-muted-foreground">紧凑尺寸 (Small / sm)</p>
-        <Pagination>
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious size="sm" href="#" />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink size="sm" href="#" isActive>
-                1
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink size="sm" href="#">
-                2
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink size="sm" href="#">
-                3
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationNext size="sm" href="#" />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
-      </div>
+    <div className="grid gap-6">
+      {sizes.map((preset) => (
+        <SizedPagination key={preset.size} {...preset} />
+      ))}
+    </div>
+  )
+}
 
-      {/* 标准尺寸 default */}
-      <div className="space-y-1.5 text-center">
-        <p className="text-xs font-medium text-muted-foreground">标准尺寸 (Default)</p>
-        <Pagination>
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious href="#" />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#" isActive>
-                1
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#">
-                2
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationItem>
-                <PaginationLink href="#">
-                  3
-                </PaginationLink>
-              </PaginationItem>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationNext href="#" />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
-      </div>
+function SizedPagination({
+  size,
+  label,
+  item,
+}: (typeof sizes)[number]) {
+  const [page, setPage] = React.useState(2)
+  const total = 4
 
-      {/* 放大尺寸 lg */}
-      <div className="space-y-1.5 text-center">
-        <p className="text-xs font-medium text-muted-foreground">放大尺寸 (Large / lg)</p>
-        <Pagination>
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious size="lg" href="#" />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink size="lg" href="#" isActive>
-                1
+  function go(next: number) {
+    return (event: React.MouseEvent<HTMLAnchorElement>) => {
+      event.preventDefault()
+      setPage(Math.min(total, Math.max(1, next)))
+    }
+  }
+
+  return (
+    <div className="flex items-center gap-6">
+      <span className="text-muted-foreground w-28 shrink-0 text-xs tabular-nums">
+        {label}
+      </span>
+      <Pagination className="mx-0 w-auto justify-start">
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious
+              size={size}
+              href="#"
+              disabled={page === 1}
+              onClick={go(page - 1)}
+            />
+          </PaginationItem>
+          {Array.from({ length: total }, (_, index) => index + 1).map((value) => (
+            <PaginationItem key={value}>
+              <PaginationLink
+                size={size}
+                href={`#page-${value}`}
+                className={item}
+                isActive={page === value}
+                onClick={go(value)}
+              >
+                {value}
               </PaginationLink>
             </PaginationItem>
-            <PaginationItem>
-              <PaginationLink size="lg" href="#">
-                2
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink size="lg" href="#">
-                3
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationNext size="lg" href="#" />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
-      </div>
+          ))}
+          <PaginationItem>
+            <PaginationNext
+              size={size}
+              href="#"
+              disabled={page === total}
+              onClick={go(page + 1)}
+            />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
     </div>
   )
 }

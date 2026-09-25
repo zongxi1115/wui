@@ -36,13 +36,13 @@ export default function UploadDemo() {
     <div className="grid w-full max-w-lg gap-3">
       <Upload
         accept="image/*,.pdf,.zip"
-        description="PNG, JPG, PDF or ZIP"
+        description="支持图片、PDF 与 ZIP，可多选"
         multiple
         onUpload={uploadFiles}
       />
 
       {files.length > 0 ? (
-        <div className="grid gap-2" aria-label="Uploaded files">
+        <div className="grid gap-2" aria-label="已上传文件">
           {files.map(({ file, url }) => (
             <Download
               key={`${file.name}-${file.lastModified}`}

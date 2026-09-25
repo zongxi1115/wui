@@ -1,95 +1,82 @@
 "use client"
 
 import * as React from "react"
-import { Button } from "@/registry/ui/button"
+
+import { Slider } from "@/registry/ui/slider"
+import { ToggleGroup, ToggleGroupItem } from "@/registry/ui/toggle-group"
 import {
   AiVoiceVisualizer,
   type AiVoiceVisualizerState,
 } from "@/registry/ui/ai-voice-visualizer"
 
+const STATES: Array<{ value: AiVoiceVisualizerState; label: string }> = [
+  { value: "idle", label: "空闲" },
+  { value: "listening", label: "聆听" },
+  { value: "thinking", label: "思考" },
+  { value: "speaking", label: "回复" },
+]
+
+const VARIANTS = [
+  { variant: "bars", label: "柱状" },
+  { variant: "orb", label: "光环" },
+  { variant: "wave", label: "波形" },
+] as const
+
 export default function AiVoiceVisualizerDemo() {
   const [state, setState] = React.useState<AiVoiceVisualizerState>("speaking")
-  const [audioLevel, setAudioLevel] = React.useState(0.6)
+  const [level, setLevel] = React.useState([60])
 
   return (
-    <div className="flex w-full max-w-lg flex-col items-center gap-6">
-      <div className="flex w-full flex-wrap items-center justify-around gap-6 rounded-xl border bg-card p-6 shadow-xs">
-        <div className="flex flex-col items-center gap-2">
-          <span className="text-xs text-muted-foreground">Bars (柱状波形)</span>
-          <AiVoiceVisualizer
-            variant="bars"
-            state={state}
-            audioLevel={audioLevel}
-            size="md"
-          />
-        </div>
-
-        <div className="flex flex-col items-center gap-2">
-          <span className="text-xs text-muted-foreground">Orb (呼吸光环)</span>
-          <AiVoiceVisualizer
-            variant="orb"
-            state={state}
-            audioLevel={audioLevel}
-            size="md"
-          />
-        </div>
-
-        <div className="flex flex-col items-center gap-2">
-          <span className="text-xs text-muted-foreground">Wave (声波曲线)</span>
-          <AiVoiceVisualizer
-            variant="wave"
-            state={state}
-            audioLevel={audioLevel}
-            size="md"
-          />
-        </div>
+    <div className="mx-auto flex w-full max-w-md flex-col items-center gap-8">
+      <div className="grid w-full grid-cols-3 gap-4">
+        {VARIANTS.map((item) => (
+          <div key={item.variant} className="flex flex-col items-center gap-3">
+            <div className="flex h-16 items-center justify-center">
+              <AiVoiceVisualizer
+                variant={item.variant}
+                state={state}
+                audioLevel={level[0] / 100}
+                size="lg"
+              />
+            </div>
+            <span className="text-xs text-muted-foreground">{item.label}</span>
+          </div>
+        ))}
       </div>
 
-      <div className="flex flex-col items-center gap-3 w-full max-w-xs">
-        <div className="flex w-full items-center justify-between text-xs text-muted-foreground">
-          <span>实时音量 (Audio Level):</span>
-          <span className="font-mono">{(audioLevel * 100).toFixed(0)}%</span>
-        </div>
-        <input
-          type="range"
-          min="0"
-          max="1"
-          step="0.05"
-          value={audioLevel}
-          onChange={(e) => setAudioLevel(parseFloat(e.target.value))}
-          className="h-1.5 w-full cursor-pointer accent-primary"
-        />
-      </div>
+      <div className="flex w-full flex-col gap-4">
+        <ToggleGroup
+          type="single"
+          value={state}
+          onValueChange={(value) =>
+            value && setState(value as AiVoiceVisualizerState)
+          }
+          aria-label="语音状态"
+          className="self-center"
+        >
+          {STATES.map((item) => (
+            <ToggleGroupItem key={item.value} value={item.value} className="px-3">
+              {item.label}
+            </ToggleGroupItem>
+          ))}
+        </ToggleGroup>
 
-      <div className="flex flex-wrap items-center justify-center gap-2">
-        <Button
-          variant={state === "idle" ? "default" : "outline"}
-          size="sm"
-          onClick={() => setState("idle")}
-        >
-          Idle (静止)
-        </Button>
-        <Button
-          variant={state === "listening" ? "default" : "outline"}
-          size="sm"
-          onClick={() => setState("listening")}
-        >
-          Listening (聆听)
-        </Button>
-        <Button
-          variant={state === "thinking" ? "default" : "outline"}
-          size="sm"
-          onClick={() => setState("thinking")}
-        >
-          Thinking (思考)
-        </Button>
-        <Button
-          variant={state === "speaking" ? "default" : "outline"}
-          size="sm"
-          onClick={() => setState("speaking")}
-        >
-          Speaking (发音)
-        </Button>
+        <label className="grid gap-2.5 text-xs">
+          <span className="flex justify-between text-muted-foreground">
+            输入电平
+            <span className="font-mono tabular-nums text-foreground">
+              {level[0]}%
+            </span>
+          </span>
+          <Slider
+            value={level}
+            onValueChange={setLevel}
+            min={0}
+            max={100}
+            step={5}
+            showValue="never"
+          />
+        </label>
       </div>
     </div>
   )

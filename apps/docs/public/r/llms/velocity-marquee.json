@@ -73,6 +73,22 @@
       "description": "是否反转基础滚动方向和跟随滚动的方向。"
     },
     {
+      "name": "skew",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0",
+      "description": "快速滚动时的最大倾斜角度，单位为度，设为 0 时关闭。"
+    },
+    {
+      "name": "pauseOnHover",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "鼠标悬停时是否让轨道缓慢停下。"
+    },
+    {
       "name": "container",
       "type": "RefObject<HTMLElement | null>",
       "required": false,
@@ -87,11 +103,15 @@
       "description": "应用于每个重复内容组的 CSS 类名。"
     }
   ],
-  "usage": "`sensitivity` 决定滚动反馈强度，`maxBoost` 防止触控板快速滑动造成不可读的速度。斜置效果应在组件外通过小角度 `rotate` 完成。\n组件离开视口或用户开启“减少动态效果”时会停止动画；后者回退为可横向滚动内容。",
+  "usage": "`sensitivity` 决定滚动反馈强度，`maxBoost` 防止触控板快速滑动造成不可读的速度。`skew` 只在滚动时随速度出现，静止时归零；整体斜置的构图应在组件外通过小角度 `rotate` 完成。\n组件离开视口或用户开启“减少动态效果”时会停止动画；后者回退为可横向滚动内容。",
   "examples": [
     {
       "name": "velocity-marquee-demo",
       "title": "基础用法"
+    },
+    {
+      "name": "velocity-marquee-logos",
+      "title": "客户墙"
     }
   ],
   "files": [

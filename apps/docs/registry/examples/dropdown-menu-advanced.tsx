@@ -27,6 +27,7 @@ import {
 export default function DropdownMenuAdvanced() {
   const [compact, setCompact] = React.useState(false)
   const [theme, setTheme] = React.useState("system")
+  const [language, setLanguage] = React.useState("zh-CN")
 
   return (
     <DropdownMenu>
@@ -48,15 +49,15 @@ export default function DropdownMenuAdvanced() {
         <DropdownMenuLabel>主题</DropdownMenuLabel>
         <DropdownMenuRadioGroup value={theme} onValueChange={setTheme}>
           <DropdownMenuRadioItem value="light">
-            <SunIcon className="mr-2" />
+            <SunIcon />
             浅色
           </DropdownMenuRadioItem>
           <DropdownMenuRadioItem value="dark">
-            <MoonIcon className="mr-2" />
+            <MoonIcon />
             深色
           </DropdownMenuRadioItem>
           <DropdownMenuRadioItem value="system">
-            <MonitorIcon className="mr-2" />
+            <MonitorIcon />
             跟随系统
           </DropdownMenuRadioItem>
         </DropdownMenuRadioGroup>
@@ -67,7 +68,7 @@ export default function DropdownMenuAdvanced() {
             语言
           </DropdownMenuSubTrigger>
           <DropdownMenuSubContent>
-            <DropdownMenuRadioGroup value="zh-CN">
+            <DropdownMenuRadioGroup value={language} onValueChange={setLanguage}>
               <DropdownMenuRadioItem value="zh-CN">
                 简体中文
               </DropdownMenuRadioItem>

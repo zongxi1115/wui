@@ -38,7 +38,7 @@ pnpm add motion class-variance-authority clsx tailwind-merge
       prop: "variant",
       type: '"bars" | "orb" | "wave"',
       default: '"bars"',
-      description: "可视化波形形态。bars 为多柱跳动均衡器，orb 为流光呼吸球体，wave 为平滑正弦声浪。",
+      description: "可视化波形形态。bars 为多柱跳动均衡器，orb 为随电平缩放的圆环（思考时显示旋转弧线），wave 为两层相位相反的声浪。",
     },
     {
       prop: "state",
@@ -49,7 +49,7 @@ pnpm add motion class-variance-authority clsx tailwind-merge
     {
       prop: "audioLevel",
       type: "number",
-      description: "实时归一化音频电平数值，取值范围在 0.0 ~ 1.0 之间。传入时直接驱动波形起伏幅度与光球缩放；未传入时自动使用内置缓动动效循环。",
+      description: "实时归一化音频电平数值，取值范围在 0.0 ~ 1.0 之间。传入时驱动波形起伏幅度与圆环缩放，内部逐帧平滑插值，高频更新也不会产生跳变；未传入时根据状态生成自然的模拟起伏。",
     },
     {
       prop: "barCount",
@@ -88,10 +88,11 @@ pnpm add motion class-variance-authority clsx tailwind-merge
 `AiVoiceVisualizer` 为**多模态语音交互（Voice Agent / Realtime API / STT / TTS）**提供灵动、优雅的视觉反馈：
 
 - **4 种生命周期状态对应色彩与动效**：
-  - `idle`：低对比度灰色微弱呼吸，表达“准备就绪但未激活”。
-  - `listening`：信息蓝（info）活跃跳动，表达“正在专注捕获用户声音”。
-  - `thinking`：主题色（primary）有序波浪流转，表达“正在理解上下文与调用工具”。
-  - `speaking`：主题色（primary）随音量振幅高保真起伏，表达“AI 正在实时回传发音”。
+  - `idle`：低对比度灰色静止，表达“准备就绪但未激活”。
+  - `listening`：信息蓝（info）随电平跳动，表达“正在专注捕获用户声音”。
+  - `thinking`：前景色波峰依次流过（圆环模式显示旋转弧线），表达“正在理解上下文与调用工具”。
+  - `speaking`：前景色随音量振幅起伏，表达“AI 正在实时回传发音”。
+- **性能**：动画运行在帧循环中并直接写入样式，`audioLevel` 以 60Hz 更新也不会触发额外的 React 渲染开销。
 - **对接 Web Audio API**：推荐通过浏览器的 `AudioContext` 与 `AnalyserNode` 获取麦克风或音频元素的 `getByteFrequencyData`，经过归一化计算后传入 `audioLevel`，达到毫秒级音画同步。
 
 ## 场景示例
@@ -110,5 +111,5 @@ pnpm add motion class-variance-authority clsx tailwind-merge
 
 ## 无障碍与交互 Accessibility
 
-- **状态语义声明**：外层容器带有 `data-state` 与 `data-variant` 属性，便于与父级屏幕阅读器提示区（如 `aria-live="polite"`）联动。
-- **动效降级**：内置的 Motion 弹簧与关键帧动画全面支持 `prefers-reduced-motion`。当用户系统开启减弱动态效果时，波形直接根据电平渲染静态高度，光球停止无限缩放，确保敏感用户体验平稳。
+- **状态语义声明**：外层容器为 `role="img"`，并按状态提供默认 `aria-label`（如「正在聆听」），可通过传入 `aria-label` 覆盖；同时带有 `data-state` 与 `data-variant` 属性。
+- **动效降级**：开启 `prefers-reduced-motion` 时帧循环停止，波形直接根据电平渲染静态形态。

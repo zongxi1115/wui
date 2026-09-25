@@ -1,4 +1,4 @@
-import { BellRingIcon } from "lucide-react"
+import { BellIcon } from "lucide-react"
 
 import { Button } from "@/registry/ui/button"
 import {
@@ -6,56 +6,54 @@ import {
   MorphingDialogClose,
   MorphingDialogContent,
   MorphingDialogDescription,
-  MorphingDialogSubtitle,
   MorphingDialogTitle,
   MorphingDialogTrigger,
 } from "@/registry/ui/morphing-dialog"
+import { Switch } from "@/registry/ui/switch"
+
+const channels = [
+  { id: "approval", label: "审批提醒", detail: "有新的待办或审批结果时通知我", on: true },
+  { id: "mention", label: "被提及", detail: "有人在评论或文档中 @ 我", on: true },
+  { id: "digest", label: "每周摘要", detail: "每周一早上汇总项目进展", on: false },
+]
 
 export default function MorphingDialogDemo() {
   return (
     <MorphingDialog>
       <MorphingDialogTrigger>
-        <BellRingIcon className="mr-2 size-4" />
-        Notification settings
+        <BellIcon className="mr-2 size-4" />
+        通知设置
       </MorphingDialogTrigger>
-      <MorphingDialogContent>
-        <MorphingDialogTitle>Notification settings</MorphingDialogTitle>
-        <MorphingDialogSubtitle>
-          Choose what deserves your attention.
-        </MorphingDialogSubtitle>
-        <MorphingDialogDescription>
-          Product updates and account activity are enabled. You can change these
-          preferences at any time.
+      <MorphingDialogContent className="max-w-md">
+        <MorphingDialogTitle>通知设置</MorphingDialogTitle>
+        <MorphingDialogDescription className="mt-2">
+          选择哪些事情值得打扰你，设置会同步到桌面端与移动端。
         </MorphingDialogDescription>
-        <div className="mt-5 space-y-3 border-y py-4 text-sm">
-          {[
-            ["Account activity", "Security and billing changes"],
-            ["Product updates", "A concise weekly digest"],
-          ].map(([label, detail]) => (
+        <div className="mt-5 divide-y border-y">
+          {channels.map((channel) => (
             <label
-              key={label}
-              className="flex items-center justify-between gap-6"
+              key={channel.id}
+              htmlFor={`notify-${channel.id}`}
+              className="flex items-center justify-between gap-6 py-3"
             >
               <span>
-                <span className="block font-medium">{label}</span>
-                <span className="text-muted-foreground">{detail}</span>
+                <span className="block text-sm font-medium">{channel.label}</span>
+                <span className="text-muted-foreground text-sm">
+                  {channel.detail}
+                </span>
               </span>
-              <input
-                type="checkbox"
-                defaultChecked
-                className="accent-primary size-4"
-              />
+              <Switch id={`notify-${channel.id}`} defaultChecked={channel.on} />
             </label>
           ))}
         </div>
         <div className="mt-5 flex justify-end gap-2">
           <MorphingDialogClose asChild>
             <Button variant="ghost" size="sm">
-              Cancel
+              取消
             </Button>
           </MorphingDialogClose>
           <MorphingDialogClose asChild>
-            <Button size="sm">Save changes</Button>
+            <Button size="sm">保存</Button>
           </MorphingDialogClose>
         </div>
         <MorphingDialogClose />

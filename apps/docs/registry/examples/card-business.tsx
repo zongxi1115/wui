@@ -1,4 +1,7 @@
-import { ActivityIcon, CpuIcon, HardDriveIcon, MoreVerticalIcon, ServerIcon } from "lucide-react"
+"use client"
+
+import * as React from "react"
+import { CpuIcon, MemoryStickIcon, MoreHorizontalIcon, ServerIcon } from "lucide-react"
 
 import { Badge } from "@/registry/ui/badge"
 import { Button } from "@/registry/ui/button"
@@ -14,73 +17,92 @@ import {
 import { Progress } from "@/registry/ui/progress"
 
 export default function CardBusiness() {
+  const [restarting, setRestarting] = React.useState(false)
+  const [cpu, setCpu] = React.useState(42)
+  const memory = restarting ? 12 : 43
+
+  React.useEffect(() => {
+    if (restarting) {
+      const timer = window.setTimeout(() => setRestarting(false), 2400)
+      return () => window.clearTimeout(timer)
+    }
+    const timer = window.setInterval(() => {
+      setCpu((current) =>
+        Math.min(88, Math.max(18, current + Math.round((Math.random() - 0.5) * 18)))
+      )
+    }, 1600)
+    return () => window.clearInterval(timer)
+  }, [restarting])
+
   return (
     <Card className="w-full max-w-md">
       <CardHeader>
-        <div className="flex items-center gap-2.5">
-          <div className="flex size-9 items-center justify-center rounded-lg bg-primary/10 text-primary">
-            <ServerIcon className="size-5" />
+        <div className="flex items-center gap-3">
+          <div className="bg-muted text-muted-foreground flex size-9 items-center justify-center rounded-md">
+            <ServerIcon className="size-4" />
           </div>
-          <div>
-            <CardTitle className="text-base">node-us-east-01</CardTitle>
+          <div className="min-w-0">
+            <CardTitle className="font-mono text-sm tracking-normal">
+              api-gateway-sh-01
+            </CardTitle>
             <CardDescription className="text-xs">
-              AWS EC2 · c6g.2xlarge · 10.0.12.84
+              华东 2（上海）· c7.2xlarge · 10.0.12.84
             </CardDescription>
           </div>
         </div>
         <CardAction>
-          <Button variant="ghost" size="icon" className="size-8 text-muted-foreground">
-            <MoreVerticalIcon className="size-4" />
+          <Button variant="ghost" size="icon" className="text-muted-foreground size-8" aria-label="更多操作">
+            <MoreHorizontalIcon />
           </Button>
         </CardAction>
       </CardHeader>
 
-      <CardContent className="flex flex-col gap-4">
-        {/* Metric 1: CPU */}
-        <div className="flex flex-col gap-1.5">
+      <CardContent className="space-y-4">
+        <div className="space-y-1.5">
           <div className="flex items-center justify-between text-xs">
-            <span className="flex items-center gap-1.5 text-muted-foreground">
-              <CpuIcon className="size-3.5" /> CPU Utilization
+            <span className="text-muted-foreground flex items-center gap-1.5">
+              <CpuIcon className="size-3.5" />
+              CPU 使用率
             </span>
-            <span className="font-semibold tabular-nums">42%</span>
+            <span className="font-medium tabular-nums">{restarting ? "—" : `${cpu}%`}</span>
           </div>
-          <Progress value={42} className="h-1.5" />
+          <Progress
+            value={restarting ? null : cpu}
+            color={cpu >= 80 ? "warning" : "primary"}
+            aria-label="CPU 使用率"
+          />
         </div>
-
-        {/* Metric 2: Memory */}
-        <div className="flex flex-col gap-1.5">
+        <div className="space-y-1.5">
           <div className="flex items-center justify-between text-xs">
-            <span className="flex items-center gap-1.5 text-muted-foreground">
-              <HardDriveIcon className="size-3.5" /> Memory (RAM)
+            <span className="text-muted-foreground flex items-center gap-1.5">
+              <MemoryStickIcon className="size-3.5" />
+              内存
             </span>
-            <span className="font-semibold tabular-nums">6.8 / 16 GB</span>
+            <span className="font-medium tabular-nums">
+              {((16 * memory) / 100).toFixed(1)} / 16 GB
+            </span>
           </div>
-          <Progress value={42.5} className="h-1.5" />
-        </div>
-
-        {/* Status badges */}
-        <div className="flex items-center gap-2 pt-1">
-          <Badge variant="success" size="sm" className="gap-1">
-            <ActivityIcon className="size-3" /> Healthy
-          </Badge>
-          <Badge variant="outline" size="sm">
-            Kubernetes v1.29
-          </Badge>
-          <Badge variant="secondary" size="sm">
-            99.98% Uptime
-          </Badge>
+          <Progress value={memory} aria-label="内存使用率" />
         </div>
       </CardContent>
 
-      <CardFooter className="justify-between border-t border-border/50 pt-3">
-        <span className="text-xs text-muted-foreground">
-          Auto-scaling policy: Active
-        </span>
+      <CardFooter className="justify-between border-t pt-4">
+        <div className="flex items-center gap-2">
+          <Badge variant={restarting ? "warning" : "success"} size="sm">
+            {restarting ? "重启中" : "运行中"}
+          </Badge>
+          <span className="text-muted-foreground text-xs">可用性 99.98%</span>
+        </div>
         <div className="flex items-center gap-2">
           <Button variant="outline" size="sm">
-            Logs
+            日志
           </Button>
-          <Button size="sm">Restart</Button>
+          <Button size="sm" disabled={restarting} onClick={() => {
+              setRestarting(true)
+              setCpu(24)
+            }}>
+            重启
+          </Button>
         </div>
       </CardFooter>
     </Card>

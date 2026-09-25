@@ -6,7 +6,7 @@ component: hover-preview
 
 ## 基础用法
 
-鼠标移至发布日志列表中任一项目上方，将在光标近旁跟随展示架构快照与基准性能数据：
+鼠标移至项目列表的任一行，封面图会以弹簧跟随指针，并随水平移动速度轻微倾斜；靠近视口右侧时自动翻转到指针左侧：
 
 <ComponentPreview name="hover-preview-demo" />
 
@@ -55,6 +55,12 @@ pnpm add motion lucide-react class-variance-authority clsx tailwind-merge
       type: "number",
       default: "20",
       description: "预览卡片相对于鼠标垂直位置的 Y 轴偏移像素距离。",
+    },
+    {
+      prop: "tilt",
+      type: "number",
+      default: "6",
+      description: "随指针水平速度产生的最大倾斜角度（度）。`0` 表示关闭。",
     },
     {
       prop: "open",
@@ -112,19 +118,21 @@ pnpm add motion lucide-react class-variance-authority clsx tailwind-merge
 
 - **链接文章卡片预览**：在长文本或博客中，悬停在引用链接上直接展示文章大图与阅读时长。
 - **用户头像名片**：在评论区或协作者列表中，悬停在用户名上展示作者职位、关注按钮与社交信息。
-- **发布动态与架构快照**：在产品版本更新列表（Changelog）中快速预览对应的架构图。
+- **作品与项目列表**：在案例列表中快速预览封面图，无需进入详情页。
+
+预览层通过 Portal 渲染到 `document.body`，不会被父级的 `overflow` 或 `transform` 裁切；每次进入时直接定位到指针处，不会从上一次的位置飞入。
 
 ## 场景示例
 
 ### 文本链接卡片预览
 
-在富文本阅读体验中无缝插入文章与知识库链接预览：
+在正文中的引用链接上展示文章摘要，文字类预览建议设置 `tilt={0}`：
 
 <ComponentPreview name="hover-preview-link" />
 
 ### 用户资料名片
 
-悬停于协作者名字展示个人资料与快捷关注操作：
+悬停于评论者名字展示个人资料。预览层不响应指针事件，请不要在其中放置按钮等可交互元素：
 
 <ComponentPreview name="hover-preview-user" />
 

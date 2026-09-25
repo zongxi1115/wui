@@ -1,6 +1,5 @@
-import { ArrowUpRightIcon, CreditCardIcon, ShieldCheckIcon } from "lucide-react"
+import { ArrowUpRightIcon, CreditCardIcon } from "lucide-react"
 
-import { Badge } from "@/registry/ui/badge"
 import { Button } from "@/registry/ui/button"
 import {
   MorphingDialog,
@@ -12,83 +11,66 @@ import {
   MorphingDialogTrigger,
 } from "@/registry/ui/morphing-dialog"
 
+const details = [
+  ["本月额度", "¥50,000.00"],
+  ["已使用", "¥14,250.00（28.5%）"],
+  ["持卡成员", "市场部 · 6 人"],
+  ["账单日", "每月 1 日"],
+]
+
 export default function MorphingDialogCard() {
   return (
-    <div className="flex w-full max-w-sm flex-col items-center justify-center p-4">
+    <div>
       <MorphingDialog>
-        <MorphingDialogTrigger className="group flex w-full flex-col gap-3 rounded-2xl border bg-card p-5 text-left shadow-xs transition-all hover:border-border hover:shadow-md">
-          <div className="flex items-center justify-between">
-            <div className="flex size-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
-              <CreditCardIcon className="size-5" />
-            </div>
-            <Badge variant="secondary" className="font-mono text-xs">
-              VISA ···· 4242
-            </Badge>
-          </div>
-          <div>
-            <div className="text-xs font-medium text-muted-foreground">
-              Corporate Expense Card
-            </div>
-            <div className="text-xl font-semibold tracking-tight text-foreground">
-              $14,250.00
-            </div>
-          </div>
-          <div className="flex items-center justify-between text-xs text-muted-foreground">
-            <span>Available credit: $35,750.00</span>
-            <span className="flex items-center gap-0.5 text-primary group-hover:underline">
-              Details <ArrowUpRightIcon className="size-3" />
+        <MorphingDialogTrigger className="group flex w-72 flex-col items-stretch gap-4 rounded-lg p-4 text-left">
+          <span className="flex items-center justify-between">
+            <CreditCardIcon className="text-muted-foreground size-5" />
+            <span className="text-muted-foreground font-mono text-xs">
+              ···· 4242
             </span>
-          </div>
+          </span>
+          <span>
+            <span className="text-muted-foreground block text-xs">
+              市场部费用卡
+            </span>
+            <span className="mt-1 block text-xl font-semibold tabular-nums tracking-tight">
+              ¥14,250.00
+            </span>
+          </span>
+          <span className="text-muted-foreground flex items-center justify-between text-xs">
+            剩余额度 ¥35,750.00
+            <span className="text-foreground flex items-center gap-0.5">
+              详情
+              <ArrowUpRightIcon className="size-3 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+            </span>
+          </span>
         </MorphingDialogTrigger>
 
         <MorphingDialogContent className="max-w-md">
-          <div className="flex items-center gap-3">
-            <div className="flex size-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
-              <CreditCardIcon className="size-6" />
-            </div>
-            <div>
-              <MorphingDialogTitle className="text-lg">
-                Corporate Expense Card
-              </MorphingDialogTitle>
-              <MorphingDialogSubtitle className="text-xs">
-                Billing Cycle: Aug 1 - Aug 31, 2026
-              </MorphingDialogSubtitle>
-            </div>
-          </div>
-
-          <MorphingDialogDescription className="mt-4 text-xs">
-            Review detailed monthly limits, authorized departmental spenders, and
-            automated tax reconciliation rules.
+          <MorphingDialogTitle>市场部费用卡</MorphingDialogTitle>
+          <MorphingDialogSubtitle className="text-muted-foreground">
+            账期 9 月 1 日 – 9 月 30 日
+          </MorphingDialogSubtitle>
+          <MorphingDialogDescription>
+            查看本期额度使用情况与持卡成员，超出额度的消费需要部门负责人审批。
           </MorphingDialogDescription>
 
-          <div className="mt-5 space-y-3 rounded-xl border bg-muted/30 p-4 text-sm">
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">Monthly Limit</span>
-              <span className="font-semibold text-foreground">$50,000.00</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">Spent This Period</span>
-              <span className="font-semibold text-foreground">$14,250.00 (28.5%)</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">Virtual Cards Active</span>
-              <span className="font-semibold text-foreground">6 cards</span>
-            </div>
-            <div className="flex items-center gap-1.5 pt-2 text-xs text-success">
-              <ShieldCheckIcon className="size-4" />
-              <span>Real-time fraud monitoring active</span>
-            </div>
-          </div>
+          <dl className="mt-5 divide-y border-y text-sm">
+            {details.map(([label, value]) => (
+              <div key={label} className="flex justify-between py-2.5">
+                <dt className="text-muted-foreground">{label}</dt>
+                <dd className="font-medium tabular-nums">{value}</dd>
+              </div>
+            ))}
+          </dl>
 
           <div className="mt-6 flex justify-end gap-2">
             <MorphingDialogClose asChild>
               <Button variant="ghost" size="sm">
-                Dismiss
+                关闭
               </Button>
             </MorphingDialogClose>
-            <MorphingDialogClose asChild>
-              <Button size="sm">Manage Card</Button>
-            </MorphingDialogClose>
+            <Button size="sm">调整额度</Button>
           </div>
           <MorphingDialogClose />
         </MorphingDialogContent>

@@ -41,7 +41,8 @@
     "npmDependencies": [
       "radix-ui",
       "class-variance-authority",
-      "lucide-react"
+      "lucide-react",
+      "motion"
     ],
     "registryDependencies": [
       "utils"

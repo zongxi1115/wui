@@ -20,7 +20,9 @@
     "npmDependencies": [
       "lucide-react"
     ],
-    "registryDependencies": []
+    "registryDependencies": [
+      "utils"
+    ]
   },
   "props": [
     {

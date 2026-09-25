@@ -191,13 +191,13 @@ pnpm add radix-ui class-variance-authority clsx tailwind-merge
 
 ### 弹出方位与指示箭头
 
-支持 `top`、`right`、`bottom`、`left` 四个方向定位，并内置智能防溢出碰撞检测：
+支持 `top`、`right`、`bottom`、`left` 四个方向定位，并内置智能防溢出碰撞检测。提示从触发器方向轻微滑入，并以箭头所在位置为缩放原点展开：
 
 <ComponentPreview name="tooltip-placement" />
 
 ### 尺寸规格与快捷键徽标
 
-提供 `default` 与 `sm` 尺寸，并在内容中组合 `<kbd>` 标注键盘快捷键：
+提供 `default` 与 `sm` 尺寸，并在内容中以弱化文字标注键盘快捷键。在同一个 `TooltipProvider` 内快速划过多个触发器时，后续提示瞬时切换，仅保留淡入而不再缩放：
 
 <ComponentPreview name="tooltip-sizes" />
 
@@ -209,7 +209,7 @@ pnpm add radix-ui class-variance-authority clsx tailwind-merge
 
 ### 受控模式
 
-通过 `open` 与 `onOpenChange` 将提示显隐状态委托给外部 React 状态进行联动：
+通过 `open` 与 `onOpenChange` 将提示显隐状态委托给外部 React 状态。示例中点击复制后主动展开“已复制”反馈，并在提示期间忽略指针移出导致的关闭：
 
 <ComponentPreview name="tooltip-controlled" />
 
@@ -219,3 +219,4 @@ pnpm add radix-ui class-variance-authority clsx tailwind-merge
 - **键盘焦点感知**：当用户使用 <kbd>Tab</kbd> 键将焦点导航至触发器时，Tooltip 会自动展开；按下 <kbd>Esc</kbd> 键可立即关闭提示。
 - **视口边缘碰撞避让**：内置智能碰撞检测（Collision Detection），当触发器靠近屏幕边缘导致 Tooltip 放不下时，浮层会自动翻转至对立侧或调整轴向偏移。
 - **触控设备优化**：在移动端长按触发器时能呼出提示，松手后轻触外部任意区域即可平滑收起。
+- **动效降级**：进入与退出动画在系统开启“减少动态效果”时自动关闭。

@@ -1,12 +1,12 @@
 ---
 title: 图片预览 Image Preview
-description: 点击缩略图进入沉浸式大图灯箱预览，支持平滑缩放、旋转、拖拽平移与原图下载。
+description: 点击缩略图进入沉浸式大图灯箱预览，支持平滑缩放、旋转、拖拽平移、多图切换与原图下载。
 component: image-preview
 ---
 
 ## 基础用法
 
-点击图片缩略图展开全屏灯箱，支持通过顶部工具栏缩放、旋转或快捷键控制：
+点击图片缩略图展开全屏灯箱，支持通过底部工具栏、滚轮、双击或快捷键缩放与旋转，变换均以弹簧动效过渡：
 
 <ComponentPreview name="image-preview-demo" />
 
@@ -32,7 +32,9 @@ pnpm add radix-ui motion lucide-react clsx tailwind-merge
 
 ## 属性 Props
 
-`ImagePreview` 支持以下配置属性，并继承原生 `<button>` 触发器属性：
+### ImagePreview
+
+`ImagePreview` 支持以下配置属性，并继承原生 `<button>` 触发器属性。放在 `ImagePreviewGroup` 内时，`open`、`defaultOpen`、`onOpenChange` 以及缩放与工具栏配置由分组统一管理：
 
 <PropsTable
   data={[
@@ -96,7 +98,7 @@ pnpm add radix-ui motion lucide-react clsx tailwind-merge
       prop: "showToolbar",
       type: "boolean",
       default: "true",
-      description: "是否显示顶部浮动变换工具栏（包含缩放、旋转、重置与下载按钮）。",
+      description: "是否显示底部变换工具栏（包含缩放、旋转、重置与下载按钮）。",
     },
     {
       prop: "downloadName",
@@ -116,6 +118,54 @@ pnpm add radix-ui motion lucide-react clsx tailwind-merge
   ]}
 />
 
+### ImagePreviewGroup
+
+将多个 `ImagePreview` 组合为一个共享灯箱，图片顺序与 DOM 顺序一致。灯箱内提供上一张 / 下一张按钮、底部缩略图条（当前项边框在缩略图间滑动）、左右方向键与横向滑动手势，切换时图片按方向滑入滑出。继承原生 `<div>` 属性：
+
+<PropsTable
+  data={[
+    {
+      prop: "open / defaultOpen",
+      type: "boolean",
+      default: "- / false",
+      description: "共享灯箱的受控 / 初始打开状态。",
+    },
+    {
+      prop: "onOpenChange",
+      type: "(open: boolean) => void",
+      description: "灯箱打开或关闭时触发。",
+    },
+    {
+      prop: "index / defaultIndex",
+      type: "number",
+      default: "- / 0",
+      description: "灯箱当前展示图片的受控 / 初始索引。",
+    },
+    {
+      prop: "onIndexChange",
+      type: "(index: number) => void",
+      description: "灯箱切换到另一张图片时触发。",
+    },
+    {
+      prop: "minZoom / maxZoom / zoomStep",
+      type: "number",
+      default: "0.5 / 3 / 0.25",
+      description: "与 ImagePreview 相同的缩放限制，作用于分组内所有图片。",
+    },
+    {
+      prop: "showToolbar",
+      type: "boolean",
+      default: "true",
+      description: "是否显示缩放、旋转、重置与下载工具栏。",
+    },
+    {
+      prop: "previewClassName",
+      type: "string",
+      description: "应用于灯箱大图 <img> 的额外 CSS 类名。",
+    },
+  ]}
+/>
+
 ## 事件 Events
 
 <PropsTable
@@ -128,7 +178,7 @@ pnpm add radix-ui motion lucide-react clsx tailwind-merge
     {
       prop: "onKeyDown",
       type: "(event: React.KeyboardEvent) => void",
-      description: "灯箱内部按键事件。支持使用 +/= 放大、- 缩小、0 重置图片变换，或使用 Esc 关闭灯箱。",
+      description: "灯箱内部按键事件。支持使用 +/= 放大、- 缩小、0 重置图片变换、←/→ 在分组中切换图片，或使用 Esc 关闭灯箱。",
     },
     {
       prop: "onClick",
@@ -143,29 +193,31 @@ pnpm add radix-ui motion lucide-react clsx tailwind-merge
 `ImagePreview` 专为**电商详情、作品集画廊、附件凭证与设计稿核对**设计：
 
 - **分级加载优化带宽**：对于动辄数兆的高清原图，缩略图使用小图 `src`，灯箱大图传入 `previewSrc`，实现首屏飞速加载与灯箱高清呈现的双赢。
-- **拖拽平移视口边界约束**：当图片放大超过屏幕视口范围时，自动激活鼠标抓手拖拽（Drag to pan）模式，并内置弹性边界吸附，防止图片被拖出屏幕视野之外。
+- **拖拽平移视口边界约束**：当图片放大超过屏幕视口范围时，自动激活鼠标抓手拖拽（Drag to pan）模式，并内置弹性边界吸附，防止图片被拖出屏幕视野之外；缩小后图片会平滑回到可视范围内。
 - **极简 vs 全功能**：如果不希望用户旋转或下载图片，设置 `showToolbar={false}` 即可获得类似 Medium 或 iOS 相册的极简沉浸式阅读预览体验。
 
 ## 场景示例
 
-### 画廊网格与高分辨率原图下载
+### 画廊分组浏览
 
-在摄影作品集或商品图列表中展示多张卡片，每张图片均支持单独的说明文字与原图下载：
+使用 `ImagePreviewGroup` 包裹网格中的缩略图，打开后可在同一灯箱内左右切换；每张图片保留各自的说明文字与原图下载：
 
 <ComponentPreview name="image-preview-gallery" />
 
 ### 极简纯净模式 (隐藏工具栏)
 
-对于设计稿或文章插图，隐藏顶部工具栏，仅保留点击打开大图与点击背景/按 Esc 关闭的能力：
+对于文章配图或列表插图，隐藏工具栏，仅保留点击打开大图、滚轮缩放与点击背景 / 按 Esc 关闭的能力：
 
 <ComponentPreview name="image-preview-minimal" />
 
 ## 无障碍与交互 Accessibility
 
-- **Radix Dialog 焦点管理**：打开灯箱时焦点自动锁定在弹窗内，关闭后焦点平滑恢复至触发缩略图，防止键盘焦点丢失。
+- **Radix Dialog 焦点管理**：打开灯箱时焦点自动锁定在弹窗内，关闭后焦点恢复至最后查看图片的缩略图，防止键盘焦点丢失。
 - **快捷键导航**：
   - <kbd>+</kbd> / <kbd>=</kbd>：放大图片比例。
   - <kbd>-</kbd>：缩小图片比例。
   - <kbd>0</kbd>：重置为原始 1:1 比例与 0 度旋转。
+  - <kbd>←</kbd> / <kbd>→</kbd>：在 `ImagePreviewGroup` 中切换上一张 / 下一张。
   - <kbd>Esc</kbd>：立即退出预览。
+- **减少动态效果**：系统开启“减少动态效果”时，打开、切换与缩放均改为瞬时完成。
 - **屏幕阅读器**：内置 `DialogPrimitive.Title`（带 `sr-only` 隐藏但读屏可达）自动播报图片 `alt` 描述信息。

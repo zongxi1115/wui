@@ -1,37 +1,45 @@
 import { InView } from "@/registry/ui/in-view"
 
-const variants = {
-  hidden: { clipPath: "inset(0 0 100% 0 round 999px 999px 0 0)" },
-  visible: { clipPath: "inset(0 0 0% 0 round 999px 999px 0 0)" },
+const reveal = {
+  hidden: { clipPath: "inset(100% 0% 0% 0%)", scale: 1.08 },
+  visible: { clipPath: "inset(0% 0% 0% 0%)", scale: 1 },
+}
+
+const caption = {
+  hidden: { opacity: 0, y: 12 },
+  visible: { opacity: 1, y: 0 },
 }
 
 export default function InViewImageReveal() {
   return (
-    <div className="grid w-full max-w-3xl items-center gap-7 bg-[#d9d5ca] p-6 text-[#20211d] sm:grid-cols-[0.8fr_1.2fr] sm:p-9">
-      <div>
-        <p className="text-[10px] uppercase tracking-[0.27em]">
-          First light / 05:42
-        </p>
-        <h3 className="mt-6 font-serif text-5xl leading-[0.9] tracking-[-0.05em]">
-          The day arrives from below.
-        </h3>
-        <p className="mt-6 max-w-xs text-sm leading-6 text-[#55594f]">
-          A vertical mask follows the way the eye climbs a landscape.
-        </p>
-      </div>
+    <div className="grid w-full max-w-3xl items-end gap-8 sm:grid-cols-[0.9fr_1.1fr]">
       <InView
-        variants={variants}
+        variants={caption}
+        transition={{ duration: 0.6, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
+      >
+        <p className="text-muted-foreground font-mono text-xs">
+          实地笔记 · 第 07 期
+        </p>
+        <h3 className="mt-3 text-3xl font-semibold leading-tight tracking-tight">
+          风从海上来，
+          <br />
+          悬崖记下了每一次潮汐。
+        </h3>
+        <p className="text-muted-foreground mt-4 max-w-xs text-sm leading-6">
+          图片自下而上揭开，同时从轻微放大回落到原始比例，模拟视线沿地平线向上攀升的过程。
+        </p>
+      </InView>
+      <InView
+        variants={reveal}
         transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
-        className="relative h-[24rem] overflow-hidden rounded-t-[12rem]"
+        viewOptions={{ amount: 0.4 }}
+        className="relative aspect-[4/5] overflow-hidden rounded-md"
       >
         <img
           src="/wui/demo/field-notes/storm-cliffs.jpg"
-          alt="Coastal cliffs revealed from below"
+          alt="海边的悬崖与阴云"
           className="size-full object-cover"
         />
-        <p className="absolute bottom-5 left-1/2 -translate-x-1/2 whitespace-nowrap text-[10px] uppercase tracking-[0.25em] text-white">
-          Atlantic / North
-        </p>
       </InView>
     </div>
   )

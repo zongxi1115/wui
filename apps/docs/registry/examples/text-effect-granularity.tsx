@@ -1,92 +1,51 @@
 "use client"
 
 import * as React from "react"
-import { RotateCw } from "lucide-react"
+import { RotateCcwIcon } from "lucide-react"
 
 import { Button } from "@/registry/ui/button"
 import { TextEffect } from "@/registry/ui/text-effect"
 
 export default function TextEffectGranularity() {
-  const [trigger, setTrigger] = React.useState(true)
-
-  const replay = () => {
-    setTrigger(false)
-    window.setTimeout(() => setTrigger(true), 80)
-  }
+  const [key, setKey] = React.useState(0)
 
   return (
-    <div className="flex w-full max-w-xl flex-col gap-6 rounded-xl border border-border bg-card p-6 shadow-xs">
-      <div className="space-y-4 divide-y divide-border">
-        {/* Character Granularity */}
-        <div className="space-y-1.5 pt-2 first:pt-0">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-              按字符拆分 (per="char")
-            </span>
-            <span className="text-[11px] text-muted-foreground">适合短标题与核心品牌词</span>
-          </div>
+    <div className="w-full max-w-xl">
+      <div key={key} className="divide-y border-y">
+        <div className="grid gap-2 py-5 sm:grid-cols-[7rem_1fr]">
+          <code className="text-muted-foreground text-xs">per=&quot;char&quot;</code>
           <TextEffect
             as="h4"
             per="char"
             preset="fade-in-blur"
-            speedReveal={1.2}
-            trigger={trigger}
-            className="text-lg font-semibold tracking-tight text-foreground"
+            className="text-lg font-semibold tracking-tight"
           >
-            Next-generation Design System
+            Design System 2.0 正式发布
           </TextEffect>
         </div>
-
-        {/* Word Granularity */}
-        <div className="space-y-1.5 pt-4">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-              按单词拆分 (per="word")
-            </span>
-            <span className="text-[11px] text-muted-foreground">适合句子与标语</span>
-          </div>
-          <TextEffect
-            as="p"
-            per="word"
-            preset="slide"
-            trigger={trigger}
-            className="text-sm font-medium text-foreground"
-          >
-            Empower developers with accessible, high-performance UI components.
+        <div className="grid gap-2 py-5 sm:grid-cols-[7rem_1fr]">
+          <code className="text-muted-foreground text-xs">per=&quot;word&quot;</code>
+          <TextEffect per="word" preset="slide" className="text-sm leading-6">
+            Accessible components, tuned motion and 中文排版优化, all in one kit.
           </TextEffect>
         </div>
-
-        {/* Line Granularity */}
-        <div className="space-y-1.5 pt-4">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-              按行拆分 (per="line")
-            </span>
-            <span className="text-[11px] text-muted-foreground">适合多行列表或诗意排版</span>
-          </div>
+        <div className="grid gap-2 py-5 sm:grid-cols-[7rem_1fr]">
+          <code className="text-muted-foreground text-xs">per=&quot;line&quot;</code>
           <TextEffect
             as="div"
             per="line"
-            preset="fade-in-blur"
+            preset="blur-sm"
             speedReveal={0.8}
-            trigger={trigger}
-            className="text-xs leading-relaxed text-muted-foreground"
+            className="text-muted-foreground gap-1 text-sm"
           >
-            {`1. 统一设计语言与类型系统\n2. 深度内置无障碍 WAI-ARIA 规范\n3. 极致优化的 60FPS 丝滑微动效`}
+            {`统一的设计语言与类型系统\n内置 WAI-ARIA 键盘交互规范\n克制、可降级的界面动效`}
           </TextEffect>
         </div>
       </div>
-
-      <div className="flex justify-end border-t border-border pt-3">
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          onClick={replay}
-          className="gap-1.5 text-xs"
-        >
-          <RotateCw className="size-3" />
-          同时重播
+      <div className="mt-4 flex justify-end">
+        <Button variant="ghost" size="sm" onClick={() => setKey((k) => k + 1)}>
+          <RotateCcwIcon />
+          全部重播
         </Button>
       </div>
     </div>

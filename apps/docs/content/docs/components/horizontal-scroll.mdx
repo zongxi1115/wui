@@ -8,7 +8,7 @@ component: horizontal-scroll
 
 随着用户向下滚动，页面在当前区域自动停靠（Pinning），并将滚动距离等比转换为横向卡片轨道的平滑位移：
 
-<ComponentPreview name="horizontal-scroll-demo" />
+<ComponentPreview name="horizontal-scroll-demo" previewClassName="min-h-0 p-0" />
 
 ## 安装与引入
 
@@ -51,6 +51,12 @@ pnpm add motion lucide-react class-variance-authority clsx tailwind-merge
       description: "额外附加的垂直虚拟滚动距离（像素），用于在横向轨道滚动完毕后增加停留缓冲时间。",
     },
     {
+      prop: "smooth",
+      type: "boolean",
+      default: "true",
+      description: "通过弹簧缓动轨道位移，让鼠标滚轮的离散步进变为连续滑行。",
+    },
+    {
       prop: "viewportClassName",
       type: "string",
       description: "应用于吸顶固定视口（Sticky Viewport）的 CSS 类名。",
@@ -68,32 +74,21 @@ pnpm add motion lucide-react class-variance-authority clsx tailwind-merge
   ]}
 />
 
-## 事件 Events
-
-<PropsTable
-  data={[
-    {
-      prop: "onScroll",
-      type: "(event: React.UIEvent) => void",
-      description: "滚动事件监听函数（支持在降级模式下捕获横向原生滚动）。",
-    },
-  ]}
-/>
-
 ## 使用场景与设计规范
 
 `HorizontalScroll` 适用于**时间线路线图（Roadmap）、横向架构拆解图、多卡片案例研读**：
 
 - **自适应距离计算**：组件利用 `ResizeObserver` 动态量测 `track.scrollWidth` 与视口宽度的真实差值，自动计算出最精确的垂直占位总高度，无需硬编码滚动像素。
+- **局部容器**：传入 `container` 时，吸顶视口高度取容器的内容区高度（已扣除上下内边距）。
 - **免除横向滚轮困扰**：大多数桌面端鼠标只有纵向滚轮，通过将纵向滚动无缝映射为横向位移，极大降低了用户探索宽幅内容的交互门槛。
 
 ## 场景示例
 
-### 模块子系统全景
+### 产品路线图
 
-横向遍历多个微服务或架构模块卡片：
+沿时间线横向浏览各季度计划，`scrollPadding` 在轨道走完后留出一段停留：
 
-<ComponentPreview name="horizontal-scroll-cards" />
+<ComponentPreview name="horizontal-scroll-cards" previewClassName="min-h-0 p-0" />
 
 ## 无障碍与交互 Accessibility
 

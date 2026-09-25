@@ -66,6 +66,10 @@
     {
       "name": "accordion-demo",
       "title": "基础示例 · Basic example"
+    },
+    {
+      "name": "accordion-multiple",
+      "title": "多项展开与受控"
     }
   ],
   "files": [

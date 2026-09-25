@@ -5,15 +5,15 @@ import { Kbd, KbdGroup } from "@/registry/ui/kbd"
 export default function KbdDemo() {
   return (
     <div className="w-full max-w-sm divide-y border-y text-sm">
-      <Shortcut label="Open search">
+      <Shortcut label="打开全局搜索">
         <Kbd>Ctrl</Kbd>
         <Kbd>K</Kbd>
       </Shortcut>
-      <Shortcut label="Save changes">
+      <Shortcut label="保存更改">
         <Kbd>Ctrl</Kbd>
         <Kbd>S</Kbd>
       </Shortcut>
-      <Shortcut label="Close panel">
+      <Shortcut label="关闭面板">
         <Kbd>Esc</Kbd>
       </Shortcut>
     </div>

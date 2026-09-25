@@ -2,9 +2,11 @@
 
 import * as React from "react"
 import {
+  easeInOut,
   motion,
   useReducedMotion,
   useScroll,
+  useSpring,
   useTransform,
   type HTMLMotionProps,
 } from "motion/react"
@@ -25,12 +27,26 @@ export interface ScrollExpandProps extends Omit<
   radius?: number
   /** Section length in viewport heights. @default 1.8 */
   scrollLength?: number
+  /** Scale of the inner content at the compact state, creating a subtle zoom as it expands. @default 1.08 */
+  contentScale?: number
+  /** Ease scroll progress through a spring so the frame settles softly. @default true */
+  smooth?: boolean
   /** Scrollable element to observe instead of the page. */
   container?: React.RefObject<HTMLElement | null>
   /** Classes applied to the sticky viewport. */
   viewportClassName?: string
   /** Classes applied to the transformed content frame. */
   frameClassName?: string
+}
+
+function getViewportHeight(container?: HTMLElement | null) {
+  if (!container) return window.innerHeight
+  const style = window.getComputedStyle(container)
+  return (
+    container.clientHeight -
+    parseFloat(style.paddingTop) -
+    parseFloat(style.paddingBottom)
+  )
 }
 
 /** Pins media while scroll progress expands it to full bleed or collapses it away. */
@@ -40,6 +56,8 @@ function ScrollExpand({
   inset = 10,
   radius = 28,
   scrollLength = 1.8,
+  contentScale = 1.08,
+  smooth = true,
   container,
   className,
   viewportClassName,
@@ -55,24 +73,33 @@ function ScrollExpand({
     container,
     offset: ["start start", "end end"],
   })
+  const springProgress = useSpring(scrollYProgress, {
+    stiffness: 160,
+    damping: 30,
+    mass: 0.35,
+    restDelta: 0.0005,
+  })
+  const progress = smooth ? springProgress : scrollYProgress
   const compactClip = `inset(${inset}% round ${radius}px)`
   const expandedClip = "inset(0% round 0px)"
   const clipPath = useTransform(
-    scrollYProgress,
+    progress,
     [0, 1],
     direction === "expand"
       ? [compactClip, expandedClip]
-      : [expandedClip, compactClip]
+      : [expandedClip, compactClip],
+    { ease: easeInOut }
   )
   const scale = useTransform(
-    scrollYProgress,
+    progress,
     [0, 1],
-    direction === "expand" ? [1.08, 1] : [1, 1.08]
+    direction === "expand" ? [contentScale, 1] : [1, contentScale],
+    { ease: easeInOut }
   )
 
   React.useLayoutEffect(() => {
     const measure = () => {
-      setViewportHeight(container?.current?.clientHeight ?? window.innerHeight)
+      setViewportHeight(getViewportHeight(container?.current))
     }
     measure()
     const observer = new ResizeObserver(measure)

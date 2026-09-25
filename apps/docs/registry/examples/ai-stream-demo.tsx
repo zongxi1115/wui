@@ -67,7 +67,9 @@ export default function AiStreamDemo() {
         </AiReasoning>
 
         <div className="text-sm leading-7 text-foreground">
-          <AiStream isStreaming={isAnswering}>{answer}</AiStream>
+          <AiStream isStreaming={isAnswering} caret>
+            {answer}
+          </AiStream>
         </div>
       </div>
 

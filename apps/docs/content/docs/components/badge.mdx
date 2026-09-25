@@ -113,9 +113,15 @@ pnpm add radix-ui class-variance-authority clsx tailwind-merge
 
 ### 状态指示圆点
 
-在 `Badge` 内部搭配微型圆点指示灯，能够以极高的信息密度直观表达系统、服务或网络状态：
+在 `Badge` 内部搭配微型圆点指示灯，能够以极高的信息密度直观表达系统、服务或网络状态；需要引起注意的异常状态可叠加扩散光圈（系统开启“减少动态效果”时自动停止）：
 
 <ComponentPreview name="badge-dot" />
+
+### 未读计数与数字滚动
+
+徽章常用于承载未读数、待办数等会实时变化的计数。配合 `motion` 可以让数字按增减方向上下滚动，徽章出现与消失时轻微缩放，超出上限时显示为 `99+`：
+
+<ComponentPreview name="badge-count" />
 
 ### 搭配图标
 
@@ -125,7 +131,7 @@ pnpm add radix-ui class-variance-authority clsx tailwind-merge
 
 ### 作为链接或交互项 (asChild)
 
-利用 `asChild` 属性，可以将 `Badge` 的外观与交互行为直接赋予 `<a>` 或 `<button>`，既保留了可点击语义与键盘焦点，又保持了样式一致性：
+利用 `asChild` 属性，可以将 `Badge` 的外观与交互行为直接赋予 `<a>` 或 `<button>`，既保留了可点击语义与键盘焦点，又保持了样式一致性。渲染为链接或按钮时，各变体自动获得悬停加深与 `focus-visible` 焦点环，无需额外样式：
 
 <ComponentPreview name="badge-as-child" />
 

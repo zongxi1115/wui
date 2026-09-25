@@ -6,7 +6,7 @@ component: grain-overlay
 
 ## 基础用法
 
-在社论长文封面大图与卡片上叠加微妙胶片颗粒，消除数字渐变的断层色带感：
+在摄影封面上叠加胶片颗粒，并开启 `animated` 让颗粒像放映中的胶片一样跳动：
 
 <ComponentPreview name="grain-overlay-demo" />
 
@@ -65,6 +65,18 @@ pnpm add lucide-react class-variance-authority clsx tailwind-merge
       description: "CSS 混合模式（如 'soft-light'、'overlay'、'multiply'、'screen' 等）。",
     },
     {
+      prop: "animated",
+      type: "boolean",
+      default: "false",
+      description: "是否让颗粒逐帧跳动。实现方式是平移一张放大的噪点层，噪点本身只光栅化一次；父元素需要 `overflow-hidden`。",
+    },
+    {
+      prop: "fps",
+      type: "number",
+      default: "10",
+      description: "`animated` 开启时颗粒的跳动帧率。8–12 帧最接近胶片质感。",
+    },
+    {
       prop: "className",
       type: "string",
       description: "应用于 SVG 纹理图层的 CSS 类名（默认包含 absolute inset-0 size-full pointer-events-none）。",
@@ -74,7 +86,7 @@ pnpm add lucide-react class-variance-authority clsx tailwind-merge
 
 ## 事件 Events
 
-该组件为纯静态 SVG 滤镜遮罩，不包含业务交互事件。
+该组件为纯装饰 SVG 滤镜遮罩，不包含业务交互事件。
 
 ## 使用场景与设计规范
 
@@ -85,9 +97,9 @@ pnpm add lucide-react class-variance-authority clsx tailwind-merge
 
 ## 场景示例
 
-### 暗黑质感卡片
+### 强度对比
 
-在渐变卡片上对比 soft-light 与 overlay 模式的质感表现：
+同一纯色表面上，不同不透明度的 soft-light 颗粒带来的质感差异：
 
 <ComponentPreview name="grain-overlay-card" />
 
@@ -95,3 +107,4 @@ pnpm add lucide-react class-variance-authority clsx tailwind-merge
 
 - **绝对隔离**：默认具备 `pointer-events-none` 与 `user-select: none`，绝不干扰用户选中卡片文字或点击按钮。
 - **无障碍树忽略**：内置 `aria-hidden="true"`，屏幕阅读器完全忽略该装饰图层。
+- **动效减弱适配**：系统开启“减少动态效果”时，`animated` 不会启动，颗粒保持静止。

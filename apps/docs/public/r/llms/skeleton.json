@@ -3,21 +3,24 @@
   "type": "registry:ui",
   "title": "骨架屏 Skeleton",
   "description": "在内容异步加载期间维持页面版式结构，降低累积布局偏移（CLS）与用户等待的不确定感。",
-  "import": "import { Skeleton, SkeletonText, skeletonVariants } from \"@/components/ui/skeleton\"",
+  "import": "import { Skeleton, SkeletonSwap, SkeletonText, skeletonVariants } from \"@/components/ui/skeleton\"",
   "exports": [
     "Skeleton",
+    "SkeletonSwap",
     "SkeletonText",
     "skeletonVariants"
   ],
   "typeExports": [
     "SkeletonProps",
+    "SkeletonSwapProps",
     "SkeletonTextProps"
   ],
   "install": {
     "wui": "pnpm dlx @wui-design/cli@latest add @wui/skeleton",
     "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/skeleton.json",
     "npmDependencies": [
-      "class-variance-authority"
+      "class-variance-authority",
+      "motion"
     ],
     "registryDependencies": [
       "utils"
@@ -39,12 +42,13 @@
     },
     {
       "name": "animation",
-      "type": "\"none\" | \"pulse\"",
+      "type": "\"none\" | \"pulse\" | \"shimmer\"",
       "required": false,
       "control": "select",
       "options": [
         "none",
-        "pulse"
+        "pulse",
+        "shimmer"
       ],
       "defaultValue": "pulse",
       "description": "加载时使用的动画样式。"
@@ -54,6 +58,14 @@
     {
       "name": "skeleton-demo",
       "title": "基础用法"
+    },
+    {
+      "name": "skeleton-animation",
+      "title": "动画类型"
+    },
+    {
+      "name": "skeleton-swap",
+      "title": "占位到内容的过渡"
     },
     {
       "name": "skeleton-layout",

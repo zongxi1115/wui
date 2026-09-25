@@ -27,8 +27,7 @@
     "npmDependencies": [
       "radix-ui",
       "class-variance-authority",
-      "lucide-react",
-      "motion"
+      "lucide-react"
     ],
     "registryDependencies": [
       "utils"
@@ -40,7 +39,7 @@
       "type": "number",
       "required": false,
       "control": "number",
-      "description": "检索到的参考来源总数。"
+      "description": "检索到的参考来源总数，未自定义标题时显示在折叠按钮中。"
     },
     {
       "name": "defaultOpen",
@@ -80,6 +79,10 @@
     {
       "name": "ai-sources-rag",
       "title": "企业 RAG 知识库检索溯源"
+    },
+    {
+      "name": "ai-sources-streaming",
+      "title": "边生成边引用"
     }
   ],
   "files": [

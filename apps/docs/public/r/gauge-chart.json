@@ -5,7 +5,8 @@
   "title": "仪表盘 Gauge Chart",
   "description": "用于直观展示单一核心指标的当前进度水平、负载状态与阈值区间的环形度量图表。",
   "registryDependencies": [
-    "chart-core"
+    "chart-core",
+    "utils"
   ],
   "files": [
     {

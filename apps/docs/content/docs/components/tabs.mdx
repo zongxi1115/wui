@@ -6,7 +6,7 @@ component: tabs
 
 ## 基础用法
 
-点击不同的标签项即可平滑切换下方展示的内容面板，活动指示器会跟随焦点流畅滑动：
+点击不同的标签项即可切换内容面板：活动指示器以弹簧动效滑向目标标签，内容面板会从切换方向的一侧淡入：
 
 <ComponentPreview name="tabs-demo" />
 
@@ -55,7 +55,7 @@ pnpm add radix-ui motion class-variance-authority clsx tailwind-merge
       prop: "orientation",
       type: '"horizontal" | "vertical"',
       default: '"horizontal"',
-      description: "标签栏的排布方向（水平或垂直）。",
+      description: "标签栏的排布方向。设为 \"vertical\" 时标签列表纵向排列在内容左侧，下划线指示器改为左侧竖线，内容面板改为纵向滑入。",
     },
     {
       prop: "activationMode",
@@ -184,9 +184,15 @@ pnpm add radix-ui motion class-variance-authority clsx tailwind-merge
 
 ### 受控模式与动态徽标
 
-结合 `Badge` 组件展示未读数或告警数量，并通过外部状态直接控制当前激活的标签：
+通过 `value` / `onValueChange` 受控，结合 `Badge` 展示各分类未读数；「全部已读」等外部操作会实时更新标签上的计数：
 
 <ComponentPreview name="tabs-controlled" />
+
+### 纵向设置导航
+
+设置 `orientation="vertical"` 构建左侧导航、右侧内容的设置页。指示器沿竖线滑动，内容面板按切换方向上下滑入：
+
+<ComponentPreview name="tabs-vertical" />
 
 ### 综合业务表单选项卡
 
@@ -207,4 +213,4 @@ pnpm add radix-ui motion class-variance-authority clsx tailwind-merge
   - <kbd>End</kbd>：快速跳转并激活最后一个标签。
   - <kbd>Tab</kbd>：将焦点从当前激活的 Tab 触发器直接移入下方的内容面板。
 - **动效减弱（Reduced Motion）**：
-  - 自动适配用户的系统无障碍设置。当开启“减弱动态效果”时，指示器与内容面板将关闭弹簧插值与模糊位移动画，立即呈现切换结果。
+  - 自动适配用户的系统无障碍设置。当开启“减弱动态效果”时，指示器与内容面板将关闭弹簧插值与方向位移动画，立即呈现切换结果。

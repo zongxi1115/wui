@@ -2,13 +2,13 @@
 
 import * as React from "react"
 
-import { cn } from "@/registry/lib/utils"
 import {
   EmptyStateIllustration,
   emptyStateClassicIllustrations,
   emptyStateColorIllustrations,
   type EmptyStateIllustrationVariant,
 } from "@/registry/ui/empty-state"
+import { Tabs, TabsList, TabsTrigger } from "@/registry/ui/tabs"
 
 const variants: Array<{
   value: EmptyStateIllustrationVariant
@@ -52,7 +52,7 @@ export default function EmptyStateIllustrations() {
     React.useState<EmptyStateIllustrationVariant>("gradient")
 
   return (
-    <div className="w-full overflow-hidden border">
+    <div className="w-full overflow-hidden rounded-lg border">
       <div className="flex flex-wrap items-center justify-between gap-4 border-b px-4 py-3">
         <div>
           <p className="text-sm font-medium">空状态插画库</p>
@@ -60,23 +60,21 @@ export default function EmptyStateIllustrations() {
             选择系列并复制插画名称用于 EmptyStateIllustration。
           </p>
         </div>
-        <div className="bg-muted flex items-center gap-0.5 p-0.5">
-          {variants.map((item) => (
-            <button
-              key={item.value}
-              type="button"
-              aria-pressed={variant === item.value}
-              onClick={() => setVariant(item.value)}
-              className={cn(
-                "text-muted-foreground hover:text-foreground px-3 py-1.5 text-xs transition-colors",
-                variant === item.value &&
-                  "bg-background text-foreground shadow-xs"
-              )}
-            >
-              {item.label} · {item.count}
-            </button>
-          ))}
-        </div>
+        <Tabs
+          value={variant}
+          onValueChange={(next) =>
+            setVariant(next as EmptyStateIllustrationVariant)
+          }
+        >
+          <TabsList>
+            {variants.map((item) => (
+              <TabsTrigger key={item.value} value={item.value} className="min-w-0 px-3 text-xs">
+                {item.label}
+                <span className="text-muted-foreground tabular-nums">{item.count}</span>
+              </TabsTrigger>
+            ))}
+          </TabsList>
+        </Tabs>
       </div>
 
       <div className="-mb-px -mr-px grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">

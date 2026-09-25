@@ -1,108 +1,76 @@
 "use client"
 
 import * as React from "react"
-import { Check, Sparkles } from "lucide-react"
+import { CheckIcon } from "lucide-react"
 
 import { Button } from "@/registry/ui/button"
 import { SlidingNumber } from "@/registry/ui/sliding-number"
+import { ToggleGroup, ToggleGroupItem } from "@/registry/ui/toggle-group"
+
+const plans = [
+  {
+    name: "团队版",
+    desc: "适合 50 人以内的成长型团队",
+    monthly: 49,
+    yearly: 39,
+    features: ["无限项目与成员", "审批流与表单", "90 天操作日志"],
+  },
+  {
+    name: "企业版",
+    desc: "面向有合规要求的组织",
+    monthly: 129,
+    yearly: 99,
+    features: ["单点登录（SSO）", "细粒度权限与审计", "专属客户成功经理"],
+  },
+]
 
 export default function SlidingNumberPriceToggle() {
-  const [isYearly, setIsYearly] = React.useState(true)
-
-  const proPrice = isYearly ? 29 : 39
-  const enterprisePrice = isYearly ? 79 : 99
+  const [cycle, setCycle] = React.useState("yearly")
+  const yearly = cycle === "yearly"
 
   return (
-    <div className="flex w-full max-w-xl flex-col items-center gap-6 rounded-xl border border-border bg-card p-6 shadow-xs">
-      <div className="flex flex-col items-center gap-2">
-        <h4 className="text-sm font-semibold text-foreground">按需订购计划</h4>
-        <div className="flex items-center gap-2 rounded-full border border-border bg-muted/40 p-1 text-xs">
-          <button
-            type="button"
-            onClick={() => setIsYearly(false)}
-            className={`rounded-full px-3 py-1 font-medium transition-colors ${
-              !isYearly
-                ? "bg-background text-foreground shadow-xs"
-                : "text-muted-foreground hover:text-foreground"
-            }`}
-          >
-            按月计费
-          </button>
-          <button
-            type="button"
-            onClick={() => setIsYearly(true)}
-            className={`flex items-center gap-1.5 rounded-full px-3 py-1 font-medium transition-colors ${
-              isYearly
-                ? "bg-background text-foreground shadow-xs"
-                : "text-muted-foreground hover:text-foreground"
-            }`}
-          >
-            按年计费
-            <span className="rounded-full bg-emerald-500/10 px-1.5 py-0.2 text-[10px] font-bold text-emerald-600 dark:text-emerald-400">
-              省 25%
-            </span>
-          </button>
-        </div>
-      </div>
+    <div className="flex w-full max-w-xl flex-col items-center gap-6">
+      <ToggleGroup
+        type="single"
+        value={cycle}
+        onValueChange={(value) => value && setCycle(value)}
+        aria-label="计费周期"
+      >
+        <ToggleGroupItem value="monthly">按月付</ToggleGroupItem>
+        <ToggleGroupItem value="yearly">按年付 · 省 20%</ToggleGroupItem>
+      </ToggleGroup>
 
-      <div className="grid grid-cols-1 gap-4 w-full sm:grid-cols-2">
-        {/* Pro Plan */}
-        <div className="space-y-4 rounded-xl border border-border bg-background p-5">
-          <div>
-            <span className="text-xs font-semibold text-foreground">Pro 专业版</span>
-            <p className="text-[11px] text-muted-foreground">适合独立开发者与快速增长团队</p>
+      <div className="grid w-full divide-y rounded-lg border sm:grid-cols-2 sm:divide-x sm:divide-y-0">
+        {plans.map((plan) => (
+          <div key={plan.name} className="flex flex-col gap-4 p-5">
+            <div>
+              <p className="text-sm font-medium">{plan.name}</p>
+              <p className="text-muted-foreground mt-0.5 text-xs">{plan.desc}</p>
+            </div>
+            <p className="flex items-baseline gap-1">
+              <span className="text-muted-foreground text-sm">¥</span>
+              <span className="text-3xl font-semibold tracking-tight">
+                <SlidingNumber value={yearly ? plan.yearly : plan.monthly} />
+              </span>
+              <span className="text-muted-foreground text-xs">/ 人 / 月</span>
+            </p>
+            <ul className="text-muted-foreground space-y-1.5 text-sm">
+              {plan.features.map((feature) => (
+                <li key={feature} className="flex items-center gap-2">
+                  <CheckIcon className="text-foreground size-3.5" />
+                  {feature}
+                </li>
+              ))}
+            </ul>
+            <Button
+              variant={plan.name === "企业版" ? "default" : "outline"}
+              size="sm"
+              className="mt-auto"
+            >
+              选择{plan.name}
+            </Button>
           </div>
-
-          <div className="flex items-baseline font-mono text-3xl font-bold tracking-tight text-foreground">
-            <span>$</span>
-            <SlidingNumber value={proPrice} />
-            <span className="ml-1 text-xs font-normal text-muted-foreground">/ 月</span>
-          </div>
-
-          <ul className="space-y-1.5 text-xs text-muted-foreground">
-            <li className="flex items-center gap-1.5">
-              <Check className="size-3 text-primary" /> 无限并发 AI 运算
-            </li>
-            <li className="flex items-center gap-1.5">
-              <Check className="size-3 text-primary" /> 专属优先技术支持
-            </li>
-          </ul>
-
-          <Button size="sm" variant="outline" className="w-full text-xs">
-            选择专业版
-          </Button>
-        </div>
-
-        {/* Enterprise Plan */}
-        <div className="relative space-y-4 rounded-xl border-2 border-primary bg-background p-5">
-          <div className="absolute -top-2.5 right-4 flex items-center gap-1 rounded-full bg-primary px-2 py-0.5 text-[10px] font-bold text-primary-foreground">
-            <Sparkles className="size-2.5" /> 推荐
-          </div>
-
-          <div>
-            <span className="text-xs font-semibold text-foreground">Enterprise 企业版</span>
-            <p className="text-[11px] text-muted-foreground">全方位企业合规与专属私有化集群</p>
-          </div>
-
-          <div className="flex items-baseline font-mono text-3xl font-bold tracking-tight text-foreground">
-            <span>$</span>
-            <SlidingNumber value={enterprisePrice} />
-            <span className="ml-1 text-xs font-normal text-muted-foreground">/ 月</span>
-          </div>
-
-          <ul className="space-y-1.5 text-xs text-muted-foreground">
-            <li className="flex items-center gap-1.5">
-              <Check className="size-3 text-primary" /> 99.999% SLA 保证
-            </li>
-            <li className="flex items-center gap-1.5">
-              <Check className="size-3 text-primary" /> 专属架构师 1v1 支持
-            </li>
-          </ul>
-
-          <Button size="sm" className="w-full text-xs">
-            开启企业授权
-          </Button>
-        </div>
+        ))}
       </div>
     </div>
   )

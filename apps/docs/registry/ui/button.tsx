@@ -2,13 +2,19 @@
 
 import * as React from "react"
 import { Slot } from "radix-ui"
-import { motion, useReducedMotion, type HTMLMotionProps } from "motion/react"
+import { LoaderCircleIcon } from "lucide-react"
+import {
+  AnimatePresence,
+  motion,
+  useReducedMotion,
+  type HTMLMotionProps,
+} from "motion/react"
 import { cva } from "class-variance-authority"
 
 import { cn } from "@/registry/lib/utils"
 
 const buttonVariants = cva(
-  "relative inline-flex shrink-0 items-center justify-center gap-2 overflow-hidden whitespace-nowrap rounded-md text-sm font-medium outline-none transition-[color,background-color,border-color,box-shadow,opacity] duration-200 ease-out focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  "relative inline-flex shrink-0 items-center justify-center gap-2 overflow-hidden whitespace-nowrap rounded-md text-sm font-medium outline-none transition-[color,background-color,border-color,box-shadow,opacity,scale] duration-200 ease-out active:scale-[0.97] motion-reduce:active:scale-100 focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 data-[loading]:disabled:opacity-80 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       variant: {
@@ -25,7 +31,7 @@ const buttonVariants = cva(
         // `link` keeps a transparent surface; the animated underline is drawn by
         // the wrapped label below (see `LinkLabel`). `group` lets that pseudo
         // element react to hover on the button itself.
-        link: "group text-primary hover:text-primary/80",
+        link: "group text-primary hover:text-primary/80 active:scale-100",
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",
@@ -66,7 +72,15 @@ export interface ButtonProps extends React.ComponentProps<"button"> {
    * disabled when the user prefers reduced motion.
    */
   ripple?: boolean
+  /**
+   * Show an inline spinner and block interaction while an async action runs.
+   * The spinner slides in before the label (or replaces the glyph for
+   * `size="icon"`). Sets `aria-busy` and disables the button.
+   */
+  loading?: boolean
 }
+
+const spring = { type: "spring", stiffness: 520, damping: 38, mass: 0.7 } as const
 
 type Ripple = { key: number; x: number; y: number; size: number }
 
@@ -77,11 +91,14 @@ function Button({
   asChild = false,
   motion: enableMotion = false,
   ripple: enableRipple = false,
+  loading: loadingProp,
+  disabled,
   onClick,
   children,
   ...props
 }: ButtonProps) {
   const reduceMotion = useReducedMotion()
+  const loading = loadingProp === true
   const [ripples, setRipples] = React.useState<Ripple[]>([])
   const rippleKey = React.useRef(0)
 
@@ -97,6 +114,9 @@ function Button({
     "data-slot": "button",
     "data-variant": variant,
     "data-size": size,
+    "data-loading": loading || undefined,
+    "aria-busy": loading || undefined,
+    disabled: disabled || loading,
   }
 
   // asChild renders the caller's element verbatim — no effect layers injected.
@@ -128,9 +148,65 @@ function Button({
     onClick?.(event)
   }
 
+  // Icon buttons only get the crossfade wrapper when they opt into `loading`,
+  // so existing `[&>svg]` overrides keep matching the glyph directly.
+  const isIcon = size === "icon" && loadingProp !== undefined
+  const swap = reduceMotion ? { duration: 0 } : spring
+  const gap = size === "sm" ? 6 : 8
+
+  const label = isLink ? <LinkLabel>{children}</LinkLabel> : children
+
   const content = (
     <>
-      {isLink ? <LinkLabel>{children}</LinkLabel> : children}
+      {isIcon ? (
+        <>
+          <motion.span
+            data-slot="button-label"
+            className="inline-flex items-center justify-center"
+            initial={false}
+            animate={{ opacity: loading ? 0 : 1, scale: loading ? 0.6 : 1 }}
+            transition={swap}
+          >
+            {children}
+          </motion.span>
+          <AnimatePresence initial={false}>
+            {loading ? (
+              <motion.span
+                key="spinner"
+                aria-hidden
+                data-slot="button-spinner"
+                className="absolute inset-0 flex items-center justify-center"
+                initial={{ opacity: 0, scale: 0.6 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.6 }}
+                transition={swap}
+              >
+                <LoaderCircleIcon className="animate-spin motion-reduce:animate-none" />
+              </motion.span>
+            ) : null}
+          </AnimatePresence>
+        </>
+      ) : (
+        <>
+          <AnimatePresence initial={false}>
+            {loading ? (
+              <motion.span
+                key="spinner"
+                aria-hidden
+                data-slot="button-spinner"
+                className="inline-flex shrink-0 items-center overflow-hidden"
+                initial={{ width: 0, opacity: 0, marginInlineEnd: -gap }}
+                animate={{ width: 16, opacity: 1, marginInlineEnd: 0 }}
+                exit={{ width: 0, opacity: 0, marginInlineEnd: -gap }}
+                transition={swap}
+              >
+                <LoaderCircleIcon className="animate-spin motion-reduce:animate-none" />
+              </motion.span>
+            ) : null}
+          </AnimatePresence>
+          {label}
+        </>
+      )}
       {useRipple ? (
         <span
           aria-hidden

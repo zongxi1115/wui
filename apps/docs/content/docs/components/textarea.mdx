@@ -43,6 +43,13 @@ pnpm add clsx tailwind-merge
       description: "是否在文本域右下角展示当前字符数统计（若同时指定了 maxLength，则呈现 \"已输入数 / 最大限制数\" 格式）。",
     },
     {
+      prop: "autoSize",
+      type: "boolean | { minRows?: number; maxRows?: number }",
+      default: "false",
+      description:
+        "根据内容自适应高度，高度变化带平滑过渡；传入对象可限制最少（默认 2 行）与最多行数，超过最多行数后出现滚动条。开启后 `resize` 固定为 none。",
+    },
+    {
       prop: "resize",
       type: '"none" | "vertical" | "horizontal" | "both"',
       default: '"vertical"',
@@ -185,9 +192,19 @@ return (
 
 ### 字符计数与最大字数限制
 
-同时开启 `showCount` 与 `maxLength`，右下角将实时呈现当前已输入字符数与最大允许字数：
+同时开启 `showCount` 与 `maxLength`，右下角将实时呈现当前已输入字符数与最大允许字数；接近上限（90%）时计数变为警告色，达到上限时变为危险色：
 
 <ComponentPreview name="textarea-count" />
+
+### 自适应高度 (AutoSize)
+
+设置 `autoSize` 后，文本域会随内容增减平滑地调整高度，适合评论框、聊天输入等场景。通过 `minRows` 与 `maxRows` 约束高度范围：
+
+<ComponentPreview name="textarea-autosize" />
+
+```tsx
+<Textarea autoSize={{ minRows: 1, maxRows: 6 }} />
+```
 
 ### 缩放方向控制 (Resize)
 
@@ -215,7 +232,7 @@ return (
 - **ARIA 规范与无障碍属性**：
   - 原生 `<textarea>` 具备 WAI-ARIA `role="textbox"` 与 `aria-multiline="true"` 语义。
   - 支持 `aria-invalid="true"`，校验未通过时外层容器自动呈现警示破坏色高亮焦点环。
-  - 字符计数标签自动挂载 `aria-live="polite"`，在屏幕阅读器中温和广播字符变化而不打断用户正常阅读。
+  - 字符计数不会逐字播报，避免每次按键都打断屏幕阅读器；它通过 `aria-describedby` 关联，在聚焦时随说明一起朗读。
   - 自动通过 `aria-describedby` 将文本域与右下角的计数器及下方辅助说明关联。
 - **键盘导航与操作习惯**：
   - <kbd>Tab</kbd>：将焦点移入或移出文本域。

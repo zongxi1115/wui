@@ -57,6 +57,11 @@ pnpm add motion class-variance-authority clsx tailwind-merge
       type: "string",
       description: "应用于外层定位容器的 CSS 类名（通常配置 absolute inset-x-0 bottom-0 等定位）。",
     },
+    {
+      prop: "...props",
+      type: 'HTMLMotionProps<"div">',
+      description: "其余属性（如 style、initial / animate 等 Motion 动画属性）作用于外层容器，例如可对整个模糊层做淡入淡出。",
+    },
   ]}
 />
 
@@ -75,7 +80,7 @@ pnpm add motion class-variance-authority clsx tailwind-merge
 
 ### 上下方多方向虚化对比
 
-展示顶部与底部模糊在不同容器中的应用：
+在图片上叠加顶部或底部的渐进模糊，为标题与悬浮导航提供可读的底衬，而不必使用生硬的遮罩色块：
 
 <ComponentPreview name="progressive-blur-directions" />
 

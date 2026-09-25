@@ -87,7 +87,7 @@ pnpm add radix-ui motion lucide-react clsx tailwind-merge
     {
       prop: "loading",
       type: "boolean",
-      description: "受控的加载中状态。处于加载中时确认按钮禁用并展示处理中文案。",
+      description: "受控的加载中状态。处于加载中时确认与取消按钮均禁用，确认按钮显示旋转图标与「处理中…」文案。onConfirm 返回的 Promise 被拒绝时弹窗保持打开，便于重试。",
     },
     {
       prop: "children",

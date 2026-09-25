@@ -80,6 +80,10 @@
     {
       "name": "drawer-sizes",
       "title": "尺寸预设与响应式"
+    },
+    {
+      "name": "drawer-swipe",
+      "title": "手势拖拽关闭"
     }
   ],
   "files": [

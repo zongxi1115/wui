@@ -1,10 +1,12 @@
 "use client"
 
 import * as React from "react"
+import { RefreshCwIcon } from "lucide-react"
+
 import { Badge } from "@/registry/ui/badge"
-import { Button } from "@/registry/ui/button"
 import {
   AiArtifact,
+  AiArtifactAction,
   AiArtifactActions,
   AiArtifactBody,
   AiArtifactCode,
@@ -18,97 +20,128 @@ import {
   AiArtifactTitle,
 } from "@/registry/ui/ai-artifact"
 
-const STATS_CODE = `import React from "react";
+const CODE = `type MetricProps = {
+  title: string
+  value: string
+  change: string
+}
 
-export function MetricCard({ title, value, change }: { title: string; value: string; change: string }) {
+export function Metric({ title, value, change }: MetricProps) {
   return (
-    <div className="rounded-xl border bg-card p-4 shadow-xs">
-      <div className="text-xs font-medium text-muted-foreground">{title}</div>
-      <div className="mt-2 text-2xl font-bold font-mono">{value}</div>
-      <div className="mt-1 text-xs text-emerald-600 font-medium">{change} 较上周</div>
+    <div className="rounded-md border p-4">
+      <div className="text-xs text-muted-foreground">{title}</div>
+      <div className="mt-1 font-mono text-2xl tabular-nums">{value}</div>
+      <div className="mt-1 text-xs text-success">{change}</div>
     </div>
-  );
+  )
 }`
 
+const METRICS = [
+  { title: "月活跃用户", value: "128,490", change: "较上周 +14.2%" },
+  { title: "接口平均耗时", value: "42ms", change: "较上周 -8.5ms" },
+]
+
+function timestamp() {
+  return new Date().toLocaleTimeString("zh-CN", { hour12: false })
+}
+
 export default function AiArtifactMulti() {
-  const [activeTab, setActiveTab] = React.useState("preview")
-  const [logs, setLogs] = React.useState<string[]>([
-    "[Build] Compiling TypeScript AST…",
-    "[Preview] Hot Module Replacement (HMR) connected.",
-    "[Console] Component mounted without warnings.",
+  const [tab, setTab] = React.useState("preview")
+  const [generating, setGenerating] = React.useState(false)
+  const [codeLength, setCodeLength] = React.useState(CODE.length)
+  const [logs, setLogs] = React.useState([
+    "[build] 编译完成，用时 312ms",
+    "[preview] 已连接热更新",
   ])
 
-  const addLog = () => {
-    setLogs((prev) => [...prev, `[Event] User triggered interactive preview at ${new Date().toLocaleTimeString()}`])
+  React.useEffect(() => {
+    if (!generating) return
+    const timer = window.setInterval(() => {
+      setCodeLength((current) => Math.min(current + 12, CODE.length))
+    }, 40)
+    return () => window.clearInterval(timer)
+  }, [generating])
+
+  React.useEffect(() => {
+    if (!generating || codeLength < CODE.length) return
+    setGenerating(false)
+    setLogs((current) => [...current, `[build] ${timestamp()} 重新生成完成`])
+  }, [codeLength, generating])
+
+  function regenerate() {
+    setCodeLength(0)
+    setTab("code")
+    setGenerating(true)
   }
 
   return (
-    <div className="w-full max-w-2xl mx-auto">
-      <AiArtifact
-        activeTab={activeTab}
-        onTabChange={setActiveTab}
-        variant="default"
+    <AiArtifact
+      className="mx-auto w-full max-w-2xl"
+      activeTab={tab}
+      onTabChange={setTab}
+      isStreaming={generating}
+    >
+      <AiArtifactHeader
+        badge={
+          <Badge variant="outline" size="sm">
+            {generating ? "生成中" : "v2"}
+          </Badge>
+        }
       >
-        <AiArtifactHeader
-          badge={
-            <Badge variant="outline" className="text-[10px]">
-              Dashboard Component
-            </Badge>
-          }
-        >
-          <AiArtifactTitle>MetricCard.tsx</AiArtifactTitle>
-          <div className="ml-auto flex items-center gap-2">
-            <AiArtifactTabList>
-              <AiArtifactTabTrigger value="preview">Preview</AiArtifactTabTrigger>
-              <AiArtifactTabTrigger value="code">Code</AiArtifactTabTrigger>
-              <AiArtifactTabTrigger value="console">Console</AiArtifactTabTrigger>
-            </AiArtifactTabList>
-            <AiArtifactActions>
-              <AiArtifactCopy content={STATS_CODE} />
-              <AiArtifactFullscreenToggle />
-            </AiArtifactActions>
-          </div>
-        </AiArtifactHeader>
+        <AiArtifactTitle>Metric.tsx</AiArtifactTitle>
+        <div className="ml-auto flex items-center gap-2">
+          <AiArtifactTabList>
+            <AiArtifactTabTrigger value="preview">预览</AiArtifactTabTrigger>
+            <AiArtifactTabTrigger value="code">代码</AiArtifactTabTrigger>
+            <AiArtifactTabTrigger value="console">日志</AiArtifactTabTrigger>
+          </AiArtifactTabList>
+          <AiArtifactActions>
+            <AiArtifactAction
+              label="重新生成"
+              disabled={generating}
+              onClick={regenerate}
+            >
+              <RefreshCwIcon className="size-3.5" />
+            </AiArtifactAction>
+            <AiArtifactCopy content={CODE} />
+            <AiArtifactFullscreenToggle />
+          </AiArtifactActions>
+        </div>
+      </AiArtifactHeader>
 
-        <AiArtifactBody>
-          {/* Tab 1: Preview */}
-          <AiArtifactPanel value="preview" className="p-0">
-            <AiArtifactPreview className="min-h-60 flex-col gap-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full max-w-md">
-                <div className="rounded-xl border bg-card p-4 shadow-xs">
-                  <div className="text-xs font-medium text-muted-foreground">总活跃用户 (MAU)</div>
-                  <div className="mt-1 text-2xl font-bold font-mono text-foreground">128,490</div>
-                  <div className="mt-1 text-xs text-success font-medium">+14.2% 较上周</div>
-                </div>
-                <div className="rounded-xl border bg-card p-4 shadow-xs">
-                  <div className="text-xs font-medium text-muted-foreground">API 平均响应耗时</div>
-                  <div className="mt-1 text-2xl font-bold font-mono text-foreground">42ms</div>
-                  <div className="mt-1 text-xs text-success font-medium">-8.5ms 优化</div>
-                </div>
-              </div>
-              <Button size="sm" variant="outline" onClick={addLog} className="text-xs">
-                触发预览交互事件
-              </Button>
-            </AiArtifactPreview>
-          </AiArtifactPanel>
-
-          {/* Tab 2: Code */}
-          <AiArtifactPanel value="code" className="p-0">
-            <AiArtifactCode code={STATS_CODE} language="tsx" />
-          </AiArtifactPanel>
-
-          {/* Tab 3: Console Logs */}
-          <AiArtifactPanel value="console" className="p-0">
-            <div className="h-full min-h-60 bg-muted/40 p-4 font-mono text-xs text-muted-foreground space-y-1.5 overflow-auto">
-              {logs.map((log, i) => (
-                <div key={i} className="leading-relaxed">
-                  <span className="text-foreground">{log}</span>
+      <AiArtifactBody className="min-h-72">
+        <AiArtifactPanel value="preview" className="p-0">
+          <AiArtifactPreview className="min-h-72">
+            <div className="grid w-full max-w-md grid-cols-1 gap-3 sm:grid-cols-2">
+              {METRICS.map((metric) => (
+                <div
+                  key={metric.title}
+                  className="rounded-md border bg-background p-4"
+                >
+                  <div className="text-xs text-muted-foreground">{metric.title}</div>
+                  <div className="mt-1 font-mono text-2xl tabular-nums text-foreground">
+                    {metric.value}
+                  </div>
+                  <div className="mt-1 text-xs text-success">{metric.change}</div>
                 </div>
               ))}
             </div>
-          </AiArtifactPanel>
-        </AiArtifactBody>
-      </AiArtifact>
-    </div>
+          </AiArtifactPreview>
+        </AiArtifactPanel>
+
+        <AiArtifactPanel value="code" className="p-0">
+          <AiArtifactCode code={CODE.slice(0, codeLength)} language="tsx" />
+        </AiArtifactPanel>
+
+        <AiArtifactPanel
+          value="console"
+          className="space-y-1 bg-muted/40 font-mono text-xs leading-5 text-muted-foreground"
+        >
+          {logs.map((log, index) => (
+            <div key={index}>{log}</div>
+          ))}
+        </AiArtifactPanel>
+      </AiArtifactBody>
+    </AiArtifact>
   )
 }

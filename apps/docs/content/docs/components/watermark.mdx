@@ -6,7 +6,7 @@ component: watermark
 
 ## 基础用法
 
-为财务卡片区域添加平铺倾斜的版权与防泄漏水印：
+为经营简报添加平铺倾斜的“内部资料”水印。水印图层不拦截指针事件，正文仍可正常选择与点击：
 
 <ComponentPreview name="watermark-demo" />
 
@@ -21,7 +21,7 @@ component: watermark
 <Step>安装基础依赖</Step>
 
 ```bash
-pnpm add class-variance-authority clsx tailwind-merge
+pnpm add clsx tailwind-merge
 ```
 
 <Step>复制组件源码到 `components/ui/watermark.tsx`</Step>
@@ -83,7 +83,7 @@ pnpm add class-variance-authority clsx tailwind-merge
     {
       prop: "font",
       type: "WatermarkFont",
-      description: "文字排版配置对象：包含 `color`、`fontSize`（默认 16）、`fontWeight`、`fontFamily`、`fontStyle`。",
+      description: "文字排版配置对象：包含 `color`（默认继承 foreground，暗色模式自动适配）、`fontSize`（默认 16）、`fontWeight`、`fontFamily`、`fontStyle`。",
     },
     {
       prop: "opacity",
@@ -113,20 +113,28 @@ pnpm add class-variance-authority clsx tailwind-merge
 
 `Watermark` 适用于**敏感后台报表、企业内部保密文档、证件与发票预览、图片防盗**：
 
-- **防篡改与轻量**：基于 SVG `<pattern>` 原生能力构建，无需 Canvas 手动计算重绘，DOM 体积极小且缩放无失真。
+- **轻量且随尺寸自适应**：基于 SVG `<pattern>` 原生能力构建，无需 Canvas 手动计算重绘，容器尺寸变化时图案自动铺满，缩放无失真。
+- **不是安全边界**：水印仅用于标识与追溯，用户仍可通过开发者工具移除；敏感数据的访问控制应在服务端完成。
+- **单元尺寸**：文字不会自动换行，较长的文案请同步增大 `width` 与 `gap`，避免旋转后被图案单元裁切。
 - **不影响日常操作**：始终配置 `pointer-events-none` 与 `user-select: none`，用户可正常选中底层数据文本或点击表格行。
 
 ## 场景示例
 
+### 参数调试
+
+实时调整文字、旋转角度与不透明度，观察水印的平铺效果：
+
+<ComponentPreview name="watermark-playground" />
+
 ### 多行自定义内容
 
-展示员工姓名、工号与时间戳的多行水印：
+展示查看人姓名、工号与时间戳的多行水印，便于截图外传时追溯来源：
 
 <ComponentPreview name="watermark-custom" />
 
 ### 自定义图章图片
 
-使用企业品牌 Logo 作为平铺水印：
+使用企业品牌 Logo 作为平铺水印，覆盖在开票记录等业务表格上：
 
 <ComponentPreview name="watermark-image" />
 

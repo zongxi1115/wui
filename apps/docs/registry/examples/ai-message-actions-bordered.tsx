@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { SparklesIcon, Share2Icon, BookmarkIcon } from "lucide-react"
+import { BookmarkIcon, Share2Icon } from "lucide-react"
 
 import {
   AiMessageAction,
@@ -11,52 +11,64 @@ import {
   AiMessageRetry,
 } from "@/registry/ui/ai-message-actions"
 
-const responseText = `根据最新的系统架构评估，推荐采用基于 Edge Functions 的分布式网关方案：
-1. **就近接入**：静态资源由 CDN 节点直接承载，动态请求通过 Anycast 路由至最近边缘节点。
-2. **冷启动优化**：轻量级 V8 隔离区将函数冷启动时间压降至 15ms 以内。
-3. **成本效益**：按实际 CPU 时间精确计费，闲置时段无常驻实例开销。`
+const RESPONSE = `推荐把网关迁移到边缘函数：
+1. 静态资源由 CDN 直出，动态请求就近路由到边缘节点；
+2. 轻量运行时的冷启动在 15ms 以内，不需要常驻实例；
+3. 按实际 CPU 时间计费，夜间低峰几乎没有成本。`
 
 export default function AiMessageActionsBordered() {
-  const [bookmarked, setBookmarked] = React.useState(false)
+  const [saved, setSaved] = React.useState(false)
+  const [shared, setShared] = React.useState(false)
   const [loading, setLoading] = React.useState(false)
 
-  const handleRetry = () => {
-    setLoading(true)
-    setTimeout(() => setLoading(false), 1200)
-  }
+  React.useEffect(() => {
+    if (!loading) return
+    const timer = window.setTimeout(() => setLoading(false), 1200)
+    return () => window.clearTimeout(timer)
+  }, [loading])
+
+  React.useEffect(() => {
+    if (!shared) return
+    const timer = window.setTimeout(() => setShared(false), 1800)
+    return () => window.clearTimeout(timer)
+  }, [shared])
 
   return (
-    <div className="w-full max-w-xl space-y-4">
-      <div className="relative rounded-xl border bg-card p-5 shadow-xs">
-        <div className="flex items-center gap-2 text-xs font-medium text-primary">
-          <SparklesIcon className="size-3.5" />
-          <span>Claude 3.5 Sonnet 回答</span>
-        </div>
+    <div className="mx-auto w-full max-w-xl">
+      <p className="whitespace-pre-line text-sm leading-7 text-foreground">
+        {RESPONSE}
+      </p>
 
-        <div className="mt-3 whitespace-pre-line text-sm leading-relaxed text-foreground">
-          {responseText}
-        </div>
+      <div className="mt-2 flex items-center gap-3">
+        <AiMessageActions variant="bordered">
+          <AiMessageCopy content={RESPONSE} />
+          <AiMessageRetry isLoading={loading} onClick={() => setLoading(true)} />
+          <AiMessageFeedback />
+          <AiMessageAction
+            label={saved ? "取消收藏" : "收藏回答"}
+            aria-pressed={saved}
+            active={saved}
+            onClick={() => setSaved((current) => !current)}
+          >
+            <BookmarkIcon
+              className={saved ? "size-3.5 fill-current" : "size-3.5"}
+            />
+          </AiMessageAction>
+          <AiMessageAction label="复制分享链接" onClick={() => setShared(true)}>
+            <Share2Icon className="size-3.5" />
+          </AiMessageAction>
+        </AiMessageActions>
 
-        {/* 浮动边框式工具栏 */}
-        <div className="mt-4 flex items-center justify-between border-t pt-3">
-          <span className="text-xs text-muted-foreground">耗时 1.2s · 消耗 380 tokens</span>
-
-          <AiMessageActions variant="bordered">
-            <AiMessageCopy content={responseText} />
-            <AiMessageRetry isLoading={loading} onClick={handleRetry} />
-            <AiMessageFeedback />
-            <AiMessageAction
-              label={bookmarked ? "已收藏" : "收藏回答"}
-              active={bookmarked}
-              onClick={() => setBookmarked(!bookmarked)}
-            >
-              <BookmarkIcon className="size-3.5" />
-            </AiMessageAction>
-            <AiMessageAction label="分享回答" onClick={() => alert("分享链接已生成")}>
-              <Share2Icon className="size-3.5" />
-            </AiMessageAction>
-          </AiMessageActions>
-        </div>
+        <span
+          role="status"
+          className="text-xs text-muted-foreground transition-opacity duration-200 data-[visible=false]:opacity-0"
+          data-visible={shared}
+        >
+          分享链接已复制
+        </span>
+        <span className="ml-auto text-xs tabular-nums text-muted-foreground">
+          1.2s · 380 tokens
+        </span>
       </div>
     </div>
   )

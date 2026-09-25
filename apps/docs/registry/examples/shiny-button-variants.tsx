@@ -4,26 +4,19 @@ import { ShinyButton } from "@/registry/ui/shiny-button"
 
 export default function ShinyButtonVariantsDemo() {
   return (
-    <div className="flex w-full flex-wrap items-center justify-center gap-4 p-4 sm:p-8">
-      {/* Large size */}
-      <ShinyButton className="h-12 rounded-xl px-7 text-base">
-        <SparklesIcon className="size-4" />
-        Large Size
+    <div className="flex flex-wrap items-center justify-center gap-4">
+      <ShinyButton className="h-11 px-7 text-base">
+        <SparklesIcon />
+        大号
       </ShinyButton>
-
-      {/* Default size */}
-      <ShinyButton className="h-10 rounded-lg px-5 text-sm">
-        Default Size
-      </ShinyButton>
-
-      {/* Small size */}
-      <ShinyButton className="h-8 rounded-md px-3.5 text-xs">
-        Small Size
-      </ShinyButton>
-
-      {/* Pill shape */}
-      <ShinyButton className="h-9 rounded-full px-5 text-xs">
-        Pill Shape
+      <ShinyButton>默认尺寸</ShinyButton>
+      <ShinyButton className="h-8 rounded-md px-3.5 text-xs">小号</ShinyButton>
+      <ShinyButton
+        speed={2.4}
+        gap={0.6}
+        className="border-border bg-secondary text-secondary-foreground h-8 rounded-full px-4 text-xs"
+      >
+        胶囊 · 次要色
       </ShinyButton>
     </div>
   )

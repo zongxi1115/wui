@@ -41,11 +41,23 @@
       "description": "两项内容之间的切换间隔，单位为秒。"
     },
     {
+      "name": "direction",
+      "type": "\"up\" | \"down\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "up",
+        "down"
+      ],
+      "defaultValue": "up",
+      "description": "默认动画的运动方向。up 从顶部离开、从底部进入，down 相反；传入自定义 variants 时忽略。"
+    },
+    {
       "name": "transition",
       "type": "Transition",
       "required": false,
       "control": "text",
-      "defaultValue": "{ duration: 0.35, ease: \"easeOut\" }",
+      "defaultValue": "{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }",
       "description": "每项内容使用的 Motion 过渡动画。"
     },
     {
@@ -53,8 +65,15 @@
       "type": "Variants",
       "required": false,
       "control": "text",
-      "defaultValue": "{\n  initial: { y: 12, opacity: 0, filter: \"blur(4px)\" },\n  animate: { y: 0, opacity: 1, filter: \"blur(0px)\" },\n  exit: { y: -12, opacity: 0, filter: \"blur(4px)\" },\n}",
       "description": "内容的初始、播放中和离场动画状态。"
+    },
+    {
+      "name": "animateWidth",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "切换长度不同的内容时是否平滑调整容器宽度。"
     },
     {
       "name": "onIndexChange",
@@ -89,6 +108,10 @@
     {
       "name": "text-loop-demo",
       "title": "基础用法"
+    },
+    {
+      "name": "text-loop-direction",
+      "title": "运动方向"
     },
     {
       "name": "text-loop-badges",

@@ -1,77 +1,66 @@
-"use client"
-
-import * as React from "react"
-import { CheckCircle2Icon, ShieldIcon, SparklesIcon, ZapIcon } from "lucide-react"
+import { ChartNoAxesColumnIcon, ShieldCheckIcon, WorkflowIcon } from "lucide-react"
 
 import { InView } from "@/registry/ui/in-view"
 
 const features = [
   {
-    icon: ZapIcon,
-    title: "120 FPS Rendering",
-    desc: "Physics-based springs running on GPU compositor threads.",
+    icon: WorkflowIcon,
+    title: "可视化审批流",
+    desc: "拖拽节点即可配置会签、或签与条件分支，改动实时生效。",
   },
   {
-    icon: ShieldIcon,
-    title: "Zero Layout Shift",
-    desc: "Pre-measured geometric bounds prevent cumulative layout shift.",
+    icon: ShieldCheckIcon,
+    title: "细粒度权限",
+    desc: "按部门、角色与数据范围授权，所有操作留有审计记录。",
   },
   {
-    icon: SparklesIcon,
-    title: "Tailwind v4 Native",
-    desc: "Direct CSS variable hooks with full dark mode parity.",
+    icon: ChartNoAxesColumnIcon,
+    title: "自助报表",
+    desc: "选择字段与维度生成图表，支持定时推送到群聊。",
   },
 ]
 
 export default function InViewStagger() {
-  const container = React.useRef<HTMLDivElement>(null)
-
   return (
-    <div
-      ref={container}
-      className="relative h-96 w-full max-w-xl overflow-y-auto rounded-2xl border bg-card p-6 shadow-md [scrollbar-width:thin]"
-    >
-      <div className="text-center mb-6">
-        <h4 className="text-base font-semibold text-foreground">
-          Scroll Down to Trigger Cards
+    <div className="h-80 w-full max-w-lg overflow-y-auto rounded-lg border">
+      <div className="px-6 pb-6 pt-8">
+        <p className="text-muted-foreground text-xs">向下滚动查看</p>
+        <h4 className="mt-2 text-lg font-semibold tracking-tight">
+          为协作型团队设计的办公平台
         </h4>
-        <p className="text-xs text-muted-foreground">
-          Cards animate in as they cross into the viewport intersection margin.
-        </p>
       </div>
-
-      <div className="h-48" />
-
-      <div className="space-y-4">
-        {features.map((f, index) => {
-          const Icon = f.icon
+      <div className="h-40" />
+      <ul className="divide-y border-t">
+        {features.map((feature, index) => {
+          const Icon = feature.icon
           return (
             <InView
-              key={f.title}
-              transition={{ duration: 0.4, delay: index * 0.15 }}
-              variants={{
-                hidden: { opacity: 0, y: 24, scale: 0.95 },
-                visible: { opacity: 1, y: 0, scale: 1 },
+              as="li"
+              key={feature.title}
+              transition={{
+                duration: 0.5,
+                delay: index * 0.08,
+                ease: [0.22, 1, 0.36, 1],
               }}
-              viewOptions={{ margin: "-10% 0px" }}
-              className="flex items-center gap-4 rounded-xl border bg-muted/30 p-4 shadow-xs"
+              variants={{
+                hidden: { opacity: 0, y: 16, filter: "blur(4px)" },
+                visible: { opacity: 1, y: 0, filter: "blur(0px)" },
+              }}
+              viewOptions={{ margin: "0px 0px -15% 0px" }}
+              className="flex gap-4 px-6 py-5"
             >
-              <div className="flex size-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                <Icon className="size-5" />
-              </div>
+              <Icon className="text-muted-foreground mt-0.5 size-5 shrink-0" />
               <div>
-                <h5 className="text-sm font-semibold text-foreground">
-                  {f.title}
-                </h5>
-                <p className="text-xs text-muted-foreground">{f.desc}</p>
+                <p className="text-sm font-medium">{feature.title}</p>
+                <p className="text-muted-foreground mt-1 text-sm">
+                  {feature.desc}
+                </p>
               </div>
-              <CheckCircle2Icon className="ml-auto size-4 text-emerald-500" />
             </InView>
           )
         })}
-      </div>
-
-      <div className="h-32" />
+      </ul>
+      <div className="h-16" />
     </div>
   )
 }

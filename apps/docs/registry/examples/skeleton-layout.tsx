@@ -5,12 +5,16 @@ export default function SkeletonLayout() {
     <div
       className="grid w-full max-w-lg gap-4 sm:grid-cols-[11rem_1fr]"
       aria-busy="true"
-      aria-label="Loading article"
+      aria-label="正在加载文章"
     >
-      <Skeleton className="aspect-[4/3] w-full" />
+      <Skeleton animation="shimmer" className="aspect-[4/3] w-full" />
       <div className="flex flex-col justify-center gap-3">
-        <Skeleton shape="text" className="h-5 w-3/4" />
-        <SkeletonText lines={3} lastLineWidth="58%" />
+        <div className="flex items-center gap-2">
+          <Skeleton animation="shimmer" className="h-5 w-12 rounded-full" />
+          <Skeleton animation="shimmer" shape="text" className="h-3 w-16" />
+        </div>
+        <Skeleton animation="shimmer" shape="text" className="h-5 w-3/4" />
+        <SkeletonText animation="shimmer" lines={3} lastLineWidth="58%" />
       </div>
     </div>
   )

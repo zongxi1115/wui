@@ -11,13 +11,26 @@ import {
 import { cn } from "@/registry/lib/utils"
 
 export type TextEffectPreset =
-  "fade" | "blur-sm" | "fade-in-blur" | "scale" | "slide"
+  | "fade"
+  | "blur"
+  | "blur-sm"
+  | "fade-in-blur"
+  | "scale"
+  | "slide"
+  | "rise"
+  | "drop"
+  | "flip"
 
 const presetVariants: Record<TextEffectPreset, Variants> = {
   fade: {
     hidden: { opacity: 0 },
     visible: { opacity: 1 },
     exit: { opacity: 0 },
+  },
+  blur: {
+    hidden: { opacity: 0, filter: "blur(12px)" },
+    visible: { opacity: 1, filter: "blur(0px)" },
+    exit: { opacity: 0, filter: "blur(12px)" },
   },
   "blur-sm": {
     hidden: { opacity: 0, filter: "blur(4px)" },
@@ -39,12 +52,34 @@ const presetVariants: Record<TextEffectPreset, Variants> = {
     visible: { opacity: 1, y: 0 },
     exit: { opacity: 0, y: -18 },
   },
+  rise: {
+    hidden: { opacity: 0, y: "0.6em" },
+    visible: { opacity: 1, y: "0em" },
+    exit: { opacity: 0, y: "-0.3em" },
+  },
+  drop: {
+    hidden: { opacity: 0, y: "-0.6em" },
+    visible: { opacity: 1, y: "0em" },
+    exit: { opacity: 0, y: "0.3em" },
+  },
+  flip: {
+    hidden: { opacity: 0, rotateX: 90, transformPerspective: 600 },
+    visible: { opacity: 1, rotateX: 0, transformPerspective: 600 },
+    exit: { opacity: 0, rotateX: -90, transformPerspective: 600 },
+  },
+}
+
+/** Presets whose motion reads better on a spring than on a tween. */
+const springPresets: Partial<Record<TextEffectPreset, Transition>> = {
+  rise: { type: "spring", stiffness: 420, damping: 28, mass: 0.6 },
+  drop: { type: "spring", stiffness: 420, damping: 26, mass: 0.6 },
+  flip: { type: "spring", stiffness: 300, damping: 24, mass: 0.7 },
 }
 
 export interface TextEffectProps extends React.ComponentProps<"p"> {
   /** Text split into animated segments. */
   children: string
-  /** Segment granularity. @default "word" */
+  /** Segment granularity. CJK text is animated per character in `word` mode. @default "word" */
   per?: "word" | "char" | "line"
   /** HTML element rendered by the component. @default "p" */
   as?: React.ElementType
@@ -72,10 +107,40 @@ export interface TextEffectProps extends React.ComponentProps<"p"> {
   onAnimationComplete?: () => void
 }
 
-function splitText(text: string, per: NonNullable<TextEffectProps["per"]>) {
-  if (per === "line") return text.split("\n")
-  if (per === "word") return text.split(/(\s+)/)
-  return Array.from(text)
+const cjkPattern =
+  /[⺀-⿿　-〿぀-ヿ㐀-䶿一-鿿가-힯豈-﫿＀-￯]/
+
+type Token = { text: string; whitespace: boolean; chars?: string[] }
+
+/**
+ * Splits text into animation units. Whitespace is kept as plain text so the
+ * browser can still wrap lines naturally; CJK runs have no spaces, so they
+ * are broken per character to keep both wrapping and staggering meaningful.
+ */
+function tokenize(
+  text: string,
+  per: NonNullable<TextEffectProps["per"]>
+): Token[] {
+  if (per === "line") {
+    return text.split("\n").map((line) => ({ text: line, whitespace: false }))
+  }
+
+  const tokens: Token[] = []
+  for (const part of text.split(/(\s+)/)) {
+    if (!part) continue
+    if (/^\s+$/.test(part)) {
+      tokens.push({ text: part, whitespace: true })
+    } else if (cjkPattern.test(part)) {
+      for (const char of Array.from(part)) {
+        tokens.push({ text: char, whitespace: false })
+      }
+    } else if (per === "char") {
+      tokens.push({ text: part, whitespace: false, chars: Array.from(part) })
+    } else {
+      tokens.push({ text: part, whitespace: false })
+    }
+  }
+  return tokens
 }
 
 /** Reveals text by line, word or character using a built-in or custom preset. */
@@ -99,62 +164,85 @@ function TextEffect({
 }: TextEffectProps) {
   const reduceMotion = useReducedMotion()
   const Component = React.useMemo(() => motion.create(as), [as])
-  const segments = React.useMemo(
-    () => splitText(children, per),
-    [children, per]
-  )
+  const tokens = React.useMemo(() => tokenize(children, per), [children, per])
   const stagger =
     (per === "char" ? 0.025 : per === "word" ? 0.06 : 0.12) / speedReveal
-  const containerVariants: Variants = variants?.container ?? {
-    hidden: {},
-    visible: { transition: { staggerChildren: stagger, delayChildren: delay } },
-    exit: { transition: { staggerChildren: stagger, staggerDirection: -1 } },
-  }
+  const containerVariants: Variants = reduceMotion
+    ? { hidden: {}, visible: {}, exit: {} }
+    : (variants?.container ?? {
+        hidden: {},
+        visible: {
+          transition: { staggerChildren: stagger, delayChildren: delay },
+        },
+        exit: {
+          transition: { staggerChildren: stagger, staggerDirection: -1 },
+        },
+      })
   const itemVariants = variants?.item ?? presetVariants[preset]
+  const itemTransition: Transition = reduceMotion
+    ? { duration: 0 }
+    : {
+        duration: 0.4 / speedSegment,
+        ease: [0.22, 1, 0.36, 1],
+        ...(variants?.item ? undefined : springPresets[preset]),
+        ...segmentTransition,
+      }
 
-  if (reduceMotion) {
-    return (
-      <Component data-slot="text-effect" className={className} {...props}>
-        {children}
-      </Component>
-    )
-  }
+  const segmentClassName = cn(
+    per === "line" ? "block" : "inline-block",
+    segmentWrapperClassName
+  )
+
+  const renderSegment = (text: string, key: string, hidden?: boolean) => (
+    <motion.span
+      aria-hidden={hidden || undefined}
+      data-slot="text-effect-segment"
+      key={key}
+      className={segmentClassName}
+      variants={itemVariants}
+      transition={itemTransition}
+    >
+      {text}
+    </motion.span>
+  )
 
   return (
     <Component
-      aria-label={children}
       data-slot="text-effect"
       className={cn(per === "line" && "flex flex-col", className)}
       initial="hidden"
-      animate={trigger ? "visible" : "exit"}
+      animate={reduceMotion || trigger ? "visible" : "exit"}
       variants={containerVariants}
       transition={containerTransition}
       onAnimationStart={onAnimationStart}
       onAnimationComplete={onAnimationComplete}
       {...props}
     >
-      {segments.map((segment, index) => {
-        const whitespace = /^\s+$/.test(segment)
-        return (
-          <motion.span
-            aria-hidden="true"
-            data-slot="text-effect-segment"
-            key={`${segment}-${index}`}
-            className={cn(
-              per === "line" ? "block" : "inline-block",
-              whitespace && per !== "line" && "whitespace-pre",
-              segmentWrapperClassName
-            )}
-            variants={itemVariants}
-            transition={{
-              duration: 0.35 / speedSegment,
-              ease: "easeOut",
-              ...segmentTransition,
-            }}
-          >
-            {segment}
-          </motion.span>
-        )
+      <span className="sr-only">{children}</span>
+      {tokens.map((token, index) => {
+        if (token.whitespace) {
+          return (
+            <span aria-hidden="true" key={`space-${index}`}>
+              {token.text}
+            </span>
+          )
+        }
+        if (token.chars) {
+          // Keep the characters of a Latin word together while each one
+          // animates on its own.
+          return (
+            <span
+              aria-hidden="true"
+              key={`word-${index}`}
+              className="inline-block whitespace-nowrap"
+            >
+              {token.chars.map((char, charIndex) =>
+                renderSegment(char, `${char}-${index}-${charIndex}`)
+              )}
+            </span>
+          )
+        }
+        return renderSegment(token.text, `${token.text}-${index}`, true)
       })}
     </Component>
   )

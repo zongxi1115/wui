@@ -51,6 +51,10 @@
     {
       "name": "breadcrumb-collapsed",
       "title": "简单折叠占位"
+    },
+    {
+      "name": "breadcrumb-animated",
+      "title": "路径进出动效与展开折叠"
     }
   ],
   "files": [

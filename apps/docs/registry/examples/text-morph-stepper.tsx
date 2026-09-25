@@ -1,82 +1,65 @@
 "use client"
 
 import * as React from "react"
-import { CheckCircle2, Play } from "lucide-react"
+import { CheckIcon, LoaderCircleIcon, PlayIcon } from "lucide-react"
 
 import { Button } from "@/registry/ui/button"
 import { TextMorph } from "@/registry/ui/text-morph"
 
 const stages = [
-  "1. Initializing Edge Sandbox",
-  "2. Resolving Dependencies (npm)",
-  "3. Compiling Turbopack Artifacts",
-  "4. Generating Static Metadata",
-  "5. Deployed to Global CDN",
+  "等待部署",
+  "正在拉取依赖",
+  "正在构建产物",
+  "正在运行测试",
+  "正在发布到生产",
+  "已发布到生产",
 ]
 
 export default function TextMorphStepper() {
-  const [currentStep, setCurrentStep] = React.useState(0)
-  const [isRunning, setIsRunning] = React.useState(false)
+  const [step, setStep] = React.useState(0)
+  const timer = React.useRef<number | undefined>(undefined)
+  const running = step > 0 && step < stages.length - 1
+  const finished = step === stages.length - 1
 
-  const handleRun = () => {
-    setIsRunning(true)
-    setCurrentStep(0)
-    let step = 0
-    const interval = setInterval(() => {
-      step += 1
-      if (step < stages.length) {
-        setCurrentStep(step)
-      } else {
-        clearInterval(interval)
-        setIsRunning(false)
-      }
-    }, 1200)
+  React.useEffect(() => () => window.clearInterval(timer.current), [])
+
+  const run = () => {
+    window.clearInterval(timer.current)
+    setStep(1)
+    timer.current = window.setInterval(() => {
+      setStep((current) => {
+        if (current >= stages.length - 1) {
+          window.clearInterval(timer.current)
+          return current
+        }
+        return current + 1
+      })
+    }, 1100)
   }
 
   return (
-    <div className="flex w-full max-w-lg flex-col gap-4 rounded-xl border border-border bg-card p-6 shadow-xs">
-      <div className="flex items-center justify-between border-b border-border pb-3">
-        <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-          CI/CD 部署流水线
-        </span>
-        <Button
-          type="button"
-          size="sm"
-          variant="outline"
-          disabled={isRunning}
-          onClick={handleRun}
-          className="gap-1.5 text-xs"
-        >
-          <Play className="size-3" />
-          {isRunning ? "部署中..." : "触发新流水线"}
-        </Button>
+    <div className="flex w-full max-w-md items-center gap-3 rounded-lg border bg-background p-4">
+      <span className="bg-muted flex size-8 shrink-0 items-center justify-center rounded-full">
+        {finished ? (
+          <CheckIcon className="text-success size-4" />
+        ) : running ? (
+          <LoaderCircleIcon className="text-muted-foreground size-4 animate-spin" />
+        ) : (
+          <span className="bg-muted-foreground/60 size-1.5 rounded-full" />
+        )}
+      </span>
+      <div className="min-w-0 flex-1">
+        <p className="text-muted-foreground text-xs">
+          官网 · main 分支 · 第 {Math.max(step, 1)} / {stages.length - 1} 步
+        </p>
+        <TextMorph as="p" className="text-sm font-medium">
+          {stages[step]}
+        </TextMorph>
       </div>
-
-      <div className="flex items-center gap-3 rounded-lg border border-border bg-muted/20 p-4">
-        <div
-          className={`flex size-8 shrink-0 items-center justify-center rounded-full transition-colors ${
-            currentStep === stages.length - 1
-              ? "bg-emerald-500/10 text-emerald-500"
-              : "bg-primary/10 text-primary"
-          }`}
-        >
-          {currentStep === stages.length - 1 ? (
-            <CheckCircle2 className="size-4" />
-          ) : (
-            <span className="font-mono text-xs font-bold">{currentStep + 1}</span>
-          )}
-        </div>
-
-        <div className="min-w-0 flex-1">
-          <div className="text-[11px] text-muted-foreground">当前流水线阶段</div>
-          <TextMorph
-            as="h5"
-            className="text-sm font-semibold tracking-tight text-foreground truncate"
-          >
-            {stages[currentStep]}
-          </TextMorph>
-        </div>
-      </div>
+      <Button variant="outline" size="sm" onClick={run} disabled={running}>
+        <PlayIcon />
+        {finished ? "重新部署" : "部署"}
+      </Button>
     </div>
   )
 }

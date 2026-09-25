@@ -65,6 +65,14 @@
       "description": "同时渲染的轨迹内容数量上限。"
     },
     {
+      "name": "rotation",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "8",
+      "description": "每张图片随机旋转的最大角度，单位为度。"
+    },
+    {
       "name": "itemClassName",
       "type": "string",
       "required": false,
@@ -79,7 +87,7 @@
     },
     {
       "name": "image-trail-cards",
-      "title": "浮动徽章流"
+      "title": "标签拖尾"
     }
   ],
   "files": [

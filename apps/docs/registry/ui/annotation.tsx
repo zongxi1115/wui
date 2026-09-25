@@ -55,7 +55,7 @@ function AnnotationPath({
   ...props
 }: AnnotationPathProps) {
   const reduceMotion = useReducedMotion()
-  const markerId = `annotation-arrow-${React.useId().replaceAll(":", "")}`
+  const markerId = `annotation-arrow-${React.useId().replace(/[^\w-]/g, "")}`
   const transition = {
     duration: reduceMotion ? 0 : duration,
     delay: reduceMotion ? 0 : delay,
@@ -98,7 +98,7 @@ function AnnotationPath({
         strokeWidth={strokeWidth}
         strokeLinecap="round"
         strokeLinejoin="round"
-        initial={reduceMotion ? false : hiddenPath}
+        initial={hiddenPath}
         animate={!inView || reduceMotion ? visiblePath : undefined}
         whileInView={inView && !reduceMotion ? visiblePath : undefined}
         viewport={{ once, amount: 0.35 }}
@@ -111,7 +111,7 @@ function AnnotationPath({
           stroke="transparent"
           strokeWidth={strokeWidth}
           markerEnd={`url(#${markerId})`}
-          initial={reduceMotion ? false : { opacity: 0 }}
+          initial={{ opacity: 0 }}
           animate={!inView || reduceMotion ? { opacity: 1 } : undefined}
           whileInView={inView && !reduceMotion ? { opacity: 1 } : undefined}
           viewport={{ once, amount: 0.35 }}
@@ -161,7 +161,7 @@ function AnnotationHighlight({
     ease: [0.22, 1, 0.36, 1] as const,
   }
   const activation = {
-    initial: reduceMotion ? false : hiddenPath,
+    initial: hiddenPath,
     animate: !inView || reduceMotion ? visiblePath : undefined,
     whileInView: inView && !reduceMotion ? visiblePath : undefined,
     viewport: { once, amount: 0.7 },

@@ -55,6 +55,18 @@ pnpm add motion clsx tailwind-merge
       description: "控制自动轮换的播放/暂停状态。设为 false 时暂停轮换并保持当前项展示。",
     },
     {
+      prop: "direction",
+      type: '"up" | "down"',
+      default: '"up"',
+      description: "默认动画的运动方向。up 为旧项从顶部离开、新项从底部进入；down 则相反。传入自定义 variants 时忽略。",
+    },
+    {
+      prop: "animateWidth",
+      type: "boolean",
+      default: "false",
+      description: "子项长度不同时平滑过渡容器宽度，避免同一行后续文字跳动。开启后子项不换行。",
+    },
+    {
       prop: "variants",
       type: "Variants",
       description: "定义子项进入 (initial)、就绪 (animate) 与移出 (exit) 的 Motion 动画变体状态。",
@@ -62,8 +74,8 @@ pnpm add motion clsx tailwind-merge
     {
       prop: "transition",
       type: "Transition",
-      default: '{ duration: 0.35, ease: "easeOut" }',
-      description: "应用于子项切换时的自定义 Motion 过渡动画参数。",
+      default: '{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }',
+      description: "应用于子项切换（以及 animateWidth 宽度过渡）的 Motion 过渡动画参数。",
     },
     {
       prop: "mode",
@@ -95,15 +107,21 @@ pnpm add motion clsx tailwind-merge
 
 `TextLoop` 适用于在**有限的水平空间内**展示多样化或动态更新的内容，常见于产品主标语的关键词轮换、动态公告胶囊栏、客户评价轮播和系统状态展示。
 
-- **尺寸相近原则**：轮换的各个子项应尽量保持相近的字符长度与物理高度。若子项长短差距过大，会导致包裹容器剧烈抖动，影响阅读稳定性。
+- **尺寸相近原则**：轮换的各个子项应尽量保持相近的字符长度与物理高度。长度差异无法避免时，开启 `animateWidth` 让容器宽度平滑过渡。
 - **语义一致性**：同一行轮换的内容必须属于同一个语法范畴（例如皆为主语修饰词、技术栈名称或功能特性），确保句子在任何时刻都能完整通顺地表达含义。
 - **可控交互与悬停暂停**：对于包含较多信息量的公告栏或评价，强烈建议搭配悬停暂停（`onMouseEnter` 时设置 `trigger={false}`），让用户有充足的时间阅读并点击感兴趣的条目。
 
 ## 场景示例
 
+### 运动方向
+
+通过 `direction` 切换默认动画方向：`up` 从底部进入、从顶部离开，`down` 反之，适合表达状态推进或回溯：
+
+<ComponentPreview name="text-loop-direction" />
+
 ### 业务动态与公告胶囊
 
-将带图标、徽章与文字的复合节点放入 `TextLoop`，可构建紧凑轻量的通告栏：
+将徽章与文字的复合节点放入 `TextLoop`，并开启 `animateWidth`，胶囊宽度会随文案长度平滑伸缩：
 
 <ComponentPreview name="text-loop-badges" />
 
@@ -114,7 +132,7 @@ pnpm add motion clsx tailwind-merge
 <ComponentPreview name="text-loop-custom-transitions" />
 
 ```tsx
-const flip3DVariants = {
+const flipVariants = {
   initial: { rotateX: 90, opacity: 0 },
   animate: { rotateX: 0, opacity: 1 },
   exit: { rotateX: -90, opacity: 0 },
@@ -122,16 +140,19 @@ const flip3DVariants = {
 
 export function FlipLoop() {
   return (
-    <TextLoop
-      variants={flip3DVariants}
-      transition={{ type: "spring", stiffness: 350, damping: 25 }}
-    >
-      {[
-        <span key="aws">AWS</span>,
-        <span key="vercel">Vercel</span>,
-        <span key="cloudflare">Cloudflare</span>,
-      ]}
-    </TextLoop>
+    <span className="[perspective:600px]">
+      部署到
+      <TextLoop
+        variants={flipVariants}
+        transition={{ type: "spring", stiffness: 320, damping: 24 }}
+      >
+        {[
+          <span key="north">华北</span>,
+          <span key="east">华东</span>,
+          <span key="south">华南</span>,
+        ]}
+      </TextLoop>
+    </span>
   )
 }
 ```

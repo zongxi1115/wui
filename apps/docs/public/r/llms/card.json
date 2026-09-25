@@ -14,6 +14,9 @@
     "CardMedia",
     "CardTitle"
   ],
+  "typeExports": [
+    "CardProps"
+  ],
   "install": {
     "wui": "pnpm dlx @wui-design/cli@latest add @wui/card",
     "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/card.json",

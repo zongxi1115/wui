@@ -21,7 +21,7 @@ component: bubble
 <Step>安装基础依赖与图标库</Step>
 
 ```bash
-pnpm add class-variance-authority lucide-react clsx tailwind-merge
+pnpm add motion class-variance-authority lucide-react clsx tailwind-merge
 ```
 
 <Step>复制组件源码到 `components/ui/bubble.tsx`</Step>
@@ -45,9 +45,15 @@ pnpm add class-variance-authority lucide-react clsx tailwind-merge
       description: "消息气泡的水平对齐方向。'start' 靠左对齐（通常代表对方/AI 助手）；'end' 靠右对齐（代表当前登录用户）。",
     },
     {
+      prop: "animated",
+      type: "boolean",
+      default: "true",
+      description: "挂载时是否播放入场动效：从发送方一侧轻微位移、淡入并以头像所在角为原点缩放。系统开启减弱动态效果时自动跳过。",
+    },
+    {
       prop: "className",
       type: "string",
-      description: "应用于外层气泡容器的额外 CSS 类名。",
+      description: "应用于外层气泡容器的额外 CSS 类名。根节点带有 `group/bubble`，子元素可用 `group-hover/bubble:` 做悬停显隐。",
     },
   ]}
 />
@@ -66,6 +72,21 @@ pnpm add class-variance-authority lucide-react clsx tailwind-merge
       prop: "className",
       type: "string",
       description: "应用于消息气泡内容盒子的额外 CSS 类名。",
+    },
+  ]}
+/>
+
+### BubbleTyping
+
+放在 `BubbleContent` 中表示对方正在输入，三个圆点错峰起伏；继承原生 `<span>` 属性：
+
+<PropsTable
+  data={[
+    {
+      prop: "label",
+      type: "string",
+      default: '"正在输入"',
+      description: "以 `role=\"status\"` 播报给屏幕阅读器的状态文案。",
     },
   ]}
 />
@@ -111,13 +132,20 @@ pnpm add class-variance-authority lucide-react clsx tailwind-merge
   - `side="start"`：接收到的消息、AI 模型回答、客服接待语。
   - `side="end"`：当前用户自己发送的消息。
 - **长文本排版优化**：对于 AI 回答的长篇 Markdown、代码块或富表格，推荐使用 `variant="outline"` 或 `variant="ghost"`，避免深底色带来的阅读疲劳。
-- **操作栏微交互**：`BubbleActions` 中的复制、重试、点赞操作建议设置适当的 `hover` 显隐反馈，避免常驻过多小图标干扰文本浏览。
+- **操作栏微交互**：`BubbleActions` 可配合 `opacity-0 group-hover/bubble:opacity-100 focus-within:opacity-100` 悬停显隐（见基础用法），避免常驻过多小图标干扰文本浏览，同时保证键盘聚焦时可见。
+- **入场动效**：新消息默认从发送方一侧淡入；一次性加载大量历史消息时可传 `animated={false}`，只让新到达的消息产生动效。
 
 ## 场景示例
 
-### AI 智能体对话与代码块
+### 实时对话与输入状态
 
-结合模型标签、代码块高亮、Token 消耗统计与点赞/复制操作：
+发送消息后气泡从发送方一侧滑入，对方回复前以 `BubbleTyping` 展示输入中状态：
+
+<ComponentPreview name="bubble-conversation" />
+
+### AI 回答与 Markdown
+
+`variant="ghost"` 承载 `Markdown` 渲染的长回答，底部放置复制、重新生成与反馈操作：
 
 <ComponentPreview name="bubble-ai-chat" />
 

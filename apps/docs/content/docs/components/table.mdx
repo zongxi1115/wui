@@ -87,12 +87,53 @@ pnpm add class-variance-authority clsx tailwind-merge
       description: "距离固定边缘的偏移量（像素或 CSS 长度），连续固定多列时用于计算层叠位置。",
     },
     {
+      prop: "resizeWidth / onResize",
+      type: "number / (width: number) => void",
+      description: "传入当前列宽和更新函数后显示拖拽手柄；支持鼠标、触控笔、触摸拖动与左右方向键。列宽由使用方写入 colgroup。",
+    },
+    {
+      prop: "minResizeWidth / maxResizeWidth",
+      type: "number / number",
+      default: "80 / 800",
+      description: "限制拖动和键盘调整后的列宽。",
+    },
+    {
+      prop: "resizeLabel",
+      type: "string",
+      default: '"调整列宽"',
+      description: "调宽手柄的无障碍名称，建议包含列名。",
+    },
+    {
       prop: "className",
       type: "string",
       description: "应用于表头单元格的额外 CSS 类名。",
     },
   ]}
 />
+
+### 调整列宽
+
+表格使用固定布局和 `colgroup` 时，可将列宽交给状态管理，并在 `TableHead` 上启用调宽手柄：
+
+```tsx
+const [nameWidth, setNameWidth] = React.useState(180)
+
+<Table className="table-fixed" style={{ minWidth: nameWidth + 240 }}>
+  <colgroup>
+    <col style={{ width: nameWidth }} />
+    <col style={{ width: 240 }} />
+  </colgroup>
+  <TableHeader>
+    <TableRow>
+      <TableHead resizeWidth={nameWidth} onResize={setNameWidth} resizeLabel="调整名称列宽">名称</TableHead>
+      <TableHead>说明</TableHead>
+    </TableRow>
+  </TableHeader>
+  {/* TableBody */}
+</Table>
+```
+
+需要跨页面保留宽度时，使用方可将状态写入 `localStorage`，并按表格或页面分别设置存储键。
 
 ### TableCell
 
@@ -115,6 +156,26 @@ pnpm add class-variance-authority clsx tailwind-merge
       prop: "className",
       type: "string",
       description: "应用于数据单元格的额外 CSS 类名。",
+    },
+  ]}
+/>
+
+### TableSortButton
+
+表头排序按钮，接受原生 `<button>` 的全部 HTML 属性。激活时箭头淡入，升降序切换时箭头旋转过渡；请同时在所在 `TableHead` 上设置 `aria-sort`：
+
+<PropsTable
+  data={[
+    {
+      prop: "direction",
+      type: '"asc" | "desc" | false',
+      default: "false",
+      description: "当前列的排序方向；为 false 时显示弱化的空闲箭头，悬停时加深。",
+    },
+    {
+      prop: "onClick",
+      type: "(event: React.MouseEvent<HTMLButtonElement>) => void",
+      description: "点击时切换排序状态，排序逻辑由使用方维护。",
     },
   ]}
 />
@@ -174,9 +235,15 @@ pnpm add class-variance-authority clsx tailwind-merge
 
 ### 行选择与批量操作
 
-在数据管理列表中，通过 `TableRow` 的 `data-state="selected"` 属性呈现选中背景高亮，并配合工具栏提供批量处理操作：
+在数据管理列表中，通过 `TableRow` 的 `data-state="selected"` 属性呈现选中背景高亮；选中后工具栏切换为批量操作，移除的行淡出后其余行平滑上移：
 
 <ComponentPreview name="table-selection" />
+
+### 可展开行与排序
+
+点击行或左侧箭头展开订单详情，详情区域以高度过渡展开；使用 `TableSortButton` 切换金额排序，行位置通过 `motion` 的 `layout` 平滑换位。动效在系统开启“减少动态效果”时自动关闭：
+
+<ComponentPreview name="table-expandable" />
 
 ### 复杂数据表格（固定列 / 树形 / 排序 / 筛选 / 拖拽）
 

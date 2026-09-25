@@ -178,7 +178,7 @@ return (
 
 ### 半选与全选联动 (Indeterminate)
 
-当管理具有父子层级的列表时，父级多选框会根据子项的完成情况自动在“未选”、“半选（不确定）”和“全选”之间无缝切换：
+当管理具有父子层级的列表时，父级多选框会根据子项的完成情况自动在“未选”、“半选（不确定）”和“全选”之间切换。对勾与半选横线共享同一条路径，状态变化时会直接形变过渡，而不是先消失再出现：
 
 <ComponentPreview name="checkbox-indeterminate" />
 
@@ -196,7 +196,7 @@ return (
 
 ### 表单校验与错误状态
 
-在用户注册或提交表单时，配合 `aria-invalid` 属性与错误提示文案，实现即时校验反馈：
+在用户注册或提交表单时，为多选框设置 `aria-invalid` 会切换为危险色边框；配合 `FormField` 与 `FormMessage`，错误提示会平滑展开与收起：
 
 <ComponentPreview name="checkbox-form" />
 
@@ -213,4 +213,4 @@ return (
   - 务必使用 `<label htmlFor="id">` 或 `aria-labelledby` 关联标签文案，确保屏幕阅读器能准确朗读选项名称与当前状态。
   - 辅助说明文字可通过 `aria-describedby` 关联至提示元素 ID。
 - **动态效果降级**：
-  - 内置的 SVG 路径绘制（Checkmark Draw）动效会自动适配系统的 `prefers-reduced-motion` 设置。开启减弱动态效果时，图标将立即瞬时呈现，避免引发眩晕。
+  - 对勾的路径绘制、勾选与半选之间的形变以及按压缩放都会适配系统的 `prefers-reduced-motion` 设置。开启减弱动态效果时，图标立即呈现，避免引发眩晕。

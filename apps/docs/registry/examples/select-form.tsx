@@ -24,7 +24,7 @@ export default function SelectForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex w-full max-w-md flex-col gap-4 rounded-xl border bg-card p-5 text-card-foreground shadow-xs">
+    <form onSubmit={handleSubmit} className="flex w-full max-w-md flex-col gap-4 rounded-lg border bg-card p-5 text-card-foreground">
       <div className="flex items-center gap-2 border-b pb-3">
         <CreditCard className="size-4 text-primary" />
         <h4 className="text-sm font-semibold">账单结算偏好配置</h4>
@@ -71,7 +71,7 @@ export default function SelectForm() {
 
       <div className="flex items-center justify-between pt-1">
         {submitted ? (
-          <span className="flex items-center gap-1.5 text-xs text-emerald-600 dark:text-emerald-400">
+          <span className="flex items-center gap-1.5 text-xs text-success">
             <CheckCircle2 className="size-3.5" />
             偏好已成功更新
           </span>

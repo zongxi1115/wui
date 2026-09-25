@@ -1,72 +1,43 @@
-import { Code2Icon, LayersIcon, ShieldIcon, ZapIcon } from "lucide-react"
-
 import { HoverMarquee } from "@/registry/ui/hover-marquee"
 
-const services = [
-  {
-    title: "Full-Stack Web Engineering",
-    icon: Code2Icon,
-    tags: ["React 19", "Next.js", "TypeScript", "Tailwind CSS v4", "Node.js", "PostgreSQL"],
-  },
-  {
-    title: "High-Performance Cloud Infrastructure",
-    icon: ZapIcon,
-    tags: ["Kubernetes", "AWS Graviton", "Cloudflare Workers", "Redis Enterprise", "Terraform"],
-  },
-  {
-    title: "Design Systems & UI Architecture",
-    icon: LayersIcon,
-    tags: ["Design Tokens", "Radix UI", "Motion", "Figma", "Storybook", "Accessibility WCAG AAA"],
-  },
-  {
-    title: "Zero-Trust Security & Compliance",
-    icon: ShieldIcon,
-    tags: ["SOC2 Type II", "OAuth 2.1", "WebAuthn", "End-to-End Encryption", "Penetration Testing"],
-  },
+const teams = [
+  { title: "前端工程", count: 12, tags: ["React", "TypeScript", "Next.js", "Tailwind CSS", "Playwright"] },
+  { title: "后端与基础设施", count: 9, tags: ["Go", "PostgreSQL", "Kubernetes", "Redis", "Terraform"] },
+  { title: "设计与研究", count: 6, tags: ["Figma", "设计令牌", "可用性测试", "动效规范"] },
+  { title: "安全与合规", count: 4, tags: ["等保三级", "SSO", "审计日志", "渗透测试"] },
 ]
 
 export default function HoverMarqueeTags() {
   return (
-    <div className="w-full max-w-2xl divide-y rounded-2xl border bg-card shadow-xs">
-      {services.map((service, index) => {
-        const Icon = service.icon
-        return (
-          <HoverMarquee
-            key={service.title}
-            speed={85}
-            gap={24}
-            reverse={index % 2 === 1}
-            className="group outline-none transition-colors hover:bg-muted/30 first:rounded-t-2xl last:rounded-b-2xl"
-            marqueeClassName="bg-primary text-primary-foreground py-2 font-medium"
-            marquee={
-              <div className="flex items-center gap-3 whitespace-nowrap text-xs">
-                {service.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="rounded-full bg-white/20 px-3 py-1 text-white backdrop-blur-xs"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            }
-          >
-            <div className="flex h-16 items-center justify-between px-5">
-              <div className="flex items-center gap-3">
-                <div className="flex size-9 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                  <Icon className="size-4" />
-                </div>
-                <span className="text-sm font-semibold text-foreground">
-                  {service.title}
+    <div className="w-full max-w-xl divide-y border-y">
+      {teams.map((team, index) => (
+        <HoverMarquee
+          key={team.title}
+          tabIndex={0}
+          speed={60}
+          gap={8}
+          reverse={index % 2 === 1}
+          className="focus-visible:ring-ring/50 outline-none focus-visible:ring-[3px] focus-visible:ring-inset"
+          marqueeClassName="bg-muted"
+          marquee={
+            <span className="flex items-center gap-2 whitespace-nowrap">
+              {team.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="bg-background rounded-full border px-2.5 py-0.5 text-xs"
+                >
+                  {tag}
                 </span>
-              </div>
-              <span className="text-xs text-muted-foreground group-hover:text-foreground">
-                Hover to see tech stack →
-              </span>
-            </div>
-          </HoverMarquee>
-        )
-      })}
+              ))}
+            </span>
+          }
+        >
+          <div className="flex h-12 items-center justify-between px-3 text-sm">
+            <span className="font-medium">{team.title}</span>
+            <span className="text-muted-foreground text-xs">{team.count} 人</span>
+          </div>
+        </HoverMarquee>
+      ))}
     </div>
   )
 }

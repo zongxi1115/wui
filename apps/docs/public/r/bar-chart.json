@@ -5,7 +5,8 @@
   "title": "条形图 Bar Chart",
   "description": "从零基线比较分类数值，并支持分组序列与精确标签。",
   "registryDependencies": [
-    "chart-core"
+    "chart-core",
+    "utils"
   ],
   "files": [
     {

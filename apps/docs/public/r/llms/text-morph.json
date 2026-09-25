@@ -39,6 +39,22 @@
       "control": "text",
       "defaultValue": "p",
       "description": "组件实际渲染的 HTML 元素。"
+    },
+    {
+      "name": "transition",
+      "type": "Transition",
+      "required": false,
+      "control": "text",
+      "defaultValue": "{\n  type: \"spring\",\n  stiffness: 380,\n  damping: 32,\n  mass: 0.6,\n}",
+      "description": "共享字符移动时使用的弹簧或补间过渡。"
+    },
+    {
+      "name": "variants",
+      "type": "Variants",
+      "required": false,
+      "control": "text",
+      "defaultValue": "{\n  initial: { opacity: 0, filter: \"blur(2px)\" },\n  animate: { opacity: 1, filter: \"blur(0px)\" },\n  exit: { opacity: 0, filter: \"blur(2px)\" },\n}",
+      "description": "新出现或离开字符的初始、播放中和离场状态。"
     }
   ],
   "examples": [
@@ -56,7 +72,7 @@
     },
     {
       "name": "text-morph-stepper",
-      "title": "CI/CD 部署流水线状态"
+      "title": "部署流水线状态"
     }
   ],
   "files": [

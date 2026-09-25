@@ -104,17 +104,17 @@ pnpm add motion lucide-react class-variance-authority clsx tailwind-merge
 
 ### 图片揭示
 
-大图进入视口时带有圆角与轻度缩放的进场动效：
+自定义 `clipPath` 与 `scale` 变体，让大图进入视口时自下而上揭开并从轻微放大回落：
 
 <ComponentPreview name="in-view-image-reveal" />
 
 ### 瀑布流/阶梯式卡片进场（Stagger）
 
-为不同卡片赋予不同的 `delay` 实现阶梯式渐进浮现：
+为列表项赋予递增的 `delay`，配合模糊对焦变体实现阶梯式浮现，`as="li"` 保持列表语义：
 
 <ComponentPreview name="in-view-stagger" />
 
 ## 无障碍与交互 Accessibility
 
-- **减少动效环境处理**：当系统启用 `prefers-reduced-motion: reduce` 时，组件将跳过 `hidden` 状态，直接以 `visible` 终态渲染，且 `transition` 持续时间设为 0。
+- **减少动效环境处理**：当系统启用 `prefers-reduced-motion: reduce` 时，组件保持与服务端一致的初始结构，挂载后立即以零时长切换到 `visible` 终态，不播放位移过程。
 - **SEO 友好**：组件服务端渲染（SSR）默认包含完整 DOM 树与文字内容，不会对搜索引擎爬虫造成不可见问题。

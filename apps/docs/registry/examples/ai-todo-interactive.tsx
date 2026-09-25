@@ -1,146 +1,128 @@
 "use client"
 
 import * as React from "react"
-import { PlayIcon, RotateCcwIcon, BotIcon } from "lucide-react"
+import { PauseIcon, PlayIcon, RotateCcwIcon } from "lucide-react"
 
+import { Button } from "@/registry/ui/button"
 import {
   AiTodo,
   AiTodoHeader,
   AiTodoItem,
   AiTodoList,
+  AiTodoProgress,
   type AiTodoStatus,
 } from "@/registry/ui/ai-todo"
 
-interface TaskItem {
+interface Task {
   id: string
   title: string
   description?: string
   status: AiTodoStatus
 }
 
-const initialTasks: TaskItem[] = [
+const INITIAL_TASKS: Task[] = [
   {
-    id: "1",
-    title: "分析用户提出的系统性能瓶颈",
-    description: "解析慢查询日志与 APM 链路追踪数据。",
+    id: "trace",
+    title: "定位慢查询与调用链瓶颈",
+    description: "对照 APM 链路，确认 P99 集中在订单列表接口。",
     status: "completed",
   },
   {
-    id: "2",
-    title: "重构数据库联合索引",
-    description: "针对 user_orders 表中的 (tenant_id, created_at) 增加覆盖索引。",
+    id: "index",
+    title: "为 orders 表补充联合索引",
+    description: "(tenant_id, created_at) 覆盖列表页排序查询。",
     status: "in-progress",
   },
   {
-    id: "3",
-    title: "部署 Redis 二级缓存中间层",
-    description: "配置热点商品详情的 30 秒滑动过期缓存。",
+    id: "cache",
+    title: "为商品详情接入二级缓存",
+    description: "热点数据 30 秒滑动过期，写入时主动失效。",
     status: "pending",
   },
   {
-    id: "4",
-    title: "压测验证与吞吐量评估",
-    description: "使用 k6 模拟 5000 并发压测，确保 P99 延迟低于 50ms。",
+    id: "load-test",
+    title: "压测并对比优化前后指标",
+    description: "k6 模拟 5000 并发，目标 P99 低于 200ms。",
     status: "pending",
   },
 ]
 
+/** Completes the running task and starts the next pending one. */
+function advance(tasks: Task[]) {
+  const running = tasks.findIndex((task) => task.status === "in-progress")
+  const nextPending = tasks.findIndex(
+    (task, index) => index > running && task.status === "pending"
+  )
+  return tasks.map((task, index) => {
+    if (index === running) return { ...task, status: "completed" as const }
+    if (index === nextPending) return { ...task, status: "in-progress" as const }
+    return task
+  })
+}
+
 export default function AiTodoInteractive() {
-  const [tasks, setTasks] = React.useState<TaskItem[]>(initialTasks)
-  const [isRunning, setIsRunning] = React.useState(false)
+  const [tasks, setTasks] = React.useState(INITIAL_TASKS)
+  const [running, setRunning] = React.useState(false)
 
-  const completedCount = tasks.filter((t) => t.status === "completed").length
-  const percent = Math.round((completedCount / tasks.length) * 100)
+  const completed = tasks.filter((task) => task.status === "completed").length
+  const finished = completed === tasks.length
 
-  // 模拟 Agent 自动逐步执行任务
   React.useEffect(() => {
-    if (!isRunning) return
-
-    const timer = setInterval(() => {
-      setTasks((current) => {
-        const inProgressIdx = current.findIndex((t) => t.status === "in-progress")
-        if (inProgressIdx !== -1) {
-          const next = [...current]
-          next[inProgressIdx] = { ...next[inProgressIdx], status: "completed" }
-          if (inProgressIdx + 1 < next.length) {
-            next[inProgressIdx + 1] = { ...next[inProgressIdx + 1], status: "in-progress" }
-          } else {
-            setIsRunning(false)
-          }
-          return next
-        }
-
-        const pendingIdx = current.findIndex((t) => t.status === "pending")
-        if (pendingIdx !== -1) {
-          const next = [...current]
-          next[pendingIdx] = { ...next[pendingIdx], status: "in-progress" }
-          return next
-        }
-
-        setIsRunning(false)
-        return current
-      })
-    }, 1500)
-
-    return () => clearInterval(timer)
-  }, [isRunning])
-
-  const handleReset = () => {
-    setIsRunning(false)
-    setTasks(initialTasks)
-  }
+    if (!running) return
+    if (finished) {
+      setRunning(false)
+      return
+    }
+    const timer = window.setTimeout(() => setTasks(advance), 1400)
+    return () => window.clearTimeout(timer)
+  }, [finished, running, tasks])
 
   return (
-    <div className="w-full max-w-xl space-y-4">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2 text-xs font-semibold text-primary">
-          <BotIcon className="size-4" />
-          <span>AI 自动化调优任务流</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={() => setIsRunning(!isRunning)}
-            disabled={percent === 100}
-            className="flex items-center gap-1 rounded-md bg-primary px-2.5 py-1 text-xs font-medium text-primary-foreground shadow-xs transition-opacity hover:opacity-90 disabled:opacity-40 cursor-pointer"
-          >
-            <PlayIcon className="size-3" />
-            <span>{isRunning ? "暂停执行" : "自动执行"}</span>
-          </button>
-          <button
-            type="button"
-            onClick={handleReset}
-            className="flex items-center gap-1 rounded-md border bg-background px-2.5 py-1 text-xs font-medium text-foreground shadow-xs transition-colors hover:bg-muted cursor-pointer"
-          >
-            <RotateCcwIcon className="size-3" />
-            <span>重置</span>
-          </button>
-        </div>
+    <div className="mx-auto w-full max-w-xl space-y-3">
+      <div className="flex items-center gap-2">
+        <Button
+          size="sm"
+          disabled={finished}
+          onClick={() => setRunning((current) => !current)}
+        >
+          {running ? <PauseIcon /> : <PlayIcon />}
+          {running ? "暂停" : "继续执行"}
+        </Button>
+        <Button
+          size="sm"
+          variant="ghost"
+          onClick={() => {
+            setRunning(false)
+            setTasks(INITIAL_TASKS)
+          }}
+        >
+          <RotateCcwIcon />
+          重置
+        </Button>
       </div>
 
       <AiTodo>
         <AiTodoHeader>
-          <span>执行任务清单</span>
-          <div className="ml-auto flex items-center gap-2 text-xs text-muted-foreground">
-            <span className="font-mono tabular-nums">{completedCount} / {tasks.length}</span>
-            <span className="rounded bg-primary/10 px-1.5 py-0.5 font-mono text-[11px] font-semibold text-primary">
-              {percent}%
-            </span>
-          </div>
+          性能优化计划
+          <span className="ml-auto font-mono text-xs font-normal tabular-nums text-muted-foreground">
+            {completed}/{tasks.length}
+          </span>
         </AiTodoHeader>
-
+        <AiTodoProgress value={completed} max={tasks.length} />
         <AiTodoList>
-          {tasks.map((task, idx) => (
+          {tasks.map((task) => (
             <AiTodoItem
               key={task.id}
               title={task.title}
               description={task.description}
               status={task.status}
-              onStatusChange={(nextStatus) => {
-                setTasks((prev) =>
-                  prev.map((t, i) => (i === idx ? { ...t, status: nextStatus } : t))
+              onStatusChange={(status) =>
+                setTasks((current) =>
+                  current.map((entry) =>
+                    entry.id === task.id ? { ...entry, status } : entry
+                  )
                 )
-              }}
+              }
             />
           ))}
         </AiTodoList>

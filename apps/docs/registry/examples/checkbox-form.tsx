@@ -1,82 +1,82 @@
 "use client"
 
 import * as React from "react"
+
+import { Button } from "@/registry/ui/button"
 import { Checkbox } from "@/registry/ui/checkbox"
+import {
+  Form,
+  FormActions,
+  FormField,
+  FormMessage,
+} from "@/registry/ui/form"
 
 export default function CheckboxForm() {
   const [agreed, setAgreed] = React.useState(false)
   const [newsletter, setNewsletter] = React.useState(true)
-  const [error, setError] = React.useState<string | null>(null)
+  const [touched, setTouched] = React.useState(false)
   const [submitted, setSubmitted] = React.useState(false)
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!agreed) {
-      setError("必须同意服务协议与隐私条款方可继续注册")
-      return
-    }
-    setError(null)
-    setSubmitted(true)
-    setTimeout(() => setSubmitted(false), 3000)
-  }
+  const invalid = touched && !agreed
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="w-full max-w-md space-y-4 rounded-xl border border-border bg-card p-5 shadow-xs"
+    <Form
+      animated={false}
+      className="w-full max-w-md"
+      onSubmit={(event) => {
+        event.preventDefault()
+        setTouched(true)
+        if (agreed) setSubmitted(true)
+      }}
     >
-      <div className="space-y-1">
-        <h4 className="text-sm font-semibold">注册账号确认</h4>
-        <p className="text-xs text-muted-foreground">请确认并阅读以下协议</p>
+      <div className="grid gap-1">
+        <h4 className="text-sm font-semibold">完成注册</h4>
+        <p className="text-muted-foreground text-xs">提交前请阅读并确认以下条款</p>
       </div>
 
-      <div className="space-y-3">
-        <div className="space-y-1.5">
-          <label htmlFor="agree-terms" className="flex cursor-pointer items-start gap-2.5">
-            <Checkbox
-              id="agree-terms"
-              checked={agreed}
-              onCheckedChange={(val) => {
-                setAgreed(val === true)
-                if (val === true) setError(null)
-              }}
-              aria-invalid={!!error}
-              className="mt-0.5"
-            />
-            <span className="text-xs leading-relaxed text-foreground">
-              我已年满 18 周岁，并已阅读且同意遵守
-              <a href="#" className="mx-1 text-primary underline underline-offset-2">《用户服务协议》</a>
-              与
-              <a href="#" className="mx-1 text-primary underline underline-offset-2">《隐私权政策》</a>
-              <span className="text-destructive">*</span>
-            </span>
-          </label>
-          {error ? (
-            <p className="pl-6 text-xs font-medium text-destructive">{error}</p>
-          ) : null}
-        </div>
-
-        <label htmlFor="subscribe-news" className="flex cursor-pointer items-start gap-2.5">
+      <FormField invalid={invalid}>
+        <label htmlFor="agree-terms" className="flex cursor-pointer items-start gap-2.5">
           <Checkbox
-            id="subscribe-news"
-            checked={newsletter}
-            onCheckedChange={(val) => setNewsletter(val === true)}
+            id="agree-terms"
+            checked={agreed}
+            aria-invalid={invalid}
+            onCheckedChange={(value) => {
+              setAgreed(value === true)
+              setSubmitted(false)
+            }}
             className="mt-0.5"
           />
-          <span className="text-xs leading-relaxed text-muted-foreground">
-            接收有关产品重大版本发布与开发者沙龙活动的邮件推荐（可选）
+          <span className="text-sm leading-relaxed">
+            我已阅读并同意
+            <a href="#" className="text-primary mx-0.5 underline-offset-4 hover:underline">
+              《用户服务协议》
+            </a>
+            与
+            <a href="#" className="text-primary mx-0.5 underline-offset-4 hover:underline">
+              《隐私政策》
+            </a>
           </span>
         </label>
-      </div>
+        <FormMessage className="pl-7">需要同意服务协议与隐私政策才能继续</FormMessage>
+      </FormField>
 
-      <div className="pt-2">
-        <button
-          type="submit"
-          className="inline-flex h-9 w-full items-center justify-center rounded-md bg-primary px-4 text-xs font-medium text-primary-foreground shadow-xs transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-        >
-          {submitted ? "提交成功！" : "同意并继续"}
-        </button>
-      </div>
-    </form>
+      <label htmlFor="subscribe-news" className="flex cursor-pointer items-start gap-2.5">
+        <Checkbox
+          id="subscribe-news"
+          checked={newsletter}
+          onCheckedChange={(value) => setNewsletter(value === true)}
+          className="mt-0.5"
+        />
+        <span className="text-muted-foreground text-sm leading-relaxed">
+          订阅产品更新邮件（每月不超过 2 封，可随时退订）
+        </span>
+      </label>
+
+      <FormActions className="justify-between border-t pt-4">
+        <span className="text-success text-xs font-medium" aria-live="polite">
+          {submitted ? "注册成功，欢迎加入" : null}
+        </span>
+        <Button type="submit">同意并继续</Button>
+      </FormActions>
+    </Form>
   )
 }

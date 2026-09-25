@@ -6,9 +6,9 @@ component: aurora-background
 
 ## 基础用法
 
-沉浸式暗色调官网 Hero 区域，底层多色极光光斑缓动漂移：
+极光光斑缓慢漂移；开启 `interactive` 后，三层光斑会以不同深度缓缓追随指针。背景跟随主题：亮色下是柔和的色雾，暗色下以滤色混合发光：
 
-<ComponentPreview name="aurora-background-demo" />
+<ComponentPreview name="aurora-background-demo" previewClassName="min-h-0 p-0" />
 
 ## 安装与引入
 
@@ -42,8 +42,8 @@ pnpm add motion lucide-react class-variance-authority clsx tailwind-merge
     {
       prop: "colors",
       type: "[string, string, string]",
-      default: '["var(--info)", "var(--success)", "var(--warning)"]',
-      description: "驱动极光三层光斑的 CSS 颜色值（支持 Hex、RGB、HSL、OKLCH 或 CSS 变量）。",
+      default: '["var(--chart-1)", "var(--chart-3)", "var(--chart-5)"]',
+      description: "驱动极光三层光斑的 CSS 颜色值（支持 Hex、RGB、HSL、OKLCH 或 CSS 变量），默认使用主题图表色。",
     },
     {
       prop: "duration",
@@ -56,6 +56,12 @@ pnpm add motion lucide-react class-variance-authority clsx tailwind-merge
       type: "number",
       default: "56",
       description: "极光光斑的高斯模糊半径（像素）。",
+    },
+    {
+      prop: "interactive",
+      type: "boolean",
+      default: "false",
+      description: "光斑是否以不同深度缓慢追随指针，形成空间视差。触屏与“减少动态效果”下不生效。",
     },
     {
       prop: "layerClassName",
@@ -78,14 +84,14 @@ pnpm add motion lucide-react class-variance-authority clsx tailwind-merge
 
 `AuroraBackground` 适用于**产品发布 Hero 区、AI 会话背景、VIP 定价卡片、创意案例展台**：
 
-- **暗色调表现最佳**：建议在 `bg-slate-950` 或 `bg-zinc-950` 底色上使用，光斑的 `mix-blend-screen` 滤镜能呈现极其梦幻通透的发光感。
+- **主题自适应**：默认底色为 `bg-background`。亮色主题下光斑以普通混合呈现柔和色雾；暗色主题下切换为 `mix-blend-screen` 发光。需要固定深色舞台时，可通过 `className` 覆盖底色。
 - **微弱不抢戏**：极光动画的 `duration` 推荐在 12 ~ 20 秒之间，缓慢流动的光效能提供高级的“呼吸感”，避免过快移动造成视觉疲劳。
 
 ## 场景示例
 
-### VIP 会员卡片与定价模块
+### 定价卡片
 
-在独立卡片内使用定制的粉紫色系极光：
+在单张卡片内使用更小的模糊半径与更短的周期：
 
 <ComponentPreview name="aurora-background-card" />
 

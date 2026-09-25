@@ -1,78 +1,81 @@
 "use client"
 
 import * as React from "react"
+
+import { Button } from "@/registry/ui/button"
+import {
+  Form,
+  FormActions,
+  FormDescription,
+  FormField,
+  FormLabel,
+  FormMessage,
+} from "@/registry/ui/form"
 import { RadioGroup, RadioGroupItem } from "@/registry/ui/radio-group"
 
+const roles = [
+  { value: "admin", label: "管理员", description: "管理成员、账单与全部项目配置" },
+  { value: "developer", label: "开发者", description: "推送代码、运行流水线并部署到测试环境" },
+  { value: "viewer", label: "访客", description: "仅可查看看板、日志与文档" },
+]
+
 export default function RadioGroupForm() {
-  const [selectedRole, setSelectedRole] = React.useState<string>("")
-  const [error, setError] = React.useState<string | null>(null)
-  const [status, setStatus] = React.useState<string | null>(null)
-
-  const roles = [
-    { value: "admin", label: "项目管理员", desc: "拥有全部读写权限、成员管理与计费配置权限" },
-    { value: "developer", label: "核心研发者", desc: "拥有代码推送、流水线构建及测试环境部署权限" },
-    { value: "viewer", label: "只读访客", desc: "仅可查看项目看板、日志及文档，不可修改任何配置" },
-  ]
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!selectedRole) {
-      setError("请选择待分配的成员角色权限")
-      return
-    }
-    setError(null)
-    setStatus(`已成功分配角色: ${roles.find((r) => r.value === selectedRole)?.label}`)
-    setTimeout(() => setStatus(null), 3000)
-  }
+  const [role, setRole] = React.useState("")
+  const [touched, setTouched] = React.useState(false)
+  const [invited, setInvited] = React.useState(false)
+  const invalid = touched && !role
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="w-full max-w-md space-y-4 rounded-xl border border-border bg-card p-5 shadow-xs"
+    <Form
+      animated={false}
+      className="w-full max-w-md"
+      onSubmit={(event) => {
+        event.preventDefault()
+        setTouched(true)
+        if (role) setInvited(true)
+      }}
     >
-      <div className="space-y-1">
-        <h4 className="text-sm font-semibold">邀请团队成员</h4>
-        <p className="text-xs text-muted-foreground">请为新成员指定工作空间权限级别</p>
-      </div>
-
-      <div className="space-y-2">
+      <FormField invalid={invalid} required>
+        <FormLabel id="invite-role-label">成员角色</FormLabel>
+        <FormDescription>邀请 lin.wei@example.com 加入「增长实验」工作区</FormDescription>
         <RadioGroup
-          value={selectedRole}
-          onValueChange={(val) => {
-            setSelectedRole(val)
-            setError(null)
+          value={role}
+          onValueChange={(value) => {
+            setRole(value)
+            setInvited(false)
           }}
-          className="gap-2.5"
-          aria-invalid={!!error}
+          aria-labelledby="invite-role-label"
+          aria-invalid={invalid}
+          className="mt-2 gap-3"
         >
-          {roles.map((role) => (
+          {roles.map((item) => (
             <label
-              key={role.value}
-              htmlFor={`role-${role.value}`}
-              className="flex cursor-pointer items-start gap-3 rounded-lg border border-border p-3 transition-colors hover:bg-muted/40"
+              key={item.value}
+              htmlFor={`role-${item.value}`}
+              className="flex cursor-pointer items-start gap-3"
             >
-              <RadioGroupItem value={role.value} id={`role-${role.value}`} className="mt-0.5" />
-              <div className="grid gap-0.5">
-                <span className="text-sm font-medium">{role.label}</span>
-                <span className="text-xs text-muted-foreground">{role.desc}</span>
-              </div>
+              <RadioGroupItem
+                value={item.value}
+                id={`role-${item.value}`}
+                aria-invalid={invalid}
+                className="mt-px"
+              />
+              <span className="grid gap-1">
+                <span className="text-sm font-medium leading-none">{item.label}</span>
+                <span className="text-muted-foreground text-xs">{item.description}</span>
+              </span>
             </label>
           ))}
         </RadioGroup>
+        <FormMessage className="mt-1">请选择一个角色后再发送邀请</FormMessage>
+      </FormField>
 
-        {error ? (
-          <p className="text-xs font-medium text-destructive">{error}</p>
-        ) : null}
-      </div>
-
-      <div className="pt-2">
-        <button
-          type="submit"
-          className="inline-flex h-9 w-full items-center justify-center rounded-md bg-primary px-4 text-xs font-medium text-primary-foreground shadow-xs transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-        >
-          {status ? status : "确认并发送邀请"}
-        </button>
-      </div>
-    </form>
+      <FormActions className="justify-between border-t pt-4">
+        <span className="text-success text-xs font-medium" aria-live="polite">
+          {invited ? `已发送邀请：${roles.find((item) => item.value === role)?.label}` : null}
+        </span>
+        <Button type="submit">发送邀请</Button>
+      </FormActions>
+    </Form>
   )
 }

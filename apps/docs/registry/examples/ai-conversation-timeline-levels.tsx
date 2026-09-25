@@ -1,106 +1,103 @@
 "use client"
 
 import * as React from "react"
-import { BotIcon, SparklesIcon } from "lucide-react"
 
+import { Badge } from "@/registry/ui/badge"
 import {
   AiConversationTimeline,
   type AiConversationTimelineItem,
 } from "@/registry/ui/ai-conversation-timeline"
 
-const agentTraceItems: AiConversationTimelineItem[] = [
+const TRACE: AiConversationTimelineItem[] = [
   {
-    id: "user-intent",
-    title: "用户意图分析",
-    description: "提取「检索近七天销售报表并生成环比分析」核心意图与参数实体。",
+    id: "intent",
+    title: "识别用户意图",
+    description: "「对比近七天销售额并解释波动」，提取时间范围与维度。",
     meta: "14:20:01",
     level: 1,
   },
   {
-    id: "tool-db",
-    title: "调用 SQL 生成工具",
-    description: "生成针对 orders 表的聚合查询语句，添加租户 ID 过滤限制。",
+    id: "sql",
+    title: "生成聚合 SQL",
+    description: "按区域与日期聚合 orders，附加租户隔离条件。",
     meta: "14:20:03",
     level: 2,
   },
   {
-    id: "tool-exec",
-    title: "执行只读数据库查询",
-    description: "返回 1,420 条交易记录，耗时 128ms。",
+    id: "query",
+    title: "执行只读查询",
+    description: "返回 1,420 行，耗时 128ms。",
     meta: "14:20:04",
     level: 3,
   },
   {
-    id: "data-clean",
-    title: "数据清洗与异常剔除",
-    description: "过滤测试订单与未支付单据，校准退款抵扣额。",
+    id: "clean",
+    title: "剔除测试与退款订单",
+    description: "过滤 37 条测试单，校准退款抵扣。",
     meta: "14:20:06",
     level: 3,
   },
   {
-    id: "reasoning-step",
-    title: "多维特征交叉推演",
-    description: "对比上周同期 GMV，发现华东区客单价提升 18.4%。",
+    id: "compare",
+    title: "对比上周同期",
+    description: "华东区客单价提升 18.4%，是主要增长来源。",
     meta: "14:20:09",
     level: 2,
   },
   {
-    id: "chart-gen",
-    title: "生成可视化图表配置",
-    description: "输出双轴折线柱状图 Schema 与配色映射规范。",
+    id: "chart",
+    title: "生成图表配置",
+    description: "双轴折线 + 柱状，按区域着色。",
     meta: "14:20:12",
     level: 2,
   },
   {
-    id: "final-answer",
-    title: "整合最终分析报告",
-    description: "输出 Markdown 格式的完整分析洞察与业务改进策略建议。",
+    id: "answer",
+    title: "输出分析结论",
+    description: "总结波动原因并给出两条运营建议。",
     meta: "14:20:15",
     level: 1,
   },
 ]
 
+const LEVEL_LABELS = { 1: "主任务", 2: "子调用", 3: "执行细节" } as const
+
 export default function AiConversationTimelineLevels() {
-  const [activeId, setActiveId] = React.useState("reasoning-step")
-  const currentItem = agentTraceItems.find((i) => i.id === activeId) ?? agentTraceItems[0]
+  const [activeId, setActiveId] = React.useState("compare")
+  const active = TRACE.find((item) => item.id === activeId) ?? TRACE[0]
 
   return (
-    <div className="flex w-full max-w-2xl items-center justify-between gap-6 rounded-xl border bg-card p-6 shadow-xs">
-      <div className="flex-1 space-y-3">
-        <div className="flex items-center gap-2 text-xs font-semibold text-primary">
-          <BotIcon className="size-4" />
-          <span>Agent 执行调用链路 (Trace)</span>
-        </div>
+    <div className="mx-auto flex w-full max-w-xl items-center gap-8">
+      <AiConversationTimeline
+        items={TRACE}
+        activeId={activeId}
+        previewSide="right"
+        preview={false}
+        onActiveChange={setActiveId}
+        className="order-last"
+      />
 
-        <div className="space-y-2 rounded-lg border bg-muted/30 p-4">
-          <div className="flex items-center justify-between">
-            <span className="rounded bg-primary/10 px-2 py-0.5 font-mono text-xs font-medium text-primary">
-              层级 Level {currentItem.level ?? 1}
-            </span>
-            <span className="font-mono text-xs text-muted-foreground">
-              {currentItem.meta}
-            </span>
-          </div>
-          <h4 className="text-sm font-semibold text-foreground">
-            {currentItem.title}
-          </h4>
-          <p className="text-xs leading-relaxed text-muted-foreground">
-            {currentItem.description}
-          </p>
+      <div
+        key={active.id}
+        className="min-w-0 flex-1 duration-300 animate-in fade-in-0 slide-in-from-bottom-1"
+      >
+        <div className="flex items-center gap-2">
+          <Badge variant="outline" size="sm">
+            {LEVEL_LABELS[active.level ?? 1]}
+          </Badge>
+          <span className="font-mono text-xs tabular-nums text-muted-foreground">
+            {active.meta}
+          </span>
         </div>
-
-        <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-          <SparklesIcon className="size-3.5 text-amber-500" />
-          <span>Level 1 为主任务，Level 2 为子调用，Level 3 为细粒度执行</span>
-        </div>
-      </div>
-
-      <div className="flex items-center">
-        <AiConversationTimeline
-          items={agentTraceItems}
-          activeId={activeId}
-          onActiveChange={setActiveId}
-        />
+        <h4 className="mt-2 text-base font-medium text-foreground">
+          {active.title}
+        </h4>
+        <p className="mt-1 text-sm leading-6 text-muted-foreground">
+          {active.description}
+        </p>
+        <p className="mt-4 text-xs text-muted-foreground">
+          刻度越短层级越深；点击刻度切换查看的调用。
+        </p>
       </div>
     </div>
   )

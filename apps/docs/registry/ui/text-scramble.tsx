@@ -40,6 +40,11 @@ function TextScramble({
   const Component = as
   const reduceMotion = useReducedMotion()
   const [display, setDisplay] = React.useState(children)
+  const onCompleteRef = React.useRef(onScrambleComplete)
+
+  React.useEffect(() => {
+    onCompleteRef.current = onScrambleComplete
+  })
 
   React.useEffect(() => {
     if (!trigger || reduceMotion) {
@@ -55,7 +60,7 @@ function TextScramble({
         (performance.now() - startedAt) / totalDuration,
         1
       )
-      const resolved = Math.floor(progress * children.length)
+      const resolved = Math.floor(progress * Array.from(children).length)
       setDisplay(
         Array.from(children)
           .map((character, index) => {
@@ -70,28 +75,20 @@ function TextScramble({
       if (progress >= 1) {
         window.clearInterval(timer)
         setDisplay(children)
-        onScrambleComplete?.()
+        onCompleteRef.current?.()
       }
     }, frameDuration)
 
     return () => window.clearInterval(timer)
-  }, [
-    characterSet,
-    children,
-    duration,
-    onScrambleComplete,
-    reduceMotion,
-    speed,
-    trigger,
-  ])
+  }, [characterSet, children, duration, reduceMotion, speed, trigger])
 
   return (
     <Component
-      aria-label={children}
       data-slot="text-scramble"
       className={cn("font-mono", className)}
       {...props}
     >
+      <span className="sr-only">{children}</span>
       <span aria-hidden="true">{display}</span>
     </Component>
   )

@@ -60,6 +60,28 @@
       "description": "可选的缩放范围，适合在画框中展示图片时使用。"
     },
     {
+      "name": "rotate",
+      "type": "[number, number]",
+      "required": false,
+      "control": "text",
+      "description": "随滚动变化的旋转角度范围，单位为度。"
+    },
+    {
+      "name": "opacity",
+      "type": "[number, number]",
+      "required": false,
+      "control": "text",
+      "description": "随滚动变化的透明度范围。"
+    },
+    {
+      "name": "smooth",
+      "type": "boolean | SpringOptions",
+      "required": false,
+      "control": "text",
+      "defaultValue": "false",
+      "description": "是否通过弹簧跟随滚动，让图层产生柔和的拖尾感；也可传入弹簧参数。"
+    },
+    {
       "name": "container",
       "type": "RefObject<HTMLElement | null>",
       "required": false,
@@ -82,7 +104,7 @@
     },
     {
       "name": "parallax-scale",
-      "title": "深度缩放视差"
+      "title": "画框内缩放"
     }
   ],
   "files": [

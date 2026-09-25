@@ -18,6 +18,7 @@
     "selectTriggerVariants"
   ],
   "typeExports": [
+    "SelectItemProps",
     "SelectTriggerProps"
   ],
   "install": {

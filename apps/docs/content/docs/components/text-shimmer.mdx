@@ -99,19 +99,19 @@ pnpm add motion clsx tailwind-merge
 
 ### 高优先级行动按钮
 
-将 `TextShimmer` 与主要操作按钮结合，提升 AI 智能操作或会员升级入口的吸引力：
+将 `TextShimmer` 与操作按钮结合，提升 AI 操作或升级入口的吸引力。放在主按钮上时，用 `color-mix` 基于 `--primary-foreground` 派生底色与高光：
 
 <ComponentPreview name="text-shimmer-button" />
 
 ### 后台处理状态卡片
 
-在长时间的向量计算或数据检索任务中作为优雅的加载指示器：
+在多步骤的 AI 任务中，只让“正在进行”的那一步带有微光，已完成与待办步骤保持静态，层级一目了然：
 
 <ComponentPreview name="text-shimmer-card" />
 
 ### 自定义主题配色
 
-通过覆盖 `--shimmer-base` 和 `--shimmer-highlight` CSS 变量，轻松适配翡翠绿、紫罗兰、琥珀黄等多种品牌状态色：
+通过覆盖 `--shimmer-base` 和 `--shimmer-highlight` CSS 变量适配语义状态色。示例直接使用主题的 success / info / warning / destructive 令牌，并用 `color-mix` 与背景色混合出高光，亮暗模式自动适配：
 
 <ComponentPreview name="text-shimmer-colors" />
 

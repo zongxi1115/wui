@@ -1,91 +1,51 @@
 "use client"
 
 import * as React from "react"
-import { RotateCw, Sparkles } from "lucide-react"
+import { RotateCcwIcon } from "lucide-react"
 
 import { Button } from "@/registry/ui/button"
 import { TextEffect } from "@/registry/ui/text-effect"
 
-const customVariants = {
+const variants = {
   container: {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.04,
-        delayChildren: 0.1,
-      },
-    },
-    exit: {
-      opacity: 0,
-      transition: { staggerChildren: 0.02, staggerDirection: -1 },
-    },
+    hidden: {},
+    visible: { transition: { staggerChildren: 0.06, delayChildren: 0.1 } },
+    exit: { transition: { staggerChildren: 0.02, staggerDirection: -1 } },
   },
   item: {
-    hidden: {
-      opacity: 0,
-      y: 20,
-      rotateX: -45,
-      filter: "blur(6px)",
-    },
+    hidden: { opacity: 0, y: 24, rotateX: -60, filter: "blur(6px)" },
     visible: {
       opacity: 1,
       y: 0,
       rotateX: 0,
       filter: "blur(0px)",
-      transition: {
-        type: "spring" as const,
-        stiffness: 300,
-        damping: 20,
-      },
+      transition: { type: "spring" as const, stiffness: 260, damping: 20 },
     },
-    exit: {
-      opacity: 0,
-      y: -10,
-      filter: "blur(4px)",
-    },
+    exit: { opacity: 0, y: -12, filter: "blur(4px)" },
   },
 }
 
 export default function TextEffectCustomVariants() {
-  const [trigger, setTrigger] = React.useState(true)
-
-  const replay = () => {
-    setTrigger(false)
-    window.setTimeout(() => setTrigger(true), 80)
-  }
+  const [key, setKey] = React.useState(0)
 
   return (
-    <div className="flex w-full max-w-lg flex-col items-center gap-6 rounded-xl border border-border bg-card p-8 text-center shadow-xs">
-      <div className="flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
-        <Sparkles className="size-3.5" />
-        <span>Custom 3D Spring Variants</span>
-      </div>
-
-      <div className="space-y-3">
-        <TextEffect
-          as="h3"
-          per="char"
-          variants={customVariants}
-          trigger={trigger}
-          className="text-3xl font-bold tracking-tight text-foreground [perspective:1000px]"
-        >
-          Fluid 3D Spatial Typography
-        </TextEffect>
-        <p className="text-xs text-muted-foreground">
-          使用自定义 3D 旋转与弹性回弹 Variants，打造具有纵深与物理质感的入场动效。
-        </p>
-      </div>
-
-      <Button
-        type="button"
-        variant="outline"
-        size="sm"
-        onClick={replay}
-        className="gap-1.5 text-xs"
+    <div className="flex w-full max-w-lg flex-col items-center gap-6 text-center">
+      <TextEffect
+        key={key}
+        as="h3"
+        per="char"
+        variants={variants}
+        className="text-3xl font-semibold tracking-tight [perspective:800px] sm:text-4xl"
       >
-        <RotateCw className="size-3.5" />
-        重放自定义动效
+        向光而行
+      </TextEffect>
+      <p className="text-muted-foreground max-w-sm text-xs leading-5">
+        通过 variants 自定义容器编排与单字动画：3D
+        翻转、模糊对焦与弹簧回弹组合出更有纵深的入场。
+      </p>
+      <Button variant="ghost" size="sm" onClick={() => setKey((k) => k + 1)}>
+        <RotateCcwIcon />
+        重播
       </Button>
     </div>
   )

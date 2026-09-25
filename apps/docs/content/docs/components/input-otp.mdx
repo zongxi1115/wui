@@ -70,6 +70,18 @@ pnpm add clsx tailwind-merge
       description: "当所有分格全部输入填满（达到指定 `length`）时触发的回调，便于自动触发提交验证。",
     },
     {
+      prop: "mask",
+      type: "boolean",
+      default: "false",
+      description: "是否以圆点遮挡已输入的字符，适用于支付密码、二级解锁等敏感场景。",
+    },
+    {
+      prop: "invalid",
+      type: "boolean",
+      default: "false",
+      description: "标记校验失败，所有分格与激活高亮切换为危险色，并为每个输入位设置 `aria-invalid`。",
+    },
+    {
       prop: "disabled",
       type: "boolean",
       default: "false",
@@ -78,7 +90,7 @@ pnpm add clsx tailwind-merge
     {
       prop: "inputClassName",
       type: "string",
-      description: "应用于每个单格 `<input>` 元素的额外 CSS 类名，可用于自定义格尺寸与字体样式。",
+      description: "应用于每个分格容器的额外 CSS 类名，可用于自定义格尺寸与字体样式（如 `size-12 text-lg`）。",
     },
     {
       prop: "aria-label",
@@ -125,13 +137,13 @@ pnpm add clsx tailwind-merge
 
 ### 短信认证流程与倒计时
 
-真实业务中的 6 位手机短信验证弹窗，集成 60 秒倒计时重发、错误反馈与自动提交验证：
+真实业务中的 6 位手机短信验证流程，集成倒计时重发、`invalid` 错误反馈与填满后自动提交。输入时字符会轻微弹入，激活高亮在分格之间滑动，空白的激活格显示闪烁光标：
 
 <ComponentPreview name="input-otp-auth-flow" />
 
-### 4 位支付交易密码 (PIN)
+### 支付密码 (Mask)
 
-定制 `length={4}` 与更大号的高对比度输入格，适用于支付确认与二级解锁：
+开启 `mask` 后已输入的字符以圆点显示，并通过 `inputClassName` 放大输入格，适用于支付确认与二级解锁：
 
 <ComponentPreview name="input-otp-pin" />
 
@@ -148,4 +160,7 @@ pnpm add clsx tailwind-merge
   - <kbd>Backspace</kbd>：清除当前格子；若当前格已为空，光标自动回退至前一个格子并清除内容。
   - <kbd>←</kbd> / <kbd>→</kbd>：在不同分格之间平滑穿梭移动焦点。
   - <kbd>Delete</kbd>：清除当前格子内容而不移动光标。
-- **高对比度焦点环**：激活格子提供清晰明显的 `focus-visible` 环绕焦点环，确保弱视与键盘操作用户随时辨识当前光标位置。
+- **高对比度焦点环**：激活格子提供清晰的环绕焦点高亮，并在分格之间平滑移动，确保弱视与键盘操作用户随时辨识当前光标位置。
+- **顺序输入**：点击尚不能输入的靠后分格时，焦点会自动回到第一个空格，避免出现“跳格”输入。
+- **短信自动填充**：首格设置 `autoComplete="one-time-code"`，系统一次性填入的完整验证码会被自动分发到各个分格。
+- **动效降级**：字符弹入、光标闪烁与高亮滑动在 `prefers-reduced-motion` 下全部关闭。

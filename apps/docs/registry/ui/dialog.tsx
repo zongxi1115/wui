@@ -29,6 +29,8 @@ type DialogContextValue = {
   triggerRef: React.RefObject<HTMLElement | null>
   variant: "modal" | "inline"
   layoutId: string
+  /** Radix modality; a non-modal panel renders without the dimmed overlay. */
+  modal: boolean
 }
 
 const DialogContext = React.createContext<DialogContextValue | null>(null)
@@ -52,7 +54,7 @@ function Dialog({
   open: openProp,
   defaultOpen,
   onOpenChange,
-  modal,
+  modal = true,
   variant = "modal",
   children,
   ...props
@@ -87,7 +89,9 @@ function Dialog({
   )
 
   return (
-    <DialogContext.Provider value={{ open, triggerRef, variant, layoutId }}>
+    <DialogContext.Provider
+      value={{ open, triggerRef, variant, layoutId, modal: variant === "modal" && modal }}
+    >
       <LayoutGroup id={layoutId}>{root}</LayoutGroup>
     </DialogContext.Provider>
   )
@@ -106,7 +110,7 @@ function DialogTrigger(
     // shared-layout morph fires — the same pattern as the tabs indicator.
     if (open) return null
     return (
-      <div className="relative inline-block [&_[data-slot=button]]:border-transparent [&_[data-slot=button]]:bg-transparent [&_[data-slot=button]]:shadow-none">
+      <div className="relative inline-block [&_[data-slot=dialog-trigger]]:border-transparent [&_[data-slot=dialog-trigger]]:bg-transparent [&_[data-slot=dialog-trigger]]:shadow-none">
         <motion.div
           aria-hidden
           data-slot="dialog-layout-surface"
@@ -171,8 +175,24 @@ function DialogContent({
   children,
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Content>) {
-  const { open, triggerRef, variant, layoutId } = useDialogContext()
+  const { open, triggerRef, variant, layoutId, modal } = useDialogContext()
   const reduceMotion = useReducedMotion()
+
+  // The panel rests at the viewport centre (flex container below). Express the
+  // trigger's centre as an offset from there, so the panel can grow out of the
+  // button on open and shrink back into it on close.
+  const origin = React.useMemo(() => {
+    if (!open || reduceMotion || variant === "inline") return { x: 0, y: 0 }
+    const el = triggerRef.current
+    if (!el || typeof window === "undefined") return { x: 0, y: 0 }
+    const rect = el.getBoundingClientRect()
+    return {
+      x: rect.left + rect.width / 2 - window.innerWidth / 2,
+      y: rect.top + rect.height / 2 - window.innerHeight / 2,
+    }
+    // Recompute each time the panel opens.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open, reduceMotion])
 
   if (variant === "inline") {
     // Mirror of DialogTrigger: render only while open, so the panel's surface
@@ -216,22 +236,6 @@ function DialogContent({
     )
   }
 
-  // The panel rests at the viewport centre (flex container below). Express the
-  // trigger's centre as an offset from there, so the panel can grow out of the
-  // button on open and shrink back into it on close.
-  const origin = React.useMemo(() => {
-    if (!open || reduceMotion) return { x: 0, y: 0 }
-    const el = triggerRef.current
-    if (!el || typeof window === "undefined") return { x: 0, y: 0 }
-    const rect = el.getBoundingClientRect()
-    return {
-      x: rect.left + rect.width / 2 - window.innerWidth / 2,
-      y: rect.top + rect.height / 2 - window.innerHeight / 2,
-    }
-    // Recompute each time the panel opens.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open, reduceMotion])
-
   const hidden = reduceMotion
     ? { opacity: 0 }
     : { opacity: 0, scale: 0.78, x: origin.x, y: origin.y }
@@ -239,49 +243,72 @@ function DialogContent({
     ? { opacity: 1 }
     : { opacity: 1, scale: 1, x: 0, y: 0 }
 
+  const panel = (
+    <MotionContent
+      data-slot="dialog-content"
+      forceMount
+      className={cn(
+        "pointer-events-auto relative grid w-full max-w-[calc(100%-2rem)] gap-4 rounded-lg border bg-background p-6 shadow-lg sm:max-w-lg",
+        className
+      )}
+      initial={hidden}
+      animate={shown}
+      // Leave faster than we arrive: a short ease-in back towards the trigger
+      // reads as "put away" instead of a second, slower spring.
+      exit={{
+        ...hidden,
+        transition: reduceMotion
+          ? { duration: 0.12 }
+          : { duration: 0.2, ease: [0.4, 0, 1, 1] },
+      }}
+      transition={
+        reduceMotion
+          ? { duration: 0.15 }
+          : {
+              type: "spring",
+              stiffness: 440,
+              damping: 34,
+              mass: 0.65,
+              opacity: { duration: 0.16, ease: "easeOut" },
+            }
+      }
+      {...(props as unknown as React.ComponentProps<typeof MotionContent>)}
+    >
+      {children}
+      <DialogContentClose />
+    </MotionContent>
+  )
+
   return (
     <AnimatePresence>
       {open ? (
         <DialogPortal key="dialog" forceMount>
-          {/*
-            Overlay must own the content in the React tree. Radix locks page
-            scrolling from the overlay; nesting lets portalled controls inside
-            the dialog (popover, select, date picker) remain scrollable.
-          */}
-          <MotionOverlay
-            data-slot="dialog-overlay"
-            forceMount
-            className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-overlay p-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.14, ease: "easeOut" }}
-          >
-            {/*
+          {modal ? (
+            /*
+              Overlay must own the content in the React tree. Radix locks page
+              scrolling from the overlay; nesting lets portalled controls inside
+              the dialog (popover, select, date picker) remain scrollable.
               Centre with flex (not a translate on the panel) so the motion
               transform is free to drive the button→dialog morph.
-            */}
-            <MotionContent
-              data-slot="dialog-content"
+            */
+            <MotionOverlay
+              data-slot="dialog-overlay"
               forceMount
-              className={cn(
-                "relative grid w-full max-w-[calc(100%-2rem)] gap-4 rounded-lg border bg-background p-6 shadow-lg sm:max-w-lg",
-                className
-              )}
-              initial={hidden}
-              animate={shown}
-              exit={hidden}
-              transition={
-                reduceMotion
-                  ? { duration: 0.15 }
-                  : { type: "spring", stiffness: 440, damping: 34, mass: 0.65 }
-              }
-              {...(props as unknown as React.ComponentProps<typeof MotionContent>)}
+              className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-overlay p-4"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0, transition: { duration: 0.18, ease: "easeIn" } }}
+              transition={{ duration: 0.16, ease: "easeOut" }}
             >
-              {children}
-              <DialogContentClose />
-            </MotionContent>
-          </MotionOverlay>
+              {panel}
+            </MotionOverlay>
+          ) : (
+            // Radix renders no overlay for non-modal dialogs; keep the same
+            // centring without blocking the page behind.
+            <div className="pointer-events-none fixed inset-0 z-50 flex items-center justify-center p-4">
+              {panel}
+            </div>
+          )}
         </DialogPortal>
       ) : null}
     </AnimatePresence>
@@ -290,9 +317,12 @@ function DialogContent({
 
 function DialogContentClose() {
   return (
-    <DialogPrimitive.Close className="absolute right-4 top-4 rounded-xs opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4">
+    <DialogPrimitive.Close
+      data-slot="dialog-close-button"
+      className="absolute right-4 top-4 flex size-7 items-center justify-center rounded-md text-muted-foreground outline-none transition-colors hover:bg-accent hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/40 disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+    >
       <XIcon />
-      <span className="sr-only">Close</span>
+      <span className="sr-only">关闭</span>
     </DialogPrimitive.Close>
   )
 }

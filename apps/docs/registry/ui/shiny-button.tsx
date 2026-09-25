@@ -42,25 +42,23 @@ function ShinyButton({
       <span className="relative z-10 inline-flex items-center gap-2">
         {children}
       </span>
-      {reduceMotion ? null : (
-        <motion.span
-          aria-hidden
-          data-slot="shiny-button-sheen"
-          className="pointer-events-none absolute inset-y-0 w-1/2"
-          style={{
-            background:
-              "linear-gradient(120deg, transparent 20%, var(--shine) 50%, transparent 80%)",
-          }}
-          initial={{ x: "-150%" }}
-          animate={{ x: "300%" }}
-          transition={{
-            duration: speed,
-            ease: "linear",
-            repeat: Infinity,
-            repeatDelay: gap,
-          }}
-        />
-      )}
+      <motion.span
+        aria-hidden
+        data-slot="shiny-button-sheen"
+        className="pointer-events-none absolute inset-y-0 left-0 w-1/2"
+        style={{
+          background:
+            "linear-gradient(110deg, transparent 25%, var(--shine) 50%, transparent 75%)",
+        }}
+        initial={{ x: "-120%" }}
+        animate={reduceMotion ? undefined : { x: "220%" }}
+        transition={{
+          duration: speed,
+          ease: [0.45, 0, 0.25, 1],
+          repeat: Infinity,
+          repeatDelay: gap,
+        }}
+      />
     </motion.button>
   )
 }

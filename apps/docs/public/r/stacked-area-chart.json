@@ -5,7 +5,8 @@
   "title": "堆叠面积图 Stacked Area Chart",
   "description": "比较多个连续序列的累计规模或百分比构成。",
   "registryDependencies": [
-    "chart-core"
+    "chart-core",
+    "utils"
   ],
   "files": [
     {

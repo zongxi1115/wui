@@ -12,17 +12,27 @@ import {
 } from "lucide-react"
 
 import { cn } from "@/registry/lib/utils"
+import { TextShimmer } from "@/registry/ui/text-shimmer"
 
 type AiReasoningStepStatus = "pending" | "active" | "complete"
 
+const easeOut = [0.22, 1, 0.36, 1] as const
+const iconSpring = {
+  type: "spring",
+  stiffness: 520,
+  damping: 30,
+  mass: 0.6,
+} as const
+
 const AiReasoningContext = React.createContext<{
   duration?: number
+  elapsed: number
   isOpen: boolean
   isStreaming: boolean
-}>({ isOpen: false, isStreaming: false })
+}>({ elapsed: 0, isOpen: false, isStreaming: false })
 
 const aiReasoningStepVariants = cva(
-  "relative flex gap-3 pb-4 after:absolute after:left-[7.5px] after:top-5 after:bottom-0 after:w-px after:bg-border last:pb-0 last:after:hidden",
+  "relative flex gap-3 pb-4 transition-[color,opacity] duration-300 after:absolute after:left-[7.5px] after:top-5 after:bottom-0 after:w-px after:bg-border last:pb-0 last:after:hidden",
   {
     variants: {
       status: {
@@ -35,12 +45,19 @@ const aiReasoningStepVariants = cva(
   }
 )
 
+function formatSeconds(seconds: number) {
+  return Number.isInteger(seconds) ? String(seconds) : seconds.toFixed(1)
+}
+
 export interface AiReasoningProps extends React.ComponentProps<
   typeof CollapsiblePrimitive.Root
 > {
   /** Whether reasoning is still arriving. @default false */
   isStreaming?: boolean
-  /** Completed reasoning time in seconds. */
+  /**
+   * Completed reasoning time in seconds. When omitted, the component measures
+   * how long `isStreaming` stayed true and shows that instead.
+   */
   duration?: number
 }
 
@@ -58,9 +75,12 @@ function AiReasoning({
   const [internalOpen, setInternalOpen] = React.useState(
     defaultOpen || isStreaming
   )
+  const [elapsed, setElapsed] = React.useState(0)
+  const [measured, setMeasured] = React.useState<number>()
   const controlled = open !== undefined
   const resolvedOpen = controlled ? open : internalOpen
   const previousStreaming = React.useRef(isStreaming)
+  const startedAt = React.useRef<number | null>(null)
 
   React.useEffect(() => {
     if (controlled) return
@@ -69,9 +89,34 @@ function AiReasoning({
     previousStreaming.current = isStreaming
   }, [controlled, isStreaming])
 
+  React.useEffect(() => {
+    if (!isStreaming) {
+      if (startedAt.current !== null) {
+        setMeasured(
+          Math.round((performance.now() - startedAt.current) / 100) / 10
+        )
+        startedAt.current = null
+      }
+      return
+    }
+
+    const start = performance.now()
+    startedAt.current = start
+    setElapsed(0)
+    const timer = window.setInterval(() => {
+      setElapsed(Math.floor((performance.now() - start) / 1000))
+    }, 250)
+    return () => window.clearInterval(timer)
+  }, [isStreaming])
+
   return (
     <AiReasoningContext.Provider
-      value={{ duration, isOpen: resolvedOpen, isStreaming }}
+      value={{
+        duration: duration ?? measured,
+        elapsed,
+        isOpen: resolvedOpen,
+        isStreaming,
+      }}
     >
       <CollapsiblePrimitive.Root
         asChild
@@ -107,21 +152,31 @@ function AiReasoningTrigger({
   getLabel,
   ...props
 }: AiReasoningTriggerProps) {
-  const { duration, isOpen, isStreaming } = React.useContext(AiReasoningContext)
+  const { duration, elapsed, isOpen, isStreaming } =
+    React.useContext(AiReasoningContext)
   const reduceMotion = useReducedMotion()
-  const label = getLabel
-    ? getLabel(isStreaming, duration)
-    : isStreaming
-      ? "正在思考…"
-      : duration
-        ? `思考了 ${Number.isInteger(duration) ? duration : duration.toFixed(1)} 秒`
-        : "查看思考过程"
+  const label = getLabel ? (
+    getLabel(isStreaming, duration)
+  ) : isStreaming ? (
+    <span className="inline-flex items-baseline gap-1.5">
+      <TextShimmer duration={1.6}>正在思考</TextShimmer>
+      {elapsed > 0 ? (
+        <span className="text-xs tabular-nums text-muted-foreground/70">
+          {elapsed}s
+        </span>
+      ) : null}
+    </span>
+  ) : duration ? (
+    `思考了 ${formatSeconds(duration)} 秒`
+  ) : (
+    "查看思考过程"
+  )
 
   return (
     <CollapsiblePrimitive.Trigger
       data-slot="ai-reasoning-trigger"
       className={cn(
-        "text-muted-foreground hover:text-foreground focus-visible:ring-ring/35 group flex items-center gap-2 rounded-md py-1 text-sm outline-none transition-colors focus-visible:ring-[3px]",
+        "text-muted-foreground hover:text-foreground focus-visible:ring-ring/35 group relative flex items-center gap-1.5 rounded-md py-1 text-sm outline-none transition-colors focus-visible:ring-[3px]",
         className
       )}
       {...props}
@@ -130,14 +185,21 @@ function AiReasoningTrigger({
         <>
           <AnimatePresence initial={false} mode="popLayout">
             <motion.span
-              key={String(label)}
-              initial={reduceMotion ? false : { opacity: 0, y: 3 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={reduceMotion ? undefined : { opacity: 0, y: -3 }}
+              key={isStreaming ? "streaming" : "settled"}
+              className="inline-flex"
+              initial={
+                reduceMotion ? false : { opacity: 0, y: 4, filter: "blur(2px)" }
+              }
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              exit={
+                reduceMotion
+                  ? undefined
+                  : { opacity: 0, y: -4, filter: "blur(2px)" }
+              }
               transition={
                 reduceMotion
                   ? { duration: 0 }
-                  : { duration: 0.2, ease: [0.22, 1, 0.36, 1] }
+                  : { duration: 0.24, ease: easeOut }
               }
             >
               {label}
@@ -145,6 +207,7 @@ function AiReasoningTrigger({
           </AnimatePresence>
           <motion.span
             className="flex size-3.5 items-center justify-center"
+            initial={false}
             animate={{ rotate: isOpen ? 180 : 0 }}
             transition={
               reduceMotion
@@ -169,12 +232,12 @@ function AiReasoningContent({
     <CollapsiblePrimitive.Content
       data-slot="ai-reasoning-content"
       className={cn(
-        "text-muted-foreground data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:slide-out-to-top-1 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:slide-in-from-top-1 mt-2 overflow-hidden text-sm leading-6 motion-reduce:animate-none",
+        "text-muted-foreground overflow-hidden text-sm leading-6 duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down motion-reduce:animate-none",
         className
       )}
       {...props}
     >
-      <div data-slot="ai-reasoning-content-inner" className="min-w-0">
+      <div data-slot="ai-reasoning-content-inner" className="min-w-0 pt-2">
         {children}
       </div>
     </CollapsiblePrimitive.Content>
@@ -187,7 +250,7 @@ export interface AiReasoningStepProps extends Omit<
 > {
   /** Progress state for this visible reasoning summary. @default "pending" */
   status?: AiReasoningStepStatus
-  /** Short step label. */
+  /** Short step label. Plain-text labels shimmer while the step is active. */
   label?: React.ReactNode
   /** Optional supporting description. */
   description?: React.ReactNode
@@ -225,21 +288,30 @@ function AiReasoningStep({
       initial={reduceMotion ? false : { opacity: 0, y: 4, filter: "blur(2px)" }}
       animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
       transition={
-        reduceMotion
-          ? { duration: 0 }
-          : { duration: 0.28, ease: [0.22, 1, 0.36, 1] }
+        reduceMotion ? { duration: 0 } : { duration: 0.32, ease: easeOut }
       }
       {...props}
     >
       <span className="bg-background relative z-10 mt-1 flex size-4 shrink-0 items-center justify-center">
         {icon ?? (
-          <Icon
-            className={cn(
-              "size-3",
-              status === "active" && "text-info motion-safe:animate-spin",
-              status === "complete" && "text-success"
-            )}
-          />
+          <AnimatePresence initial={false} mode="popLayout">
+            <motion.span
+              key={status}
+              className="flex items-center justify-center"
+              initial={reduceMotion ? false : { opacity: 0, scale: 0.4 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={reduceMotion ? undefined : { opacity: 0, scale: 0.4 }}
+              transition={reduceMotion ? { duration: 0 } : iconSpring}
+            >
+              <Icon
+                className={cn(
+                  "size-3",
+                  status === "active" && "text-info motion-safe:animate-spin",
+                  status === "complete" && "text-success"
+                )}
+              />
+            </motion.span>
+          </AnimatePresence>
         )}
       </span>
       <div className="min-w-0 flex-1">
@@ -250,13 +322,17 @@ function AiReasoningStep({
                 data-slot="ai-reasoning-step-label"
                 className="min-w-0 font-medium"
               >
-                {label}
+                {status === "active" && typeof label === "string" ? (
+                  <TextShimmer duration={1.8}>{label}</TextShimmer>
+                ) : (
+                  label
+                )}
               </div>
             ) : null}
             {meta ? (
               <div
                 data-slot="ai-reasoning-step-meta"
-                className="text-muted-foreground shrink-0 text-xs"
+                className="text-muted-foreground shrink-0 text-xs tabular-nums"
               >
                 {meta}
               </div>

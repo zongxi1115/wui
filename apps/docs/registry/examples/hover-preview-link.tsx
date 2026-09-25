@@ -1,49 +1,40 @@
-import { ExternalLinkIcon } from "lucide-react"
-
 import { HoverPreview } from "@/registry/ui/hover-preview"
 
 export default function HoverPreviewLink() {
   return (
-    <div className="flex flex-col items-center justify-center p-8 text-center">
-      <p className="max-w-md text-base leading-relaxed text-foreground">
-        Explore our comprehensive guide on{" "}
-        <HoverPreview
-          className="inline-block"
-          previewClassName="w-72 overflow-hidden rounded-xl border bg-popover shadow-xl"
-          preview={
-            <div className="p-3 text-left">
-              <div className="aspect-video w-full overflow-hidden rounded-lg bg-muted">
-                <img
-                  src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80"
-                  alt="Micro-interactions illustration"
-                  className="h-full w-full object-cover"
-                />
-              </div>
-              <div className="mt-2.5">
-                <div className="text-xs font-semibold text-foreground">
-                  Micro-interactions in Modern Design
-                </div>
-                <p className="mt-1 text-[11px] text-muted-foreground">
-                  How physics-based springs enhance tactile feedback and user engagement.
-                </p>
-                <div className="mt-2 flex items-center justify-between text-[10px] text-muted-foreground">
-                  <span>5 min read</span>
-                  <span className="text-primary">design-system.io</span>
-                </div>
-              </div>
+    <div className="text-muted-foreground max-w-md text-sm leading-7">
+      动效的时长并不是越长越好。我们在{" "}
+      <HoverPreview
+        className="inline-block"
+        tilt={0}
+        previewClassName="bg-popover text-popover-foreground w-72 rounded-md border shadow-lg"
+        preview={
+          <div>
+            <img
+              src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80"
+              alt=""
+              className="bg-muted aspect-[2/1] w-full object-cover"
+            />
+            <div className="p-3">
+              <p className="text-sm font-medium">弹簧参数的直觉</p>
+              <p className="text-muted-foreground mt-1 text-xs leading-5">
+                把刚度、阻尼与质量当作三个旋钮，理解它们如何塑造手感。
+              </p>
+              <p className="text-muted-foreground mt-2 text-xs">
+                设计笔记 · 9 分钟阅读
+              </p>
             </div>
-          }
+          </div>
+        }
+      >
+        <a
+          href="#"
+          className="text-foreground decoration-muted-foreground/40 hover:decoration-foreground font-medium underline underline-offset-4 transition-colors"
         >
-          <a
-            href="#article"
-            className="inline-flex items-center gap-0.5 font-semibold text-primary underline underline-offset-4"
-          >
-            physics-based micro-interactions
-            <ExternalLinkIcon className="size-3.5" />
-          </a>
-        </HoverPreview>{" "}
-        to elevate your application feel.
-      </p>
+          弹簧参数的直觉
+        </a>
+      </HoverPreview>{" "}
+      一文中比较了三种曲线，结论是：界面内的小变化控制在 200ms 左右，用户感知最自然。
     </div>
   )
 }

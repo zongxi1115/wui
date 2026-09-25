@@ -1,9 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { SparklesIcon } from "lucide-react"
 
-import { Badge } from "@/registry/ui/badge"
 import { Parallax } from "@/registry/ui/parallax"
 
 export default function ParallaxScale() {
@@ -12,44 +10,42 @@ export default function ParallaxScale() {
   return (
     <div
       ref={container}
-      className="relative h-96 w-full max-w-xl overflow-y-auto rounded-2xl border bg-card p-6 shadow-md [scrollbar-width:thin]"
+      className="h-[26rem] w-full overflow-y-auto rounded-b-lg"
     >
-      <div className="mb-4">
-        <Badge variant="outline" className="text-xs">
-          <SparklesIcon className="mr-1 size-3 text-primary" />
-          Depth Scaling
-        </Badge>
-        <h3 className="mt-2 text-lg font-semibold text-foreground">
-          Scroll Inside Frame
+      <div className="mx-auto max-w-xl px-6 py-24">
+        <p className="text-muted-foreground text-sm">建筑档案 · No. 17</p>
+        <h3 className="mt-2 text-2xl font-semibold tracking-tight">
+          光线落在混凝土上
         </h3>
-        <p className="text-xs text-muted-foreground">
-          The image subtly scales from 1.0 to 1.2 while shifting vertically.
-        </p>
-      </div>
 
-      <div className="relative h-64 overflow-hidden rounded-xl border bg-muted">
+        <div className="bg-muted relative mt-6 aspect-[4/3] overflow-hidden rounded-lg">
+          <Parallax
+            container={container}
+            distance={[-16, 16]}
+            scale={[1.3, 1.12]}
+            smooth
+            className="size-full"
+          >
+            <img
+              src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=1200&q=80"
+              alt="白色建筑立面"
+              className="size-full object-cover"
+            />
+          </Parallax>
+        </div>
+
         <Parallax
           container={container}
-          distance={[-40, 40]}
-          scale={[1.0, 1.25]}
-          className="size-full"
+          distance={[24, 0]}
+          opacity={[0, 1]}
+          offset={["start end", "center center"]}
         >
-          <img
-            src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1000&q=80"
-            alt="Scenic valley"
-            className="size-full object-cover"
-          />
+          <p className="text-muted-foreground mt-6 text-sm leading-7">
+            图片在画框内由 1.3 倍逐渐缩小，同时以慢于页面的速度移动；说明文字随后淡入。画框本身保持静止，
+            视差只发生在裁切区域内部，不会影响页面布局。
+          </p>
         </Parallax>
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-        <div className="absolute bottom-4 left-4 text-white">
-          <span className="text-xs font-mono uppercase tracking-widest text-white/70">
-            Yosemite Valley
-          </span>
-          <h4 className="text-base font-semibold">Morning Mist & Granite Peaks</h4>
-        </div>
       </div>
-
-      <div className="h-48" />
     </div>
   )
 }

@@ -1,12 +1,12 @@
 ---
 title: 看板 Kanban
-description: 用于敏捷项目管理、需求流转与线索阶段跟踪的可组合看板组件，内置 HTML5 原生拖拽流转与悬停响应。
+description: 用于敏捷项目管理、需求流转与线索阶段跟踪的可组合看板组件，支持跨列拖拽、列内排序、键盘移动与布局过渡动画。
 component: kanban
 ---
 
 ## 基础用法
 
-包含待规划、进行中与已完成三列的基础拖拽看板：
+包含待规划、进行中与已完成三列的基础看板。拖动卡片时目标列高亮，插入线跟随指针滑动；放下后卡片以弹簧动画滑入新位置，列计数上下滚动。点击列头的 + 可新建卡片：
 
 <ComponentPreview name="kanban-demo" />
 
@@ -21,7 +21,7 @@ component: kanban
 <Step>安装基础依赖与图标库</Step>
 
 ```bash
-pnpm add lucide-react clsx tailwind-merge
+pnpm add motion lucide-react clsx tailwind-merge
 ```
 
 <Step>复制组件源码到 `components/ui/kanban.tsx`</Step>
@@ -40,8 +40,8 @@ pnpm add lucide-react clsx tailwind-merge
   data={[
     {
       prop: "onMove",
-      type: "(move: { itemId: string; from: string; to: string }) => void",
-      description: "当卡片被成功拖放到目标新列时触发的回调函数。",
+      type: "(move: { itemId: string; from: string; to: string; index: number }) => void",
+      description: "卡片通过拖拽或键盘移动到新位置时触发。index 为卡片在目标列中的最终位置（已排除卡片自身）；from 与 to 相同表示列内排序。",
     },
     {
       prop: "className",
@@ -85,7 +85,7 @@ pnpm add lucide-react clsx tailwind-merge
       prop: "draggable",
       type: "boolean",
       default: "true",
-      description: "是否允许对该卡片进行鼠标拖拽。",
+      description: "是否允许拖拽与键盘移动该卡片。",
     },
     {
       prop: "className",
@@ -114,14 +114,50 @@ pnpm add lucide-react clsx tailwind-merge
   ]}
 />
 
+### moveKanbanItem
+
+把 `onMove` 的结果应用到按列分组的状态上，同时处理跨列移动与列内排序：
+
+```tsx
+const [board, setBoard] = React.useState<Record<string, Task[]>>(initial)
+
+<Kanban
+  onMove={(move) =>
+    setBoard((current) => moveKanbanItem(current, move, (task) => task.id))
+  }
+>
+  {/* ... */}
+</Kanban>
+```
+
+<PropsTable
+  data={[
+    {
+      prop: "columns",
+      type: "Record<string, T[]>",
+      description: "以列 value 为键的卡片数组。",
+    },
+    {
+      prop: "move",
+      type: "KanbanMove",
+      description: "onMove 回调收到的移动信息。",
+    },
+    {
+      prop: "getId",
+      type: "(item: T) => string",
+      description: "返回卡片唯一标识，需与 KanbanCard 的 value 一致。",
+    },
+  ]}
+/>
+
 ## 事件 Events
 
 <PropsTable
   data={[
     {
       prop: "onMove",
-      type: "({ itemId: string, from: string, to: string }) => void",
-      description: "卡片跨列放下（Drop）时触发。业务层应在回调中更新本地状态或调用后端流转 API。",
+      type: "({ itemId: string, from: string, to: string, index: number }) => void",
+      description: "卡片跨列放下或列内排序时触发，键盘移动时每一步都会触发。业务层应在回调中更新本地状态或调用后端流转 API，可直接使用 moveKanbanItem。",
     },
     {
       prop: "onDragStart",
@@ -148,12 +184,15 @@ pnpm add lucide-react clsx tailwind-merge
 
 ### 敏捷开发 Sprint 任务流转板
 
-包含 4 个流转阶段、优先级色块、任务标签、故事点与负责人头像：
+包含 4 个流转阶段、优先级、任务标签、故事点与负责人头像。「开发中」与「代码评审」设置了 WIP 上限，超出时计数变为警示色；顶部汇总故事点会随拖拽实时更新：
 
 <ComponentPreview name="kanban-project-board" />
 
 ## 无障碍与交互 Accessibility
 
 - **语义分块**：每个 `KanbanColumn` 渲染为 `<section>`，卡片渲染为 `<article>`，列头渲染为 `<header>`。
-- **抓手手势指示**：当卡片处于可拖拽状态时，指针自动变为 `cursor-grab`，拖拽时变为 `cursor-grabbing`，右上角在 Hover 时自动展示抓手图标。
-- **拖拽高亮提示**：当卡片被拖动悬停在目标列上方时，目标列会自动添加 `data-over="true"` 并在边框和背景上应用激活的高亮微动效。
+- **键盘移动**：卡片可通过 <kbd>Tab</kbd> 聚焦，按 <kbd>Space</kbd> 或 <kbd>Enter</kbd> 拿起；拿起后 <kbd>↑</kbd> <kbd>↓</kbd> 在列内排序，<kbd>←</kbd> <kbd>→</kbd> 移动到相邻列，再次按 <kbd>Space</kbd> 放下，<kbd>Esc</kbd> 回到拿起前的位置。卡片跨列后焦点会自动跟随。
+- **读屏播报**：卡片带有 `aria-roledescription="可拖拽卡片"` 与操作说明，拿起、移动、放下时通过 `aria-live` 区域播报目标列名称与位置。
+- **抓手手势指示**：可拖拽卡片的指针为 `cursor-grab`，拖动中为 `cursor-grabbing`，悬停或键盘聚焦时右上角显示抓手图标。
+- **拖拽反馈**：拖动中原卡片变为虚线占位，目标列添加 `data-over="true"` 并高亮边框与背景，插入线以弹簧动画指示放置位置。
+- **动效降级**：开启“减少动态效果”时，布局过渡、计数滚动与插入线动画均直接跳到终点。

@@ -1,97 +1,80 @@
-"use client"
-
-import * as React from "react"
 import type { Variants } from "motion/react"
 
 import { TextLoop } from "@/registry/ui/text-loop"
 
-const horizontalSlideVariants: Variants = {
-  initial: { x: 24, opacity: 0 },
+const slideVariants: Variants = {
+  initial: { x: 20, opacity: 0 },
   animate: { x: 0, opacity: 1 },
-  exit: { x: -24, opacity: 0 },
+  exit: { x: -20, opacity: 0 },
 }
 
-const flip3DVariants: Variants = {
+const flipVariants: Variants = {
   initial: { rotateX: 90, opacity: 0 },
   animate: { rotateX: 0, opacity: 1 },
   exit: { rotateX: -90, opacity: 0 },
 }
 
-const scaleFadeVariants: Variants = {
-  initial: { scale: 0.8, opacity: 0, filter: "blur(4px)" },
+const focusVariants: Variants = {
+  initial: { scale: 0.85, opacity: 0, filter: "blur(6px)" },
   animate: { scale: 1, opacity: 1, filter: "blur(0px)" },
-  exit: { scale: 1.15, opacity: 0, filter: "blur(4px)" },
+  exit: { scale: 1.1, opacity: 0, filter: "blur(6px)" },
 }
 
 export default function TextLoopCustomTransitions() {
   return (
-    <div className="flex w-full max-w-xl flex-col gap-6 rounded-xl border border-border bg-card p-6 shadow-xs">
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        {/* Horizontal Slide */}
-        <div className="flex flex-col items-center justify-center rounded-lg border border-border bg-muted/20 p-4 text-center">
-          <span className="text-[11px] font-semibold text-muted-foreground uppercase">
-            横向推入 (Horizontal Slide)
-          </span>
-          <div className="mt-3 text-base font-semibold text-foreground">
-            Save{" "}
-            <TextLoop
-              interval={2}
-              variants={horizontalSlideVariants}
-              transition={{ duration: 0.3, ease: "easeOut" }}
-              className="text-primary font-bold"
-            >
-              {[
-                <span key="time">Time</span>,
-                <span key="money">Cost</span>,
-                <span key="effort">Effort</span>,
-              ]}
-            </TextLoop>
-          </div>
-        </div>
-
-        {/* 3D Flip */}
-        <div className="flex flex-col items-center justify-center rounded-lg border border-border bg-muted/20 p-4 text-center [perspective:600px]">
-          <span className="text-[11px] font-semibold text-muted-foreground uppercase">
-            3D 翻转 (3D Flip)
-          </span>
-          <div className="mt-3 text-base font-semibold text-foreground">
-            Deploy to{" "}
-            <TextLoop
-              interval={2.2}
-              variants={flip3DVariants}
-              transition={{ type: "spring", stiffness: 350, damping: 25 }}
-              className="text-emerald-500 font-bold"
-            >
-              {[
-                <span key="aws">AWS</span>,
-                <span key="vercel">Vercel</span>,
-                <span key="cloudflare">Cloudflare</span>,
-              ]}
-            </TextLoop>
-          </div>
-        </div>
-
-        {/* Scale Fade */}
-        <div className="flex flex-col items-center justify-center rounded-lg border border-border bg-muted/20 p-4 text-center">
-          <span className="text-[11px] font-semibold text-muted-foreground uppercase">
-            缩放对焦 (Scale Fade)
-          </span>
-          <div className="mt-3 text-base font-semibold text-foreground">
-            Mode:{" "}
-            <TextLoop
-              interval={2.4}
-              variants={scaleFadeVariants}
-              className="text-amber-500 font-bold"
-            >
-              {[
-                <span key="dev">Developer</span>,
-                <span key="team">Team</span>,
-                <span key="ent">Enterprise</span>,
-              ]}
-            </TextLoop>
-          </div>
-        </div>
-      </div>
+    <div className="w-full max-w-md divide-y border-y text-lg font-semibold tracking-tight">
+      <p className="flex items-baseline justify-between gap-4 py-4">
+        <span className="text-muted-foreground text-xs font-normal">横向推入</span>
+        <span>
+          节省
+          <TextLoop
+            interval={2}
+            variants={slideVariants}
+            className="text-muted-foreground ml-1"
+          >
+            {[
+              <span key="time">时间</span>,
+              <span key="cost">成本</span>,
+              <span key="effort">人力</span>,
+            ]}
+          </TextLoop>
+        </span>
+      </p>
+      <p className="flex items-baseline justify-between gap-4 py-4 [perspective:600px]">
+        <span className="text-muted-foreground text-xs font-normal">3D 翻转</span>
+        <span>
+          部署到
+          <TextLoop
+            interval={2.2}
+            variants={flipVariants}
+            transition={{ type: "spring", stiffness: 320, damping: 24 }}
+            className="text-muted-foreground ml-1"
+          >
+            {[
+              <span key="beijing">华北</span>,
+              <span key="shanghai">华东</span>,
+              <span key="shenzhen">华南</span>,
+            ]}
+          </TextLoop>
+        </span>
+      </p>
+      <p className="flex items-baseline justify-between gap-4 py-4">
+        <span className="text-muted-foreground text-xs font-normal">缩放对焦</span>
+        <span>
+          当前方案：
+          <TextLoop
+            interval={2.4}
+            variants={focusVariants}
+            className="text-muted-foreground"
+          >
+            {[
+              <span key="free">个人版</span>,
+              <span key="team">团队版</span>,
+              <span key="ent">企业版</span>,
+            ]}
+          </TextLoop>
+        </span>
+      </p>
     </div>
   )
 }

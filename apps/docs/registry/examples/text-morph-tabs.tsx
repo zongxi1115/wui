@@ -3,50 +3,36 @@
 import * as React from "react"
 
 import { TextMorph } from "@/registry/ui/text-morph"
+import { ToggleGroup, ToggleGroupItem } from "@/registry/ui/toggle-group"
 
-const tabs = [
-  { id: "all", label: "All Tasks (24)" },
-  { id: "active", label: "In Progress (14)" },
-  { id: "review", label: "Under Review (6)" },
-  { id: "done", label: "Completed (4)" },
+const filters = [
+  { id: "all", label: "全部", summary: "共 24 个任务" },
+  { id: "active", label: "进行中", summary: "14 个任务进行中" },
+  { id: "review", label: "待评审", summary: "6 个任务待评审" },
+  { id: "done", label: "已完成", summary: "4 个任务已完成" },
 ]
 
 export default function TextMorphTabs() {
-  const [activeTab, setActiveTab] = React.useState("all")
+  const [active, setActive] = React.useState("all")
+  const current = filters.find((filter) => filter.id === active)
 
   return (
-    <div className="flex w-full max-w-lg flex-col gap-5 rounded-xl border border-border bg-card p-6 shadow-xs">
-      <div className="flex items-center justify-between border-b border-border pb-3">
-        <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-          任务看板分段筛选器
-        </span>
-        <span className="text-xs text-muted-foreground">
-          当前选中:{" "}
-          <TextMorph as="span" className="font-semibold text-foreground">
-            {tabs.find((t) => t.id === activeTab)?.label ?? ""}
-          </TextMorph>
-        </span>
-      </div>
-
-      <div className="flex flex-wrap gap-1.5 rounded-lg bg-muted/40 p-1">
-        {tabs.map((tab) => {
-          const isSelected = activeTab === tab.id
-          return (
-            <button
-              key={tab.id}
-              type="button"
-              onClick={() => setActiveTab(tab.id)}
-              className={`relative rounded-md px-3 py-1.5 text-xs font-medium transition-colors ${
-                isSelected
-                  ? "bg-card text-foreground shadow-xs"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              <TextMorph as="span">{tab.label}</TextMorph>
-            </button>
-          )
-        })}
-      </div>
+    <div className="flex w-full max-w-md flex-col items-center gap-4">
+      <ToggleGroup
+        type="single"
+        value={active}
+        onValueChange={(value) => value && setActive(value)}
+        aria-label="任务筛选"
+      >
+        {filters.map((filter) => (
+          <ToggleGroupItem key={filter.id} value={filter.id}>
+            {filter.label}
+          </ToggleGroupItem>
+        ))}
+      </ToggleGroup>
+      <TextMorph as="p" className="text-muted-foreground text-sm">
+        {current?.summary ?? ""}
+      </TextMorph>
     </div>
   )
 }

@@ -6,7 +6,7 @@ component: descriptions
 
 ## 基础用法
 
-最基础的描述列表用法。使用 `Descriptions` 容器配合 `DescriptionsItem` 声明标签与对应内容：
+最基础的描述列表用法。使用 `Descriptions` 容器配合 `DescriptionsItem` 声明标签与对应内容；默认无边框样式下标签与标题左对齐，适合嵌入详情页正文：
 
 <ComponentPreview name="descriptions-demo" />
 
@@ -101,7 +101,7 @@ pnpm add clsx tailwind-merge
       prop: "span",
       type: "1 | 2 | 3 | 4",
       default: "1",
-      description: "该数据项在当前行中所占据的列宽跨度（不能大于外层 Descriptions 的 columns）。",
+      description: "该数据项在当前行中所占据的列宽跨度（超过外层 columns 时按 columns 计算）。一行未排满时，该行最后一项会自动延展占满剩余列，边框网格保持完整。",
     },
     {
       prop: "labelClassName",
@@ -152,7 +152,7 @@ pnpm add clsx tailwind-merge
 
 ### 带边框多列详情（实例档案）
 
-在服务器或设备档案详情中，使用 `bordered` 模式搭配 `span` 跨列合并，结合 `Badge` 与复制按钮丰富信息呈现：
+在服务器或设备档案详情中，使用 `bordered` 模式搭配 `span` 跨列合并，结合 `Badge` 与复制按钮丰富信息呈现。最后一行只有一项时会自动延展占满整行：
 
 <ComponentPreview name="descriptions-bordered" />
 

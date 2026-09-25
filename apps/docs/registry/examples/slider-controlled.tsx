@@ -1,49 +1,48 @@
 "use client"
 
 import * as React from "react"
+
+import { Button } from "@/registry/ui/button"
 import { Slider } from "@/registry/ui/slider"
 
-export default function SliderControlled() {
-  const [value, setValue] = React.useState([45])
+const presets = [75, 100, 125, 150]
 
-  const presets = [0, 25, 50, 75, 100]
+export default function SliderControlled() {
+  const [value, setValue] = React.useState([100])
 
   return (
-    <div className="w-full max-w-sm space-y-4">
+    <div className="grid w-full max-w-sm gap-4">
       <div className="flex items-center justify-between">
-        <label htmlFor="ctrl-slider" className="text-sm font-medium">
-          屏幕缩放比例
-        </label>
-        <span className="rounded bg-muted px-2 py-0.5 font-mono text-xs font-semibold tabular-nums text-foreground">
-          {value[0]}%
+        <span id="display-scale-label" className="text-sm font-medium">
+          界面缩放
         </span>
+        <span className="text-muted-foreground text-sm tabular-nums">{value[0]}%</span>
       </div>
 
       <Slider
-        id="ctrl-slider"
+        aria-labelledby="display-scale-label"
         value={value}
         onValueChange={setValue}
-        min={0}
-        max={100}
-        step={1}
-        formatValue={(val) => `${val}%`}
+        min={50}
+        max={200}
+        step={5}
+        marks={presets}
+        formatValue={(current) => `${current}%`}
       />
 
-      <div className="flex items-center gap-1.5 pt-1">
-        <span className="text-xs text-muted-foreground mr-1">快速预设:</span>
+      <div className="flex items-center gap-1">
+        <span className="text-muted-foreground mr-auto text-xs">快速设置</span>
         {presets.map((preset) => (
-          <button
+          <Button
             key={preset}
-            type="button"
+            size="sm"
+            variant={value[0] === preset ? "secondary" : "ghost"}
+            aria-pressed={value[0] === preset}
+            className="h-7 px-2 text-xs tabular-nums"
             onClick={() => setValue([preset])}
-            className={`rounded px-2 py-1 text-xs transition-colors ${
-              value[0] === preset
-                ? "bg-primary text-primary-foreground font-medium"
-                : "border border-border bg-background hover:bg-muted"
-            }`}
           >
             {preset}%
-          </button>
+          </Button>
         ))}
       </div>
     </div>

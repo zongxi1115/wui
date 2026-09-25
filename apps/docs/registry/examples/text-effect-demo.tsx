@@ -1,53 +1,38 @@
 "use client"
 
 import * as React from "react"
-import { RotateCw } from "lucide-react"
+import { RotateCcwIcon } from "lucide-react"
 
 import { Button } from "@/registry/ui/button"
 import { TextEffect } from "@/registry/ui/text-effect"
 
 export default function TextEffectDemo() {
-  const [trigger, setTrigger] = React.useState(true)
-
-  function replay() {
-    setTrigger(false)
-    window.setTimeout(() => setTrigger(true), 100)
-  }
+  const [key, setKey] = React.useState(0)
 
   return (
-    <div className="flex w-full max-w-md flex-col items-center justify-center gap-6 rounded-xl border border-border bg-card p-8 text-center shadow-xs">
-      <div className="space-y-2">
+    <div className="flex w-full max-w-md flex-col items-center gap-6 text-center">
+      <div key={key} className="space-y-3">
         <TextEffect
           as="h3"
           per="char"
           preset="fade-in-blur"
-          trigger={trigger}
-          className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
+          className="text-2xl font-semibold tracking-tight sm:text-3xl"
         >
-          Crafted with Motion
+          让每一次发布都从容不迫
         </TextEffect>
         <TextEffect
-          as="p"
           per="word"
           preset="fade"
-          delay={0.3}
-          trigger={trigger}
-          className="text-sm leading-relaxed text-muted-foreground"
+          delay={0.45}
+          speedReveal={3}
+          className="text-muted-foreground text-sm leading-6"
         >
-          Elevate typography with progressive entrance animations that engage
-          users seamlessly.
+          自动化测试、灰度发布与一键回滚，帮助团队在工作日的任何时刻安心上线。
         </TextEffect>
       </div>
-
-      <Button
-        type="button"
-        variant="outline"
-        size="sm"
-        onClick={replay}
-        className="gap-1.5 text-xs font-medium"
-      >
-        <RotateCw className="size-3.5" />
-        重新播放 Replay
+      <Button variant="ghost" size="sm" onClick={() => setKey((k) => k + 1)}>
+        <RotateCcwIcon />
+        重播
       </Button>
     </div>
   )

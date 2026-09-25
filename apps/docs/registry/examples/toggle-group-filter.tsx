@@ -1,76 +1,63 @@
 "use client"
 
 import * as React from "react"
-import { FilterIcon } from "lucide-react"
 
+import { Button } from "@/registry/ui/button"
 import { ToggleGroup, ToggleGroupItem } from "@/registry/ui/toggle-group"
-import { Badge } from "@/registry/ui/badge"
+
+const statuses = [
+  { value: "pending", label: "待处理", count: 12 },
+  { value: "in_progress", label: "处理中", count: 5 },
+  { value: "review", label: "待复核", count: 3 },
+  { value: "resolved", label: "已解决", count: 28 },
+]
 
 export default function ToggleGroupFilter() {
-  const [selectedStatus, setSelectedStatus] = React.useState<string[]>([
+  const [selected, setSelected] = React.useState<string[]>([
     "pending",
     "in_progress",
   ])
 
-  return (
-    <div className="bg-background w-full max-w-lg rounded-xl border p-4 shadow-xs">
-      <div className="mb-3 flex items-center justify-between">
-        <div className="flex items-center gap-1.5 text-xs font-semibold text-foreground">
-          <FilterIcon className="size-3.5 text-primary" />
-          <span>工单状态多维筛选</span>
-        </div>
-        <button
-          type="button"
-          onClick={() => setSelectedStatus([])}
-          className="text-muted-foreground hover:text-foreground text-xs"
-        >
-          重置筛选
-        </button>
-      </div>
+  const total = statuses
+    .filter((item) => selected.length === 0 || selected.includes(item.value))
+    .reduce((sum, item) => sum + item.count, 0)
 
+  return (
+    <div className="flex w-full max-w-lg flex-col gap-3">
       <ToggleGroup
         type="multiple"
-        value={selectedStatus}
-        onValueChange={setSelectedStatus}
         variant="outline"
+        size="sm"
+        value={selected}
+        onValueChange={setSelected}
+        aria-label="按工单状态筛选"
         className="flex-wrap"
-        aria-label="工单状态多选"
       >
-        <ToggleGroupItem value="pending" className="gap-2">
-          <span>待处理</span>
-          <Badge variant="secondary" className="px-1.5 py-0 text-[10px]">
-            12
-          </Badge>
-        </ToggleGroupItem>
-
-        <ToggleGroupItem value="in_progress" className="gap-2">
-          <span>处理中</span>
-          <Badge variant="secondary" className="px-1.5 py-0 text-[10px]">
-            5
-          </Badge>
-        </ToggleGroupItem>
-
-        <ToggleGroupItem value="review" className="gap-2">
-          <span>待复核</span>
-          <Badge variant="secondary" className="px-1.5 py-0 text-[10px]">
-            3
-          </Badge>
-        </ToggleGroupItem>
-
-        <ToggleGroupItem value="resolved" className="gap-2">
-          <span>已解决</span>
-          <Badge variant="secondary" className="px-1.5 py-0 text-[10px]">
-            28
-          </Badge>
-        </ToggleGroupItem>
+        {statuses.map((item) => (
+          <ToggleGroupItem key={item.value} value={item.value} className="px-3">
+            {item.label}
+            <span className="text-muted-foreground font-mono text-xs tabular-nums">
+              {item.count}
+            </span>
+          </ToggleGroupItem>
+        ))}
       </ToggleGroup>
 
-      <p className="text-muted-foreground mt-3 text-xs">
-        已选筛选项：
-        <span className="font-mono text-foreground ml-1">
-          {selectedStatus.length ? selectedStatus.join(", ") : "全部状态（无筛选）"}
+      <div className="text-muted-foreground flex items-center justify-between text-xs">
+        <span>
+          {selected.length === 0 ? "全部状态" : `已选 ${selected.length} 个状态`}
+          ，共 <span className="text-foreground font-medium tabular-nums">{total}</span> 条工单
         </span>
-      </p>
+        <Button
+          variant="ghost"
+          size="sm"
+          className="h-7 px-2 text-xs"
+          disabled={selected.length === 0}
+          onClick={() => setSelected([])}
+        >
+          清除筛选
+        </Button>
+      </div>
     </div>
   )
 }

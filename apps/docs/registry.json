@@ -24,7 +24,7 @@
       "title": "AI 输入框 AI Prompt",
       "description": "支持提及、模型选择、附件、引用和可选能力的组合式 AI 输入框。",
       "categories": ["ai"],
-      "dependencies": ["class-variance-authority", "lucide-react"],
+      "dependencies": ["class-variance-authority", "lucide-react", "motion"],
       "registryDependencies": [
         "utils",
         "button",
@@ -45,7 +45,7 @@
       "title": "AI 对话 AI Chat",
       "description": "可组合的 AI 消息、滚动容器与提示输入框。",
       "categories": ["ai"],
-      "dependencies": ["class-variance-authority", "lucide-react"],
+      "dependencies": ["class-variance-authority", "lucide-react", "motion"],
       "registryDependencies": ["utils", "button", "avatar", "ai-prompt"],
       "files": [
         {
@@ -75,7 +75,12 @@
       "title": "AI 工具调用 AI Tool",
       "description": "展示 AI 工具的执行状态、参数、结果与错误。",
       "categories": ["ai"],
-      "dependencies": ["radix-ui", "class-variance-authority", "lucide-react"],
+      "dependencies": [
+        "radix-ui",
+        "class-variance-authority",
+        "lucide-react",
+        "motion"
+      ],
       "registryDependencies": ["utils"],
       "files": [
         {
@@ -90,7 +95,7 @@
       "title": "AI 任务清单 AI Todo",
       "description": "展示 Agent 计划、执行进度与任务说明。",
       "categories": ["ai"],
-      "dependencies": ["class-variance-authority", "lucide-react"],
+      "dependencies": ["class-variance-authority", "lucide-react", "motion"],
       "registryDependencies": ["utils"],
       "files": [
         {
@@ -121,7 +126,7 @@
       "description": "将 CommonMark 与 GFM 文本解析为可组合、带默认样式的 React 内容。",
       "categories": ["data-display", "ai"],
       "dependencies": ["react-markdown", "remark-gfm"],
-      "registryDependencies": ["utils", "ai-stream"],
+      "registryDependencies": ["utils", "ai-stream", "code-block"],
       "files": [
         {
           "path": "registry/ui/markdown.tsx",
@@ -154,7 +159,7 @@
         "lucide-react",
         "motion"
       ],
-      "registryDependencies": ["utils", "ai-stream"],
+      "registryDependencies": ["utils", "ai-stream", "text-shimmer"],
       "files": [
         {
           "path": "registry/ui/ai-reasoning.tsx",
@@ -168,11 +173,7 @@
       "title": "AI 生成物 AI Artifact",
       "description": "类似 Claude Artifacts 的侧边与分屏工作区容器，支持代码与实时预览无缝切换。",
       "categories": ["ai"],
-      "dependencies": [
-        "class-variance-authority",
-        "lucide-react",
-        "motion"
-      ],
+      "dependencies": ["class-variance-authority", "lucide-react", "motion"],
       "registryDependencies": ["utils", "badge", "button"],
       "files": [
         {
@@ -187,12 +188,7 @@
       "title": "AI 来源引用 AI Sources",
       "description": "用于展示 AI 联网检索或 RAG 知识库问答参考来源的折叠卡片组与行内悬停角标。",
       "categories": ["ai"],
-      "dependencies": [
-        "radix-ui",
-        "class-variance-authority",
-        "lucide-react",
-        "motion"
-      ],
+      "dependencies": ["radix-ui", "class-variance-authority", "lucide-react"],
       "registryDependencies": ["utils"],
       "files": [
         {
@@ -207,11 +203,7 @@
       "title": "AI 消息操作 AI Message Actions",
       "description": "用于 AI 回答底部的标准化快捷操作栏，包含反馈评价、分支版本切换、一键复制与重新生成。",
       "categories": ["ai"],
-      "dependencies": [
-        "class-variance-authority",
-        "lucide-react",
-        "motion"
-      ],
+      "dependencies": ["class-variance-authority", "lucide-react", "motion"],
       "registryDependencies": ["utils"],
       "files": [
         {
@@ -226,10 +218,7 @@
       "title": "AI 语音波形 AI Voice Visualizer",
       "description": "专用于实时语音对话模式的动态音频声浪与状态光环。",
       "categories": ["ai"],
-      "dependencies": [
-        "class-variance-authority",
-        "motion"
-      ],
+      "dependencies": ["class-variance-authority", "motion"],
       "registryDependencies": ["utils"],
       "files": [
         {
@@ -244,11 +233,8 @@
       "title": "AI 快捷提问建议 AI Prompt Suggestions",
       "description": "用于新对话启动页、空状态或输入框上方的引导式提问卡片与预设 Prompt 标签。",
       "categories": ["ai"],
-      "dependencies": [
-        "class-variance-authority",
-        "lucide-react"
-      ],
-      "registryDependencies": ["utils", "badge"],
+      "dependencies": ["class-variance-authority", "lucide-react"],
+      "registryDependencies": ["utils"],
       "files": [
         {
           "path": "registry/ui/ai-prompt-suggestions.tsx",
@@ -265,7 +251,8 @@
       "dependencies": [
         "radix-ui",
         "class-variance-authority",
-        "lucide-react"
+        "lucide-react",
+        "motion"
       ],
       "registryDependencies": ["utils"],
       "files": [
@@ -308,7 +295,7 @@
       "type": "registry:ui",
       "title": "气泡 Bubble",
       "description": "可组合头像、署名、正文、时间与操作区的通用消息气泡。",
-      "dependencies": ["class-variance-authority"],
+      "dependencies": ["class-variance-authority", "motion"],
       "registryDependencies": ["utils"],
       "files": [
         {
@@ -322,8 +309,8 @@
       "type": "registry:ui",
       "title": "工具栏 Toolbar",
       "description": "为一组紧凑操作提供排列、分组与方向键导航，并复用现有按钮外观。",
-      "dependencies": ["radix-ui"],
-      "registryDependencies": ["utils"],
+      "dependencies": ["radix-ui", "class-variance-authority"],
+      "registryDependencies": ["utils", "toggle", "toggle-group"],
       "files": [
         {
           "path": "registry/ui/toolbar.tsx",
@@ -352,7 +339,7 @@
       "title": "折线图 Line Chart",
       "description": "展示有序数据趋势，并支持多序列比较与键盘浏览。",
       "categories": ["charts", "trend"],
-      "registryDependencies": ["chart-core"],
+      "registryDependencies": ["chart-core", "utils"],
       "files": [
         {
           "path": "registry/charts/line-chart.tsx",
@@ -382,7 +369,7 @@
       "title": "时间序列图 Time Series Chart",
       "description": "按真实时间间隔绘制趋势，并支持线性或对数数值轴。",
       "categories": ["charts", "trend"],
-      "registryDependencies": ["chart-core"],
+      "registryDependencies": ["chart-core", "utils"],
       "files": [
         {
           "path": "registry/charts/time-series-chart.tsx",
@@ -397,7 +384,7 @@
       "title": "堆叠面积图 Stacked Area Chart",
       "description": "比较多个连续序列的累计规模或百分比构成。",
       "categories": ["charts", "trend", "composition"],
-      "registryDependencies": ["chart-core"],
+      "registryDependencies": ["chart-core", "utils"],
       "files": [
         {
           "path": "registry/charts/stacked-area-chart.tsx",
@@ -412,7 +399,7 @@
       "title": "条形图 Bar Chart",
       "description": "从零基线比较分类数值，并支持分组序列与精确标签。",
       "categories": ["charts", "comparison"],
-      "registryDependencies": ["chart-core"],
+      "registryDependencies": ["chart-core", "utils"],
       "files": [
         {
           "path": "registry/charts/bar-chart.tsx",
@@ -442,7 +429,7 @@
       "title": "堆叠条形图 Stacked Bar Chart",
       "description": "支持纵向、横向、绝对值与百分比堆叠的分类比较。",
       "categories": ["charts", "comparison", "composition"],
-      "registryDependencies": ["chart-core"],
+      "registryDependencies": ["chart-core", "utils"],
       "files": [
         {
           "path": "registry/charts/stacked-bar-chart.tsx",
@@ -457,7 +444,7 @@
       "title": "组合图 Composed Chart",
       "description": "在同一分类轴上组合条形与折线，并为量级不同的指标提供双轴。",
       "categories": ["charts", "comparison"],
-      "registryDependencies": ["chart-core"],
+      "registryDependencies": ["chart-core", "utils"],
       "files": [
         {
           "path": "registry/charts/composed-chart.tsx",
@@ -472,7 +459,7 @@
       "title": "饼图 Pie Chart",
       "description": "展示少量类别的部分与整体关系，并支持饼图和环图形态。",
       "categories": ["charts", "composition"],
-      "registryDependencies": ["chart-core"],
+      "registryDependencies": ["chart-core", "utils"],
       "files": [
         {
           "path": "registry/charts/pie-chart.tsx",
@@ -487,7 +474,7 @@
       "title": "散点图 Scatter Chart",
       "description": "展示两个数值变量之间的关系、聚类与离群点。",
       "categories": ["charts", "relationship"],
-      "registryDependencies": ["chart-core"],
+      "registryDependencies": ["chart-core", "utils"],
       "files": [
         {
           "path": "registry/charts/scatter-chart.tsx",
@@ -502,7 +489,7 @@
       "title": "Canvas 散点图 Canvas Scatter Chart",
       "description": "使用 Canvas 绘制较大规模散点，同时保留图例、提示与可访问数据表。",
       "categories": ["charts", "relationship"],
-      "registryDependencies": ["chart-core"],
+      "registryDependencies": ["chart-core", "utils"],
       "files": [
         {
           "path": "registry/charts/canvas-scatter-chart.tsx",
@@ -532,7 +519,7 @@
       "title": "图表范围选择 Chart Brush",
       "description": "复用 Slider 为图表提供受控的范围筛选与缩放。",
       "categories": ["charts", "interaction"],
-      "registryDependencies": ["slider", "chart-core"],
+      "registryDependencies": ["slider", "chart-core", "utils"],
       "files": [
         {
           "path": "registry/charts/chart-brush.tsx",
@@ -677,7 +664,12 @@
       "type": "registry:ui",
       "title": "按钮 Button",
       "description": "显示一个按钮，或显示一个外观类似按钮的组件。",
-      "dependencies": ["radix-ui", "class-variance-authority", "motion"],
+      "dependencies": [
+        "radix-ui",
+        "class-variance-authority",
+        "motion",
+        "lucide-react"
+      ],
       "registryDependencies": ["utils"],
       "files": [
         {
@@ -769,7 +761,8 @@
           "path": "registry/components/confirm-dialog.tsx",
           "type": "registry:component"
         }
-      ]
+      ],
+      "dependencies": ["lucide-react"]
     },
     {
       "name": "motion",
@@ -795,7 +788,8 @@
           "path": "registry/ui/icon.tsx",
           "type": "registry:ui"
         }
-      ]
+      ],
+      "registryDependencies": ["utils"]
     },
     {
       "name": "animated-icon",
@@ -808,7 +802,8 @@
           "path": "registry/ui/animated-icon.tsx",
           "type": "registry:ui"
         }
-      ]
+      ],
+      "registryDependencies": ["utils"]
     },
     {
       "name": "animated-icon-collection",
@@ -857,7 +852,7 @@
       "type": "registry:ui",
       "title": "进度条 Progress",
       "description": "细腻、克制并支持确定与不确定状态的进度指示器。",
-      "dependencies": ["radix-ui", "class-variance-authority"],
+      "dependencies": ["radix-ui", "class-variance-authority", "motion"],
       "registryDependencies": ["utils"],
       "files": [
         {
@@ -885,8 +880,8 @@
       "type": "registry:ui",
       "title": "颜色选择器 Color Picker",
       "description": "面向设计 Token 的 OKLCH 颜色选择器，支持感知色彩通道、透明度和精确 CSS 值。",
-      "dependencies": ["radix-ui"],
-      "registryDependencies": ["utils"],
+      "dependencies": ["radix-ui", "motion", "class-variance-authority"],
+      "registryDependencies": ["utils", "popover"],
       "files": [
         {
           "path": "registry/ui/color-picker.tsx",
@@ -961,8 +956,14 @@
       "title": "多选下拉 Multi Select",
       "description": "支持搜索、键盘导航、选中摘要与一键清空的多选下拉控件。",
       "categories": ["form", "data-entry"],
-      "dependencies": ["lucide-react", "class-variance-authority"],
-      "registryDependencies": ["utils", "command", "popover", "checkbox"],
+      "dependencies": ["lucide-react", "class-variance-authority", "motion"],
+      "registryDependencies": [
+        "utils",
+        "command",
+        "popover",
+        "checkbox",
+        "sliding-number"
+      ],
       "files": [
         {
           "path": "registry/ui/multi-select.tsx",
@@ -1004,7 +1005,12 @@
       "title": "导航栏 Navbar",
       "description": "适用于页面顶部与应用左侧的可组合导航栏。",
       "categories": ["navigation"],
-      "dependencies": ["radix-ui", "class-variance-authority", "lucide-react"],
+      "dependencies": [
+        "radix-ui",
+        "class-variance-authority",
+        "lucide-react",
+        "motion"
+      ],
       "registryDependencies": ["utils"],
       "files": [
         {
@@ -1034,7 +1040,7 @@
       "title": "分页 Pagination",
       "description": "在分页数据之间导航，并清晰标记当前页和省略的页码区间。",
       "categories": ["navigation"],
-      "dependencies": ["lucide-react", "radix-ui"],
+      "dependencies": ["lucide-react", "radix-ui", "motion"],
       "registryDependencies": ["utils", "button"],
       "files": [
         {
@@ -1079,7 +1085,12 @@
       "title": "代码块 Code Block",
       "description": "用于在页面中优雅展示结构化源代码的高亮容器，内置行号、高亮行与一键复制。",
       "categories": ["data-display"],
-      "dependencies": ["class-variance-authority", "lucide-react", "motion"],
+      "dependencies": [
+        "class-variance-authority",
+        "lucide-react",
+        "motion",
+        "radix-ui"
+      ],
       "registryDependencies": ["utils"],
       "files": [
         {
@@ -1094,7 +1105,7 @@
       "title": "提及输入 Mention",
       "description": "用于协同评论、讨论区或 AI 输入框中键入 @、# 或 / 快速匹配并插入人员、话题或指令。",
       "categories": ["data-entry"],
-      "dependencies": ["class-variance-authority", "lucide-react"],
+      "dependencies": ["class-variance-authority", "lucide-react", "motion"],
       "registryDependencies": ["utils"],
       "files": [
         {
@@ -1139,7 +1150,7 @@
       "title": "雷达图 Radar Chart",
       "description": "用于在极坐标系上展示多维度能力评估、多系列性能对比或平衡指标的图表。",
       "categories": ["charts", "comparison"],
-      "registryDependencies": ["chart-core"],
+      "registryDependencies": ["chart-core", "utils"],
       "files": [
         {
           "path": "registry/charts/radar-chart.tsx",
@@ -1154,7 +1165,7 @@
       "title": "热力图 Heatmap",
       "description": "仿 GitHub 贡献日历风格的时间序列活跃度与活动密度热力矩阵图表。",
       "categories": ["charts", "distribution"],
-      "registryDependencies": ["chart-core"],
+      "registryDependencies": ["chart-core", "utils"],
       "files": [
         {
           "path": "registry/charts/heatmap.tsx",
@@ -1169,7 +1180,7 @@
       "title": "仪表盘 Gauge Chart",
       "description": "用于直观展示单一核心指标的当前进度水平、负载状态与阈值区间的环形度量图表。",
       "categories": ["charts", "gauge"],
-      "registryDependencies": ["chart-core"],
+      "registryDependencies": ["chart-core", "utils"],
       "files": [
         {
           "path": "registry/charts/gauge-chart.tsx",
@@ -1184,7 +1195,7 @@
       "title": "漏斗图 Funnel Chart",
       "description": "用于追踪多阶段业务流转、步骤转化率与流失率分布的漏斗图表。",
       "categories": ["charts", "conversion"],
-      "registryDependencies": ["chart-core"],
+      "registryDependencies": ["chart-core", "utils"],
       "files": [
         {
           "path": "registry/charts/funnel-chart.tsx",
@@ -1254,7 +1265,7 @@
       "type": "registry:ui",
       "title": "命令列表 Command",
       "description": "通过模糊搜索与键盘导航快速定位并执行选项。",
-      "dependencies": ["lucide-react"],
+      "dependencies": ["lucide-react", "motion"],
       "registryDependencies": ["utils"],
       "files": [
         {
@@ -1268,7 +1279,7 @@
       "type": "registry:ui",
       "title": "组合框 Combobox",
       "description": "从可搜索的单选列表中选择并回填一个值。",
-      "dependencies": ["lucide-react"],
+      "dependencies": ["lucide-react", "motion", "class-variance-authority"],
       "registryDependencies": ["utils", "command", "popover"],
       "files": [
         {
@@ -1352,7 +1363,7 @@
       "type": "registry:ui",
       "title": "视频播放器 Video Player",
       "description": "由可自由组合的小组件构成，支持播放、进度、音量、快捷键和全屏的视频播放器。",
-      "dependencies": ["lucide-react"],
+      "dependencies": ["lucide-react", "motion"],
       "registryDependencies": ["utils", "button", "slider", "tooltip"],
       "files": [
         {
@@ -1366,7 +1377,7 @@
       "type": "registry:ui",
       "title": "骨架屏 Skeleton",
       "description": "在内容加载期间维持页面结构，降低布局跳动与等待的不确定感。",
-      "dependencies": ["class-variance-authority"],
+      "dependencies": ["class-variance-authority", "motion"],
       "registryDependencies": ["utils"],
       "files": [
         {
@@ -1380,7 +1391,7 @@
       "type": "registry:ui",
       "title": "警告提示 Alert",
       "description": "用于展示需要保留在页面中的状态、说明和操作建议。",
-      "dependencies": ["lucide-react", "class-variance-authority"],
+      "dependencies": ["lucide-react", "class-variance-authority", "motion"],
       "registryDependencies": ["utils"],
       "files": [
         {
@@ -1661,6 +1672,81 @@
       ]
     },
     {
+      "name": "animated-background",
+      "type": "registry:ui",
+      "title": "滑动高亮 Animated Background",
+      "description": "在悬停或选中的子元素之间平滑滑动共享高亮背景。",
+      "categories": ["motion"],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/animated-background.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "transition-panel",
+      "type": "registry:ui",
+      "title": "过渡面板 Transition Panel",
+      "description": "按索引切换面板，带方向感知的滑入淡出与高度平滑过渡。",
+      "categories": ["motion"],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/transition-panel.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "animated-group",
+      "type": "registry:ui",
+      "title": "动画组 Animated Group",
+      "description": "为一组子元素按预设错峰播放入场动画，支持进入视口时触发。",
+      "categories": ["motion"],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/animated-group.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "animated-list",
+      "type": "registry:ui",
+      "title": "动画列表 Animated List",
+      "description": "逐条揭示列表项并将最新一条置顶，其余条目以弹簧动画下移。",
+      "categories": ["motion"],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/animated-list.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "border-beam",
+      "type": "registry:ui",
+      "title": "边框光束 Border Beam",
+      "description": "沿元素边框循环流动的一段光束，用于强调推荐项或处理中状态。",
+      "categories": ["motion"],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/border-beam.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "hover-marquee",
       "type": "registry:ui",
       "title": "浮入滚动目录 Hover Marquee",
@@ -1883,6 +1969,51 @@
       ]
     },
     {
+      "name": "text-rotate",
+      "type": "registry:ui",
+      "title": "文本轮转 Text Rotate",
+      "description": "逐字符、单词或整行错峰轮换文本：旧文本向上移出、新文本自下方进入，容器宽度随内容平滑过渡。",
+      "categories": ["motion", "text-effect"],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/text-rotate.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "typewriter",
+      "type": "registry:ui",
+      "title": "打字机 Typewriter",
+      "description": "带闪烁光标的逐字输入效果，依次输入、删除并切换多段文本。",
+      "categories": ["motion", "text-effect"],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/typewriter.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "text-highlight",
+      "type": "registry:ui",
+      "title": "文本高亮 Text Highlight",
+      "description": "进入视口、悬停或挂载时，在文字背后划出马克笔式的高亮。",
+      "categories": ["motion", "text-effect"],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/text-highlight.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "sliding-number",
       "type": "registry:ui",
       "title": "滑动数字 Sliding Number",
@@ -1893,6 +2024,21 @@
       "files": [
         {
           "path": "registry/ui/sliding-number.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "number-ticker",
+      "type": "registry:ui",
+      "title": "数字滚动 Number Ticker",
+      "description": "进入视口时从起始值计数到目标值，支持本地化格式、小数位与前后缀。",
+      "categories": ["motion", "number-effect"],
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/ui/number-ticker.tsx",
           "type": "registry:ui"
         }
       ]
@@ -1930,7 +2076,12 @@
       "type": "registry:ui",
       "title": "日期选择器 Date Picker",
       "description": "在紧凑弹层中选择、格式化和清除日期。",
-      "dependencies": ["radix-ui", "lucide-react"],
+      "dependencies": [
+        "radix-ui",
+        "lucide-react",
+        "motion",
+        "class-variance-authority"
+      ],
       "registryDependencies": ["utils", "calendar"],
       "files": [
         {
@@ -1944,8 +2095,13 @@
       "type": "registry:ui",
       "title": "时间选择器 Time Picker",
       "description": "用小时、分钟与时制分栏快速设定时间。",
-      "dependencies": ["radix-ui", "lucide-react", "motion"],
-      "registryDependencies": ["utils"],
+      "dependencies": [
+        "radix-ui",
+        "lucide-react",
+        "motion",
+        "class-variance-authority"
+      ],
+      "registryDependencies": ["utils", "button", "sliding-number"],
       "files": [
         {
           "path": "registry/ui/time-picker.tsx",
@@ -1958,7 +2114,7 @@
       "type": "registry:ui",
       "title": "看板 Kanban",
       "description": "用可组合列和原生拖放组织任务流转。",
-      "dependencies": ["lucide-react"],
+      "dependencies": ["lucide-react", "motion"],
       "registryDependencies": ["utils"],
       "files": [
         {
@@ -2764,7 +2920,7 @@
       "type": "registry:ui",
       "title": "消息提示 Notification Badge",
       "description": "在图标、头像或控件边缘展示未读数量与提示红点。",
-      "dependencies": ["class-variance-authority"],
+      "dependencies": ["class-variance-authority", "motion"],
       "registryDependencies": ["utils"],
       "files": [
         {
@@ -2822,17 +2978,25 @@
       "description": "用一个按钮切换并保持某项功能的开启或关闭状态。",
       "dependencies": ["radix-ui", "class-variance-authority"],
       "registryDependencies": ["utils"],
-      "files": [{ "path": "registry/ui/toggle.tsx", "type": "registry:ui" }]
+      "files": [
+        {
+          "path": "registry/ui/toggle.tsx",
+          "type": "registry:ui"
+        }
+      ]
     },
     {
       "name": "toggle-group",
       "type": "registry:ui",
       "title": "切换按钮组 Toggle Group",
       "description": "将多个双态按钮组织为互斥选择或并列多选。",
-      "dependencies": ["radix-ui", "class-variance-authority"],
+      "dependencies": ["radix-ui", "class-variance-authority", "motion"],
       "registryDependencies": ["utils", "toggle"],
       "files": [
-        { "path": "registry/ui/toggle-group.tsx", "type": "registry:ui" }
+        {
+          "path": "registry/ui/toggle-group.tsx",
+          "type": "registry:ui"
+        }
       ]
     },
     {
@@ -2840,9 +3004,14 @@
       "type": "registry:ui",
       "title": "轮播 Carousel",
       "description": "使用原生滚动与吸附逐项浏览一组相关内容。",
-      "dependencies": ["lucide-react"],
+      "dependencies": ["lucide-react", "motion"],
       "registryDependencies": ["utils", "button"],
-      "files": [{ "path": "registry/ui/carousel.tsx", "type": "registry:ui" }]
+      "files": [
+        {
+          "path": "registry/ui/carousel.tsx",
+          "type": "registry:ui"
+        }
+      ]
     },
     {
       "name": "typography",
@@ -2851,17 +3020,25 @@
       "description": "为标题、正文、列表、引用和辅助文字提供一致的阅读层级。",
       "dependencies": ["radix-ui", "class-variance-authority"],
       "registryDependencies": ["utils"],
-      "files": [{ "path": "registry/ui/typography.tsx", "type": "registry:ui" }]
+      "files": [
+        {
+          "path": "registry/ui/typography.tsx",
+          "type": "registry:ui"
+        }
+      ]
     },
     {
       "name": "input-number",
       "type": "registry:ui",
       "title": "数字输入框 InputNumber",
       "description": "支持范围约束、精确步进和键盘操作的数字输入控件。",
-      "dependencies": ["lucide-react"],
+      "dependencies": ["lucide-react", "motion", "class-variance-authority"],
       "registryDependencies": ["utils"],
       "files": [
-        { "path": "registry/ui/input-number.tsx", "type": "registry:ui" }
+        {
+          "path": "registry/ui/input-number.tsx",
+          "type": "registry:ui"
+        }
       ]
     },
     {
@@ -2870,7 +3047,13 @@
       "title": "验证码输入框 InputOTP",
       "description": "支持粘贴、键盘移动和完成回调的分格验证码输入控件。",
       "registryDependencies": ["utils"],
-      "files": [{ "path": "registry/ui/input-otp.tsx", "type": "registry:ui" }]
+      "files": [
+        {
+          "path": "registry/ui/input-otp.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": ["motion"]
     },
     {
       "name": "button-group",
@@ -2879,7 +3062,10 @@
       "description": "将一组紧密相关的按钮连接为方向明确的操作单元。",
       "registryDependencies": ["utils", "button"],
       "files": [
-        { "path": "registry/ui/button-group.tsx", "type": "registry:ui" }
+        {
+          "path": "registry/ui/button-group.tsx",
+          "type": "registry:ui"
+        }
       ]
     },
     {
@@ -2890,7 +3076,10 @@
       "dependencies": ["radix-ui", "lucide-react"],
       "registryDependencies": ["utils"],
       "files": [
-        { "path": "registry/ui/context-menu.tsx", "type": "registry:ui" }
+        {
+          "path": "registry/ui/context-menu.tsx",
+          "type": "registry:ui"
+        }
       ]
     },
     {
@@ -2900,7 +3089,12 @@
       "description": "通过指针或键盘在两个工作区之间调整可用空间。",
       "dependencies": ["lucide-react"],
       "registryDependencies": ["utils"],
-      "files": [{ "path": "registry/ui/resizable.tsx", "type": "registry:ui" }]
+      "files": [
+        {
+          "path": "registry/ui/resizable.tsx",
+          "type": "registry:ui"
+        }
+      ]
     },
     {
       "name": "aspect-ratio",
@@ -2910,7 +3104,10 @@
       "dependencies": ["radix-ui"],
       "registryDependencies": ["utils"],
       "files": [
-        { "path": "registry/ui/aspect-ratio.tsx", "type": "registry:ui" }
+        {
+          "path": "registry/ui/aspect-ratio.tsx",
+          "type": "registry:ui"
+        }
       ]
     },
     {
@@ -2918,28 +3115,41 @@
       "type": "registry:ui",
       "title": "步骤 Steps",
       "description": "清晰呈现任务流程、当前进度与各阶段状态。",
-      "dependencies": ["lucide-react"],
+      "dependencies": ["motion"],
       "registryDependencies": ["utils"],
-      "files": [{ "path": "registry/ui/steps.tsx", "type": "registry:ui" }]
+      "files": [
+        {
+          "path": "registry/ui/steps.tsx",
+          "type": "registry:ui"
+        }
+      ]
     },
     {
       "name": "tree",
       "type": "registry:ui",
       "title": "树 Tree",
       "description": "展示和选择文件、组织架构与分类等嵌套数据。",
-      "dependencies": ["lucide-react"],
+      "dependencies": ["lucide-react", "motion"],
       "registryDependencies": ["utils"],
-      "files": [{ "path": "registry/ui/tree.tsx", "type": "registry:ui" }]
+      "files": [
+        {
+          "path": "registry/ui/tree.tsx",
+          "type": "registry:ui"
+        }
+      ]
     },
     {
       "name": "tree-select",
       "type": "registry:ui",
       "title": "树选择 TreeSelect",
       "description": "在紧凑浮层中搜索并选择一个层级节点。",
-      "dependencies": ["lucide-react"],
+      "dependencies": ["lucide-react", "motion"],
       "registryDependencies": ["utils", "input", "popover", "tree"],
       "files": [
-        { "path": "registry/ui/tree-select.tsx", "type": "registry:ui" }
+        {
+          "path": "registry/ui/tree-select.tsx",
+          "type": "registry:ui"
+        }
       ]
     }
   ]

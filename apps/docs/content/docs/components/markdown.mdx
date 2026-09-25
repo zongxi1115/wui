@@ -21,10 +21,10 @@ component: markdown
 <Step>安装 Markdown 与 AST 解析插件依赖</Step>
 
 ```bash
-pnpm add react-markdown remark-gfm clsx tailwind-merge
+pnpm add react-markdown remark-gfm motion radix-ui lucide-react class-variance-authority clsx tailwind-merge
 ```
 
-<Step>复制组件源码到 `components/ui/markdown.tsx`</Step>
+<Step>添加依赖组件 `ai-stream` 与 `code-block`，再复制组件源码到 `components/ui/markdown.tsx`</Step>
 
 <ComponentSource name="markdown" title="components/ui/markdown.tsx" />
 
@@ -46,7 +46,7 @@ pnpm add react-markdown remark-gfm clsx tailwind-merge
       prop: "isStreaming",
       type: "boolean",
       default: "false",
-      description: "是否处于流式接收中。设为 true 时自动挂载 aria-busy、aria-live 并在末尾文本应用流式渐变羽化动效。",
+      description: "是否处于流式接收中。设为 true 时自动挂载 aria-busy、aria-live，末尾文本应用羽化效果，新出现的段落、列表与代码块会轻柔淡入上移。",
     },
     {
       prop: "featherLength",
@@ -95,6 +95,8 @@ pnpm add react-markdown remark-gfm clsx tailwind-merge
 
 - **安全沙箱无 XSS 风险**：基于 React 虚拟 DOM 树渲染，不使用 `dangerouslySetInnerHTML`，默认过滤危险 HTML 注入。
 - **流式增量解析容错**：在 LLM Token 逐步返回的过程中，即使遇到未闭合的代码块（```）或未完成的表格，也能优雅容错显示，避免界面崩溃闪烁。
+- **代码围栏即代码块**：代码围栏（```）自动渲染为 `CodeBlock`，标题栏显示语言并提供带动效反馈的复制按钮；如需自定义可通过 `components.pre` 覆盖。
+- **任务列表**：GFM 任务列表自动去除项目符号，只保留复选框。
 - **与设计系统主题无缝对齐**：内置样式全部使用语义化 CSS 变量（如 `bg-muted`、`text-foreground`、`border-border`），在深浅色主题下均能呈现完美的排版韵律。
 
 ## 场景示例
@@ -105,9 +107,9 @@ pnpm add react-markdown remark-gfm clsx tailwind-merge
 
 <ComponentPreview name="markdown-stream-demo" />
 
-### 自定义元素重载 (带复制的代码块与高亮链接)
+### 自定义元素重载
 
-通过 `components` 属性重载 `code`、`blockquote` 与 `a` 标签，实现带一键复制的专业代码块与带外链图标的安全链接：
+通过 `components` 属性把 `blockquote` 渲染为 `Alert` 提示，并为 `a` 链接加上外链图标与新窗口打开：
 
 <ComponentPreview name="markdown-custom" />
 

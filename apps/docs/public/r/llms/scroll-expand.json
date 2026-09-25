@@ -69,6 +69,22 @@
       "description": "区块占用的视口高度数量。"
     },
     {
+      "name": "contentScale",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "1.08",
+      "description": "收起状态下内部内容的缩放比例，展开时形成轻微的推近效果。"
+    },
+    {
+      "name": "smooth",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否通过弹簧平滑滚动进度，让画面柔和落定。"
+    },
+    {
       "name": "container",
       "type": "RefObject<HTMLElement | null>",
       "required": false,

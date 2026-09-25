@@ -50,13 +50,13 @@ pnpm add motion clsx tailwind-merge
     {
       prop: "color",
       type: "string",
-      default: '"oklch(0.7 0.2 260)"',
+      default: '"var(--chart-1)"',
       description: "在 solid 变体下生效的边框与发光主色（支持 OKLCH / RGB / HEX / CSS 变量）。",
     },
     {
       prop: "colors",
       type: "string[]",
-      default: '["#ff3d81", "#ffb800", "#34d399", "#38bdf8", "#8b5cf6", "#ff3d81"]',
+      default: '["var(--chart-1)", "var(--chart-5)", "var(--chart-2)", "var(--chart-3)", "var(--chart-1)"]',
       description: "在 rainbow 变体下沿圆周渐变分布的色彩序列（conic-gradient）。",
     },
     {

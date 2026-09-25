@@ -1,0 +1,104 @@
+{
+  "name": "animated-background",
+  "type": "registry:ui",
+  "title": "滑动高亮 Animated Background",
+  "description": "在悬停或选中的子元素之间平滑滑动一块共享的高亮背景，适用于导航、列表与选择器。",
+  "categories": [
+    "motion"
+  ],
+  "import": "import { AnimatedBackground } from \"@/components/ui/animated-background\"",
+  "exports": [
+    "AnimatedBackground"
+  ],
+  "typeExports": [
+    "AnimatedBackgroundItemProps",
+    "AnimatedBackgroundProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/animated-background",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/animated-background.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "ReactElement<AnimatedBackgroundItemProps, string | JSXElementConstructor<any>> | ReactElement<AnimatedBackgroundItemProps, string | JSXElementConstructor<...>>[]",
+      "required": true,
+      "control": "text",
+      "description": "需要高亮的子项，每个直接子元素都需要唯一的 data-id。"
+    },
+    {
+      "name": "mode",
+      "type": "\"hover\" | \"click\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "hover",
+        "click"
+      ],
+      "defaultValue": "click",
+      "description": "高亮跟随方式：click 跟随选中项，hover 跟随悬停与键盘焦点。"
+    },
+    {
+      "name": "value",
+      "type": "string | null",
+      "required": false,
+      "control": "text",
+      "description": "受控模式下当前高亮项的 id，传入 null 时隐藏高亮。"
+    },
+    {
+      "name": "defaultValue",
+      "type": "string | null",
+      "required": false,
+      "control": "text",
+      "defaultValue": "null",
+      "description": "非受控模式下初始高亮项的 id。"
+    },
+    {
+      "name": "onValueChange",
+      "type": "((value: string) => void)",
+      "required": false,
+      "control": "text",
+      "description": "点击选中另一项时触发。"
+    },
+    {
+      "name": "highlightClassName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "滑动高亮块的类名，例如背景色与圆角。"
+    },
+    {
+      "name": "transition",
+      "type": "Transition",
+      "required": false,
+      "control": "text",
+      "defaultValue": "{\n  type: \"spring\",\n  stiffness: 520,\n  damping: 38,\n  mass: 0.7,\n}",
+      "description": "高亮在各项之间移动时使用的过渡配置。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "animated-background-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "animated-background-list",
+      "title": "纵向设置列表"
+    },
+    {
+      "name": "animated-background-grid",
+      "title": "网格选择"
+    }
+  ],
+  "files": [
+    "registry/ui/animated-background.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/animated-background",
+  "sourceUrl": "https://ui.wzx.wang/r/animated-background.json"
+}

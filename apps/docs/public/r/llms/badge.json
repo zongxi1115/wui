@@ -76,6 +76,10 @@
       "title": "状态指示圆点"
     },
     {
+      "name": "badge-count",
+      "title": "未读计数与数字滚动"
+    },
+    {
       "name": "badge-with-icon",
       "title": "搭配图标"
     },

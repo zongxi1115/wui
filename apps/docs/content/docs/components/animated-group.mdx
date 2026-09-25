@@ -1,0 +1,127 @@
+---
+title: 动画组 Animated Group
+description: 为一组子元素按统一预设错峰播放入场动画，支持挂载时或滚动进入视口时触发。
+component: animated-group
+---
+
+## 基础用法
+
+把需要依次入场的元素放进 `AnimatedGroup`，每个直接子元素都会被包裹并按 `stagger` 间隔依次播放同一个预设动画。切换下方预设可对比不同效果：
+
+<ComponentPreview name="animated-group-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
+
+<CodeTabs command="@wui-design/cli@latest add @wui/animated-group" />
+
+<Steps>
+
+<Step>安装基础依赖与 Motion 动效库</Step>
+
+```bash
+pnpm add motion clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/animated-group.tsx`</Step>
+
+<ComponentSource name="animated-group" title="components/ui/animated-group.tsx" />
+
+</Steps>
+
+## 属性 Props
+
+`AnimatedGroup` 支持以下配置属性，并继承原生元素的其余 HTML 属性：
+
+<PropsTable
+  data={[
+    {
+      prop: "children",
+      type: "React.ReactNode",
+      required: true,
+      description: "依次入场的元素，每个直接子元素会被包裹在一个 `itemAs` 元素中。",
+    },
+    {
+      prop: "preset",
+      type: '"fade" | "slide" | "blur-slide" | "zoom" | "flip" | "bounce" | "scale"',
+      default: '"slide"',
+      description: "内置入场预设。zoom、flip、bounce 使用弹簧曲线，其余使用统一的缓出曲线。",
+    },
+    {
+      prop: "variants",
+      type: "Variants",
+      description: "自定义子项变体，需包含 `hidden` 与 `visible` 两个状态，传入后覆盖 `preset`。",
+    },
+    {
+      prop: "stagger",
+      type: "number",
+      default: "0.08",
+      description: "相邻两个子项之间的间隔（秒）。",
+    },
+    {
+      prop: "delay",
+      type: "number",
+      default: "0",
+      description: "第一个子项开始前的延迟（秒）。",
+    },
+    {
+      prop: "inView",
+      type: "boolean",
+      default: "false",
+      description: "是否在滚动进入视口时才开始播放。",
+    },
+    {
+      prop: "once",
+      type: "boolean",
+      default: "true",
+      description: "`inView` 模式下是否只播放一次。",
+    },
+    {
+      prop: "viewOptions",
+      type: "UseInViewOptions",
+      description: "视口检测参数，例如 `{ amount: 0.4 }`。",
+    },
+    {
+      prop: "as",
+      type: '"div" | "ul" | "ol" | "section" | "span"',
+      default: '"div"',
+      description: "组容器渲染的元素。",
+    },
+    {
+      prop: "itemAs",
+      type: '"div" | "li" | "span" | "article"',
+      default: '"div"',
+      description: "包裹每个子项的元素，列表中请配合 `as=\"ul\"` 使用 `li`。",
+    },
+    {
+      prop: "itemClassName",
+      type: "string",
+      description: "应用于每个子项包裹元素的类名，网格布局中可用于设置背景或对齐。",
+    },
+  ]}
+/>
+
+组件同时导出 `animatedGroupPresets`，可以在其基础上扩展自定义变体。
+
+## 使用场景与设计规范
+
+`AnimatedGroup` 适合功能列表、卡片网格、更新日志等“一组同类元素”的入场。单个元素的入场请使用 [动效 Motion](/docs/components/motion) 或 [视口动画 In View](/docs/components/in-view)。
+
+- **一个页面一种节奏**：同一页面内尽量统一预设与 `stagger`，避免每个区块使用不同动画。
+- **控制总时长**：子项较多时减小 `stagger`，让整组动画在 0.8 秒内完成；超过 12 项时建议只对首屏可见的部分使用动画。
+- **弹性预设克制使用**：`bounce` 与 `flip` 表现力强，适合营销页的少量元素，不建议用于后台数据列表。
+
+## 场景示例
+
+### 滚动触发的更新日志
+
+`inView` 让列表在滚动进入视口时才开始入场；`as="ol"` 与 `itemAs="li"` 保持列表语义：
+
+<ComponentPreview name="animated-group-in-view" />
+
+## 无障碍与交互 Accessibility
+
+- **语义不受影响**：通过 `as` 与 `itemAs` 选择合适的元素，包裹层不会破坏列表结构。
+- **减少动态效果**：开启 `prefers-reduced-motion` 时，所有子项直接以最终状态渲染，不播放入场动画。
+- **内容始终存在**：入场动画只改变透明度与变换，子项在首屏 HTML 中完整输出，不影响搜索引擎与读屏软件读取。

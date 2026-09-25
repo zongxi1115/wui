@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { CheckIcon, ChevronsUpDownIcon, XIcon } from "lucide-react"
+import { AnimatePresence, motion, useReducedMotion } from "motion/react"
 import { cva } from "class-variance-authority"
 
 import { cn } from "@/registry/lib/utils"
@@ -15,7 +16,7 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from "@/registry/ui/popover"
 
 const comboboxVariants = cva(
-  "border-input bg-background shadow-xs focus-within:border-ring focus-within:ring-ring/30 flex w-full items-center rounded-md border transition-[border-color,box-shadow,background-color] duration-200 focus-within:ring-[3px] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50",
+  "border-input bg-background shadow-xs focus-within:border-ring focus-within:ring-ring/30 has-[button[aria-invalid=true]]:border-destructive has-[button[aria-invalid=true]]:ring-[3px] has-[button[aria-invalid=true]]:ring-destructive/20 flex w-full items-center rounded-md border transition-[border-color,box-shadow,background-color] duration-200 focus-within:ring-[3px] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50",
   {
     variants: {
       size: {
@@ -86,6 +87,7 @@ function Combobox({
   disabled,
   ...props
 }: ComboboxProps) {
+  const reduceMotion = useReducedMotion()
   const [open, setOpen] = React.useState(false)
   const [internalValue, setInternalValue] = React.useState(defaultValue)
   const selectedValue = value ?? internalValue
@@ -115,42 +117,57 @@ function Combobox({
             className="flex h-full min-w-0 flex-1 items-center gap-2 rounded-l-md px-3 text-left outline-none"
             {...props}
           >
-            <span
-              data-placeholder={!selectedOption || undefined}
-              className="data-[placeholder=true]:text-muted-foreground min-w-0 flex-1 truncate"
-            >
-              {selectedOption?.label ?? placeholder}
+            <span className="relative flex min-w-0 flex-1 overflow-hidden">
+              <AnimatePresence initial={false} mode="popLayout">
+                <motion.span
+                  key={selectedOption?.value ?? "__placeholder"}
+                  data-placeholder={!selectedOption || undefined}
+                  className="data-[placeholder=true]:text-muted-foreground min-w-0 flex-1 truncate"
+                  initial={reduceMotion ? false : { opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={reduceMotion ? undefined : { opacity: 0, y: -6 }}
+                  transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  {selectedOption?.label ?? placeholder}
+                </motion.span>
+              </AnimatePresence>
             </span>
             <ChevronsUpDownIcon className="text-muted-foreground size-4 shrink-0" />
           </button>
         </PopoverTrigger>
 
-        {clearable && selectedOption ? (
-          <button
-            type="button"
-            data-slot="combobox-clear"
-            aria-label="清空选择"
-            disabled={disabled}
-            className="text-muted-foreground hover:text-foreground focus-visible:ring-ring mr-2 flex size-6 shrink-0 items-center justify-center rounded-sm outline-none transition-colors focus-visible:ring-2"
-            onClick={(e) => {
-              e.stopPropagation()
-              changeValue("")
-            }}
-          >
-            <XIcon className="size-3.5" />
-          </button>
-        ) : null}
+        <AnimatePresence initial={false}>
+          {clearable && selectedOption ? (
+            <motion.button
+              type="button"
+              data-slot="combobox-clear"
+              aria-label="清空选择"
+              disabled={disabled}
+              className="text-muted-foreground hover:bg-accent hover:text-foreground focus-visible:ring-ring/40 mr-2 flex size-6 shrink-0 items-center justify-center rounded-sm outline-none transition-colors focus-visible:ring-2"
+              initial={reduceMotion ? false : { opacity: 0, scale: 0.6 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={reduceMotion ? undefined : { opacity: 0, scale: 0.6 }}
+              transition={{ duration: 0.16, ease: [0.22, 1, 0.36, 1] }}
+              onClick={(e) => {
+                e.stopPropagation()
+                changeValue("")
+              }}
+            >
+              <XIcon className="size-3.5" />
+            </motion.button>
+          ) : null}
+        </AnimatePresence>
       </div>
 
       <PopoverContent
         data-slot="combobox-content"
         align="start"
         className={cn(
-          "w-[var(--radix-popover-trigger-width)] p-0",
+          "w-[var(--radix-popover-trigger-width)] origin-(--radix-popover-content-transform-origin) p-0",
           contentClassName
         )}
       >
-        <Command>
+        <Command defaultActiveValue={selectedValue || undefined}>
           <CommandInput placeholder={searchPlaceholder} autoFocus />
           <CommandList>
             <CommandEmpty>{emptyText}</CommandEmpty>
@@ -169,12 +186,17 @@ function Combobox({
                   setOpen(false)
                 }}
               >
-                <CheckIcon
-                  className={cn(
-                    "text-primary",
-                    selectedValue !== option.value && "opacity-0"
-                  )}
-                />
+                <span className="flex size-4 shrink-0 items-center justify-center">
+                  {selectedValue === option.value ? (
+                    <motion.span
+                      initial={reduceMotion ? false : { scale: 0.4, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      transition={{ type: "spring", stiffness: 560, damping: 28, mass: 0.6 }}
+                    >
+                      <CheckIcon className="text-primary" />
+                    </motion.span>
+                  ) : null}
+                </span>
                 <div className="flex min-w-0 flex-1 flex-col">
                   <span className="truncate font-medium">{option.label}</span>
                   {option.description ? (

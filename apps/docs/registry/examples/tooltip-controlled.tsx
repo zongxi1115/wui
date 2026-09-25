@@ -1,53 +1,54 @@
 "use client"
 
 import * as React from "react"
+import { CopyIcon } from "lucide-react"
+
+import { Button } from "@/registry/ui/button"
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/registry/ui/tooltip"
-import { Button } from "@/registry/ui/button"
 
 export default function TooltipControlled() {
   const [open, setOpen] = React.useState(false)
+  const [copied, setCopied] = React.useState(false)
+  const timer = React.useRef<ReturnType<typeof setTimeout>>(undefined)
+
+  React.useEffect(() => () => clearTimeout(timer.current), [])
+
+  const copy = () => {
+    void navigator.clipboard.writeText("sk-live-8f2c3d7e0b5a91d")
+    setCopied(true)
+    setOpen(true)
+    clearTimeout(timer.current)
+    timer.current = setTimeout(() => {
+      setOpen(false)
+      setCopied(false)
+    }, 1400)
+  }
 
   return (
     <TooltipProvider>
-      <div className="flex flex-col items-start gap-4">
-        <div className="flex items-center gap-4">
-          <Tooltip open={open} onOpenChange={setOpen}>
-            <TooltipTrigger asChild>
-              <Button variant="outline">
-                受控目标按钮
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <span>受外部 React 状态精确控制展开</span>
-            </TooltipContent>
-          </Tooltip>
-
-          <span className="text-xs text-muted-foreground">
-            当前状态：{open ? "提示已打开" : "提示已关闭"}
-          </span>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <Button
-            size="sm"
-            variant="secondary"
-            onClick={() => setOpen((prev) => !prev)}
-          >
-            切换显示状态
-          </Button>
-          <Button
-            size="sm"
-            variant="ghost"
-            onClick={() => setOpen(false)}
-          >
-            强制隐藏
-          </Button>
-        </div>
+      <div className="flex items-center gap-2 rounded-md border py-1 pr-1 pl-3">
+        <code className="text-muted-foreground font-mono text-xs">
+          sk-live-8f2c…a91d
+        </code>
+        <Tooltip
+          open={open}
+          onOpenChange={(next) => {
+            // 复制成功提示展示期间，不因指针移出而提前关闭
+            if (!copied) setOpen(next)
+          }}
+        >
+          <TooltipTrigger asChild>
+            <Button variant="ghost" size="icon" className="size-7" aria-label="复制密钥" onClick={copy}>
+              <CopyIcon />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent size="sm">{copied ? "已复制到剪贴板" : "复制密钥"}</TooltipContent>
+        </Tooltip>
       </div>
     </TooltipProvider>
   )

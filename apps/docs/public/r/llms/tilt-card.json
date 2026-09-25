@@ -66,6 +66,14 @@
       "description": "是否显示随指针移动的高光图层。"
     },
     {
+      "name": "glareOpacity",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0.35",
+      "description": "光泽层的最大不透明度。"
+    },
+    {
       "name": "glareClassName",
       "type": "string",
       "required": false,
@@ -76,11 +84,11 @@
   "examples": [
     {
       "name": "tilt-card-demo",
-      "title": "视觉艺术作品画廊"
+      "title": "基础用法"
     },
     {
       "name": "tilt-card-member-pass",
-      "title": "3D 开发者通票 / 数字会员卡"
+      "title": "会员卡"
     }
   ],
   "files": [

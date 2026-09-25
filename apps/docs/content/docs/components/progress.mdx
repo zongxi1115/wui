@@ -6,7 +6,7 @@ component: progress
 
 ## 基础用法
 
-最基础的进度条用法。传入 `value` 展示任务当前的完成百分比：
+最基础的进度条用法。传入 `value` 展示任务当前的完成百分比；数值变化时进度以无回弹的弹簧曲线平滑过渡：
 
 <ComponentPreview name="progress-demo" />
 
@@ -21,7 +21,7 @@ component: progress
 <Step>安装基础依赖与 Radix 原语</Step>
 
 ```bash
-pnpm add radix-ui class-variance-authority clsx tailwind-merge
+pnpm add radix-ui motion class-variance-authority clsx tailwind-merge
 ```
 
 <Step>复制组件源码到 `components/ui/progress.tsx`</Step>
@@ -69,7 +69,7 @@ pnpm add radix-ui class-variance-authority clsx tailwind-merge
       prop: "showValue",
       type: "boolean",
       default: "false",
-      description: "在环形进度（circular）中心是否渲染百分比数字文本。",
+      description: "在环形进度（circular）中心是否渲染百分比数字文本，数字与圆环同步滚动变化。",
     },
     {
       prop: "indicatorClassName",
@@ -104,7 +104,7 @@ pnpm add radix-ui class-variance-authority clsx tailwind-merge
 
 - **确定性（Determinate）vs 不确定性（Indeterminate）**：
   - **确定性进度（`value={number}`）**：适用于任务总耗时或总数据量已知（如已下载 35MB / 共 100MB）。
-  - **不确定性进度（`value={null}`）**：适用于任务正在后台进行但无法预估具体剩余量（如正在建立安全加密握手），此时组件将以平滑脉冲或自旋动画表达等待。
+  - **不确定性进度（`value={null}`）**：适用于任务正在后台进行但无法预估具体剩余量（如正在建立安全加密握手），此时线性进度条以往返扫过的光带、环形进度以旋转并伸缩的弧线表达等待。
 - **色彩与语义阈值规范**：
   - `primary` / `blue`：常规进行中的业务流程（如下载、更新）。
   - `success`：任务成功完成或系统健康度处于良好区间。
@@ -134,6 +134,12 @@ pnpm add radix-ui class-variance-authority clsx tailwind-merge
 
 <ComponentPreview name="progress-dynamic" />
 
+### 不确定状态与阶段切换
+
+任务无法预估耗时时传入 `value={null}`，拿到总量后再切换为具体数值，完成时切换为 `success` 颜色：
+
+<ComponentPreview name="progress-indeterminate" />
+
 ### 仪表盘资源监控看板
 
 组合多个小型进度条监控服务器 CPU、存储与系统 SLA 健康度：
@@ -143,5 +149,5 @@ pnpm add radix-ui class-variance-authority clsx tailwind-merge
 ## 无障碍与交互 Accessibility
 
 - **ARIA 标准规范**：底层基于 Radix UI 原语，根元素挂载 `role="progressbar"`，并自动同步计算 `aria-valuenow`、`aria-valuemin` 与 `aria-valuemax`。
-- **平滑动画与动效降级**：进度条数值变化时内置平滑的 CSS 过渡动效（`transition-[stroke-dashoffset]` / `transition-transform`），并在检测到 `prefers-reduced-motion` 时自动关闭过渡，直接瞬时跳转到最新百分比。
+- **平滑动画与动效降级**：进度值由 `motion` 弹簧驱动，线性轨道与环形描边、中心数字保持同步；检测到 `prefers-reduced-motion` 时直接跳转到最新百分比，不确定状态也会停止循环动画。
 - **读屏器文案提示**：建议在未展示明确可见标题时，为组件添加 `aria-label`（如 `aria-label="数据同步进度"`）。

@@ -1,0 +1,147 @@
+{
+  "name": "typewriter",
+  "type": "registry:ui",
+  "title": "打字机 Typewriter",
+  "description": "带闪烁光标的逐字输入效果，依次输入、停留、删除并切换多段文本。",
+  "categories": [
+    "motion",
+    "text-effect"
+  ],
+  "import": "import { Typewriter } from \"@/components/ui/typewriter\"",
+  "exports": [
+    "Typewriter"
+  ],
+  "typeExports": [
+    "TypewriterCursor",
+    "TypewriterProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/typewriter",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/typewriter.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "texts",
+      "type": "string[]",
+      "required": true,
+      "control": "text",
+      "description": "依次输入的字符串列表。"
+    },
+    {
+      "name": "typeSpeed",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "70",
+      "description": "输入每个字符耗时，单位为毫秒。"
+    },
+    {
+      "name": "deleteSpeed",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "35",
+      "description": "删除每个字符耗时，单位为毫秒。"
+    },
+    {
+      "name": "pauseDuration",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "1600",
+      "description": "整段输入完成后停留多久再开始删除，单位为毫秒。"
+    },
+    {
+      "name": "startDelay",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0",
+      "description": "开始输入第一个字符前的等待时长，单位为毫秒。"
+    },
+    {
+      "name": "loop",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "输入完最后一段后是否从第一段重新开始。"
+    },
+    {
+      "name": "keepLast",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "关闭 loop 时是否保留最后一段文本而不删除。"
+    },
+    {
+      "name": "startOnView",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "是否等元素进入视口后才开始输入。"
+    },
+    {
+      "name": "cursor",
+      "type": "\"none\" | \"bar\" | \"block\" | \"underscore\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "none",
+        "bar",
+        "block",
+        "underscore"
+      ],
+      "defaultValue": "bar",
+      "description": "光标形状，none 表示隐藏光标。"
+    },
+    {
+      "name": "cursorClassName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "应用于光标元素的类名。"
+    },
+    {
+      "name": "onTyped",
+      "type": "((index: number) => void)",
+      "required": false,
+      "control": "text",
+      "description": "一段文本完整输入后触发，回调参数为该段索引。"
+    },
+    {
+      "name": "onComplete",
+      "type": "(() => void)",
+      "required": false,
+      "control": "text",
+      "description": "关闭 loop 且最后一段输入完成时触发一次。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "typewriter-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "typewriter-cursor",
+      "title": "光标样式"
+    },
+    {
+      "name": "typewriter-prompt",
+      "title": "输入框示例提问"
+    }
+  ],
+  "files": [
+    "registry/ui/typewriter.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/typewriter",
+  "sourceUrl": "https://ui.wzx.wang/r/typewriter.json"
+}

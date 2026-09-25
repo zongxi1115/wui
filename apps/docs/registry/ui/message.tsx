@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { Portal } from "radix-ui"
-import { XIcon as CloseIcon } from "lucide-react"
+import { XIcon as CloseIcon, LoaderCircleIcon } from "lucide-react"
 import {
   CircleCheckIcon,
   InfoIcon,
@@ -19,7 +19,7 @@ import {
 import { cn } from "@/registry/lib/utils"
 
 export type MessageVariant =
-  "default" | "info" | "success" | "warning" | "destructive"
+  "default" | "info" | "success" | "warning" | "destructive" | "loading"
 
 export type MessagePosition =
   "top-left" | "top" | "top-right" | "bottom-left" | "bottom" | "bottom-right"
@@ -106,6 +106,8 @@ export interface MessageProviderProps {
   expandOnHover?: boolean
   /** Allow messages to be dismissed by dragging horizontally. @default true */
   dragToDismiss?: boolean
+  /** Pause auto-dismiss timers while the pointer rests on a message group. @default true */
+  pauseOnHover?: boolean
   /** Horizontal drag distance required to dismiss, in pixels. @default 72 */
   dragThreshold?: number
   /** Motion defaults shared by all messages. */
@@ -135,6 +137,17 @@ export interface MessageApi {
     description: React.ReactNode,
     options?: Omit<MessageOptions, "description" | "variant">
   ) => string
+  /** Show a persistent message with a spinner; pair it with `update` to resolve it in place. */
+  loading: (
+    description: React.ReactNode,
+    options?: Omit<MessageOptions, "description" | "variant">
+  ) => string
+  /**
+   * Morph an existing message in place (e.g. loading → success). Passing
+   * `duration` restarts its auto-dismiss timer; turning a loading message into
+   * another variant without a duration uses the provider default.
+   */
+  update: (id: string, options: Partial<MessageOptions>) => void
   dismiss: (id: string) => void
   clear: () => void
 }
@@ -157,6 +170,8 @@ function MessageStatusIcon({ variant }: { variant: MessageVariant }) {
   if (variant === "success") return <CircleCheckIcon {...props} />
   if (variant === "warning") return <TriangleAlertIcon {...props} />
   if (variant === "destructive") return <XIcon {...props} />
+  if (variant === "loading")
+    return <LoaderCircleIcon className="size-[18px] animate-spin" />
   return <InfoIcon {...props} />
 }
 
@@ -233,6 +248,8 @@ function MessageItem({
 }: MessageItemProps) {
   const itemRef = React.useRef<HTMLDivElement>(null)
   const reduceMotion = useReducedMotion()
+  // Set when the message is flung away so it leaves in the drag direction.
+  const [swipeDirection, setSwipeDirection] = React.useState(0)
   const config = {
     ...defaultMotion,
     ...providerMotion,
@@ -291,7 +308,9 @@ function MessageItem({
       }
       className={cn(
         "text-popover-foreground pointer-events-auto flex min-h-12 max-w-full items-start gap-3 rounded-md border px-4 py-3 text-sm shadow-md",
-        (message.variant === undefined || message.variant === "default") &&
+        (message.variant === undefined ||
+          message.variant === "default" ||
+          message.variant === "loading") &&
           "border-border bg-popover",
         message.variant === "info" && "border-info-border bg-info-subtle",
         message.variant === "success" &&
@@ -320,7 +339,13 @@ function MessageItem({
       dragElastic={0.6}
       whileDrag={reduceMotion ? undefined : { scale: 0.985 }}
       onDragEnd={(_, info) => {
-        if (Math.abs(info.offset.x) >= dragThreshold) onDismiss(message.id)
+        if (
+          Math.abs(info.offset.x) >= dragThreshold ||
+          Math.abs(info.velocity.x) > 800
+        ) {
+          setSwipeDirection(Math.sign(info.offset.x) || 1)
+          onDismiss(message.id)
+        }
       }}
       initial={
         reduceMotion
@@ -342,16 +367,22 @@ function MessageItem({
       exit={
         reduceMotion
           ? { opacity: 0 }
-          : {
-              opacity: config.exitOpacity,
-              scale: Math.min(0.985, (config.scale + 1) / 2),
-              filter: `blur(${config.blur * 0.5}px)`,
-              transition: {
-                duration: config.exitDuration,
-                ease: [0.4, 0, 1, 1],
-              },
-              ...offset,
-            }
+          : swipeDirection
+            ? {
+                x: swipeDirection * 420,
+                opacity: 0,
+                transition: { duration: 0.22, ease: [0.4, 0, 1, 1] },
+              }
+            : {
+                opacity: config.exitOpacity,
+                scale: Math.min(0.985, (config.scale + 1) / 2),
+                filter: `blur(${config.blur * 0.5}px)`,
+                transition: {
+                  duration: config.exitDuration,
+                  ease: [0.4, 0, 1, 1],
+                },
+                ...offset,
+              }
       }
       transition={
         reduceMotion
@@ -376,7 +407,18 @@ function MessageItem({
           )}
         >
           {message.icon ?? (
-            <MessageStatusIcon variant={message.variant ?? "default"} />
+            <AnimatePresence mode="popLayout" initial={false}>
+              <motion.span
+                key={message.variant ?? "default"}
+                className="flex items-center justify-center"
+                initial={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.5 }}
+                transition={{ duration: reduceMotion ? 0 : 0.2, ease: "easeOut" }}
+              >
+                <MessageStatusIcon variant={message.variant ?? "default"} />
+              </motion.span>
+            </AnimatePresence>
           )}
         </span>
       ) : null}
@@ -405,7 +447,7 @@ function MessageItem({
         <button
           type="button"
           data-slot="message-close"
-          aria-label="Close message"
+          aria-label="关闭消息"
           tabIndex={isInteractive ? undefined : -1}
           className={cn(
             "text-muted-foreground hover:bg-background hover:text-foreground focus-visible:ring-ring/30 -mr-1 flex size-6 shrink-0 items-center justify-center rounded-sm outline-none transition-colors focus-visible:ring-[3px] [&_svg]:size-3.5",
@@ -438,6 +480,7 @@ function MessageProvider({
   expandOnHover = true,
   dragToDismiss = true,
   dragThreshold = 72,
+  pauseOnHover = true,
   motion: providerMotion = {},
 }: MessageProviderProps) {
   const reduceMotion = useReducedMotion()
@@ -449,7 +492,27 @@ function MessageProvider({
     Set<MessagePosition>
   >(() => new Set())
   const sequence = React.useRef(0)
-  const timers = React.useRef(new Map<string, ReturnType<typeof setTimeout>>())
+  // The ref mirrors `messages` synchronously so callbacks (onClose, timers)
+  // run outside state updaters and see the latest queue.
+  const messagesRef = React.useRef<MessageRecord[]>([])
+  const timers = React.useRef(
+    new Map<
+      string,
+      { handle?: ReturnType<typeof setTimeout>; remaining: number; startedAt: number }
+    >()
+  )
+  const pausedPositions = React.useRef(new Set<MessagePosition>())
+
+  const commit = React.useCallback((next: MessageRecord[]) => {
+    messagesRef.current = next
+    setMessages(next)
+  }, [])
+
+  const clearTimer = React.useCallback((id: string) => {
+    const timer = timers.current.get(id)
+    if (timer?.handle) clearTimeout(timer.handle)
+    timers.current.delete(id)
+  }, [])
 
   const handleHeightChange = React.useCallback((id: string, height: number) => {
     setMessageHeights((current) =>
@@ -466,64 +529,115 @@ function MessageProvider({
     })
   }, [])
 
-  const dismiss = React.useCallback((id: string) => {
-    const timer = timers.current.get(id)
-    if (timer) clearTimeout(timer)
-    timers.current.delete(id)
-    setMessages((current) => {
-      const target = current.find((message) => message.id === id)
-      target?.onClose?.()
-      return current.filter((message) => message.id !== id)
-    })
-  }, [])
+  const dismiss = React.useCallback(
+    (id: string) => {
+      clearTimer(id)
+      const target = messagesRef.current.find((message) => message.id === id)
+      if (!target) return
+      commit(messagesRef.current.filter((message) => message.id !== id))
+      target.onClose?.()
+    },
+    [clearTimer, commit]
+  )
+
+  const startTimer = React.useCallback(
+    (id: string, position: MessagePosition, duration: number) => {
+      clearTimer(id)
+      if (duration <= 0) return
+      const paused = pauseOnHover && pausedPositions.current.has(position)
+      timers.current.set(id, {
+        remaining: duration,
+        startedAt: Date.now(),
+        handle: paused ? undefined : setTimeout(() => dismiss(id), duration),
+      })
+    },
+    [clearTimer, dismiss, pauseOnHover]
+  )
+
+  const setPositionPaused = React.useCallback(
+    (position: MessagePosition, paused: boolean) => {
+      if (!pauseOnHover) return
+      if (paused === pausedPositions.current.has(position)) return
+      if (paused) pausedPositions.current.add(position)
+      else pausedPositions.current.delete(position)
+
+      const now = Date.now()
+      messagesRef.current
+        .filter((message) => message.position === position)
+        .forEach((message) => {
+          const timer = timers.current.get(message.id)
+          if (!timer) return
+          if (paused && timer.handle) {
+            clearTimeout(timer.handle)
+            timer.handle = undefined
+            timer.remaining = Math.max(0, timer.remaining - (now - timer.startedAt))
+          } else if (!paused && !timer.handle) {
+            timer.startedAt = now
+            timer.handle = setTimeout(() => dismiss(message.id), timer.remaining)
+          }
+        })
+    },
+    [dismiss, pauseOnHover]
+  )
 
   const open = React.useCallback(
     (options: MessageOptions) => {
       const id = `message-${sequence.current++}`
-      const messageDuration = options.duration ?? defaultDuration
+      const position = options.position ?? defaultPosition
+      const messageDuration =
+        options.duration ??
+        (options.variant === "loading" ? 0 : defaultDuration)
 
-      setMessages((current) => {
-        const next = [
-          ...current,
-          {
-            ...options,
-            id,
-            position: options.position ?? defaultPosition,
-          },
-        ]
-        const overflow = Math.max(0, next.length - maxCount)
-        next.slice(0, overflow).forEach((message) => {
-          const timer = timers.current.get(message.id)
-          if (timer) clearTimeout(timer)
-          timers.current.delete(message.id)
-          message.onClose?.()
-        })
-        return overflow ? next.slice(overflow) : next
-      })
+      const next = [...messagesRef.current, { ...options, id, position }]
+      const overflow = Math.max(0, next.length - maxCount)
+      const evicted = next.slice(0, overflow)
+      evicted.forEach((message) => clearTimer(message.id))
+      commit(overflow ? next.slice(overflow) : next)
+      evicted.forEach((message) => message.onClose?.())
 
-      if (messageDuration > 0) {
-        timers.current.set(
-          id,
-          setTimeout(() => dismiss(id), messageDuration)
-        )
-      }
+      startTimer(id, position, messageDuration)
       return id
     },
-    [defaultDuration, defaultPosition, dismiss, maxCount]
+    [clearTimer, commit, defaultDuration, defaultPosition, maxCount, startTimer]
+  )
+
+  const update = React.useCallback(
+    (id: string, options: Partial<MessageOptions>) => {
+      const target = messagesRef.current.find((message) => message.id === id)
+      if (!target) return
+      const { position: _ignored, ...rest } = options
+      const updated: MessageRecord = { ...target, ...rest }
+      commit(
+        messagesRef.current.map((message) =>
+          message.id === id ? updated : message
+        )
+      )
+      const leavesLoading =
+        target.variant === "loading" && updated.variant !== "loading"
+      if (options.duration !== undefined || leavesLoading) {
+        startTimer(
+          id,
+          target.position,
+          options.duration ??
+            (updated.variant === "loading" ? 0 : defaultDuration)
+        )
+      }
+    },
+    [commit, defaultDuration, startTimer]
   )
 
   const clear = React.useCallback(() => {
-    timers.current.forEach((timer) => clearTimeout(timer))
-    timers.current.clear()
-    setMessages((current) => {
-      current.forEach((message) => message.onClose?.())
-      return []
-    })
-  }, [])
+    const current = messagesRef.current
+    current.forEach((message) => clearTimer(message.id))
+    commit([])
+    current.forEach((message) => message.onClose?.())
+  }, [clearTimer, commit])
 
   React.useEffect(
     () => () => {
-      timers.current.forEach((timer) => clearTimeout(timer))
+      timers.current.forEach((timer) => {
+        if (timer.handle) clearTimeout(timer.handle)
+      })
       timers.current.clear()
     },
     []
@@ -540,10 +654,13 @@ function MessageProvider({
         open({ ...options, description, variant: "warning" }),
       error: (description, options) =>
         open({ ...options, description, variant: "destructive" }),
+      loading: (description, options) =>
+        open({ ...options, description, variant: "loading" }),
+      update,
       dismiss,
       clear,
     }),
-    [clear, dismiss, open]
+    [clear, dismiss, open, update]
   )
 
   return (
@@ -590,7 +707,7 @@ function MessageProvider({
               data-slot="message-viewport"
               data-position={position}
               className={cn(
-                "pointer-events-none fixed z-50 flex w-[min(24rem,calc(100vw-2rem))] flex-col",
+                "pointer-events-none fixed z-[100] flex w-[min(24rem,calc(100vw-2rem))] flex-col",
                 stacked && "pointer-events-auto",
                 !stacked && position.startsWith("bottom") && "flex-col-reverse",
                 messagePositionClasses[position]
@@ -606,8 +723,14 @@ function MessageProvider({
                   ? "none"
                   : "height 240ms cubic-bezier(0.22, 1, 0.36, 1)",
               }}
-              onPointerEnter={() => setPositionExpanded(true)}
-              onPointerLeave={() => setPositionExpanded(false)}
+              onPointerEnter={() => {
+                setPositionExpanded(true)
+                setPositionPaused(position, true)
+              }}
+              onPointerLeave={() => {
+                setPositionExpanded(false)
+                setPositionPaused(position, false)
+              }}
               onFocusCapture={() => setPositionExpanded(true)}
               onBlurCapture={(event) => {
                 if (!event.currentTarget.contains(event.relatedTarget)) {

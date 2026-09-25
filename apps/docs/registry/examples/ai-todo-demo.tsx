@@ -7,6 +7,7 @@ import {
   AiTodoHeader,
   AiTodoItem,
   AiTodoList,
+  AiTodoProgress,
   type AiTodoStatus,
 } from "@/registry/ui/ai-todo"
 
@@ -15,13 +16,13 @@ const initialItems: Array<{
   description?: string
   status: AiTodoStatus
 }> = [
-  { title: "读取现有页面结构", status: "completed" },
+  { title: "读取登录页现有结构", status: "completed" },
   {
-    title: "实现新的聊天布局",
-    description: "保留主题变量和键盘交互。",
+    title: "重组表单信息层级",
+    description: "保留原有校验与提交逻辑。",
     status: "in-progress",
   },
-  { title: "核对移动端密度", status: "pending" },
+  { title: "核对移动端间距与点击区域", status: "pending" },
 ]
 
 export default function AiTodoDemo() {
@@ -32,10 +33,11 @@ export default function AiTodoDemo() {
     <AiTodo className="mx-auto w-full max-w-xl">
       <AiTodoHeader>
         实施计划
-        <span className="ml-auto text-xs font-normal text-muted-foreground">
+        <span className="ml-auto font-mono text-xs font-normal tabular-nums text-muted-foreground">
           {completed}/{items.length}
         </span>
       </AiTodoHeader>
+      <AiTodoProgress value={completed} max={items.length} />
       <AiTodoList>
         {items.map((item, index) => (
           <AiTodoItem

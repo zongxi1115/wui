@@ -17,7 +17,7 @@ function MessagePositionButtons() {
   const trigger = (position: MessagePosition, label: string) => {
     message.open({
       position,
-      description: `来自 ${label} (${position}) 的通知消息`,
+      description: `${label}弹出的消息（${position}）`,
       variant: "info",
     })
   }
@@ -29,42 +29,42 @@ function MessagePositionButtons() {
         size="sm"
         onClick={() => trigger("top-left", "左上方")}
       >
-        Top Left
+        左上
       </Button>
       <Button
         variant="outline"
         size="sm"
         onClick={() => trigger("top", "正上方")}
       >
-        Top (默认)
+        顶部（默认）
       </Button>
       <Button
         variant="outline"
         size="sm"
         onClick={() => trigger("top-right", "右上方")}
       >
-        Top Right
+        右上
       </Button>
       <Button
         variant="outline"
         size="sm"
         onClick={() => trigger("bottom-left", "左下方")}
       >
-        Bottom Left
+        左下
       </Button>
       <Button
         variant="outline"
         size="sm"
         onClick={() => trigger("bottom", "正下方")}
       >
-        Bottom
+        底部
       </Button>
       <Button
         variant="outline"
         size="sm"
         onClick={() => trigger("bottom-right", "右下方")}
       >
-        Bottom Right
+        右下
       </Button>
     </div>
   )

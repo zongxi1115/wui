@@ -19,25 +19,71 @@ const spinIndicatorVariants = cva("inline-flex shrink-0 text-primary", {
   },
 })
 
+export type SpinVariant = "ring" | "dots"
+
 export interface SpinIndicatorProps
   extends
     React.ComponentProps<typeof motion.svg>,
     VariantProps<typeof spinIndicatorVariants> {
   /** Indicator dimensions. @default "default" */
   size?: "sm" | "default" | "lg"
+  /** Indicator style: a rotating arc that breathes, or three pulsing dots. @default "ring" */
+  variant?: SpinVariant
 }
 
-/** The animated orbital mark used by Spin. */
+/** The animated mark used by Spin. */
 function SpinIndicator({
   className,
   size = "default",
+  variant = "ring",
   ...props
 }: SpinIndicatorProps) {
   const reduceMotion = useReducedMotion()
 
+  if (variant === "dots") {
+    return (
+      <motion.svg
+        data-slot="spin-indicator"
+        data-variant="dots"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        aria-hidden="true"
+        className={cn(spinIndicatorVariants({ size }), className)}
+        {...props}
+      >
+        {[5, 12, 19].map((cx, index) => (
+          <motion.circle
+            key={cx}
+            cx={cx}
+            cy="12"
+            r="2.4"
+            style={{ transformBox: "fill-box", transformOrigin: "center" }}
+            initial={{ opacity: 0.35, scale: 0.75 }}
+            animate={
+              reduceMotion
+                ? { opacity: 0.7, scale: 1 }
+                : { opacity: [0.35, 1, 0.35], scale: [0.75, 1, 0.75] }
+            }
+            transition={
+              reduceMotion
+                ? { duration: 0 }
+                : {
+                    duration: 1,
+                    ease: "easeInOut",
+                    repeat: Infinity,
+                    delay: index * 0.16,
+                  }
+            }
+          />
+        ))}
+      </motion.svg>
+    )
+  }
+
   return (
     <motion.svg
       data-slot="spin-indicator"
+      data-variant="ring"
       viewBox="0 0 24 24"
       fill="none"
       aria-hidden="true"
@@ -46,7 +92,7 @@ function SpinIndicator({
       transition={
         reduceMotion
           ? undefined
-          : { duration: 0.82, ease: "linear", repeat: Infinity }
+          : { duration: 0.9, ease: "linear", repeat: Infinity }
       }
       {...props}
     >
@@ -58,11 +104,26 @@ function SpinIndicator({
         strokeWidth="2.25"
         opacity="0.16"
       />
-      <path
-        d="M12 3.5a8.5 8.5 0 0 1 8.5 8.5"
+      {/* The arc grows and shrinks while the whole mark rotates, so the motion reads as progress rather than a fixed wheel. */}
+      <motion.circle
+        cx="12"
+        cy="12"
+        r="8.5"
         stroke="currentColor"
         strokeWidth="2.25"
         strokeLinecap="round"
+        initial={{ pathLength: 0.25, rotate: 0 }}
+        animate={
+          reduceMotion
+            ? { pathLength: 0.25 }
+            : { pathLength: [0.12, 0.62, 0.12], rotate: [0, 120, 360] }
+        }
+        style={{ transformBox: "fill-box", transformOrigin: "center" }}
+        transition={
+          reduceMotion
+            ? { duration: 0 }
+            : { duration: 1.6, ease: "easeInOut", repeat: Infinity }
+        }
       />
     </motion.svg>
   )
@@ -77,6 +138,8 @@ export interface SpinProps extends React.ComponentProps<"div"> {
   label?: React.ReactNode
   /** Replace the default orbital indicator. */
   indicator?: React.ReactNode
+  /** Built-in indicator style. Ignored when `indicator` is provided. @default "ring" */
+  variant?: SpinVariant
   /** Wait before showing the indicator to avoid flashes for fast operations. @default 0 */
   delay?: number
   /** Cover the viewport instead of rendering in document flow. @default false */
@@ -91,6 +154,7 @@ function Spin({
   size = "default",
   label,
   indicator,
+  variant = "ring",
   delay = 0,
   fullscreen = false,
   ...props
@@ -126,8 +190,8 @@ function Spin({
           : { type: "spring", stiffness: 420, damping: 32, mass: 0.65 }
       }
     >
-      {indicator ?? <SpinIndicator size={size} />}
-      {label ? <span>{label}</span> : <span className="sr-only">Loading</span>}
+      {indicator ?? <SpinIndicator size={size} variant={variant} />}
+      {label ? <span>{label}</span> : <span className="sr-only">加载中</span>}
     </motion.div>
   )
 
@@ -138,7 +202,7 @@ function Spin({
           <motion.div
             data-slot="spin"
             className={cn(
-              "bg-background/86 fixed inset-0 z-50 flex items-center justify-center",
+              "bg-background/90 fixed inset-0 z-50 flex items-center justify-center",
               className
             )}
             initial={{ opacity: 0 }}
@@ -172,8 +236,8 @@ function Spin({
       <div
         data-slot="spin-content"
         className={cn(
-          "transition-opacity duration-200 motion-reduce:transition-none",
-          visible && "pointer-events-none select-none opacity-45"
+          "transition-opacity duration-300 ease-out motion-reduce:transition-none",
+          visible && "pointer-events-none select-none opacity-40"
         )}
       >
         {children}
@@ -182,7 +246,7 @@ function Spin({
         {visible ? (
           <motion.div
             data-slot="spin-overlay"
-            className="bg-background/55 absolute inset-0 z-10 flex items-center justify-center"
+            className="absolute inset-0 z-10 flex items-center justify-center"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -196,4 +260,4 @@ function Spin({
   )
 }
 
-export { Spin, spinIndicatorVariants }
+export { Spin, SpinIndicator, spinIndicatorVariants }

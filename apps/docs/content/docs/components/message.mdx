@@ -102,7 +102,13 @@ pnpm add radix-ui motion @animateicons/react lucide-react clsx tailwind-merge
       prop: "dragThreshold",
       type: "number",
       default: "72",
-      description: "触发手势滑动关闭所需的水平位移阈值（像素）。",
+      description: "触发手势滑动关闭所需的水平位移阈值（像素）。快速甩动时即使未达到阈值也会移除，消息会沿甩动方向飞出。",
+    },
+    {
+      prop: "pauseOnHover",
+      type: "boolean",
+      default: "true",
+      description: "指针悬停在某一方位的消息上时，暂停该方位所有消息的自动关闭倒计时，移开后按剩余时间继续。",
     },
     {
       prop: "motion",
@@ -114,7 +120,7 @@ pnpm add radix-ui motion @animateicons/react lucide-react clsx tailwind-merge
 
 ### MessageOptions (useMessage 触发参数)
 
-调用 `open`、`info`、`success`、`warning`、`error` 时传入的单条消息配置：
+调用 `open`、`info`、`success`、`warning`、`error`、`loading` 时传入的单条消息配置：
 
 <PropsTable
   data={[
@@ -125,9 +131,9 @@ pnpm add radix-ui motion @animateicons/react lucide-react clsx tailwind-merge
     },
     {
       prop: "variant",
-      type: '"default" | "info" | "success" | "warning" | "destructive"',
+      type: '"default" | "info" | "success" | "warning" | "destructive" | "loading"',
       default: '"default"',
-      description: "消息的色彩语义变体，同时决定动态图标样式。",
+      description: "消息的色彩语义变体，同时决定动态图标样式。\"loading\" 显示旋转指示器，且默认不自动关闭。",
     },
     {
       prop: "position",
@@ -179,6 +185,43 @@ pnpm add radix-ui motion @animateicons/react lucide-react clsx tailwind-merge
   ]}
 />
 
+### MessageApi (useMessage 返回值)
+
+<PropsTable
+  data={[
+    {
+      prop: "open",
+      type: "(options: MessageOptions) => string",
+      description: "打开一条消息并返回其 id。",
+    },
+    {
+      prop: "info / success / warning / error",
+      type: "(description, options?) => string",
+      description: "按语义变体快速打开消息，error 对应 destructive 变体。",
+    },
+    {
+      prop: "loading",
+      type: "(description, options?) => string",
+      description: "打开一条带旋转指示器的加载消息，默认 duration 为 0（不自动关闭），通常与 update 配合使用。",
+    },
+    {
+      prop: "update",
+      type: "(id: string, options: Partial<MessageOptions>) => void",
+      description: "原地更新已有消息（位置不可变）。图标会交叉缩放切换，高度变化平滑过渡。传入 duration 会重新计时；从 loading 切换到其他变体且未指定 duration 时，按 Provider 默认时长自动关闭。",
+    },
+    {
+      prop: "dismiss",
+      type: "(id: string) => void",
+      description: "关闭指定消息。",
+    },
+    {
+      prop: "clear",
+      type: "() => void",
+      description: "关闭全部消息。",
+    },
+  ]}
+/>
+
 ## 事件 Events
 
 <PropsTable
@@ -197,7 +240,7 @@ pnpm add radix-ui motion @animateicons/react lucide-react clsx tailwind-merge
 
 - **非阻塞原则**：Message 通过 Portal 挂载在最顶层，不应抢占用户的交互焦点，也不应强制用户点击确认才能继续操作。
 - **简短精炼**：提示文字应尽量控制在 20 个字符以内（1~2 秒即可阅读完）。若需展示多行报错信息、排查说明或复杂表单错误，请使用 `Alert` 或 `Dialog`。
-- **避免多条轰炸**：若同一操作触发了多次异步回调，优先合并为单条更新，或依赖组件内置的 `stacked` 堆叠与 `maxCount` 机制避免屏幕被弹窗淹没。
+- **避免多条轰炸**：若同一操作触发了多次异步回调，优先用 `loading` + `update` 合并为单条消息原地更新，或依赖组件内置的 `stacked` 堆叠与 `maxCount` 机制避免屏幕被弹窗淹没。
 
 ## 场景示例
 
@@ -209,7 +252,7 @@ pnpm add radix-ui motion @animateicons/react lucide-react clsx tailwind-merge
 
 ### 停留时长与异步加载 (Duration)
 
-可通过 `duration` 设置消息停留时间；将 `duration: 0` 配合自定义 Loading 图标可实现平滑的异步任务状态衔接：
+可通过 `duration` 设置消息停留时间，`duration: 0` 表示不自动关闭；悬停在消息上会暂停计时。异步任务使用 `message.loading` 打开加载消息，完成后以 `message.update` 原地切换为结果，图标与文案平滑过渡而不是弹出第二条消息：
 
 <ComponentPreview name="message-duration" />
 

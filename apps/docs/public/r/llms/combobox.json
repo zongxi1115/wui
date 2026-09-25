@@ -16,7 +16,9 @@
     "wui": "pnpm dlx @wui-design/cli@latest add @wui/combobox",
     "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/combobox.json",
     "npmDependencies": [
-      "lucide-react"
+      "lucide-react",
+      "motion",
+      "class-variance-authority"
     ],
     "registryDependencies": [
       "utils",

@@ -55,7 +55,7 @@ function MessageStackControls() {
         </Button>
       </div>
       <p className="text-xs text-muted-foreground text-center max-w-sm">
-        💡 提示：将鼠标悬停在上方消息卡片堆上可展开为完整列表；向左或向右拖动可滑动移除最顶层消息。
+        悬停在消息堆上可展开为列表；向左或向右甩动卡片即可移除。
       </p>
     </div>
   )

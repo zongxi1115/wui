@@ -83,12 +83,24 @@
       ],
       "defaultValue": "solid",
       "description": "连接线的视觉样式。"
+    },
+    {
+      "name": "animated",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "条目滚动进入视口时，是否依次淡入、弹出节点并绘制连接线。"
     }
   ],
   "examples": [
     {
       "name": "timeline-demo",
       "title": "基础用法"
+    },
+    {
+      "name": "timeline-live",
+      "title": "实时推进的发布流程"
     },
     {
       "name": "timeline-status",

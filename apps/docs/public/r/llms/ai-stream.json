@@ -6,13 +6,15 @@
   "categories": [
     "ai"
   ],
-  "import": "import { AiStream, AiStreamDeltas, AiStreamEdge } from \"@/components/ui/ai-stream\"",
+  "import": "import { AiStream, AiStreamCaret, AiStreamDeltas, AiStreamEdge } from \"@/components/ui/ai-stream\"",
   "exports": [
     "AiStream",
+    "AiStreamCaret",
     "AiStreamDeltas",
     "AiStreamEdge"
   ],
   "typeExports": [
+    "AiStreamCaretProps",
     "AiStreamDeltasProps",
     "AiStreamEdgeProps",
     "AiStreamProps"
@@ -50,6 +52,14 @@
       "control": "number",
       "defaultValue": "18",
       "description": "实时渐隐效果覆盖的末尾字符数量。"
+    },
+    {
+      "name": "caret",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "流式输出时是否在最新字符后显示闪烁光标。"
     }
   ],
   "examples": [

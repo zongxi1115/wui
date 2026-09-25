@@ -3,6 +3,12 @@
 import * as React from "react"
 import { cva } from "class-variance-authority"
 import {
+  AnimatePresence,
+  motion,
+  useReducedMotion,
+  type HTMLMotionProps,
+} from "motion/react"
+import {
   LoaderCircleIcon,
   PlusIcon,
   QuoteIcon,
@@ -328,16 +334,30 @@ function AiPromptTextarea({
     (textarea: HTMLTextAreaElement | null) => {
       if (!textarea || !autoResize) return
 
+      // Measure the natural height, then restore the previous height before
+      // applying the new one so the CSS height transition has a start value.
+      const previous = textarea.style.height
       textarea.style.height = "auto"
-      textarea.style.height = `${Math.min(textarea.scrollHeight, maxHeight)}px`
-      textarea.style.overflowY =
-        textarea.scrollHeight > maxHeight ? "auto" : "hidden"
+      const scrollHeight = textarea.scrollHeight
+      const next = `${Math.min(scrollHeight, maxHeight)}px`
+      textarea.style.overflowY = scrollHeight > maxHeight ? "auto" : "hidden"
+      if (previous && previous !== next) {
+        textarea.style.height = previous
+        void textarea.offsetHeight
+      }
+      textarea.style.height = next
     },
     [autoResize, maxHeight]
   )
 
+  // Tracks the value already measured in onChange, so the follow-up layout
+  // effect does not re-measure and cancel the running height transition.
+  const measuredValue = React.useRef<string | null>(null)
+
   React.useLayoutEffect(() => {
-    resize(textareaRef.current)
+    const textarea = textareaRef.current
+    if (textarea && textarea.value === measuredValue.current) return
+    resize(textarea)
   }, [mention?.value, resize, value])
 
   return (
@@ -360,7 +380,7 @@ function AiPromptTextarea({
           : undefined
       }
       className={cn(
-        "block w-full resize-none overflow-y-hidden bg-transparent px-2 py-2 text-[15px] leading-6 outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50",
+        "block w-full resize-none overflow-y-hidden bg-transparent px-2 py-2 text-[15px] leading-6 outline-none transition-[height] duration-150 ease-out placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 motion-reduce:transition-none",
         className
       )}
       style={{ ...style, maxHeight }}
@@ -372,6 +392,7 @@ function AiPromptTextarea({
             event.currentTarget.selectionStart
           )
         }
+        measuredValue.current = event.currentTarget.value
         resize(event.currentTarget)
       }}
       onKeyDown={(event) => {
@@ -395,6 +416,18 @@ function AiPromptMentionMenu({
   ...props
 }: AiPromptMentionMenuProps) {
   const mention = useAiPromptMention()
+  const reduceMotion = useReducedMotion()
+  const open = !!mention?.open
+  const activeIndex = mention?.activeIndex ?? 0
+  const menuId = mention?.menuId
+
+  React.useEffect(() => {
+    if (!open || !menuId) return
+    document
+      .getElementById(`${menuId}-option-${activeIndex}`)
+      ?.scrollIntoView({ block: "nearest" })
+  }, [activeIndex, menuId, open])
+
   if (!mention?.open) return null
 
   return (
@@ -403,7 +436,7 @@ function AiPromptMentionMenu({
       data-slot="ai-prompt-mention-menu"
       role="listbox"
       className={cn(
-        "absolute inset-x-3 bottom-[calc(100%+0.5rem)] z-30 max-h-64 overflow-y-auto rounded-lg border bg-popover p-1 text-popover-foreground shadow-md",
+        "absolute inset-x-3 bottom-[calc(100%+0.5rem)] z-30 max-h-64 origin-bottom overflow-y-auto rounded-lg border bg-popover p-1 text-popover-foreground shadow-md duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] motion-safe:animate-in motion-safe:fade-in-0 motion-safe:zoom-in-[0.98] motion-safe:slide-in-from-bottom-1",
         className
       )}
       {...props}
@@ -415,14 +448,27 @@ function AiPromptMentionMenu({
             id={`${mention.menuId}-option-${index}`}
             type="button"
             role="option"
+            tabIndex={-1}
             aria-selected={index === mention.activeIndex}
             data-slot="ai-prompt-mention-item"
             data-active={index === mention.activeIndex}
-            className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 text-left text-sm outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:bg-accent focus-visible:text-accent-foreground data-[active=true]:bg-accent data-[active=true]:text-accent-foreground"
+            className="relative isolate flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 text-left text-sm outline-none transition-colors data-[active=true]:text-accent-foreground"
             onMouseEnter={() => mention.setActiveIndex(index)}
             onMouseDown={(event) => event.preventDefault()}
             onClick={() => mention.selectItem(item)}
           >
+            {index === mention.activeIndex ? (
+              <motion.span
+                aria-hidden
+                layoutId={`${mention.menuId}-highlight`}
+                className="absolute inset-0 z-[-1] rounded-md bg-accent"
+                transition={
+                  reduceMotion
+                    ? { duration: 0 }
+                    : { type: "spring", stiffness: 520, damping: 38, mass: 0.7 }
+                }
+              />
+            ) : null}
             {item.avatar ? (
               <span className="shrink-0">{item.avatar}</span>
             ) : null}
@@ -626,16 +672,22 @@ function AiPromptAttachmentButton({
   )
 }
 
+/** Lays out attachment chips and animates keyed chips in and out. */
 function AiPromptAttachments({
   className,
+  children,
   ...props
 }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="ai-prompt-attachments"
-      className={cn("flex min-w-0 flex-wrap items-center gap-2", className)}
+      className={cn("relative flex min-w-0 flex-wrap items-center gap-2", className)}
       {...props}
-    />
+    >
+      <AnimatePresence initial={false} mode="popLayout">
+        {children}
+      </AnimatePresence>
+    </div>
   )
 }
 
@@ -659,14 +711,31 @@ function AiPromptAttachment({
   preview,
   ...props
 }: AiPromptAttachmentProps) {
+  const reduceMotion = useReducedMotion()
+
   return (
-    <div
+    <motion.div
+      layout={!reduceMotion}
       data-slot="ai-prompt-attachment"
       className={cn(
         "flex h-7 min-w-0 max-w-72 items-center gap-1.5 rounded-md px-1.5 transition-colors hover:bg-muted/60",
         className
       )}
-      {...props}
+      initial={
+        reduceMotion ? false : { opacity: 0, scale: 0.9, filter: "blur(3px)" }
+      }
+      animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+      exit={
+        reduceMotion
+          ? { opacity: 0, transition: { duration: 0 } }
+          : { opacity: 0, scale: 0.9, filter: "blur(3px)" }
+      }
+      transition={
+        reduceMotion
+          ? { duration: 0 }
+          : { type: "spring", stiffness: 520, damping: 38, mass: 0.7 }
+      }
+      {...(props as HTMLMotionProps<"div">)}
     >
       <span className="flex size-5 shrink-0 items-center justify-center text-muted-foreground">
         {preview ?? <FileDescriptionIcon size={16} />}
@@ -689,7 +758,7 @@ function AiPromptAttachment({
           <XIcon className="size-3.5" />
         </button>
       ) : null}
-    </div>
+    </motion.div>
   )
 }
 
@@ -951,7 +1020,17 @@ function AiPromptSubmit({
   children,
   ...props
 }: AiPromptSubmitProps) {
+  const reduceMotion = useReducedMotion()
   const busy = status === "submitted" || status === "streaming"
+  const icon =
+    status === "submitted" ? (
+      <LoaderCircleIcon className="motion-safe:animate-spin" />
+    ) : status === "streaming" ? (
+      <SquareIcon className="size-3 fill-current" />
+    ) : (
+      <SendHorizontalIcon size={18} />
+    )
+
   return (
     <Button
       type={busy ? "button" : "submit"}
@@ -959,17 +1038,38 @@ function AiPromptSubmit({
       aria-label={busy ? "停止生成" : "发送消息"}
       data-slot="ai-prompt-submit"
       data-status={status}
-      className={cn("size-10 rounded-full", className)}
+      className={cn(
+        "size-10 rounded-full transition-[color,background-color,border-color,box-shadow,opacity,scale] active:scale-95 motion-reduce:active:scale-100",
+        className
+      )}
       {...props}
     >
-      {children ??
-        (status === "submitted" ? (
-          <LoaderCircleIcon className="motion-safe:animate-spin" />
-        ) : status === "streaming" ? (
-          <SquareIcon className="size-3 fill-current" />
-        ) : (
-          <SendHorizontalIcon size={18} />
-        ))}
+      {children ?? (
+        <AnimatePresence initial={false} mode="popLayout">
+          <motion.span
+            key={status === "error" ? "idle" : status}
+            className="flex items-center justify-center"
+            initial={
+              reduceMotion
+                ? false
+                : { opacity: 0, scale: 0.4, rotate: -45, filter: "blur(2px)" }
+            }
+            animate={{ opacity: 1, scale: 1, rotate: 0, filter: "blur(0px)" }}
+            exit={
+              reduceMotion
+                ? undefined
+                : { opacity: 0, scale: 0.4, rotate: 45, filter: "blur(2px)" }
+            }
+            transition={
+              reduceMotion
+                ? { duration: 0 }
+                : { type: "spring", stiffness: 520, damping: 32, mass: 0.6 }
+            }
+          >
+            {icon}
+          </motion.span>
+        </AnimatePresence>
+      )}
     </Button>
   )
 }

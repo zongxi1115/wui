@@ -1,0 +1,80 @@
+{
+  "name": "animated-list",
+  "type": "registry:ui",
+  "title": "动画列表 Animated List",
+  "description": "逐条揭示列表项并将最新一条置顶，已有条目以弹簧动画下移，适用于通知流与活动记录。",
+  "categories": [
+    "motion"
+  ],
+  "import": "import { AnimatedList } from \"@/components/ui/animated-list\"",
+  "exports": [
+    "AnimatedList"
+  ],
+  "typeExports": [
+    "AnimatedListProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/animated-list",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/animated-list.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": true,
+      "control": "text",
+      "description": "按时间顺序排列且带 key 的子项，最新的一项显示在最上方。"
+    },
+    {
+      "name": "delay",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "1000",
+      "description": "相邻两项依次出现的间隔，单位为毫秒，设为 0 时立即全部显示。"
+    },
+    {
+      "name": "max",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "description": "屏幕上最多保留的条目数，更早的条目从底部移出。"
+    },
+    {
+      "name": "transition",
+      "type": "Transition",
+      "required": false,
+      "control": "text",
+      "defaultValue": "{\r\n  type: \"spring\",\r\n  stiffness: 380,\r\n  damping: 32,\r\n  mass: 0.8,\r\n}",
+      "description": "新条目进入以及其余条目下移时使用的过渡配置。"
+    },
+    {
+      "name": "itemClassName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "应用于每个条目包装元素的类名。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "animated-list-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "animated-list-log",
+      "title": "逐条揭示的构建记录"
+    }
+  ],
+  "files": [
+    "registry/ui/animated-list.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/animated-list",
+  "sourceUrl": "https://ui.wzx.wang/r/animated-list.json"
+}

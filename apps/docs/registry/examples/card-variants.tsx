@@ -12,38 +12,46 @@ import {
 
 export default function CardVariants() {
   return (
-    <div className="grid w-full max-w-2xl grid-cols-1 md:grid-cols-2 gap-4">
-      {/* Elevated variant */}
+    <div className="grid w-full max-w-2xl grid-cols-1 gap-4 md:grid-cols-2">
       <Card variant="elevated">
         <CardHeader>
-          <CardTitle>Elevated (默认悬浮)</CardTitle>
-          <CardDescription>带有柔和的环境投影与低对比度边框。</CardDescription>
+          <CardTitle>本月账单</CardTitle>
+          <CardDescription>elevated · 页面中的独立主体</CardDescription>
           <CardAction>
-            <Badge variant="secondary">Pro</Badge>
+            <Badge variant="warning" size="sm">
+              待支付
+            </Badge>
           </CardAction>
         </CardHeader>
-        <CardContent className="text-sm text-muted-foreground">
-          适用于主要展示区域、独立突出卡片或页面主视觉容器。
+        <CardContent>
+          <p className="text-2xl font-semibold tabular-nums tracking-tight">¥12,480.00</p>
+          <p className="text-muted-foreground mt-1 text-xs">账期 9 月 1 日 – 9 月 30 日</p>
         </CardContent>
         <CardFooter>
-          <Button size="sm" className="w-full">了解详情</Button>
+          <Button size="sm" className="w-full">
+            立即支付
+          </Button>
         </CardFooter>
       </Card>
 
-      {/* Outline variant */}
       <Card variant="outline">
         <CardHeader>
-          <CardTitle>Outline (扁平描边)</CardTitle>
-          <CardDescription>纯边框设计，无环境阴影堆叠。</CardDescription>
+          <CardTitle>自动续费</CardTitle>
+          <CardDescription>outline · 高密度网格与设置项</CardDescription>
           <CardAction>
-            <Badge variant="outline">Free</Badge>
+            <Badge variant="outline" size="sm">
+              已开启
+            </Badge>
           </CardAction>
         </CardHeader>
-        <CardContent className="text-sm text-muted-foreground">
-          适用于高密度网格列表或仪表盘，避免多层阴影造成的视觉噪音。
+        <CardContent>
+          <p className="text-2xl font-semibold tabular-nums tracking-tight">10 月 1 日</p>
+          <p className="text-muted-foreground mt-1 text-xs">将从尾号 6411 的企业账户扣款</p>
         </CardContent>
         <CardFooter>
-          <Button variant="outline" size="sm" className="w-full">立即配置</Button>
+          <Button variant="outline" size="sm" className="w-full">
+            管理续费
+          </Button>
         </CardFooter>
       </Card>
     </div>

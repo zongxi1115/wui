@@ -48,6 +48,14 @@
       "description": "额外增加的垂直滚动距离，单位为像素。"
     },
     {
+      "name": "smooth",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否通过弹簧驱动轨道，让滚轮滚动平滑过渡而非跳动。"
+    },
+    {
       "name": "viewportClassName",
       "type": "string",
       "required": false,
@@ -69,7 +77,7 @@
     },
     {
       "name": "horizontal-scroll-cards",
-      "title": "模块子系统全景"
+      "title": "产品路线图"
     }
   ],
   "files": [

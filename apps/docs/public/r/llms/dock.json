@@ -62,6 +62,10 @@
     {
       "name": "dock-demo",
       "title": "基础示例 · Basic example"
+    },
+    {
+      "name": "dock-vertical",
+      "title": "垂直工具栏"
     }
   ],
   "files": [

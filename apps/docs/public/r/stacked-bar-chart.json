@@ -5,7 +5,8 @@
   "title": "堆叠条形图 Stacked Bar Chart",
   "description": "支持纵向、横向、绝对值与百分比堆叠的分类比较。",
   "registryDependencies": [
-    "chart-core"
+    "chart-core",
+    "utils"
   ],
   "files": [
     {

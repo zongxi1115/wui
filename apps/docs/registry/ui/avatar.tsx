@@ -71,7 +71,7 @@ function AvatarImage({
     <AvatarPrimitive.Image
       data-slot="avatar-image"
       className={cn(
-        "size-full rounded-[inherit] object-cover",
+        "size-full rounded-[inherit] object-cover animate-in fade-in-0 duration-300 motion-reduce:animate-none",
         className
       )}
       {...props}
@@ -102,6 +102,13 @@ export interface AvatarBadgeProps extends React.ComponentProps<"span"> {
   size?: "sm" | "default"
 }
 
+const statusLabels: Record<NonNullable<AvatarBadgeProps["status"]>, string> = {
+  online: "在线",
+  away: "离开",
+  busy: "忙碌",
+  offline: "离线",
+}
+
 function AvatarBadge({
   className,
   status = "online",
@@ -112,23 +119,42 @@ function AvatarBadge({
     <span
       data-slot="avatar-badge"
       data-status={status}
-      aria-label={status}
+      role="img"
+      aria-label={statusLabels[status]}
       className={cn(avatarBadgeVariants({ status, size }), className)}
       {...props}
     />
   )
 }
 
+export interface AvatarGroupProps extends React.ComponentProps<"div"> {
+  /**
+   * Spread the stacked avatars apart on hover and lift the hovered one, so
+   * every member stays identifiable. Changes the group width while hovered.
+   * @default false
+   */
+  spreadOnHover?: boolean
+}
+
+/**
+ * Overlaps avatars into a compact stack. Rules target direct children rather
+ * than `data-slot=avatar`, so avatars wrapped by `TooltipTrigger asChild` (which
+ * overrides the slot) still stack correctly.
+ */
 function AvatarGroup({
   className,
+  spreadOnHover = false,
   ...props
-}: React.ComponentProps<"div">) {
+}: AvatarGroupProps) {
   return (
     <div
       data-slot="avatar-group"
+      data-spread={spreadOnHover || undefined}
       role="group"
       className={cn(
-        "flex items-center [&>[data-slot=avatar]]:-ml-2 [&>[data-slot=avatar]]:ring-2 [&>[data-slot=avatar]]:ring-background [&>[data-slot=avatar]:first-child]:ml-0",
+        "flex items-center [&>*]:ring-2 [&>*]:ring-background [&>*:not(:first-child)]:-ml-2",
+        spreadOnHover &&
+          "[&>*]:transition-[margin,translate] [&>*]:duration-300 [&>*]:ease-[cubic-bezier(0.22,1,0.36,1)] [&:hover>*:not(:first-child)]:ml-1 [&>*:hover]:z-10 [&>*:hover]:-translate-y-0.5 motion-reduce:[&>*]:transition-none",
         className
       )}
       {...props}
@@ -152,7 +178,7 @@ function AvatarGroupCount({
       data-size={size}
       className={cn(
         avatarVariants({ size }),
-        "-ml-2 bg-muted font-medium text-muted-foreground ring-2 ring-background",
+        "bg-muted font-medium text-muted-foreground tabular-nums ring-2 ring-background",
         className
       )}
       {...props}

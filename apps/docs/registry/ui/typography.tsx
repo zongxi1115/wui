@@ -17,7 +17,7 @@ const typographyVariants = cva("text-foreground", {
       muted: "text-muted-foreground text-sm leading-6",
       code: "bg-muted rounded-sm px-1.5 py-0.5 font-mono text-[0.875em] font-medium",
       blockquote:
-        "border-border text-muted-foreground border-l-2 pl-4 text-base italic leading-7",
+        "border-border text-muted-foreground border-l-2 pl-4 text-base leading-7",
     },
   },
   defaultVariants: { variant: "body" },
@@ -104,7 +104,7 @@ function TypographyLink({ className, ...props }: React.ComponentProps<"a">) {
     <a
       data-slot="typography-link"
       className={cn(
-        "decoration-primary/40 hover:decoration-primary focus-visible:ring-ring/30 text-primary rounded-sm font-medium underline underline-offset-4 outline-none transition-colors focus-visible:ring-[3px]",
+        "decoration-primary/35 hover:decoration-primary focus-visible:ring-ring/30 text-primary rounded-sm font-medium underline decoration-1 underline-offset-4 outline-none transition-[color,text-decoration-color,text-underline-offset] duration-200 ease-out hover:underline-offset-[5px] focus-visible:ring-[3px] motion-reduce:transition-none",
         className
       )}
       {...props}

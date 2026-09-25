@@ -23,7 +23,8 @@
     ],
     "registryDependencies": [
       "utils",
-      "ai-stream"
+      "ai-stream",
+      "code-block"
     ]
   },
   "props": [
@@ -132,7 +133,7 @@
     },
     {
       "name": "markdown-custom",
-      "title": "自定义元素重载 (带复制的代码块与高亮链接)"
+      "title": "自定义元素重载"
     }
   ],
   "files": [

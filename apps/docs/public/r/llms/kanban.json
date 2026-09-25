@@ -2,8 +2,8 @@
   "name": "kanban",
   "type": "registry:ui",
   "title": "看板 Kanban",
-  "description": "用于敏捷项目管理、需求流转与线索阶段跟踪的可组合看板组件，内置 HTML5 原生拖拽流转与悬停响应。",
-  "import": "import { Kanban, KanbanCard, KanbanColumn, KanbanColumnBody, KanbanColumnCount, KanbanColumnHeader, KanbanColumnTitle } from \"@/components/ui/kanban\"",
+  "description": "用于敏捷项目管理、需求流转与线索阶段跟踪的可组合看板组件，支持跨列拖拽、列内排序、键盘移动与布局过渡动画。",
+  "import": "import { Kanban, KanbanCard, KanbanColumn, KanbanColumnBody, KanbanColumnCount, KanbanColumnHeader, KanbanColumnTitle, moveKanbanItem } from \"@/components/ui/kanban\"",
   "exports": [
     "Kanban",
     "KanbanCard",
@@ -11,7 +11,8 @@
     "KanbanColumnBody",
     "KanbanColumnCount",
     "KanbanColumnHeader",
-    "KanbanColumnTitle"
+    "KanbanColumnTitle",
+    "moveKanbanItem"
   ],
   "typeExports": [
     "KanbanCardProps",
@@ -23,7 +24,8 @@
     "wui": "pnpm dlx @wui-design/cli@latest add @wui/kanban",
     "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/kanban.json",
     "npmDependencies": [
-      "lucide-react"
+      "lucide-react",
+      "motion"
     ],
     "registryDependencies": [
       "utils"

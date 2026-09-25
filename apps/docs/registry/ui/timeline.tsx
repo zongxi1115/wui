@@ -1,7 +1,13 @@
 "use client"
 
 import * as React from "react"
-import { motion, useReducedMotion } from "motion/react"
+import {
+  inView,
+  motion,
+  useComposedRefs,
+  useReducedMotion,
+  type HTMLMotionProps,
+} from "motion/react"
 import { cva } from "class-variance-authority"
 
 import { cn } from "@/registry/lib/utils"
@@ -11,24 +17,43 @@ type TimelineAlign = "start" | "alternate"
 type TimelineDensity = "default" | "compact"
 type TimelineSide = "left" | "right"
 
+const ease = [0.22, 1, 0.36, 1] as const
+const spring = { type: "spring", stiffness: 520, damping: 38, mass: 0.7 } as const
+/** Seconds between items that enter the viewport in the same frame. */
+const STAGGER = 0.07
+
 const TimelineContext = React.createContext<{
   orientation: TimelineOrientation
   align: TimelineAlign
   density: TimelineDensity
   connector: "solid" | "dashed"
+  animated: boolean
+  nextDelay: () => number
 }>({
   orientation: "vertical",
   align: "start",
   density: "default",
   connector: "solid",
+  animated: false,
+  nextDelay: () => 0,
 })
 
-const TimelineItemContext = React.createContext<{ side: TimelineSide }>({
+const TimelineItemContext = React.createContext<{
+  side: TimelineSide
+  /** Whether the item has entered the viewport (always true when not animated). */
+  revealed: boolean
+  /** Stagger delay, in seconds, assigned when the item entered the viewport. */
+  delay: number
+  animated: boolean
+}>({
   side: "right",
+  revealed: true,
+  delay: 0,
+  animated: false,
 })
 
 const timelineDotVariants = cva(
-  "relative z-10 flex shrink-0 items-center justify-center border-2 border-background ring-1 [&_svg]:size-4",
+  "relative z-10 flex shrink-0 items-center justify-center border-2 border-background ring-1 transition-[background-color,color,box-shadow] duration-300 [&_svg]:size-4",
   {
     variants: {
       variant: {
@@ -65,6 +90,8 @@ export interface TimelineProps extends React.ComponentProps<"ol"> {
   density?: TimelineDensity
   /** Connector line treatment. @default "solid" */
   connector?: "solid" | "dashed"
+  /** Reveal items with a staggered fade, marker pop and connector draw as they scroll into view. @default true */
+  animated?: boolean
 }
 
 /** A composable chronological list supporting vertical, alternate, and horizontal layouts. */
@@ -74,13 +101,43 @@ function Timeline({
   align = "start",
   density = "default",
   connector = "solid",
+  animated = true,
   ...props
 }: TimelineProps) {
   const resolvedAlign = orientation === "horizontal" ? "start" : align
+  const reduceMotion = useReducedMotion()
+  const batch = React.useRef({ count: 0, frame: 0 })
+
+  React.useEffect(() => {
+    const current = batch.current
+    return () => cancelAnimationFrame(current.frame)
+  }, [])
+
+  // Items entering the viewport in the same frame share a batch and stagger;
+  // items revealed later by scrolling start immediately.
+  const nextDelay = React.useCallback(() => {
+    const current = batch.current
+    if (!current.frame) {
+      current.frame = requestAnimationFrame(() => {
+        current.count = 0
+        current.frame = 0
+      })
+    }
+    const delay = Math.min(current.count, 8) * STAGGER
+    current.count += 1
+    return delay
+  }, [])
 
   return (
     <TimelineContext.Provider
-      value={{ orientation, align: resolvedAlign, density, connector }}
+      value={{
+        orientation,
+        align: resolvedAlign,
+        density,
+        connector,
+        animated: animated && !reduceMotion,
+        nextDelay,
+      }}
     >
       <ol
         data-slot="timeline"
@@ -111,14 +168,40 @@ function TimelineItem({
   className,
   side = "right",
   state = "default",
+  ref: externalRef,
   ...props
 }: TimelineItemProps) {
-  const { orientation, align, density } = React.useContext(TimelineContext)
+  const { orientation, align, density, animated, nextDelay } =
+    React.useContext(TimelineContext)
   const alternate = orientation === "vertical" && align === "alternate"
+  const ref = React.useRef<HTMLLIElement>(null)
+  const composedRef = useComposedRefs(ref, externalRef)
+  const [reveal, setReveal] = React.useState({ shown: false, delay: 0 })
+
+  React.useEffect(() => {
+    if (!animated || !ref.current) return
+    let done = false
+    return inView(
+      ref.current,
+      () => {
+        if (done) return
+        done = true
+        setReveal({ shown: true, delay: nextDelay() })
+      },
+      { margin: "0px 0px -8% 0px" }
+    )
+  }, [animated, nextDelay])
+
+  const revealed = !animated || reveal.shown
+  const hidden =
+    orientation === "horizontal" ? { opacity: 0, x: -8 } : { opacity: 0, y: 8 }
 
   return (
-    <TimelineItemContext.Provider value={{ side }}>
-      <li
+    <TimelineItemContext.Provider
+      value={{ side, revealed, delay: reveal.delay, animated }}
+    >
+      <motion.li
+        ref={composedRef}
         data-slot="timeline-item"
         data-state={state}
         data-side={side}
@@ -134,7 +217,10 @@ function TimelineItem({
           state === "upcoming" && "[&_[data-slot=timeline-content]]:opacity-55",
           className
         )}
-        {...props}
+        initial={animated ? hidden : false}
+        animate={revealed ? { opacity: 1, x: 0, y: 0 } : hidden}
+        transition={{ duration: 0.32, ease, delay: reveal.delay }}
+        {...(props as HTMLMotionProps<"li">)}
       />
     </TimelineItemContext.Provider>
   )
@@ -163,7 +249,8 @@ function TimelineDot({
   ...props
 }: TimelineDotProps) {
   const { orientation, align } = React.useContext(TimelineContext)
-  const { side } = React.useContext(TimelineItemContext)
+  const { side, revealed, delay, animated } =
+    React.useContext(TimelineItemContext)
   const reduceMotion = useReducedMotion()
   const alternate = orientation === "vertical" && align === "alternate"
 
@@ -212,13 +299,19 @@ function TimelineDot({
           }
         />
       ) : null}
-      <span
+      <motion.span
         data-slot="timeline-dot"
+        data-variant={variant}
         className={cn(timelineDotVariants({ variant, size }), className)}
-        {...props}
+        initial={animated ? { scale: 0.4, opacity: 0 } : false}
+        animate={
+          revealed ? { scale: 1, opacity: 1 } : { scale: 0.4, opacity: 0 }
+        }
+        transition={{ ...spring, delay: delay + 0.05 }}
+        {...(props as HTMLMotionProps<"span">)}
       >
         {children}
-      </span>
+      </motion.span>
     </span>
   )
 }
@@ -231,12 +324,15 @@ export interface TimelineSeparatorProps extends React.ComponentProps<"span"> {
 function TimelineSeparator({
   className,
   markerSize = "dot",
+  style,
   ...props
 }: TimelineSeparatorProps) {
   const { orientation, density, connector } = React.useContext(TimelineContext)
+  const { revealed, delay, animated } = React.useContext(TimelineItemContext)
+  const axis = orientation === "vertical" ? "scaleY" : "scaleX"
 
   return (
-    <span
+    <motion.span
       aria-hidden
       data-slot="timeline-separator"
       className={cn(
@@ -262,7 +358,11 @@ function TimelineSeparator({
           : "bg-border",
         className
       )}
-      {...props}
+      style={{ originX: 0, originY: 0, ...style }}
+      initial={animated ? { [axis]: 0 } : false}
+      animate={{ [axis]: revealed ? 1 : 0 }}
+      transition={{ duration: 0.5, ease, delay: delay + 0.12 }}
+      {...(props as HTMLMotionProps<"span">)}
     />
   )
 }
@@ -276,7 +376,7 @@ function TimelineContent({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="timeline-content"
       className={cn(
-        "min-w-0 transition-opacity",
+        "min-w-0 transition-opacity duration-300",
         orientation === "horizontal" && "row-start-2",
         alternate && side === "left" && "col-start-1 row-start-1 text-right",
         alternate && side === "right" && "col-start-3 row-start-1 text-left",

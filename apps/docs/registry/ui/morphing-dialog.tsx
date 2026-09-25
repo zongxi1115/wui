@@ -7,6 +7,7 @@ import {
   AnimatePresence,
   LayoutGroup,
   motion,
+  useMotionValue,
   useReducedMotion,
   type Transition,
   type Variants,
@@ -16,9 +17,8 @@ import { cn } from "@/registry/lib/utils"
 
 const defaultTransition = {
   type: "spring",
-  stiffness: 420,
-  damping: 34,
-  mass: 0.7,
+  bounce: 0.12,
+  visualDuration: 0.42,
 } as const
 
 type MorphingDialogContextValue = {
@@ -41,6 +41,54 @@ function useMorphingDialog() {
 }
 
 const MotionContent = motion.create(DialogPrimitive.Content)
+
+/**
+ * The shared-layout surface that morphs between the trigger and the dialog.
+ * It copies the corner radius of the element it sits on (as a motion value,
+ * before the first paint) so Motion can animate and scale-correct the radius
+ * instead of stretching it mid-morph.
+ */
+function MorphingSurface({
+  layoutId,
+  transition,
+  source,
+  className,
+}: {
+  layoutId: string
+  transition: Transition
+  source: "parent" | "next-sibling"
+  className?: string
+}) {
+  // Start close to the default radii so the server-rendered surface already
+  // looks right before the measurement runs.
+  const borderRadius = useMotionValue(source === "parent" ? 10 : 8)
+  const measure = React.useCallback(
+    (node: HTMLSpanElement | null) => {
+      const element =
+        source === "parent" ? node?.parentElement : node?.nextElementSibling
+      if (!element) return
+      const rect = element.getBoundingClientRect()
+      const radius =
+        Number.parseFloat(getComputedStyle(element).borderTopLeftRadius) || 0
+      borderRadius.set(Math.min(radius, rect.width / 2, rect.height / 2))
+    },
+    [borderRadius, source]
+  )
+
+  return (
+    <motion.span
+      ref={measure}
+      aria-hidden
+      layoutId={layoutId}
+      className={cn(
+        "bg-background pointer-events-none absolute inset-0 block border",
+        className
+      )}
+      style={{ borderRadius }}
+      transition={transition}
+    />
+  )
+}
 
 export interface MorphingDialogProps extends React.ComponentProps<
   typeof DialogPrimitive.Root
@@ -100,17 +148,17 @@ function MorphingDialogTrigger({
       className="relative inline-flex"
     >
       {!open ? (
-        <motion.span
-          aria-hidden
+        <MorphingSurface
           layoutId={`${layoutId}-surface`}
-          className="bg-background shadow-xs pointer-events-none absolute inset-0 rounded-md border"
+          source="next-sibling"
+          className="shadow-xs"
           transition={reduceMotion ? { duration: 0 } : transition}
         />
       ) : null}
       <DialogPrimitive.Trigger
         data-slot="morphing-dialog-trigger"
         className={cn(
-          "focus-visible:ring-ring/50 relative z-10 inline-flex min-h-9 items-center justify-center rounded-md px-4 text-sm font-medium outline-none transition-opacity focus-visible:ring-[3px] [&[data-slot=button]]:border-transparent [&[data-slot=button]]:bg-transparent [&[data-slot=button]]:shadow-none",
+          "focus-visible:ring-ring/50 relative z-10 inline-flex min-h-9 items-center justify-center rounded-md px-4 text-sm font-medium outline-none transition-opacity focus-visible:ring-[3px] [&[data-variant]]:border-transparent [&[data-variant]]:bg-transparent [&[data-variant]]:shadow-none",
           open && "pointer-events-none opacity-0",
           className
         )}
@@ -129,21 +177,32 @@ export interface MorphingDialogContentProps extends React.ComponentProps<
   overlayClassName?: string
   /** Motion variants for the content inside the morphing surface. */
   variants?: Variants
+  /**
+   * Content rendered above the body without the fade-in, typically a
+   * `MorphingDialogImage`, so shared media stays fully visible while it morphs.
+   */
+  media?: React.ReactNode
 }
 
 function MorphingDialogContent({
   className,
   overlayClassName,
   variants,
+  media,
   children,
   ...props
 }: MorphingDialogContentProps) {
   const { open, layoutId, transition } = useMorphingDialog()
   const reduceMotion = useReducedMotion()
   const contentVariants: Variants = variants ?? {
-    initial: { opacity: 0, y: 8, filter: "blur(4px)" },
-    animate: { opacity: 1, y: 0, filter: "blur(0px)" },
-    exit: { opacity: 0, y: 4, filter: "blur(3px)" },
+    initial: { opacity: 0, y: 10, scale: 0.98, filter: "blur(6px)" },
+    animate: { opacity: 1, y: 0, scale: 1, filter: "blur(0px)" },
+    exit: {
+      opacity: 0,
+      y: 6,
+      filter: "blur(4px)",
+      transition: { duration: 0.12, delay: 0 },
+    },
   }
 
   return (
@@ -174,12 +233,20 @@ function MorphingDialogContent({
               initial={false}
               {...(props as React.ComponentProps<typeof MotionContent>)}
             >
-              <motion.div
-                aria-hidden
+              <MorphingSurface
                 layoutId={`${layoutId}-surface`}
-                className="bg-background pointer-events-none absolute inset-0 rounded-lg border shadow-lg"
+                source="parent"
+                className="shadow-lg"
                 transition={reduceMotion ? { duration: 0 } : transition}
               />
+              {media ? (
+                <div
+                  data-slot="morphing-dialog-media"
+                  className="relative z-10 overflow-hidden rounded-t-[inherit]"
+                >
+                  {media}
+                </div>
+              ) : null}
               <motion.div
                 data-slot="morphing-dialog-body"
                 className="relative z-10 p-6"
@@ -188,8 +255,9 @@ function MorphingDialogContent({
                 animate="animate"
                 exit="exit"
                 transition={{
-                  duration: reduceMotion ? 0 : 0.2,
-                  delay: reduceMotion ? 0 : 0.08,
+                  duration: reduceMotion ? 0 : 0.28,
+                  delay: reduceMotion ? 0 : 0.1,
+                  ease: [0.22, 1, 0.36, 1],
                 }}
               >
                 {children}
@@ -291,7 +359,7 @@ function MorphingDialogClose({
       {...props}
     >
       {children ?? <XIcon className="size-4" />}
-      {!children ? <span className="sr-only">Close</span> : null}
+      {!children ? <span className="sr-only">关闭</span> : null}
     </DialogPrimitive.Close>
   )
 }

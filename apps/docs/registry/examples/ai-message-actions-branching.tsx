@@ -1,91 +1,91 @@
 "use client"
 
 import * as React from "react"
-import { BotIcon, CheckCircleIcon } from "lucide-react"
 
 import {
   AiMessageActions,
   AiMessageBranch,
   AiMessageCopy,
+  AiMessageEdit,
   AiMessageFeedback,
   AiMessageRetry,
 } from "@/registry/ui/ai-message-actions"
 
-const versions = [
+const VERSIONS = [
   {
-    id: 1,
-    title: "版本 1（技术详尽版）",
+    label: "详细解释",
     content:
-      "在 React 19 中，你可以使用 `useActionState` 管理异步表单状态。它接收一个 action 函数和初始状态，返回 [state, formAction, isPending]，极大简化了提交中的加载反馈与错误回显逻辑。",
+      "在 React 19 中，useActionState 接收 action 函数和初始状态，返回 [state, formAction, isPending]。表单提交时 React 自动追踪过渡状态，你只需要根据 isPending 禁用按钮、根据 state 显示错误。",
   },
   {
-    id: 2,
-    title: "版本 2（极简代码示例）",
+    label: "只给代码",
     content:
-      "核心代码示例：\n```tsx\nconst [state, formAction, isPending] = useActionState(updateName, null)\nreturn <form action={formAction}><button disabled={isPending}>保存</button></form>\n```",
+      "const [state, formAction, isPending] = useActionState(updateName, null)\n\n<form action={formAction}>\n  <button disabled={isPending}>保存</button>\n</form>",
   },
   {
-    id: 3,
-    title: "版本 3（与 React 18 对比）",
+    label: "对比 React 18",
     content:
-      "相较于 React 18 手动 useState + try/catch/finally 的繁琐模式，React 19 Action 原生与服务端组件、流式 Suspense 和渐进增强表单无缝融合。",
+      "React 18 需要手动维护 loading、error 两个 state 并包一层 try/finally；React 19 把这部分收进 useActionState，并能与服务端 Action 和渐进增强表单直接配合。",
   },
 ]
 
 export default function AiMessageActionsBranching() {
-  const [currentIdx, setCurrentIdx] = React.useState(0)
+  const [index, setIndex] = React.useState(0)
+  const [direction, setDirection] = React.useState(1)
   const [loading, setLoading] = React.useState(false)
-  const [copiedNotice, setCopiedNotice] = React.useState(false)
 
-  const activeVersion = versions[currentIdx]
-
-  const handleRetry = () => {
-    setLoading(true)
-    setTimeout(() => {
+  React.useEffect(() => {
+    if (!loading) return
+    const timer = window.setTimeout(() => {
       setLoading(false)
-      // Switch to next or loop
-      setCurrentIdx((prev) => (prev + 1) % versions.length)
+      setDirection(1)
+      setIndex((current) => (current + 1) % VERSIONS.length)
     }, 800)
-  }
+    return () => window.clearTimeout(timer)
+  }, [loading])
 
-  const handleCopy = () => {
-    setCopiedNotice(true)
-    setTimeout(() => setCopiedNotice(false), 2000)
+  const version = VERSIONS[index]
+
+  function go(next: number) {
+    setDirection(next > index ? 1 : -1)
+    setIndex(next)
   }
 
   return (
-    <div className="w-full max-w-xl space-y-3">
-      <div className="rounded-xl border bg-card p-5 shadow-xs">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2 text-xs font-semibold text-primary">
-            <BotIcon className="size-4" />
-            <span>{activeVersion.title}</span>
-          </div>
-          {copiedNotice && (
-            <span className="flex items-center gap-1 text-xs text-emerald-500 font-medium animate-in fade-in">
-              <CheckCircleIcon className="size-3.5" /> 已复制到剪贴板
-            </span>
-          )}
+    <div className="mx-auto w-full max-w-xl space-y-4">
+      <div className="flex justify-end">
+        <div className="max-w-[80%] rounded-2xl rounded-br-md bg-primary px-4 py-2.5 text-sm text-primary-foreground">
+          useActionState 应该怎么用？
+        </div>
+      </div>
+
+      <div className="space-y-2">
+        <div
+          key={index}
+          className={
+            direction > 0
+              ? "duration-300 animate-in fade-in-0 slide-in-from-right-2"
+              : "duration-300 animate-in fade-in-0 slide-in-from-left-2"
+          }
+        >
+          <div className="mb-1 text-xs text-muted-foreground">{version.label}</div>
+          <p className="whitespace-pre-wrap text-sm leading-7 text-foreground">
+            {version.content}
+          </p>
         </div>
 
-        <div className="mt-3 whitespace-pre-line text-sm leading-relaxed text-foreground">
-          {activeVersion.content}
-        </div>
-
-        <div className="mt-4 flex items-center justify-between border-t border-border/60 pt-3">
-          {/* 版本分支切换器 */}
+        <div className="-ml-1.5 flex items-center gap-1">
           <AiMessageBranch
-            current={currentIdx + 1}
-            total={versions.length}
-            onPrev={() => setCurrentIdx((p) => Math.max(0, p - 1))}
-            onNext={() => setCurrentIdx((p) => Math.min(versions.length - 1, p + 1))}
+            current={index + 1}
+            total={VERSIONS.length}
+            onPrev={() => go(Math.max(0, index - 1))}
+            onNext={() => go(Math.min(VERSIONS.length - 1, index + 1))}
           />
-
-          {/* 快捷操作区 */}
           <AiMessageActions>
-            <AiMessageCopy content={activeVersion.content} onCopy={handleCopy} />
-            <AiMessageRetry isLoading={loading} onClick={handleRetry} />
-            <AiMessageFeedback />
+            <AiMessageCopy content={version.content} />
+            <AiMessageRetry isLoading={loading} onClick={() => setLoading(true)} />
+            <AiMessageEdit />
+            <AiMessageFeedback key={index} />
           </AiMessageActions>
         </div>
       </div>

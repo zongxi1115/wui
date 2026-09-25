@@ -1,0 +1,90 @@
+---
+title: 动画列表 Animated List
+description: 逐条揭示列表项并将最新一条置顶，已有条目以弹簧动画下移，适用于通知流与活动记录。
+component: animated-list
+---
+
+## 基础用法
+
+按时间顺序传入带 `key` 的子元素，最后一项（最新）显示在最上方。父组件追加新条目时，新条目从顶部淡入，其余条目平滑下移；配合 `max` 限制可见数量，最旧的条目会从底部淡出：
+
+<ComponentPreview name="animated-list-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
+
+<CodeTabs command="@wui-design/cli@latest add @wui/animated-list" />
+
+<Steps>
+
+<Step>安装基础依赖与 Motion 动效库</Step>
+
+```bash
+pnpm add motion clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/animated-list.tsx`</Step>
+
+<ComponentSource name="animated-list" title="components/ui/animated-list.tsx" />
+
+</Steps>
+
+## 属性 Props
+
+`AnimatedList` 渲染为 `<ul>`，每个子元素被包裹在 `<li>` 中，并继承原生 `<ul>` 的其余 HTML 属性：
+
+<PropsTable
+  data={[
+    {
+      prop: "children",
+      type: "React.ReactNode",
+      required: true,
+      description: "按时间先后排列、带有唯一 `key` 的元素，最后一项显示在最上方。",
+    },
+    {
+      prop: "delay",
+      type: "number",
+      default: "1000",
+      description: "逐条揭示的间隔（毫秒）。尚未显示的条目会按此节奏一条条出现；设为 0 时立即显示全部，由父组件控制新增节奏。",
+    },
+    {
+      prop: "max",
+      type: "number",
+      description: "最多同时显示的条目数，超出的旧条目从底部淡出。",
+    },
+    {
+      prop: "transition",
+      type: "Transition",
+      default: '{ type: "spring", stiffness: 380, damping: 32, mass: 0.8 }',
+      description: "条目入场与位置移动的过渡参数。",
+    },
+    {
+      prop: "itemClassName",
+      type: "string",
+      description: "应用于每个 `<li>` 包裹元素的类名。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`AnimatedList` 适合通知中心、实时活动流、构建日志等“新内容持续到达”的列表。
+
+- **保持稳定 key**：条目必须使用稳定且唯一的 `key`（如消息 id），组件依赖它判断哪些条目是新增的。
+- **限制数量**：实时流请配合 `max`，并在父组件中裁剪数据数组，避免无限增长。
+- **节奏适中**：新增频率高于每秒一条时，逐条动画会让人眼花，建议合并为“有 N 条新消息”的提示。
+
+## 场景示例
+
+### 逐条揭示的构建记录
+
+传入完整数组并设置 `delay`，条目会按间隔依次出现；通过改变 `key` 可以重新播放：
+
+<ComponentPreview name="animated-list-log" />
+
+## 无障碍与交互 Accessibility
+
+- **礼貌播报新增内容**：列表默认带有 `aria-live="polite"`，新增条目会在读屏空闲时播报。若列表更新非常频繁，可以传入 `aria-live="off"` 并提供其他提示方式。
+- **列表语义**：使用 `<ul>` / `<li>` 结构，读屏软件可以读出条目数量。建议通过 `aria-label` 为列表命名。
+- **减少动态效果**：开启 `prefers-reduced-motion` 时，条目的入场与位移动画即时完成。

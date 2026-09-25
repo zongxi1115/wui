@@ -1,32 +1,28 @@
 "use client"
 
 import * as React from "react"
-import { CheckCircle2Icon } from "lucide-react"
+import { CheckIcon } from "lucide-react"
 
-import { Badge } from "@/registry/ui/badge"
 import { StickyStack, StickyStackItem } from "@/registry/ui/sticky-stack"
 
-const steps = [
+const plans = [
   {
-    step: "01",
-    badge: "Ingestion",
-    title: "Real-Time Document Indexing",
-    desc: "Parse PDFs, Markdown, and structured JSON into vector embeddings with sub-100ms chunking.",
-    bg: "bg-gradient-to-br from-blue-500/10 via-background to-card",
+    name: "个人版",
+    price: "免费",
+    note: "适合独立创作者",
+    perks: ["3 个项目", "基础模板", "7 天版本历史"],
   },
   {
-    step: "02",
-    badge: "Retrieval",
-    title: "Hybrid Semantic Search",
-    desc: "Combine BM25 keyword matching with dense HNSW vector similarity for 99.4% top-3 retrieval recall.",
-    bg: "bg-gradient-to-br from-indigo-500/10 via-background to-card",
+    name: "团队版",
+    price: "¥48",
+    note: "每位成员 / 月",
+    perks: ["无限项目", "权限与审批流", "90 天版本历史", "优先支持"],
   },
   {
-    step: "03",
-    badge: "Synthesis",
-    title: "Context-Aware Generation",
-    desc: "Stream response deltas directly with source citation grounding and hallucination guardrails.",
-    bg: "bg-gradient-to-br from-purple-500/10 via-background to-card",
+    name: "企业版",
+    price: "联系我们",
+    note: "按组织规模定制",
+    perks: ["单点登录与审计日志", "私有化部署", "专属客户成功经理"],
   },
 ]
 
@@ -36,41 +32,47 @@ export default function StickyStackFeatures() {
   return (
     <div
       ref={container}
-      className="relative h-96 w-full max-w-xl overflow-y-auto rounded-2xl border bg-card p-6 shadow-md [scrollbar-width:thin]"
+      className="h-[26rem] w-full overflow-y-auto rounded-b-lg"
     >
-      <div className="mb-4">
-        <h3 className="text-lg font-semibold text-foreground">
-          RAG Pipeline Execution
-        </h3>
-        <p className="text-xs text-muted-foreground">
-          Scroll down to stack execution lifecycle phases.
+      <div className="mx-auto max-w-md px-6 pt-8 pb-4">
+        <h3 className="font-semibold">选择适合你的方案</h3>
+        <p className="text-muted-foreground mt-1 text-sm">
+          所有方案均可随时升级或降级。
         </p>
       </div>
 
-      <StickyStack container={container} top={12} gap={10} scaleStep={0.04}>
-        {steps.map((item) => (
+      <StickyStack
+        container={container}
+        top={12}
+        gap={8}
+        scaleStep={0.04}
+        dim={0.35}
+        className="mx-auto max-w-md px-6 pb-20"
+      >
+        {plans.map((plan) => (
           <StickyStackItem
-            key={item.step}
-            className={`rounded-xl border p-5 shadow-lg ${item.bg}`}
+            key={plan.name}
+            className="bg-background mb-24 rounded-lg border p-5"
           >
-            <div className="flex items-center justify-between">
-              <span className="font-mono text-xs font-bold text-primary">
-                PHASE {item.step}
-              </span>
-              <Badge variant="outline" className="text-[10px]">
-                {item.badge}
-              </Badge>
+            <div className="flex items-baseline justify-between gap-4">
+              <h4 className="font-medium">{plan.name}</h4>
+              <p>
+                <span className="text-xl font-semibold tracking-tight">
+                  {plan.price}
+                </span>
+              </p>
             </div>
-            <h4 className="mt-2 text-base font-semibold text-foreground">
-              {item.title}
-            </h4>
-            <p className="mt-1 text-xs text-muted-foreground leading-relaxed">
-              {item.desc}
+            <p className="text-muted-foreground text-right text-xs">
+              {plan.note}
             </p>
-            <div className="mt-4 flex items-center gap-1.5 text-xs text-emerald-600 dark:text-emerald-400">
-              <CheckCircle2Icon className="size-3.5" />
-              <span>Automated Verification Pass</span>
-            </div>
+            <ul className="mt-4 space-y-2 border-t pt-4">
+              {plan.perks.map((perk) => (
+                <li key={perk} className="flex items-center gap-2 text-sm">
+                  <CheckIcon className="text-muted-foreground size-3.5" />
+                  {perk}
+                </li>
+              ))}
+            </ul>
           </StickyStackItem>
         ))}
       </StickyStack>

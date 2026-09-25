@@ -5,7 +5,8 @@
   "title": "时间序列图 Time Series Chart",
   "description": "按真实时间间隔绘制趋势，并支持线性或对数数值轴。",
   "registryDependencies": [
-    "chart-core"
+    "chart-core",
+    "utils"
   ],
   "files": [
     {

@@ -3,11 +3,19 @@
 import * as React from "react"
 import {
   CheckIcon,
+  CircleAlertIcon,
   CloudUploadIcon,
+  FileIcon,
   LoaderCircleIcon,
   RotateCcwIcon,
+  XIcon,
 } from "lucide-react"
-import { AnimatePresence, motion, useReducedMotion } from "motion/react"
+import {
+  AnimatePresence,
+  motion,
+  useReducedMotion,
+  type HTMLMotionProps,
+} from "motion/react"
 import { cva } from "class-variance-authority"
 
 import { cn } from "@/registry/lib/utils"
@@ -32,7 +40,7 @@ export interface UploadProps
     React.ComponentProps<"input">,
     "children" | "onChange" | "size" | "type" | "value"
   > {
-  /** Main instruction displayed inside the drop zone. @default "Drop files here or click to browse" */
+  /** Main instruction displayed inside the drop zone. @default "拖拽文件到此处，或点击选择" */
   label?: string
   /** Supporting copy displayed under the main instruction. */
   description?: string
@@ -55,7 +63,7 @@ export interface UploadProps
 /** A click and drag-and-drop file picker with upload lifecycle feedback. */
 function Upload({
   className,
-  label = "Drop files here or click to browse",
+  label = "拖拽文件到此处，或点击选择",
   description,
   status,
   progress = 0,
@@ -92,13 +100,13 @@ function Upload({
   }
 
   const copy = {
-    idle: { detail: description ?? "Choose files from your device", icon: CloudUploadIcon },
+    idle: { detail: description ?? "从设备中选择文件", icon: CloudUploadIcon },
     uploading: {
-      detail: normalizedProgress > 0 ? `${Math.round(normalizedProgress)}% uploaded` : "Uploading files",
+      detail: normalizedProgress > 0 ? `已上传 ${Math.round(normalizedProgress)}%` : "正在上传…",
       icon: LoaderCircleIcon,
     },
-    complete: { detail: "Upload complete", icon: CheckIcon },
-    error: { detail: "Upload failed. Choose files to try again", icon: RotateCcwIcon },
+    complete: { detail: "上传完成", icon: CheckIcon },
+    error: { detail: "上传失败，请重新选择文件", icon: RotateCcwIcon },
   }[currentStatus]
   const StatusIcon = copy.icon
   const springTransition = reduceMotion
@@ -116,9 +124,8 @@ function Upload({
         dragging && "border-ring bg-accent/55 ring-[3px] ring-ring/20",
         className
       )}
-      animate={reduceMotion ? undefined : { scale: dragging ? 1.008 : 1 }}
-      whileHover={reduceMotion || disabled ? undefined : { y: -2 }}
-      whileTap={reduceMotion || disabled ? undefined : { scale: 0.992 }}
+      animate={reduceMotion ? undefined : { scale: dragging ? 1.01 : 1 }}
+      whileTap={reduceMotion || disabled ? undefined : { scale: 0.995 }}
       transition={springTransition}
       onDragEnter={(event) => {
         event.preventDefault()
@@ -266,4 +273,173 @@ function Upload({
   )
 }
 
-export { Upload, uploadVariants }
+function formatFileSize(bytes: number) {
+  if (bytes < 1024) return `${bytes} B`
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`
+  return `${(bytes / 1024 / 1024).toFixed(1)} MB`
+}
+
+/** Animated container for UploadFileItem rows: rows slide in, fade out and the rest reflow smoothly. */
+function UploadFileList({ className, children, ...props }: React.ComponentProps<"ul">) {
+  return (
+    <ul
+      data-slot="upload-file-list"
+      className={cn("relative grid gap-2", className)}
+      {...props}
+    >
+      <AnimatePresence initial={false} mode="popLayout">
+        {children}
+      </AnimatePresence>
+    </ul>
+  )
+}
+
+export interface UploadFileItemProps extends Omit<HTMLMotionProps<"li">, "children"> {
+  /** File name shown as the primary text. */
+  name: string
+  /** File size in bytes, or a preformatted label. */
+  size?: number | string
+  /** Upload lifecycle of this file. @default "complete" */
+  status?: UploadStatus
+  /** Determinate progress from 0 to 100 while uploading. */
+  progress?: number
+  /** Helper or error text replacing the size line. */
+  description?: React.ReactNode
+  /** Leading visual such as a thumbnail; defaults to a file glyph. */
+  icon?: React.ReactNode
+  /** Shows a remove button and is called when it is pressed. */
+  onRemove?: () => void
+}
+
+/** One file row with a lifecycle icon, a smooth progress bar and an optional remove action. */
+function UploadFileItem({
+  className,
+  name,
+  size,
+  status = "complete",
+  progress = 0,
+  description,
+  icon,
+  onRemove,
+  ...props
+}: UploadFileItemProps) {
+  const reduceMotion = useReducedMotion()
+  const normalizedProgress = Math.min(100, Math.max(0, progress))
+  const sizeLabel = typeof size === "number" ? formatFileSize(size) : size
+  const meta =
+    description ??
+    (status === "uploading"
+      ? `${sizeLabel ? `${sizeLabel} · ` : ""}${Math.round(normalizedProgress)}%`
+      : status === "error"
+        ? "上传失败"
+        : sizeLabel)
+  const spring = reduceMotion
+    ? { duration: 0 }
+    : { type: "spring" as const, stiffness: 520, damping: 38, mass: 0.7 }
+
+  return (
+    <motion.li
+      layout={!reduceMotion}
+      data-slot="upload-file-item"
+      data-status={status}
+      className={cn(
+        "relative flex items-center gap-3 overflow-hidden rounded-md border bg-background px-3 py-2.5 text-sm transition-colors data-[status=error]:border-destructive/40",
+        className
+      )}
+      initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={
+        reduceMotion
+          ? { opacity: 0 }
+          : { opacity: 0, scale: 0.97, transition: { duration: 0.16 } }
+      }
+      transition={spring}
+      {...props}
+    >
+      <span
+        className={cn(
+          "flex size-8 shrink-0 items-center justify-center overflow-hidden rounded-md bg-muted text-muted-foreground [&_svg]:size-4",
+          status === "error" && "bg-destructive/10 text-destructive"
+        )}
+      >
+        {icon ?? <FileIcon />}
+      </span>
+      <span className="grid min-w-0 flex-1 gap-0.5">
+        <span className="truncate font-medium leading-5">{name}</span>
+        {meta ? (
+          <span
+            className={cn(
+              "truncate text-xs tabular-nums text-muted-foreground",
+              status === "error" && "text-destructive"
+            )}
+          >
+            {meta}
+          </span>
+        ) : null}
+      </span>
+      {status !== "idle" ? (
+        <span className="relative flex size-6 shrink-0 items-center justify-center [&_svg]:size-4">
+          <AnimatePresence initial={false} mode="popLayout">
+            <motion.span
+              key={status}
+              className={cn(
+                "flex items-center justify-center",
+                status === "complete" && "text-success",
+                status === "error" && "text-destructive",
+                status === "uploading" && "text-muted-foreground"
+              )}
+              initial={reduceMotion ? false : { opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.5 }}
+              transition={spring}
+            >
+              {status === "uploading" ? (
+                <LoaderCircleIcon className="animate-spin motion-reduce:animate-none" />
+              ) : status === "complete" ? (
+                <CheckIcon />
+              ) : (
+                <CircleAlertIcon />
+              )}
+            </motion.span>
+          </AnimatePresence>
+        </span>
+      ) : null}
+      {onRemove ? (
+        <button
+          type="button"
+          data-slot="upload-file-remove"
+          aria-label={`移除 ${name}`}
+          className="-mr-1 flex size-7 shrink-0 items-center justify-center rounded-md text-muted-foreground outline-none transition-colors hover:bg-accent hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/30 [&_svg]:size-3.5"
+          onClick={onRemove}
+        >
+          <XIcon />
+        </button>
+      ) : null}
+      <AnimatePresence initial={false}>
+        {status === "uploading" ? (
+          <motion.span
+            key="progress"
+            aria-hidden="true"
+            data-slot="upload-file-progress"
+            className="absolute inset-x-0 bottom-0 h-0.5 bg-muted"
+            initial={reduceMotion ? false : { opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{
+              opacity: 0,
+              transition: { duration: reduceMotion ? 0 : 0.3, delay: reduceMotion ? 0 : 0.2 },
+            }}
+          >
+            <motion.span
+              className="block h-full origin-left bg-primary"
+              initial={false}
+              animate={{ scaleX: normalizedProgress / 100 }}
+              transition={spring}
+            />
+          </motion.span>
+        ) : null}
+      </AnimatePresence>
+    </motion.li>
+  )
+}
+
+export { Upload, UploadFileItem, UploadFileList, uploadVariants }

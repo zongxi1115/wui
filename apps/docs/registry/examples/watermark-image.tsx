@@ -8,34 +8,42 @@ const watermarkImage = `data:image/svg+xml,${encodeURIComponent(`
   </svg>
 `)}`
 
+const rows = [
+  ["INV-20260926-018", "上海云栈科技有限公司", "¥ 48,600.00"],
+  ["INV-20260925-104", "杭州禾木设计工作室", "¥ 12,800.00"],
+  ["INV-20260923-077", "深圳即刻物流有限公司", "¥ 9,350.00"],
+]
+
 export default function WatermarkImage() {
   return (
     <Watermark
       image={watermarkImage}
       rotate={-18}
-      width={108}
-      height={36}
-      gap={[56, 52]}
-      opacity={0.16}
+      width={96}
+      height={32}
+      gap={[64, 56]}
+      opacity={0.1}
       className="w-full max-w-xl"
     >
-      <div className="bg-card text-card-foreground border p-8">
-        <div className="flex items-start justify-between gap-6 border-b pb-5">
-          <div>
-            <p className="text-muted-foreground text-xs font-medium uppercase tracking-wider">
-              Analytics workspace
-            </p>
-            <h3 className="mt-2 text-lg font-semibold">Usage summary</h3>
-          </div>
-          <span className="text-muted-foreground text-xs tabular-nums">
-            Q2 2026
-          </span>
+      <section className="bg-card text-card-foreground rounded-lg border">
+        <div className="flex items-baseline justify-between border-b px-5 py-4">
+          <h3 className="text-sm font-semibold">近期开票记录</h3>
+          <span className="text-muted-foreground text-xs">共 3 张</span>
         </div>
-        <p className="text-muted-foreground mt-5 max-w-md text-sm leading-6">
-          Image watermarks can repeat a logo or organization mark while the
-          report content remains selectable and interactive.
-        </p>
-      </div>
+        <table className="w-full text-sm">
+          <tbody className="divide-y">
+            {rows.map(([number, company, amount]) => (
+              <tr key={number}>
+                <td className="text-muted-foreground px-5 py-3 font-mono text-xs">
+                  {number}
+                </td>
+                <td className="py-3">{company}</td>
+                <td className="px-5 py-3 text-right tabular-nums">{amount}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
     </Watermark>
   )
 }

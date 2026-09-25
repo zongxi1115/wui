@@ -64,6 +64,11 @@ function Cursor({
   const rawY = useMotionValue(0)
   const springX = useSpring(rawX, springConfig)
   const springY = useSpring(rawY, springConfig)
+  const visibleRef = React.useRef(false)
+  const onPositionChangeRef = React.useRef(onPositionChange)
+  React.useEffect(() => {
+    onPositionChangeRef.current = onPositionChange
+  })
 
   React.useEffect(() => {
     const query = window.matchMedia("(pointer: fine)")
@@ -94,12 +99,25 @@ function Cursor({
         x = pointerEvent.clientX - rect.left - parent.clientLeft + parent.scrollLeft
         y = pointerEvent.clientY - rect.top - parent.clientTop + parent.scrollTop
       }
-      rawX.set(x)
-      rawY.set(y)
-      setVisible(true)
-      onPositionChange?.({ x, y })
+      if (!visibleRef.current) {
+        // Appear exactly under the pointer instead of flying in from the
+        // previous position (or the top-left corner on first entry).
+        rawX.jump(x)
+        rawY.jump(y)
+        springX.jump(x)
+        springY.jump(y)
+        visibleRef.current = true
+        setVisible(true)
+      } else {
+        rawX.set(x)
+        rawY.set(y)
+      }
+      onPositionChangeRef.current?.({ x, y })
     }
-    const leave = () => setVisible(false)
+    const leave = () => {
+      visibleRef.current = false
+      setVisible(false)
+    }
 
     target.addEventListener("pointermove", move)
     target.addEventListener("pointerenter", move)
@@ -111,14 +129,7 @@ function Cursor({
       if (cursorTarget && hideNativeCursor)
         cursorTarget.style.cursor = previousCursor ?? ""
     }
-  }, [
-    attachToParent,
-    finePointer,
-    hideNativeCursor,
-    onPositionChange,
-    rawX,
-    rawY,
-  ])
+  }, [attachToParent, finePointer, hideNativeCursor, rawX, rawY, springX, springY])
 
   const x = reduceMotion ? rawX : springX
   const y = reduceMotion ? rawY : springY

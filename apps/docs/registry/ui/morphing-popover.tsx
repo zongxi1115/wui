@@ -6,6 +6,7 @@ import {
   AnimatePresence,
   LayoutGroup,
   motion,
+  useMotionValue,
   useReducedMotion,
   type Transition,
   type Variants,
@@ -15,10 +16,56 @@ import { cn } from "@/registry/lib/utils"
 
 const defaultTransition = {
   type: "spring",
-  stiffness: 460,
-  damping: 36,
-  mass: 0.65,
+  bounce: 0.14,
+  visualDuration: 0.36,
 } as const
+
+/**
+ * The shared-layout surface that morphs between trigger and panel. It copies
+ * the corner radius of the element it decorates (as a motion value, before
+ * the first paint) so the radius animates and stays scale-corrected.
+ */
+function MorphingSurface({
+  layoutId,
+  transition,
+  source,
+  className,
+}: {
+  layoutId: string
+  transition: Transition
+  source: "parent" | "next-sibling"
+  className?: string
+}) {
+  // Start close to the default radii so the server-rendered surface already
+  // looks right before the measurement runs.
+  const borderRadius = useMotionValue(source === "parent" ? 10 : 8)
+  const measure = React.useCallback(
+    (node: HTMLSpanElement | null) => {
+      const element =
+        source === "parent" ? node?.parentElement : node?.nextElementSibling
+      if (!element) return
+      const rect = element.getBoundingClientRect()
+      const radius =
+        Number.parseFloat(getComputedStyle(element).borderTopLeftRadius) || 0
+      borderRadius.set(Math.min(radius, rect.width / 2, rect.height / 2))
+    },
+    [borderRadius, source]
+  )
+
+  return (
+    <motion.span
+      ref={measure}
+      aria-hidden
+      layoutId={layoutId}
+      className={cn(
+        "pointer-events-none absolute inset-0 block border",
+        className
+      )}
+      style={{ borderRadius }}
+      transition={transition}
+    />
+  )
+}
 
 type MorphingPopoverContextValue = {
   open: boolean
@@ -171,10 +218,10 @@ function MorphingPopoverTrigger({
       data-slot="morphing-popover-trigger-wrapper"
     >
       {!open ? (
-        <motion.span
-          aria-hidden
+        <MorphingSurface
           layoutId={`${layoutId}-surface`}
-          className="bg-background shadow-xs pointer-events-none absolute inset-0 rounded-md border"
+          source="next-sibling"
+          className="bg-background shadow-xs"
           transition={reduceMotion ? { duration: 0 } : transition}
         />
       ) : null}
@@ -211,15 +258,24 @@ function MorphingPopoverContent({
     useMorphingPopover()
   const reduceMotion = useReducedMotion()
   const contentVariants: Variants = variants ?? {
-    initial: { opacity: 0 },
-    animate: { opacity: 1 },
-    exit: { opacity: 0 },
+    initial: { opacity: 0, y: 4, filter: "blur(4px)" },
+    animate: {
+      opacity: 1,
+      y: 0,
+      filter: "blur(0px)",
+      transition: { duration: 0.24, delay: 0.08, ease: [0.22, 1, 0.36, 1] },
+    },
+    exit: {
+      opacity: 0,
+      filter: "blur(2px)",
+      transition: { duration: 0.1 },
+    },
   }
 
   return (
     <AnimatePresence initial={false}>
       {open ? (
-        <motion.div
+        <div
           data-slot="morphing-popover-positioner"
           className="absolute left-1/2 top-1/2 z-50 w-max -translate-x-1/2 -translate-y-1/2"
         >
@@ -227,21 +283,31 @@ function MorphingPopoverContent({
             ref={contentRef}
             data-slot="morphing-popover-content"
             role="dialog"
-            layoutId={`${layoutId}-surface`}
             className={cn(
-              "bg-popover text-popover-foreground relative w-72 overflow-hidden rounded-lg border p-4 shadow-md outline-none",
+              "text-popover-foreground relative w-72 rounded-lg p-4 outline-none",
               className
             )}
-            variants={reduceMotion ? undefined : contentVariants}
-            initial={reduceMotion ? false : "initial"}
-            animate="animate"
-            exit="exit"
-            transition={reduceMotion ? { duration: 0 } : transition}
             {...props}
           >
-            {children}
+            <MorphingSurface
+              layoutId={`${layoutId}-surface`}
+              source="parent"
+              className="bg-popover shadow-md"
+              transition={reduceMotion ? { duration: 0 } : transition}
+            />
+            <motion.div
+              data-slot="morphing-popover-body"
+              className="relative"
+              variants={reduceMotion ? undefined : contentVariants}
+              initial={reduceMotion ? false : "initial"}
+              animate="animate"
+              exit="exit"
+              transition={reduceMotion ? { duration: 0 } : transition}
+            >
+              {children}
+            </motion.div>
           </motion.div>
-        </motion.div>
+        </div>
       ) : null}
     </AnimatePresence>
   )

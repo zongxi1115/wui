@@ -48,11 +48,11 @@ function TextShimmerWave({
 
   return (
     <Component
-      aria-label={children}
       data-slot="text-shimmer-wave"
       className={cn("inline-flex [perspective:400px]", className)}
       {...props}
     >
+      <span className="sr-only">{children}</span>
       {Array.from(children).map((character, index) => (
         <motion.span
           aria-hidden="true"

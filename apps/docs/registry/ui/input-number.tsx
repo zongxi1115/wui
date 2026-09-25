@@ -2,12 +2,13 @@
 
 import * as React from "react"
 import { Minus, Plus } from "lucide-react"
+import { AnimatePresence, motion, useReducedMotion } from "motion/react"
 import { cva } from "class-variance-authority"
 
 import { cn } from "@/registry/lib/utils"
 
 const inputNumberVariants = cva(
-  "border-input bg-background shadow-xs focus-within:border-ring focus-within:ring-ring/30 flex w-full items-center rounded-md border transition-[border-color,box-shadow] focus-within:ring-[3px] has-[:disabled]:cursor-not-allowed has-[:disabled]:opacity-50",
+  "border-input bg-background shadow-xs focus-within:border-ring focus-within:ring-ring/30 has-[input[aria-invalid=true]]:border-destructive has-[input[aria-invalid=true]]:ring-destructive/20 has-[input[aria-invalid=true]]:ring-[3px] flex w-full items-center overflow-hidden rounded-md border transition-[border-color,box-shadow] duration-200 ease-out focus-within:ring-[3px] has-[:disabled]:cursor-not-allowed has-[:disabled]:opacity-50 motion-reduce:transition-none",
   {
     variants: {
       size: {
@@ -23,7 +24,7 @@ const inputNumberVariants = cva(
 )
 
 const controlBtnVariants = cva(
-  "text-muted-foreground hover:bg-accent hover:text-foreground inline-flex items-center justify-center outline-none transition-colors disabled:pointer-events-none disabled:opacity-40",
+  "group/step text-muted-foreground hover:bg-accent hover:text-foreground active:bg-accent/70 inline-flex touch-none select-none items-center justify-center outline-none transition-colors disabled:pointer-events-none disabled:opacity-40",
   {
     variants: {
       size: {
@@ -37,6 +38,9 @@ const controlBtnVariants = cva(
     },
   }
 )
+
+const HOLD_DELAY = 380
+const HOLD_INTERVAL = 70
 
 export interface InputNumberProps
   extends Omit<
@@ -53,7 +57,7 @@ export interface InputNumberProps
   min?: number
   /** 允许输入的最大值。 */
   max?: number
-  /** 点击按钮或按方向键时的步进值。 @default 1 */
+  /** 点击按钮或按方向键时的步进值；按住 Shift 时为 10 倍步进。 @default 1 */
   step?: number
   /** 前缀插槽（如货币符号 ¥、$）。 */
   prefix?: React.ReactNode
@@ -65,7 +69,7 @@ export interface InputNumberProps
   wrapperClassName?: string
 }
 
-/** 支持范围约束、步进按钮和键盘操作的数值输入框。 */
+/** 支持范围约束、长按连续步进、方向感知滚动动效和键盘操作的数值输入框。 */
 function InputNumber({
   value,
   defaultValue,
@@ -84,6 +88,7 @@ function InputNumber({
   onKeyDown,
   ...props
 }: InputNumberProps) {
+  const reduceMotion = useReducedMotion()
   const controlled = value !== undefined
   const [internalValue, setInternalValue] = React.useState<number | null>(
     defaultValue ?? null
@@ -94,6 +99,13 @@ function InputNumber({
       ? ""
       : String(currentValue)
   )
+  // A stepped value slides in from the direction it came from; `rolling` hides
+  // the native text while the overlay animates, then hands display back to it.
+  const [roll, setRoll] = React.useState({ id: 0, direction: 1 as 1 | -1 })
+  const [rolling, setRolling] = React.useState(false)
+  const valueRef = React.useRef(currentValue)
+  const holdRef = React.useRef<{ timeout?: number; interval?: number }>({})
+  valueRef.current = currentValue
 
   React.useEffect(() => {
     if (!controlled) return
@@ -104,37 +116,54 @@ function InputNumber({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [controlled, value])
 
+  React.useEffect(() => stopHold, [])
+
   const precision = Math.max(
     String(step).split(".")[1]?.length ?? 0,
     String(min ?? "").split(".")[1]?.length ?? 0,
     String(max ?? "").split(".")[1]?.length ?? 0
   )
 
-  const clamp = React.useCallback(
-    (next: number) => {
-      const bounded = Math.min(
-        max ?? Infinity,
-        Math.max(min ?? -Infinity, next)
-      )
-      return Number(bounded.toFixed(precision))
-    },
-    [max, min, precision]
-  )
+  const clamp = (next: number) => {
+    const bounded = Math.min(max ?? Infinity, Math.max(min ?? -Infinity, next))
+    return Number(bounded.toFixed(precision))
+  }
 
-  const commit = React.useCallback(
-    (next: number | null) => {
-      if (!controlled) setInternalValue(next)
-      setDraft(next === null ? "" : String(next))
-      onValueChange?.(next)
-    },
-    [controlled, onValueChange]
-  )
+  const commit = (next: number | null) => {
+    valueRef.current = next
+    if (!controlled) setInternalValue(next)
+    setDraft(next === null ? "" : String(next))
+    onValueChange?.(next)
+  }
 
   const stepBy = (direction: 1 | -1, multiplier = 1) => {
-    if (disabled || readOnly) return
-    const currentStep = step * multiplier
-    const base = currentValue ?? (direction > 0 ? (min ?? 0) : (max ?? 0))
-    commit(clamp(base + direction * currentStep))
+    if (disabled || readOnly) return false
+    const latest = valueRef.current
+    const base = latest ?? (direction > 0 ? (min ?? 0) : (max ?? 0))
+    const next = clamp(base + direction * step * multiplier)
+    if (next === latest) return false
+    if (!reduceMotion) {
+      setRoll((previous) => ({ id: previous.id + 1, direction }))
+      setRolling(true)
+    }
+    commit(next)
+    return true
+  }
+
+  function stopHold() {
+    window.clearTimeout(holdRef.current.timeout)
+    window.clearInterval(holdRef.current.interval)
+    holdRef.current = {}
+  }
+
+  function startHold(direction: 1 | -1) {
+    stopHold()
+    stepBy(direction)
+    holdRef.current.timeout = window.setTimeout(() => {
+      holdRef.current.interval = window.setInterval(() => {
+        if (!stepBy(direction)) stopHold()
+      }, HOLD_INTERVAL)
+    }, HOLD_DELAY)
   }
 
   const atMin =
@@ -148,6 +177,31 @@ function InputNumber({
     max !== undefined &&
     currentValue >= max
 
+  function stepButtonProps(direction: 1 | -1) {
+    return {
+      type: "button" as const,
+      tabIndex: -1,
+      className: cn(controlBtnVariants({ size }), direction > 0 && "border-l"),
+      disabled: disabled || readOnly || (direction > 0 ? atMax : atMin),
+      onMouseDown: (event: React.MouseEvent) => event.preventDefault(),
+      onPointerDown: (event: React.PointerEvent) => {
+        if (event.button !== 0) return
+        event.currentTarget.setPointerCapture(event.pointerId)
+        startHold(direction)
+      },
+      onPointerUp: stopHold,
+      onPointerCancel: stopHold,
+      onLostPointerCapture: stopHold,
+      // Keyboard or assistive-technology activation arrives as a click without a pointer.
+      onClick: (event: React.MouseEvent) => {
+        if (event.detail === 0) stepBy(direction)
+      },
+    }
+  }
+
+  const iconClassName =
+    "size-3.5 transition-transform duration-150 ease-out group-active/step:scale-75 motion-reduce:transition-none"
+
   return (
     <div
       data-slot="input-number"
@@ -159,53 +213,95 @@ function InputNumber({
         </span>
       ) : null}
 
-      <input
-        data-slot="input-number-input"
-        type="text"
-        inputMode="decimal"
-        role="spinbutton"
-        aria-valuemin={min}
-        aria-valuemax={max}
-        aria-valuenow={currentValue ?? undefined}
-        value={draft}
-        disabled={disabled}
-        readOnly={readOnly}
-        className={cn(
-          "placeholder:text-muted-foreground h-full min-w-0 flex-1 bg-transparent px-3 outline-none disabled:cursor-not-allowed",
-          prefix && "pl-1",
-          suffix && "pr-1",
-          className
-        )}
-        onChange={(event) => {
-          const nextDraft = event.target.value
-          setDraft(nextDraft)
-          if (nextDraft.trim() === "") {
-            if (!controlled) setInternalValue(null)
-            onValueChange?.(null)
-            return
-          }
-          const parsed = Number(nextDraft)
-          if (Number.isFinite(parsed)) {
-            if (!controlled) setInternalValue(parsed)
-            onValueChange?.(parsed)
-          }
-        }}
-        onBlur={(event) => {
-          const parsed = Number(draft)
-          if (draft.trim() === "" || !Number.isFinite(parsed)) commit(null)
-          else commit(clamp(parsed))
-          onBlur?.(event)
-        }}
-        onKeyDown={(event) => {
-          if (event.key === "ArrowUp" || event.key === "ArrowDown") {
-            event.preventDefault()
-            const multiplier = event.shiftKey ? 10 : 1
-            stepBy(event.key === "ArrowUp" ? 1 : -1, multiplier)
-          }
-          onKeyDown?.(event)
-        }}
-        {...props}
-      />
+      <div className="relative h-full min-w-0 flex-1">
+        <input
+          data-slot="input-number-input"
+          type="text"
+          inputMode="decimal"
+          role="spinbutton"
+          aria-valuemin={min}
+          aria-valuemax={max}
+          aria-valuenow={currentValue ?? undefined}
+          value={draft}
+          disabled={disabled}
+          readOnly={readOnly}
+          className={cn(
+            "placeholder:text-muted-foreground size-full bg-transparent px-3 tabular-nums outline-none disabled:cursor-not-allowed",
+            prefix && "pl-1",
+            suffix && "pr-1",
+            rolling && "text-transparent",
+            className
+          )}
+          onChange={(event) => {
+            const nextDraft = event.target.value
+            setRolling(false)
+            setDraft(nextDraft)
+            if (nextDraft.trim() === "") {
+              valueRef.current = null
+              if (!controlled) setInternalValue(null)
+              onValueChange?.(null)
+              return
+            }
+            const parsed = Number(nextDraft)
+            if (Number.isFinite(parsed)) {
+              valueRef.current = parsed
+              if (!controlled) setInternalValue(parsed)
+              onValueChange?.(parsed)
+            }
+          }}
+          onBlur={(event) => {
+            const parsed = Number(draft)
+            if (draft.trim() === "" || !Number.isFinite(parsed)) commit(null)
+            else commit(clamp(parsed))
+            onBlur?.(event)
+          }}
+          onKeyDown={(event) => {
+            if (event.key === "ArrowUp" || event.key === "ArrowDown") {
+              event.preventDefault()
+              const multiplier = event.shiftKey ? 10 : 1
+              stepBy(event.key === "ArrowUp" ? 1 : -1, multiplier)
+            }
+            onKeyDown?.(event)
+          }}
+          {...props}
+        />
+
+        {!reduceMotion ? (
+          <span
+            aria-hidden="true"
+            data-slot="input-number-roll"
+            className={cn(
+              "pointer-events-none absolute inset-0 flex items-center overflow-hidden px-3 tabular-nums",
+              prefix && "pl-1",
+              suffix && "pr-1",
+              !rolling && "invisible",
+              className
+            )}
+          >
+            <AnimatePresence initial={false} custom={roll.direction}>
+              <motion.span
+                key={roll.id}
+                custom={roll.direction}
+                className="absolute whitespace-pre"
+                variants={{
+                  enter: (direction: number) => ({ y: `${direction * 70}%`, opacity: 0 }),
+                  center: { y: "0%", opacity: 1 },
+                  exit: (direction: number) => ({ y: `${direction * -70}%`, opacity: 0 }),
+                }}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{ type: "spring", stiffness: 520, damping: 38, mass: 0.7 }}
+                onAnimationComplete={(definition) => {
+                  if (definition === "center") setRolling(false)
+                }}
+              >
+                {draft}
+              </motion.span>
+            </AnimatePresence>
+          </span>
+        ) : null}
+      </div>
 
       {suffix ? (
         <span className="text-muted-foreground pl-1 pr-2.5 select-none shrink-0 font-normal">
@@ -218,26 +314,18 @@ function InputNumber({
         className="flex h-full shrink-0 border-l"
       >
         <button
-          type="button"
           data-slot="input-number-decrement"
           aria-label="减小数值"
-          tabIndex={-1}
-          disabled={disabled || readOnly || atMin}
-          className={cn(controlBtnVariants({ size }))}
-          onClick={() => stepBy(-1)}
+          {...stepButtonProps(-1)}
         >
-          <Minus className="size-3.5" />
+          <Minus className={iconClassName} />
         </button>
         <button
-          type="button"
           data-slot="input-number-increment"
           aria-label="增大数值"
-          tabIndex={-1}
-          disabled={disabled || readOnly || atMax}
-          className={cn(controlBtnVariants({ size }), "border-l")}
-          onClick={() => stepBy(1)}
+          {...stepButtonProps(1)}
         >
-          <Plus className="size-3.5" />
+          <Plus className={iconClassName} />
         </button>
       </div>
     </div>

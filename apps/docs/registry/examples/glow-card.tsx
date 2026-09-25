@@ -1,63 +1,74 @@
-import { CheckIcon, SparklesIcon } from "lucide-react"
+import { CheckIcon } from "lucide-react"
 
-import { Badge } from "@/registry/ui/badge"
 import { Button } from "@/registry/ui/button"
 import { Glow } from "@/registry/ui/glow"
+import { cn } from "@/registry/lib/utils"
 
-const features = [
-  "Unlimited reasoning tokens & multi-turn workflows",
-  "Dedicated fine-tuning cluster on H100 GPUs",
-  "Custom edge middleware & zero-latency memory sync",
-  "24/7 SLA with dedicated technical architect",
+const plans = [
+  {
+    name: "团队版",
+    price: "39",
+    features: ["无限项目与成员", "审批流与表单", "90 天操作日志"],
+    featured: false,
+  },
+  {
+    name: "企业版",
+    price: "99",
+    features: ["单点登录（SSO）", "细粒度权限与审计", "专属客户成功经理", "99.95% 可用性承诺"],
+    featured: true,
+  },
 ]
+
+function PlanBody({ plan }: { plan: (typeof plans)[number] }) {
+  return (
+    <div
+      className={cn(
+        "bg-background flex h-full flex-col rounded-lg p-5",
+        !plan.featured && "border"
+      )}
+    >
+      <div className="flex items-center justify-between">
+        <p className="text-sm font-medium">{plan.name}</p>
+        {plan.featured ? (
+          <span className="text-muted-foreground text-xs">最多团队选择</span>
+        ) : null}
+      </div>
+      <p className="mt-3 flex items-baseline gap-1">
+        <span className="text-muted-foreground text-sm">¥</span>
+        <span className="text-3xl font-semibold tracking-tight">{plan.price}</span>
+        <span className="text-muted-foreground text-xs">/ 人 / 月</span>
+      </p>
+      <ul className="text-muted-foreground mt-4 flex-1 space-y-2 text-sm">
+        {plan.features.map((feature) => (
+          <li key={feature} className="flex items-center gap-2">
+            <CheckIcon className="text-foreground size-3.5" />
+            {feature}
+          </li>
+        ))}
+      </ul>
+      <Button
+        variant={plan.featured ? "default" : "outline"}
+        size="sm"
+        className="mt-5"
+      >
+        选择{plan.name}
+      </Button>
+    </div>
+  )
+}
 
 export default function GlowCardDemo() {
   return (
-    <div className="flex w-full justify-center p-4 sm:p-8">
-      <Glow spread={26} borderWidth={2} className="w-full max-w-md rounded-2xl">
-        <div className="bg-card text-card-foreground flex flex-col justify-between rounded-2xl p-6 sm:p-8">
-          <div>
-            <div className="flex items-center justify-between">
-              <Badge variant="default" className="gap-1 font-mono text-xs">
-                <SparklesIcon className="size-3" />
-                RECOMMENDED
-              </Badge>
-              <span className="text-muted-foreground text-xs font-medium">
-                Annual billing
-              </span>
-            </div>
-
-            <div className="mt-5">
-              <h3 className="text-xl font-bold tracking-tight">Scale Pro Tier</h3>
-              <p className="text-muted-foreground mt-1 text-xs">
-                Built for mission-critical generative applications and agent systems.
-              </p>
-            </div>
-
-            <div className="mt-6 flex items-baseline gap-1">
-              <span className="text-4xl font-extrabold tracking-tight">$99</span>
-              <span className="text-muted-foreground text-sm">/ team member / month</span>
-            </div>
-
-            <div className="border-border/60 mt-6 space-y-2.5 border-t pt-6">
-              {features.map((feature) => (
-                <div key={feature} className="flex items-start gap-2.5 text-xs">
-                  <div className="bg-primary/10 text-primary mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full">
-                    <CheckIcon className="size-2.5" />
-                  </div>
-                  <span>{feature}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="mt-8">
-            <Button className="w-full font-medium" size="lg">
-              Upgrade to Scale Pro
-            </Button>
-          </div>
-        </div>
-      </Glow>
+    <div className="grid w-full max-w-xl gap-6 sm:grid-cols-2">
+      {plans.map((plan) =>
+        plan.featured ? (
+          <Glow key={plan.name} spread={24} glowOpacity={0.5} duration={6} className="rounded-lg [&>[data-slot=glow-content]]:h-full">
+            <PlanBody plan={plan} />
+          </Glow>
+        ) : (
+          <PlanBody key={plan.name} plan={plan} />
+        )
+      )}
     </div>
   )
 }

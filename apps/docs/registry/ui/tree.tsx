@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { ChevronRightIcon } from "lucide-react"
+import { AnimatePresence, motion, useReducedMotion } from "motion/react"
 
 import { cn } from "@/registry/lib/utils"
 
@@ -87,6 +88,8 @@ function Tree({
     selectedValue || visible[0]?.node.value || ""
   )
   const nodeRefs = React.useRef(new Map<string, HTMLDivElement>())
+  const indicatorId = React.useId()
+  const reduceMotion = useReducedMotion()
 
   React.useEffect(() => {
     if (visible.some(({ node }) => node.value === focusedValue)) return
@@ -175,69 +178,93 @@ function Tree({
       className={cn("w-full text-sm", className)}
       {...props}
     >
-      {visible.map((item) => {
-        const { node, depth } = item
-        const hasChildren = Boolean(node.children?.length)
-        const isExpanded = hasChildren && expandedSet.has(node.value)
-        const isSelected = selectedValue === node.value
+      <AnimatePresence initial={false}>
+        {visible.map((item) => {
+          const { node, depth } = item
+          const hasChildren = Boolean(node.children?.length)
+          const isExpanded = hasChildren && expandedSet.has(node.value)
+          const isSelected = selectedValue === node.value
 
-        return (
-          <div
-            key={node.value}
-            ref={(element) => {
-              if (element) nodeRefs.current.set(node.value, element)
-              else nodeRefs.current.delete(node.value)
-            }}
-            data-slot="tree-item"
-            data-selected={isSelected || undefined}
-            data-disabled={node.disabled || undefined}
-            role="treeitem"
-            aria-level={depth}
-            aria-selected={isSelected}
-            aria-expanded={hasChildren ? isExpanded : undefined}
-            aria-disabled={node.disabled || undefined}
-            tabIndex={focusedValue === node.value ? 0 : -1}
-            className="hover:bg-accent/60 focus-visible:ring-ring data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground flex min-h-9 cursor-default items-center rounded-md pr-2 outline-none transition-colors focus-visible:ring-2 data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50"
-            style={{ paddingLeft: `${(depth - 1) * 20 + 4}px` }}
-            onFocus={() => setFocusedValue(node.value)}
-            onClick={() => select(node)}
-            onDoubleClick={() => toggle(node)}
-            onKeyDown={(event) => handleKeyDown(event, item)}
-          >
-            <button
-              type="button"
-              data-slot="tree-item-toggle"
-              tabIndex={-1}
-              aria-label={isExpanded ? "收起" : "展开"}
-              aria-hidden={!hasChildren}
-              disabled={!hasChildren || node.disabled}
-              className="text-muted-foreground mr-1 flex size-7 shrink-0 items-center justify-center rounded-sm outline-none disabled:invisible"
-              onClick={(event) => {
-                event.stopPropagation()
-                toggle(node)
+          return (
+            <motion.div
+              key={node.value}
+              ref={(element: HTMLDivElement | null) => {
+                if (element) nodeRefs.current.set(node.value, element)
+                else nodeRefs.current.delete(node.value)
               }}
+              data-slot="tree-item"
+              data-selected={isSelected || undefined}
+              data-disabled={node.disabled || undefined}
+              role="treeitem"
+              aria-level={depth}
+              aria-selected={isSelected}
+              aria-expanded={hasChildren ? isExpanded : undefined}
+              aria-disabled={node.disabled || undefined}
+              tabIndex={focusedValue === node.value ? 0 : -1}
+              initial={reduceMotion ? false : { height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={reduceMotion ? undefined : { height: 0, opacity: 0 }}
+              transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+              className="hover:bg-accent/60 focus-visible:ring-ring data-[selected=true]:text-accent-foreground relative isolate cursor-default overflow-hidden rounded-md outline-none transition-colors focus-visible:ring-2 focus-visible:ring-inset data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50"
+              onFocus={() => setFocusedValue(node.value)}
+              onClick={() => select(node)}
+              onDoubleClick={() => toggle(node)}
+              onKeyDown={(event) => handleKeyDown(event, item)}
             >
-              <ChevronRightIcon
-                className={cn(
-                  "size-4 transition-transform",
-                  isExpanded && "rotate-90"
-                )}
-              />
-            </button>
-            {node.icon ? (
-              <span data-slot="tree-item-icon" className="mr-2 shrink-0">
-                {node.icon}
-              </span>
-            ) : null}
-            <span
-              data-slot="tree-item-label"
-              className="min-w-0 flex-1 truncate"
-            >
-              {node.label}
-            </span>
-          </div>
-        )
-      })}
+              {isSelected ? (
+                <motion.span
+                  aria-hidden
+                  data-slot="tree-item-indicator"
+                  layoutId={`${indicatorId}-selected`}
+                  className="bg-accent absolute inset-0 z-[-1] rounded-md"
+                  transition={
+                    reduceMotion
+                      ? { duration: 0 }
+                      : { type: "spring", stiffness: 520, damping: 38, mass: 0.7 }
+                  }
+                />
+              ) : null}
+              <div
+                className="flex min-h-9 items-center pr-2"
+                style={{ paddingLeft: `${(depth - 1) * 20 + 4}px` }}
+              >
+                <button
+                  type="button"
+                  data-slot="tree-item-toggle"
+                  tabIndex={-1}
+                  aria-label={isExpanded ? "收起" : "展开"}
+                  aria-hidden={!hasChildren}
+                  disabled={!hasChildren || node.disabled}
+                  className="text-muted-foreground hover:text-foreground mr-1 flex size-7 shrink-0 items-center justify-center rounded-sm outline-none transition-colors disabled:invisible"
+                  onClick={(event) => {
+                    event.stopPropagation()
+                    toggle(node)
+                  }}
+                  onDoubleClick={(event) => event.stopPropagation()}
+                >
+                  <ChevronRightIcon
+                    className={cn(
+                      "size-4 transition-transform duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none",
+                      isExpanded && "rotate-90"
+                    )}
+                  />
+                </button>
+                {node.icon ? (
+                  <span data-slot="tree-item-icon" className="mr-2 shrink-0">
+                    {node.icon}
+                  </span>
+                ) : null}
+                <span
+                  data-slot="tree-item-label"
+                  className="min-w-0 flex-1 truncate"
+                >
+                  {node.label}
+                </span>
+              </div>
+            </motion.div>
+          )
+        })}
+      </AnimatePresence>
     </div>
   )
 }

@@ -1,10 +1,32 @@
 "use client"
 
 import * as React from "react"
-import { BookOpen, Clock } from "lucide-react"
 
-import { Badge } from "@/registry/ui/badge"
 import { ScrollProgress } from "@/registry/ui/scroll-progress"
+
+const sections = [
+  {
+    title: "从一个问题开始",
+    body: [
+      "每次评审动效，讨论最后都会落到同一个问题上：这个动画在帮用户理解什么？如果答案是“看起来更高级”，它多半可以删掉。",
+      "动效最可靠的价值，是解释状态从哪里来、到哪里去。弹窗从触发按钮展开，列表项删除时让位，都是在替用户完成一次空间推理。",
+    ],
+  },
+  {
+    title: "时长与曲线",
+    body: [
+      "界面内的小变化控制在 150–250ms，跨越整个视口的转场可以放宽到 400ms 左右。更长的时长很少让体验更好，只会让操作更慢。",
+      "进入使用减速曲线，离开使用加速曲线。弹簧适合跟手的交互，它天然处理了中途打断和速度继承。",
+    ],
+  },
+  {
+    title: "克制的清单",
+    body: [
+      "同一时刻只让一个主体运动；位移不超过元素自身尺寸；避免同时缩放、旋转和变色；所有动画都要能被“减少动态效果”关闭。",
+      "最后，把动效参数收进 Token。当团队讨论的是 duration-fast 而不是 180ms，一致性就有了抓手。",
+    ],
+  },
+]
 
 export default function ScrollProgressDemo() {
   const container = React.useRef<HTMLDivElement>(null)
@@ -13,98 +35,54 @@ export default function ScrollProgressDemo() {
   return (
     <div
       ref={container}
-      className="relative h-[32rem] w-full overflow-y-auto rounded-2xl border border-border bg-card text-card-foreground shadow-lg [scrollbar-width:thin]"
+      className="relative h-[26rem] w-full overflow-y-auto rounded-b-lg"
     >
-      {/* Top linear progress bar */}
-      <ScrollProgress
-        container={container}
-        target={article}
-        position="inline"
-        className="sticky top-0 z-30 h-1 bg-muted"
-        indicatorClassName="bg-primary"
-        offset={["start start", "end end"]}
-      />
-
-      {/* Floating circular progress indicator */}
-      <div className="sticky top-4 z-20 flex justify-end px-5 pointer-events-none">
-        <div className="flex items-center gap-2 rounded-full border border-border bg-background/90 px-3 py-1 text-xs text-foreground shadow-lg backdrop-blur-md">
-          <span className="text-[11px] text-muted-foreground">Read</span>
+      <header className="bg-background sticky top-0 z-10 border-b">
+        <div className="flex items-center justify-between gap-4 px-6 py-3">
+          <div className="min-w-0">
+            <p className="text-muted-foreground text-xs">设计笔记 · 第 12 期</p>
+            <p className="truncate text-sm font-medium">写给产品团队的动效原则</p>
+          </div>
           <ScrollProgress
             container={container}
             target={article}
-            variant="circle"
-            size={28}
-            strokeWidth={3}
-            className="text-foreground"
-            trackClassName="text-muted"
-            indicatorClassName="text-primary"
             offset={["start start", "end end"]}
+            variant="circle"
+            size={32}
+            strokeWidth={2.5}
+            trackClassName="text-muted"
           />
         </div>
-      </div>
+        <ScrollProgress
+          container={container}
+          target={article}
+          offset={["start start", "end end"]}
+          position="inline"
+          className="absolute inset-x-0 -bottom-px h-px bg-transparent"
+        />
+      </header>
 
-      <article ref={article} className="space-y-8 px-6 pb-20 pt-2 sm:px-10">
-        <div className="relative h-56 w-full overflow-hidden rounded-xl sm:h-64">
-          <img
-            src="https://picsum.photos/seed/editorial-motion/1000/500"
-            alt="Engineering Motion"
-            className="size-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent" />
-        </div>
+      <article ref={article} className="mx-auto max-w-2xl px-6 pt-8 pb-16">
+        <h3 className="text-2xl font-semibold tracking-tight">
+          写给产品团队的动效原则
+        </h3>
+        <p className="text-muted-foreground mt-2 text-sm">
+          陈默 · 2026 年 9 月 · 阅读约 4 分钟
+        </p>
 
-        <div>
-          <div className="flex items-center gap-2">
-            <Badge variant="outline" className="text-xs">
-              <BookOpen className="size-3" />
-              Engineering Guide
-            </Badge>
-            <span className="flex items-center gap-1 text-xs text-muted-foreground">
-              <Clock className="size-3" /> 4 min read
-            </span>
-          </div>
-
-          <h3 className="mt-3 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-            Zero-Jank Motion Pipelines
-          </h3>
-          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-            A comprehensive study on coordinating GPU transforms, passive scroll
-            observers, and spring physics for stutter-free web animations.
-          </p>
-        </div>
-
-        <section className="space-y-2.5 rounded-xl border border-border bg-muted/40 p-5">
-          <h4 className="text-sm font-semibold text-foreground">
-            01. Spring Physics in the Render Loop
-          </h4>
-          <p className="text-xs leading-relaxed text-muted-foreground">
-            Traditional linear transitions often feel artificial and abrupt. By
-            employing critically damped harmonic oscillator springs, motion
-            adapts naturally to user gesture velocity and direction changes.
-          </p>
-        </section>
-
-        <section className="space-y-2.5 rounded-xl border border-border bg-muted/40 p-5">
-          <h4 className="text-sm font-semibold text-foreground">
-            02. GPU Compositing & Off-Thread Layers
-          </h4>
-          <p className="text-xs leading-relaxed text-muted-foreground">
-            Isolating animated elements into dedicated compositor layers
-            prevents expensive layout reflows and repaints. We leverage 3D matrix
-            transforms to maintain a rock-solid 120 FPS.
-          </p>
-        </section>
-
-        <section className="space-y-2.5 rounded-xl border border-border bg-muted/40 p-5">
-          <h4 className="text-sm font-semibold text-foreground">
-            03. Layout Containment & Resize Observability
-          </h4>
-          <p className="text-xs leading-relaxed text-muted-foreground">
-            Dynamic content injection often breaks scroll calculations. Using
-            isolated resize observers attached directly to container boundaries
-            ensures offset precision across all device viewports.
-          </p>
-        </section>
+        {sections.map((section) => (
+          <section key={section.title} className="mt-8 space-y-3">
+            <h4 className="font-medium">{section.title}</h4>
+            {section.body.map((paragraph) => (
+              <p
+                key={paragraph}
+                className="text-muted-foreground text-sm leading-7"
+              >
+                {paragraph}
+              </p>
+            ))}
+          </section>
+        ))}
       </article>
     </div>
   )

@@ -139,21 +139,42 @@ export type EmptyStateIllustrationProps = Omit<
     assetBasePath?: string
   }
 
+/**
+ * Staggered entrance for direct children, driven by tw-animate-css so the
+ * component stays server-renderable. Media and icons also settle from a
+ * slightly smaller scale; every child rises 8px and fades in.
+ */
+const emptyStateEntrance = [
+  "[&>*]:motion-safe:animate-in [&>*]:motion-safe:fade-in [&>*]:motion-safe:slide-in-from-bottom-2 [&>*]:fill-mode-both",
+  "[&>*]:[--tw-animation-duration:320ms] [&>*]:[--tw-ease:cubic-bezier(0.22,1,0.36,1)]",
+  "[&>[data-slot=empty-state-media]]:motion-safe:zoom-in-95 [&>[data-slot=empty-state-icon]]:motion-safe:zoom-in-90",
+  "[&>*:nth-child(2)]:[--tw-animation-delay:60ms] [&>*:nth-child(3)]:[--tw-animation-delay:110ms] [&>*:nth-child(4)]:[--tw-animation-delay:160ms] [&>*:nth-child(5)]:[--tw-animation-delay:210ms] [&>*:nth-child(n+6)]:[--tw-animation-delay:260ms]",
+]
+
 export interface EmptyStateProps extends React.ComponentProps<"div"> {
   /** Vertical density preset. @default "default" */
   size?: "sm" | "default" | "lg"
+  /** Staggers the media, title, description and actions in when the state mounts. @default true */
+  animated?: boolean
 }
 
 /** A focused zero-data state with optional illustration and actions. */
 function EmptyState({
   className,
   size = "default",
+  animated = true,
   ...props
 }: EmptyStateProps) {
   return (
     <div
       data-slot="empty-state"
-      className={cn(emptyStateVariants({ size }), className)}
+      data-size={size}
+      data-animated={animated || undefined}
+      className={cn(
+        emptyStateVariants({ size }),
+        animated && emptyStateEntrance,
+        className
+      )}
       {...props}
     />
   )

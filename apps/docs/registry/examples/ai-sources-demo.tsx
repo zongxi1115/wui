@@ -1,6 +1,3 @@
-"use client"
-
-import * as React from "react"
 import {
   AiCitation,
   AiSourceItem,
@@ -13,76 +10,58 @@ import {
 const SOURCES = [
   {
     index: 1,
-    title: "React 19 Release Notes & Server Actions Architecture",
+    title: "React 19 正式发布说明",
     domain: "react.dev",
-    snippet: "React 19 adds support for Actions to automatically handle pending states, optimistic updates, and form submissions.",
-    href: "https://react.dev",
+    snippet:
+      "Actions 会自动处理待定状态、错误与乐观更新，表单可以直接把异步函数作为 action。",
+    href: "https://react.dev/blog/2024/12/05/react-19",
     favicon: "https://react.dev/favicon.ico",
   },
   {
     index: 2,
-    title: "Tailwind CSS v4.0 - A new high-performance engine",
+    title: "Tailwind CSS v4.0",
     domain: "tailwindcss.com",
-    snippet: "Tailwind CSS v4 is an all-new high-performance engine built for the modern web with native CSS variable support.",
-    href: "https://tailwindcss.com",
-    favicon: "https://tailwindcss.com/favicon.ico",
+    snippet:
+      "全新高性能引擎，基于 CSS 变量的主题配置，以及对现代 CSS 特性的原生支持。",
+    href: "https://tailwindcss.com/blog/tailwindcss-v4",
+    favicon: "https://tailwindcss.com/favicons/favicon-32x32.png",
   },
   {
     index: 3,
-    title: "Radix Primitives Documentation & Accessibility Guide",
+    title: "Radix Primitives 无障碍说明",
     domain: "radix-ui.com",
-    snippet: "Unstyled, accessible components for building high‑quality design systems and web apps in React.",
-    href: "https://radix-ui.com",
-    favicon: "https://radix-ui.com/favicon.ico",
+    snippet:
+      "组件遵循 WAI-ARIA 设计模式，内置焦点管理与键盘导航，只需关心视觉样式。",
+    href: "https://www.radix-ui.com/primitives/docs/overview/accessibility",
+    favicon: "https://www.radix-ui.com/favicon.png",
   },
 ]
 
 export default function AiSourcesDemo() {
-  return (
-    <div className="w-full max-w-2xl space-y-4 text-sm leading-relaxed text-foreground">
-      <div className="rounded-xl border bg-card p-4 shadow-xs">
-        <p className="mb-2">
-          根据最新的官方规范，React 19 引入了原生 Actions 支持
-          <AiCitation
-            index={1}
-            title={SOURCES[0].title}
-            domain={SOURCES[0].domain}
-            snippet={SOURCES[0].snippet}
-            href={SOURCES[0].href}
-            favicon={SOURCES[0].favicon}
-          />
-          ，配合 Tailwind CSS v4 的 OKLCH 色彩空间与全新编译引擎
-          <AiCitation
-            index={2}
-            title={SOURCES[1].title}
-            domain={SOURCES[1].domain}
-            snippet={SOURCES[1].snippet}
-            href={SOURCES[1].href}
-            favicon={SOURCES[1].favicon}
-          />
-          ，可以大幅降低组件库的运行时体积并提升无障碍标准
-          <AiCitation
-            index={3}
-            title={SOURCES[2].title}
-            domain={SOURCES[2].domain}
-            snippet={SOURCES[2].snippet}
-            href={SOURCES[2].href}
-            favicon={SOURCES[2].favicon}
-          />
-          。
-        </p>
+  const [react, tailwind, radix] = SOURCES
 
-        <AiSources defaultOpen={true}>
-          <AiSourcesHeader label="参考来源 (3)" />
-          <AiSourcesContent>
-            <AiSourcesList>
-              {SOURCES.map((source) => (
-                <AiSourceItem key={source.index} {...source} />
-              ))}
-            </AiSourcesList>
-          </AiSourcesContent>
-        </AiSources>
-      </div>
+  return (
+    <div className="mx-auto w-full max-w-2xl space-y-3 text-sm leading-7 text-foreground">
+      <p>
+        React 19 的 Actions 可以直接接管表单提交的待定与错误状态
+        <AiCitation {...react} />
+        ；样式层面，Tailwind CSS v4 把主题收敛到 CSS 变量上，深浅色切换不再需要额外构建
+        <AiCitation {...tailwind} />
+        。交互行为交给 Radix 原语处理，焦点与键盘导航可以直接复用
+        <AiCitation {...radix} />
+        。
+      </p>
+
+      <AiSources count={SOURCES.length} defaultOpen>
+        <AiSourcesHeader />
+        <AiSourcesContent>
+          <AiSourcesList>
+            {SOURCES.map((source) => (
+              <AiSourceItem key={source.index} {...source} />
+            ))}
+          </AiSourcesList>
+        </AiSourcesContent>
+      </AiSources>
     </div>
   )
 }

@@ -167,17 +167,29 @@ pnpm add motion lucide-react class-variance-authority clsx tailwind-merge
 `Annotation` 适用于**营销主标题强调、表单指引引导、核心数据圈注、操作引导提示**：
 
 - **聚焦重点而非通篇标注**：每屏建议只放置 1 ~ 2 处批注或高亮，过多的手绘元素反而会分散用户的视觉焦点。
-- **与上下文语义相符**：荧光笔高亮通常用于正向关键卖点，红色/橙色箭头用于引导转化动作。
+- **与上下文语义相符**：荧光笔高亮通常用于正向关键卖点；箭头优先使用 `var(--muted-foreground)` 等中性色，只有需要强烈提醒时才使用 `var(--destructive)` 等语义色。
 
 ## 场景示例
 
+### 荧光笔变体
+
+`smooth` 为平整的荧光笔，`rough` 为双层手绘笔触。颜色可以直接用主题令牌与 `color-mix` 调出半透明底色，亮暗模式自动适配：
+
+<ComponentPreview name="annotation-variants" />
+
+### 路径形状
+
+同一个 `AnnotationPath` 通过不同的 `path` 与 `arrow` 组合出引导箭头、圈选与手绘下划线：
+
+<ComponentPreview name="annotation-shapes" />
+
 ### 引导发布操作按钮
 
-手绘箭头精确指向发布按钮：
+手绘箭头从说明文字指向发布按钮：
 
 <ComponentPreview name="annotation-callout" />
 
 ## 无障碍与交互 Accessibility
 
 - **文本选区与朗读无阻碍**：高亮笔触位于文字底层（`z-0`），文字始终保持在最顶层（`z-10`），用户可以正常选中并复制文字。
-- **动态效果减弱**：在 `prefers-reduced-motion: reduce` 下，路径与笔触直接以 100% 完整形态呈现，跳过 pathLength 描绘过程。
+- **动态效果减弱**：在 `prefers-reduced-motion: reduce` 下，路径与笔触以零时长直接呈现完整形态，跳过 pathLength 描绘过程；初始结构与服务端保持一致，不会产生水合差异。

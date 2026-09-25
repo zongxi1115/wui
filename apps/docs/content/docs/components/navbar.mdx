@@ -6,7 +6,7 @@ component: navbar
 
 ## 基础用法
 
-横向模式下的基础导航栏。组合品牌 Logo、主导航链接列表与右侧功能操作：
+横向模式下的基础导航栏。组合品牌 Logo、主导航链接列表与右侧功能操作。鼠标在同一 `NavbarList` 内移动时，悬停底块会在链接之间滑动；点击切换页面时，选中底块同样以弹簧动效过渡：
 
 <ComponentPreview name="navbar-demo" />
 
@@ -21,7 +21,7 @@ component: navbar
 <Step>安装基础依赖与图标库</Step>
 
 ```bash
-pnpm add radix-ui class-variance-authority lucide-react clsx tailwind-merge
+pnpm add radix-ui motion class-variance-authority lucide-react clsx tailwind-merge
 ```
 
 <Step>复制组件源码到 `components/ui/navbar.tsx`</Step>
@@ -74,7 +74,7 @@ pnpm add radix-ui class-variance-authority lucide-react clsx tailwind-merge
       prop: "active",
       type: "boolean",
       default: "false",
-      description: "是否为当前高亮处于激活态的页面，开启后自动挂载 aria-current=\"page\"。",
+      description: "是否为当前高亮处于激活态的页面，开启后自动挂载 aria-current=\"page\"。同一 Navbar 内的选中底块会在链接之间（包括跨分组）滑动过渡；纵向模式附带左侧强调线。",
     },
     {
       prop: "asChild",
@@ -94,6 +94,10 @@ pnpm add radix-ui class-variance-authority lucide-react clsx tailwind-merge
     },
   ]}
 />
+
+### NavbarList
+
+链接列表容器，继承原生 `<ul>` 属性。列表内的 `NavbarLink` 共享一个悬停底块，指针在链接之间移动时底块平滑跟随，离开列表时淡出；列表外的链接（如右侧图标操作）使用静态悬停背景。
 
 ### NavbarSubmenu / NavbarSubmenuTrigger / NavbarSubmenuContent
 
@@ -158,7 +162,7 @@ pnpm add radix-ui class-variance-authority lucide-react clsx tailwind-merge
 
 ### 受控模式与折叠收起
 
-通过 `collapsed` 和 `onCollapsedChange` 精确控制侧栏状态，适应多样化的屏幕响应式方案：
+通过 `collapsed` 和 `onCollapsedChange` 精确控制侧栏状态。点击不同分组中的链接，选中底块会跨分组滑动：
 
 <ComponentPreview name="navbar-controlled" />
 
@@ -167,4 +171,4 @@ pnpm add radix-ui class-variance-authority lucide-react clsx tailwind-merge
 - **地标 Landmark**：根组件自动渲染为 `<nav>` 元素，建议通过 `aria-label` 为其提供具有区分度的描述（如“主导航”、“侧边栏导航”）。
 - **当前页状态**：当 `NavbarLink` 设置 `active={true}` 时，组件自动挂载 `aria-current="page"`，以便读屏器在聚焦时向盲人用户播报“当前选中的页面”。
 - **折叠按钮无障碍文案**：`NavbarCollapseTrigger` 内置动态计算的 `aria-label`（“展开导航栏” / “收起导航栏”），支持键盘回车触发。
-- **动效降级**：宽度折叠平滑过渡动画支持系统的 `prefers-reduced-motion` 设置，开启后将立即跳变，防止晕动症。
+- **动效降级**：宽度折叠过渡、悬停底块与选中底块的滑动均遵循系统的 `prefers-reduced-motion` 设置，开启后将立即跳变，防止晕动症。

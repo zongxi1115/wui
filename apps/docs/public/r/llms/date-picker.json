@@ -3,12 +3,15 @@
   "type": "registry:ui",
   "title": "日期选择器 DatePicker",
   "description": "基于日历弹层的现代化单日期选择控件，支持多语言本地化、日期范围约束、自定义禁用规则与快捷清空。",
-  "import": "import { DatePicker, datePickerVariants } from \"@/components/ui/date-picker\"",
+  "import": "import { DatePicker, datePickerVariants, formatDate, parseDate } from \"@/components/ui/date-picker\"",
   "exports": [
     "DatePicker",
-    "datePickerVariants"
+    "datePickerVariants",
+    "formatDate",
+    "parseDate"
   ],
   "typeExports": [
+    "DatePickerPreset",
     "DatePickerProps"
   ],
   "install": {
@@ -16,7 +19,9 @@
     "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/date-picker.json",
     "npmDependencies": [
       "radix-ui",
-      "lucide-react"
+      "lucide-react",
+      "motion",
+      "class-variance-authority"
     ],
     "registryDependencies": [
       "utils",
@@ -26,14 +31,14 @@
   "props": [
     {
       "name": "value",
-      "type": "Date",
+      "type": "string | Date",
       "required": false,
       "control": "text",
       "description": "当前选中的日期。"
     },
     {
       "name": "defaultValue",
-      "type": "Date",
+      "type": "string | Date",
       "required": false,
       "control": "text",
       "description": "非受控模式下初始选中的日期。"
@@ -78,14 +83,14 @@
     },
     {
       "name": "min",
-      "type": "Date",
+      "type": "string | Date",
       "required": false,
       "control": "text",
       "description": "允许选择的最早日期。"
     },
     {
       "name": "max",
-      "type": "Date",
+      "type": "string | Date",
       "required": false,
       "control": "text",
       "description": "允许选择的最晚日期。"
@@ -111,6 +116,13 @@
       "description": "尺寸密度。@default \"default\""
     },
     {
+      "name": "presets",
+      "type": "DatePickerPreset[]",
+      "required": false,
+      "control": "text",
+      "description": "显示在日历左侧的快捷日期，例如“今天”“下周一”。"
+    },
+    {
       "name": "disabled",
       "type": "boolean",
       "required": false,
@@ -126,6 +138,10 @@
     {
       "name": "date-picker-controlled",
       "title": "受控模式与快捷预设"
+    },
+    {
+      "name": "date-picker-presets",
+      "title": "快捷日期"
     },
     {
       "name": "date-picker-sizes",

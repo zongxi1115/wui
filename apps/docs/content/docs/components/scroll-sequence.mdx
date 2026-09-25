@@ -8,7 +8,7 @@ component: scroll-sequence
 
 向下滚动，吸顶视口中的工作流步骤（连接仓库、编译校验、全网部署）依次在原地无缝过渡：
 
-<ComponentPreview name="scroll-sequence-demo" />
+<ComponentPreview name="scroll-sequence-demo" previewClassName="min-h-0 p-0" />
 
 ## 安装与引入
 
@@ -46,6 +46,12 @@ pnpm add motion lucide-react class-variance-authority clsx tailwind-merge
       description: "每个步骤切换所消耗的滚动距离（以当前视口高度为单位，如 0.65 代表 0.65 个视口高度）。",
     },
     {
+      prop: "effect",
+      type: '"slide" | "fade" | "blur"',
+      default: '"slide"',
+      description: "步骤之间的过渡方式。`slide` 与 `blur` 会跟随滚动方向：向下时新步骤自下而上进入，回滚时反向。",
+    },
+    {
       prop: "container",
       type: "React.RefObject<HTMLElement | null>",
       description: "局部滚动容器的 ref 引用（不传时监听整个页面全局滚动）。",
@@ -54,7 +60,7 @@ pnpm add motion lucide-react class-variance-authority clsx tailwind-merge
       prop: "showProgress",
       type: "boolean",
       default: "true",
-      description: "是否在视口底部居中展示步骤进度指示条。",
+      description: "是否在视口底部居中展示分段进度条，每一段随当前步骤内的滚动进度连续填充。",
     },
     {
       prop: "onStepChange",
@@ -79,34 +85,23 @@ pnpm add motion lucide-react class-variance-authority clsx tailwind-merge
   ]}
 />
 
-## 事件 Events
-
-<PropsTable
-  data={[
-    {
-      prop: "onStepChange",
-      type: "(index: number) => void",
-      description: "随着滚动触发步进切换时触发，返回从 0 开始的当前激活步骤索引数字。",
-    },
-  ]}
-/>
-
 ## 使用场景与设计规范
 
 `ScrollSequence` 适用于**产品分步指南、复杂技术架构拆解、时间线故事叙事**：
 
 - **聚焦单点认知**：让用户在不迷失页面纵向位置的同时，逐步浏览有序的阶段信息。
-- **指示条联动反馈**：底部的进度指示条让用户明确知晓“当前处于第几步 / 总共有多少步”。
+- **指示条联动反馈**：底部分段进度条连续填充，用户能感知“离下一步还有多远”。
+- **交叉过渡**：新旧步骤在同一网格单元内同时过渡，不会出现等待上一步完全退场的空白。
 
 ## 场景示例
 
-### 极简流水线阶段演进
+### 数字叙事
 
-用于垂直空间受限卡片内的微型流程演示：
+使用 `effect="blur"` 逐段讲述增长故事：
 
-<ComponentPreview name="scroll-sequence-story" />
+<ComponentPreview name="scroll-sequence-story" previewClassName="min-h-0 p-0" />
 
 ## 无障碍与交互 Accessibility
 
 - **静态栅格回退**：当检测到 `prefers-reduced-motion: reduce` 时，组件将放弃滚动吸顶逻辑，直接将所有步骤平铺为标准的 CSS Grid 垂直列表，确保所有内容无障碍直达。
-- **步骤 ARIA 语义**：底部指示条标注了标准的 `aria-label="Step X of Y"`，便于辅助工具朗读。
+- **步骤 ARIA 语义**：底部指示条为 `role="status"` 并标注 `aria-label="Step X of Y"`，步骤切换时辅助工具可播报当前位置。

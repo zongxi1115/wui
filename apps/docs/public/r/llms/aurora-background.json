@@ -38,7 +38,7 @@
       "type": "[string, string, string]",
       "required": false,
       "control": "text",
-      "defaultValue": "[\"var(--info)\", \"var(--success)\", \"var(--warning)\"]",
+      "defaultValue": "[\"var(--chart-1)\", \"var(--chart-3)\", \"var(--chart-5)\"]",
       "description": "移动光场使用的三个 CSS 颜色。"
     },
     {
@@ -58,6 +58,14 @@
       "description": "光场的模糊强度，单位为像素。"
     },
     {
+      "name": "interactive",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "光带是否以不同深度向指针方向漂移。"
+    },
+    {
       "name": "layerClassName",
       "type": "string",
       "required": false,
@@ -72,7 +80,7 @@
     },
     {
       "name": "aurora-background-card",
-      "title": "VIP 会员卡片与定价模块"
+      "title": "定价卡片"
     }
   ],
   "files": [

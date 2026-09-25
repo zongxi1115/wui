@@ -17,7 +17,8 @@
     "npmDependencies": [
       "radix-ui",
       "class-variance-authority",
-      "motion"
+      "motion",
+      "lucide-react"
     ],
     "registryDependencies": [
       "utils"
@@ -79,6 +80,13 @@
       "description": "是否启用从指针位置向外扩散的点击涟漪效果。开启 prefers-reduced-motion 时会自动停用。"
     },
     {
+      "name": "loading",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "是否处于加载中。加载时在文字前滑入转圈图标（icon 尺寸下替换图标），并禁用按钮、设置 aria-busy。"
+    },
+    {
       "name": "disabled",
       "type": "boolean",
       "required": false,
@@ -104,12 +112,12 @@
       "title": "搭配图标"
     },
     {
-      "name": "button-async-action",
-      "title": "异步请求与加载反馈"
+      "name": "button-loading",
+      "title": "加载状态（loading）"
     },
     {
-      "name": "button-loading",
-      "title": "异步请求与加载反馈"
+      "name": "button-async-action",
+      "title": "异步请求与结果反馈"
     },
     {
       "name": "button-link",

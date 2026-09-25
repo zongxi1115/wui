@@ -85,11 +85,12 @@
       "title": "基础用法"
     },
     {
-      "name": "hover-marquee-tags",
-      "title": "技术栈与技能矩阵"
+      "name": "hover-marquee-catalog",
+      "title": "服务目录"
     },
     {
-      "name": "hover-marquee-catalog"
+      "name": "hover-marquee-tags",
+      "title": "团队与技能标签"
     }
   ],
   "files": [

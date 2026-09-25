@@ -3,11 +3,12 @@
   "type": "registry:ui",
   "title": "时间选择器 Time Picker",
   "description": "通过小时、分钟与 AM/PM 时制分栏，用于在表单中快速定位与设定特定时刻的紧凑选择控件。",
-  "import": "import { TimePicker, formatTime, parseTime } from \"@/components/ui/time-picker\"",
+  "import": "import { TimePicker, formatTime, parseTime, timePickerVariants } from \"@/components/ui/time-picker\"",
   "exports": [
     "TimePicker",
     "formatTime",
-    "parseTime"
+    "parseTime",
+    "timePickerVariants"
   ],
   "typeExports": [
     "TimePickerProps"
@@ -18,10 +19,13 @@
     "npmDependencies": [
       "radix-ui",
       "lucide-react",
-      "motion"
+      "motion",
+      "class-variance-authority"
     ],
     "registryDependencies": [
-      "utils"
+      "utils",
+      "button",
+      "sliding-number"
     ]
   },
   "props": [
@@ -69,6 +73,27 @@
       "control": "text",
       "defaultValue": "选择时间",
       "description": "没有选中时间时显示的占位文本。"
+    },
+    {
+      "name": "size",
+      "type": "\"default\" | \"sm\" | \"lg\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "default",
+        "sm",
+        "lg"
+      ],
+      "defaultValue": "default",
+      "description": "尺寸密度。@default \"default\""
+    },
+    {
+      "name": "showNow",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否在面板底部显示“此刻”快捷按钮。@default true"
     },
     {
       "name": "disabled",

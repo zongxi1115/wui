@@ -49,6 +49,18 @@ pnpm add motion clsx tailwind-merge
       description: "外层容器所渲染的语义 HTML 标签（如 span, p, h3, div 等）。",
     },
     {
+      prop: "transition",
+      type: "Transition",
+      default: '{ type: "spring", stiffness: 380, damping: 32, mass: 0.6 }',
+      description: "共享字符移动到新位置时使用的 Motion 过渡。",
+    },
+    {
+      prop: "variants",
+      type: "Variants",
+      default: '{ initial: { opacity: 0, filter: "blur(2px)" }, animate: { opacity: 1, filter: "blur(0px)" }, exit: { opacity: 0, filter: "blur(2px)" } }',
+      description: "仅在一侧出现的字符的进场（initial → animate）与离场（exit）状态。",
+    },
+    {
       prop: "className",
       type: "string",
       description: "应用于外层容器元素的额外 CSS 类名。",
@@ -74,7 +86,7 @@ pnpm add motion clsx tailwind-merge
 
 `TextMorph` 专为**微交互中的文字状态转换**而设计，尤其适合操作反馈、分段控制、步骤进度与搜索引导。
 
-- **词汇相关性**：形变效果在“新旧文案共享部分相同字符”时最具视觉魔力（例如 `Save` ➜ `Saving...` ➜ `Saved!`，或 `Download` ➜ `Downloaded`）。如果两段文案完全无相同字符，形变将自然退化为字符淡入淡出。
+- **词汇相关性**：形变效果在“新旧文案共享部分相同字符”时最具视觉魔力（例如 `保存草稿` ➜ `正在保存草稿` ➜ `草稿已保存`，或 `Download` ➜ `Downloaded`）。如果两段文案完全无相同字符，形变将自然退化为字符淡入淡出。
 - **避免过长段落形变**：仅将 `TextMorph` 用于短句、单词或标题（建议小于 40 个字符）。对几百字的文章正文执行字符级全局追踪会消耗不必要的布局计算。
 - **与按钮/徽章深度融合**：在提交按钮中使用 `TextMorph`，可以避免按钮在加载和成功状态之间发生突兀的白屏跳闪，提供原生应用级的精致触感。
 
@@ -82,23 +94,23 @@ pnpm add motion clsx tailwind-merge
 
 ### 状态操作按钮
 
-结合表单提交与异步请求状态（如 Idle、Loading、Success），实现无跳闪的丝滑按钮状态反馈：
+结合异步保存的三个状态，共享的“保存草稿”四个字在按钮内滑动换位，新增的字淡入：
 
 <ComponentPreview name="text-morph-demo" />
 
 ### 分段筛选标签栏
 
-在看板过滤栏或数据视图切换中，保持当前选中项标题与数量统计的动态平滑过渡：
+切换任务筛选时，下方统计文案中共享的“个任务”原地滑动，数字与状态词淡入淡出：
 
 <ComponentPreview name="text-morph-tabs" />
 
 ### 智能搜索提示轮播
 
-在 AI 提问框或全局检索框中，优雅轮换引导提示文本：
+在 AI 提问框中轮换占位提示，共同的前缀“让 AI 帮你”保持稳定，只有后半句发生形变；用户开始输入后停止轮换：
 
 <ComponentPreview name="text-morph-search-bar" />
 
-### CI/CD 部署流水线状态
+### 部署流水线状态
 
 展示长耗时任务在不同阶段之间的递进演进：
 
@@ -106,6 +118,7 @@ pnpm add motion clsx tailwind-merge
 
 ## 无障碍与交互 Accessibility
 
-- **屏幕阅读器支持**：外层容器绑定 `aria-label={children}`，内部各个独立的形变 `motion.span` 标记有 `aria-hidden="true"`，保证辅助技术始终将文本作为完整词语朗读，不会因单个字母的位移而产生碎片化发音。
-- **系统减少动态偏好（Reduced Motion）**：当用户系统启用了“减少动态效果（prefers-reduced-motion）”时，组件将跳过 `LayoutGroup` 空间位移动画，直接以无延迟的静态文本更新。
-- **空格与排版保护**：空格字符内部自动映射为非换行空格 `\u00a0`，防止因为 HTML 空格折叠特性导致词间距在形变计算时发生塌陷。
+- **屏幕阅读器支持**：组件内部渲染一份视觉隐藏（`sr-only`）的完整文本，各个独立的形变 `motion.span` 标记有 `aria-hidden="true"`，保证辅助技术始终将文本作为完整词语朗读，不会因单个字母的位移而产生碎片化发音。
+- **系统减少动态偏好（Reduced Motion）**：当用户系统启用了“减少动态效果（prefers-reduced-motion）”时，组件保持相同结构但过渡时长归零，文本直接更新。
+- **实例隔离**：每个 `TextMorph` 使用独立的 `LayoutGroup`，页面上同时存在多个实例时，相同字符不会在不同实例之间“飞来飞去”。
+- **空格与排版保护**：每个字符以 `whitespace-pre` 渲染，空格宽度在形变过程中保持稳定。

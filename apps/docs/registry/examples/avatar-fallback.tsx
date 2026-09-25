@@ -1,43 +1,44 @@
-import { BotIcon, SparklesIcon, UserRoundIcon } from "lucide-react"
+import { BotIcon, UserRoundIcon } from "lucide-react"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/registry/ui/avatar"
 
 export default function AvatarFallbackDemo() {
   return (
     <div className="flex flex-wrap items-center justify-center gap-6">
-      {/* Fallback with text initials */}
-      <Avatar>
-        <AvatarImage src="https://invalid-image-url.com/broken.jpg" alt="Zhang San" />
-        <AvatarFallback>张三</AvatarFallback>
-      </Avatar>
+      <div className="flex flex-col items-center gap-2">
+        <Avatar>
+          <AvatarImage src="https://invalid-image-url.com/broken.jpg" alt="张三" />
+          <AvatarFallback>张三</AvatarFallback>
+        </Avatar>
+        <span className="text-muted-foreground text-xs">姓名缩写</span>
+      </div>
 
-      {/* Fallback with user icon */}
-      <Avatar>
-        <AvatarFallback>
-          <UserRoundIcon className="size-4" />
-        </AvatarFallback>
-      </Avatar>
+      <div className="flex flex-col items-center gap-2">
+        <Avatar>
+          <AvatarFallback>
+            <UserRoundIcon className="size-4" />
+          </AvatarFallback>
+        </Avatar>
+        <span className="text-muted-foreground text-xs">匿名用户</span>
+      </div>
 
-      {/* Fallback with customized primary brand theme */}
-      <Avatar>
-        <AvatarFallback className="bg-primary text-primary-foreground font-semibold">
-          AI
-        </AvatarFallback>
-      </Avatar>
+      <div className="flex flex-col items-center gap-2">
+        <Avatar>
+          <AvatarFallback className="bg-primary text-primary-foreground">
+            <BotIcon className="size-4" />
+          </AvatarFallback>
+        </Avatar>
+        <span className="text-muted-foreground text-xs">智能助理</span>
+      </div>
 
-      {/* Fallback with bot icon */}
-      <Avatar>
-        <AvatarFallback className="bg-violet-500/15 text-violet-600 dark:text-violet-400">
-          <BotIcon className="size-4" />
-        </AvatarFallback>
-      </Avatar>
-
-      {/* Fallback with sparkles */}
-      <Avatar>
-        <AvatarFallback className="bg-amber-500/15 text-amber-600 dark:text-amber-400">
-          <SparklesIcon className="size-4" />
-        </AvatarFallback>
-      </Avatar>
+      <div className="flex flex-col items-center gap-2">
+        <Avatar className="rounded-md">
+          <AvatarFallback className="bg-info/15 text-info font-semibold">
+            研
+          </AvatarFallback>
+        </Avatar>
+        <span className="text-muted-foreground text-xs">团队 / 组织</span>
+      </div>
     </div>
   )
 }

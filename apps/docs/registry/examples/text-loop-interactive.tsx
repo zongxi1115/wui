@@ -1,103 +1,85 @@
 "use client"
 
 import * as React from "react"
-import { Pause, Play, Sparkles } from "lucide-react"
+import { PauseIcon, PlayIcon } from "lucide-react"
 
 import { Button } from "@/registry/ui/button"
 import { TextLoop } from "@/registry/ui/text-loop"
+import { cn } from "@/registry/lib/utils"
 
-const testimonials = [
+const reviews = [
   {
-    author: "Alex Rivers",
-    role: "Staff Engineer @ Vercel",
-    quote: "WUI cut our design system migration time in half. Flawless animations out of the box.",
+    author: "林晓",
+    role: "运营负责人 · 青禾零售",
+    quote: "审批从平均两天缩短到半天，门店采购终于不再卡在邮件里。",
   },
   {
-    author: "Elena Rostova",
-    role: "Design Lead @ Stripe",
-    quote: "The accessibility guarantees and micro-interactions give our web app a native feel.",
+    author: "周子墨",
+    role: "前端工程师 · 远帆科技",
+    quote: "键盘交互和焦点管理都已经做好，我们几乎没有再补无障碍问题。",
   },
   {
-    author: "David Chen",
-    role: "CTO @ Supabase",
-    quote: "Extensible, clean code with zero jank. Our engineering team loves working with it.",
+    author: "陈一凡",
+    role: "产品经理 · 知行教育",
+    quote: "报表可以直接推送到群里，周会前再也不用手动截图整理数据。",
   },
 ]
 
 export default function TextLoopInteractive() {
-  const [currentIndex, setCurrentIndex] = React.useState(0)
-  const [isPlaying, setIsPlaying] = React.useState(true)
-  const [isHovered, setIsHovered] = React.useState(false)
-
-  const active = isPlaying && !isHovered
+  const [index, setIndex] = React.useState(0)
+  const [playing, setPlaying] = React.useState(true)
+  const [hovered, setHovered] = React.useState(false)
 
   return (
     <div
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      className="flex w-full max-w-lg flex-col gap-4 rounded-xl border border-border bg-card p-6 shadow-xs"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      className="w-full max-w-md"
     >
-      <div className="flex items-center justify-between border-b border-border pb-3">
-        <div className="flex items-center gap-1.5 text-xs font-semibold text-foreground">
-          <Sparkles className="size-3.5 text-primary" />
-          <span>Customer Testimonials</span>
-          {isHovered && (
-            <span className="rounded bg-muted px-1.5 py-0.5 text-[10px] text-muted-foreground">
-              悬停已暂停
+      <TextLoop
+        interval={3.5}
+        trigger={playing && !hovered}
+        onIndexChange={setIndex}
+        className="w-full"
+      >
+        {reviews.map((item) => (
+          <span key={item.author} className="block">
+            <span className="block text-base leading-7">{item.quote}</span>
+            <span className="text-muted-foreground mt-3 block text-sm">
+              <span className="text-foreground font-medium">{item.author}</span>
+              <span className="mx-2">·</span>
+              {item.role}
             </span>
-          )}
+          </span>
+        ))}
+      </TextLoop>
+
+      <div className="mt-5 flex items-center justify-between border-t pt-3">
+        <div className="flex items-center gap-1.5" aria-hidden="true">
+          {reviews.map((item, i) => (
+            <span
+              key={item.author}
+              className={cn(
+                "h-1 rounded-full transition-all duration-300",
+                index === i ? "bg-foreground w-5" : "bg-border w-1.5"
+              )}
+            />
+          ))}
         </div>
-
         <div className="flex items-center gap-2">
-          {/* Step indicator dots */}
-          <div className="flex items-center gap-1">
-            {testimonials.map((_, i) => (
-              <span
-                key={i}
-                className={`size-1.5 rounded-full transition-all ${
-                  currentIndex === i ? "w-4 bg-primary" : "bg-muted-foreground/30"
-                }`}
-              />
-            ))}
-          </div>
-
+          <span className="text-muted-foreground text-xs">
+            {hovered ? "悬停暂停中" : playing ? "自动播放" : "已暂停"}
+          </span>
           <Button
-            type="button"
             variant="ghost"
             size="icon"
-            className="size-6"
-            onClick={() => setIsPlaying((prev) => !prev)}
-            aria-label={isPlaying ? "暂停轮播" : "继续轮播"}
+            className="size-7"
+            onClick={() => setPlaying((value) => !value)}
+            aria-label={playing ? "暂停轮播" : "继续轮播"}
           >
-            {isPlaying ? (
-              <Pause className="size-3 text-muted-foreground" />
-            ) : (
-              <Play className="size-3 text-primary" />
-            )}
+            {playing ? <PauseIcon className="size-3.5" /> : <PlayIcon className="size-3.5" />}
           </Button>
         </div>
-      </div>
-
-      <div className="min-h-24">
-        <TextLoop
-          interval={3.5}
-          trigger={active}
-          onIndexChange={setCurrentIndex}
-          className="w-full"
-        >
-          {testimonials.map((item, index) => (
-            <div key={index} className="space-y-2">
-              <p className="text-xs italic leading-relaxed text-foreground">
-                "{item.quote}"
-              </p>
-              <div className="flex items-center gap-2 text-[11px]">
-                <span className="font-semibold text-foreground">{item.author}</span>
-                <span className="text-muted-foreground">•</span>
-                <span className="text-muted-foreground">{item.role}</span>
-              </div>
-            </div>
-          ))}
-        </TextLoop>
       </div>
     </div>
   )

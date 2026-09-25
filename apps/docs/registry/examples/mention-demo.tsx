@@ -1,60 +1,84 @@
 "use client"
 
 import * as React from "react"
-import { SparklesIcon, UserIcon, Code2Icon } from "lucide-react"
+import { BotIcon, SendIcon, SparklesIcon } from "lucide-react"
+
+import { Avatar, AvatarFallback } from "@/registry/ui/avatar"
 import { Badge } from "@/registry/ui/badge"
 import { Button } from "@/registry/ui/button"
 import { Mention, type MentionOption } from "@/registry/ui/mention"
 
-const MENTION_OPTIONS: MentionOption[] = [
+const options: MentionOption[] = [
   {
-    id: "claude",
-    label: "Claude-3.5",
-    description: "深度思考与代码推理助手",
-    icon: <SparklesIcon className="size-3.5 text-primary" />,
-    badge: <Badge variant="secondary" className="text-[10px] py-0">AI</Badge>,
+    id: "lin-wei",
+    label: "林薇",
+    description: "设计系统负责人",
+    icon: (
+      <Avatar size="xs">
+        <AvatarFallback>林</AvatarFallback>
+      </Avatar>
+    ),
   },
   {
-    id: "alex",
-    label: "Alex Chen",
-    description: "前端系统架构师 (@alex)",
-    icon: <UserIcon className="size-3.5" />,
-    badge: <Badge variant="outline" className="text-[10px] py-0">Team</Badge>,
+    id: "zhou-hang",
+    label: "周航",
+    description: "前端架构 · 在线",
+    icon: (
+      <Avatar size="xs">
+        <AvatarFallback>周</AvatarFallback>
+      </Avatar>
+    ),
+  },
+  {
+    id: "assistant",
+    label: "写作助手",
+    description: "润色、总结与翻译",
+    icon: <SparklesIcon className="text-primary size-4" />,
+    badge: <Badge variant="secondary" className="px-1.5 py-0 text-[10px]">AI</Badge>,
   },
   {
     id: "review-bot",
-    label: "CodeReviewBot",
-    description: "自动化代码评审与类型审计",
-    icon: <Code2Icon className="size-3.5 text-info" />,
-    badge: <Badge variant="secondary" className="text-[10px] py-0">Bot</Badge>,
+    label: "评审机器人",
+    description: "自动检查类型与无障碍问题",
+    icon: <BotIcon className="text-muted-foreground size-4" />,
+    badge: <Badge variant="outline" className="px-1.5 py-0 text-[10px]">Bot</Badge>,
   },
 ]
 
 export default function MentionDemo() {
-  const [value, setValue] = React.useState("请 @Claude-3.5 帮忙审查这个方案，并同步给 @Alex Chen ")
+  const [value, setValue] = React.useState("@林薇 新版表单规范已更新，辛苦确认一下校验提示的动效，")
+  const [sent, setSent] = React.useState<string[]>([])
 
   return (
-    <div className="flex w-full max-w-lg flex-col gap-3">
-      <div className="rounded-xl border bg-card p-4 shadow-xs">
-        <div className="mb-2 flex items-center justify-between">
-          <span className="text-xs font-medium text-foreground">任务指派与讨论</span>
-          <span className="text-[11px] text-muted-foreground">输入 @ 唤起候选名单</span>
-        </div>
-        <Mention
-          value={value}
-          onValueChange={setValue}
-          options={MENTION_OPTIONS}
-          placeholder="键入 @ 提及成员、AI 助手或机器人..."
-        />
-        <div className="mt-3 flex items-center justify-between border-t border-border/50 pt-2.5">
-          <span className="text-[11px] text-muted-foreground font-mono">
-            {value.length} 字符
-          </span>
-          <Button size="sm" onClick={() => setValue("")}>
-            清空内容
-          </Button>
-        </div>
+    <div className="grid w-full max-w-md gap-2">
+      <span className="text-sm font-medium">评论</span>
+      <Mention
+        value={value}
+        onValueChange={setValue}
+        options={options}
+        placeholder="输入 @ 提及成员或助手"
+      />
+      <div className="flex items-center justify-between">
+        <span className="text-muted-foreground text-xs">
+          ↑↓ 选择，Enter 插入，Esc 关闭
+        </span>
+        <Button
+          size="sm"
+          disabled={!value.trim()}
+          onClick={() => {
+            setSent((current) => [...current, value.trim()])
+            setValue("")
+          }}
+        >
+          <SendIcon />
+          发送
+        </Button>
       </div>
+      {sent.length ? (
+        <p className="text-muted-foreground text-xs" aria-live="polite">
+          已发送 {sent.length} 条评论
+        </p>
+      ) : null}
     </div>
   )
 }

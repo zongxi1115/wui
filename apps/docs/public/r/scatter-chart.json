@@ -5,7 +5,8 @@
   "title": "散点图 Scatter Chart",
   "description": "展示两个数值变量之间的关系、聚类与离群点。",
   "registryDependencies": [
-    "chart-core"
+    "chart-core",
+    "utils"
   ],
   "files": [
     {

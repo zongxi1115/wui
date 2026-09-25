@@ -80,7 +80,8 @@
       "description": "将 CommonMark 与 GFM 文本解析为可组合、带默认样式的 React 内容。",
       "registryDependencies": [
         "utils",
-        "ai-stream"
+        "ai-stream",
+        "code-block"
       ]
     },
     {
@@ -97,7 +98,8 @@
       "description": "用可折叠的思考链展示模型推理摘要与执行进度。",
       "registryDependencies": [
         "utils",
-        "ai-stream"
+        "ai-stream",
+        "text-shimmer"
       ]
     },
     {
@@ -144,8 +146,7 @@
       "title": "AI 快捷提问建议 AI Prompt Suggestions",
       "description": "用于新对话启动页、空状态或输入框上方的引导式提问卡片与预设 Prompt 标签。",
       "registryDependencies": [
-        "utils",
-        "badge"
+        "utils"
       ]
     },
     {
@@ -190,7 +191,9 @@
       "title": "工具栏 Toolbar",
       "description": "为一组紧凑操作提供排列、分组与方向键导航，并复用现有按钮外观。",
       "registryDependencies": [
-        "utils"
+        "utils",
+        "toggle",
+        "toggle-group"
       ]
     },
     {
@@ -208,7 +211,8 @@
       "title": "折线图 Line Chart",
       "description": "展示有序数据趋势，并支持多序列比较与键盘浏览。",
       "registryDependencies": [
-        "chart-core"
+        "chart-core",
+        "utils"
       ]
     },
     {
@@ -226,7 +230,8 @@
       "title": "时间序列图 Time Series Chart",
       "description": "按真实时间间隔绘制趋势，并支持线性或对数数值轴。",
       "registryDependencies": [
-        "chart-core"
+        "chart-core",
+        "utils"
       ]
     },
     {
@@ -235,7 +240,8 @@
       "title": "堆叠面积图 Stacked Area Chart",
       "description": "比较多个连续序列的累计规模或百分比构成。",
       "registryDependencies": [
-        "chart-core"
+        "chart-core",
+        "utils"
       ]
     },
     {
@@ -244,7 +250,8 @@
       "title": "条形图 Bar Chart",
       "description": "从零基线比较分类数值，并支持分组序列与精确标签。",
       "registryDependencies": [
-        "chart-core"
+        "chart-core",
+        "utils"
       ]
     },
     {
@@ -262,7 +269,8 @@
       "title": "堆叠条形图 Stacked Bar Chart",
       "description": "支持纵向、横向、绝对值与百分比堆叠的分类比较。",
       "registryDependencies": [
-        "chart-core"
+        "chart-core",
+        "utils"
       ]
     },
     {
@@ -271,7 +279,8 @@
       "title": "组合图 Composed Chart",
       "description": "在同一分类轴上组合条形与折线，并为量级不同的指标提供双轴。",
       "registryDependencies": [
-        "chart-core"
+        "chart-core",
+        "utils"
       ]
     },
     {
@@ -280,7 +289,8 @@
       "title": "饼图 Pie Chart",
       "description": "展示少量类别的部分与整体关系，并支持饼图和环图形态。",
       "registryDependencies": [
-        "chart-core"
+        "chart-core",
+        "utils"
       ]
     },
     {
@@ -289,7 +299,8 @@
       "title": "散点图 Scatter Chart",
       "description": "展示两个数值变量之间的关系、聚类与离群点。",
       "registryDependencies": [
-        "chart-core"
+        "chart-core",
+        "utils"
       ]
     },
     {
@@ -298,7 +309,8 @@
       "title": "Canvas 散点图 Canvas Scatter Chart",
       "description": "使用 Canvas 绘制较大规模散点，同时保留图例、提示与可访问数据表。",
       "registryDependencies": [
-        "chart-core"
+        "chart-core",
+        "utils"
       ]
     },
     {
@@ -317,7 +329,8 @@
       "description": "复用 Slider 为图表提供受控的范围筛选与缩放。",
       "registryDependencies": [
         "slider",
-        "chart-core"
+        "chart-core",
+        "utils"
       ]
     },
     {
@@ -412,14 +425,18 @@
       "type": "registry:ui",
       "title": "图标 Icon",
       "description": "基于 Lucide 的可搜索图标集合与无障碍渲染组件。",
-      "registryDependencies": []
+      "registryDependencies": [
+        "utils"
+      ]
     },
     {
       "name": "animated-icon",
       "type": "registry:ui",
       "title": "动态图标 Animated Icon",
       "description": "图标内部路径会随交互运动的 Lucide 动态图标集合。",
-      "registryDependencies": []
+      "registryDependencies": [
+        "utils"
+      ]
     },
     {
       "name": "animated-icon-collection",
@@ -472,7 +489,8 @@
       "title": "颜色选择器 Color Picker",
       "description": "面向设计 Token 的 OKLCH 颜色选择器，支持感知色彩通道、透明度和精确 CSS 值。",
       "registryDependencies": [
-        "utils"
+        "utils",
+        "popover"
       ]
     },
     {
@@ -521,7 +539,8 @@
         "utils",
         "command",
         "popover",
-        "checkbox"
+        "checkbox",
+        "sliding-number"
       ]
     },
     {
@@ -630,7 +649,8 @@
       "title": "雷达图 Radar Chart",
       "description": "用于在极坐标系上展示多维度能力评估、多系列性能对比或平衡指标的图表。",
       "registryDependencies": [
-        "chart-core"
+        "chart-core",
+        "utils"
       ]
     },
     {
@@ -639,7 +659,8 @@
       "title": "热力图 Heatmap",
       "description": "仿 GitHub 贡献日历风格的时间序列活跃度与活动密度热力矩阵图表。",
       "registryDependencies": [
-        "chart-core"
+        "chart-core",
+        "utils"
       ]
     },
     {
@@ -648,7 +669,8 @@
       "title": "仪表盘 Gauge Chart",
       "description": "用于直观展示单一核心指标的当前进度水平、负载状态与阈值区间的环形度量图表。",
       "registryDependencies": [
-        "chart-core"
+        "chart-core",
+        "utils"
       ]
     },
     {
@@ -657,7 +679,8 @@
       "title": "漏斗图 Funnel Chart",
       "description": "用于追踪多阶段业务流转、步骤转化率与流失率分布的漏斗图表。",
       "registryDependencies": [
-        "chart-core"
+        "chart-core",
+        "utils"
       ]
     },
     {
@@ -950,6 +973,51 @@
       ]
     },
     {
+      "name": "animated-background",
+      "type": "registry:ui",
+      "title": "滑动高亮 Animated Background",
+      "description": "在悬停或选中的子元素之间平滑滑动共享高亮背景。",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "transition-panel",
+      "type": "registry:ui",
+      "title": "过渡面板 Transition Panel",
+      "description": "按索引切换面板，带方向感知的滑入淡出与高度平滑过渡。",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "animated-group",
+      "type": "registry:ui",
+      "title": "动画组 Animated Group",
+      "description": "为一组子元素按预设错峰播放入场动画，支持进入视口时触发。",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "animated-list",
+      "type": "registry:ui",
+      "title": "动画列表 Animated List",
+      "description": "逐条揭示列表项并将最新一条置顶，其余条目以弹簧动画下移。",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "border-beam",
+      "type": "registry:ui",
+      "title": "边框光束 Border Beam",
+      "description": "沿元素边框循环流动的一段光束，用于强调推荐项或处理中状态。",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
       "name": "hover-marquee",
       "type": "registry:ui",
       "title": "浮入滚动目录 Hover Marquee",
@@ -1086,10 +1154,46 @@
       ]
     },
     {
+      "name": "text-rotate",
+      "type": "registry:ui",
+      "title": "文本轮转 Text Rotate",
+      "description": "逐字符、单词或整行错峰轮换文本：旧文本向上移出、新文本自下方进入，容器宽度随内容平滑过渡。",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "typewriter",
+      "type": "registry:ui",
+      "title": "打字机 Typewriter",
+      "description": "带闪烁光标的逐字输入效果，依次输入、删除并切换多段文本。",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "text-highlight",
+      "type": "registry:ui",
+      "title": "文本高亮 Text Highlight",
+      "description": "进入视口、悬停或挂载时，在文字背后划出马克笔式的高亮。",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
       "name": "sliding-number",
       "type": "registry:ui",
       "title": "滑动数字 Sliding Number",
       "description": "用独立数字轮平滑过渡数值变化。",
+      "registryDependencies": [
+        "utils"
+      ]
+    },
+    {
+      "name": "number-ticker",
+      "type": "registry:ui",
+      "title": "数字滚动 Number Ticker",
+      "description": "进入视口时从起始值计数到目标值，支持本地化格式、小数位与前后缀。",
       "registryDependencies": [
         "utils"
       ]
@@ -1128,7 +1232,9 @@
       "title": "时间选择器 Time Picker",
       "description": "用小时、分钟与时制分栏快速设定时间。",
       "registryDependencies": [
-        "utils"
+        "utils",
+        "button",
+        "sliding-number"
       ]
     },
     {

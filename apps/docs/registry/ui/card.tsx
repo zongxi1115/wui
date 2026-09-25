@@ -4,10 +4,17 @@ import { cn } from "@/registry/lib/utils"
 
 const cardSurface = {
   /** Lifts the card with a quiet ambient shadow and a low-contrast edge. */
-  elevated: "border-border/50 border shadow-md",
+  elevated: "border-border/70 border shadow-sm",
   /** Flat treatment for dense grids where stacked shadows would be noisy. */
-  outline: "border-border/70 border shadow-none",
+  outline: "border-border border shadow-none",
 } as const
+
+export interface CardProps extends React.ComponentProps<"div"> {
+  /** Surface treatment. @default "elevated" */
+  variant?: keyof typeof cardSurface
+  /** Adds hover lift, border emphasis and press feedback for cards that behave as a single target. @default false */
+  interactive?: boolean
+}
 
 /** A composable surface that groups related content and actions. */
 function Card({
@@ -15,26 +22,22 @@ function Card({
   variant = "elevated",
   interactive = false,
   ...props
-}: React.ComponentProps<"div"> & {
-  /** Surface treatment. @default "elevated" */
-  variant?: keyof typeof cardSurface
-  /** Adds press affordance for cards that behave as a single target. @default false */
-  interactive?: boolean
-}) {
+}: CardProps) {
   return (
     <div
       data-slot="card"
       data-variant={variant}
+      data-interactive={interactive || undefined}
       className={cn(
-        "bg-card text-card-foreground relative isolate flex flex-col gap-5 rounded-[1.25rem] py-5",
+        "bg-card text-card-foreground relative isolate flex flex-col gap-5 rounded-xl py-5",
         cardSurface[variant],
         interactive && [
-          "focus-visible:ring-ring/30 cursor-pointer outline-none focus-visible:ring-[3px] focus-visible:ring-offset-2",
-          "transition-[border-color,box-shadow,transform] duration-300 ease-[cubic-bezier(0.2,0.8,0.2,1)]",
-          "hover:-translate-y-px active:translate-y-0 active:scale-[0.997] active:duration-100",
-          "motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:active:scale-100",
+          "focus-visible:ring-ring/40 focus-visible:ring-offset-background cursor-pointer outline-none focus-visible:ring-[3px] focus-visible:ring-offset-2",
+          "transition-[border-color,box-shadow,translate,scale] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]",
+          "hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] active:duration-100",
+          "motion-reduce:transition-[border-color,box-shadow] motion-reduce:hover:translate-y-0 motion-reduce:active:scale-100",
           variant === "elevated"
-            ? "hover:border-border/80 hover:shadow-lg"
+            ? "hover:border-foreground/15 hover:shadow-md"
             : "hover:border-foreground/25",
         ],
         className
@@ -120,7 +123,7 @@ function CardMedia({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="card-media"
       className={cn(
-        "-mt-5 overflow-hidden rounded-t-[calc(1.25rem-1px)] [&_img]:block [&_img]:size-full [&_img]:object-cover",
+        "-mt-5 overflow-hidden rounded-t-[calc(var(--radius)+3px)] [&_img]:block [&_img]:size-full [&_img]:object-cover",
         className
       )}
       {...props}

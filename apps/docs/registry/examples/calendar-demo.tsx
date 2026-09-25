@@ -22,7 +22,7 @@ export default function CalendarDemo() {
           {new Intl.DateTimeFormat("zh-CN", { dateStyle: "full" }).format(date)}
         </p>
         <p className="text-muted-foreground mt-1 text-xs leading-5">
-          方向键移动焦点，回车键确认日期。
+          点击标题切换到月份 / 年份视图；方向键移动焦点，PageUp / PageDown 翻月。
         </p>
       </div>
     </div>

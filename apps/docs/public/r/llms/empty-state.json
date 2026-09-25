@@ -48,12 +48,24 @@
       ],
       "defaultValue": "default",
       "description": "空状态内容的垂直密度。"
+    },
+    {
+      "name": "animated",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "挂载时是否依次让插图、标题、描述和操作淡入。"
     }
   ],
   "examples": [
     {
       "name": "empty-state-demo",
       "title": "基础用法"
+    },
+    {
+      "name": "empty-state-scenarios",
+      "title": "不同场景的空状态"
     },
     {
       "name": "empty-state-illustrations",

@@ -17,6 +17,13 @@ component: toolbar
 `Toolbar` 用于编辑器、数据表和图表标题旁的一组相关操作。`ToolbarButton` 通过 `asChild` 把已有 `Button` 接入 Radix Toolbar 的方向键导航，
 不会再造一套按钮尺寸、颜色或焦点样式。下拉选择器等复杂控件可以直接与 `ToolbarButton` 并列组合。
 
+需要保持选中状态的格式按钮（加粗、对齐方式等）使用 `ToolbarGroup` + `ToolbarToggleItem`：
+
+- `ToolbarGroup` 需要声明 `type="single" | "multiple"`，支持 `value` / `defaultValue` / `onValueChange`，并通过 `variant`、`size`（默认 `sm`）统一组内外观。
+- `ToolbarToggleItem` 复用 `Toggle` 的样式：单选组的选中背景会在选项之间平滑滑动，多选组的每个选项背景独立缩放淡入；系统开启“减少动态效果”时直接切换。
+- 组内选项与 `ToolbarButton` 共享同一套方向键漫游焦点。
+- `ToolbarSeparator` 自动与工具栏方向垂直：横向工具栏显示为竖线，纵向工具栏显示为横线。
+
 ## 属性
 
 <PropsTable name="toolbar" />

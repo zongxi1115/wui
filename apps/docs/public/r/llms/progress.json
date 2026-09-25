@@ -16,7 +16,8 @@
     "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/progress.json",
     "npmDependencies": [
       "radix-ui",
-      "class-variance-authority"
+      "class-variance-authority",
+      "motion"
     ],
     "registryDependencies": [
       "utils"
@@ -102,6 +103,10 @@
     {
       "name": "progress-dynamic",
       "title": "动态任务流（文件上传）"
+    },
+    {
+      "name": "progress-indeterminate",
+      "title": "不确定状态与阶段切换"
     },
     {
       "name": "progress-dashboard",

@@ -5,7 +5,8 @@
   "title": "Canvas 散点图 Canvas Scatter Chart",
   "description": "使用 Canvas 绘制较大规模散点，同时保留图例、提示与可访问数据表。",
   "registryDependencies": [
-    "chart-core"
+    "chart-core",
+    "utils"
   ],
   "files": [
     {

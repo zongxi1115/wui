@@ -30,15 +30,27 @@ function useFormField() {
 export interface FormProps extends HTMLMotionProps<"form"> {
   /** 挂载时是否播放表单入场动效。@default true */
   animated?: boolean
+  /**
+   * 是否跳过浏览器原生校验气泡，由 FormField / FormMessage 呈现校验反馈。
+   * 字段的 `required` 仍会写入原生属性与 `aria-required`。@default true
+   */
+  noValidate?: boolean
 }
 
 /** 协调字段动效与校验状态的语义化表单容器。 */
-function Form({ className, animated = true, children, ...props }: FormProps) {
+function Form({
+  className,
+  animated = true,
+  noValidate = true,
+  children,
+  ...props
+}: FormProps) {
   const reduceMotion = useReducedMotion()
 
   return (
     <motion.form
       data-slot="form"
+      noValidate={noValidate}
       initial={animated && !reduceMotion ? { opacity: 0, y: 8 } : false}
       animate={{ opacity: 1, y: 0 }}
       transition={{
@@ -160,32 +172,44 @@ function FormDescription({ className, ...props }: React.ComponentProps<"p">) {
   )
 }
 
+/**
+ * 校验失败时展开的错误提示。保持挂载即可获得完整的展开与收起动效：
+ * 高度与透明度同步过渡，并抵消字段栅格间距，避免出现与消失时布局跳动。
+ */
 function FormMessage({ className, children, ...props }: HTMLMotionProps<"p">) {
   const { messageId, invalid } = useFormField()
   const reduceMotion = useReducedMotion()
+  const transition = {
+    duration: reduceMotion ? 0 : 0.24,
+    ease: [0.22, 1, 0.36, 1] as const,
+  }
 
   return (
     <AnimatePresence initial={false}>
       {invalid && children ? (
-        <motion.p
-          id={messageId}
-          data-slot="form-message"
-          role="alert"
-          initial={reduceMotion ? false : { opacity: 0, height: 0, y: -4 }}
-          animate={{ opacity: 1, height: "auto", y: 0 }}
-          exit={reduceMotion ? undefined : { opacity: 0, height: 0, y: -3 }}
-          transition={{
-            duration: reduceMotion ? 0 : 0.22,
-            ease: [0.22, 1, 0.36, 1],
-          }}
-          className={cn(
-            "text-destructive -mt-0.5 overflow-hidden text-xs font-medium",
-            className
-          )}
-          {...props}
+        <motion.div
+          key="message"
+          data-slot="form-message-container"
+          className="-mt-1.5 overflow-hidden"
+          initial={reduceMotion ? false : { height: 0, opacity: 0 }}
+          animate={{ height: "auto", opacity: 1 }}
+          exit={reduceMotion ? { opacity: 0 } : { height: 0, opacity: 0 }}
+          transition={transition}
         >
-          {children}
-        </motion.p>
+          <motion.p
+            id={messageId}
+            data-slot="form-message"
+            role="alert"
+            initial={reduceMotion ? false : { y: -4 }}
+            animate={{ y: 0 }}
+            exit={reduceMotion ? undefined : { y: -4 }}
+            transition={transition}
+            className={cn("text-destructive pt-1 text-xs font-medium", className)}
+            {...props}
+          >
+            {children}
+          </motion.p>
+        </motion.div>
       ) : null}
     </AnimatePresence>
   )

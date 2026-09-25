@@ -33,10 +33,11 @@ function ProgressiveBlur({
   const angle = gradientAngles[direction]
 
   return (
-    <div
+    <motion.div
       aria-hidden="true"
       data-slot="progressive-blur"
       className={cn("pointer-events-none relative", className)}
+      {...props}
     >
       {Array.from({ length: layers }, (_, index) => {
         const stops = [index, index + 1, index + 2, index + 3].map(
@@ -47,7 +48,7 @@ function ProgressiveBlur({
         const blur = Math.max(0, index * blurIntensity)
 
         return (
-          <motion.div
+          <div
             key={index}
             data-slot="progressive-blur-layer"
             className="absolute inset-0 rounded-[inherit]"
@@ -57,11 +58,10 @@ function ProgressiveBlur({
               backdropFilter: `blur(${blur}px)`,
               WebkitBackdropFilter: `blur(${blur}px)`,
             }}
-            {...props}
           />
         )
       })}
-    </div>
+    </motion.div>
   )
 }
 

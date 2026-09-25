@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "text-highlight",
+  "type": "registry:ui",
+  "title": "文本高亮 Text Highlight",
+  "description": "进入视口、悬停或挂载时，在文字背后划出马克笔式的高亮。",
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/text-highlight.tsx",
+      "type": "registry:ui",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport {\n  motion,\n  useInView,\n  useReducedMotion,\n  type HTMLMotionProps,\n  type Transition,\n  type UseInViewOptions,\n} from \"motion/react\"\n\nimport { cn } from \"@/registry/lib/utils\"\n\nexport interface TextHighlightProps\n  extends Omit<HTMLMotionProps<\"span\">, \"children\" | \"transition\" | \"color\"> {\n  /** Text to highlight. Wrapped lines are swept one after another. */\n  children: React.ReactNode\n  /** When the sweep plays. @default \"inView\" */\n  trigger?: \"inView\" | \"hover\" | \"always\"\n  /** Controlled highlight state, e.g. driven by hovering a parent row. Overrides `trigger`. */\n  active?: boolean\n  /** `block` covers the full line height, `underline` a marker band at the bottom. @default \"block\" */\n  variant?: \"block\" | \"underline\"\n  /** Highlight colour. Any CSS colour or variable. */\n  color?: string\n  /** Side the sweep starts from. @default \"left\" */\n  from?: \"left\" | \"right\"\n  /** Seconds before the sweep starts. @default 0 */\n  delay?: number\n  /** Seconds the sweep takes. @default 0.8 */\n  duration?: number\n  /** Transition of the sweep; overrides `delay` and `duration`. */\n  transition?: Transition\n  /** Play only the first time the text enters the viewport. @default true */\n  once?: boolean\n  /** Intersection options used when `trigger` is `inView`. */\n  viewOptions?: Omit<UseInViewOptions, \"once\">\n}\n\nconst bandHeight = { block: \"100%\", underline: \"38%\" } as const\n\n/**\n * Sweeps a marker-style highlight behind inline text when it scrolls into\n * view, on hover, or immediately.\n */\nfunction TextHighlight({\n  children,\n  trigger = \"inView\",\n  active: activeProp,\n  variant = \"block\",\n  color = \"color-mix(in oklab, var(--primary) 12%, transparent)\",\n  from = \"left\",\n  delay = 0,\n  duration = 0.8,\n  transition,\n  once = true,\n  viewOptions,\n  className,\n  style,\n  onPointerEnter,\n  onPointerLeave,\n  ...props\n}: TextHighlightProps) {\n  const ref = React.useRef<HTMLSpanElement>(null)\n  const reduceMotion = useReducedMotion()\n  const inView = useInView(ref, { ...viewOptions, once })\n  const [hovered, setHovered] = React.useState(false)\n\n  const active =\n    activeProp ??\n    (trigger === \"always\" ? true : trigger === \"hover\" ? hovered : inView)\n  const height = bandHeight[variant]\n\n  return (\n    <motion.span\n      ref={ref}\n      data-slot=\"text-highlight\"\n      data-active={active ? \"\" : undefined}\n      className={cn(\"bg-no-repeat\", className)}\n      style={{\n        backgroundImage: `linear-gradient(${color}, ${color})`,\n        backgroundPosition: `${from === \"left\" ? \"0%\" : \"100%\"} 100%`,\n        ...style,\n      }}\n      initial={{ backgroundSize: `0% ${height}` }}\n      animate={{ backgroundSize: `${active ? 100 : 0}% ${height}` }}\n      transition={\n        reduceMotion\n          ? { duration: 0 }\n          : {\n              duration,\n              delay: active ? delay : 0,\n              ease: [0.22, 1, 0.36, 1],\n              ...transition,\n            }\n      }\n      onPointerEnter={(event) => {\n        setHovered(true)\n        onPointerEnter?.(event)\n      }}\n      onPointerLeave={(event) => {\n        setHovered(false)\n        onPointerLeave?.(event)\n      }}\n      {...props}\n    >\n      {children}\n    </motion.span>\n  )\n}\n\nexport { TextHighlight }\n"
+    }
+  ],
+  "categories": [
+    "motion",
+    "text-effect"
+  ]
+}

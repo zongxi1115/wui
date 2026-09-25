@@ -1,49 +1,60 @@
 "use client"
 
 import * as React from "react"
+
 import { Checkbox } from "@/registry/ui/checkbox"
 
+const options = [
+  {
+    id: "notify-mention",
+    label: "有人 @ 我时",
+    description: "在评论、文档或任务中被提及时立即通知",
+  },
+  {
+    id: "notify-assign",
+    label: "任务指派给我时",
+    description: "包含负责人变更与截止日期调整",
+  },
+  {
+    id: "notify-digest",
+    label: "每日项目动态",
+    description: "每天 18:00 汇总你关注项目的进展",
+  },
+]
+
 export default function CheckboxDemo() {
-  const [selected, setSelected] = React.useState<string[]>(["icloud", "handoff"])
+  const [selected, setSelected] = React.useState<string[]>(["notify-mention", "notify-assign"])
 
-  const options = [
-    { id: "icloud", label: "同步 iCloud 设置", description: "在所有登录相同 Apple ID 的设备间同步偏好设置" },
-    { id: "handoff", label: "允许接力 (Handoff)", description: "在 Mac、iPad 和 iPhone 之间无缝继续工作" },
-    { id: "analytics", label: "共享设备分析数据", description: "帮助改进产品体验，数据将以匿名方式汇总上传" },
-  ]
-
-  const toggleOption = (id: string, checked: boolean | "indeterminate") => {
-    setSelected((prev) =>
-      checked ? [...prev, id] : prev.filter((item) => item !== id)
+  function toggle(id: string, checked: boolean | "indeterminate") {
+    setSelected((current) =>
+      checked === true ? [...current, id] : current.filter((item) => item !== id)
     )
   }
 
   return (
-    <div className="w-full max-w-md space-y-3 rounded-lg border border-border bg-card p-4 text-card-foreground shadow-xs">
-      <div className="border-b border-border pb-2">
-        <h4 className="text-sm font-medium">设备与同步设置</h4>
-        <p className="text-xs text-muted-foreground">管理跨设备协作与数据同步偏好</p>
-      </div>
-      <div className="space-y-3 pt-1">
+    <fieldset className="w-full max-w-sm">
+      <legend className="text-sm font-medium">桌面通知</legend>
+      <p className="text-muted-foreground mt-1 text-xs">选择哪些事件需要推送到桌面</p>
+      <div className="mt-4 grid gap-4">
         {options.map((option) => (
           <label
             key={option.id}
             htmlFor={option.id}
-            className="flex cursor-pointer items-start gap-3 rounded-md p-1.5 transition-colors hover:bg-muted/50"
+            className="flex cursor-pointer items-start gap-3"
           >
             <Checkbox
               id={option.id}
               checked={selected.includes(option.id)}
-              onCheckedChange={(checked) => toggleOption(option.id, checked)}
-              className="mt-0.5"
+              onCheckedChange={(checked) => toggle(option.id, checked)}
+              className="mt-px"
             />
-            <div className="grid gap-0.5 leading-none">
-              <span className="text-sm font-medium">{option.label}</span>
-              <span className="text-xs text-muted-foreground">{option.description}</span>
-            </div>
+            <span className="grid gap-1">
+              <span className="text-sm font-medium leading-none">{option.label}</span>
+              <span className="text-muted-foreground text-xs">{option.description}</span>
+            </span>
           </label>
         ))}
       </div>
-    </div>
+    </fieldset>
   )
 }

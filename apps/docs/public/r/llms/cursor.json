@@ -60,7 +60,7 @@
       "type": "Variants",
       "required": false,
       "control": "text",
-      "defaultValue": "{\n  initial: { opacity: 0, scale: 0.75 },\n  animated: { opacity: 1, scale: 1 },\n  exit: { opacity: 0, scale: 0.75 },\n}",
+      "defaultValue": "{\r\n  initial: { opacity: 0, scale: 0.75 },\r\n  animated: { opacity: 1, scale: 1 },\r\n  exit: { opacity: 0, scale: 0.75 },\r\n}",
       "description": "指针视觉的初始、播放中和离开状态。"
     },
     {

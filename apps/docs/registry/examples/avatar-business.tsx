@@ -1,4 +1,4 @@
-import { MoreHorizontalIcon, ShieldCheckIcon } from "lucide-react"
+import { MoreHorizontalIcon } from "lucide-react"
 
 import {
   Avatar,
@@ -11,69 +11,63 @@ import { Button } from "@/registry/ui/button"
 
 const members = [
   {
-    name: "Elena Rostova",
-    email: "elena.r@acme.corp",
-    role: "Lead Architect",
+    name: "林晓雯",
+    email: "xiaowen.lin@acme.cn",
+    role: "所有者",
     status: "online" as const,
     src: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
-    fallback: "ER",
   },
   {
-    name: "Marcus Vance",
-    email: "m.vance@acme.corp",
-    role: "Product Designer",
+    name: "陈嘉树",
+    email: "jiashu.chen@acme.cn",
+    role: "管理员",
     status: "busy" as const,
     src: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
-    fallback: "MV",
   },
   {
-    name: "Sophie Zhang",
-    email: "sophie.z@acme.corp",
-    role: "DevOps Engineer",
+    name: "许安然",
+    email: "anran.xu@acme.cn",
+    role: "成员",
     status: "away" as const,
     src: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&auto=format&fit=crop&q=80",
-    fallback: "SZ",
   },
 ]
 
 export default function AvatarBusiness() {
   return (
-    <div className="w-full max-w-md rounded-xl border border-border/70 bg-card p-4 shadow-sm">
-      <div className="flex items-center justify-between pb-3 border-b border-border/50">
-        <div>
-          <h4 className="text-sm font-semibold text-foreground">Project Collaborators</h4>
-          <p className="text-xs text-muted-foreground">3 active members in this workspace</p>
-        </div>
-        <Badge variant="secondary" size="sm" className="gap-1">
-          <ShieldCheckIcon className="size-3 text-emerald-500" /> Enterprise
-        </Badge>
+    <div className="w-full max-w-md">
+      <div className="flex items-baseline justify-between pb-3">
+        <h4 className="text-sm font-semibold">项目成员</h4>
+        <span className="text-muted-foreground text-xs">3 / 10 个席位</span>
       </div>
 
-      <div className="divide-y divide-border/40">
+      <div className="divide-y border-y">
         {members.map((member) => (
-          <div
-            key={member.email}
-            className="flex items-center justify-between py-3 gap-3"
-          >
-            <div className="flex items-center gap-3 min-w-0">
-              <Avatar>
-                <AvatarImage src={member.src} alt={member.name} />
-                <AvatarFallback>{member.fallback}</AvatarFallback>
-                <AvatarBadge status={member.status} />
-              </Avatar>
-              <div className="min-w-0">
-                <div className="flex items-center gap-1.5">
-                  <span className="text-sm font-medium text-foreground truncate">
-                    {member.name}
-                  </span>
-                </div>
-                <div className="text-xs text-muted-foreground truncate">
-                  {member.role} · {member.email}
-                </div>
+          <div key={member.email} className="flex items-center gap-3 py-3">
+            <Avatar>
+              <AvatarImage src={member.src} alt={member.name} />
+              <AvatarFallback>{member.name.slice(0, 1)}</AvatarFallback>
+              <AvatarBadge status={member.status} />
+            </Avatar>
+            <div className="min-w-0 flex-1">
+              <div className="truncate text-sm font-medium">{member.name}</div>
+              <div className="text-muted-foreground truncate text-xs">
+                {member.email}
               </div>
             </div>
-            <Button variant="ghost" size="icon" className="size-8 shrink-0 text-muted-foreground">
-              <MoreHorizontalIcon className="size-4" />
+            <Badge
+              variant={member.role === "所有者" ? "default" : "secondary"}
+              size="sm"
+            >
+              {member.role}
+            </Badge>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="text-muted-foreground size-8"
+              aria-label={`管理 ${member.name}`}
+            >
+              <MoreHorizontalIcon />
             </Button>
           </div>
         ))}

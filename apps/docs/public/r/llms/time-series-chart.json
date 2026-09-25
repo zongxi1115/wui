@@ -22,7 +22,8 @@
     "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/time-series-chart.json",
     "npmDependencies": [],
     "registryDependencies": [
-      "chart-core"
+      "chart-core",
+      "utils"
     ]
   },
   "props": [

@@ -54,7 +54,7 @@ pnpm add motion class-variance-authority clsx tailwind-merge
     {
       prop: "speedOnHover",
       type: "number",
-      description: "鼠标悬停在轨道上方时的线速度。设置为 0 可实现悬停完全暂停。",
+      description: "鼠标悬停在轨道上方时的线速度。设置为 0 可实现悬停暂停；速度切换会平滑缓动，而不是瞬间急停。",
     },
     {
       prop: "direction",
@@ -111,11 +111,11 @@ pnpm add motion class-variance-authority clsx tailwind-merge
 
 ### 客户评价与悬停即停
 
-鼠标悬停在评价卡片上时速度归零，方便用户详细阅读内容：
+鼠标悬停在评价卡片上时速度平滑减到 0，方便用户详细阅读内容：
 
 <ComponentPreview name="infinite-slider-hover-pause" />
 
 ## 无障碍与交互 Accessibility
 
 - **克隆层惰性隔离（inert）**：复制生成的第二组轮播内容自动被标记 `aria-hidden="true"` 和 `inert`，防止键盘焦点与屏幕阅读器在无尽的重复项中循环迷失。
-- **动效减弱降级（prefers-reduced-motion）**：当系统启用减少动效时，组件会自动停止 requestAnimationFrame 动画循环，并退化为原生可横向/纵向自由滚动的滚动条容器（`overflow: auto`）。
+- **动效减弱降级（prefers-reduced-motion）**：当系统启用减少动效时，组件会在水合完成后停止 requestAnimationFrame 动画循环，并退化为原生可横向/纵向自由滚动的滚动条容器（`overflow: auto`），服务端与客户端首帧 HTML 保持一致。

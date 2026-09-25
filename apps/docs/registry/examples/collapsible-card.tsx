@@ -14,7 +14,7 @@ export default function CollapsibleCard() {
   const [isOpen, setIsOpen] = React.useState(false)
 
   return (
-    <div className="w-full max-w-lg rounded-xl border bg-card p-5 space-y-4">
+    <div className="w-full max-w-lg rounded-lg border bg-card p-5 space-y-4">
       <div className="flex items-center justify-between">
         <div>
           <h4 className="text-sm font-semibold">Webhook 事件推送</h4>

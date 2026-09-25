@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { UserIcon, MailIcon, KeyRoundIcon, ArrowRightIcon } from "lucide-react"
+import { Button } from "@/registry/ui/button"
 import { Input } from "@/registry/ui/input"
 
 export default function InputForm() {
@@ -42,7 +43,8 @@ export default function InputForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="w-full max-w-md space-y-4 rounded-xl border border-border bg-card p-5 shadow-xs"
+      noValidate
+      className="w-full max-w-md space-y-4"
     >
       <div className="space-y-1">
         <h4 className="text-sm font-semibold text-foreground">申请加入开发者预览计划</h4>
@@ -113,14 +115,10 @@ export default function InputForm() {
       </div>
 
       <div className="pt-2">
-        <button
-          type="submit"
-          disabled={loading || success}
-          className="inline-flex h-9 w-full items-center justify-center gap-2 rounded-md bg-primary px-4 text-xs font-medium text-primary-foreground shadow-xs transition-colors hover:bg-primary/90 disabled:opacity-50"
-        >
-          {loading ? "正在验证..." : success ? "申请成功！请查收邮件" : "提交申请"}
-          {!loading && !success ? <ArrowRightIcon className="size-3.5" /> : null}
-        </button>
+        <Button type="submit" className="w-full" disabled={loading || success}>
+          {loading ? "正在验证…" : success ? "申请成功，请查收邮件" : "提交申请"}
+          {!loading && !success ? <ArrowRightIcon /> : null}
+        </Button>
       </div>
     </form>
   )

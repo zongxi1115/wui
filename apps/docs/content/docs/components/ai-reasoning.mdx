@@ -47,7 +47,7 @@ pnpm add radix-ui motion class-variance-authority lucide-react clsx tailwind-mer
     {
       prop: "duration",
       type: "number",
-      description: "思考耗费的总时间（秒），将格式化显示在默认触发器文案中（如「思考了 3.2 秒」）。",
+      description: "思考耗费的总时间（秒），将格式化显示在默认触发器文案中（如「思考了 3.2 秒」）。省略时组件会自动计量 `isStreaming` 持续的时长。",
     },
     {
       prop: "open",
@@ -80,7 +80,7 @@ pnpm add radix-ui motion class-variance-authority lucide-react clsx tailwind-mer
     {
       prop: "children",
       type: "React.ReactNode",
-      description: "完全自定义触发按钮内容。默认自动在「正在思考…」与「思考了 X 秒」间切换。",
+      description: "完全自定义触发按钮内容。默认在流式期间显示带光泽扫过的「正在思考」与实时秒数，结束后切换为「思考了 X 秒」。",
     },
   ]}
 />
@@ -100,7 +100,7 @@ pnpm add radix-ui motion class-variance-authority lucide-react clsx tailwind-mer
     {
       prop: "label",
       type: "React.ReactNode",
-      description: "步骤的核心标题文本。",
+      description: "步骤的核心标题文本。纯文本标题在 `active` 状态下带有光泽扫过效果。",
     },
     {
       prop: "description",
@@ -158,7 +158,7 @@ pnpm add radix-ui motion class-variance-authority lucide-react clsx tailwind-mer
 
 ### 实时流式推进演练
 
-模拟多阶段智能体在进行复杂系统设计时的思考推演与状态实时流转：
+模拟多阶段智能体在进行复杂系统设计时的思考推演与状态实时流转。示例未传入 `duration`，触发器会自动计量并展示思考耗时：
 
 <ComponentPreview name="ai-reasoning-interactive" />
 

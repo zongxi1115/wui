@@ -25,6 +25,7 @@ export const PropDescriptions: Record<string, Record<string, string>> = {
     ...common,
   },
   "ai-stream": {
+    caret: "流式输出时是否在最新字符后显示闪烁光标。",
     children: "已经接收到的完整文本内容。",
     isStreaming: "是否仍在接收后续文本。",
     featherLength: "实时渐隐效果覆盖的末尾字符数量。",
@@ -61,9 +62,12 @@ export const PropDescriptions: Record<string, Record<string, string>> = {
     ...common,
   },
   bubble: {
+    animated: "消息挂载时是否播放从发送方一侧进入的动画。",
     side: "消息气泡的水平对齐方向。",
   },
   button: {
+    loading:
+      "是否处于加载中。加载时在文字前滑入转圈图标（icon 尺寸下替换图标），并禁用按钮、设置 aria-busy。",
     variant: "按钮的视觉样式。",
     size: "按钮的高度和内边距。设置为 icon 时用于仅显示图标的方形按钮。",
     ...common,
@@ -148,6 +152,9 @@ export const PropDescriptions: Record<string, Record<string, string>> = {
     ...common,
   },
   switch: {
+    checkedIcon: "开关打开时显示在滑块内的图标。",
+    uncheckedIcon: "开关关闭时显示在滑块内的图标。",
+    loading: "是否在滑块内显示加载图标，并在状态变更完成前阻止操作。",
     size: "开关的尺寸。",
     ...common,
   },
@@ -226,6 +233,9 @@ export const PropDescriptions: Record<string, Record<string, string>> = {
   },
   collapsible: { ...common },
   input: {
+    allowClear:
+      "输入框有内容时是否显示带动画的清除按钮，清除时会以空值触发 onChange。",
+    onClear: "点击清除按钮清空内容后触发。",
     variant: "输入框的外观样式。",
     size: "输入框的视觉尺寸。",
     label: "输入框获得焦点或有值前显示在输入区域内的浮动标签。",
@@ -281,7 +291,10 @@ export const PropDescriptions: Record<string, Record<string, string>> = {
     onUpload: "文件选择完成并更新内部上传状态后触发。",
     ...common,
   },
-  kbd: { size: "键盘按键提示的尺寸。" },
+  kbd: {
+    size: "键盘按键提示的尺寸。",
+    pressed: "是否以按下状态高亮按键，适合实时映射键盘输入。",
+  },
   tooltip: {
     open: "受控模式下提示内容是否打开。",
     defaultOpen: "非受控模式下提示内容的初始打开状态。",
@@ -323,6 +336,7 @@ export const PropDescriptions: Record<string, Record<string, string>> = {
     onVisibleChange: "提示显示状态变化时触发。",
   },
   message: {
+    pauseOnHover: "鼠标悬停在消息上时是否暂停自动关闭计时。",
     position: "消息默认显示在屏幕上的位置。",
     duration: "消息默认显示时长，单位为毫秒。",
     maxCount: "同时显示的消息数量上限。超出后优先移除较早的消息。",
@@ -345,6 +359,8 @@ export const PropDescriptions: Record<string, Record<string, string>> = {
     as: "组件实际渲染的 HTML 元素。",
   },
   "scroll-progress": {
+    axis: "监听的滚动方向，横向滚动容器使用 x。",
+    showValue: "是否在环形指示器中显示百分比。",
     variant: "进度指示器的视觉形式。",
     position: "固定进度条所在的边缘。使用 inline 可让它保留在正常文档流中。",
     container: "要监听的滚动容器；未设置时监听页面。",
@@ -365,6 +381,9 @@ export const PropDescriptions: Record<string, Record<string, string>> = {
     autoRaf: "是否自动使用 requestAnimationFrame 驱动 Lenis。",
   },
   parallax: {
+    rotate: "随滚动变化的旋转角度范围，单位为度。",
+    opacity: "随滚动变化的透明度范围。",
+    smooth: "是否通过弹簧跟随滚动，让图层产生柔和的拖尾感；也可传入弹簧参数。",
     children: "随包装容器经过视口而产生位移的内容。",
     axis: "内容移动的方向。",
     distance: "从滚动开始到结束的位移范围，单位为像素。",
@@ -373,6 +392,7 @@ export const PropDescriptions: Record<string, Record<string, string>> = {
     offset: "包装容器使用的 Motion 滚动偏移范围。",
   },
   "scroll-text": {
+    smooth: "是否通过轻量弹簧跟随滚动，让文字片段平滑落定。",
     children: "要按滚动进度控制显示效果的文字。",
     mode: "文字揭示方式。highlight 会将文字从弱化色逐步变为前景色。",
     per: "文字拆分的粒度：行、单词或字符。",
@@ -384,6 +404,7 @@ export const PropDescriptions: Record<string, Record<string, string>> = {
     segmentClassName: "应用于每个文字片段的 CSS 类名。",
   },
   "sticky-stack": {
+    dim: "后方卡片上遮罩层的最大不透明度，设为 0 时关闭。",
     children: "按堆叠顺序渲染的 StickyStackItem 元素。",
     top: "第一个粘性项目距离顶部的偏移量，单位为像素。",
     gap: "堆叠项目之间仍可见的垂直偏移量，单位为像素。",
@@ -391,6 +412,7 @@ export const PropDescriptions: Record<string, Record<string, string>> = {
     container: "要监听的滚动容器；未设置时监听页面。",
   },
   "horizontal-scroll": {
+    smooth: "是否通过弹簧驱动轨道，让滚轮滚动平滑过渡而非跳动。",
     children: "区块固定时沿水平方向移动的宽内容。",
     container: "要监听的滚动容器；未设置时监听页面。",
     scrollPadding: "额外增加的垂直滚动距离，单位为像素。",
@@ -398,6 +420,8 @@ export const PropDescriptions: Record<string, Record<string, string>> = {
     trackClassName: "应用于水平移动轨道的 CSS 类名。",
   },
   "velocity-marquee": {
+    skew: "快速滚动时的最大倾斜角度，单位为度，设为 0 时关闭。",
+    pauseOnHover: "鼠标悬停时是否让轨道缓慢停下。",
     children: "在无缝轨道中重复显示的内容。",
     baseSpeed: "静止滚动时轨道的速度，单位为每秒像素数。",
     sensitivity: "滚动速度每增加一个单位时，轨道额外增加的速度。",
@@ -408,6 +432,8 @@ export const PropDescriptions: Record<string, Record<string, string>> = {
     groupClassName: "应用于每个重复内容组的 CSS 类名。",
   },
   "scroll-expand": {
+    contentScale: "收起状态下内部内容的缩放比例，展开时形成轻微的推近效果。",
+    smooth: "是否通过弹簧平滑滚动进度，让画面柔和落定。",
     children: "固定视口中随滚动展开或收拢的媒体或首屏内容。",
     direction: "视觉变换跟随的滚动方向。",
     inset: "紧凑状态下四条边的初始内缩比例。",
@@ -418,6 +444,7 @@ export const PropDescriptions: Record<string, Record<string, string>> = {
     frameClassName: "应用于变换内容画框的 CSS 类名。",
   },
   "scroll-sequence": {
+    effect: "步骤之间的切换效果，方向跟随滚动方向。",
     children: "固定视口中按顺序逐个显示的步骤内容。",
     stepLength: "每次切换占用的滚动距离，以视口高度为单位。",
     container: "要监听的滚动容器；未设置时监听页面。",
@@ -427,6 +454,7 @@ export const PropDescriptions: Record<string, Record<string, string>> = {
     stepClassName: "应用于当前步骤包装元素的 CSS 类名。",
   },
   "scroll-snap": {
+    onActiveChange: "对齐到吸附边缘的项目变化时触发，回调参数为该项索引。",
     axis: "滚动吸附的方向。",
     strictness: "浏览器是否必须最终停在某个吸附点上。",
     hideScrollbar: "是否隐藏原生滚动条，同时保留滚动能力。",
@@ -475,6 +503,8 @@ export const PropDescriptions: Record<string, Record<string, string>> = {
     once: "是否只在内容第一次进入视口时高亮。",
   },
   "slide-swap": {
+    trigger:
+      "触发切换的方式。hover 监听组件自身；parent 监听最近的链接或按钮，悬停整个控件或键盘聚焦时都会播放。",
     children: "同时用于离场和入场图层的内容。",
     direction: "当前可见图层离场的方向。",
     active: "是否从组件外部强制切换到交换状态。",
@@ -490,12 +520,15 @@ export const PropDescriptions: Record<string, Record<string, string>> = {
     marqueeClassName: "应用于移动预览层的 CSS 类名。",
   },
   "spotlight-card": {
+    borderColor: "跟随指针的 1px 边缘高光颜色，不传则关闭。",
+    smooth: "光斑是否以缓动方式跟随指针，而不是直接跳到指针位置。",
     children: "显示在指针聚光效果上方的内容。",
     radius: "聚光区域的半径，单位为像素。",
     color: "聚光中心使用的 CSS 颜色。",
     spotlightClassName: "应用于聚光图层的 CSS 类名。",
   },
   "tilt-card": {
+    glareOpacity: "光泽层的最大不透明度。",
     children: "显示在 3D 倾斜平面上的内容。",
     maxTilt: "任一方向允许的最大旋转角度，单位为度。",
     perspective: "透视深度，单位为像素。",
@@ -504,6 +537,7 @@ export const PropDescriptions: Record<string, Record<string, string>> = {
     glareClassName: "应用于可选高光图层的 CSS 类名。",
   },
   "image-trail": {
+    rotation: "每张图片随机旋转的最大角度，单位为度。",
     items: "指针移动时依次循环显示的视觉内容。",
     children: "交互区域内始终显示的静态内容。",
     distance: "新增一项轨迹内容前指针需要移动的距离，单位为像素。",
@@ -512,6 +546,7 @@ export const PropDescriptions: Record<string, Record<string, string>> = {
     itemClassName: "应用于每个定位轨迹项的 CSS 类名。",
   },
   "hover-preview": {
+    tilt: "根据指针横向速度产生的最大倾斜角度，设为 0 时关闭。",
     children: "触发预览的交互行、链接或控件。",
     preview: "显示在指针旁边的预览内容。",
     offsetX: "预览相对指针的水平偏移量，单位为像素。",
@@ -520,6 +555,7 @@ export const PropDescriptions: Record<string, Record<string, string>> = {
     previewClassName: "应用于浮动预览的 CSS 类名。",
   },
   "aurora-background": {
+    interactive: "光带是否以不同深度向指针方向漂移。",
     children: "显示在极光图层上方的前景内容。",
     colors: "移动光场使用的三个 CSS 颜色。",
     duration: "完整移动一轮所需的时间，单位为秒。",
@@ -527,6 +563,8 @@ export const PropDescriptions: Record<string, Record<string, string>> = {
     layerClassName: "应用于每个极光图层的 CSS 类名。",
   },
   "grain-overlay": {
+    animated: "是否让颗粒像胶片放映一样抖动，父元素需要裁剪溢出内容。",
+    fps: "开启 animated 时颗粒每秒刷新的帧数。",
     opacity: "颗粒图层的不透明度。",
     frequency: "基础湍流频率。",
     octaves: "分形噪声的叠加层数。",
@@ -534,6 +572,8 @@ export const PropDescriptions: Record<string, Record<string, string>> = {
     blendMode: "遮罩图层使用的 CSS 混合模式。",
   },
   "spotlight-grid": {
+    fadeEdges: "是否让常驻的网格图案向边缘渐隐。",
+    smooth: "光斑是否以缓动方式跟随指针，而不是直接跳到指针位置。",
     children: "显示在网格图案上方的内容。",
     pattern: "要显示的背景图案。",
     size: "图案单元格的尺寸，单位为像素。",
@@ -559,6 +599,9 @@ export const PropDescriptions: Record<string, Record<string, string>> = {
     onAnimationComplete: "文本揭示动画完成时触发。",
   },
   "text-loop": {
+    direction:
+      "默认动画的运动方向。up 从顶部离开、从底部进入，down 相反；传入自定义 variants 时忽略。",
+    animateWidth: "切换长度不同的内容时是否平滑调整容器宽度。",
     children: "按顺序逐个显示的文本或行内内容。",
     interval: "两项内容之间的切换间隔，单位为秒。",
     transition: "每项内容使用的 Motion 过渡动画。",
@@ -568,10 +611,13 @@ export const PropDescriptions: Record<string, Record<string, string>> = {
     mode: "AnimatePresence 使用的动画排队模式。",
   },
   "text-morph": {
+    transition: "共享字符移动时使用的弹簧或补间过渡。",
+    variants: "新出现或离开字符的初始、播放中和离场状态。",
     children: "字符位置发生变化时需要进行形变的文字。",
     as: "组件实际渲染的 HTML 元素。",
   },
   "text-roll": {
+    active: "从外部控制是否处于翻滚状态。",
     children: "按字符逐个翻滚显示的文字。",
     duration: "每个字符完成一次翻滚所需的时间，单位为秒。",
     getEnterDelay: "计算每个字符进入翻滚状态延迟的函数。",
@@ -658,15 +704,18 @@ export const PropDescriptions: Record<string, Record<string, string>> = {
     onMove: "卡片被拖入其他列后触发。",
   },
   timeline: {
+    animated: "条目滚动进入视口时，是否依次淡入、弹出节点并绘制连接线。",
     orientation: "时间线的排列方向。",
     align: "内容相对时间线的对齐方式。交错对齐仅在纵向布局中生效。",
     density: "事件之间的间距尺寸。",
     connector: "连接线的视觉样式。",
   },
   "empty-state": {
+    animated: "挂载时是否依次让插图、标题、描述和操作淡入。",
     size: "空状态内容的垂直密度。",
   },
   spin: {
+    variant: "指示器样式：呼吸式旋转圆弧或三个脉动圆点。",
     spinning: "是否显示加载状态。",
     size: "加载指示器的尺寸。",
     label: "显示在加载指示器旁边的无障碍提示文字。",
@@ -675,6 +724,7 @@ export const PropDescriptions: Record<string, Record<string, string>> = {
     fullscreen: "是否覆盖整个视口，而不是在文档流中渲染。",
   },
   "notification-badge": {
+    pulse: "是否在圆点周围显示柔和扩散的光圈，仅在 dot 模式下生效。",
     count: "提示标记中显示的内容。传入数字时会受 max 限制。",
     max: "显示数字前允许的最大值，超过后显示带加号的最大值。",
     showZero: "数值为 0 时是否仍显示标记。",
@@ -702,6 +752,122 @@ export const PropDescriptions: Record<string, Record<string, string>> = {
   card: {
     variant: "卡片的表面样式。",
     interactive: "卡片作为整体可操作时，是否显示按压反馈。",
+  },
+  "text-rotate": {
+    texts: "依次轮换显示的文本列表。",
+    ref: "命令式句柄，提供 next、previous、jumpTo 与 reset 方法。",
+    index: "受控模式下当前显示的文本索引，需配合 onIndexChange 使用。",
+    defaultIndex: "非受控模式下初始显示的文本索引。",
+    onIndexChange: "即将切换到另一段文本时触发，回调参数为目标索引。",
+    auto: "是否按 interval 自动轮换。",
+    interval: "每段文本停留的时长，单位为秒。",
+    loop: "显示到最后一段后是否回到第一段。",
+    paused: "是否暂停自动轮换，例如在悬停时暂停。",
+    split: "错峰动画的拆分粒度：按字符、按词或按行。",
+    direction: "运动方向。up 表示旧文本向上离开、新文本从下方进入。",
+    staggerFrom: "错峰从哪个位置开始，也可以传入具体的元素索引。",
+    staggerDuration: "相邻两个元素之间的动画延迟，单位为秒。",
+    blur: "进入和离开时是否附带模糊效果。",
+    transition: "每个动画元素使用的过渡配置。",
+    sizeTransition: "容器宽度（或按行拆分时的高度）变化使用的过渡配置。",
+    groupClassName: "应用于每个词组或行组的类名。",
+    elementClassName: "应用于每个动画元素（字符、词或行）的类名。",
+  },
+  typewriter: {
+    texts: "依次输入的字符串列表。",
+    typeSpeed: "输入每个字符耗时，单位为毫秒。",
+    deleteSpeed: "删除每个字符耗时，单位为毫秒。",
+    pauseDuration: "整段输入完成后停留多久再开始删除，单位为毫秒。",
+    startDelay: "开始输入第一个字符前的等待时长，单位为毫秒。",
+    loop: "输入完最后一段后是否从第一段重新开始。",
+    keepLast: "关闭 loop 时是否保留最后一段文本而不删除。",
+    startOnView: "是否等元素进入视口后才开始输入。",
+    cursor: "光标形状，none 表示隐藏光标。",
+    cursorClassName: "应用于光标元素的类名。",
+    onTyped: "一段文本完整输入后触发，回调参数为该段索引。",
+    onComplete: "关闭 loop 且最后一段输入完成时触发一次。",
+  },
+  "number-ticker": {
+    value: "数字最终滚动到的目标值。",
+    from: "首次动画的起始值。",
+    delay: "首次动画开始前的等待时长，单位为秒。",
+    decimalPlaces: "固定保留的小数位数。",
+    locale: "Intl.NumberFormat 使用的语言区域。",
+    formatOptions:
+      "额外的 Intl.NumberFormat 选项，例如货币、百分比或紧凑记数。",
+    prefix: "显示在数字前的内容。",
+    suffix: "显示在数字后的内容。",
+    startOnView: "是否等数字进入视口后才开始计数。",
+    viewOptions: "startOnView 开启时使用的视口检测参数。",
+    transition: "每次计数使用的过渡配置，默认为无回弹的弹簧。",
+    onComplete: "一次计数结束时触发，回调参数为最终值。",
+  },
+  "animated-background": {
+    children: "需要高亮的子项，每个直接子元素都需要唯一的 data-id。",
+    mode: "高亮跟随方式：click 跟随选中项，hover 跟随悬停与键盘焦点。",
+    value: "受控模式下当前高亮项的 id，传入 null 时隐藏高亮。",
+    defaultValue: "非受控模式下初始高亮项的 id。",
+    onValueChange: "点击选中另一项时触发。",
+    highlightClassName: "滑动高亮块的类名，例如背景色与圆角。",
+    transition: "高亮在各项之间移动时使用的过渡配置。",
+  },
+  "transition-panel": {
+    children: "按索引排列的面板，每次只渲染当前激活的一个。",
+    activeIndex: "当前显示的面板索引，前进时新面板从末端方向滑入。",
+    axis: "面板移动所沿的坐标轴。",
+    offset: "面板进入和离开时的位移距离，单位为像素。",
+    blur: "进入和离开时是否附带模糊效果。",
+    animateHeight: "是否平滑调整容器高度以适配下一个面板。",
+    transition: "面板进入和离开使用的过渡配置。",
+    heightTransition: "容器高度变化使用的过渡配置。",
+    panelClassName: "应用于每个面板包装元素的类名。",
+  },
+  "animated-group": {
+    children: "依次入场的子项，每个直接子元素都会被单独包裹。",
+    preset: "内置的入场效果。",
+    variants: "自定义子项的 hidden 与 visible 状态，设置后覆盖 preset。",
+    stagger: "相邻两项之间的入场间隔，单位为秒。",
+    delay: "第一项开始入场前的等待时长，单位为秒。",
+    inView: "是否在进入视口时才开始入场，而不是挂载后立即开始。",
+    once: "是否只在第一次进入视口时播放。",
+    viewOptions: "inView 开启时使用的视口检测参数。",
+    as: "组容器实际渲染的元素。",
+    itemAs: "包裹每个子项的元素，例如在 ul 中使用 li。",
+    itemClassName: "应用于每个子项包装元素的类名。",
+  },
+  "border-beam": {
+    size: "光束沿边框方向的长度，单位为像素。",
+    duration: "光束绕行一圈的时长，单位为秒。",
+    delay: "起始时间偏移，单位为秒，可用于错开多条光束。",
+    borderWidth: "光束粗细，应与父元素的边框宽度一致。",
+    color: "光束颜色，支持任意 CSS 颜色或变量。",
+    reverse: "是否逆时针运动。",
+    initialOffset: "光束在边框上的起始位置，取值 0 到 100。",
+    transition: "覆盖默认的循环过渡配置。",
+  },
+  "animated-list": {
+    children: "按时间顺序排列且带 key 的子项，最新的一项显示在最上方。",
+    delay: "相邻两项依次出现的间隔，单位为毫秒，设为 0 时立即全部显示。",
+    max: "屏幕上最多保留的条目数，更早的条目从底部移出。",
+    transition: "新条目进入以及其余条目下移时使用的过渡配置。",
+    itemClassName: "应用于每个条目包装元素的类名。",
+  },
+  "text-highlight": {
+    children: "需要高亮的文字，换行后会逐行依次扫过。",
+    trigger: "高亮播放时机：进入视口、悬停或始终显示。",
+    active: "受控的高亮状态，设置后覆盖 trigger。",
+    variant: "block 覆盖整行高度，underline 只在底部绘制马克笔色带。",
+    color: "高亮颜色，支持任意 CSS 颜色或变量。",
+    from: "扫过动画的起始方向。",
+    delay: "扫过动画开始前的等待时长，单位为秒。",
+    duration: "扫过动画的时长，单位为秒。",
+    transition: "扫过动画的过渡配置，设置后覆盖 delay 与 duration。",
+    once: "是否只在第一次进入视口时播放。",
+    viewOptions: "trigger 为 inView 时使用的视口检测参数。",
+  },
+  "code-block": {
+    asChild:
+      "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。",
   },
 }
 

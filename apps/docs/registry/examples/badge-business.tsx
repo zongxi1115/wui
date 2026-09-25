@@ -1,90 +1,86 @@
-import { CheckCircle2Icon, GitBranchIcon, GitCommitIcon, TerminalIcon } from "lucide-react"
+import { GitBranchIcon, LoaderCircleIcon } from "lucide-react"
 
-import { Badge } from "@/registry/ui/badge"
+import { Badge, type BadgeProps } from "@/registry/ui/badge"
 
-const deployments = [
+const deployments: Array<{
+  id: string
+  branch: string
+  commit: string
+  environment: string
+  envVariant: BadgeProps["variant"]
+  status: string
+  statusVariant: BadgeProps["variant"]
+  building?: boolean
+  time: string
+}> = [
   {
     id: "dpl_98a7bc",
     branch: "main",
-    commit: "feat: add oauth2 flow",
-    environment: "Production",
-    envVariant: "default" as const,
-    status: "Ready",
-    statusVariant: "success" as const,
-    time: "2m ago",
+    commit: "接入企业微信扫码登录",
+    environment: "生产",
+    envVariant: "default",
+    status: "已就绪",
+    statusVariant: "success",
+    time: "2 分钟前",
   },
   {
     id: "dpl_43f110",
     branch: "feat/billing",
-    commit: "fix: stripe webhook payload",
-    environment: "Preview",
-    envVariant: "secondary" as const,
-    status: "Building",
-    statusVariant: "warning" as const,
-    time: "5m ago",
+    commit: "修复支付回调签名校验",
+    environment: "预览",
+    envVariant: "secondary",
+    status: "构建中",
+    statusVariant: "warning",
+    building: true,
+    time: "5 分钟前",
   },
   {
     id: "dpl_119ae2",
     branch: "refactor/theme",
-    commit: "refactor: simplify token parser",
-    environment: "Staging",
-    envVariant: "outline" as const,
-    status: "Failed",
-    statusVariant: "destructive" as const,
-    time: "14m ago",
+    commit: "精简主题 Token 解析逻辑",
+    environment: "预发",
+    envVariant: "outline",
+    status: "失败",
+    statusVariant: "destructive",
+    time: "14 分钟前",
   },
 ]
 
 export default function BadgeBusiness() {
   return (
-    <div className="w-full max-w-xl rounded-xl border border-border/70 bg-card p-4 shadow-sm">
-      <div className="flex items-center justify-between pb-3 border-b border-border/50">
-        <div className="flex items-center gap-2">
-          <TerminalIcon className="size-4 text-muted-foreground" />
-          <span className="text-sm font-semibold">Recent Deployments</span>
-        </div>
-        <Badge variant="outline" size="sm" className="font-mono">
-          3 total
-        </Badge>
-      </div>
-
-      <div className="divide-y divide-border/40">
-        {deployments.map((dpl) => (
-          <div
-            key={dpl.id}
-            className="flex flex-col sm:flex-row sm:items-center justify-between py-3 gap-2"
-          >
-            <div className="flex flex-col gap-1">
-              <div className="flex items-center gap-2">
-                <span className="font-mono text-xs text-muted-foreground">
-                  {dpl.id}
-                </span>
-                <Badge variant={dpl.envVariant} size="sm">
-                  {dpl.environment}
-                </Badge>
-                <Badge variant={dpl.statusVariant} size="sm">
-                  {dpl.status === "Ready" && <CheckCircle2Icon />}
-                  {dpl.status}
-                </Badge>
-              </div>
-              <div className="flex items-center gap-2 text-xs text-foreground/80">
-                <span className="flex items-center gap-1 font-medium">
-                  <GitBranchIcon className="size-3 text-muted-foreground" />
-                  {dpl.branch}
-                </span>
-                <span className="text-muted-foreground">·</span>
-                <span className="flex items-center gap-1 text-muted-foreground truncate max-w-[200px]">
-                  <GitCommitIcon className="size-3 shrink-0" />
-                  {dpl.commit}
-                </span>
-              </div>
+    <div className="w-full max-w-xl divide-y border-y">
+      {deployments.map((item) => (
+        <div
+          key={item.id}
+          className="flex flex-col justify-between gap-2 py-3 sm:flex-row sm:items-center"
+        >
+          <div className="flex min-w-0 flex-col gap-1.5">
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-medium">{item.commit}</span>
+              <Badge variant={item.envVariant} size="sm">
+                {item.environment}
+              </Badge>
             </div>
-            <span className="text-xs text-muted-foreground shrink-0 sm:self-center">
-              {dpl.time}
-            </span>
+            <div className="text-muted-foreground flex items-center gap-2 text-xs">
+              <span className="font-mono">{item.id}</span>
+              <span>·</span>
+              <span className="flex items-center gap-1">
+                <GitBranchIcon className="size-3" />
+                {item.branch}
+              </span>
+            </div>
           </div>
-        ))}
-      </div>
+          <div className="flex shrink-0 items-center gap-3">
+            <span className="text-muted-foreground text-xs">{item.time}</span>
+            <Badge variant={item.statusVariant} size="sm">
+              {item.building ? (
+                <LoaderCircleIcon className="animate-spin motion-reduce:animate-none" />
+              ) : null}
+              {item.status}
+            </Badge>
+          </div>
+        </div>
+      ))}
     </div>
   )
 }

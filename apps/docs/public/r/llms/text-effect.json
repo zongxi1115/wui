@@ -57,15 +57,19 @@
     },
     {
       "name": "preset",
-      "type": "\"scale\" | \"fade\" | \"blur-sm\" | \"fade-in-blur\" | \"slide\"",
+      "type": "\"scale\" | \"fade\" | \"blur\" | \"flip\" | \"slide\" | \"blur-sm\" | \"fade-in-blur\" | \"rise\" | \"drop\"",
       "required": false,
       "control": "select",
       "options": [
         "scale",
         "fade",
+        "blur",
+        "flip",
+        "slide",
         "blur-sm",
         "fade-in-blur",
-        "slide"
+        "rise",
+        "drop"
       ],
       "defaultValue": "fade",
       "description": "内置的片段入场动画。"

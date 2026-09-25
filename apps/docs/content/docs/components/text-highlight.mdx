@@ -1,0 +1,125 @@
+---
+title: 文本高亮 Text Highlight
+description: 进入视口、悬停或挂载时，在文字背后划出马克笔式的高亮，跨行文本会逐行依次划过。
+component: text-highlight
+---
+
+## 基础用法
+
+用 `TextHighlight` 包裹段落中的关键短语，滚动进入视口时高亮会从左向右划过。多个高亮可以通过 `delay` 依次出现，引导阅读顺序：
+
+<ComponentPreview name="text-highlight-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
+
+<CodeTabs command="@wui-design/cli@latest add @wui/text-highlight" />
+
+<Steps>
+
+<Step>安装基础依赖与 Motion 动效库</Step>
+
+```bash
+pnpm add motion clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/text-highlight.tsx`</Step>
+
+<ComponentSource name="text-highlight" title="components/ui/text-highlight.tsx" />
+
+</Steps>
+
+## 属性 Props
+
+`TextHighlight` 渲染为行内 `<span>`，支持以下配置属性：
+
+<PropsTable
+  data={[
+    {
+      prop: "children",
+      type: "React.ReactNode",
+      required: true,
+      description: "需要高亮的行内内容。跨行时高亮会先划过第一行，再依次划过后续行。",
+    },
+    {
+      prop: "trigger",
+      type: '"inView" | "hover" | "always"',
+      default: '"inView"',
+      description: "触发时机：进入视口、悬停在文字上，或挂载后立即播放。",
+    },
+    {
+      prop: "active",
+      type: "boolean",
+      description: "受控的高亮状态，传入后覆盖 `trigger`。常用于由整行悬停或焦点驱动高亮。",
+    },
+    {
+      prop: "variant",
+      type: '"block" | "underline"',
+      default: '"block"',
+      description: "block 覆盖整行高度；underline 只在文字下部画一条马克笔色带。",
+    },
+    {
+      prop: "color",
+      type: "string",
+      default: '"color-mix(in oklab, var(--primary) 12%, transparent)"',
+      description: "高亮颜色，支持任意 CSS 颜色或变量。建议使用半透明色，保证文字对比度。",
+    },
+    {
+      prop: "from",
+      type: '"left" | "right"',
+      default: '"left"',
+      description: "高亮划出的起始方向。",
+    },
+    {
+      prop: "delay",
+      type: "number",
+      default: "0",
+      description: "高亮开始前的延迟（秒）。",
+    },
+    {
+      prop: "duration",
+      type: "number",
+      default: "0.8",
+      description: "划过全部文字所用的时长（秒）。",
+    },
+    {
+      prop: "once",
+      type: "boolean",
+      default: "true",
+      description: "`inView` 模式下是否只播放一次。关闭后离开视口时高亮会收回。",
+    },
+    {
+      prop: "viewOptions",
+      type: "UseInViewOptions",
+      description: "视口检测参数，例如 `{ amount: 1 }` 表示完全可见时才触发。",
+    },
+    {
+      prop: "transition",
+      type: "Transition",
+      description: "自定义过渡参数，会覆盖 `delay` 与 `duration`。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`TextHighlight` 适合长文、案例研究与产品介绍中的结论性语句，也可以作为链接、目录项的悬停反馈。
+
+- **少而精**：一个段落中的高亮不宜超过两到三处，否则会失去强调作用。
+- **颜色保持低饱和**：默认使用主题色的 12% 透明度。若使用品牌色或黄色马克笔效果，请确认暗色模式下文字仍清晰可读。
+- **不替代语义强调**：高亮只是视觉效果，重要内容仍应使用 `<strong>` 或 `<mark>` 等语义元素包裹。
+
+## 场景示例
+
+### 悬停整行触发
+
+通过 `active` 由整行链接的悬停与焦点状态驱动高亮，配合 `underline` 变体作为指南列表的悬停反馈：
+
+<ComponentPreview name="text-highlight-hover" />
+
+## 无障碍与交互 Accessibility
+
+- **不影响文字本身**：高亮通过背景图绘制，不改变文字节点，读屏软件与复制粘贴的内容保持不变。
+- **键盘焦点**：由悬停驱动的高亮建议同时响应 `focus` / `blur`，让键盘用户获得同样的反馈，如“悬停整行触发”示例所示。
+- **减少动态效果**：开启 `prefers-reduced-motion` 时，高亮直接以最终状态显示，不播放划过动画。

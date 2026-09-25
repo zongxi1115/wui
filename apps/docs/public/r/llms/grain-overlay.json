@@ -88,6 +88,22 @@
       ],
       "defaultValue": "soft-light",
       "description": "遮罩图层使用的 CSS 混合模式。"
+    },
+    {
+      "name": "animated",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "是否让颗粒像胶片放映一样抖动，父元素需要裁剪溢出内容。"
+    },
+    {
+      "name": "fps",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "10",
+      "description": "开启 animated 时颗粒每秒刷新的帧数。"
     }
   ],
   "examples": [
@@ -97,7 +113,7 @@
     },
     {
       "name": "grain-overlay-card",
-      "title": "暗黑质感卡片"
+      "title": "强度对比"
     }
   ],
   "files": [

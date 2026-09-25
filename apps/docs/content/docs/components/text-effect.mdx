@@ -46,13 +46,13 @@ pnpm add motion clsx tailwind-merge
       prop: "per",
       type: '"char" | "word" | "line"',
       default: '"word"',
-      description: "文本拆分的颗粒度：char（按字符）、word（按单词/空格）、line（按换行符 \\n）。",
+      description: "文本拆分的颗粒度：char（按字符）、word（按单词/空格）、line（按换行符 \\n）。中文等 CJK 文本没有空格，word 模式下自动按字拆分；char 模式下英文单词整体不换行，避免被拆到两行。",
     },
     {
       prop: "preset",
-      type: '"fade" | "blur-sm" | "fade-in-blur" | "scale" | "slide"',
+      type: '"fade" | "blur" | "blur-sm" | "fade-in-blur" | "scale" | "slide" | "rise" | "drop" | "flip"',
       default: '"fade"',
-      description: "内置的动效预设样式。",
+      description: "内置的动效预设样式。rise、drop、flip 默认使用弹簧曲线，其余为缓出补间。",
     },
     {
       prop: "as",
@@ -144,7 +144,7 @@ pnpm add motion clsx tailwind-merge
 
 ### 动效预设
 
-组件内置了 5 种精调的动效预设，满足不同设计语言的需求：
+组件内置了 9 种精调的动效预设，满足不同设计语言的需求，切换后点击文字可重播：
 
 <ComponentPreview name="text-effect-presets" />
 
@@ -153,6 +153,9 @@ pnpm add motion clsx tailwind-merge
 - `blur-sm`：高斯模糊从 4px 快速对焦至清晰，适合短促的标签与状态。
 - `scale`：轻微缩放入场，赋予文字活泼的弹跳感。
 - `slide`：纵向位移滑入，非常契合列表项与通知流。
+- `blur`：由 12px 强模糊对焦到清晰，适合沉浸式首屏标语。
+- `rise` / `drop`：逐字从下方弹起或从上方落下，位移以 em 计算，随字号自动缩放。
+- `flip`：沿 X 轴翻转立起，带透视，适合品牌字与大标题。
 
 ### 拆分颗粒度比较
 
@@ -169,28 +172,25 @@ pnpm add motion clsx tailwind-merge
 ```tsx
 const customVariants = {
   container: {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.04, delayChildren: 0.1 },
-    },
+    hidden: {},
+    visible: { transition: { staggerChildren: 0.06, delayChildren: 0.1 } },
   },
   item: {
-    hidden: { opacity: 0, y: 20, rotateX: -45, filter: "blur(6px)" },
+    hidden: { opacity: 0, y: 24, rotateX: -60, filter: "blur(6px)" },
     visible: {
       opacity: 1,
       y: 0,
       rotateX: 0,
       filter: "blur(0px)",
-      transition: { type: "spring", stiffness: 300, damping: 20 },
+      transition: { type: "spring", stiffness: 260, damping: 20 },
     },
   },
 }
 
 export function CustomTypography() {
   return (
-    <TextEffect per="char" variants={customVariants}>
-      Fluid 3D Spatial Typography
+    <TextEffect per="char" variants={customVariants} className="[perspective:800px]">
+      向光而行
     </TextEffect>
   )
 }
@@ -198,12 +198,12 @@ export function CustomTypography() {
 
 ### 业务卡片级联入场
 
-在功能发布卡片或产品公告中，结合 `delay` 属性可实现多层次信息的流水线式优雅入场，并在动画完成后触发状态同步：
+模拟 AI 摘要的逐层呈现：标题、正文与待办依次通过 `delay` 编排入场，最后一段在 `onAnimationComplete` 中切换底部状态：
 
 <ComponentPreview name="text-effect-card" />
 
 ## 无障碍与交互 Accessibility
 
-- **屏幕阅读器友好**：外层容器自动附带 `aria-label={children}`，内部拆分的 `motion.span` 片段统一标记为 `aria-hidden="true"`。辅助技术（如 VoiceOver、NVDA）将把整段文字作为连续完整的语义块一次性朗读，避免了屏幕阅读器逐字逐字母中断朗读的问题。
-- **系统减少动态偏好（Reduced Motion）**：组件内置集成 `useReducedMotion()`。当操作系统开启“减少动态效果（prefers-reduced-motion）”时，组件将自动跳过拆分与动画，直接以原生纯文本渲染，确保低视力及前庭觉敏感用户的舒适体验。
+- **屏幕阅读器友好**：组件内部渲染一份视觉隐藏（`sr-only`）的完整文本，拆分出的 `motion.span` 片段统一标记为 `aria-hidden="true"`（相比在 `p` 等元素上使用 `aria-label` 兼容性更好）。辅助技术（如 VoiceOver、NVDA）将把整段文字作为连续完整的语义块一次性朗读，避免了屏幕阅读器逐字逐字母中断朗读的问题。
+- **系统减少动态偏好（Reduced Motion）**：组件内置集成 `useReducedMotion()`。当操作系统开启“减少动态效果（prefers-reduced-motion）”时，组件保持与服务端一致的结构，但取消交错与过渡时长，文字直接以最终状态呈现，确保低视力及前庭觉敏感用户的舒适体验。
 - **语义化标签渲染**：通过 `as` 属性指定语义 HTML 标签（如 `h1`, `h2`, `p`, `span`），确保页面大纲结构（Outline Hierarchy）对搜索引擎与读屏工具保持准确。

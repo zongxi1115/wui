@@ -134,7 +134,7 @@ pnpm add radix-ui motion class-variance-authority lucide-react clsx tailwind-mer
       prop: "status",
       type: '"idle" | "submitted" | "streaming" | "error"',
       default: '"idle"',
-      description: "当前请求生命周期状态。在 `submitted` 状态下展示加载动画，在 `streaming` 状态下展示方形停止生成图标。",
+      description: "当前请求生命周期状态。在 `submitted` 状态下展示加载动画，在 `streaming` 状态下展示方形停止生成图标；状态切换时图标以旋转缩放的方式过渡。",
     },
     {
       prop: "disabled",
@@ -222,13 +222,13 @@ pnpm add radix-ui motion class-variance-authority lucide-react clsx tailwind-mer
 
 ### 高级参数与多模态附件
 
-组合引用预览 (`AiPromptQuote`)、文件附件列表 (`AiPromptAttachments`)、级联思考强度选择器 (`AiPromptCapabilitySelector`) 以及厂商模型切换器：
+组合引用预览 (`AiPromptQuote`)、文件附件列表 (`AiPromptAttachments`)、级联思考强度选择器 (`AiPromptCapabilitySelector`) 以及厂商模型切换器。`AiPromptAttachments` 会为带有稳定 `key` 的附件播放进出场动画，其余附件平滑补位：
 
 <ComponentPreview name="ai-prompt-advanced" />
 
-### 紧凑悬浮输入条
+### 紧凑输入条
 
-在侧边栏浮层或轻量 Copilot 窗口中，采用 `compact` 尺寸与圆角胶囊布局，节省垂直空间：
+在侧边栏或轻量 Copilot 窗口中使用 `compact` 尺寸节省垂直空间。发送后按钮依次过渡为加载、停止，再回到发送：
 
 <ComponentPreview name="ai-prompt-compact" />
 

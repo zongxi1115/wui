@@ -5,19 +5,19 @@ import { Badge } from "@/registry/ui/badge"
 export default function BadgeDemo() {
   return (
     <div className="flex flex-wrap items-center justify-center gap-2.5">
-      <Badge>Default</Badge>
-      <Badge variant="secondary">Secondary</Badge>
-      <Badge variant="outline">Outline</Badge>
+      <Badge>默认</Badge>
+      <Badge variant="secondary">次要</Badge>
+      <Badge variant="outline">描边</Badge>
       <Badge variant="info">
-        <SparklesIcon /> New Feature
+        <SparklesIcon /> 新功能
       </Badge>
       <Badge variant="success">
-        <CheckIcon /> Active
+        <CheckIcon /> 已上线
       </Badge>
       <Badge variant="warning">
-        <ClockIcon /> Pending
+        <ClockIcon /> 审核中
       </Badge>
-      <Badge variant="destructive">Failed</Badge>
+      <Badge variant="destructive">已驳回</Badge>
     </div>
   )
 }

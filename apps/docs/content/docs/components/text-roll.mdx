@@ -44,9 +44,14 @@ pnpm add motion clsx tailwind-merge
     },
     {
       prop: "trigger",
-      type: '"hover" | "mount"',
+      type: '"hover" | "parent" | "mount"',
       default: '"hover"',
-      description: "触发翻滚的时机：hover（鼠标悬停触发）或 mount（组件挂载时自动播放）。",
+      description: "触发翻滚的时机：hover（悬停文字本身）、parent（悬停最近的按钮或链接，含内边距区域，并响应键盘 focus-visible）或 mount（挂载时自动播放）。放在按钮与导航链接内时推荐 parent。",
+    },
+    {
+      prop: "active",
+      type: "boolean",
+      description: "受控模式下直接指定是否处于翻滚状态，优先级高于 trigger。",
     },
     {
       prop: "duration",
@@ -110,29 +115,29 @@ pnpm add motion clsx tailwind-merge
 
 - **交互暗示**：翻滚效果本身具有强烈的“可交互感”。请优先将 `trigger="hover"` 应用于可点击的链接或按钮中，避免在纯阅读性静态正文中滥用。
 - **波浪延迟调节**：通过 `getEnterDelay` 可以控制波浪的密集程度。短词汇可使用默认的 `0.025s` 步长；长词汇建议将步长缩短至 `0.015s`，避免右侧字符等待时间过长。
-- **单行内联排版**：组件内部各字符处于 `h-[1em] overflow-hidden` 容器中，因此能完美自适应任何字号（从 `text-xs` 到 `text-7xl`），无需手动设置固定像素高度。
+- **单行内联排版**：组件内部各字符处于 `h-[1.2em] overflow-hidden` 容器中，能自适应任何字号（从 `text-xs` 到 `text-7xl`），同时为 g、y、p 等字母的下伸部分留出空间，不会被裁切。
 
 ## 场景示例
 
 ### 导航栏菜单链接
 
-在 SaaS 官网顶部导航中替代传统的下划线悬停，带来更具动感的交互反馈：
+在官网顶部导航中替代传统的下划线悬停。`trigger="parent"` 让整个链接区域和键盘聚焦都能触发：
 
 <ComponentPreview name="text-roll-navigation" />
 
 ### CTA 行动按钮
 
-结合现代圆角按钮与图标联动：
+放在 Button 内部并使用 `trigger="parent"`，悬停按钮任意位置即可翻滚，图标同步位移：
 
 <ComponentPreview name="text-roll-button" />
 
 ### 挂载即时翻滚
 
-在数据大屏或首屏核心 SLA 指标展示中，设置 `trigger="mount"` 实现入场机械翻牌震撼效果：
+在数据大屏或首屏核心指标展示中，设置 `trigger="mount"` 并通过 `getEnterDelay` 调整节奏，实现入场翻牌效果：
 
 <ComponentPreview name="text-roll-mount-stagger" />
 
 ## 无障碍与交互 Accessibility
 
-- **完整的屏幕阅读器文本保留**：外层容器挂载 `aria-label={children}`，内部各字符用于实现上下双层滚动的冗余 DOM 节点均设置了 `aria-hidden="true"`。读屏工具将直接朗读正确的纯文本，不会重复朗读两次字母。
+- **完整的屏幕阅读器文本保留**：组件内部保留一份视觉隐藏（`sr-only`）的完整文本，内部各字符用于实现上下双层滚动的冗余 DOM 节点均设置了 `aria-hidden="true"`。读屏工具将直接朗读正确的纯文本，不会重复朗读两次字母。
 - **减弱动态支持**：当检测到用户的系统开启 `prefers-reduced-motion` 时，组件将直接保持静态展示，不触发任何垂直滚动位移。

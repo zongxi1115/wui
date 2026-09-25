@@ -21,7 +21,7 @@ component: tree-select
 <Step>安装基础依赖与动效库</Step>
 
 ```bash
-pnpm add radix-ui lucide-react clsx tailwind-merge
+pnpm add radix-ui motion lucide-react clsx tailwind-merge
 ```
 
 <Step>复制组件源码到 `components/ui/tree-select.tsx`</Step>
@@ -201,3 +201,5 @@ export interface TreeNode {
   - <kbd>←</kbd>：收起当前聚焦的父节点，或返回上层父级。
   - <kbd>Esc</kbd>：收起浮层并将焦点送回触发按钮。
 - **清空操作无障碍**：清空按钮具有独立的 `aria-label="清空选择"`，支持独立键盘 Tab 聚焦与激活。
+- **打开即定位**：打开浮层时自动展开已选节点的所有祖先，已选项始终可见；搜索时自动展开匹配路径。
+- **动效**：浮层从触发器方向展开，触发器中的值在切换时上移淡入，清空按钮缩放出现，箭头平滑旋转；均遵循 `prefers-reduced-motion`。

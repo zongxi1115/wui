@@ -30,7 +30,8 @@
     ],
     "registryDependencies": [
       "utils",
-      "ai-stream"
+      "ai-stream",
+      "text-shimmer"
     ]
   },
   "props": [

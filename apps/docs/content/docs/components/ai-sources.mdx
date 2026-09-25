@@ -39,7 +39,7 @@ pnpm add radix-ui lucide-react clsx tailwind-merge
     {
       prop: "count",
       type: "number",
-      description: "检索到的参考来源总数（可选，用于快捷展示）。",
+      description: "检索到的参考来源总数。`AiSourcesHeader` 未自定义 `label` 时会在标题旁显示该数量。",
     },
     {
       prop: "open",
@@ -193,15 +193,21 @@ pnpm add radix-ui lucide-react clsx tailwind-merge
 
 ### 企业 RAG 知识库检索溯源
 
-结合向量相似度校验 Badge、企业内部文档标签与行内悬停卡片：
+内部知识库场景：来源为文档而非网页，标题自定义为「引用了 N 篇内部文档」，默认收起：
 
 <ComponentPreview name="ai-sources-rag" />
+
+### 边生成边引用
+
+回答流式输出时，每写完一句就在句尾弹出引用角标，来源卡片随之逐条错峰进入列表：
+
+<ComponentPreview name="ai-sources-streaming" />
 
 ## 无障碍与交互 Accessibility
 
 - **HoverCard 无障碍规范**：
-  - `AiCitation` 内部触发器挂载 `role="button"` 与 `aria-haspopup="dialog"`；
-  - 具备 `openDelay` (150ms) 与 `closeDelay` (100ms) 防抖保护，避免用户光标掠过时频繁闪烁。
+  - `AiCitation` 触发器是原生 `<button>`，可通过键盘聚焦，并带有「引用 N：标题」的无障碍名称；聚焦或悬停都会打开预览卡片；
+  - 具备 `openDelay` (120ms) 与 `closeDelay` (80ms) 防抖保护，避免用户光标掠过时频繁闪烁。
 - **键盘导航支持**：
   - <kbd>Tab</kbd>：按顺序聚焦行内引用角标与来源卡片；
   - <kbd>Enter</kbd> / <kbd>Space</kbd>：展开折叠面板或在悬停气泡中打开源文档外链。

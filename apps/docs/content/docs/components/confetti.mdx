@@ -31,7 +31,29 @@ component: confetti
 ## 事件 · Events
 
 - 支持通过 `fireConfetti({ particleCount, spread, origin })` 随时在任意异步回调中命令式触发。
+- `fireConfetti` 返回一个清理函数，调用后立即停止动画并移除画布，适合在组件卸载时调用。
 
 ## 拓展使用 · Extended usage
 
-可自定义 `colors` 传入品牌主题色，或控制 `origin` 实现从屏幕两侧、底部或鼠标点击位置发射粒子。
+可自定义 `colors` 传入品牌主题色，或控制 `origin` 与 `angle` 实现从按钮位置、屏幕两侧或底部发射粒子。粒子物理按真实帧间隔归一化，在 60Hz 与 120Hz 屏幕上速度一致；每片纸屑会随机翻转与摆动，模拟真实飘落。
+
+### ConfettiOptions
+
+<PropsTable
+  data={[
+    { prop: "particleCount", type: "number", default: "60", description: "粒子数量。" },
+    { prop: "spread", type: "number", default: "70", description: "扩散角度范围（度）。" },
+    { prop: "angle", type: "number", default: "90", description: "发射方向，90 为正上方，60 偏右上，120 偏左上。" },
+    { prop: "origin", type: "{ x?: number; y?: number }", default: "{ x: 0.5, y: 0.65 }", description: "发射原点，取值 0 ~ 1，相对视口。可由按钮的 getBoundingClientRect 计算。" },
+    { prop: "colors", type: "string[]", description: "粒子颜色，随机取用。" },
+    { prop: "shapes", type: '("square" | "circle" | "strip")[]', default: '["square", "strip", "circle"]', description: "粒子形状，strip 为细长彩带。" },
+    { prop: "scalar", type: "number", default: "1", description: "粒子尺寸缩放系数。" },
+    { prop: "startVelocity", type: "number", default: "40", description: "初始速度（以 60fps 每帧像素计）。" },
+    { prop: "gravity", type: "number", default: "1.2", description: "重力加速度。" },
+    { prop: "decay", type: "number", default: "0.92", description: "每帧速度衰减（空气阻力），越小越快停下。" },
+    { prop: "drift", type: "number", default: "0", description: "横向漂移，正值向右飘。" },
+    { prop: "duration", type: "number", default: "2500", description: "持续时间（毫秒），末段逐渐淡出。" },
+    { prop: "zIndex", type: "number", default: "9999", description: "画布层级。" },
+    { prop: "disableForReducedMotion", type: "boolean", default: "true", description: "用户开启“减少动态效果”时不播放。" },
+  ]}
+/>

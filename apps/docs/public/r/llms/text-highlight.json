@@ -1,0 +1,141 @@
+{
+  "name": "text-highlight",
+  "type": "registry:ui",
+  "title": "文本高亮 Text Highlight",
+  "description": "进入视口、悬停或挂载时，在文字背后划出马克笔式的高亮，跨行文本会逐行依次划过。",
+  "categories": [
+    "motion",
+    "text-effect"
+  ],
+  "import": "import { TextHighlight } from \"@/components/ui/text-highlight\"",
+  "exports": [
+    "TextHighlight"
+  ],
+  "typeExports": [
+    "TextHighlightProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/text-highlight",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/text-highlight.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": true,
+      "control": "text",
+      "description": "需要高亮的文字，换行后会逐行依次扫过。"
+    },
+    {
+      "name": "trigger",
+      "type": "\"always\" | \"hover\" | \"inView\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "always",
+        "hover",
+        "inView"
+      ],
+      "defaultValue": "inView",
+      "description": "高亮播放时机：进入视口、悬停或始终显示。"
+    },
+    {
+      "name": "active",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "受控的高亮状态，设置后覆盖 trigger。"
+    },
+    {
+      "name": "variant",
+      "type": "\"underline\" | \"block\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "underline",
+        "block"
+      ],
+      "defaultValue": "block",
+      "description": "block 覆盖整行高度，underline 只在底部绘制马克笔色带。"
+    },
+    {
+      "name": "color",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "defaultValue": "color-mix(in oklab, var(--primary) 12%, transparent)",
+      "description": "高亮颜色，支持任意 CSS 颜色或变量。"
+    },
+    {
+      "name": "from",
+      "type": "\"right\" | \"left\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "right",
+        "left"
+      ],
+      "defaultValue": "left",
+      "description": "扫过动画的起始方向。"
+    },
+    {
+      "name": "delay",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0",
+      "description": "扫过动画开始前的等待时长，单位为秒。"
+    },
+    {
+      "name": "duration",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0.8",
+      "description": "扫过动画的时长，单位为秒。"
+    },
+    {
+      "name": "transition",
+      "type": "Transition",
+      "required": false,
+      "control": "text",
+      "description": "扫过动画的过渡配置，设置后覆盖 delay 与 duration。"
+    },
+    {
+      "name": "once",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否只在第一次进入视口时播放。"
+    },
+    {
+      "name": "viewOptions",
+      "type": "Omit<UseInViewOptions, \"once\">",
+      "required": false,
+      "control": "text",
+      "description": "trigger 为 inView 时使用的视口检测参数。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "text-highlight-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "text-highlight-hover",
+      "title": "悬停整行触发"
+    }
+  ],
+  "files": [
+    "registry/ui/text-highlight.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/text-highlight",
+  "sourceUrl": "https://ui.wzx.wang/r/text-highlight.json"
+}

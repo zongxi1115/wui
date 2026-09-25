@@ -21,28 +21,28 @@ function MessageTypeButtons() {
         size="sm"
         onClick={() => message.info("新功能已灰度发布，可在设置中开启。")}
       >
-        信息提示 (Info)
+        信息
       </Button>
       <Button
         variant="outline"
         size="sm"
-        onClick={() => message.success("配置更改已成功保存！")}
+        onClick={() => message.success("配置已保存")}
       >
-        成功提示 (Success)
+        成功
       </Button>
       <Button
         variant="outline"
         size="sm"
         onClick={() => message.warning("网络连接较慢，正在尝试重连...")}
       >
-        警告提示 (Warning)
+        警告
       </Button>
       <Button
         variant="outline"
         size="sm"
         onClick={() => message.error("数据加载失败，请检查网络权限。")}
       >
-        错误提示 (Error)
+        错误
       </Button>
     </div>
   )

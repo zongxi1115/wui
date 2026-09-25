@@ -1,0 +1,144 @@
+---
+title: 打字机 Typewriter
+description: 带闪烁光标的逐字输入效果，依次输入、停留、删除并切换多段文本。
+component: typewriter
+---
+
+## 基础用法
+
+传入 `texts` 数组，组件会逐字输入第一段文本，停留片刻后逐字删除，再输入下一段。光标在输入与删除时保持常亮，停顿时闪烁：
+
+<ComponentPreview name="typewriter-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
+
+<CodeTabs command="@wui-design/cli@latest add @wui/typewriter" />
+
+<Steps>
+
+<Step>安装基础依赖与 Motion 动效库</Step>
+
+```bash
+pnpm add motion clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/typewriter.tsx`</Step>
+
+<ComponentSource name="typewriter" title="components/ui/typewriter.tsx" />
+
+</Steps>
+
+## 属性 Props
+
+`Typewriter` 支持以下配置属性，并继承原生 `<span>` 的其余 HTML 属性：
+
+<PropsTable
+  data={[
+    {
+      prop: "texts",
+      type: "string[]",
+      required: true,
+      description: "依次输入的文本数组。按字素（grapheme）拆分，中文与 Emoji 都能正确逐字输入。",
+    },
+    {
+      prop: "typeSpeed",
+      type: "number",
+      default: "70",
+      description: "输入每个字符的间隔（毫秒）。",
+    },
+    {
+      prop: "deleteSpeed",
+      type: "number",
+      default: "35",
+      description: "删除每个字符的间隔（毫秒）。",
+    },
+    {
+      prop: "pauseDuration",
+      type: "number",
+      default: "1600",
+      description: "一段文本输入完成后停留的时长（毫秒）。",
+    },
+    {
+      prop: "startDelay",
+      type: "number",
+      default: "0",
+      description: "开始输入第一个字符前的等待时长（毫秒）。",
+    },
+    {
+      prop: "loop",
+      type: "boolean",
+      default: "true",
+      description: "最后一段结束后是否回到第一段继续。",
+    },
+    {
+      prop: "keepLast",
+      type: "boolean",
+      default: "true",
+      description: "关闭 `loop` 时，是否让最后一段文本停留在屏幕上而不再删除。",
+    },
+    {
+      prop: "startOnView",
+      type: "boolean",
+      default: "false",
+      description: "滚动进入视口后才开始输入。",
+    },
+    {
+      prop: "cursor",
+      type: '"bar" | "block" | "underscore" | "none"',
+      default: '"bar"',
+      description: "光标形状：竖线、方块、下划线，或不显示光标。光标颜色跟随文字颜色。",
+    },
+    {
+      prop: "cursorClassName",
+      type: "string",
+      description: "应用于光标元素的额外类名，可用于调整颜色或尺寸。",
+    },
+  ]}
+/>
+
+## 事件 Events
+
+<PropsTable
+  data={[
+    {
+      prop: "onTyped",
+      type: "(index: number) => void",
+      description: "一段文本完整输入后触发，参数为该段文本的下标。",
+    },
+    {
+      prop: "onComplete",
+      type: "() => void",
+      description: "关闭 `loop` 时，全部文本播放完毕后触发一次。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`Typewriter` 适合营销页标语、空输入框的示例提问、命令行演示与 AI 助手的引导语。
+
+- **控制总时长**：单段文本建议不超过 20 个汉字，`typeSpeed` 保持在 50–90 毫秒，否则用户需要等待太久才能读到完整信息。
+- **不要承载关键信息**：打字过程中文字不完整，价格、错误原因等关键内容应直接静态展示。
+- **避免布局跳动**：放在居中标题中时，建议让打字机独占一行，或为容器设置最小宽度，防止整行随输入左右晃动。
+
+## 场景示例
+
+### 光标样式
+
+`bar`、`block` 与 `underscore` 三种光标，适配不同的排版与终端风格：
+
+<ComponentPreview name="typewriter-cursor" />
+
+### 输入框示例提问
+
+输入框为空时，用打字机轮播示例问题；用户开始输入后隐藏。此处给打字机设置了 `aria-hidden`，并用 `aria-describedby` 提供静态说明：
+
+<ComponentPreview name="typewriter-prompt" />
+
+## 无障碍与交互 Accessibility
+
+- **完整文本播报**：逐字变化的可见文本设置了 `aria-hidden`，组件另外输出一个 `aria-live="polite"` 的 `sr-only` 节点，只在切换到新一段文本时播报一次完整内容，不会逐字朗读。
+- **装饰用途时隐藏**：作为占位提示等纯装饰用途时，给组件加上 `aria-hidden="true"`，同时隐藏其中的播报节点。
+- **减少动态效果**：开启 `prefers-reduced-motion` 时不再逐字输入与删除，每段文本直接完整显示，按 `pauseDuration` 切换，光标停止闪烁。

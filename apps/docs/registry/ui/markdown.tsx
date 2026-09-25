@@ -7,6 +7,12 @@ import remarkGfm from "remark-gfm"
 
 import { cn } from "@/registry/lib/utils"
 import { AiStreamEdge } from "@/registry/ui/ai-stream"
+import {
+  CodeBlock,
+  CodeBlockActions,
+  CodeBlockCopy,
+  CodeBlockHeader,
+} from "@/registry/ui/code-block"
 
 type MarkdownTreeNode = {
   type: string
@@ -14,6 +20,22 @@ type MarkdownTreeNode = {
   tagName?: string
   properties?: Record<string, unknown>
   children?: MarkdownTreeNode[]
+}
+
+function textContent(node?: MarkdownTreeNode): string {
+  if (!node) return ""
+  if (node.type === "text") return node.value ?? ""
+  return (node.children ?? []).map(textContent).join("")
+}
+
+function codeLanguage(node?: MarkdownTreeNode) {
+  const className = node?.properties?.className
+  if (!Array.isArray(className)) return undefined
+  const match = className.find(
+    (name): name is string =>
+      typeof name === "string" && name.startsWith("language-")
+  )
+  return match?.slice("language-".length)
 }
 
 function createStreamFeatherPlugin(featherLength: number) {
@@ -86,6 +108,21 @@ const defaultComponents: Components = {
       {...props}
     />
   ),
+  h5: ({ node: _node, className, ...props }) => (
+    <h5
+      className={cn("mb-2 mt-4 text-sm font-medium first:mt-0", className)}
+      {...props}
+    />
+  ),
+  h6: ({ node: _node, className, ...props }) => (
+    <h6
+      className={cn(
+        "text-muted-foreground mb-2 mt-4 text-xs font-medium first:mt-0",
+        className
+      )}
+      {...props}
+    />
+  ),
   p: ({ node: _node, className, ...props }) => (
     <p
       className={cn("my-4 leading-7 first:mt-0 last:mb-0", className)}
@@ -116,7 +153,7 @@ const defaultComponents: Components = {
   ul: ({ node: _node, className, ...props }) => (
     <ul
       className={cn(
-        "marker:text-muted-foreground my-4 ml-5 list-disc space-y-2",
+        "marker:text-muted-foreground my-4 ml-5 list-disc space-y-2 [&.contains-task-list]:ml-0 [&.contains-task-list]:list-none",
         className
       )}
       {...props}
@@ -125,14 +162,17 @@ const defaultComponents: Components = {
   ol: ({ node: _node, className, ...props }) => (
     <ol
       className={cn(
-        "marker:text-muted-foreground my-4 ml-5 list-decimal space-y-2",
+        "marker:text-muted-foreground my-4 ml-5 list-decimal space-y-2 [&.contains-task-list]:ml-0 [&.contains-task-list]:list-none",
         className
       )}
       {...props}
     />
   ),
   li: ({ node: _node, className, ...props }) => (
-    <li className={cn("pl-1 leading-7", className)} {...props} />
+    <li
+      className={cn("pl-1 leading-7 [&.task-list-item]:pl-0", className)}
+      {...props}
+    />
   ),
   blockquote: ({ node: _node, className, ...props }) => (
     <blockquote
@@ -155,15 +195,32 @@ const defaultComponents: Components = {
       {...props}
     />
   ),
-  pre: ({ node: _node, className, ...props }) => (
-    <pre
-      className={cn(
-        "bg-muted/45 my-5 overflow-x-auto border p-4 text-sm leading-6 [&>code]:rounded-none [&>code]:bg-transparent [&>code]:p-0",
-        className
-      )}
-      {...props}
-    />
-  ),
+  pre: ({ node, className, children, ...props }) => {
+    const code = (node as MarkdownTreeNode | undefined)?.children?.[0]
+    const language = codeLanguage(code)
+
+    return (
+      <CodeBlock data-language={language} className="my-5">
+        <CodeBlockHeader className="min-h-9 py-1.5">
+          <span className="text-muted-foreground font-sans text-xs">
+            {language ?? "text"}
+          </span>
+          <CodeBlockActions>
+            <CodeBlockCopy content={textContent(code).replace(/\n$/, "")} />
+          </CodeBlockActions>
+        </CodeBlockHeader>
+        <pre
+          className={cn(
+            "overflow-x-auto px-4 py-3.5 leading-5 [&>code]:rounded-none [&>code]:bg-transparent [&>code]:p-0 [&>code]:text-[1em]",
+            className
+          )}
+          {...props}
+        >
+          {children}
+        </pre>
+      </CodeBlock>
+    )
+  },
   table: ({ node: _node, className, ...props }) => (
     <div className="my-5 w-full overflow-x-auto border-y">
       <table
@@ -225,6 +282,13 @@ function Markdown({
   components,
   remarkPlugins,
   rehypePlugins,
+  remarkRehypeOptions,
+  allowElement,
+  allowedElements,
+  disallowedElements,
+  skipHtml,
+  unwrapDisallowed,
+  urlTransform,
   ...props
 }: MarkdownProps) {
   return (
@@ -233,7 +297,14 @@ function Markdown({
       data-streaming={isStreaming || undefined}
       aria-live={isStreaming ? "polite" : undefined}
       aria-busy={isStreaming}
-      className={cn("text-foreground min-w-0 text-sm", className)}
+      className={cn(
+        "text-foreground min-w-0 text-sm",
+        // Blocks mounted while streaming ease in; already-rendered blocks keep their DOM and stay still.
+        isStreaming &&
+          "[&>*]:animate-in [&>*]:fade-in-0 [&>*]:slide-in-from-bottom-1 [&>*]:duration-300 [&>*]:ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:[&>*]:animate-none",
+        className
+      )}
+      {...props}
     >
       <ReactMarkdown
         remarkPlugins={[remarkGfm, ...(remarkPlugins ?? [])]}
@@ -245,8 +316,14 @@ function Markdown({
               ]
             : rehypePlugins
         }
+        remarkRehypeOptions={remarkRehypeOptions}
+        allowElement={allowElement}
+        allowedElements={allowedElements}
+        disallowedElements={disallowedElements}
+        skipHtml={skipHtml}
+        unwrapDisallowed={unwrapDisallowed}
+        urlTransform={urlTransform}
         components={{ ...defaultComponents, ...components }}
-        {...props}
       >
         {children}
       </ReactMarkdown>

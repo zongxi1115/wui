@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Grid2X2Icon, ListIcon, Rows3Icon } from "lucide-react"
+import { LayoutGridIcon, ListIcon, Rows3Icon } from "lucide-react"
 
 import { ToggleGroup, ToggleGroupItem } from "@/registry/ui/toggle-group"
 
@@ -13,11 +13,10 @@ export default function ToggleGroupDemo() {
       type="single"
       value={view}
       onValueChange={(value) => value && setView(value)}
-      variant="outline"
       aria-label="切换视图"
     >
       <ToggleGroupItem value="grid" aria-label="网格视图">
-        <Grid2X2Icon />
+        <LayoutGridIcon />
       </ToggleGroupItem>
       <ToggleGroupItem value="comfortable" aria-label="舒适列表">
         <Rows3Icon />

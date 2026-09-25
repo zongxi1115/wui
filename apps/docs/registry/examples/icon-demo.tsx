@@ -1,25 +1,19 @@
-import {
-  BellIcon,
-  CheckIcon,
-  SearchIcon,
-  SettingsIcon,
-  UserIcon,
-} from "lucide-react"
+import { BellIcon } from "lucide-react"
 
-import { Icon } from "@/registry/ui/icon"
+import { Icon, iconSizes, type IconSize } from "@/registry/ui/icon"
 
-const examples = [SearchIcon, UserIcon, BellIcon, SettingsIcon, CheckIcon]
+const sizes = Object.keys(iconSizes) as IconSize[]
 
 export default function IconDemo() {
   return (
-    <div className="text-foreground flex items-center gap-5">
-      {examples.map((icon, index) => (
-        <Icon
-          key={index}
-          icon={icon}
-          size={index === 4 ? 28 : "lg"}
-          strokeWidth={1.8}
-        />
+    <div className="flex flex-wrap items-end gap-x-6 gap-y-4">
+      {sizes.map((size) => (
+        <div key={size} className="flex min-w-12 flex-col items-center gap-2">
+          <Icon icon={BellIcon} size={size} strokeWidth={1.75} />
+          <span className="text-muted-foreground font-mono text-xs">
+            {size} · {iconSizes[size]}
+          </span>
+        </div>
       ))}
     </div>
   )

@@ -68,7 +68,7 @@ function CollapsibleTrigger({
             <ChevronDownIcon
               aria-hidden
               data-slot="collapsible-indicator"
-              className="size-4 shrink-0 text-muted-foreground transition-transform duration-200 group-data-[state=open]:rotate-180 motion-reduce:transition-none"
+              className="size-4 shrink-0 text-muted-foreground transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-data-[state=open]:rotate-180 motion-reduce:transition-none"
             />
           ) : null}
         </>

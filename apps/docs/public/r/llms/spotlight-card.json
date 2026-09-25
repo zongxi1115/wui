@@ -47,6 +47,21 @@
       "description": "聚光中心使用的 CSS 颜色。"
     },
     {
+      "name": "borderColor",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "跟随指针的 1px 边缘高光颜色，不传则关闭。"
+    },
+    {
+      "name": "smooth",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "光斑是否以缓动方式跟随指针，而不是直接跳到指针位置。"
+    },
+    {
       "name": "spotlightClassName",
       "type": "string",
       "required": false,
@@ -57,11 +72,11 @@
   "examples": [
     {
       "name": "spotlight-card-demo",
-      "title": "产品功能展示网格"
+      "title": "基础用法"
     },
     {
       "name": "spotlight-card-colors",
-      "title": "多色主题光晕"
+      "title": "指标卡配色"
     }
   ],
   "files": [

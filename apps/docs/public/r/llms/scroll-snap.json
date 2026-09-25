@@ -55,6 +55,13 @@
       "control": "boolean",
       "defaultValue": "false",
       "description": "是否隐藏原生滚动条，同时保留滚动能力。"
+    },
+    {
+      "name": "onActiveChange",
+      "type": "((index: number) => void)",
+      "required": false,
+      "control": "text",
+      "description": "对齐到吸附边缘的项目变化时触发，回调参数为该项索引。"
     }
   ],
   "examples": [
@@ -64,7 +71,7 @@
     },
     {
       "name": "scroll-snap-horizontal",
-      "title": "横向财务指标卡吸附"
+      "title": "横向商品列表"
     }
   ],
   "files": [

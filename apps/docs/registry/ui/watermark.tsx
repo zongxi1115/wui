@@ -55,7 +55,9 @@ function Watermark({
   zIndex = 10,
   ...props
 }: WatermarkProps) {
-  const patternId = `watermark-${React.useId().replace(/:/g, "")}`
+  // useId() may contain characters such as ":" or "«»" that are awkward
+  // inside url(#id) references, so keep only safe identifier characters.
+  const patternId = `watermark-${React.useId().replace(/[^\w-]/g, "")}`
   const resolvedContent = content ?? "WUI"
   const lines = Array.isArray(resolvedContent)
     ? resolvedContent

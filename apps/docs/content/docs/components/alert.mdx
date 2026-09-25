@@ -21,7 +21,7 @@ component: alert
 <Step>安装依赖库与图标库</Step>
 
 ```bash
-pnpm add lucide-react class-variance-authority clsx tailwind-merge
+pnpm add motion lucide-react class-variance-authority clsx tailwind-merge
 ```
 
 <Step>复制组件源码到 `components/ui/alert.tsx`</Step>
@@ -139,7 +139,7 @@ pnpm add lucide-react class-variance-authority clsx tailwind-merge
 
 ### 可关闭与受控显示 (Dismissible)
 
-开启 `closable` 后用户可主动关闭已知悉的公告或临时预警，配合 `visible` 与 `onVisibleChange` 实现受控管理：
+开启 `closable` 后用户可主动关闭已知悉的公告或临时预警，配合 `visible` 与 `onVisibleChange` 实现受控管理。关闭时提示条淡出并收起高度，下方内容平滑补位；重新显示时反向展开。需要与相邻元素保持间距时，把 `margin` 写在 `className` 上，间距会随高度一起收起：
 
 <ComponentPreview name="alert-dismissible" />
 
@@ -166,5 +166,6 @@ pnpm add lucide-react class-variance-authority clsx tailwind-merge
 - **动态 ARIA 角色分配**：
   - `warning` 与 `destructive` 变体默认挂载 `role="alert"` 与 `aria-live="assertive"`，屏幕阅读器会在出现时立即优先播报。
   - `info`、`success` 与 `default` 变体默认挂载 `role="status"` 与 `aria-live="polite"`，屏幕阅读器会在空闲时平稳朗读。
-- **关闭按钮可访问性**：内置关闭按钮配置了 `aria-label="Close alert"`，支持 <kbd>Tab</kbd> 聚焦并通过 <kbd>Enter</kbd> / <kbd>Space</kbd> 触发关闭。
+- **关闭按钮可访问性**：内置关闭按钮配置了 `aria-label="关闭提示"`，支持 <kbd>Tab</kbd> 聚焦并通过 <kbd>Enter</kbd> / <kbd>Space</kbd> 触发关闭。
+- **动效降级**：开启系统「减弱动态效果」后，关闭与显示只做淡入淡出，不再过渡高度。
 - **多重感知设计**：不单单依靠色彩传达错误，每个语义变体均有特定的图形图标，并在视觉上提供了明确的文字内容。

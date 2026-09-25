@@ -15,7 +15,8 @@
     "wui": "pnpm dlx @wui-design/cli@latest add @wui/notification-badge",
     "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/notification-badge.json",
     "npmDependencies": [
-      "class-variance-authority"
+      "class-variance-authority",
+      "motion"
     ],
     "registryDependencies": [
       "utils"
@@ -52,6 +53,14 @@
       "control": "boolean",
       "defaultValue": "false",
       "description": "是否显示小圆点，而不是显示 count 内容。"
+    },
+    {
+      "name": "pulse",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "是否在圆点周围显示柔和扩散的光圈，仅在 dot 模式下生效。"
     },
     {
       "name": "visible",

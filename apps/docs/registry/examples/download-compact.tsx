@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+
 import { Download, type DownloadStatus } from "@/registry/ui/download"
 
 interface Attachment {
@@ -11,71 +12,62 @@ interface Attachment {
   progress: number
 }
 
+const initialFiles: Attachment[] = [
+  { id: "1", filename: "2026 Q2 财务报表.xlsx", meta: "XLSX · 2.4 MB", status: "idle", progress: 0 },
+  { id: "2", filename: "系统架构设计 v3.pdf", meta: "PDF · 8.1 MB", status: "idle", progress: 0 },
+  { id: "3", filename: "新人入职引导.mp4", meta: "MP4 · 45.6 MB", status: "idle", progress: 0 },
+]
+
 export default function DownloadCompact() {
-  const [files, setFiles] = React.useState<Attachment[]>([
-    {
-      id: "1",
-      filename: "2026_Q2_Financial_Report.xlsx",
-      meta: "Excel · 2.4 MB",
-      status: "idle",
-      progress: 0,
-    },
-    {
-      id: "2",
-      filename: "System_Architecture_v3.pdf",
-      meta: "PDF 文档 · 8.1 MB",
-      status: "idle",
-      progress: 0,
-    },
-    {
-      id: "3",
-      filename: "Product_Demo_Walkthrough.mp4",
-      meta: "MP4 视频 · 45.6 MB",
-      status: "idle",
-      progress: 0,
-    },
-  ])
+  const [files, setFiles] = React.useState(initialFiles)
+  const timers = React.useRef(new Map<string, ReturnType<typeof setInterval>>())
 
-  const handleDownload = (id: string) => {
-    setFiles((prev) =>
-      prev.map((f) => (f.id === id ? { ...f, status: "downloading", progress: 10 } : f))
-    )
+  React.useEffect(() => {
+    const map = timers.current
+    return () => map.forEach(clearInterval)
+  }, [])
 
+  const update = (id: string, patch: Partial<Attachment>) =>
+    setFiles((prev) => prev.map((f) => (f.id === id ? { ...f, ...patch } : f)))
+
+  const handleDownload = (file: Attachment) => {
+    if (file.status === "downloading") return
+    if (file.status === "complete") {
+      update(file.id, { status: "idle", progress: 0 })
+      return
+    }
+    update(file.id, { status: "downloading", progress: 0 })
+    let progress = 0
     const timer = setInterval(() => {
-      setFiles((prev) =>
-        prev.map((f) => {
-          if (f.id !== id) return f
-          const next = f.progress + 25
-          if (next >= 100) {
-            clearInterval(timer)
-            return { ...f, status: "complete", progress: 100 }
-          }
-          return { ...f, progress: next }
-        })
-      )
-    }, 200)
+      progress = Math.min(100, progress + 12 + Math.random() * 10)
+      if (progress >= 100) {
+        clearInterval(timer)
+        timers.current.delete(file.id)
+        update(file.id, { status: "complete", progress: 100 })
+      } else {
+        update(file.id, { progress })
+      }
+    }, 180)
+    timers.current.set(file.id, timer)
   }
 
   return (
-    <div className="w-full max-w-md space-y-3 rounded-xl border bg-card p-5 shadow-xs">
-      <div className="flex items-center justify-between">
-        <span className="text-xs font-semibold text-foreground">会话附件清单 (Compact List)</span>
-        <span className="text-[11px] text-muted-foreground">共 3 个文件</span>
+    <div className="w-full max-w-md space-y-2">
+      <div className="text-muted-foreground flex items-center justify-between pb-1 text-xs">
+        <span>会话附件</span>
+        <span>{files.length} 个文件</span>
       </div>
-
-      <div className="space-y-2">
-        {files.map((file) => (
-          <Download
-            key={file.id}
-            size="compact"
-            filename={file.filename}
-            meta={file.meta}
-            status={file.status}
-            progress={file.progress}
-            onDownload={() => handleDownload(file.id)}
-          />
-        ))}
-      </div>
+      {files.map((file) => (
+        <Download
+          key={file.id}
+          size="compact"
+          filename={file.filename}
+          meta={file.meta}
+          status={file.status}
+          progress={file.progress}
+          onDownload={() => handleDownload(file)}
+        />
+      ))}
     </div>
   )
 }

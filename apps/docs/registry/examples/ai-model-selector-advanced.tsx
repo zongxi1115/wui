@@ -1,7 +1,13 @@
 "use client"
 
 import * as React from "react"
-import { BrainCircuitIcon, SparklesIcon, ZapIcon, InfoIcon } from "lucide-react"
+
+import {
+  BrandAnthropicIcon,
+  BrandGeminiIcon,
+  BrandOpenaiIcon,
+  BrandXaiIcon,
+} from "@/registry/icons/animated"
 import { Badge } from "@/registry/ui/badge"
 import {
   AiModelGroup,
@@ -12,116 +18,102 @@ import {
   AiTokenUsage,
 } from "@/registry/ui/ai-model-selector"
 
-const ALL_MODELS = [
+const MODELS = [
   {
-    id: "claude-3-7-sonnet",
-    name: "Claude 3.7 Sonnet",
-    description: "具备混合推理（Hybrid Thinking）与强代码生成能力",
-    group: "Flagship / 旗舰推理",
-    icon: <SparklesIcon className="size-3.5 text-amber-500" />,
-    badge: <Badge variant="secondary" className="text-[10px] py-0">200k</Badge>,
+    id: "claude-opus",
+    name: "Claude Opus",
+    description: "复杂任务规划与长时间自主执行",
+    context: 200_000,
+    icon: <BrandAnthropicIcon size={14} />,
+    tier: "旗舰",
   },
   {
-    id: "deepseek-r1",
-    name: "DeepSeek R1",
-    description: "开源推理之王，擅长数学论证与算法解题",
-    group: "Flagship / 旗舰推理",
-    icon: <BrainCircuitIcon className="size-3.5 text-blue-500" />,
-    badge: <Badge variant="outline" className="text-[10px] py-0 text-blue-600 border-blue-300">Reasoning</Badge>,
+    id: "gpt",
+    name: "GPT",
+    description: "通用推理、工具调用与视觉理解",
+    context: 400_000,
+    icon: <BrandOpenaiIcon size={14} />,
+    tier: "旗舰",
   },
   {
-    id: "gpt-4o",
-    name: "GPT-4o",
-    description: "多模态全能旗舰，兼具视觉理解与实时对话",
-    group: "Flagship / 旗舰推理",
-    icon: <SparklesIcon className="size-3.5 text-emerald-500" />,
-    badge: <Badge variant="secondary" className="text-[10px] py-0">128k</Badge>,
+    id: "grok",
+    name: "Grok",
+    description: "实时信息检索与长文本分析",
+    context: 256_000,
+    icon: <BrandXaiIcon size={14} />,
+    tier: "旗舰",
   },
   {
-    id: "claude-3-5-haiku",
-    name: "Claude 3.5 Haiku",
-    description: "超高速响应与低延迟轻量处理",
-    group: "Fast / 极速轻量",
-    icon: <ZapIcon className="size-3.5 text-amber-500" />,
-    badge: <Badge variant="secondary" className="text-[10px] py-0">Fast</Badge>,
-  },
-  {
-    id: "gpt-4o-mini",
-    name: "GPT-4o mini",
-    description: "高性价比日常任务与格式化提取",
-    group: "Fast / 极速轻量",
-    icon: <ZapIcon className="size-3.5 text-emerald-500" />,
-    badge: <Badge variant="secondary" className="text-[10px] py-0">Low Latency</Badge>,
+    id: "gemini-flash",
+    name: "Gemini Flash",
+    description: "低成本高吞吐，适合批量处理",
+    context: 1_000_000,
+    icon: <BrandGeminiIcon size={14} />,
+    tier: "轻量",
   },
 ]
 
-export default function AiModelSelectorAdvanced() {
-  const [selectedId, setSelectedId] = React.useState("claude-3-7-sonnet")
-  const [open, setOpen] = React.useState(false)
-  const usedTokens = 78200
+const USED_TOKENS = 212_400
 
-  const selectedModel = ALL_MODELS.find((m) => m.id === selectedId) ?? ALL_MODELS[0]
+function formatContext(value: number) {
+  return value >= 1_000_000 ? `${value / 1_000_000}M` : `${value / 1000}K`
+}
+
+export default function AiModelSelectorAdvanced() {
+  const [selectedId, setSelectedId] = React.useState("gpt")
+  const [open, setOpen] = React.useState(false)
+  const selected = MODELS.find((model) => model.id === selectedId) ?? MODELS[0]
 
   return (
-    <div className="flex w-full max-w-sm flex-col items-center gap-4 mx-auto">
-      <div className="w-full flex items-center justify-between">
-        <span className="text-xs font-medium text-muted-foreground">当前运行模型:</span>
+    <div className="mx-auto flex w-full max-w-sm flex-col gap-3">
+      <div className="flex items-center justify-between gap-3">
+        <span className="text-sm text-muted-foreground">对话模型</span>
         <AiModelSelector open={open} onOpenChange={setOpen}>
-          <AiModelSelectorTrigger icon={selectedModel.icon}>
-            {selectedModel.name}
+          <AiModelSelectorTrigger variant="ghost" icon={selected.icon}>
+            {selected.name}
           </AiModelSelectorTrigger>
-
-          <AiModelSelectorContent className="w-80">
-            <AiModelGroup heading="Flagship / 旗舰推理">
-              {ALL_MODELS.filter((m) => m.group.startsWith("Flagship")).map((model) => (
-                <AiModelItem
-                  key={model.id}
-                  name={model.name}
-                  description={model.description}
-                  icon={model.icon}
-                  badge={model.badge}
-                  selected={selectedId === model.id}
-                  onClick={() => {
-                    setSelectedId(model.id)
-                    setOpen(false)
-                  }}
-                />
-              ))}
-            </AiModelGroup>
-
-            <AiModelGroup heading="Fast / 极速轻量">
-              {ALL_MODELS.filter((m) => m.group.startsWith("Fast")).map((model) => (
-                <AiModelItem
-                  key={model.id}
-                  name={model.name}
-                  description={model.description}
-                  icon={model.icon}
-                  badge={model.badge}
-                  selected={selectedId === model.id}
-                  onClick={() => {
-                    setSelectedId(model.id)
-                    setOpen(false)
-                  }}
-                />
-              ))}
-            </AiModelGroup>
-
+          <AiModelSelectorContent align="end" className="w-80">
+            {(["旗舰", "轻量"] as const).map((tier) => (
+              <AiModelGroup key={tier} heading={tier}>
+                {MODELS.filter((model) => model.tier === tier).map((model) => {
+                  const overflow = USED_TOKENS > model.context
+                  return (
+                    <AiModelItem
+                      key={model.id}
+                      name={model.name}
+                      description={
+                        overflow
+                          ? "当前会话已超出该模型的上下文窗口"
+                          : model.description
+                      }
+                      icon={model.icon}
+                      disabled={overflow}
+                      badge={
+                        <Badge variant="outline" size="sm" className="font-mono">
+                          {formatContext(model.context)}
+                        </Badge>
+                      }
+                      selected={model.id === selectedId}
+                      onClick={() => {
+                        setSelectedId(model.id)
+                        setOpen(false)
+                      }}
+                    />
+                  )
+                })}
+              </AiModelGroup>
+            ))}
             <AiTokenUsage
-              used={usedTokens}
-              limit={200000}
-              label="上下文窗口 (Context Window)"
+              used={USED_TOKENS}
+              limit={selected.context}
+              label={`${selected.name} 上下文`}
             />
           </AiModelSelectorContent>
         </AiModelSelector>
       </div>
-
-      <div className="w-full rounded-lg border bg-muted/20 p-3 text-xs text-muted-foreground space-y-1">
-        <div className="flex items-center gap-1.5 font-medium text-foreground">
-          <InfoIcon className="size-3.5 text-primary" />
-          <span>模型参数与能力摘要</span>
-        </div>
-        <p>{selectedModel.description}</p>
-      </div>
+      <p className="text-xs leading-5 text-muted-foreground">
+        切换模型时保留当前会话；超出上下文窗口的模型不可选。
+      </p>
     </div>
   )
 }

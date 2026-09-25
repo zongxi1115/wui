@@ -10,16 +10,16 @@ export default function SliderStepMarks() {
   return (
     <div className="w-full max-w-sm space-y-4">
       <div className="flex items-center justify-between">
-        <label htmlFor="storage-slider" className="text-sm font-medium">
+        <span id="storage-slider-label" className="text-sm font-medium">
           云存储容量配额
-        </label>
+        </span>
         <span className="text-xs font-semibold tabular-nums text-foreground">
           {storage[0] >= 1024 ? `${storage[0] / 1024} TB` : `${storage[0]} GB`}
         </span>
       </div>
 
       <Slider
-        id="storage-slider"
+        aria-labelledby="storage-slider-label"
         value={storage}
         onValueChange={setStorage}
         min={64}

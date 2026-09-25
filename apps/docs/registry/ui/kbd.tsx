@@ -4,7 +4,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/registry/lib/utils"
 
 const kbdVariants = cva(
-  "inline-flex shrink-0 items-center justify-center rounded-sm border border-border bg-muted/70 font-sans font-medium leading-none text-muted-foreground select-none",
+  "inline-flex shrink-0 items-center justify-center rounded-sm border border-border bg-muted/70 font-sans font-medium leading-none text-muted-foreground select-none transition-[color,background-color,border-color,translate] duration-150 ease-out data-[pressed]:translate-y-px data-[pressed]:border-primary data-[pressed]:bg-primary data-[pressed]:text-primary-foreground motion-reduce:transition-none motion-reduce:data-[pressed]:translate-y-0",
   {
     variants: {
       size: {
@@ -23,14 +23,20 @@ export interface KbdProps
     VariantProps<typeof kbdVariants> {
   /** Physical size of the key hint. @default "default" */
   size?: "sm" | "default"
+  /**
+   * Highlight the key as physically held down, e.g. to mirror live keyboard
+   * input in onboarding or shortcut settings. @default false
+   */
+  pressed?: boolean
 }
 
 /** A compact visual hint for one keyboard key. */
-function Kbd({ className, size = "default", ...props }: KbdProps) {
+function Kbd({ className, size = "default", pressed = false, ...props }: KbdProps) {
   return (
     <kbd
       data-slot="kbd"
       data-size={size}
+      data-pressed={pressed || undefined}
       className={cn(kbdVariants({ size }), className)}
       {...props}
     />

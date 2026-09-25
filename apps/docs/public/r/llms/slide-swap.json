@@ -44,6 +44,18 @@
       "description": "当前可见图层离场的方向。"
     },
     {
+      "name": "trigger",
+      "type": "\"hover\" | \"parent\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "hover",
+        "parent"
+      ],
+      "defaultValue": "hover",
+      "description": "触发切换的方式。hover 监听组件自身；parent 监听最近的链接或按钮，悬停整个控件或键盘聚焦时都会播放。"
+    },
+    {
       "name": "active",
       "type": "boolean",
       "required": false,

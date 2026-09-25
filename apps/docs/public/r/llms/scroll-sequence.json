@@ -41,6 +41,19 @@
       "description": "每次切换占用的滚动距离，以视口高度为单位。"
     },
     {
+      "name": "effect",
+      "type": "\"fade\" | \"blur\" | \"slide\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "fade",
+        "blur",
+        "slide"
+      ],
+      "defaultValue": "slide",
+      "description": "步骤之间的切换效果，方向跟随滚动方向。"
+    },
+    {
       "name": "container",
       "type": "RefObject<HTMLElement | null>",
       "required": false,
@@ -84,7 +97,7 @@
     },
     {
       "name": "scroll-sequence-story",
-      "title": "极简流水线阶段演进"
+      "title": "数字叙事"
     }
   ],
   "files": [

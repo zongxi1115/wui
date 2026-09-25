@@ -50,6 +50,10 @@
       "title": "受控模式与动态徽标"
     },
     {
+      "name": "tabs-vertical",
+      "title": "纵向设置导航"
+    },
+    {
       "name": "tabs-card",
       "title": "综合业务表单选项卡"
     }

@@ -48,7 +48,7 @@
       "type": "string",
       "required": false,
       "control": "text",
-      "defaultValue": "oklch(0.7 0.2 260)",
+      "defaultValue": "var(--chart-1)",
       "description": "solid 样式使用的 CSS 颜色。"
     },
     {
@@ -56,7 +56,7 @@
       "type": "string[]",
       "required": false,
       "control": "text",
-      "defaultValue": "[\"#ff3d81\", \"#ffb800\", \"#34d399\", \"#38bdf8\", \"#8b5cf6\", \"#ff3d81\"]",
+      "defaultValue": "[\r\n    \"var(--chart-1)\",\r\n    \"var(--chart-5)\",\r\n    \"var(--chart-2)\",\r\n    \"var(--chart-3)\",\r\n    \"var(--chart-1)\",\r\n  ]",
       "description": "沿彩虹边缘分布的颜色列表。"
     },
     {

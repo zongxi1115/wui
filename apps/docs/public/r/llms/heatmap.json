@@ -20,7 +20,8 @@
     "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/heatmap.json",
     "npmDependencies": [],
     "registryDependencies": [
-      "chart-core"
+      "chart-core",
+      "utils"
     ]
   },
   "props": [

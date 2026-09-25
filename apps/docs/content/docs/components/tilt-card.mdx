@@ -6,7 +6,7 @@ component: tilt-card
 
 ## 基础用法
 
-最简单的透视倾斜用法。当光标在卡片上悬停移动时，卡片产生灵动的 3D 姿态响应：
+悬停在作品卡片上，卡片随指针产生 3D 倾斜并淡入高光，底部信息栏通过 `translateZ` 浮在表面之上：
 
 <ComponentPreview name="tilt-card-demo" />
 
@@ -63,12 +63,18 @@ pnpm add motion clsx tailwind-merge
       prop: "glare",
       type: "boolean",
       default: "false",
-      description: "是否开启随光标坐标移动的模拟表面高光反射图层。",
+      description: "是否开启随光标坐标移动的表面高光图层。高光仅在悬停时淡入。",
+    },
+    {
+      prop: "glareOpacity",
+      type: "number",
+      default: "0.35",
+      description: "悬停时高光层淡入到的峰值不透明度；指针离开时随弹簧淡出。",
     },
     {
       prop: "glareClassName",
       type: "string",
-      description: "应用于高光反光图层的额外 CSS 类名（如 mix-blend 混合模式或不透明度）。",
+      description: "应用于高光图层的额外 CSS 类名（如 mix-blend 混合模式）。不透明度请使用 `glareOpacity`。",
     },
     {
       prop: "className",
@@ -107,26 +113,22 @@ pnpm add motion clsx tailwind-merge
   - **旗舰硬件 / 核心特性展示**：让用户在鼠标滑动中全方位感受产品的精细质感。
 - **3D 分层与纵深技巧**：
   - 卡片内部容器默认启用了 `transform-style: preserve-3d`。
-  - 在内部子元素上添加 Tailwind 类名 `[transform:translateZ(24px)]` 或 `[transform:translateZ(36px)]`，可以使文字和图标“悬浮”在卡片表面上方，产生极强的视差立体感。
+  - 在内部子元素上添加 Tailwind 类名 `[transform:translateZ(24px)]` 或 `[transform:translateZ(36px)]`，可以使文字和图标“悬浮”在卡片表面上方，产生视差立体感。
+  - 注意：`overflow-hidden` 会强制扁平化 3D 上下文，使 `translateZ` 失效。需要裁切图片时，请把 `overflow-hidden` 放在图片自身或内层容器上，而不是卡片根节点。
+  - 指针位置基于进入时测得的静止尺寸计算，避免倾斜后的包围盒反过来影响角度，边缘处不会抖动。
 - **克制设计原则**：
   - 避免在密集的数据表格行或长列表项中过度使用 3D 倾斜，以免干扰用户的浏览与点击精度。
 
 ## 场景示例
 
-### 3D 开发者通票 / 数字会员卡
+### 会员卡
 
-结合内部 `translateZ` 视差层与表面眩光（Glare），打造质感逼真的数字通票：
+三层内容分别使用不同的 `translateZ` 深度，配合高光打造会员卡的实体感：
 
 <ComponentPreview name="tilt-card-member-pass" />
 
-### 视觉艺术作品画廊
-
-在画廊或作品卡片上启用透视微倾斜，悬停时产生优雅的物理互动：
-
-<ComponentPreview name="tilt-card-demo" />
-
 ## 无障碍与交互 Accessibility
 
-- **自动无障碍降级**：内置 `useReducedMotion` 监听。当系统开启了“减少动态效果”时，3D 旋转与缩放动效自动归零（Static 0deg / 1.0 Scale），高光层不执行变换，避免任何视觉眩晕。
+- **自动无障碍降级**：内置 `useReducedMotion` 监听。当系统开启了“减少动态效果”时，3D 旋转与缩放动效自动归零（Static 0deg / 1.0 Scale），高光层不渲染，避免任何视觉眩晕。
 - **触摸屏保护**：在移动端触摸（Touch）环境下自动跳过倾斜计算，避免与页面上下滑动手势冲突。
 - **反光层穿透**：高光层标记为 `aria-hidden="true"` 且带有 `pointer-events-none`，不遮挡内部可聚焦元素。

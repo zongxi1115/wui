@@ -36,7 +36,7 @@ export default function TooltipRich() {
           <TooltipTrigger asChild>
             <button
               type="button"
-              className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground outline-none"
+              className="inline-flex items-center gap-1 rounded-sm text-xs text-muted-foreground outline-none hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/35"
             >
               <span>并发处理限制</span>
               <HelpCircleIcon className="size-3.5" />

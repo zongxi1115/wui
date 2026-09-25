@@ -105,6 +105,10 @@
       "title": "基础用法"
     },
     {
+      "name": "watermark-playground",
+      "title": "参数调试"
+    },
+    {
       "name": "watermark-custom",
       "title": "多行自定义内容"
     },

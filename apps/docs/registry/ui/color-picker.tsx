@@ -1,10 +1,11 @@
 "use client"
 
 import * as React from "react"
-import { Popover as PopoverPrimitive } from "radix-ui"
+import { motion, useReducedMotion } from "motion/react"
 import { cva } from "class-variance-authority"
 
 import { cn } from "@/registry/lib/utils"
+import { Popover, PopoverContent, PopoverTrigger } from "@/registry/ui/popover"
 
 interface OklchColor {
   lightness: number
@@ -150,6 +151,32 @@ function formatRgbValue(color: RgbColor, showAlpha: boolean) {
   return `rgb(${channels} / ${formatNumber(color.alpha * 100, 1)}%)` // wui-token-audit-allow -- generated color
 }
 
+function toChannels(value: string): RgbColor | null {
+  const perceptual = parseColorValue(value)
+  if (perceptual) return perceptualToChannels(perceptual)
+  return parseRgbValue(value) ?? parseHexValue(value)
+}
+
+function isSameColor(a: string, b: string) {
+  if (a.trim() === b.trim()) return true
+  const left = toChannels(a)
+  const right = toChannels(b)
+  if (!left || !right) return false
+  return (
+    Math.abs(left.red - right.red) < 1.5 &&
+    Math.abs(left.green - right.green) < 1.5 &&
+    Math.abs(left.blue - right.blue) < 1.5 &&
+    Math.abs(left.alpha - right.alpha) < 0.01
+  )
+}
+
+// Neutral checkerboard that reveals transparency behind translucent colors.
+const checkerboardStyle: React.CSSProperties = {
+  backgroundImage:
+    "conic-gradient(var(--border) 25%, transparent 0 50%, var(--border) 0 75%, transparent 0)",
+  backgroundSize: "8px 8px",
+}
+
 function linearToDisplayChannel(channel: number) {
   return channel <= 0.0031308
     ? 12.92 * channel
@@ -289,8 +316,13 @@ function ColorPicker({
   className,
   disabled,
 }: ColorPickerProps) {
+  const reduceMotion = useReducedMotion()
+  const layoutId = React.useId()
   const [open, setOpen] = React.useState(false)
   const [mode, setMode] = React.useState<PickerMode>("rgb")
+  const indicatorTransition = reduceMotion
+    ? { duration: 0 }
+    : { type: "spring" as const, stiffness: 520, damping: 38, mass: 0.7 }
   const parsedPerceptual = parseColorValue(value)
   const parsedRgb = parseRgbValue(value) ?? parseHexValue(value)
   const color =
@@ -345,27 +377,31 @@ function ColorPicker({
   }
 
   return (
-    <PopoverPrimitive.Root open={open} onOpenChange={setOpen}>
-      <PopoverPrimitive.Trigger asChild>
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
         <button
           type="button"
           aria-label={label}
           disabled={disabled}
-          className={cn(colorPickerTriggerVariants({ size }), className)}
+          className={cn(
+            colorPickerTriggerVariants({ size }),
+            "data-[state=open]:border-ring data-[state=open]:ring-[3px] data-[state=open]:ring-ring/30",
+            className
+          )}
         >
           <span
-            className="block size-full rounded-sm border border-border/60"
-            style={{ backgroundColor: value }}
-          />
+            className="relative block size-full overflow-hidden rounded-sm border border-border/60"
+            style={checkerboardStyle}
+          >
+            <span
+              className="absolute inset-0 transition-[background-color] duration-200"
+              style={{ backgroundColor: value }}
+            />
+          </span>
         </button>
-      </PopoverPrimitive.Trigger>
+      </PopoverTrigger>
 
-      <PopoverPrimitive.Portal>
-        <PopoverPrimitive.Content
-          align="end"
-          sideOffset={6}
-          className="z-50 w-72 rounded-lg border bg-popover p-4 text-popover-foreground shadow-md outline-none"
-        >
+      <PopoverContent align="end" showArrow>
           <div className="mb-4 flex border-b" role="tablist" aria-label="颜色模式">
             {(["rgb", "oklch"] as const).map((currentMode) => (
               <button
@@ -375,8 +411,7 @@ function ColorPicker({
                 aria-selected={mode === currentMode}
                 className={cn(
                   "relative flex-1 pb-2.5 text-xs font-medium text-muted-foreground outline-none transition-colors hover:text-foreground focus-visible:text-foreground",
-                  mode === currentMode &&
-                    "text-foreground after:absolute after:inset-x-0 after:-bottom-px after:h-0.5 after:bg-foreground"
+                  mode === currentMode && "text-foreground"
                 )}
                 onClick={() => {
                   if (currentMode === "rgb") setHsv(channelsToHsv(rgb))
@@ -384,6 +419,14 @@ function ColorPicker({
                 }}
               >
                 {currentMode === "rgb" ? "基础 RGB" : "专业 OKLCH"}
+                {mode === currentMode ? (
+                  <motion.span
+                    aria-hidden="true"
+                    layoutId={`${layoutId}-mode`}
+                    className="absolute inset-x-0 -bottom-px h-0.5 rounded-full bg-foreground"
+                    transition={indicatorTransition}
+                  />
+                ) : null}
               </button>
             ))}
           </div>
@@ -505,21 +548,37 @@ function ColorPicker({
                 常用颜色
               </p>
               <div className="flex flex-wrap gap-2">
-                {swatches.map((swatch) => (
-                  <button
-                    key={swatch}
-                    type="button"
-                    aria-label={`使用 ${swatch}`}
-                    aria-pressed={value === swatch}
-                    className="size-7 rounded-md border border-border p-0.5 outline-none transition-transform hover:scale-105 focus-visible:ring-[3px] focus-visible:ring-ring/30 aria-pressed:ring-2 aria-pressed:ring-foreground"
-                    onClick={() => selectSwatch(swatch)}
-                  >
-                    <span
-                      className="block size-full rounded-sm"
-                      style={{ backgroundColor: swatch }}
-                    />
-                  </button>
-                ))}
+                {swatches.map((swatch) => {
+                  const selected = isSameColor(value, swatch)
+                  return (
+                    <button
+                      key={swatch}
+                      type="button"
+                      aria-label={`使用 ${swatch}`}
+                      aria-pressed={selected}
+                      className="relative size-7 rounded-md p-[3px] outline-none transition-[scale] duration-150 hover:scale-105 active:scale-95 focus-visible:ring-[3px] focus-visible:ring-ring/30 motion-reduce:transition-none"
+                      onClick={() => selectSwatch(swatch)}
+                    >
+                      {selected ? (
+                        <motion.span
+                          aria-hidden="true"
+                          layoutId={`${layoutId}-swatch`}
+                          className="absolute inset-0 rounded-md border-2 border-foreground"
+                          transition={indicatorTransition}
+                        />
+                      ) : null}
+                      <span
+                        className="relative block size-full overflow-hidden rounded-[4px] border border-border/60"
+                        style={checkerboardStyle}
+                      >
+                        <span
+                          className="absolute inset-0"
+                          style={{ backgroundColor: swatch }}
+                        />
+                      </span>
+                    </button>
+                  )
+                })}
               </div>
             </div>
           ) : null}
@@ -536,10 +595,8 @@ function ColorPicker({
             />
           </label>
 
-          <PopoverPrimitive.Arrow className="fill-border" />
-        </PopoverPrimitive.Content>
-      </PopoverPrimitive.Portal>
-    </PopoverPrimitive.Root>
+      </PopoverContent>
+    </Popover>
   )
 }
 

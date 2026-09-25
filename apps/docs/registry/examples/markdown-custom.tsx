@@ -1,109 +1,50 @@
-"use client"
+import { ArrowUpRightIcon } from "lucide-react"
 
-import * as React from "react"
-import { CheckIcon, CopyIcon, ExternalLinkIcon, InfoIcon } from "lucide-react"
-
+import { Alert } from "@/registry/ui/alert"
 import { Markdown } from "@/registry/ui/markdown"
-import { cn } from "@/registry/lib/utils"
 
-const customContent = `### 自定义组件重载示例
+const content = `### 开放平台 API v3 迁移说明
 
-通过 \`components\` 属性，你可以灵活重载任意 Markdown 标签。
+自 **2026 年 10 月 15 日** 起，\`/v2/orders\` 接口将停止写入，请在此之前完成迁移。完整的字段对照见 [迁移指南](https://example.com/docs/migrate-v3)。
 
-> **提示**：这里通过自定义 \`blockquote\` 渲染为带图标的警示卡片！
+> 旧版 Token 在迁移期间仍然有效，但刷新后只会签发 v3 Token。
 
-访问我们的 [官方文档库](https://github.com) 获取更多组件规范。
+1. 在控制台创建 v3 应用，并替换 \`client_id\`
+2. 将分页参数 \`page\` 改为游标参数 \`cursor\`
+3. 灰度 10% 流量验证后再全量切换
 
-\`\`\`typescript
-interface UserProfile {
-  id: string
-  name: string
-  roles: ("admin" | "editor" | "viewer")[]
-}
-
-export function hasPermission(user: UserProfile, role: string): boolean {
-  return user.roles.includes(role as any)
-}
+\`\`\`ts
+const res = await client.orders.list({
+  cursor: next,
+  limit: 50,
+})
 \`\`\`
 `
 
-function CustomCodeBlock({ children, className }: { children: React.ReactNode; className?: string }) {
-  const [copied, setCopied] = React.useState(false)
-  const codeString = String(children).replace(/\n$/, "")
-
-  const handleCopy = async () => {
-    await navigator.clipboard.writeText(codeString)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
-  }
-
-  return (
-    <div className={cn("relative my-4 overflow-hidden rounded-lg border bg-muted/60", className)}>
-      <div className="flex items-center justify-between border-b bg-muted/80 px-3.5 py-2 text-xs text-muted-foreground font-mono">
-        <span>Code Snippet</span>
-        <button
-          type="button"
-          onClick={handleCopy}
-          className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground cursor-pointer transition-colors"
-        >
-          {copied ? (
-            <>
-              <CheckIcon className="size-3.5 text-emerald-500" />
-              <span className="text-emerald-500">已复制</span>
-            </>
-          ) : (
-            <>
-              <CopyIcon className="size-3.5" />
-              <span>复制代码</span>
-            </>
-          )}
-        </button>
-      </div>
-      <pre className="overflow-x-auto p-4 font-mono text-xs leading-relaxed text-foreground">
-        <code>{children}</code>
-      </pre>
-    </div>
-  )
-}
-
 export default function MarkdownCustom() {
   return (
-    <div className="w-full max-w-2xl">
+    <div className="mx-auto w-full max-w-2xl">
       <Markdown
         components={{
-          pre: ({ children }) => <>{children}</>,
-          code: ({ className, children }) => {
-            const isInline = !className && typeof children === "string" && !children.includes("\n")
-            if (isInline) {
-              return (
-                <code className="rounded bg-primary/10 px-1.5 py-0.5 font-mono text-xs font-semibold text-primary">
-                  {children}
-                </code>
-              )
-            }
-            return <CustomCodeBlock className={className}>{children}</CustomCodeBlock>
-          },
           blockquote: ({ children }) => (
-            <div className="my-4 flex items-start gap-3 rounded-lg border border-info/30 bg-info/10 p-3.5 text-xs text-foreground">
-              <InfoIcon className="size-4 shrink-0 text-info mt-0.5" />
-              <div className="space-y-1">{children}</div>
-            </div>
+            <Alert variant="info" title="迁移期间" className="my-5 [&_p]:my-0">
+              {children}
+            </Alert>
           ),
-          a: ({ href, children, ...props }) => (
+          a: ({ href, children }) => (
             <a
               href={href}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-0.5 font-medium text-primary underline underline-offset-4 hover:opacity-80"
-              {...props}
+              className="text-primary decoration-primary/40 hover:decoration-primary inline-flex items-center gap-0.5 font-medium underline underline-offset-4 transition-colors"
             >
-              <span>{children}</span>
-              <ExternalLinkIcon className="size-3" />
+              {children}
+              <ArrowUpRightIcon aria-hidden className="size-3.5" />
             </a>
           ),
         }}
       >
-        {customContent}
+        {content}
       </Markdown>
     </div>
   )

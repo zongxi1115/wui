@@ -1,0 +1,106 @@
+{
+  "name": "border-beam",
+  "type": "registry:ui",
+  "title": "边框光束 Border Beam",
+  "description": "沿元素边框循环流动的一段细光束，用于强调推荐项、处理中状态或需要吸引注意的输入区域。",
+  "categories": [
+    "motion"
+  ],
+  "import": "import { BorderBeam } from \"@/components/ui/border-beam\"",
+  "exports": [
+    "BorderBeam"
+  ],
+  "typeExports": [
+    "BorderBeamProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/border-beam",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/border-beam.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "size",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "80",
+      "description": "光束沿边框方向的长度，单位为像素。"
+    },
+    {
+      "name": "duration",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "6",
+      "description": "光束绕行一圈的时长，单位为秒。"
+    },
+    {
+      "name": "delay",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0",
+      "description": "起始时间偏移，单位为秒，可用于错开多条光束。"
+    },
+    {
+      "name": "borderWidth",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "1",
+      "description": "光束粗细，应与父元素的边框宽度一致。"
+    },
+    {
+      "name": "color",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "defaultValue": "var(--primary)",
+      "description": "光束颜色，支持任意 CSS 颜色或变量。"
+    },
+    {
+      "name": "reverse",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "是否逆时针运动。"
+    },
+    {
+      "name": "initialOffset",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0",
+      "description": "光束在边框上的起始位置，取值 0 到 100。"
+    },
+    {
+      "name": "transition",
+      "type": "Transition",
+      "required": false,
+      "control": "text",
+      "description": "覆盖默认的循环过渡配置。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "border-beam-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "border-beam-pricing",
+      "title": "推荐套餐"
+    }
+  ],
+  "files": [
+    "registry/ui/border-beam.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/border-beam",
+  "sourceUrl": "https://ui.wzx.wang/r/border-beam.json"
+}

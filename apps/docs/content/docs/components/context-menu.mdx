@@ -191,3 +191,5 @@ pnpm add radix-ui lucide-react clsx tailwind-merge
   - <kbd>Enter</kbd> / <kbd>Space</kbd>：触发当前高亮项的 `onSelect` 操作。
   - <kbd>Esc</kbd>：关闭右键菜单并精准恢复焦点至触发区域。
   - **字符搜索 Typeahead**：在菜单打开时键入英文字符，焦点会自动快速跳至对应首字母匹配的菜单项。
+- **方向感知动效**：菜单以指针位置为缩放原点展开（`--radix-context-menu-content-transform-origin`），子菜单同样从触发项一侧展开；勾选与单选指示器以缩放方式出现；系统开启“减少动态效果”时自动关闭。
+- **高度约束**：菜单高度受可用视口空间约束，超出时内部滚动。

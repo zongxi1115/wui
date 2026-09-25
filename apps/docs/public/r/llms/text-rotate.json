@@ -1,0 +1,202 @@
+{
+  "name": "text-rotate",
+  "type": "registry:ui",
+  "title": "文本轮转 Text Rotate",
+  "description": "逐字符、单词或整行错峰轮换一组文本：旧文本向上移出、新文本自下方进入，容器宽度随新内容平滑过渡。",
+  "categories": [
+    "motion",
+    "text-effect"
+  ],
+  "import": "import { TextRotate } from \"@/components/ui/text-rotate\"",
+  "exports": [
+    "TextRotate"
+  ],
+  "typeExports": [
+    "TextRotateHandle",
+    "TextRotateProps",
+    "TextRotateSplit",
+    "TextRotateStaggerFrom"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/text-rotate",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/text-rotate.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "texts",
+      "type": "string[]",
+      "required": true,
+      "control": "text",
+      "description": "依次轮换显示的文本列表。"
+    },
+    {
+      "name": "ref",
+      "type": "Ref<TextRotateHandle>",
+      "required": false,
+      "control": "text",
+      "description": "命令式句柄，提供 next、previous、jumpTo 与 reset 方法。"
+    },
+    {
+      "name": "index",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "description": "受控模式下当前显示的文本索引，需配合 onIndexChange 使用。"
+    },
+    {
+      "name": "defaultIndex",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0",
+      "description": "非受控模式下初始显示的文本索引。"
+    },
+    {
+      "name": "onIndexChange",
+      "type": "((index: number) => void)",
+      "required": false,
+      "control": "text",
+      "description": "即将切换到另一段文本时触发，回调参数为目标索引。"
+    },
+    {
+      "name": "auto",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否按 interval 自动轮换。"
+    },
+    {
+      "name": "interval",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "2.5",
+      "description": "每段文本停留的时长，单位为秒。"
+    },
+    {
+      "name": "loop",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "显示到最后一段后是否回到第一段。"
+    },
+    {
+      "name": "paused",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "是否暂停自动轮换，例如在悬停时暂停。"
+    },
+    {
+      "name": "split",
+      "type": "\"words\" | \"characters\" | \"lines\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "words",
+        "characters",
+        "lines"
+      ],
+      "defaultValue": "characters",
+      "description": "错峰动画的拆分粒度：按字符、按词或按行。"
+    },
+    {
+      "name": "direction",
+      "type": "\"up\" | \"down\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "up",
+        "down"
+      ],
+      "defaultValue": "up",
+      "description": "运动方向。up 表示旧文本向上离开、新文本从下方进入。"
+    },
+    {
+      "name": "staggerFrom",
+      "type": "TextRotateStaggerFrom",
+      "required": false,
+      "control": "text",
+      "defaultValue": "first",
+      "description": "错峰从哪个位置开始，也可以传入具体的元素索引。"
+    },
+    {
+      "name": "staggerDuration",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0.025",
+      "description": "相邻两个元素之间的动画延迟，单位为秒。"
+    },
+    {
+      "name": "blur",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "进入和离开时是否附带模糊效果。"
+    },
+    {
+      "name": "transition",
+      "type": "Transition",
+      "required": false,
+      "control": "text",
+      "defaultValue": "{\r\n  type: \"spring\",\r\n  stiffness: 380,\r\n  damping: 32,\r\n  mass: 0.8,\r\n}",
+      "description": "每个动画元素使用的过渡配置。"
+    },
+    {
+      "name": "sizeTransition",
+      "type": "Transition",
+      "required": false,
+      "control": "text",
+      "defaultValue": "{\r\n  type: \"spring\",\r\n  stiffness: 520,\r\n  damping: 38,\r\n  mass: 0.7,\r\n}",
+      "description": "容器宽度（或按行拆分时的高度）变化使用的过渡配置。"
+    },
+    {
+      "name": "groupClassName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "应用于每个词组或行组的类名。"
+    },
+    {
+      "name": "elementClassName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "应用于每个动画元素（字符、词或行）的类名。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "text-rotate-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "text-rotate-characters",
+      "title": "字符级错峰与方向"
+    },
+    {
+      "name": "text-rotate-words",
+      "title": "按单词轮换状态文案"
+    },
+    {
+      "name": "text-rotate-controlled",
+      "title": "命令式控制与悬停暂停"
+    }
+  ],
+  "files": [
+    "registry/ui/text-rotate.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/text-rotate",
+  "sourceUrl": "https://ui.wzx.wang/r/text-rotate.json"
+}

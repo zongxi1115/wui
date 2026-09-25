@@ -1,36 +1,49 @@
 "use client"
 
 import * as React from "react"
+
+import { cn } from "@/registry/lib/utils"
 import { Input } from "@/registry/ui/input"
 
+const MAX_LENGTH = 20
+
 export default function InputControlled() {
-  const [value, setValue] = React.useState("WUI Design System")
+  const [value, setValue] = React.useState("增长实验室")
+  const slug = value
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, "-")
+    .replace(/[^\w一-龥-]/g, "")
 
   return (
-    <div className="w-full max-w-sm space-y-3">
-      <div className="space-y-1.5">
-        <label htmlFor="ctrl-input" className="text-xs font-medium text-muted-foreground">
-          受控文本输入
+    <div className="grid w-full max-w-sm gap-2">
+      <div className="flex items-baseline justify-between">
+        <label htmlFor="workspace-name" className="text-sm font-medium">
+          工作区名称
         </label>
-        <Input
-          id="ctrl-input"
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-          placeholder="请输入文本..."
-          maxLength={30}
-        />
-      </div>
-
-      <div className="flex items-center justify-between text-xs text-muted-foreground">
-        <span>字符统计：{value.length} / 30</span>
-        <button
-          type="button"
-          onClick={() => setValue("")}
-          className="hover:text-foreground underline underline-offset-2"
+        <span
+          className={cn(
+            "text-muted-foreground text-xs tabular-nums transition-colors",
+            value.length >= MAX_LENGTH && "text-warning"
+          )}
         >
-          清空
-        </button>
+          {value.length}/{MAX_LENGTH}
+        </span>
       </div>
+      <Input
+        id="workspace-name"
+        value={value}
+        onChange={(event) => setValue(event.target.value)}
+        placeholder="例如：增长实验室"
+        maxLength={MAX_LENGTH}
+        allowClear
+      />
+      <p className="text-muted-foreground truncate text-xs">
+        访问地址：
+        <span className="text-foreground font-mono">
+          wui.dev/{slug || "your-workspace"}
+        </span>
+      </p>
     </div>
   )
 }

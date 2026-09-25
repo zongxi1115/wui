@@ -1,80 +1,98 @@
 "use client"
 
 import * as React from "react"
-import { CalendarClockIcon, AlertCircleIcon } from "lucide-react"
+import { AlertCircleIcon } from "lucide-react"
 
-import { TimePicker } from "@/registry/ui/time-picker"
 import { Button } from "@/registry/ui/button"
+import { TimePicker } from "@/registry/ui/time-picker"
+
+function toMinutes(value: string) {
+  const [hour, minute] = value.split(":").map(Number)
+  return hour * 60 + minute
+}
+
+function formatDuration(minutes: number) {
+  const hours = Math.floor(minutes / 60)
+  const rest = minutes % 60
+  return [hours ? `${hours} 小时` : "", rest ? `${rest} 分钟` : ""]
+    .filter(Boolean)
+    .join(" ")
+}
 
 export default function TimePickerRangeForm() {
-  const [startTime, setStartTime] = React.useState("09:00")
-  const [endTime, setEndTime] = React.useState("10:30")
-  const [isInvalid, setIsInvalid] = React.useState(false)
-
-  React.useEffect(() => {
-    const [startH, startM] = startTime.split(":").map(Number)
-    const [endH, endM] = endTime.split(":").map(Number)
-    const startMinutes = startH * 60 + startM
-    const endMinutes = endH * 60 + endM
-    setIsInvalid(endMinutes <= startMinutes)
-  }, [startTime, endTime])
+  const [start, setStart] = React.useState("09:30")
+  const [end, setEnd] = React.useState("10:30")
+  const [booked, setBooked] = React.useState(false)
+  const duration = toMinutes(end) - toMinutes(start)
+  const invalid = duration <= 0
 
   return (
-    <div className="bg-background w-full max-w-md rounded-xl border p-5 shadow-xs">
-      <div className="mb-4 flex items-center gap-2">
-        <CalendarClockIcon className="text-primary size-5" />
-        <div>
-          <h4 className="text-sm font-semibold">会议室时段预约</h4>
-          <p className="text-muted-foreground text-xs">设定会议起始与结束时间</p>
-        </div>
+    <form
+      className="grid w-full max-w-sm gap-4"
+      onSubmit={(event) => {
+        event.preventDefault()
+        setBooked(true)
+      }}
+    >
+      <div>
+        <p className="text-sm font-medium">3F 星河会议室</p>
+        <p className="text-muted-foreground text-xs">
+          可容纳 8 人 · 投屏 · 视频会议
+        </p>
       </div>
 
       <div className="grid grid-cols-2 gap-3">
         <div className="grid gap-1.5">
-          <label className="text-xs font-medium text-foreground">开始时间</label>
+          <label htmlFor="meeting-start" className="text-xs font-medium">
+            开始时间
+          </label>
           <TimePicker
-            value={startTime}
-            onValueChange={setStartTime}
+            id="meeting-start"
+            value={start}
+            onValueChange={(next) => {
+              setStart(next)
+              setBooked(false)
+            }}
             minuteStep={15}
           />
         </div>
-
         <div className="grid gap-1.5">
-          <label className="text-xs font-medium text-foreground">结束时间</label>
+          <label htmlFor="meeting-end" className="text-xs font-medium">
+            结束时间
+          </label>
           <TimePicker
-            value={endTime}
-            onValueChange={setEndTime}
+            id="meeting-end"
+            value={end}
+            onValueChange={(next) => {
+              setEnd(next)
+              setBooked(false)
+            }}
             minuteStep={15}
+            aria-invalid={invalid || undefined}
           />
         </div>
       </div>
 
-      {isInvalid ? (
-        <div className="text-destructive mt-3 flex items-center gap-1.5 text-xs font-medium">
+      {invalid ? (
+        <p className="text-destructive flex items-center gap-1.5 text-xs font-medium">
           <AlertCircleIcon className="size-3.5" />
-          <span>结束时间必须晚于开始时间</span>
-        </div>
+          结束时间必须晚于开始时间
+        </p>
       ) : (
-        <p className="text-muted-foreground mt-3 text-xs">
-          会议持续时长：
-          {(() => {
-            const [sH, sM] = startTime.split(":").map(Number)
-            const [eH, eM] = endTime.split(":").map(Number)
-            const diff = eH * 60 + eM - (sH * 60 + sM)
-            const hours = Math.floor(diff / 60)
-            const mins = diff % 60
-            return `${hours > 0 ? `${hours} 小时 ` : ""}${mins > 0 ? `${mins} 分钟` : ""}`
-          })()}
+        <p className="text-muted-foreground text-xs">
+          时长 {formatDuration(duration)}
         </p>
       )}
 
-      <Button
-        className="mt-4 w-full"
-        disabled={isInvalid}
-        onClick={() => alert(`已预约时段：${startTime} ~ ${endTime}`)}
-      >
-        确认提交预定
-      </Button>
-    </div>
+      {booked ? (
+        <p className="text-success text-sm font-medium">
+          已预定 {start} – {end}，日历邀请已发送。
+        </p>
+      ) : (
+        <Button type="submit" disabled={invalid}>
+          预定会议室
+        </Button>
+      )}
+    </form>
   )
 }

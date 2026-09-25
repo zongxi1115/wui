@@ -40,7 +40,7 @@
       "type": "Transition",
       "required": false,
       "control": "text",
-      "defaultValue": "{\n  type: \"spring\",\n  stiffness: 420,\n  damping: 34,\n  mass: 0.7,\n} as const",
+      "defaultValue": "{\n  type: \"spring\",\n  bounce: 0.12,\n  visualDuration: 0.42,\n} as const",
       "description": "控制触发元素与对话框之间形变过程的弹簧或补间动画。"
     }
   ],

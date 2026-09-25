@@ -2,23 +2,25 @@ import { TextLoop } from "@/registry/ui/text-loop"
 
 export default function TextLoopDemo() {
   return (
-    <div className="flex w-full max-w-md flex-col items-center justify-center rounded-xl border border-border bg-card p-8 text-center shadow-xs">
-      <h3 className="text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
-        Build interfaces that are{" "}
+    <div className="w-full max-w-lg text-center">
+      <h3 className="text-2xl font-semibold tracking-tight sm:text-3xl">
+        为
         <TextLoop
-          className="text-primary font-bold inline-flex underline decoration-primary/30 decoration-2 underline-offset-4"
-          interval={2}
+          animateWidth
+          interval={2.2}
+          className="text-muted-foreground mx-1.5"
         >
           {[
-            <span key="fast">lightning fast.</span>,
-            <span key="accessible">fully accessible.</span>,
-            <span key="beautiful">pixel perfect.</span>,
-            <span key="scalable">enterprise ready.</span>,
+            <span key="design">设计师</span>,
+            <span key="engineer">前端工程师</span>,
+            <span key="pm">产品经理</span>,
+            <span key="ops">运营团队</span>,
           ]}
         </TextLoop>
+        打造的协作空间
       </h3>
-      <p className="mt-2 text-xs text-muted-foreground">
-        在行内无缝循环切换核心词汇，保持版式高度平稳。
+      <p className="text-muted-foreground mt-3 text-sm">
+        开启 animateWidth 后，关键词长度变化时容器宽度平滑过渡，后面的文字不会跳动。
       </p>
     </div>
   )

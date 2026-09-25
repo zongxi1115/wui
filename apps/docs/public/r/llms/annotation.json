@@ -93,14 +93,16 @@
       "title": "基础用法"
     },
     {
+      "name": "annotation-variants",
+      "title": "荧光笔变体"
+    },
+    {
+      "name": "annotation-shapes",
+      "title": "路径形状"
+    },
+    {
       "name": "annotation-callout",
       "title": "引导发布操作按钮"
-    },
-    {
-      "name": "annotation-shapes"
-    },
-    {
-      "name": "annotation-variants"
     }
   ],
   "files": [

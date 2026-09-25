@@ -51,6 +51,18 @@
       "description": "固定进度条所在的边缘。使用 inline 可让它保留在正常文档流中。"
     },
     {
+      "name": "axis",
+      "type": "\"x\" | \"y\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "x",
+        "y"
+      ],
+      "defaultValue": "y",
+      "description": "监听的滚动方向，横向滚动容器使用 x。"
+    },
+    {
       "name": "container",
       "type": "RefObject<HTMLElement | null>",
       "required": false,
@@ -88,6 +100,14 @@
       "description": "环形指示器的描边宽度，单位为像素。"
     },
     {
+      "name": "showValue",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否在环形指示器中显示百分比。"
+    },
+    {
       "name": "smooth",
       "type": "boolean",
       "required": false,
@@ -121,11 +141,11 @@
     },
     {
       "name": "scroll-progress-steps",
-      "title": "特定章节视口穿越追踪"
+      "title": "目录章节进度"
     },
     {
       "name": "scroll-progress-variants",
-      "title": "自定义渐变与环形样式"
+      "title": "横向滚动"
     }
   ],
   "files": [

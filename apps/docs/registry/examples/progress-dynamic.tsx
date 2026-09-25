@@ -1,93 +1,121 @@
 "use client"
 
 import * as React from "react"
-import { Progress } from "@/registry/ui/progress"
+import {
+  CheckIcon,
+  FileArchiveIcon,
+  PauseIcon,
+  PlayIcon,
+  RotateCcwIcon,
+} from "lucide-react"
+
 import { Button } from "@/registry/ui/button"
-import { PlayIcon, RotateCcwIcon, CheckCircle2Icon, FileArchiveIcon } from "lucide-react"
+import { Progress } from "@/registry/ui/progress"
+
+type Status = "idle" | "uploading" | "paused" | "done"
+
+const FILE_MB = 50
 
 export default function ProgressDynamic() {
   const [progress, setProgress] = React.useState(0)
-  const [status, setStatus] = React.useState<"idle" | "uploading" | "completed">("idle")
+  const [status, setStatus] = React.useState<Status>("idle")
 
   React.useEffect(() => {
     if (status !== "uploading") return
-
-    const interval = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 100) {
-          clearInterval(interval)
-          setStatus("completed")
-          return 100
-        }
-        return prev + Math.floor(Math.random() * 15) + 5
-      })
-    }, 300)
-
-    return () => clearInterval(interval)
+    const timer = window.setInterval(() => {
+      setProgress((current) =>
+        Math.min(100, current + 4 + Math.round(Math.random() * 10))
+      )
+    }, 420)
+    return () => window.clearInterval(timer)
   }, [status])
 
-  const startUpload = () => {
-    setProgress(0)
-    setStatus("uploading")
-  }
+  React.useEffect(() => {
+    if (progress >= 100) setStatus("done")
+  }, [progress])
 
-  const resetUpload = () => {
+  const uploaded = ((FILE_MB * progress) / 100).toFixed(1)
+  const remaining = Math.max(1, Math.ceil((100 - progress) / 20))
+
+  const caption = {
+    idle: "等待上传 · 50.0 MB",
+    uploading: `${uploaded} MB / ${FILE_MB}.0 MB · 剩余约 ${remaining} 秒`,
+    paused: `已暂停 · ${uploaded} MB / ${FILE_MB}.0 MB`,
+    done: "上传完成，已通过 SHA-256 校验",
+  }[status]
+
+  function reset() {
     setProgress(0)
     setStatus("idle")
   }
 
   return (
-    <div className="w-full max-w-md space-y-4 rounded-xl border bg-card p-5">
-      <div className="flex items-start gap-3.5">
-        <div className="rounded-lg bg-muted p-2.5">
-          <FileArchiveIcon className="size-5 text-muted-foreground" />
+    <div className="w-full max-w-md rounded-lg border p-4">
+      <div className="flex items-center gap-3">
+        <div className="bg-muted text-muted-foreground flex size-9 shrink-0 items-center justify-center rounded-md">
+          {status === "done" ? (
+            <CheckIcon className="text-success size-4" />
+          ) : (
+            <FileArchiveIcon className="size-4" />
+          )}
         </div>
-        <div className="min-w-0 flex-1 space-y-1">
-          <div className="flex items-center justify-between">
-            <h4 className="text-sm font-medium truncate">release-v2.4.0-assets.tar.gz</h4>
-            <span className="text-xs font-mono text-muted-foreground tabular-nums">
-              {Math.min(100, progress)}%
+        <div className="min-w-0 flex-1">
+          <div className="flex items-baseline justify-between gap-3">
+            <p className="truncate text-sm font-medium">
+              release-v2.4.0-assets.tar.gz
+            </p>
+            <span className="text-muted-foreground shrink-0 text-xs tabular-nums">
+              {progress}%
             </span>
           </div>
-          <p className="text-xs text-muted-foreground">48.6 MB / 50.0 MB · 剩余约 3 秒</p>
+          <p className="text-muted-foreground mt-0.5 text-xs tabular-nums">
+            {caption}
+          </p>
         </div>
       </div>
 
       <Progress
+        className="mt-3"
         value={progress}
-        color={status === "completed" ? "success" : "primary"}
+        color={
+          status === "done"
+            ? "success"
+            : status === "paused"
+              ? "warning"
+              : "primary"
+        }
+        aria-label="文件上传进度"
       />
 
-      <div className="flex items-center justify-between pt-2">
-        <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-          {status === "completed" ? (
-            <span className="flex items-center gap-1 text-success font-medium">
-              <CheckCircle2Icon className="size-4" /> 上传校验完成
-            </span>
-          ) : status === "uploading" ? (
-            <span>正在进行多块并行分片上传…</span>
-          ) : (
-            <span>等待开始上传任务</span>
-          )}
-        </div>
-
-        <div className="flex items-center gap-2">
-          {status === "idle" && (
-            <Button size="sm" onClick={startUpload}>
-              <PlayIcon className="size-3.5" /> 开始上传
-            </Button>
-          )}
-          {status === "uploading" && (
-            <Button size="sm" variant="outline" onClick={() => setStatus("idle")}>
-              暂停
-            </Button>
-          )}
-          {status === "completed" && (
-            <Button size="sm" variant="outline" onClick={resetUpload}>
-              <RotateCcwIcon className="size-3.5" /> 重新上传
-            </Button>
-          )}
-        </div>
+      <div className="mt-4 flex justify-end gap-2">
+        {status === "paused" || status === "done" ? (
+          <Button size="sm" variant="ghost" onClick={reset}>
+            <RotateCcwIcon />
+            {status === "done" ? "重新上传" : "取消"}
+          </Button>
+        ) : null}
+        {status === "idle" ? (
+          <Button size="sm" onClick={() => setStatus("uploading")}>
+            <PlayIcon />
+            开始上传
+          </Button>
+        ) : null}
+        {status === "uploading" ? (
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => setStatus("paused")}
+          >
+            <PauseIcon />
+            暂停
+          </Button>
+        ) : null}
+        {status === "paused" ? (
+          <Button size="sm" onClick={() => setStatus("uploading")}>
+            <PlayIcon />
+            继续
+          </Button>
+        ) : null}
       </div>
     </div>
   )

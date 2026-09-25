@@ -21,7 +21,7 @@ component: skeleton
 <Step>安装基础依赖与工具函数</Step>
 
 ```bash
-pnpm add class-variance-authority clsx tailwind-merge
+pnpm add motion class-variance-authority clsx tailwind-merge
 ```
 
 <Step>复制组件源码到 `components/ui/skeleton.tsx`</Step>
@@ -46,9 +46,9 @@ pnpm add class-variance-authority clsx tailwind-merge
     },
     {
       prop: "animation",
-      type: '"pulse" | "none"',
+      type: '"pulse" | "shimmer" | "none"',
       default: '"pulse"',
-      description: "骨架屏背景明暗呼吸动画。pulse 为平滑呼吸闪烁，none 为静态纯色。",
+      description: "加载动画。pulse 为整体明暗呼吸，shimmer 为一道柔和高光自左向右扫过，none 为静态纯色。开启“减少动态效果”时均停止。",
     },
     {
       prop: "className",
@@ -78,14 +78,41 @@ pnpm add class-variance-authority clsx tailwind-merge
     },
     {
       prop: "animation",
-      type: '"pulse" | "none"',
+      type: '"pulse" | "shimmer" | "none"',
       default: '"pulse"',
-      description: "应用于所有文本行的呼吸闪烁动画。",
+      description: "应用于所有文本行的加载动画。",
     },
     {
       prop: "className",
       type: "string",
       description: "应用于文本骨架外层容器的额外 CSS 类名。",
+    },
+  ]}
+/>
+
+### SkeletonSwap
+
+在占位与真实内容之间切换：加载中渲染 `fallback`，加载完成后以短暂的淡入上浮呈现 `children`，并自动在容器上同步 `aria-busy`。继承原生 `<div>` 属性：
+
+<PropsTable
+  data={[
+    {
+      prop: "loading",
+      type: "boolean",
+      required: true,
+      description: "为 true 时显示 fallback，变为 false 时切换到 children。",
+    },
+    {
+      prop: "fallback",
+      type: "React.ReactNode",
+      required: true,
+      description: "加载期间渲染的占位内容，通常由 Skeleton 组合而成。",
+    },
+    {
+      prop: "children",
+      type: "React.ReactNode",
+      required: true,
+      description: "加载完成后展示的真实内容。",
     },
   ]}
 />
@@ -120,6 +147,18 @@ pnpm add class-variance-authority clsx tailwind-merge
   - **用户操作后局部数据重载或刷新**：使用 `Spin` 遮罩或局部按钮加载态，避免整块内容被瞬间替换为骨架屏导致画面闪烁。
 
 ## 场景示例
+
+### 动画类型
+
+`pulse` 适合零散的小块占位；`shimmer` 的高光扫过方向一致，适合整页或大面积版面；`none` 用于嵌套在其他加载指示内的静态占位：
+
+<ComponentPreview name="skeleton-animation" />
+
+### 占位到内容的过渡
+
+使用 `SkeletonSwap` 在数据返回后平滑替换骨架，避免内容瞬间跳出。点击“重新加载”可重复查看过渡：
+
+<ComponentPreview name="skeleton-swap" />
 
 ### 图文资讯卡片布局
 

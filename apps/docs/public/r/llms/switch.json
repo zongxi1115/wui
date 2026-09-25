@@ -38,6 +38,28 @@
       "description": "开关的尺寸。"
     },
     {
+      "name": "checkedIcon",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "开关打开时显示在滑块内的图标。"
+    },
+    {
+      "name": "uncheckedIcon",
+      "type": "ReactNode",
+      "required": false,
+      "control": "text",
+      "description": "开关关闭时显示在滑块内的图标。"
+    },
+    {
+      "name": "loading",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "是否在滑块内显示加载图标，并在状态变更完成前阻止操作。"
+    },
+    {
       "name": "disabled",
       "type": "boolean",
       "required": false,
@@ -68,6 +90,10 @@
     {
       "name": "switch-with-label",
       "title": "带标签与描述"
+    },
+    {
+      "name": "switch-icons",
+      "title": "滑块图标"
     },
     {
       "name": "switch-disabled",

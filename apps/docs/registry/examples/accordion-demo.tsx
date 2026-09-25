@@ -1,84 +1,71 @@
 "use client"
 
 import * as React from "react"
-import { Badge } from "@/registry/ui/badge"
-import { Button } from "@/registry/ui/button"
+
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/registry/ui/accordion"
+import { ToggleGroup, ToggleGroupItem } from "@/registry/ui/toggle-group"
+
+type Variant = "default" | "bordered" | "separated"
+
+const variants: Array<{ value: Variant; label: string }> = [
+  { value: "default", label: "通栏" },
+  { value: "bordered", label: "外框" },
+  { value: "separated", label: "分离" },
+]
+
+const faqs = [
+  {
+    value: "billing",
+    question: "套餐到期后数据会被删除吗？",
+    answer:
+      "不会。套餐到期后工作区进入 30 天只读保留期，期间可随时续费恢复编辑；保留期结束后数据会被加密归档 90 天，再执行彻底删除。",
+  },
+  {
+    value: "seats",
+    question: "如何为团队成员分配席位？",
+    answer:
+      "在「设置 → 成员与权限」中邀请成员并指定角色。管理员可随时回收席位，回收后的席位会立即返还到可用额度中。",
+  },
+  {
+    value: "invoice",
+    question: "支持开具增值税专用发票吗？",
+    answer:
+      "支持。完成企业认证后，可在「账单」页面提交开票信息，专票会在 3 个工作日内以电子形式发送至财务邮箱。",
+  },
+]
 
 export default function AccordionDemo() {
-  const [variant, setVariant] = React.useState<"default" | "bordered" | "separated">("bordered")
+  const [variant, setVariant] = React.useState<Variant>("bordered")
 
   return (
     <div className="flex w-full max-w-xl flex-col gap-4">
-      <div className="flex items-center gap-2">
-        <Button
-          variant={variant === "bordered" ? "default" : "outline"}
-          size="sm"
-          onClick={() => setVariant("bordered")}
-        >
-          Bordered (边框卡片)
-        </Button>
-        <Button
-          variant={variant === "separated" ? "default" : "outline"}
-          size="sm"
-          onClick={() => setVariant("separated")}
-        >
-          Separated (独立间距)
-        </Button>
-        <Button
-          variant={variant === "default" ? "default" : "outline"}
-          size="sm"
-          onClick={() => setVariant("default")}
-        >
-          Default (通栏分割)
-        </Button>
-      </div>
-
-      <Accordion
+      <ToggleGroup
         type="single"
-        collapsible
-        defaultValue="item-1"
-        variant={variant}
+        size="sm"
+        value={variant}
+        onValueChange={(value) => value && setVariant(value as Variant)}
+        aria-label="外观样式"
+        className="rounded-lg border p-1"
       >
-        <AccordionItem value="item-1">
-          <AccordionTrigger>
-            <div className="flex items-center gap-2">
-              <span>什么是 wui 组件库的设计原则？</span>
-              <Badge variant="secondary" className="text-[10px] py-0">核心</Badge>
-            </div>
-          </AccordionTrigger>
-          <AccordionContent>
-            wui 坚持代码所有权原则，组件直接拷贝至项目内按需管理。采用 Tailwind CSS v4 与 OKLCH 语义化设计 Token，兼具极简结构、清晰密度与出色手感。
-          </AccordionContent>
-        </AccordionItem>
+        {variants.map((item) => (
+          <ToggleGroupItem key={item.value} value={item.value} className="px-3">
+            {item.label}
+          </ToggleGroupItem>
+        ))}
+      </ToggleGroup>
 
-        <AccordionItem value="item-2">
-          <AccordionTrigger>
-            <div className="flex items-center gap-2">
-              <span>如何配置无障碍与键盘导航？</span>
-            </div>
-          </AccordionTrigger>
-          <AccordionContent>
-            所有交互状态完全基于 Radix UI 无障碍规范，原生支持 Tab、方向键切换焦点、Enter/Space 展开折叠，并完整绑定 WAI-ARIA 属性。
-          </AccordionContent>
-        </AccordionItem>
-
-        <AccordionItem value="item-3">
-          <AccordionTrigger>
-            <div className="flex items-center gap-2">
-              <span>支持平滑动效与减弱动效降级吗？</span>
-              <Badge variant="outline" className="text-[10px] py-0">Motion</Badge>
-            </div>
-          </AccordionTrigger>
-          <AccordionContent>
-            内置展开与折叠高度缓动曲线。当系统开启 prefers-reduced-motion 时，自动切除过渡动画并瞬时呈现终态，保障阅读体验。
-          </AccordionContent>
-        </AccordionItem>
+      <Accordion type="single" collapsible defaultValue="billing" variant={variant}>
+        {faqs.map((item) => (
+          <AccordionItem key={item.value} value={item.value}>
+            <AccordionTrigger>{item.question}</AccordionTrigger>
+            <AccordionContent>{item.answer}</AccordionContent>
+          </AccordionItem>
+        ))}
       </Accordion>
     </div>
   )

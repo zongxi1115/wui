@@ -17,6 +17,7 @@
   "typeExports": [
     "AvatarBadgeProps",
     "AvatarGroupCountProps",
+    "AvatarGroupProps",
     "AvatarProps"
   ],
   "install": {

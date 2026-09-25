@@ -1,6 +1,6 @@
 "use client"
 
-import { useAiStream } from "@/registry/hooks/use-ai-stream"
+import { useAiStream, type AiStreamStatus } from "@/registry/hooks/use-ai-stream"
 import { Button } from "@/registry/ui/button"
 import { Markdown } from "@/registry/ui/markdown"
 
@@ -34,6 +34,13 @@ const responseChunks = [
   { type: "text-end", id: "answer" },
   { type: "finish", finishReason: "stop" },
 ] as const
+
+const statusLabels: Record<AiStreamStatus, string> = {
+  idle: "空闲",
+  submitted: "等待响应",
+  streaming: "生成中",
+  error: "出错",
+}
 
 function createMarkdownResponse() {
   const encoder = new TextEncoder()
@@ -85,7 +92,7 @@ export default function MarkdownStreamDemo() {
         <div>
           <p className="text-sm font-medium">流式 Markdown</p>
           <p className="text-muted-foreground text-xs">
-            累计文本到达时持续重解析
+            新到达的段落、列表与代码块会轻柔淡入
           </p>
         </div>
         <Button
@@ -112,7 +119,7 @@ export default function MarkdownStreamDemo() {
       )}
 
       <p className="text-muted-foreground border-t pt-3 text-xs">
-        当前状态：{status}
+        当前状态：{statusLabels[status]}
       </p>
     </div>
   )

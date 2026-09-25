@@ -29,7 +29,7 @@ export default function NotificationBadgeVariants() {
         </Button>
       </NotificationBadge>
 
-      <NotificationBadge dot variant="success">
+      <NotificationBadge dot pulse variant="success">
         <Button variant="outline" size="icon" aria-label="自动化任务构建完成">
           <CheckCircle2Icon />
         </Button>

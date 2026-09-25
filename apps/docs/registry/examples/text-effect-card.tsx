@@ -1,94 +1,71 @@
 "use client"
 
 import * as React from "react"
-import { ArrowRight, CheckCircle2, RefreshCw, Zap } from "lucide-react"
+import { RotateCcwIcon, SparklesIcon } from "lucide-react"
 
 import { Button } from "@/registry/ui/button"
 import { TextEffect } from "@/registry/ui/text-effect"
 
 export default function TextEffectCard() {
-  const [trigger, setTrigger] = React.useState(true)
-  const [isCompleted, setIsCompleted] = React.useState(false)
+  const [key, setKey] = React.useState(0)
+  const [done, setDone] = React.useState(false)
 
-  const handleReplay = () => {
-    setIsCompleted(false)
-    setTrigger(false)
-    window.setTimeout(() => setTrigger(true), 100)
+  const replay = () => {
+    setDone(false)
+    setKey((k) => k + 1)
   }
 
   return (
-    <div className="w-full max-w-md rounded-2xl border border-border bg-card p-6 shadow-sm">
-      <div className="flex items-center justify-between border-b border-border pb-4">
-        <div className="flex items-center gap-2">
-          <div className="flex size-8 items-center justify-center rounded-lg bg-primary/10 text-primary">
-            <Zap className="size-4" />
-          </div>
-          <div>
-            <span className="text-xs font-semibold text-foreground">WUI Cloud AI 4.0</span>
-            <span className="block text-[10px] text-muted-foreground">Release Highlights</span>
-          </div>
-        </div>
+    <div className="w-full max-w-md rounded-lg border bg-background">
+      <div className="flex items-center justify-between border-b px-4 py-2.5">
+        <span className="flex items-center gap-2 text-sm font-medium">
+          <SparklesIcon className="text-muted-foreground size-4" />
+          会议纪要摘要
+        </span>
         <Button
-          type="button"
           variant="ghost"
           size="icon"
           className="size-7"
-          onClick={handleReplay}
-          title="重新播放入场动画"
+          onClick={replay}
+          aria-label="重新生成"
         >
-          <RefreshCw className="size-3.5" />
+          <RotateCcwIcon className="size-3.5" />
         </Button>
       </div>
 
-      <div className="space-y-4 py-5">
+      <div key={key} className="space-y-4 p-4">
         <TextEffect
           as="h4"
           per="word"
           preset="fade-in-blur"
-          trigger={trigger}
-          className="text-lg font-semibold tracking-tight text-foreground"
+          speedReveal={1.6}
+          className="text-base font-medium"
         >
-          Hyper-optimized AI Edge Inference Engine
+          Q4 预算评审：整体通过，营销费用下调 8%
         </TextEffect>
-
         <TextEffect
-          as="p"
           per="word"
           preset="fade"
-          delay={0.25}
-          trigger={trigger}
-          className="text-xs leading-relaxed text-muted-foreground"
+          delay={0.3}
+          speedReveal={3}
+          className="text-muted-foreground text-sm leading-6"
         >
-          Experience 10x faster response latencies with our globally distributed
-          neural execution nodes. Zero cold-start latency guaranteed.
+          与会者一致同意保留研发投入，将线下活动预算转移至内容营销；新预算将在 10 月 8 日前同步给各部门负责人。
         </TextEffect>
-
         <TextEffect
           as="div"
           per="line"
           preset="slide"
-          delay={0.5}
-          trigger={trigger}
-          onAnimationComplete={() => setIsCompleted(true)}
-          className="space-y-1.5 rounded-lg bg-muted/40 p-3 text-xs text-foreground"
+          delay={1.4}
+          onAnimationComplete={() => setDone(true)}
+          className="gap-1.5 border-l-2 pl-3 text-sm"
         >
-          {`⚡ 全球 320+ 边缘节点就近调度\n🔒 硬件级端到端 Enclave 加密隔离\n📈 自动负载均衡与毫秒级容灾切换`}
+          {`待办：财务部更新预算模板\n待办：市场部提交内容排期\n待办：下周三复核执行情况`}
         </TextEffect>
       </div>
 
-      <div className="flex items-center justify-between border-t border-border pt-4">
-        <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-          {isCompleted && (
-            <>
-              <CheckCircle2 className="size-3.5 text-success" />
-              <span className="text-[11px] text-foreground">Ready to deploy</span>
-            </>
-          )}
-        </div>
-        <Button size="sm" className="gap-1.5 text-xs">
-          立即开通
-          <ArrowRight className="size-3.5" />
-        </Button>
+      <div className="text-muted-foreground flex h-10 items-center border-t px-4 text-xs">
+        {done ? "由 AI 生成，请核对关键数字" : "正在整理…"}
       </div>
     </div>
   )

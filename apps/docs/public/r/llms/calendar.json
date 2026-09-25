@@ -106,6 +106,14 @@
       "control": "text",
       "defaultValue": "zh-CN",
       "description": "格式化月份标题时使用的地区设置。"
+    },
+    {
+      "name": "enableViewSwitch",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否允许点击标题切换到月份 / 年份视图。@default true"
     }
   ],
   "examples": [

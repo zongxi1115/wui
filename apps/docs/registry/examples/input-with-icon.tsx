@@ -56,7 +56,7 @@ export default function InputWithIcon() {
               aria-label="复制链接"
             >
               {copied ? (
-                <CheckIcon className="size-4 text-emerald-600 dark:text-emerald-400" />
+                <CheckIcon className="size-4 text-success" />
               ) : (
                 <CopyIcon className="size-4" />
               )}

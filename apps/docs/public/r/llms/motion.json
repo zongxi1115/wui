@@ -3,13 +3,15 @@
   "type": "registry:ui",
   "title": "动效 Motion",
   "description": "基于 Motion 构建的声明式动画包装组件与预设库，提供开箱即用的入场动效、视口触发与无障碍降级。",
-  "import": "import { Motion, motionPresets, motionTransitions } from \"@/components/ui/motion\"",
+  "import": "import { Motion, MotionGroup, motionPresets, motionTransitions } from \"@/components/ui/motion\"",
   "exports": [
     "Motion",
+    "MotionGroup",
     "motionPresets",
     "motionTransitions"
   ],
   "typeExports": [
+    "MotionGroupProps",
     "MotionPreset",
     "MotionProps",
     "MotionTransition"
@@ -26,7 +28,7 @@
   "props": [
     {
       "name": "preset",
-      "type": "\"pop\" | \"scale\" | \"fade\" | \"slide-up\" | \"slide-down\" | \"slide-left\" | \"slide-right\" | \"blur\"",
+      "type": "\"pop\" | \"scale\" | \"fade\" | \"slide-up\" | \"slide-down\" | \"slide-left\" | \"slide-right\" | \"blur\" | \"blur-up\" | \"zoom-in\" | \"zoom-out\" | \"flip\"",
       "required": false,
       "control": "select",
       "options": [
@@ -37,17 +39,21 @@
         "slide-down",
         "slide-left",
         "slide-right",
-        "blur"
+        "blur",
+        "blur-up",
+        "zoom-in",
+        "zoom-out",
+        "flip"
       ],
-      "defaultValue": "fade",
+      "defaultValue": "\"fade\"",
       "description": "入场动画的预设名称。"
     },
     {
       "name": "transition",
-      "type": "Transition | \"smooth\" | \"spring\" | \"snappy\"",
+      "type": "Transition | \"smooth\" | \"spring\" | \"snappy\" | \"gentle\" | \"bouncy\"",
       "required": false,
       "control": "text",
-      "defaultValue": "smooth",
+      "defaultValue": "\"smooth\"",
       "description": "预设过渡动画，或自定义的 Motion Transition 配置。"
     },
     {

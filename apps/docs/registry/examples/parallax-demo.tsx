@@ -1,10 +1,26 @@
 "use client"
 
 import * as React from "react"
-import { Activity, ArrowDown, Compass, Radio, Satellite } from "lucide-react"
 
-import { Badge } from "@/registry/ui/badge"
 import { Parallax } from "@/registry/ui/parallax"
+
+const gallery = [
+  {
+    src: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80",
+    alt: "雪山山脊",
+    distance: [40, -40] as [number, number],
+  },
+  {
+    src: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=600&q=80",
+    alt: "云雾中的森林",
+    distance: [-30, 60] as [number, number],
+  },
+  {
+    src: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=600&q=80",
+    alt: "湖泊与远山",
+    distance: [70, -20] as [number, number],
+  },
+]
 
 export default function ParallaxDemo() {
   const container = React.useRef<HTMLDivElement>(null)
@@ -12,100 +28,63 @@ export default function ParallaxDemo() {
   return (
     <div
       ref={container}
-      className="relative h-[32rem] w-full overflow-y-auto rounded-2xl border border-border bg-card text-card-foreground shadow-lg [scrollbar-width:thin]"
+      className="relative h-[28rem] w-full overflow-y-auto rounded-b-lg"
     >
-      <div className="p-6 sm:p-8">
-        <div className="flex items-center justify-between border-b border-border pb-4">
-          <div className="flex items-center gap-2">
-            <Radio className="size-4 text-sky-500 animate-pulse" />
-            <span className="text-xs font-semibold text-foreground">
-              Orbital Telemetry Stream
-            </span>
-          </div>
-          <div className="flex items-center gap-1.5 text-xs text-sky-600 dark:text-sky-400">
-            <span>Scroll for multi-layer parallax</span>
-            <ArrowDown className="size-3.5 animate-bounce" />
-          </div>
-        </div>
-
-        <div className="my-5">
-          <Badge variant="outline" className="text-xs">
-            <Satellite className="size-3 text-sky-500" />
-            DEEP SPACE EXPLORATION
-          </Badge>
-          <h3 className="mt-3 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-            Multi-Speed Spatial Depth
-          </h3>
-          <p className="mt-1 text-xs text-muted-foreground">
-            Each layer below translates with independent velocities relative to
-            container scrolling.
-          </p>
-        </div>
-      </div>
-
-      {/* Visual Parallax Stage */}
-      <div className="relative mx-6 my-2 h-96 overflow-hidden rounded-xl border border-border bg-muted/40 sm:mx-8">
-        {/* Layer 1: Background Landscape / Space Photo (Slow Drift) */}
-        <Parallax
-          container={container}
-          distance={[-100, 100]}
-          scale={[1.1, 1.25]}
-          className="absolute -inset-12"
-        >
-          <img
-            src="https://picsum.photos/seed/space-station/1100/700"
-            alt="Space Landscape"
-            className="size-full object-cover"
-          />
-          <div className="absolute inset-0 bg-black/40" />
-        </Parallax>
-
-        {/* Fixed HUD frame overlay */}
-        <div className="pointer-events-none absolute inset-4 z-10 rounded-lg border border-white/30 flex flex-col justify-between p-3">
-          <div className="flex justify-between text-[10px] font-mono text-white/80 uppercase">
-            <span>[ TARGET: ORBIT-04 ]</span>
-            <span>[ LOCK: STABLE ]</span>
-          </div>
-          <div className="flex justify-between text-[10px] font-mono text-white/80 uppercase">
-            <span>FIXED HUD FRAME</span>
-            <span>FREQ: 1420.4 MHZ</span>
-          </div>
-        </div>
-
-        {/* Layer 2: Fast Horizontal Layer (Top) */}
-        <Parallax
-          container={container}
-          axis="x"
-          distance={[120, -120]}
-          className="absolute inset-x-0 top-10 z-20 flex justify-center px-4"
-        >
-          <div className="flex items-center gap-2 rounded-full border border-white/30 bg-black/60 px-4 py-1.5 text-xs font-medium text-white shadow-xl backdrop-blur-md">
-            <Activity className="size-3.5 text-sky-400" />
-            <span>Velocity: 7.82 km/s (Fast Layer →)</span>
-          </div>
-        </Parallax>
-
-        {/* Layer 3: Slower Horizontal Layer (Bottom) */}
-        <Parallax
-          container={container}
-          axis="x"
-          distance={[-80, 80]}
-          className="absolute inset-x-0 bottom-10 z-20 flex justify-center px-4"
-        >
-          <div className="flex items-center gap-2 rounded-full border border-white/30 bg-black/60 px-4 py-1.5 text-xs font-medium text-white shadow-xl backdrop-blur-md">
-            <Compass className="size-3.5 text-indigo-400" />
-            <span>Altitude: 418 km (← Counter Vector)</span>
-          </div>
-        </Parallax>
-      </div>
-
-      <div className="p-6 pb-24 text-xs leading-relaxed text-muted-foreground sm:p-8 sm:pb-28">
-        <p className="rounded-xl border border-border bg-muted/40 p-4">
-          Notice how the fixed HUD outline stays anchored while the background
-          imagery expands and the two telemetry badges glide horizontally in
-          opposing directions.
+      <div className="px-6 pt-10 pb-8 sm:px-10">
+        <p className="text-muted-foreground text-sm">2026 秋季徒步路线</p>
+        <h3 className="mt-2 max-w-md text-3xl font-semibold tracking-tight">
+          在山野之间，慢慢走
+        </h3>
+        <p className="text-muted-foreground mt-3 max-w-md text-sm leading-6">
+          向下滚动。背景、标题与图片以不同速度移动，远处的山比近处的字走得更慢。
         </p>
       </div>
+
+      <div className="relative mx-6 h-80 overflow-hidden rounded-lg sm:mx-10">
+        <Parallax
+          container={container}
+          distance={[-64, 64]}
+          className="absolute inset-x-0 -inset-y-20"
+        >
+          <img
+            src="https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1400&q=80"
+            alt="星空下的雪山"
+            className="size-full object-cover"
+          />
+        </Parallax>
+        <div className="absolute inset-0 bg-black/30" />
+        <Parallax
+          container={container}
+          distance={[60, -60]}
+          smooth
+          className="absolute inset-x-0 bottom-8 px-6 text-white"
+        >
+          <p className="text-xs tracking-widest text-white/70">第 03 段 · 海拔 4,120 米</p>
+          <p className="mt-1 text-2xl font-semibold">冰川营地</p>
+        </Parallax>
+      </div>
+
+      <div className="grid grid-cols-3 gap-3 px-6 py-16 sm:gap-4 sm:px-10">
+        {gallery.map((item) => (
+          <Parallax
+            key={item.src}
+            container={container}
+            distance={item.distance}
+            smooth
+          >
+            <img
+              src={item.src}
+              alt={item.alt}
+              className="bg-muted aspect-[3/4] w-full rounded-md object-cover"
+            />
+          </Parallax>
+        ))}
+      </div>
+
+      <p className="text-muted-foreground px-6 pb-16 text-sm leading-6 sm:px-10">
+        三张图片的位移方向和幅度各不相同，形成错落的层次。开启 smooth
+        的图层会带一点跟随的惯性。
+      </p>
     </div>
   )
 }

@@ -1,40 +1,65 @@
 "use client"
 
 import * as React from "react"
-import { MicIcon, MicOffIcon, PinIcon, PinOffIcon } from "lucide-react"
+import { AnimatePresence, motion, useReducedMotion } from "motion/react"
+import {
+  MicIcon,
+  MicOffIcon,
+  VideoIcon,
+  VideoOffIcon,
+  type LucideIcon,
+} from "lucide-react"
 
 import { Toggle } from "@/registry/ui/toggle"
 
+function SwapIcon({ on, onIcon, offIcon }: { on: boolean; onIcon: LucideIcon; offIcon: LucideIcon }) {
+  const reduceMotion = useReducedMotion()
+  const Icon = on ? onIcon : offIcon
+  return (
+    <span className="relative inline-flex size-4">
+      <AnimatePresence initial={false} mode="popLayout">
+        <motion.span
+          key={on ? "on" : "off"}
+          className="absolute inset-0 inline-flex"
+          initial={reduceMotion ? false : { opacity: 0, scale: 0.5, rotate: -30 }}
+          animate={{ opacity: 1, scale: 1, rotate: 0 }}
+          exit={reduceMotion ? undefined : { opacity: 0, scale: 0.5, rotate: 30 }}
+          transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <Icon />
+        </motion.span>
+      </AnimatePresence>
+    </span>
+  )
+}
+
 export default function ToggleMute() {
   const [muted, setMuted] = React.useState(false)
-  const [pinned, setPinned] = React.useState(true)
+  const [cameraOff, setCameraOff] = React.useState(true)
 
   return (
-    <div className="bg-background flex flex-wrap items-center gap-4 rounded-xl border p-4 shadow-xs">
-      <div className="flex items-center gap-2">
-        <Toggle
-          variant="outline"
-          pressed={muted}
-          onPressedChange={setMuted}
-          aria-label={muted ? "解除静音麦克风" : "静音麦克风"}
-          className={muted ? "border-destructive/40 bg-destructive/10 text-destructive" : ""}
-        >
-          {muted ? <MicOffIcon className="size-4" /> : <MicIcon className="size-4" />}
-          <span>{muted ? "已静音" : "麦克风开启"}</span>
-        </Toggle>
-      </div>
-
-      <div className="flex items-center gap-2">
-        <Toggle
-          variant="default"
-          pressed={pinned}
-          onPressedChange={setPinned}
-          aria-label={pinned ? "取消窗口置顶" : "置顶窗口"}
-        >
-          {pinned ? <PinIcon className="size-4 rotate-45 text-primary" /> : <PinOffIcon className="size-4" />}
-          <span>{pinned ? "已置顶窗口" : "置顶窗口"}</span>
-        </Toggle>
-      </div>
+    <div className="flex flex-wrap items-center gap-2">
+      <Toggle
+        variant="outline"
+        pressed={muted}
+        onPressedChange={setMuted}
+        aria-label="静音麦克风"
+        className="data-[state=on]:border-destructive/40 data-[state=on]:bg-destructive/10 data-[state=on]:text-destructive"
+      >
+        <SwapIcon on={muted} onIcon={MicOffIcon} offIcon={MicIcon} />
+      </Toggle>
+      <Toggle
+        variant="outline"
+        pressed={cameraOff}
+        onPressedChange={setCameraOff}
+        aria-label="关闭摄像头"
+        className="data-[state=on]:border-destructive/40 data-[state=on]:bg-destructive/10 data-[state=on]:text-destructive"
+      >
+        <SwapIcon on={cameraOff} onIcon={VideoOffIcon} offIcon={VideoIcon} />
+      </Toggle>
+      <span className="text-muted-foreground ml-1 text-xs">
+        {muted ? "麦克风已静音" : "麦克风开启"} · {cameraOff ? "摄像头已关闭" : "摄像头开启"}
+      </span>
     </div>
   )
 }

@@ -21,13 +21,15 @@
     "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/multi-select.json",
     "npmDependencies": [
       "lucide-react",
-      "class-variance-authority"
+      "class-variance-authority",
+      "motion"
     ],
     "registryDependencies": [
       "utils",
       "command",
       "popover",
-      "checkbox"
+      "checkbox",
+      "sliding-number"
     ]
   },
   "props": [
@@ -132,6 +134,10 @@
     {
       "name": "multi-select-demo",
       "title": "基础用法"
+    },
+    {
+      "name": "multi-select-reviewers",
+      "title": "评审人指派"
     }
   ],
   "files": [

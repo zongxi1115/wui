@@ -3,16 +3,22 @@
 import * as React from "react"
 import { XIcon } from "lucide-react"
 import { Dialog as DrawerPrimitive } from "radix-ui"
-import { AnimatePresence, motion, useReducedMotion } from "motion/react"
+import {
+  AnimatePresence,
+  motion,
+  useDragControls,
+  useReducedMotion,
+} from "motion/react"
 
 import { cn } from "@/registry/lib/utils"
 
 type DrawerContextValue = {
   open: boolean
+  modal: boolean
+  setOpen: (open: boolean) => void
 }
 
 const DrawerContext = React.createContext<DrawerContextValue | null>(null)
-const MotionOverlay = motion.create(DrawerPrimitive.Overlay)
 const MotionContent = motion.create(DrawerPrimitive.Content)
 
 function useDrawerContext() {
@@ -38,6 +44,7 @@ function Drawer({
   open: openProp,
   defaultOpen,
   onOpenChange,
+  modal = true,
   children,
   ...props
 }: DrawerProps) {
@@ -53,11 +60,12 @@ function Drawer({
   )
 
   return (
-    <DrawerContext.Provider value={{ open }}>
+    <DrawerContext.Provider value={{ open, modal, setOpen: handleOpenChange }}>
       <DrawerPrimitive.Root
         data-slot="drawer"
         open={open}
         onOpenChange={handleOpenChange}
+        modal={modal}
         {...props}
       >
         {children}
@@ -93,7 +101,19 @@ export interface DrawerContentProps extends React.ComponentProps<
   size?: "sm" | "default" | "lg" | "full"
   /** Hide the built-in close button. @default false */
   hideClose?: boolean
+  /**
+   * Render a grab handle on the inner edge; dragging it towards the entry edge
+   * dismisses the panel once it passes a quarter of its size or is flung. @default false
+   */
+  swipeToClose?: boolean
 }
+
+const PANEL_SPRING = {
+  type: "spring",
+  stiffness: 380,
+  damping: 40,
+  mass: 0.8,
+} as const
 
 /** A focus-managed edge panel with spring-based enter and exit motion. */
 function DrawerContent({
@@ -102,19 +122,31 @@ function DrawerContent({
   side = "right",
   size = "default",
   hideClose = false,
+  swipeToClose = false,
+  ref,
   ...props
 }: DrawerContentProps) {
-  const { open } = useDrawerContext()
+  const { open, modal, setOpen } = useDrawerContext()
+  const panelRef = React.useRef<HTMLDivElement | null>(null)
+  const setPanelRef = React.useCallback(
+    (node: HTMLDivElement | null) => {
+      panelRef.current = node
+      if (typeof ref === "function") ref(node)
+      else if (ref) ref.current = node
+    },
+    [ref]
+  )
   const reduceMotion = useReducedMotion()
+  const dragControls = useDragControls()
   const horizontal = side === "left" || side === "right"
+  // +1 when the panel leaves towards the positive axis (right / bottom).
+  const exitSign = side === "right" || side === "bottom" ? 1 : -1
 
   const hidden = reduceMotion
     ? { opacity: 0 }
     : {
-        opacity: 0.72,
         x: side === "left" ? "-100%" : side === "right" ? "100%" : 0,
         y: side === "top" ? "-100%" : side === "bottom" ? "100%" : 0,
-        scale: 0.985,
       }
 
   const placement = {
@@ -138,50 +170,118 @@ function DrawerContent({
         full: "h-screen",
       }[size]
 
+  const handle = swipeToClose ? (
+    <div
+      data-slot="drawer-handle"
+      aria-hidden="true"
+      className={cn(
+        "flex shrink-0 cursor-grab touch-none items-center justify-center active:cursor-grabbing",
+        horizontal
+          ? cn("absolute inset-y-0 z-10 w-4", side === "right" ? "left-0" : "right-0")
+          : "h-6 w-full"
+      )}
+      onPointerDown={(event) => dragControls.start(event)}
+    >
+      <span
+        className={cn(
+          "bg-muted-foreground/30 rounded-full",
+          horizontal ? "h-10 w-1" : "h-1 w-10"
+        )}
+      />
+    </div>
+  ) : null
+
+  const panel = (
+    <MotionContent
+      ref={setPanelRef}
+      forceMount
+      data-slot="drawer-content"
+      data-side={side}
+      data-size={size}
+      className={cn(
+        "bg-background fixed z-50 flex flex-col shadow-lg outline-none",
+        placement,
+        dimensions,
+        className
+      )}
+      initial={hidden}
+      animate={reduceMotion ? { opacity: 1 } : { x: 0, y: 0 }}
+      exit={{
+        ...hidden,
+        transition: reduceMotion
+          ? { duration: 0.12 }
+          : { duration: 0.24, ease: [0.4, 0, 1, 1] },
+      }}
+      transition={reduceMotion ? { duration: 0.12 } : PANEL_SPRING}
+      drag={swipeToClose && !reduceMotion ? (horizontal ? "x" : "y") : false}
+      dragListener={false}
+      dragControls={dragControls}
+      dragConstraints={{ top: 0, right: 0, bottom: 0, left: 0 }}
+      dragElastic={
+        horizontal
+          ? { left: exitSign < 0 ? 1 : 0.04, right: exitSign > 0 ? 1 : 0.04 }
+          : { top: exitSign < 0 ? 1 : 0.04, bottom: exitSign > 0 ? 1 : 0.04 }
+      }
+      onDragEnd={(_, info) => {
+        const panel = panelRef.current
+        const extent = horizontal
+          ? (panel?.offsetWidth ?? 0)
+          : (panel?.offsetHeight ?? 0)
+        const offset = (horizontal ? info.offset.x : info.offset.y) * exitSign
+        const velocity = (horizontal ? info.velocity.x : info.velocity.y) * exitSign
+        if (offset > extent * 0.25 || velocity > 600) setOpen(false)
+      }}
+      {...(props as unknown as React.ComponentProps<
+        typeof MotionContent
+      >)}
+    >
+      {side === "top" ? null : handle}
+      {children}
+      {side === "top" ? handle : null}
+      {hideClose ? null : (
+        <DrawerPrimitive.Close
+          className={cn(
+            "text-muted-foreground hover:bg-accent hover:text-foreground focus-visible:ring-ring/40 absolute right-4 top-4 flex size-8 items-center justify-center rounded-md outline-none transition-colors focus-visible:ring-2",
+            swipeToClose && side === "bottom" && "top-8"
+          )}
+        >
+          <XIcon className="size-4" />
+          <span className="sr-only">关闭</span>
+        </DrawerPrimitive.Close>
+      )}
+    </MotionContent>
+  )
+
   return (
     <AnimatePresence>
       {open ? (
         <DrawerPortal forceMount>
-          <MotionOverlay
-            forceMount
-            data-slot="drawer-overlay"
-            className="bg-overlay fixed inset-0 z-50"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: reduceMotion ? 0 : 0.2, ease: "easeOut" }}
-          />
-          <MotionContent
-            forceMount
-            data-slot="drawer-content"
-            data-side={side}
-            data-size={size}
-            className={cn(
-              "bg-background fixed z-50 flex flex-col shadow-xl outline-none",
-              placement,
-              dimensions,
-              className
-            )}
-            initial={hidden}
-            animate={{ opacity: 1, x: 0, y: 0, scale: 1 }}
-            exit={hidden}
-            transition={
-              reduceMotion
-                ? { duration: 0 }
-                : { type: "spring", stiffness: 360, damping: 38, mass: 0.82 }
-            }
-            {...(props as unknown as React.ComponentProps<
-              typeof MotionContent
-            >)}
-          >
-            {children}
-            {hideClose ? null : (
-              <DrawerPrimitive.Close className="text-muted-foreground hover:bg-accent hover:text-foreground focus-visible:ring-ring/40 absolute right-4 top-4 flex size-8 items-center justify-center rounded-md outline-none transition-colors focus-visible:ring-2">
-                <XIcon className="size-4" />
-                <span className="sr-only">Close</span>
-              </DrawerPrimitive.Close>
-            )}
-          </MotionContent>
+          {/*
+            The overlay owns the panel in the React tree so portalled controls
+            inside the drawer (select, popover, date picker) stay scrollable
+            under Radix's scroll lock. The dimmed backdrop is its own layer, so
+            fading it never fades the panel.
+          */}
+          {modal ? (
+            <DrawerPrimitive.Overlay
+              forceMount
+              data-slot="drawer-overlay"
+              className="fixed inset-0 z-50"
+            >
+              <motion.div
+                data-slot="drawer-backdrop"
+                aria-hidden="true"
+                className="bg-overlay absolute inset-0"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: reduceMotion ? 0 : 0.22, ease: "easeOut" }}
+              />
+              {panel}
+            </DrawerPrimitive.Overlay>
+          ) : (
+            panel
+          )}
         </DrawerPortal>
       ) : null}
     </AnimatePresence>

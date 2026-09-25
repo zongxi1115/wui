@@ -15,7 +15,9 @@
     "wui": "pnpm dlx @wui-design/cli@latest add @wui/input-number",
     "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/input-number.json",
     "npmDependencies": [
-      "lucide-react"
+      "lucide-react",
+      "motion",
+      "class-variance-authority"
     ],
     "registryDependencies": [
       "utils"
@@ -63,7 +65,7 @@
       "required": false,
       "control": "number",
       "defaultValue": "1",
-      "description": "点击按钮或按方向键时的步进值。"
+      "description": "点击按钮或按方向键时的步进值；按住 Shift 时为 10 倍步进。"
     },
     {
       "name": "prefix",

@@ -7,32 +7,34 @@ import {
   MorphingPopoverContent,
   MorphingPopoverTrigger,
 } from "@/registry/ui/morphing-popover"
+import { Textarea } from "@/registry/ui/textarea"
 
 export default function MorphingPopoverDemo() {
   return (
     <MorphingPopover>
       <MorphingPopoverTrigger>
         <PlusIcon className="mr-2 size-4" />
-        Add note
+        添加备注
       </MorphingPopoverTrigger>
       <MorphingPopoverContent>
         <label htmlFor="quick-note" className="text-sm font-medium">
-          Quick note
+          快速备注
         </label>
-        <textarea
+        <Textarea
           id="quick-note"
-          rows={4}
-          placeholder="Capture a thought…"
-          className="bg-background placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/30 mt-2 w-full resize-none rounded-md border px-3 py-2 text-sm outline-none focus-visible:ring-[3px]"
+          rows={3}
+          resize="none"
+          placeholder="记录一个想法…"
+          className="mt-2"
         />
         <div className="mt-3 flex justify-end gap-2">
           <MorphingPopoverClose asChild>
             <Button variant="ghost" size="sm">
-              Cancel
+              取消
             </Button>
           </MorphingPopoverClose>
           <MorphingPopoverClose asChild>
-            <Button size="sm">Add note</Button>
+            <Button size="sm">保存</Button>
           </MorphingPopoverClose>
         </div>
       </MorphingPopoverContent>

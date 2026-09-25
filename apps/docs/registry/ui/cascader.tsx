@@ -129,9 +129,11 @@ function Cascader({
   ...props
 }: CascaderProps) {
   const reduceMotion = useReducedMotion()
+  const layoutId = React.useId()
   const [open, setOpen] = React.useState(false)
   const [query, setQuery] = React.useState("")
   const searchInputRef = React.useRef<HTMLInputElement>(null)
+  const panelRef = React.useRef<HTMLDivElement>(null)
   const [internalValue, setInternalValue] = React.useState(defaultValue)
   const selectedValues = value ?? internalValue
   const selectedOptions = React.useMemo(
@@ -140,9 +142,12 @@ function Cascader({
   )
 
   const columns = React.useMemo(() => {
-    const result: CascaderOption[][] = [options]
+    const result: { key: string; options: CascaderOption[] }[] = [
+      { key: "root", options },
+    ]
     for (const option of selectedOptions) {
-      if (option.children?.length) result.push(option.children)
+      if (option.children?.length)
+        result.push({ key: option.value, options: option.children })
       else break
     }
     return result
@@ -152,6 +157,10 @@ function Cascader({
     if (!searchable || !query.trim()) return []
     return flattenLeafPaths(options).filter((path) => filterOption(query, path))
   }, [filterOption, options, query, searchable])
+
+  const spring = reduceMotion
+    ? { duration: 0 }
+    : ({ type: "spring", stiffness: 520, damping: 38, mass: 0.7 } as const)
 
   function changeOpen(nextOpen: boolean) {
     setOpen(nextOpen)
@@ -174,6 +183,59 @@ function Cascader({
     if (!option.children?.length && closeOnSelect) changeOpen(false)
   }
 
+  function columnButtons(depth: number) {
+    return Array.from(
+      panelRef.current?.querySelectorAll<HTMLButtonElement>(
+        `[data-depth="${depth}"] button:not(:disabled)`
+      ) ?? []
+    )
+  }
+
+  function focusColumn(depth: number) {
+    const buttons = columnButtons(depth)
+    const target =
+      buttons.find((button) => button.getAttribute("aria-selected") === "true") ??
+      buttons[0]
+    target?.focus()
+  }
+
+  function moveWithin(
+    event: React.KeyboardEvent<HTMLButtonElement>,
+    buttons: HTMLButtonElement[]
+  ) {
+    const index = buttons.indexOf(event.currentTarget)
+    const next =
+      event.key === "ArrowDown"
+        ? buttons[Math.min(index + 1, buttons.length - 1)]
+        : event.key === "ArrowUp"
+          ? buttons[Math.max(index - 1, 0)]
+          : event.key === "Home"
+            ? buttons[0]
+            : event.key === "End"
+              ? buttons.at(-1)
+              : undefined
+    if (!next) return false
+    event.preventDefault()
+    next.focus()
+    return true
+  }
+
+  function handleOptionKeyDown(
+    event: React.KeyboardEvent<HTMLButtonElement>,
+    option: CascaderOption,
+    depth: number
+  ) {
+    if (moveWithin(event, columnButtons(depth))) return
+    if (event.key === "ArrowRight" && option.children?.length) {
+      event.preventDefault()
+      selectOption(option, depth)
+      requestAnimationFrame(() => columnButtons(depth + 1)[0]?.focus())
+    } else if (event.key === "ArrowLeft" && depth > 0) {
+      event.preventDefault()
+      focusColumn(depth - 1)
+    }
+  }
+
   return (
     <PopoverPrimitive.Root open={open} onOpenChange={changeOpen}>
       <PopoverPrimitive.Trigger asChild>
@@ -186,32 +248,39 @@ function Cascader({
             className
           )}
           disabled={disabled}
-          aria-haspopup="listbox"
+          aria-haspopup="dialog"
           aria-expanded={open}
           {...props}
         >
-          <span className="flex min-w-0 flex-1 items-center truncate">
+          <span className="relative flex min-w-0 flex-1 items-center overflow-hidden">
             {selectedOptions.length
-              ? (renderValue?.(selectedOptions) ??
-                selectedOptions.map((option, index) => (
-                  <React.Fragment key={option.value}>
-                    {index > 0 ? (
-                      <span className="text-muted-foreground/60 mx-1.5">
-                        {separator}
-                      </span>
-                    ) : null}
-                    <span className="truncate">{option.label}</span>
-                  </React.Fragment>
-                )))
+              ? (renderValue?.(selectedOptions) ?? (
+                  <AnimatePresence initial={false} mode="popLayout">
+                    {selectedOptions.map((option, index) => (
+                      <motion.span
+                        key={`${index}-${option.value}`}
+                        layout={!reduceMotion}
+                        className="flex min-w-0 items-center"
+                        initial={reduceMotion ? false : { opacity: 0, x: -4 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={reduceMotion ? undefined : { opacity: 0 }}
+                        transition={spring}
+                      >
+                        {index > 0 ? (
+                          <span className="text-muted-foreground/60 mx-1.5 shrink-0">
+                            {separator}
+                          </span>
+                        ) : null}
+                        <span className="truncate">{option.label}</span>
+                      </motion.span>
+                    ))}
+                  </AnimatePresence>
+                ))
               : placeholder}
           </span>
           <motion.span
             animate={{ rotate: open ? 180 : 0 }}
-            transition={
-              reduceMotion
-                ? { duration: 0 }
-                : { type: "spring", stiffness: 520, damping: 32 }
-            }
+            transition={spring}
             className="text-muted-foreground"
           >
             <ChevronDownIcon className="size-4" />
@@ -226,44 +295,49 @@ function Cascader({
               forceMount
               asChild
               align="start"
-              sideOffset={7}
+              sideOffset={6}
               onOpenAutoFocus={(event) => {
                 event.preventDefault()
                 if (searchable) searchInputRef.current?.focus()
+                else focusColumn(columns.length - 1)
               }}
             >
               <motion.div
+                ref={panelRef}
                 data-slot="cascader-content"
-                role={searchable ? undefined : "listbox"}
                 aria-label={panelLabel}
-                initial={
-                  reduceMotion ? false : { opacity: 0, y: -6, scale: 0.98 }
-                }
-                animate={{ opacity: 1, y: 0, scale: 1 }}
+                style={{
+                  transformOrigin:
+                    "var(--radix-popover-content-transform-origin)",
+                }}
+                initial={reduceMotion ? false : { opacity: 0, scale: 0.96 }}
+                animate={{ opacity: 1, scale: 1 }}
                 exit={
-                  reduceMotion ? undefined : { opacity: 0, y: -3, scale: 0.985 }
-                }
-                transition={
                   reduceMotion
-                    ? { duration: 0 }
-                    : {
-                        type: "spring",
-                        stiffness: 520,
-                        damping: 38,
-                        mass: 0.72,
-                      }
+                    ? undefined
+                    : { opacity: 0, scale: 0.97, transition: { duration: 0.12 } }
                 }
+                transition={spring}
                 className={cn(
-                  "bg-popover text-popover-foreground z-50 flex max-h-[min(24rem,var(--radix-popover-content-available-height))] max-w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-xl border p-1.5 shadow-lg outline-none",
+                  "bg-popover text-popover-foreground z-50 flex max-h-[min(24rem,var(--radix-popover-content-available-height))] max-w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-lg border shadow-md outline-none",
                   contentClassName
                 )}
               >
                 {searchable ? (
-                  <div className="border-border/70 border-b p-1.5 pb-2">
+                  <div className="border-border/70 border-b p-1.5">
                     <Input
                       ref={searchInputRef}
                       value={query}
                       onChange={(event) => setQuery(event.target.value)}
+                      onKeyDown={(event) => {
+                        if (event.key !== "ArrowDown") return
+                        event.preventDefault()
+                        panelRef.current
+                          ?.querySelector<HTMLButtonElement>(
+                            '[data-slot="cascader-search-results"] button:not(:disabled), [data-depth="0"] button:not(:disabled)'
+                          )
+                          ?.focus()
+                      }}
                       placeholder={searchPlaceholder}
                       aria-label={searchPlaceholder}
                       size="sm"
@@ -274,11 +348,14 @@ function Cascader({
 
                 <div className="flex min-h-0 overflow-x-auto">
                   {query.trim() ? (
-                    <div
+                    <motion.div
                       data-slot="cascader-search-results"
                       role="listbox"
                       aria-label="搜索结果"
-                      className="max-h-72 w-80 max-w-[calc(100vw-3rem)] overflow-y-auto p-1"
+                      initial={reduceMotion ? false : { opacity: 0, y: 4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
+                      className="max-h-72 w-80 max-w-[calc(100vw-3rem)] overflow-y-auto overscroll-contain p-1"
                     >
                       {searchResults.length ? (
                         searchResults.map((path) => (
@@ -292,7 +369,23 @@ function Cascader({
                             )}
                             disabled={path.some((option) => option.disabled)}
                             onClick={() => commitPath(path)}
-                            className="hover:bg-accent focus-visible:bg-accent flex min-h-9 w-full items-center rounded-lg px-2.5 py-2 text-left text-sm outline-none transition-colors disabled:pointer-events-none disabled:opacity-40"
+                            onKeyDown={(event) => {
+                              const buttons = Array.from(
+                                event.currentTarget.parentElement?.querySelectorAll<HTMLButtonElement>(
+                                  "button:not(:disabled)"
+                                ) ?? []
+                              )
+                              if (
+                                event.key === "ArrowUp" &&
+                                buttons[0] === event.currentTarget
+                              ) {
+                                event.preventDefault()
+                                searchInputRef.current?.focus()
+                                return
+                              }
+                              moveWithin(event, buttons)
+                            }}
+                            className="hover:bg-accent focus-visible:bg-accent aria-selected:text-primary flex min-h-9 w-full items-center rounded-md px-2.5 py-2 text-left text-sm outline-none transition-colors disabled:pointer-events-none disabled:opacity-40"
                           >
                             <span className="min-w-0 truncate">
                               {path.map((option, index) => (
@@ -313,28 +406,30 @@ function Cascader({
                           没有匹配的选项
                         </p>
                       )}
-                    </div>
+                    </motion.div>
                   ) : (
                     <AnimatePresence initial={false} mode="popLayout">
                       {columns.map((column, depth) => (
                         <motion.div
-                          key={depth}
+                          key={`${depth}-${column.key}`}
                           data-slot="cascader-column"
-                          aria-label={`Level ${depth + 1}`}
-                          initial={reduceMotion ? false : { opacity: 0, x: 16 }}
+                          data-depth={depth}
+                          role="listbox"
+                          aria-label={`第 ${depth + 1} 级`}
+                          initial={reduceMotion ? false : { opacity: 0, x: 12 }}
                           animate={{ opacity: 1, x: 0 }}
-                          exit={reduceMotion ? undefined : { opacity: 0, x: 8 }}
-                          transition={
+                          exit={
                             reduceMotion
-                              ? { duration: 0 }
-                              : { type: "spring", stiffness: 500, damping: 38 }
+                              ? undefined
+                              : { opacity: 0, x: 6, transition: { duration: 0.12 } }
                           }
+                          transition={spring}
                           className={cn(
                             "max-h-80 w-44 shrink-0 overflow-y-auto overscroll-contain scroll-py-1 p-1",
                             depth > 0 && "border-border/70 border-l"
                           )}
                         >
-                          {column.map((option) => {
+                          {column.options.map((option) => {
                             const active =
                               selectedValues[depth] === option.value
                             const isLeaf = !option.children?.length
@@ -346,39 +441,53 @@ function Cascader({
                                 aria-selected={active}
                                 disabled={option.disabled}
                                 onClick={() => selectOption(option, depth)}
+                                onKeyDown={(event) =>
+                                  handleOptionKeyDown(event, option, depth)
+                                }
                                 className={cn(
-                                  "group/option hover:bg-accent focus-visible:bg-accent relative flex min-h-9 w-full items-center gap-2 rounded-lg px-2.5 py-2 text-left text-sm outline-none transition-colors duration-150 disabled:pointer-events-none disabled:opacity-40",
-                                  active && "bg-accent text-accent-foreground"
+                                  "group/option hover:bg-accent/60 focus-visible:ring-ring/40 relative isolate flex min-h-9 w-full items-center gap-2 rounded-md px-2.5 py-2 text-left text-sm outline-none transition-colors duration-150 focus-visible:ring-2 disabled:pointer-events-none disabled:opacity-40",
+                                  active &&
+                                    "text-accent-foreground font-medium hover:bg-transparent"
                                 )}
                               >
                                 {active ? (
                                   <motion.span
-                                    layoutId={`cascader-active-${depth}`}
-                                    className="bg-accent absolute inset-0 rounded-lg"
-                                    transition={{
-                                      type: "spring",
-                                      stiffness: 520,
-                                      damping: 38,
-                                    }}
+                                    aria-hidden
+                                    layoutId={`${layoutId}-${depth}`}
+                                    className="bg-accent absolute inset-0 z-[-1] rounded-md"
+                                    transition={spring}
                                   />
                                 ) : null}
-                                <span className="relative z-10 min-w-0 flex-1 truncate">
+                                <span className="min-w-0 flex-1 truncate">
                                   {option.label}
                                 </span>
-                                <span className="text-muted-foreground relative z-10 flex size-4 items-center justify-center">
+                                <span className="text-muted-foreground flex size-4 items-center justify-center">
                                   {active && isLeaf ? (
                                     <motion.span
+                                      className="flex"
                                       initial={
                                         reduceMotion
                                           ? false
-                                          : { scale: 0.5, opacity: 0 }
+                                          : { scale: 0.4, opacity: 0 }
                                       }
                                       animate={{ scale: 1, opacity: 1 }}
+                                      transition={{
+                                        type: "spring",
+                                        stiffness: 560,
+                                        damping: 28,
+                                        mass: 0.6,
+                                      }}
                                     >
-                                      <CheckIcon className="text-foreground size-4" />
+                                      <CheckIcon className="text-primary size-4" />
                                     </motion.span>
                                   ) : !isLeaf ? (
-                                    <ChevronRightIcon className="size-4 transition-transform group-hover/option:translate-x-0.5" />
+                                    <ChevronRightIcon
+                                      className={cn(
+                                        "size-4 transition-transform duration-200 group-hover/option:translate-x-0.5",
+                                        active &&
+                                          "text-foreground translate-x-0.5"
+                                      )}
+                                    />
                                   ) : null}
                                 </span>
                               </button>

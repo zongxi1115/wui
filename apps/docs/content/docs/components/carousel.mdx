@@ -1,12 +1,12 @@
 ---
 title: 轮播 Carousel
-description: 基于原生 CSS 滚动与 scroll-snap 物理吸附机制构建的高性能轮播组件，支持横向/纵向滑动、循环滚动与多列响应式排版。
+description: 基于原生 CSS 滚动与 scroll-snap 吸附机制构建的轮播组件，支持横向/纵向滑动、循环、自动播放与多列响应式排版。
 component: carousel
 ---
 
 ## 基础用法
 
-单卡片横向轮播。支持通过前后导航按钮或触控手势滑动浏览：
+单卡片横向轮播。可通过前后按钮、触控手势、方向键或底部页码指示器浏览；当前页的圆点会拉伸为胶囊并滑动到目标位置：
 
 <ComponentPreview name="carousel-demo" />
 
@@ -21,7 +21,7 @@ component: carousel
 <Step>安装基础依赖与图标库</Step>
 
 ```bash
-pnpm add lucide-react clsx tailwind-merge
+pnpm add motion lucide-react clsx tailwind-merge
 ```
 
 <Step>复制组件源码到 `components/ui/carousel.tsx`</Step>
@@ -62,6 +62,12 @@ pnpm add lucide-react clsx tailwind-merge
       description: "当前展示的轮播卡片索引发生改变时的回调函数。",
     },
     {
+      prop: "autoplay",
+      type: "boolean | number",
+      default: "false",
+      description: "自动播放。传入数字时为每页停留的毫秒数，true 为 5000ms。指针悬停、键盘焦点位于轮播内或页面隐藏时自动暂停；到达末页后回到第一页。",
+    },
+    {
       prop: "className",
       type: "string",
       description: "应用于外层轮播包裹容器的额外 CSS 类名。",
@@ -94,6 +100,11 @@ pnpm add lucide-react clsx tailwind-merge
       type: "string",
       description: "通过 Tailwind 的 basis-* 类名控制一屏显示的卡片数量（例如 basis-full 为单卡片，md:basis-1/2 为一屏两卡，lg:basis-1/3 为一屏三卡）。",
     },
+    {
+      prop: "data-active",
+      type: "attribute",
+      description: "项目有一半以上位于视口内时自动添加，可通过 data-[active]: 变体为可见项目设置样式（如非当前项降低不透明度）。",
+    },
   ]}
 />
 
@@ -107,6 +118,59 @@ pnpm add lucide-react clsx tailwind-merge
       prop: "className",
       type: "string",
       description: "应用于翻页按钮的额外 CSS 类名（用于覆盖默认定位或图标样式）。",
+    },
+  ]}
+/>
+
+### CarouselDots
+
+页码指示器，每个圆点对应一个吸附位置（一屏多卡时按实际可停靠的页数生成）。当前页圆点拉伸为胶囊并以弹簧动效在圆点间滑动；开启 `autoplay` 时，胶囊内会显示本页的停留进度。少于两页时不渲染。
+
+<PropsTable
+  data={[
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于指示器容器的额外 CSS 类名。纵向轮播时圆点自动纵向排列。",
+    },
+  ]}
+/>
+
+### useCarousel
+
+在 `Carousel` 内部读取轮播状态，用于构建计数器、同步文案等自定义部件：
+
+<PropsTable
+  data={[
+    {
+      prop: "currentIndex",
+      type: "number",
+      description: "当前页索引。",
+    },
+    {
+      prop: "count",
+      type: "number",
+      description: "可停靠的页数。",
+    },
+    {
+      prop: "scrollTo",
+      type: "(index: number) => void",
+      description: "滚动到指定页。",
+    },
+    {
+      prop: "scrollPrevious / scrollNext",
+      type: "() => void",
+      description: "切换到上一页 / 下一页，遵循 loop 设置。",
+    },
+    {
+      prop: "canScrollPrevious / canScrollNext",
+      type: "boolean",
+      description: "当前是否可以继续向前 / 向后切换。",
+    },
+    {
+      prop: "progress",
+      type: "MotionValue<number>",
+      description: "自动播放时本页的停留进度（0–1），未开启时恒为 0。",
     },
   ]}
 />
@@ -140,18 +204,26 @@ pnpm add lucide-react clsx tailwind-merge
 
 ### 多卡片响应式轮播 (Multi-card)
 
-结合一屏双卡（`md:basis-1/2`）、无限循环（`loop`）、封面图与底部活跃指示圆点：
+结合响应式多卡（`sm:basis-1/2 lg:basis-1/3`）与循环（`loop`），翻页按钮移入标题栏；滑动过程中半露出的卡片通过 `data-[active]:` 变体淡出：
 
 <ComponentPreview name="carousel-cards" />
 
+### 自动播放 (Autoplay)
+
+设置 `autoplay` 后指示器胶囊内显示停留进度，悬停时暂停。配合 `useCarousel` 读取当前页，让左侧文案随图片同步切换：
+
+<ComponentPreview name="carousel-autoplay" />
+
 ### 垂直方向轮播 (Vertical)
 
-配置 `orientation="vertical"` 切换为纵向通知头条或阶段卡片翻滚：
+配置 `orientation="vertical"` 实现纵向滚动的公告栏，结合 `autoplay` 与纵向页码指示器：
 
 <ComponentPreview name="carousel-vertical" />
 
 ## 无障碍与交互 Accessibility
 
 - **WAI-ARIA Carousel Pattern**：根容器标注 `role="region"` 与 `aria-roledescription="carousel"`；每个卡片项标注 `role="group"` 与 `aria-roledescription="slide"`。
-- **按键与焦点管理**：翻页按钮具备 `aria-label="上一项"` 与 `aria-label="下一项"`，并在到达首末边界且未开启 `loop` 时自动 `disabled`。
-- **平滑滚动保障**：视口采用 `scroll-smooth`，在支持触摸辅助设备与读屏软件跳转时能准确对齐到卡片起点。
+- **按键与焦点管理**：焦点位于轮播内时，可用 <kbd>←</kbd> / <kbd>→</kbd>（纵向为 <kbd>↑</kbd> / <kbd>↓</kbd>）切换。翻页按钮具备 `aria-label="上一项"` 与 `aria-label="下一项"`，并在到达首末边界且未开启 `loop` 时自动 `disabled`。
+- **页码指示器**：每个圆点标注“第 n 页，共 m 页”，当前页带有 `aria-current`。
+- **自动播放**：键盘焦点进入或指针悬停时暂停；开启自动播放时视口 `aria-live` 为 `off`，避免读屏软件频繁播报。
+- **减少动态效果**：系统开启“减少动态效果”时，翻页改为瞬时跳转，指示器不再做弹簧过渡。

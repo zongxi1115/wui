@@ -6,9 +6,9 @@ component: scroll-progress
 
 ## 基础用法
 
-最简单的滚动进度指示用法。在文章页面或滚动容器顶部显示平滑的阅读进度指示条与悬浮环形进度百分比：
+在文章滚动容器中，吸顶标题栏右侧的环形指示与底边细线同步显示阅读进度：
 
-<ComponentPreview name="scroll-progress-demo" />
+<ComponentPreview name="scroll-progress-demo" previewClassName="min-h-0 p-0" />
 
 ## 安装与引入
 
@@ -49,6 +49,12 @@ pnpm add motion lucide-react clsx tailwind-merge
       description: "线性条状在屏幕中的定位方式：top（固定于视口顶部）、bottom（固定于视口底部）、inline（跟随局部容器文档流）。",
     },
     {
+      prop: "axis",
+      type: '"x" | "y"',
+      default: '"y"',
+      description: "监听的滚动方向。横向列表或画廊使用 `x`。",
+    },
+    {
       prop: "container",
       type: "React.RefObject<HTMLElement | null>",
       description: "指定被监听的自定义可滚动容器 DOM 引用。若不提供则默认监听整页 Window 滚动。",
@@ -74,6 +80,12 @@ pnpm add motion lucide-react clsx tailwind-merge
       type: "number",
       default: "3",
       description: "环形形态（variant=\"circle\"）的圆环线条描边粗细像素尺寸。",
+    },
+    {
+      prop: "showValue",
+      type: "boolean",
+      default: "true",
+      description: "环形形态是否在中心显示百分比数字。尺寸较小时建议关闭。",
     },
     {
       prop: "smooth",
@@ -122,24 +134,25 @@ pnpm add motion lucide-react clsx tailwind-merge
   - 条款协议/模态弹窗：传入 `container={ref}` 并设置 `position="inline"`，将进度条限制在局部弹窗内部。
 - **弹簧滤波平滑（Smooth Spring）**：在高刷新率（120Hz/144Hz）屏幕或触控板快速滑动时，原生滚动事件存在微量离散阶梯跳跃。组件默认开启 `smooth={true}`，通过精确阻尼弹簧将阶跃信号滤波为自然流体动效。
 - **渐进显隐**：环形进度条常与“返回顶部”浮动悬钮结合，可配合页面滚动超过 20% 时淡入显示。
+- **零进度隐藏**：环形指示在 0% 时自动隐藏圆头端点，避免出现孤立的小圆点。
 
 ## 场景示例
 
 ### 协议条款通读验证
 
-在用户注册或服务协议签署弹窗中，监听内部容器的滚动进度，只有当用户完整阅读至文末时才解锁“同意”按钮：
+监听局部容器的滚动进度，只有当用户阅读至文末时才解锁“同意并继续”：
 
 <ComponentPreview name="scroll-progress-container" />
 
-### 特定章节视口穿越追踪
+### 目录章节进度
 
-使用 `target` 属性精准监听长文档中某一核心技术章节的阅读进度：
+为每个章节分别传入 `target`，目录中的小圆环会随对应章节的阅读进度填满。点击目录项可在容器内平滑跳转：
 
-<ComponentPreview name="scroll-progress-steps" />
+<ComponentPreview name="scroll-progress-steps" previewClassName="min-h-0 p-0" />
 
-### 自定义渐变与环形样式
+### 横向滚动
 
-支持通过 `indicatorClassName` 传入色彩渐变或调整尺寸：
+设置 `axis="x"` 监听横向列表，并通过 `indicatorClassName` 使用图表色作为强调：
 
 <ComponentPreview name="scroll-progress-variants" />
 

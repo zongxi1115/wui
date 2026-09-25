@@ -11,7 +11,7 @@ export default function TimePicker12Hour() {
   return (
     <div className="grid w-full max-w-sm gap-2">
       <div className="flex items-center gap-2">
-        <SunMoonIcon className="size-4 text-amber-500" />
+        <SunMoonIcon className="text-muted-foreground size-4" />
         <label className="text-sm font-medium">海外跨国会议时间 (12 小时制)</label>
       </div>
       <TimePicker

@@ -36,11 +36,11 @@ export default function ContextMenuAdvanced() {
         <ContextMenuLabel>显示方式</ContextMenuLabel>
         <ContextMenuRadioGroup value={view} onValueChange={setView}>
           <ContextMenuRadioItem value="grid">
-            <LayoutGridIcon className="mr-2 size-4" />
+            <LayoutGridIcon />
             网格
           </ContextMenuRadioItem>
           <ContextMenuRadioItem value="list">
-            <ListIcon className="mr-2 size-4" />
+            <ListIcon />
             列表
           </ContextMenuRadioItem>
         </ContextMenuRadioGroup>

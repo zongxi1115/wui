@@ -1,0 +1,114 @@
+---
+title: 滑动高亮 Animated Background
+description: 在悬停或选中的子元素之间平滑滑动一块共享的高亮背景，适用于导航、列表与选择器。
+component: animated-background
+---
+
+## 基础用法
+
+用 `AnimatedBackground` 包裹一组带有 `data-id` 的子元素。`hover` 模式下高亮跟随指针与键盘焦点移动，离开后回到 `value` 对应的当前项：
+
+<ComponentPreview name="animated-background-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
+
+<CodeTabs command="@wui-design/cli@latest add @wui/animated-background" />
+
+<Steps>
+
+<Step>安装基础依赖与 Motion 动效库</Step>
+
+```bash
+pnpm add motion clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/animated-background.tsx`</Step>
+
+<ComponentSource name="animated-background" title="components/ui/animated-background.tsx" />
+
+</Steps>
+
+## 属性 Props
+
+`AnimatedBackground` 不渲染任何包裹元素，而是把高亮注入到每个直接子元素内部，因此可以直接放进已有的 flex、grid 或列表布局中：
+
+<PropsTable
+  data={[
+    {
+      prop: "children",
+      type: "ReactElement | ReactElement[]",
+      required: true,
+      description: "需要高亮的元素，每个直接子元素都必须带有唯一的 `data-id`。组件会为其追加 `relative isolate` 类名。",
+    },
+    {
+      prop: "mode",
+      type: '"click" | "hover"',
+      default: '"click"',
+      description: "click：点击后高亮移动到该项；hover：高亮跟随悬停与键盘焦点，离开后回到当前选中项。",
+    },
+    {
+      prop: "value",
+      type: "string | null",
+      description: "受控的当前项 id，传入 null 时隐藏高亮。",
+    },
+    {
+      prop: "defaultValue",
+      type: "string | null",
+      default: "null",
+      description: "非受控模式下的初始选中项。",
+    },
+    {
+      prop: "highlightClassName",
+      type: "string",
+      description: "高亮块的类名，用于设置背景色、圆角或边框。默认为 `bg-muted`。",
+    },
+    {
+      prop: "transition",
+      type: "Transition",
+      default: '{ type: "spring", stiffness: 520, damping: 38, mass: 0.7 }',
+      description: "高亮在元素之间移动时的过渡参数。",
+    },
+  ]}
+/>
+
+## 事件 Events
+
+<PropsTable
+  data={[
+    {
+      prop: "onValueChange",
+      type: "(value: string) => void",
+      description: "点击某一项时触发，参数为该项的 `data-id`。子元素原有的 onClick、onPointerEnter 等事件会被保留并先行调用。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`AnimatedBackground` 是一个通用的“共享高亮”原语：它不关心子元素是链接、按钮还是列表项，只负责把同一块背景在它们之间移动。
+
+- **优先使用语义化组件**：标准的标签页和分段选择请直接使用 [标签页 Tabs](/docs/components/tabs) 与 [切换组 Toggle Group](/docs/components/toggle-group)，它们已内置滑动指示器与完整的键盘交互。
+- **适用场景**：顶部导航的悬停反馈、设置菜单等纵向列表、卡片网格中的选择状态等需要自定义结构的场景。
+- **状态要有文字层面的区分**：高亮只是视觉提示，当前项仍应通过 `aria-current`、`aria-pressed` 或文字颜色表达。组件会为高亮中的子元素添加 `data-highlighted` 属性，可配合 `data-highlighted:text-foreground` 使用。
+
+## 场景示例
+
+### 纵向设置列表
+
+`hover` 模式配合纵向布局，高亮在不同高度的条目之间伸缩移动：
+
+<ComponentPreview name="animated-background-list" />
+
+### 网格选择
+
+`click` 模式下高亮在二维网格中移动，适合地域、套餐等选择：
+
+<ComponentPreview name="animated-background-grid" />
+
+## 无障碍与交互 Accessibility
+
+- **键盘可达**：`hover` 模式同时监听 `focus` 与 `blur`，使用 Tab 键移动焦点时高亮会随之移动。
+- **高亮不参与读屏**：高亮元素设置了 `aria-hidden` 与 `pointer-events: none`，不会影响点击与读屏顺序。
+- **减少动态效果**：开启 `prefers-reduced-motion` 时，高亮直接出现在目标位置，不再滑动。

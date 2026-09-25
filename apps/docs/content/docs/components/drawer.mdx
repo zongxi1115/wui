@@ -86,6 +86,12 @@ pnpm add radix-ui motion lucide-react clsx tailwind-merge
       description: "是否隐藏右上角内置的快捷关闭按钮图标。",
     },
     {
+      prop: "swipeToClose",
+      type: "boolean",
+      default: "false",
+      description: "在面板内侧边缘渲染拖拽把手。按住把手朝滑入边缘拖动，超过面板尺寸的 1/4 或快速甩动即可关闭；反方向拖动会有阻尼回弹。开启减弱动态效果时不可拖拽。",
+    },
+    {
       prop: "className",
       type: "string",
       description: "应用于抽屉主容器的自定义 CSS 类名。",
@@ -174,6 +180,12 @@ pnpm add radix-ui motion lucide-react clsx tailwind-merge
 
 <ComponentPreview name="drawer-sizes" />
 
+### 手势拖拽关闭
+
+开启 `swipeToClose` 后，底部抽屉顶部会出现拖拽把手。把手是唯一的拖拽起点，面板内的按钮、输入框与滚动区域不受手势干扰：
+
+<ComponentPreview name="drawer-swipe" />
+
 ## 无障碍与交互 Accessibility
 
 - **ARIA 规范**：
@@ -186,4 +198,6 @@ pnpm add radix-ui motion lucide-react clsx tailwind-merge
 - **滚动锁定（Body Scroll Lock）**：
   - 模态抽屉打开期间，背景页面的 `<body>` 会自动锁定滚动并补充滚动条占位，防止双重滚动与页面抖动。
 - **动效减弱**：
-  - 自动支持 `prefers-reduced-motion`，开启后禁用弹性位移动画，转为瞬时切换。
+  - 自动支持 `prefers-reduced-motion`，开启后禁用弹性位移动画与拖拽手势，转为淡入淡出。
+- **非模态模式**：
+  - 设置 `modal={false}` 时不渲染遮罩、不锁定滚动，面板与页面可同时交互。

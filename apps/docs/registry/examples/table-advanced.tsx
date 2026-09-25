@@ -2,10 +2,6 @@
 
 import * as React from "react"
 import {
-  ArrowDown,
-  ArrowUp,
-  ArrowUpDown,
-  ChevronDown,
   ChevronRight,
   ChevronsDownUp,
   ChevronsUpDown,
@@ -25,6 +21,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
+  TableSortButton,
 } from "@/registry/ui/table"
 import { cn } from "@/registry/lib/utils"
 
@@ -163,6 +160,8 @@ function moveWithinLevel(
   )
 }
 
+type SortState = { key: SortKey; direction: "asc" | "desc" } | null
+
 function SortLabel({
   label,
   column,
@@ -171,26 +170,23 @@ function SortLabel({
 }: {
   label: string
   column: SortKey
-  sort: { key: SortKey; direction: "asc" | "desc" } | null
+  sort: SortState
   onSort: (key: SortKey) => void
 }) {
-  const active = sort?.key === column
-  const Icon = !active
-    ? ArrowUpDown
-    : sort.direction === "asc"
-      ? ArrowUp
-      : ArrowDown
-
   return (
-    <button
-      type="button"
-      className="text-foreground hover:text-primary focus-visible:ring-ring/40 -ml-2 inline-flex h-7 items-center gap-1.5 px-2 text-xs font-medium outline-none focus-visible:ring-2"
+    <TableSortButton
+      className="text-xs"
+      direction={sort?.key === column ? sort.direction : false}
       onClick={() => onSort(column)}
     >
       {label}
-      <Icon className={cn("size-3.5", !active && "text-muted-foreground/60")} />
-    </button>
+    </TableSortButton>
   )
+}
+
+function ariaSort(sort: SortState, column: SortKey) {
+  if (sort?.key !== column) return undefined
+  return sort.direction === "asc" ? "ascending" : "descending"
 }
 
 export default function TableAdvanced() {
@@ -202,10 +198,7 @@ export default function TableAdvanced() {
   const [query, setQuery] = React.useState("")
   const [owner, setOwner] = React.useState("all")
   const [status, setStatus] = React.useState("all")
-  const [sort, setSort] = React.useState<{
-    key: SortKey
-    direction: "asc" | "desc"
-  } | null>(null)
+  const [sort, setSort] = React.useState<SortState>(null)
   const [compact, setCompact] = React.useState(true)
   const [draggingId, setDraggingId] = React.useState<string | null>(null)
   const dragHandleRef = React.useRef<string | null>(null)
@@ -405,6 +398,7 @@ export default function TableAdvanced() {
             <TableHead
               rowSpan={2}
               pinned="right"
+              aria-sort={ariaSort(sort, "budget")}
               className="bg-muted/35 w-[120px] text-right"
             >
               <SortLabel
@@ -419,6 +413,7 @@ export default function TableAdvanced() {
             <TableHead
               pinned="left"
               pinOffset={80}
+              aria-sort={ariaSort(sort, "name")}
               className="bg-muted/15 w-[260px]"
             >
               <SortLabel
@@ -430,7 +425,7 @@ export default function TableAdvanced() {
             </TableHead>
             <TableHead className="w-[120px]">负责人</TableHead>
             <TableHead className="w-[92px]">开始</TableHead>
-            <TableHead className="w-[92px] border-r">
+            <TableHead aria-sort={ariaSort(sort, "due")} className="w-[92px] border-r">
               <SortLabel
                 label="截止"
                 column="due"
@@ -439,7 +434,7 @@ export default function TableAdvanced() {
               />
             </TableHead>
             <TableHead className="w-[110px]">状态</TableHead>
-            <TableHead className="w-[150px] border-r">
+            <TableHead aria-sort={ariaSort(sort, "progress")} className="w-[150px] border-r">
               <SortLabel
                 label="进度"
                 column="progress"
@@ -522,6 +517,10 @@ export default function TableAdvanced() {
                 draggable
                 data-dragging={draggingId === item.id}
                 data-state={selected.has(item.id) ? "selected" : undefined}
+                className={cn(
+                  depth > 0 &&
+                    "animate-in fade-in-0 slide-in-from-top-1 duration-200 motion-reduce:animate-none"
+                )}
                 onPointerDownCapture={(event) => {
                   dragHandleRef.current = (event.target as HTMLElement).closest(
                     "[data-slot=table-drag-handle]"
@@ -600,7 +599,8 @@ export default function TableAdvanced() {
                       <button
                         type="button"
                         className="text-muted-foreground hover:text-foreground focus-visible:ring-ring/40 flex size-6 shrink-0 items-center justify-center outline-none focus-visible:ring-2"
-                        aria-label={isExpanded ? "收起子项" : "展开子项"}
+                        aria-label={isExpanded ? `收起${item.name}` : `展开${item.name}`}
+                        aria-expanded={isExpanded || filterActive}
                         onClick={() =>
                           setExpanded((current) => {
                             const next = new Set(current)
@@ -611,11 +611,12 @@ export default function TableAdvanced() {
                           })
                         }
                       >
-                        {isExpanded || filterActive ? (
-                          <ChevronDown className="size-4" />
-                        ) : (
-                          <ChevronRight className="size-4" />
-                        )}
+                        <ChevronRight
+                          className={cn(
+                            "size-4 transition-transform duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none",
+                            (isExpanded || filterActive) && "rotate-90"
+                          )}
+                        />
                       </button>
                     ) : (
                       <span className="size-6 shrink-0" />
@@ -676,7 +677,7 @@ export default function TableAdvanced() {
             <TableRow>
               <TableCell
                 colSpan={9}
-                className="text-muted-foreground h-32 text-center"
+                className="text-muted-foreground animate-in fade-in-0 h-32 text-center duration-300"
               >
                 没有符合当前筛选条件的工作项
               </TableCell>

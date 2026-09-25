@@ -26,9 +26,18 @@ interface AiArtifactContextValue {
   isStreaming?: boolean
   copied: boolean
   setCopied: React.Dispatch<React.SetStateAction<boolean>>
+  /** Stable per-instance id used for tab/panel relationships and the tab indicator. */
+  baseId: string
 }
 
 const AiArtifactContext = React.createContext<AiArtifactContextValue | null>(null)
+
+const swapSpring = {
+  type: "spring",
+  stiffness: 520,
+  damping: 32,
+  mass: 0.6,
+} as const
 
 function useAiArtifact() {
   const context = React.useContext(AiArtifactContext)
@@ -38,14 +47,18 @@ function useAiArtifact() {
   return context
 }
 
+function toDomId(value: string) {
+  return value.replace(/[^a-zA-Z0-9_-]/g, "-")
+}
+
 const aiArtifactVariants = cva(
-  "relative flex flex-col overflow-hidden rounded-xl border bg-background transition-shadow duration-200",
+  "relative flex flex-col overflow-hidden rounded-lg border bg-background",
   {
     variants: {
       variant: {
         default: "border-border shadow-xs",
-        bordered: "border-border/80 shadow-none",
-        ghost: "border-transparent shadow-none bg-muted/20",
+        bordered: "border-border shadow-none",
+        ghost: "border-transparent bg-muted/30 shadow-none",
       },
     },
     defaultVariants: {
@@ -92,6 +105,7 @@ function AiArtifact({
   const [internalTab, setInternalTab] = React.useState(defaultTab)
   const [internalFullscreen, setInternalFullscreen] = React.useState(defaultFullscreen)
   const [copied, setCopied] = React.useState(false)
+  const baseId = React.useId()
 
   const activeTab = controlledTab ?? internalTab
   const isFullscreen = controlledFullscreen ?? internalFullscreen
@@ -116,6 +130,15 @@ function AiArtifact({
     [controlledFullscreen, onFullscreenChange]
   )
 
+  React.useEffect(() => {
+    if (!isFullscreen) return
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") handleFullscreenChange(false)
+    }
+    window.addEventListener("keydown", onKeyDown)
+    return () => window.removeEventListener("keydown", onKeyDown)
+  }, [handleFullscreenChange, isFullscreen])
+
   return (
     <AiArtifactContext.Provider
       value={{
@@ -126,16 +149,27 @@ function AiArtifact({
         isStreaming,
         copied,
         setCopied,
+        baseId,
       }}
     >
+      {isFullscreen ? (
+        <div
+          aria-hidden
+          data-slot="ai-artifact-backdrop"
+          className="fixed inset-0 z-50 bg-overlay duration-200 animate-in fade-in-0"
+          onClick={() => handleFullscreenChange(false)}
+        />
+      ) : null}
       <div
         data-slot="ai-artifact"
         data-streaming={isStreaming ? "true" : "false"}
         data-fullscreen={isFullscreen ? "true" : "false"}
+        role={isFullscreen ? "dialog" : undefined}
+        aria-modal={isFullscreen || undefined}
         className={cn(
           aiArtifactVariants({ variant }),
           isFullscreen &&
-            "fixed inset-4 z-50 rounded-xl shadow-2xl md:inset-8 bg-background",
+            "fixed inset-4 z-50 bg-background shadow-lg duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] animate-in fade-in-0 zoom-in-[0.98] md:inset-8",
           className
         )}
         {...props}
@@ -157,19 +191,47 @@ function AiArtifactHeader({
   children,
   ...props
 }: AiArtifactHeaderProps) {
+  const { isStreaming } = useAiArtifact()
+  const reduceMotion = useReducedMotion()
+
   return (
     <header
       data-slot="ai-artifact-header"
       className={cn(
-        "flex flex-wrap items-center justify-between gap-2 border-b border-border/70 bg-muted/30 px-3.5 py-2.5 sm:px-4",
+        "relative flex flex-wrap items-center justify-between gap-2 border-b bg-muted/30 px-3.5 py-2.5 sm:px-4",
         className
       )}
       {...props}
     >
-      <div className="flex min-w-0 items-center gap-2.5">
+      <div className="flex min-w-0 flex-1 items-center gap-2.5">
         {children}
         {badge}
       </div>
+      <AnimatePresence>
+        {isStreaming && !reduceMotion ? (
+          <motion.span
+            key="streaming"
+            aria-hidden
+            data-slot="ai-artifact-progress"
+            className="pointer-events-none absolute inset-x-0 -bottom-px h-px overflow-hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            <motion.span
+              className="block h-full w-1/4 bg-info"
+              initial={{ x: "-100%" }}
+              animate={{ x: "400%" }}
+              transition={{
+                duration: 1.5,
+                ease: [0.45, 0, 0.55, 1],
+                repeat: Infinity,
+              }}
+            />
+          </motion.span>
+        ) : null}
+      </AnimatePresence>
     </header>
   )
 }
@@ -198,7 +260,10 @@ function AiArtifactTitle({
       <span className="text-muted-foreground flex size-4 shrink-0 items-center justify-center">
         {icon ?? (
           <SparklesIcon
-            className={cn("size-3.5", isStreaming && "text-info animate-pulse")}
+            className={cn(
+              "size-3.5 transition-colors",
+              isStreaming && "text-info motion-safe:animate-pulse"
+            )}
           />
         )}
       </span>
@@ -251,7 +316,7 @@ function AiArtifactAction({
       aria-label={label}
       title={label}
       className={cn(
-        "inline-flex size-7 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:ring-ring/35 focus-visible:outline-none focus-visible:ring-[3px] disabled:pointer-events-none disabled:opacity-50",
+        "relative inline-flex size-7 items-center justify-center rounded-md text-muted-foreground transition-[color,background-color,scale] duration-150 hover:bg-muted hover:text-foreground focus-visible:ring-ring/35 focus-visible:outline-none focus-visible:ring-[3px] active:scale-90 disabled:pointer-events-none disabled:opacity-50 motion-reduce:active:scale-100",
         className
       )}
       {...props}
@@ -277,16 +342,20 @@ function AiArtifactCopy({
 }: AiArtifactCopyProps) {
   const { copied, setCopied } = useAiArtifact()
   const reduceMotion = useReducedMotion()
+  const timerRef = React.useRef<number | undefined>(undefined)
+
+  React.useEffect(() => () => window.clearTimeout(timerRef.current), [])
 
   const handleCopy = React.useCallback(async () => {
     try {
       await navigator.clipboard.writeText(content)
-      setCopied(true)
-      onCopy?.()
-      setTimeout(() => setCopied(false), 2000)
     } catch {
-      // ignore
+      return
     }
+    setCopied(true)
+    onCopy?.()
+    window.clearTimeout(timerRef.current)
+    timerRef.current = window.setTimeout(() => setCopied(false), 2000)
   }, [content, onCopy, setCopied])
 
   return (
@@ -296,30 +365,30 @@ function AiArtifactCopy({
       className={className}
       {...props}
     >
-      <AnimatePresence initial={false} mode="wait">
-        {copied ? (
-          <motion.span
-            key="check"
-            initial={reduceMotion ? false : { scale: 0.7, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={reduceMotion ? undefined : { scale: 0.7, opacity: 0 }}
-            transition={{ duration: 0.15 }}
-            className="flex items-center justify-center text-success"
-          >
+      <AnimatePresence initial={false} mode="popLayout">
+        <motion.span
+          key={copied ? "check" : "copy"}
+          initial={
+            reduceMotion ? false : { scale: 0.5, opacity: 0, filter: "blur(2px)" }
+          }
+          animate={{ scale: 1, opacity: 1, filter: "blur(0px)" }}
+          exit={
+            reduceMotion
+              ? undefined
+              : { scale: 0.5, opacity: 0, filter: "blur(2px)" }
+          }
+          transition={reduceMotion ? { duration: 0 } : swapSpring}
+          className={cn(
+            "flex items-center justify-center",
+            copied && "text-success"
+          )}
+        >
+          {copied ? (
             <CheckIcon className="size-3.5" />
-          </motion.span>
-        ) : (
-          <motion.span
-            key="copy"
-            initial={reduceMotion ? false : { scale: 0.7, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={reduceMotion ? undefined : { scale: 0.7, opacity: 0 }}
-            transition={{ duration: 0.15 }}
-            className="flex items-center justify-center"
-          >
+          ) : (
             <CopyIcon className="size-3.5" />
-          </motion.span>
-        )}
+          )}
+        </motion.span>
       </AnimatePresence>
     </AiArtifactAction>
   )
@@ -330,24 +399,39 @@ function AiArtifactFullscreenToggle({
   ...props
 }: Omit<AiArtifactActionProps, "children">) {
   const { isFullscreen, setIsFullscreen } = useAiArtifact()
+  const reduceMotion = useReducedMotion()
+
   return (
     <AiArtifactAction
       label={isFullscreen ? "退出全屏" : "全屏查看"}
+      aria-pressed={isFullscreen}
       onClick={() => setIsFullscreen(!isFullscreen)}
       className={className}
       {...props}
     >
-      {isFullscreen ? (
-        <Minimize2Icon className="size-3.5" />
-      ) : (
-        <Maximize2Icon className="size-3.5" />
-      )}
+      <AnimatePresence initial={false} mode="popLayout">
+        <motion.span
+          key={isFullscreen ? "min" : "max"}
+          className="flex items-center justify-center"
+          initial={reduceMotion ? false : { scale: 0.5, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          exit={reduceMotion ? undefined : { scale: 0.5, opacity: 0 }}
+          transition={reduceMotion ? { duration: 0 } : swapSpring}
+        >
+          {isFullscreen ? (
+            <Minimize2Icon className="size-3.5" />
+          ) : (
+            <Maximize2Icon className="size-3.5" />
+          )}
+        </motion.span>
+      </AnimatePresence>
     </AiArtifactAction>
   )
 }
 
 function AiArtifactTabList({
   className,
+  onKeyDown,
   ...props
 }: React.ComponentProps<"div">) {
   return (
@@ -355,9 +439,34 @@ function AiArtifactTabList({
       data-slot="ai-artifact-tab-list"
       role="tablist"
       className={cn(
-        "inline-flex h-8 items-center rounded-lg bg-muted/60 p-0.5 text-muted-foreground",
+        "inline-flex h-8 items-center rounded-md bg-muted p-0.5 text-muted-foreground",
         className
       )}
+      onKeyDown={(event) => {
+        onKeyDown?.(event)
+        if (event.defaultPrevented) return
+        const keys = ["ArrowLeft", "ArrowRight", "Home", "End"]
+        if (!keys.includes(event.key)) return
+
+        const tabs = Array.from(
+          event.currentTarget.querySelectorAll<HTMLButtonElement>(
+            '[role="tab"]:not(:disabled)'
+          )
+        )
+        const index = tabs.indexOf(document.activeElement as HTMLButtonElement)
+        if (index < 0) return
+
+        event.preventDefault()
+        const next =
+          event.key === "Home"
+            ? 0
+            : event.key === "End"
+              ? tabs.length - 1
+              : (index + (event.key === "ArrowRight" ? 1 : -1) + tabs.length) %
+                tabs.length
+        tabs[next]?.focus()
+        tabs[next]?.click()
+      }}
       {...props}
     />
   )
@@ -375,11 +484,12 @@ function AiArtifactTabTrigger({
   icon,
   className,
   children,
+  onClick,
   ...props
 }: AiArtifactTabTriggerProps) {
-  const { activeTab, setActiveTab } = useAiArtifact()
+  const { activeTab, setActiveTab, baseId } = useAiArtifact()
+  const reduceMotion = useReducedMotion()
   const isSelected = activeTab === value
-  const layoutId = React.useId()
 
   const defaultIcon =
     value === "preview" ? (
@@ -394,14 +504,20 @@ function AiArtifactTabTrigger({
     <button
       type="button"
       role="tab"
+      id={`${baseId}-tab-${toDomId(value)}`}
       aria-selected={isSelected}
+      aria-controls={`${baseId}-panel-${toDomId(value)}`}
+      tabIndex={isSelected ? 0 : -1}
       data-slot="ai-artifact-tab-trigger"
       data-state={isSelected ? "active" : "inactive"}
-      onClick={() => setActiveTab(value)}
+      onClick={(event) => {
+        onClick?.(event)
+        if (!event.defaultPrevented) setActiveTab(value)
+      }}
       className={cn(
-        "relative inline-flex items-center justify-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/35",
+        "relative isolate inline-flex h-7 items-center justify-center gap-1.5 rounded-sm px-2.5 text-xs font-medium outline-none transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-ring/35",
         isSelected
-          ? "text-foreground font-semibold"
+          ? "text-foreground"
           : "text-muted-foreground hover:text-foreground",
         className
       )}
@@ -409,12 +525,18 @@ function AiArtifactTabTrigger({
     >
       {isSelected && (
         <motion.span
-          layoutId={`artifact-tab-${layoutId}`}
-          className="absolute inset-0 z-0 rounded-md bg-background shadow-xs"
-          transition={{ type: "spring", stiffness: 500, damping: 38 }}
+          aria-hidden
+          data-slot="ai-artifact-tab-indicator"
+          layoutId={`${baseId}-tab-indicator`}
+          className="absolute inset-0 z-[-1] rounded-sm bg-background shadow-xs"
+          transition={
+            reduceMotion
+              ? { duration: 0 }
+              : { type: "spring", stiffness: 520, damping: 38, mass: 0.7 }
+          }
         />
       )}
-      <span className="relative z-10 flex items-center gap-1.5">
+      <span className="flex items-center gap-1.5">
         {icon ?? defaultIcon}
         {children}
       </span>
@@ -433,15 +555,20 @@ function AiArtifactPanel({
   children,
   ...props
 }: AiArtifactPanelProps) {
-  const { activeTab } = useAiArtifact()
+  const { activeTab, baseId } = useAiArtifact()
   if (activeTab !== value) return null
 
   return (
     <div
       role="tabpanel"
+      id={`${baseId}-panel-${toDomId(value)}`}
+      aria-labelledby={`${baseId}-tab-${toDomId(value)}`}
       data-slot="ai-artifact-panel"
       data-tab={value}
-      className={cn("min-h-0 flex-1 overflow-auto p-4", className)}
+      className={cn(
+        "min-h-0 flex-1 overflow-auto p-4 duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-safe:animate-in motion-safe:fade-in-0 motion-safe:blur-in-[2px]",
+        className
+      )}
       {...props}
     >
       {children}
@@ -510,7 +637,7 @@ function AiArtifactPreview({
     <div
       data-slot="ai-artifact-preview"
       className={cn(
-        "flex h-full min-h-64 w-full flex-col items-center justify-center overflow-auto rounded-lg bg-muted/20 p-6",
+        "flex h-full min-h-64 w-full flex-col items-center justify-center overflow-auto bg-muted/20 p-6",
         className
       )}
       {...props}

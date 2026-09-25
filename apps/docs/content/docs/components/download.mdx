@@ -45,7 +45,7 @@ pnpm add motion lucide-react class-variance-authority clsx tailwind-merge
     {
       prop: "meta",
       type: "string",
-      description: "副标题元数据信息（例如 'ZIP · 48.2 MB'）。若未提供，则根据当前 status 显示默认文案提示。",
+      description: "副标题元数据信息（例如 'ZIP · 48.2 MB'）。idle 状态直接展示；其余状态会在其后拼接当前进度或结果（如 'ZIP · 48.2 MB · 已下载 64%'）。未提供时仅显示状态文案。",
     },
     {
       prop: "fileIcon",
@@ -123,13 +123,13 @@ pnpm add motion lucide-react class-variance-authority clsx tailwind-merge
 - **确切进度 vs 不确定进度**：
   - 若能获取真实下载字节数，传入 `progress={percent}`，展示平滑增长的进度条。
   - 若处于服务端打包或流式准备阶段无法预估大小，保持 `progress={0}`，组件会自动展示流光往返呼吸态。
-- **微动效与反馈**：下载完成后，图标呈现平滑缩放弹跳，右侧图标自动无缝交叉过渡为绿色勾选，带来极致的完成确定感。
+- **微动效与反馈**：进度条随下载开始平滑展开、结束后收起；右侧操作按钮在确切进度下绘制环形进度，并在“下载 → 进度 → 完成 / 重试”之间以旋转缩放交叉切换，底色同步过渡为成功或警示色；下载完成时文件图标轻微弹跳。
 
 ## 场景示例
 
 ### 各生命周期状态与自定义图标
 
-对比 `idle`、`downloading`、`complete` 以及自定义文件密钥图标：
+对比 `idle`、`downloading`（确切进度）、`complete`、`error` 以及自定义文件图标：
 
 <ComponentPreview name="download-states" />
 
@@ -142,5 +142,5 @@ pnpm add motion lucide-react class-variance-authority clsx tailwind-merge
 ## 无障碍与交互 Accessibility
 
 - **语义按钮结构**：外层基于 `<button type="button">` 构建，原生支持键盘 <kbd>Enter</kbd> / <kbd>Space</kbd> 触发。
-- **动态状态播报**：根据 `status` 自动生成屏幕阅读器易读的辅助文案（如“准备下载”、“已下载 64%”、“已保存至设备”）。
+- **动态状态播报**：副标题为 `aria-live="polite"` 区域，根据 `status` 自动播报“正在准备…”、“已下载 64%”、“已保存到本地”等文案；下载中按钮声明 `aria-busy`。
 - **动效降级**：进度条填充与图标缩放弹簧在检测到 `prefers-reduced-motion` 时自动关闭过渡动效。

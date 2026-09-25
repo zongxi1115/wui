@@ -11,7 +11,7 @@ import { FileCodeIcon, FileTextIcon, GitCommitIcon } from "lucide-react"
 
 export default function CollapsibleNested() {
   return (
-    <div className="w-full max-w-md space-y-2 rounded-xl border bg-card p-4">
+    <div className="w-full max-w-md space-y-2">
       <div className="flex items-center justify-between pb-3 border-b">
         <div className="flex items-center gap-2">
           <GitCommitIcon className="size-4 text-primary" />

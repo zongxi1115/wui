@@ -10,41 +10,41 @@ const projectFiles: TreeNode[] = [
   {
     value: "src",
     label: "src",
-    icon: <FolderIcon className="size-4 text-amber-500" />,
+    icon: <FolderIcon className="size-4 text-muted-foreground" />,
     children: [
       {
         value: "components",
         label: "components",
-        icon: <FolderIcon className="size-4 text-amber-500" />,
+        icon: <FolderIcon className="size-4 text-muted-foreground" />,
         children: [
           {
             value: "button.tsx",
             label: "button.tsx",
-            icon: <FileCodeIcon className="size-4 text-blue-500" />,
+            icon: <FileCodeIcon className="size-4 text-muted-foreground" />,
           },
           {
             value: "dialog.tsx",
             label: "dialog.tsx",
-            icon: <FileCodeIcon className="size-4 text-blue-500" />,
+            icon: <FileCodeIcon className="size-4 text-muted-foreground" />,
           },
         ],
       },
       {
         value: "assets",
         label: "assets",
-        icon: <FolderIcon className="size-4 text-amber-500" />,
+        icon: <FolderIcon className="size-4 text-muted-foreground" />,
         children: [
           {
             value: "logo.svg",
             label: "logo.svg",
-            icon: <ImageIcon className="size-4 text-emerald-500" />,
+            icon: <ImageIcon className="size-4 text-muted-foreground" />,
           },
         ],
       },
       {
         value: "index.ts",
         label: "index.ts",
-        icon: <FileCodeIcon className="size-4 text-blue-500" />,
+        icon: <FileCodeIcon className="size-4 text-muted-foreground" />,
       },
     ],
   },

@@ -1,35 +1,34 @@
 "use client"
 
 import * as React from "react"
-import { BarChart3Icon, CloudIcon, CpuIcon, LockIcon } from "lucide-react"
 
-import { Badge } from "@/registry/ui/badge"
 import { HorizontalScroll } from "@/registry/ui/horizontal-scroll"
 
-const modules = [
+const roadmap = [
   {
-    icon: CpuIcon,
-    title: "Inference Engine",
-    desc: "Sub-5ms model dispatch with speculative decoding pipelines.",
-    stat: "128k context",
+    quarter: "2026 Q1",
+    status: "已发布",
+    items: ["离线编辑", "评论提及通知", "导出 PDF"],
   },
   {
-    icon: CloudIcon,
-    title: "Edge Mesh",
-    desc: "Global DNS routing with automatic geo-distributed state sync.",
-    stat: "99.999% SLA",
+    quarter: "2026 Q2",
+    status: "已发布",
+    items: ["看板泳道", "自定义字段", "移动端重构"],
   },
   {
-    icon: LockIcon,
-    title: "Key Vault",
-    desc: "Hardware Security Module (HSM) key rotation and token signing.",
-    stat: "FIPS 140-3",
+    quarter: "2026 Q3",
+    status: "进行中",
+    items: ["自动化规则", "数据看板", "审批流"],
   },
   {
-    icon: BarChart3Icon,
-    title: "Telemetry Stream",
-    desc: "High-throughput metric indexing with millisecond query responses.",
-    stat: "50M metrics/s",
+    quarter: "2026 Q4",
+    status: "计划中",
+    items: ["私有化部署", "开放 API v2", "AI 摘要"],
+  },
+  {
+    quarter: "2027 Q1",
+    status: "探索中",
+    items: ["多语言工作区", "插件市场"],
   },
 ]
 
@@ -39,40 +38,60 @@ export default function HorizontalScrollCards() {
   return (
     <div
       ref={container}
-      className="relative h-96 w-full max-w-2xl overflow-y-auto rounded-2xl border bg-card p-6 shadow-md [scrollbar-width:thin]"
+      className="h-[22rem] w-full overflow-y-auto rounded-b-lg"
     >
-      <div className="mb-4">
-        <h3 className="text-lg font-semibold text-foreground">
-          Core Engine Subsystems
-        </h3>
-        <p className="text-xs text-muted-foreground">
-          Scroll vertically to pan through modular architecture cards.
-        </p>
-      </div>
+      <HorizontalScroll
+        container={container}
+        scrollPadding={120}
+        trackClassName="items-center px-6 sm:px-10"
+      >
+        <div className="w-56 shrink-0 pr-8">
+          <h3 className="text-xl font-semibold tracking-tight">产品路线图</h3>
+          <p className="text-muted-foreground mt-2 text-sm leading-6">
+            向下滚动，沿时间线浏览。
+          </p>
+        </div>
 
-      <HorizontalScroll container={container} trackClassName="gap-4 pb-4">
-        {modules.map((m) => {
-          const Icon = m.icon
+        {roadmap.map((stage) => {
+          const done = stage.status === "已发布"
+          const active = stage.status === "进行中"
+
           return (
-            <div
-              key={m.title}
-              className="flex w-64 shrink-0 flex-col justify-between rounded-xl border bg-muted/30 p-5 shadow-xs"
-            >
-              <div>
-                <div className="flex size-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                  <Icon className="size-5" />
+            <section key={stage.quarter} className="w-60 shrink-0">
+              <div className="flex items-center">
+                <span
+                  className={
+                    done || active
+                      ? "bg-foreground size-2.5 shrink-0 rounded-full"
+                      : "border-muted-foreground/50 bg-background size-2.5 shrink-0 rounded-full border"
+                  }
+                />
+                <span
+                  className={
+                    done ? "bg-foreground h-px flex-1" : "bg-border h-px flex-1"
+                  }
+                />
+              </div>
+              <div className="pt-4 pr-6">
+                <div className="flex items-center gap-2">
+                  <p className="font-mono text-sm">{stage.quarter}</p>
+                  <span
+                    className={
+                      active
+                        ? "bg-foreground text-background rounded px-1.5 py-0.5 text-[11px]"
+                        : "text-muted-foreground text-xs"
+                    }
+                  >
+                    {stage.status}
+                  </span>
                 </div>
-                <h4 className="mt-3 font-semibold text-foreground">{m.title}</h4>
-                <p className="mt-1 text-xs text-muted-foreground leading-relaxed">
-                  {m.desc}
-                </p>
+                <ul className="text-muted-foreground mt-3 space-y-1.5 text-sm">
+                  {stage.items.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
               </div>
-              <div className="mt-4 border-t pt-3">
-                <Badge variant="secondary" className="text-[10px] font-mono">
-                  {m.stat}
-                </Badge>
-              </div>
-            </div>
+            </section>
           )
         })}
       </HorizontalScroll>

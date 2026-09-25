@@ -10,27 +10,21 @@ export default function ScrollTextReveal() {
   return (
     <div
       ref={container}
-      className="relative h-80 w-full max-w-xl overflow-y-auto rounded-2xl border bg-card p-6 shadow-md [scrollbar-width:thin]"
+      className="h-[24rem] w-full overflow-y-auto rounded-b-lg"
     >
-      <div className="text-xs font-mono uppercase tracking-widest text-primary mb-4">
-        Scroll Reveal / Word Granularity
-      </div>
-
-      <div className="my-6">
+      <div className="mx-auto max-w-2xl px-6 pt-48 pb-56">
+        <p className="text-muted-foreground mb-4 text-sm">年度回顾</p>
         <ScrollText
           container={container}
           mode="reveal"
-          per="word"
-          offset={["start 0.8", "end 0.3"]}
-          overlap={0.3}
-          className="text-xl font-semibold leading-relaxed text-foreground sm:text-2xl"
+          per="line"
+          overlap={0.6}
+          offset={["start 0.95", "end 0.6"]}
+          className="text-3xl leading-tight font-semibold tracking-tight sm:text-4xl"
         >
-          Precision engineering meets natural fluidity. Every micro-interaction
-          in WUI is calibrated for instant cognitive clarity.
+          {"一年，\n我们发布了 48 个版本，\n回复了 3,200 条反馈，\n也删掉了 11 个功能。"}
         </ScrollText>
       </div>
-
-      <div className="h-40" />
     </div>
   )
 }

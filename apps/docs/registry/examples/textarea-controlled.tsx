@@ -1,39 +1,59 @@
 "use client"
 
 import * as React from "react"
+
+import { Button } from "@/registry/ui/button"
 import { Textarea } from "@/registry/ui/textarea"
 
+const templates = [
+  { label: "简洁", text: "前端工程师，专注设计系统与交互动效。" },
+  {
+    label: "详细",
+    text: "8 年前端经验，负责过千万级用户产品的设计系统建设，关注可访问性、性能与交互细节。",
+  },
+]
+
 export default function TextareaControlled() {
-  const [value, setValue] = React.useState(
-    "这是一个受控文本域示例。您可以实时监听输入事件并同步更新外部状态。"
-  )
+  const [value, setValue] = React.useState(templates[0].text)
 
   return (
-    <div className="w-full max-w-md space-y-3">
-      <div className="space-y-1.5">
-        <label htmlFor="ctrl-textarea" className="text-xs font-medium text-muted-foreground">
-          个人简介 (Bio)
+    <div className="grid w-full max-w-md gap-2">
+      <div className="flex items-center justify-between">
+        <label htmlFor="profile-bio" className="text-sm font-medium">
+          个人简介
         </label>
-        <Textarea
-          id="ctrl-textarea"
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-          rows={4}
-          showCount
-          maxLength={200}
-        />
+        <div className="flex items-center gap-1">
+          {templates.map((template) => (
+            <Button
+              key={template.label}
+              size="sm"
+              variant="ghost"
+              className="h-7 px-2 text-xs"
+              onClick={() => setValue(template.text)}
+            >
+              {template.label}模板
+            </Button>
+          ))}
+          <Button
+            size="sm"
+            variant="ghost"
+            className="text-muted-foreground h-7 px-2 text-xs"
+            disabled={!value}
+            onClick={() => setValue("")}
+          >
+            清空
+          </Button>
+        </div>
       </div>
-
-      <div className="flex items-center justify-between text-xs text-muted-foreground">
-        <span>当前字数：{value.length} 字符</span>
-        <button
-          type="button"
-          onClick={() => setValue("")}
-          className="hover:text-foreground underline underline-offset-2"
-        >
-          清空内容
-        </button>
-      </div>
+      <Textarea
+        id="profile-bio"
+        value={value}
+        onChange={(event) => setValue(event.target.value)}
+        autoSize={{ minRows: 3, maxRows: 6 }}
+        showCount
+        maxLength={120}
+        placeholder="一句话介绍你自己"
+      />
     </div>
   )
 }

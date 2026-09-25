@@ -1,4 +1,7 @@
-import { BellIcon, BoxesIcon, SearchIcon } from "lucide-react"
+"use client"
+
+import * as React from "react"
+import { BellIcon, SearchIcon } from "lucide-react"
 
 import {
   Navbar,
@@ -12,12 +15,21 @@ import {
   NavbarSeparator,
 } from "@/registry/ui/navbar"
 
+const links = [
+  { id: "overview", label: "概览" },
+  { id: "projects", label: "项目" },
+  { id: "reports", label: "报表" },
+  { id: "team", label: "团队" },
+]
+
 export default function NavbarDemo() {
+  const [active, setActive] = React.useState("overview")
+
   return (
     <Navbar aria-label="主导航" className="max-w-3xl">
       <NavbarHeader>
         <NavbarBrand href="#">
-          <span className="flex size-7 items-center justify-center bg-foreground text-xs font-bold text-background">
+          <span className="bg-foreground text-background flex size-7 items-center justify-center rounded-md text-xs font-bold">
             W
           </span>
           Workspace
@@ -25,17 +37,20 @@ export default function NavbarDemo() {
       </NavbarHeader>
       <NavbarContent>
         <NavbarList>
-          <NavbarItem>
-            <NavbarLink href="#" active>
-              概览
-            </NavbarLink>
-          </NavbarItem>
-          <NavbarItem>
-            <NavbarLink href="#">项目</NavbarLink>
-          </NavbarItem>
-          <NavbarItem>
-            <NavbarLink href="#">团队</NavbarLink>
-          </NavbarItem>
+          {links.map((link) => (
+            <NavbarItem key={link.id}>
+              <NavbarLink
+                href={`#${link.id}`}
+                active={active === link.id}
+                onClick={(event) => {
+                  event.preventDefault()
+                  setActive(link.id)
+                }}
+              >
+                {link.label}
+              </NavbarLink>
+            </NavbarItem>
+          ))}
         </NavbarList>
       </NavbarContent>
       <NavbarFooter className="gap-1">
@@ -45,9 +60,6 @@ export default function NavbarDemo() {
         </NavbarLink>
         <NavbarLink href="#" aria-label="通知" className="px-2.5">
           <BellIcon />
-        </NavbarLink>
-        <NavbarLink href="#" aria-label="资源" className="px-2.5">
-          <BoxesIcon />
         </NavbarLink>
       </NavbarFooter>
     </Navbar>

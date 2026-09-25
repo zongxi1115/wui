@@ -10,7 +10,7 @@ const cloudResources = [
     value: "rds-postgres",
     label: (
       <div className="flex items-center gap-2">
-        <Database className="size-4 text-sky-500" />
+        <Database className="size-4 text-muted-foreground" />
         <span>PostgreSQL 生产集群</span>
       </div>
     ),
@@ -21,7 +21,7 @@ const cloudResources = [
     value: "ecs-gateway",
     label: (
       <div className="flex items-center gap-2">
-        <Server className="size-4 text-emerald-500" />
+        <Server className="size-4 text-muted-foreground" />
         <span>API 网关节点集群</span>
       </div>
     ),
@@ -32,7 +32,7 @@ const cloudResources = [
     value: "oss-assets",
     label: (
       <div className="flex items-center gap-2">
-        <HardDrive className="size-4 text-amber-500" />
+        <HardDrive className="size-4 text-muted-foreground" />
         <span>静态资源对象存储 Bucket</span>
       </div>
     ),
@@ -43,7 +43,7 @@ const cloudResources = [
     value: "vpc-private",
     label: (
       <div className="flex items-center gap-2">
-        <Network className="size-4 text-violet-500" />
+        <Network className="size-4 text-muted-foreground" />
         <span>核心金融 VPC 隔离网络</span>
       </div>
     ),

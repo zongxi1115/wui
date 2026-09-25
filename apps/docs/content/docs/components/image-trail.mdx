@@ -6,9 +6,9 @@ component: image-trail
 
 ## 基础用法
 
-在交互画布内快速移动鼠标，指针沿途将留下精致的照片快照卡片并逐渐淡出：
+在画布内移动鼠标，照片沿指针轨迹以弹簧弹出、带随机角度，随后顺着移动方向淡出：
 
-<ComponentPreview name="image-trail-demo" />
+<ComponentPreview name="image-trail-demo" previewClassName="min-h-0 p-0" />
 
 ## 安装与引入
 
@@ -63,6 +63,12 @@ pnpm add motion lucide-react class-variance-authority clsx tailwind-merge
       description: "画布上允许同时存在的最大拖尾项数量上限，防止密集移动导致 DOM 过载。",
     },
     {
+      prop: "rotation",
+      type: "number",
+      default: "8",
+      description: "每个拖尾项随机旋转角度的上限（度），`0` 表示保持水平。",
+    },
+    {
       prop: "itemClassName",
       type: "string",
       description: "应用于每个由 absolute 定位的拖尾单项的 CSS 类名。",
@@ -97,13 +103,14 @@ pnpm add motion lucide-react class-variance-authority clsx tailwind-merge
 `ImageTrail` 适用于**创意设计工作室主页、作品集画廊、品牌互动 Hero 展区**：
 
 - **智能节流与垃圾回收**：内置欧氏距离计算与 `setTimeout` 定时器清理机制，未达到移动阈值时不会产生多余渲染。
-- **轻量旋转与物理弹跳**：新生成的拖尾项自动带有轻微随机旋转与入场缩放，显得自然灵动。
+- **轻量旋转与物理弹跳**：新生成的拖尾项以弹簧入场并带随机旋转（由 `rotation` 控制），离场时沿指针移动方向轻微漂移。
+- **生命周期**：`lifetime` 是拖尾项完整停留的时长，之后再播放约 0.45 秒的淡出。
 
 ## 场景示例
 
-### 浮动徽章流
+### 标签拖尾
 
-在深色卡片内移动指针生成系统能力徽章流：
+拖尾项不限于图片，任意节点都可以。这里用带主题色圆点的标签，并加大 `rotation`：
 
 <ComponentPreview name="image-trail-cards" />
 

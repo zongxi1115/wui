@@ -10,6 +10,7 @@ import {
   useTransform,
   type MotionValue,
   type Transition,
+  type Variants,
 } from "motion/react"
 
 import { cn } from "@/registry/lib/utils"
@@ -59,6 +60,22 @@ export interface SlidingNumberProps extends React.ComponentProps<"span"> {
   transition?: Transition
 }
 
+const digitVariants: Variants = {
+  initial: (direction: SlideDirection) => ({
+    opacity: 0,
+    width: 0,
+    y: direction < 0 ? "-0.3em" : "0.3em",
+    filter: "blur(2px)",
+  }),
+  animate: { opacity: 1, width: "0.62em", y: "0em", filter: "blur(0px)" },
+  exit: (direction: SlideDirection) => ({
+    opacity: 0,
+    width: 0,
+    y: direction < 0 ? "0.3em" : "-0.3em",
+    filter: "blur(2px)",
+  }),
+}
+
 function SlidingDigit({
   digit,
   direction,
@@ -73,13 +90,25 @@ function SlidingDigit({
   const position = useMotionValue(digit)
   const previousDigit = React.useRef(digit)
   const targetPosition = React.useRef(digit)
+  // Read the latest direction/transition without restarting the roll on
+  // unrelated re-renders.
+  const latest = React.useRef({ direction, transition })
+
+  React.useEffect(() => {
+    latest.current = { direction, transition }
+  })
 
   React.useEffect(() => {
     const previous = previousDigit.current
+    if (previous === digit) return
+    const { direction: currentDirection, transition: currentTransition } =
+      latest.current
     let distance = digit - previous
 
-    if (direction > 0 && distance < 0) distance += 10
-    if (direction < 0 && distance > 0) distance -= 10
+    // Roll the long way round so every reel moves with the value's direction
+    // (e.g. 9 → 0 keeps rolling up when the number increases).
+    if (currentDirection > 0 && distance < 0) distance += 10
+    if (currentDirection < 0 && distance > 0) distance -= 10
 
     targetPosition.current += distance
     previousDigit.current = digit
@@ -89,26 +118,20 @@ function SlidingDigit({
       return
     }
 
-    const playback = animate(position, targetPosition.current, transition)
+    const playback = animate(position, targetPosition.current, currentTransition)
     return () => playback.stop()
-  }, [digit, direction, position, reduceMotion, transition])
+  }, [digit, position, reduceMotion])
 
   return (
     <motion.span
       data-slot="sliding-number-digit"
       className="relative inline-block h-[1em] w-[0.62em] shrink-0 overflow-hidden align-[-0.08em]"
-      initial={
-        reduceMotion
-          ? false
-          : { opacity: 0, width: 0, y: direction < 0 ? "-0.15em" : "0.15em" }
-      }
-      animate={{ opacity: 1, width: "0.62em", y: "0em" }}
-      exit={
-        reduceMotion
-          ? { opacity: 0, width: 0 }
-          : { opacity: 0, width: 0, y: "0.15em" }
-      }
-      transition={{ duration: reduceMotion ? 0 : 0.18, ease: "easeOut" }}
+      custom={direction}
+      variants={digitVariants}
+      initial={reduceMotion ? false : "initial"}
+      animate="animate"
+      exit="exit"
+      transition={{ duration: reduceMotion ? 0 : 0.24, ease: [0.22, 1, 0.36, 1] }}
     >
       {Array.from({ length: 10 }, (_, number) => (
         <SlidingDigitValue
@@ -131,7 +154,12 @@ function SlidingNumber({
   ...props
 }: SlidingNumberProps) {
   const reduceMotion = useReducedMotion()
-  const numericValue = Number(value)
+  // Ignore grouping separators and units so "12,480" still resolves a
+  // direction for the roll.
+  const numericValue =
+    typeof value === "number"
+      ? value
+      : Number(value.replace(/[^\d.-]/g, ""))
   const previousValue = React.useRef(numericValue)
   const direction: SlideDirection = Number.isFinite(numericValue)
     ? numericValue > previousValue.current
@@ -164,7 +192,7 @@ function SlidingNumber({
       {...props}
     >
       <span aria-hidden="true" className="inline-flex items-baseline">
-        <AnimatePresence initial={false}>
+        <AnimatePresence initial={false} custom={direction}>
           {characters.map((character, index) => {
             const digit = Number(character)
             const place = characters.length - index - 1

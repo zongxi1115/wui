@@ -165,6 +165,11 @@ pnpm add radix-ui motion lucide-react class-variance-authority clsx tailwind-mer
       description: "是否禁用该选项的选择交互。",
     },
     {
+      prop: "description",
+      type: "ReactNode",
+      description: "显示在选项名称下方的辅助说明，只出现在下拉面板中，不会带入触发器。",
+    },
+    {
       prop: "textValue",
       type: "string",
       description: "当子内容包含复杂 ReactNode 时，用于键盘字符首字母快速定位的纯文本别名。",
@@ -289,5 +294,7 @@ return (
   - <kbd>Home</kbd> / <kbd>End</kbd>：快速将焦点跳至首个或最后一个可用选项。
   - **首字母连续输入搜索 (Typeahead)**：在浮层展开时直接键入英文字符，焦点会自动快速跳至以该字符开头的选项。
   - <kbd>Escape</kbd>：关闭下拉浮层并将焦点重新归还给触发器。
-- **动效降级**：
-  - 浮层展开与勾选图标的弹簧微动效均内置监听 `prefers-reduced-motion`，在系统开启减弱动态效果时将瞬间呈现，确保视觉舒适度与无障碍标准合规。
+- **动效**：
+  - 浮层从触发器方向展开（读取 `--radix-select-content-transform-origin`）。
+  - 悬停或方向键移动时，高亮背景以弹簧动画在选项之间滑动；选中后触发器中的值以淡入上移过渡刷新。
+  - 所有动效均监听 `prefers-reduced-motion`，在系统开启减弱动态效果时瞬间呈现。

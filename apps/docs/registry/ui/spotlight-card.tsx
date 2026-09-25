@@ -11,8 +11,23 @@ export interface SpotlightCardProps extends React.ComponentProps<"div"> {
   radius?: number
   /** CSS color used at the center of the spotlight. @default "color-mix(in oklab, var(--foreground) 16%, transparent)" */
   color?: string
+  /** CSS color of a 1px edge highlight that follows the pointer. Omit to disable. */
+  borderColor?: string
+  /** Let the light trail the pointer with eased motion instead of snapping to it. @default true */
+  smooth?: boolean
   /** Classes applied to the spotlight layer. */
   spotlightClassName?: string
+}
+
+const edgeMask: React.CSSProperties = {
+  maskImage: "linear-gradient(#000 0 0), linear-gradient(#000 0 0)",
+  maskClip: "content-box, border-box",
+  maskOrigin: "content-box, border-box",
+  maskComposite: "exclude",
+}
+
+function prefersReducedMotion() {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches
 }
 
 /** Illuminates a surface around the current pointer position. */
@@ -20,7 +35,10 @@ function SpotlightCard({
   children,
   radius = 220,
   color = "color-mix(in oklab, var(--foreground) 16%, transparent)",
+  borderColor,
+  smooth = true,
   className,
+  style,
   spotlightClassName,
   onPointerEnter,
   onPointerMove,
@@ -28,55 +46,104 @@ function SpotlightCard({
   ...props
 }: SpotlightCardProps) {
   const rootRef = React.useRef<HTMLDivElement>(null)
-  const spotlightRef = React.useRef<HTMLDivElement>(null)
+  const target = React.useRef({ x: 0, y: 0 })
+  const current = React.useRef({ x: 0, y: 0 })
+  const frame = React.useRef(0)
+  const lastTime = React.useRef(0)
 
-  function updateSpotlight(event: React.PointerEvent<HTMLDivElement>) {
-    if (event.pointerType === "touch") return
+  React.useEffect(() => () => cancelAnimationFrame(frame.current), [])
+
+  function paint() {
+    const root = rootRef.current
+    if (!root) return
+    root.style.setProperty("--spotlight-x", `${current.current.x}px`)
+    root.style.setProperty("--spotlight-y", `${current.current.y}px`)
+  }
+
+  function tick(time: number) {
+    const dt = Math.min((time - lastTime.current) / 1000, 0.064)
+    lastTime.current = time
+    const ease = 1 - Math.exp(-dt * 14)
+    current.current.x += (target.current.x - current.current.x) * ease
+    current.current.y += (target.current.y - current.current.y) * ease
+    paint()
+
+    const remaining =
+      Math.abs(target.current.x - current.current.x) +
+      Math.abs(target.current.y - current.current.y)
+    frame.current = remaining > 0.5 ? requestAnimationFrame(tick) : 0
+  }
+
+  function track(event: React.PointerEvent<HTMLDivElement>, jump: boolean) {
     const rect = event.currentTarget.getBoundingClientRect()
-    const layer = spotlightRef.current
-    if (!layer) return
-    layer.style.setProperty("--spotlight-x", `${event.clientX - rect.left}px`)
-    layer.style.setProperty("--spotlight-y", `${event.clientY - rect.top}px`)
+    target.current = {
+      x: event.clientX - rect.left,
+      y: event.clientY - rect.top,
+    }
+
+    if (jump || !smooth || prefersReducedMotion()) {
+      current.current = { ...target.current }
+      paint()
+      return
+    }
+
+    if (!frame.current) {
+      lastTime.current = performance.now()
+      frame.current = requestAnimationFrame(tick)
+    }
   }
 
   return (
     <div
       ref={rootRef}
       data-slot="spotlight-card"
-      className={cn("relative isolate overflow-hidden", className)}
+      className={cn("group/spotlight relative isolate overflow-hidden", className)}
+      style={
+        {
+          "--spotlight-x": "50%",
+          "--spotlight-y": "50%",
+          ...style,
+        } as React.CSSProperties
+      }
       onPointerEnter={(event) => {
-        updateSpotlight(event)
-        if (event.pointerType !== "touch" && spotlightRef.current) {
-          spotlightRef.current.style.opacity = "1"
+        if (event.pointerType !== "touch") {
+          track(event, true)
+          rootRef.current?.setAttribute("data-spotlight", "on")
         }
         onPointerEnter?.(event)
       }}
       onPointerMove={(event) => {
-        updateSpotlight(event)
+        if (event.pointerType !== "touch") track(event, false)
         onPointerMove?.(event)
       }}
       onPointerLeave={(event) => {
-        if (spotlightRef.current) spotlightRef.current.style.opacity = "0"
+        rootRef.current?.removeAttribute("data-spotlight")
         onPointerLeave?.(event)
       }}
       {...props}
     >
       <div
-        ref={spotlightRef}
         aria-hidden="true"
         data-slot="spotlight-card-light"
         className={cn(
-          "pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-200",
+          "pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-300 group-data-[spotlight=on]/spotlight:opacity-100",
           spotlightClassName
         )}
-        style={
-          {
-            "--spotlight-x": "50%",
-            "--spotlight-y": "50%",
-            background: `radial-gradient(circle ${radius}px at var(--spotlight-x) var(--spotlight-y), ${color}, transparent 72%)`,
-          } as React.CSSProperties
-        }
+        style={{
+          background: `radial-gradient(circle ${radius}px at var(--spotlight-x) var(--spotlight-y), ${color}, transparent 72%)`,
+        }}
       />
+      {borderColor ? (
+        <div
+          aria-hidden="true"
+          data-slot="spotlight-card-edge"
+          className="pointer-events-none absolute inset-0 z-10 rounded-[inherit] p-px opacity-0 transition-opacity duration-300 group-data-[spotlight=on]/spotlight:opacity-100"
+          style={{
+            background: `radial-gradient(circle ${radius * 0.75}px at var(--spotlight-x) var(--spotlight-y), ${borderColor}, transparent 70%)`,
+            ...edgeMask,
+          }}
+        />
+      ) : null}
       {children}
     </div>
   )

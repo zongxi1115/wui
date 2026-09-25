@@ -2,15 +2,16 @@
 
 import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
-import { SparklesIcon, ArrowUpRightIcon } from "lucide-react"
+import { ArrowUpRightIcon } from "lucide-react"
 
 import { cn } from "@/registry/lib/utils"
 
 const aiPromptSuggestionsVariants = cva("w-full", {
   variants: {
     layout: {
-      grid: "grid grid-cols-1 gap-2.5 sm:grid-cols-2 lg:grid-cols-3",
-      scroll: "flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none",
+      grid: "grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3",
+      scroll:
+        "flex snap-x snap-mandatory items-stretch gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [&>*]:shrink-0 [&>*]:snap-start",
       chips: "flex flex-wrap items-center gap-1.5",
     },
   },
@@ -26,13 +27,15 @@ export interface AiPromptSuggestionsProps
   layout?: "grid" | "scroll" | "chips"
 }
 
-/** 用于引导用户开启对话的预设提问卡片与标签组。 */
+/** 用于引导用户开启对话的预设提问卡片与标签组。子项挂载时依次错峰进入。 */
 function AiPromptSuggestions({
   className,
   layout = "grid",
   children,
   ...props
 }: AiPromptSuggestionsProps) {
+  let order = 0
+
   return (
     <div
       data-slot="ai-prompt-suggestions"
@@ -40,19 +43,30 @@ function AiPromptSuggestions({
       className={cn(aiPromptSuggestionsVariants({ layout }), className)}
       {...props}
     >
-      {children}
+      {React.Children.map(children, (child) => {
+        if (!React.isValidElement<{ style?: React.CSSProperties }>(child)) {
+          return child
+        }
+        const delay = `${Math.min(order++, 10) * 40}ms`
+        return React.cloneElement(child, {
+          style: {
+            "--tw-animation-delay": delay,
+            ...child.props.style,
+          } as React.CSSProperties,
+        })
+      })}
     </div>
   )
 }
 
 const aiPromptSuggestionItemVariants = cva(
-  "group relative flex items-start text-left transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/35 cursor-pointer select-none",
+  "group relative flex cursor-pointer select-none items-start text-left outline-none transition-[background-color,border-color,color,translate] duration-200 ease-out focus-visible:ring-[3px] focus-visible:ring-ring/35 disabled:pointer-events-none disabled:opacity-50 fill-mode-both animation-duration-300 motion-safe:animate-in motion-safe:fade-in-0 motion-safe:slide-in-from-bottom-1",
   {
     variants: {
       variant: {
-        card: "flex-col gap-1.5 rounded-xl border border-border/80 bg-card p-3.5 shadow-xs hover:border-border hover:bg-muted/40 hover:shadow-sm",
-        chip: "inline-flex items-center gap-1.5 rounded-full border border-border/70 bg-background px-3 py-1.5 text-xs text-muted-foreground hover:border-border hover:bg-muted hover:text-foreground",
-        ghost: "flex-col gap-1 rounded-lg p-2.5 hover:bg-muted/50",
+        card: "flex-col gap-1 rounded-lg border bg-background p-3 hover:border-foreground/20 hover:bg-muted/40 motion-safe:hover:-translate-y-px motion-safe:active:translate-y-0",
+        chip: "inline-flex items-center gap-1.5 rounded-full border bg-background px-3 py-1.5 text-xs text-muted-foreground hover:border-foreground/20 hover:bg-muted/60 hover:text-foreground",
+        ghost: "flex-col gap-1 rounded-md p-2.5 hover:bg-muted/60",
       },
     },
     defaultVariants: {
@@ -103,13 +117,16 @@ function AiPromptSuggestionItem({
       <button
         type="button"
         data-slot="ai-prompt-suggestion-item"
+        data-variant={variant}
         className={cn(aiPromptSuggestionItemVariants({ variant }), className)}
         onClick={handleClick}
         {...props}
       >
-        <span className="flex size-3.5 shrink-0 items-center justify-center text-muted-foreground group-hover:text-foreground">
-          {icon ?? <SparklesIcon className="size-3" />}
-        </span>
+        {icon ? (
+          <span className="flex size-3.5 shrink-0 items-center justify-center text-muted-foreground transition-colors group-hover:text-foreground [&_svg]:size-3.5">
+            {icon}
+          </span>
+        ) : null}
         <span className="truncate font-medium">{title}</span>
         {badge}
       </button>
@@ -120,26 +137,29 @@ function AiPromptSuggestionItem({
     <button
       type="button"
       data-slot="ai-prompt-suggestion-item"
+      data-variant={variant}
       className={cn(aiPromptSuggestionItemVariants({ variant }), className)}
       onClick={handleClick}
       {...props}
     >
       <div className="flex w-full items-center justify-between gap-2">
-        <div className="flex items-center gap-2">
+        <div className="flex min-w-0 items-center gap-2">
           {icon && (
-            <span className="flex size-5 shrink-0 items-center justify-center rounded-md bg-muted text-muted-foreground group-hover:text-foreground">
+            <span className="flex size-6 shrink-0 items-center justify-center rounded-md bg-muted text-muted-foreground transition-colors group-hover:text-foreground [&_svg]:size-3.5">
               {icon}
             </span>
           )}
-          <span className="text-xs font-semibold text-foreground">{title}</span>
+          <span className="truncate text-sm font-medium text-foreground">
+            {title}
+          </span>
         </div>
-        <div className="flex items-center gap-1">
+        <div className="flex shrink-0 items-center gap-1">
           {badge}
-          <ArrowUpRightIcon className="size-3.5 text-muted-foreground opacity-0 transition-opacity duration-150 group-hover:opacity-100" />
+          <ArrowUpRightIcon className="size-3.5 -translate-x-0.5 translate-y-0.5 text-muted-foreground opacity-0 transition-[opacity,translate] duration-200 ease-out group-hover:translate-x-0 group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:opacity-100" />
         </div>
       </div>
       {description && (
-        <p className="line-clamp-2 text-[11px] leading-relaxed text-muted-foreground">
+        <p className="line-clamp-2 text-xs leading-5 text-muted-foreground">
           {description}
         </p>
       )}

@@ -208,9 +208,11 @@ export interface CascaderOption {
 
 ## 无障碍与交互 Accessibility
 
-- **ARIA 规范**：触发按钮挂载 `role="combobox"` / `aria-haspopup="listbox"` 及 `aria-expanded`；各级选项列使用 `role="option"` 与 `aria-selected` 反映当前高亮状态。
+- **ARIA 规范**：触发按钮挂载 `aria-haspopup="dialog"` 及 `aria-expanded`；每一列是带“第 N 级”标签的 `role="listbox"`，选项使用 `role="option"` 与 `aria-selected` 反映当前路径。
 - **键盘导航**：
-  - <kbd>Tab</kbd>：将焦点移动至级联触发按钮。
-  - <kbd>Space</kbd> / <kbd>Enter</kbd>：展开或收起级联选项弹出层。
-  - <kbd>Esc</kbd>：立即关闭弹出层并将焦点恢复至触发按钮。
-- **动效降级**：分栏列滑入动效和指示箭头旋转动效完全兼容 `prefers-reduced-motion`，用户开启系统级减少动效时将直接呈现最终状态。
+  - <kbd>Space</kbd> / <kbd>Enter</kbd>：展开弹层，焦点自动落在最深一级的已选项上（开启搜索时聚焦搜索框）。
+  - <kbd>↑</kbd> / <kbd>↓</kbd>、<kbd>Home</kbd> / <kbd>End</kbd>：在当前列内移动焦点。
+  - <kbd>→</kbd>：展开当前项的下一级并聚焦其第一项；<kbd>←</kbd>：返回上一级。
+  - 搜索框中按 <kbd>↓</kbd> 进入结果列表，在第一项按 <kbd>↑</kbd> 回到搜索框。
+  - <kbd>Esc</kbd>：关闭弹出层并将焦点恢复至触发按钮。
+- **动效**：弹层从触发器方向缩放展开；切换父级时下一列从右侧滑入替换旧列；每列的选中背景在选项间滑动；触发器中的路径分段依次淡入。全部兼容 `prefers-reduced-motion`。

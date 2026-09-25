@@ -252,3 +252,5 @@ pnpm add radix-ui lucide-react clsx tailwind-merge
   - <kbd>Esc</kbd>：关闭当前打开的菜单层级。
   - **首字母按键查找（Typeahead）**：在菜单打开状态下直接键入字符，焦点会自动快速跳转到首字母匹配的菜单项。
 - **焦点恢复**：菜单关闭后，焦点自动无缝归还到触发按钮。
+- **方向感知动效**：菜单与子菜单均以触发器方向为缩放原点展开（`--radix-dropdown-menu-content-transform-origin`），勾选与单选指示器以缩放方式出现，子菜单打开时箭头轻微右移；系统开启“减少动态效果”时自动关闭。
+- **高度约束**：菜单高度受可用视口空间（`--radix-dropdown-menu-content-available-height`）约束，超出时内部滚动。

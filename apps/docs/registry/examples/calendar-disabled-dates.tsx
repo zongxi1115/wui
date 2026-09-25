@@ -24,7 +24,7 @@ export default function CalendarDisabledDates() {
         value={date}
         onValueChange={setDate}
         disabled={isWeekendOrPast}
-        className="bg-background shadow-xs rounded-xl border"
+        className="bg-background rounded-lg border"
       />
       <div className="grid gap-2 text-xs">
         <div className="flex items-center gap-1.5 font-medium text-foreground">
@@ -32,9 +32,10 @@ export default function CalendarDisabledDates() {
           <span>工作日预约限制规则</span>
         </div>
         <p className="text-muted-foreground leading-relaxed">
-          通过 `disabled` 自定义判断函数，已自动禁用所有周末及已过去的历史日期，仅允许选择未来的工作日。
+          通过 <code className="bg-muted rounded px-1 font-mono">disabled</code>{" "}
+          判断函数禁用周末和已过去的日期，仅允许选择未来的工作日。
         </p>
-        <div className="bg-muted/50 rounded-lg p-2.5">
+        <div className="bg-muted/50 rounded-md p-2.5">
           <span className="text-muted-foreground">当前选定：</span>
           <span className="font-semibold text-foreground ml-1">
             {date

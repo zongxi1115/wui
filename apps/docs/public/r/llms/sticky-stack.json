@@ -59,6 +59,14 @@
       "description": "每有一张卡片位于当前项目上方时减少的缩放比例。"
     },
     {
+      "name": "dim",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0",
+      "description": "后方卡片上遮罩层的最大不透明度，设为 0 时关闭。"
+    },
+    {
       "name": "container",
       "type": "RefObject<HTMLElement | null>",
       "required": false,
@@ -73,7 +81,7 @@
     },
     {
       "name": "sticky-stack-features",
-      "title": "RAG 知识库流水线执行阶段"
+      "title": "定价方案"
     }
   ],
   "files": [

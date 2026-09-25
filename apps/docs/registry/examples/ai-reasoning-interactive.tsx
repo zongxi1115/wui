@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { PlayIcon, RotateCcwIcon, CheckCircle2Icon } from "lucide-react"
+import { PlayIcon, RotateCcwIcon } from "lucide-react"
 
 import { Button } from "@/registry/ui/button"
 import {
@@ -10,150 +10,130 @@ import {
   AiReasoningStep,
   AiReasoningTrigger,
 } from "@/registry/ui/ai-reasoning"
-import { Badge } from "@/registry/ui/badge"
+import { AiStream } from "@/registry/ui/ai-stream"
 
-interface StepData {
-  id: string
-  label: string
-  description: string
-  meta?: string
-}
-
-const ALL_STEPS: StepData[] = [
+const STEPS = [
   {
-    id: "1",
-    label: "解析用户意图与上下文约束",
-    description: "提取关键词：分布式事务、Saga 模式、补偿机制、Idempotency Key。",
-    meta: "120ms",
+    label: "拆解问题：订单支付与库存扣减跨两个服务",
+    description: "需要保证最终一致，同时允许任一服务短暂不可用。",
   },
   {
-    id: "2",
-    label: "查询架构知识库与最佳实践规范",
-    description: "检索微服务间通过消息队列实现最终一致性的补偿逻辑设计方案。",
-    meta: "340ms",
+    label: "比较 TCC、Saga 与本地消息表",
+    description: "TCC 侵入性高；Saga 补偿清晰；本地消息表实现成本最低。",
   },
   {
-    id: "3",
-    label: "推演高并发场景下的极端异常边界",
-    description: "分析网络超时、消息重复投递以及乱序到达时的幂等校验策略。",
-    meta: "580ms",
+    label: "推演重复投递与乱序到达",
+    description: "以订单号作为幂等键，消费端先查后写，状态机只允许前进。",
   },
   {
-    id: "4",
-    label: "生成具备回滚能力的完整实现步骤与时序图",
-    description: "输出包含 Try-Confirm-Cancel (TCC) 及本地消息表的架构选型建议。",
-    meta: "210ms",
+    label: "整理落地顺序与回滚预案",
   },
 ]
 
-export default function AiReasoningInteractive() {
-  const [currentStepIndex, setCurrentStepIndex] = React.useState<number>(-1)
-  const [isStreaming, setIsStreaming] = React.useState(false)
-  const [open, setOpen] = React.useState(true)
+const ANSWER =
+  "建议采用「本地消息表 + 可靠投递」：支付服务在同一事务内写订单与待发消息，由投递任务推送到库存服务；库存侧以订单号做幂等，失败时按 Saga 发起补偿退款。"
 
-  const startSimulation = () => {
-    setCurrentStepIndex(0)
-    setIsStreaming(true)
-    setOpen(true)
-  }
+type Phase = "idle" | "thinking" | "answering" | "done"
+
+export default function AiReasoningInteractive() {
+  const [phase, setPhase] = React.useState<Phase>("idle")
+  const [stepCount, setStepCount] = React.useState(0)
+  const [answer, setAnswer] = React.useState("")
 
   React.useEffect(() => {
-    if (!isStreaming || currentStepIndex < 0) return
-
-    if (currentStepIndex < ALL_STEPS.length) {
-      const timer = setTimeout(() => {
-        setCurrentStepIndex((prev) => prev + 1)
-      }, 900)
-      return () => clearTimeout(timer)
-    } else {
-      setIsStreaming(false)
+    if (phase !== "thinking") return
+    if (stepCount > STEPS.length) {
+      setPhase("answering")
+      return
     }
-  }, [isStreaming, currentStepIndex])
+    const timer = window.setTimeout(
+      () => setStepCount((count) => count + 1),
+      stepCount === 0 ? 500 : 1100
+    )
+    return () => window.clearTimeout(timer)
+  }, [phase, stepCount])
 
-  const resetSimulation = () => {
-    setIsStreaming(false)
-    setCurrentStepIndex(-1)
+  React.useEffect(() => {
+    if (phase !== "answering") return
+    let cursor = 0
+    const timer = window.setInterval(() => {
+      cursor = Math.min(cursor + 2, ANSWER.length)
+      setAnswer(ANSWER.slice(0, cursor))
+      if (cursor === ANSWER.length) {
+        window.clearInterval(timer)
+        setPhase("done")
+      }
+    }, 32)
+    return () => window.clearInterval(timer)
+  }, [phase])
+
+  function start() {
+    setStepCount(0)
+    setAnswer("")
+    setPhase("thinking")
   }
 
-  const duration = currentStepIndex >= ALL_STEPS.length ? 3.6 : undefined
+  function reset() {
+    setPhase("idle")
+    setStepCount(0)
+    setAnswer("")
+  }
+
+  const thinking = phase === "thinking"
+  const visibleSteps = STEPS.slice(0, stepCount)
 
   return (
-    <div className="w-full max-w-xl mx-auto space-y-4">
-      <div className="rounded-xl border bg-card p-4 shadow-xs">
-        <div className="flex items-center justify-between border-b pb-3 mb-3">
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-semibold text-foreground">思维链推理演示</span>
-            {isStreaming && (
-              <Badge variant="secondary" className="text-[10px] animate-pulse">
-                Thinking…
-              </Badge>
-            )}
-            {!isStreaming && currentStepIndex >= ALL_STEPS.length && (
-              <Badge variant="outline" className="text-success border-success/30 text-[10px]">
-                <CheckCircle2Icon className="size-3 mr-1" />
-                Done
-              </Badge>
-            )}
-          </div>
-          <span className="text-xs text-muted-foreground font-mono">
-            {Math.min(currentStepIndex + 1, ALL_STEPS.length)} / {ALL_STEPS.length} 步骤
-          </span>
-        </div>
-
-        <AiReasoning
-          open={open}
-          onOpenChange={setOpen}
-          isStreaming={isStreaming}
-          duration={duration}
-        >
-          <AiReasoningTrigger />
-          <AiReasoningContent>
-            {currentStepIndex >= 0 ? (
-              <div className="space-y-1">
-                {ALL_STEPS.map((step, idx) => {
-                  if (idx > currentStepIndex) return null
-                  const isCurrent = idx === currentStepIndex && isStreaming
-                  const isDone = idx < currentStepIndex || !isStreaming
-
-                  return (
-                    <AiReasoningStep
-                      key={step.id}
-                      status={isCurrent ? "active" : isDone ? "complete" : "pending"}
-                      label={step.label}
-                      description={step.description}
-                      meta={step.meta}
-                    />
-                  )
-                })}
-              </div>
-            ) : (
-              <p className="text-xs text-muted-foreground italic py-2">
-                点击下方「开始推理演练」查看思考链动态流式展开…
-              </p>
-            )}
-          </AiReasoningContent>
-        </AiReasoning>
-      </div>
-
+    <div className="mx-auto w-full max-w-xl space-y-4">
       <div className="flex items-center gap-2">
-        <Button
-          size="sm"
-          onClick={startSimulation}
-          disabled={isStreaming}
-        >
-          <PlayIcon className="size-3.5 mr-1" />
-          {isStreaming ? "正在推理分析中…" : "开始推理演练"}
+        <Button size="sm" onClick={start} disabled={thinking || phase === "answering"}>
+          <PlayIcon />
+          {phase === "idle" ? "发送问题" : "再问一次"}
         </Button>
         <Button
           size="sm"
-          variant="outline"
-          onClick={resetSimulation}
-          disabled={currentStepIndex === -1}
+          variant="ghost"
+          onClick={reset}
+          disabled={phase === "idle"}
         >
-          <RotateCcwIcon className="size-3.5 mr-1" />
+          <RotateCcwIcon />
           重置
         </Button>
       </div>
+
+      <div className="rounded-lg bg-muted/50 px-3.5 py-2.5 text-sm text-foreground">
+        两个微服务之间怎么保证下单和扣库存的一致性？
+      </div>
+
+      {phase !== "idle" ? (
+        <div className="space-y-3">
+          {/* No duration prop: the trigger measures the thinking time itself. */}
+          <AiReasoning isStreaming={thinking}>
+            <AiReasoningTrigger />
+            <AiReasoningContent>
+              {visibleSteps.map((step, index) => (
+                <AiReasoningStep
+                  key={step.label}
+                  status={
+                    thinking && index === visibleSteps.length - 1
+                      ? "active"
+                      : "complete"
+                  }
+                  label={step.label}
+                  description={step.description}
+                />
+              ))}
+            </AiReasoningContent>
+          </AiReasoning>
+
+          {answer ? (
+            <div className="text-sm leading-7 text-foreground">
+              <AiStream isStreaming={phase === "answering"} caret>
+                {answer}
+              </AiStream>
+            </div>
+          ) : null}
+        </div>
+      ) : null}
     </div>
   )
 }

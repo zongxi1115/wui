@@ -73,15 +73,23 @@
     },
     {
       "name": "trigger",
-      "type": "\"hover\" | \"mount\"",
+      "type": "\"hover\" | \"parent\" | \"mount\"",
       "required": false,
       "control": "select",
       "options": [
         "hover",
+        "parent",
         "mount"
       ],
       "defaultValue": "hover",
       "description": "是否在悬停时播放，或在挂载后立即播放。"
+    },
+    {
+      "name": "active",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "description": "从外部控制是否处于翻滚状态。"
     }
   ],
   "examples": [

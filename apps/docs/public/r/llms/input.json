@@ -76,6 +76,21 @@
       "description": "应用于最外层容器的额外 CSS 类名。"
     },
     {
+      "name": "allowClear",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "输入框有内容时是否显示带动画的清除按钮，清除时会以空值触发 onChange。"
+    },
+    {
+      "name": "onClear",
+      "type": "(() => void)",
+      "required": false,
+      "control": "text",
+      "description": "点击清除按钮清空内容后触发。"
+    },
+    {
       "name": "disabled",
       "type": "boolean",
       "required": false,

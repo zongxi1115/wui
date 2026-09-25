@@ -9,6 +9,8 @@ type ResizableOrientation = "horizontal" | "vertical"
 
 interface ResizableContextValue {
   disabled: boolean
+  dragging: boolean
+  setDragging: (dragging: boolean) => void
   maxSize: number
   minSize: number
   orientation: ResizableOrientation
@@ -74,6 +76,7 @@ function ResizablePanelGroup({
     clamp(defaultSize)
   )
   const currentSize = clamp(controlledSize ?? internalSize)
+  const [dragging, setDragging] = React.useState(false)
 
   const setSize = React.useCallback(
     (next: number) => {
@@ -87,6 +90,8 @@ function ResizablePanelGroup({
   const context = React.useMemo(
     () => ({
       disabled,
+      dragging,
+      setDragging,
       maxSize: upperBound,
       minSize: lowerBound,
       orientation,
@@ -94,7 +99,7 @@ function ResizablePanelGroup({
       size: currentSize,
       step: Math.max(0.1, step),
     }),
-    [currentSize, disabled, lowerBound, orientation, setSize, step, upperBound]
+    [currentSize, disabled, dragging, lowerBound, orientation, setSize, step, upperBound]
   )
 
   return (
@@ -102,6 +107,7 @@ function ResizablePanelGroup({
       <div
         data-slot="resizable-panel-group"
         data-orientation={orientation}
+        data-dragging={dragging || undefined}
         className={cn(
           "flex size-full min-h-0 min-w-0 overflow-hidden",
           orientation === "vertical" && "flex-col",
@@ -121,13 +127,16 @@ function ResizablePanelGroup({
   )
 }
 
-/** ResizablePanelGroup 内的内容面板；首个面板由手柄调整尺寸。 */
+/**
+ * ResizablePanelGroup 内的内容面板；首个面板由手柄调整尺寸。
+ * 键盘调整时尺寸平滑过渡，拖动期间跟手无延迟。
+ */
 function ResizablePanel({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="resizable-panel"
       className={cn(
-        "min-h-0 min-w-0 flex-1 overflow-auto first:grow-0 first:basis-[var(--resizable-primary-size)]",
+        "min-h-0 min-w-0 flex-1 overflow-auto first:grow-0 first:basis-[var(--resizable-primary-size)] first:transition-[flex-basis] first:duration-200 first:ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none [[data-dragging]>&]:transition-none",
         className
       )}
       {...props}
@@ -146,6 +155,8 @@ function ResizableHandle({
   withHandle = false,
   onPointerDown,
   onPointerMove,
+  onPointerUp,
+  onLostPointerCapture,
   onKeyDown,
   ...props
 }: ResizableHandleProps) {
@@ -171,6 +182,7 @@ function ResizableHandle({
       data-slot="resizable-handle"
       data-orientation={context.orientation}
       data-disabled={context.disabled || undefined}
+      data-dragging={context.dragging || undefined}
       role="separator"
       aria-orientation={context.orientation}
       aria-valuemin={context.minSize}
@@ -179,7 +191,10 @@ function ResizableHandle({
       aria-disabled={context.disabled}
       tabIndex={context.disabled ? -1 : 0}
       className={cn(
-        "bg-border focus-visible:ring-ring relative z-10 flex shrink-0 touch-none select-none items-center justify-center outline-none focus-visible:ring-2 focus-visible:ring-offset-2 data-[orientation=vertical]:h-px data-[orientation=horizontal]:w-px data-[disabled]:cursor-not-allowed data-[orientation=horizontal]:cursor-col-resize data-[orientation=vertical]:cursor-row-resize data-[disabled]:opacity-50 [&[data-orientation=vertical]>div]:rotate-90",
+        "group/handle bg-border relative z-10 flex shrink-0 touch-none select-none items-center justify-center outline-none transition-colors duration-200",
+        // 1px visual line with a wider invisible hit area so it is easy to grab.
+        "after:absolute after:content-[''] data-[orientation=horizontal]:w-px data-[orientation=horizontal]:after:inset-y-0 data-[orientation=horizontal]:after:-inset-x-1.5 data-[orientation=vertical]:h-px data-[orientation=vertical]:after:inset-x-0 data-[orientation=vertical]:after:-inset-y-1.5",
+        "data-[orientation=horizontal]:cursor-col-resize data-[orientation=vertical]:cursor-row-resize hover:bg-primary/50 focus-visible:bg-primary data-[dragging]:bg-primary data-[disabled]:cursor-not-allowed data-[disabled]:bg-border data-[disabled]:opacity-50 [&[data-orientation=vertical]>div]:rotate-90",
         className
       )}
       onPointerDown={(event) => {
@@ -187,7 +202,17 @@ function ResizableHandle({
         if (event.defaultPrevented || context.disabled) return
         group.current = event.currentTarget.parentElement
         event.currentTarget.setPointerCapture(event.pointerId)
+        context.setDragging(true)
         event.preventDefault()
+      }}
+      onPointerUp={(event) => {
+        onPointerUp?.(event)
+        if (event.currentTarget.hasPointerCapture(event.pointerId))
+          event.currentTarget.releasePointerCapture(event.pointerId)
+      }}
+      onLostPointerCapture={(event) => {
+        onLostPointerCapture?.(event)
+        context.setDragging(false)
       }}
       onPointerMove={(event) => {
         onPointerMove?.(event)
@@ -215,7 +240,7 @@ function ResizableHandle({
       {withHandle ? (
         <div
           data-slot="resizable-handle-grip"
-          className="bg-border flex h-7 w-4 items-center justify-center rounded-sm border"
+          className="bg-background text-muted-foreground relative z-10 flex h-7 w-4 items-center justify-center rounded-sm border transition-[color,border-color,scale] duration-200 group-hover/handle:text-foreground group-focus-visible/handle:border-primary group-focus-visible/handle:text-primary group-data-[dragging]/handle:scale-110 group-data-[dragging]/handle:border-primary group-data-[dragging]/handle:text-primary group-data-[disabled]/handle:text-muted-foreground motion-reduce:transition-none"
         >
           <GripVerticalIcon className="size-3" aria-hidden="true" />
         </div>

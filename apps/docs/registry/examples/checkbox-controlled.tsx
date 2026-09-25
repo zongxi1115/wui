@@ -1,36 +1,54 @@
 "use client"
 
 import * as React from "react"
+
+import { Button } from "@/registry/ui/button"
 import { Checkbox } from "@/registry/ui/checkbox"
 
+type CheckedState = boolean | "indeterminate"
+
+const states: Array<{ value: CheckedState; label: string }> = [
+  { value: false, label: "未选" },
+  { value: "indeterminate", label: "半选" },
+  { value: true, label: "已选" },
+]
+
 export default function CheckboxControlled() {
-  const [checked, setChecked] = React.useState<boolean | "indeterminate">(true)
+  const [checked, setChecked] = React.useState<CheckedState>(true)
 
   return (
-    <div className="flex flex-col items-start gap-4">
-      <div className="flex items-center gap-3">
+    <div className="flex w-full max-w-sm flex-col gap-4">
+      <label
+        htmlFor="weekly-digest"
+        className="flex cursor-pointer items-start gap-3"
+      >
         <Checkbox
-          id="controlled-cb"
+          id="weekly-digest"
           checked={checked}
           onCheckedChange={setChecked}
+          className="mt-0.5"
         />
-        <label htmlFor="controlled-cb" className="cursor-pointer text-sm font-medium">
-          接收每周数据摘要报告
-        </label>
-      </div>
+        <span className="grid gap-1">
+          <span className="text-sm font-medium leading-none">接收每周数据摘要</span>
+          <span className="text-muted-foreground text-xs">
+            每周一 09:00 发送上周的访问量、转化率与异常告警汇总
+          </span>
+        </span>
+      </label>
 
-      <div className="flex items-center gap-2 text-xs text-muted-foreground">
-        <span>当前状态：</span>
-        <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-foreground">
-          {JSON.stringify(checked)}
-        </code>
-        <button
-          type="button"
-          onClick={() => setChecked((prev) => !prev)}
-          className="ml-2 rounded border border-input px-2 py-0.5 text-xs hover:bg-muted"
-        >
-          切换状态
-        </button>
+      <div className="flex items-center gap-2 border-t pt-4">
+        <span className="text-muted-foreground mr-auto text-xs">由外部状态驱动</span>
+        {states.map((state) => (
+          <Button
+            key={String(state.value)}
+            size="sm"
+            variant={checked === state.value ? "secondary" : "ghost"}
+            aria-pressed={checked === state.value}
+            onClick={() => setChecked(state.value)}
+          >
+            {state.label}
+          </Button>
+        ))}
       </div>
     </div>
   )

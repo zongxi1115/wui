@@ -2,42 +2,47 @@
 
 import * as React from "react"
 import {
-  HomeIcon,
-  SearchIcon,
+  CalendarIcon,
   FolderIcon,
-  MessageSquareIcon,
+  HouseIcon,
+  MailIcon,
+  SearchIcon,
   SettingsIcon,
   SparklesIcon,
-  TerminalIcon,
 } from "lucide-react"
+
 import { Dock, DockItem, DockSeparator } from "@/registry/ui/dock"
 
+const apps = [
+  { id: "home", label: "首页", icon: HouseIcon },
+  { id: "search", label: "搜索", icon: SearchIcon },
+  { id: "files", label: "文件", icon: FolderIcon },
+  { id: "mail", label: "邮件", icon: MailIcon },
+  { id: "calendar", label: "日程", icon: CalendarIcon },
+]
+
 export default function DockDemo() {
+  const [active, setActive] = React.useState("home")
+
   return (
-    <div className="flex w-full max-w-lg flex-col items-center justify-center p-8">
-      <Dock magnification={56} distance={120}>
-        <DockItem label="首页 (Home)">
-          <HomeIcon className="size-4 text-foreground/80" />
-        </DockItem>
-        <DockItem label="全局搜索 (Search)">
-          <SearchIcon className="size-4 text-foreground/80" />
-        </DockItem>
-        <DockItem label="项目文件 (Files)">
-          <FolderIcon className="size-4 text-foreground/80" />
-        </DockItem>
+    <div className="flex h-40 w-full items-end justify-center">
+      <Dock magnification={60} distance={140}>
+        {apps.map(({ id, label, icon: Icon }) => (
+          <DockItem
+            key={id}
+            label={label}
+            active={active === id}
+            onClick={() => setActive(id)}
+          >
+            <Icon />
+          </DockItem>
+        ))}
         <DockSeparator />
-        <DockItem label="AI 智能助手 (AI Assistant)">
-          <SparklesIcon className="size-4 text-primary" />
+        <DockItem label="AI 助手" onClick={() => setActive("ai")} active={active === "ai"}>
+          <SparklesIcon />
         </DockItem>
-        <DockItem label="终端会话 (Terminal)">
-          <TerminalIcon className="size-4 text-foreground/80" />
-        </DockItem>
-        <DockItem label="实时消息 (Chat)">
-          <MessageSquareIcon className="size-4 text-foreground/80" />
-        </DockItem>
-        <DockSeparator />
-        <DockItem label="偏好设置 (Settings)">
-          <SettingsIcon className="size-4 text-foreground/80" />
+        <DockItem label="设置" onClick={() => setActive("settings")} active={active === "settings"}>
+          <SettingsIcon />
         </DockItem>
       </Dock>
     </div>

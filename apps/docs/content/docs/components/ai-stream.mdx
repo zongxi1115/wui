@@ -53,7 +53,13 @@ pnpm add motion class-variance-authority clsx tailwind-merge
       prop: "featherLength",
       type: "number",
       default: "18",
-      description: "在流式期间末尾被施加渐变羽化过渡的字符数长度。",
+      description: "在流式期间末尾被施加渐变羽化过渡的字符数长度。流式结束时羽化会平滑溶解为实色文本。",
+    },
+    {
+      prop: "caret",
+      type: "boolean",
+      default: "false",
+      description: "流式期间在最新字符后显示闪烁光标，结束后自动隐藏。",
     },
     {
       prop: "className",
@@ -81,9 +87,29 @@ pnpm add motion class-variance-authority clsx tailwind-merge
       description: "是否正在等待后续 Delta 片段到达。",
     },
     {
+      prop: "caret",
+      type: "boolean",
+      default: "false",
+      description: "流式期间在最新片段后显示闪烁光标。",
+    },
+    {
       prop: "className",
       type: "string",
       description: "应用于外层容器的额外类名。",
+    },
+  ]}
+/>
+
+### AiStreamCaret (流式光标)
+
+单独导出的闪烁光标，可放在自定义渲染（如 Markdown）末尾。系统开启“减少动态效果”时保持常亮。
+
+<PropsTable
+  data={[
+    {
+      prop: "className",
+      type: "string",
+      description: "覆盖光标的尺寸、颜色或间距。默认使用 `currentColor`。",
     },
   ]}
 />
@@ -102,17 +128,7 @@ pnpm add motion class-variance-authority clsx tailwind-merge
 
 ## 事件 Events
 
-`AiStream` 为纯展示型流式渲染引擎，不直接产生业务事件；其生命周期通常受外部请求状态控制：
-
-<PropsTable
-  data={[
-    {
-      prop: "onAnimationComplete",
-      type: "() => void",
-      description: "在 `AiStreamDeltas` 模式下，单个增量片段淡入动效完成时触发。",
-    },
-  ]}
-/>
+`AiStream` 与 `AiStreamDeltas` 为纯展示组件，不产生业务事件；流式生命周期完全由外部请求状态（`isStreaming`）控制。
 
 ## 使用场景与设计规范
 

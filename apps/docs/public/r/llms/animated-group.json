@@ -1,0 +1,151 @@
+{
+  "name": "animated-group",
+  "type": "registry:ui",
+  "title": "动画组 Animated Group",
+  "description": "为一组子元素按统一预设错峰播放入场动画，支持挂载时或滚动进入视口时触发。",
+  "categories": [
+    "motion"
+  ],
+  "import": "import { AnimatedGroup, animatedGroupPresets } from \"@/components/ui/animated-group\"",
+  "exports": [
+    "AnimatedGroup",
+    "animatedGroupPresets"
+  ],
+  "typeExports": [
+    "AnimatedGroupPreset",
+    "AnimatedGroupProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/animated-group",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/animated-group.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": true,
+      "control": "text",
+      "description": "依次入场的子项，每个直接子元素都会被单独包裹。"
+    },
+    {
+      "name": "preset",
+      "type": "\"scale\" | \"zoom\" | \"bounce\" | \"fade\" | \"flip\" | \"slide\" | \"blur-slide\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "scale",
+        "zoom",
+        "bounce",
+        "fade",
+        "flip",
+        "slide",
+        "blur-slide"
+      ],
+      "defaultValue": "slide",
+      "description": "内置的入场效果。"
+    },
+    {
+      "name": "variants",
+      "type": "Variants",
+      "required": false,
+      "control": "text",
+      "description": "自定义子项的 hidden 与 visible 状态，设置后覆盖 preset。"
+    },
+    {
+      "name": "stagger",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0.08",
+      "description": "相邻两项之间的入场间隔，单位为秒。"
+    },
+    {
+      "name": "delay",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "0",
+      "description": "第一项开始入场前的等待时长，单位为秒。"
+    },
+    {
+      "name": "inView",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "false",
+      "description": "是否在进入视口时才开始入场，而不是挂载后立即开始。"
+    },
+    {
+      "name": "once",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否只在第一次进入视口时播放。"
+    },
+    {
+      "name": "viewOptions",
+      "type": "Omit<UseInViewOptions, \"once\">",
+      "required": false,
+      "control": "text",
+      "description": "inView 开启时使用的视口检测参数。"
+    },
+    {
+      "name": "as",
+      "type": "\"div\" | \"ol\" | \"section\" | \"span\" | \"ul\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "div",
+        "ol",
+        "section",
+        "span",
+        "ul"
+      ],
+      "defaultValue": "div",
+      "description": "组容器实际渲染的元素。"
+    },
+    {
+      "name": "itemAs",
+      "type": "\"div\" | \"article\" | \"li\" | \"span\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "div",
+        "article",
+        "li",
+        "span"
+      ],
+      "defaultValue": "div",
+      "description": "包裹每个子项的元素，例如在 ul 中使用 li。"
+    },
+    {
+      "name": "itemClassName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "应用于每个子项包装元素的类名。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "animated-group-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "animated-group-in-view",
+      "title": "滚动触发的更新日志"
+    }
+  ],
+  "files": [
+    "registry/ui/animated-group.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/animated-group",
+  "sourceUrl": "https://ui.wzx.wang/r/animated-group.json"
+}

@@ -5,7 +5,8 @@
   "title": "雷达图 Radar Chart",
   "description": "用于在极坐标系上展示多维度能力评估、多系列性能对比或平衡指标的图表。",
   "registryDependencies": [
-    "chart-core"
+    "chart-core",
+    "utils"
   ],
   "files": [
     {

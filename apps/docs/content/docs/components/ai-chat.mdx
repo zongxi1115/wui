@@ -6,7 +6,7 @@ component: ai-chat
 
 ## 基础用法
 
-包含用户消息、助手多步骤推理摘要、工具调用卡片以及底部复合输入区的完整会话流：
+可直接发送消息：用户消息从右侧滑入，助手先显示等待指示，再流式输出回答并出现操作栏：
 
 <ComponentPreview name="ai-chat-demo" />
 
@@ -59,7 +59,7 @@ pnpm add radix-ui motion class-variance-authority lucide-react clsx tailwind-mer
       prop: "followOutput",
       type: "boolean",
       default: "true",
-      description: "当用户当前处于视口底部时，是否随着新内容到达自动平滑跟随滚动到底部。",
+      description: "当用户当前处于视口底部时，是否跟随新内容滚动到底部。除子节点变化外，也会监听内容尺寸变化（流式文本、折叠面板展开、图片加载）。",
     },
     {
       prop: "className",
@@ -77,7 +77,7 @@ pnpm add radix-ui motion class-variance-authority lucide-react clsx tailwind-mer
       prop: "role",
       type: '"user" | "assistant" | "system"',
       default: '"assistant"',
-      description: "发言角色。决定消息的左右对齐方向与视觉主题风格。",
+      description: "发言角色。决定消息的左右对齐方向、视觉主题风格与进场方向：用户消息从右侧滑入，助手消息自下方淡入。",
     },
     {
       prop: "className",
@@ -114,6 +114,21 @@ pnpm add radix-ui motion class-variance-authority lucide-react clsx tailwind-mer
       type: '"user" | "assistant" | "system"',
       default: '"assistant"',
       description: "角色类型。用户气泡自带主色背景，助手气泡为无衬底卡片，系统消息为居中灰色通知条。",
+    },
+  ]}
+/>
+
+### AiChatLoading (等待首字指示)
+
+提交后、首个 token 到达前显示的三点脉动指示，带 `role="status"`。
+
+<PropsTable
+  data={[
+    {
+      prop: "label",
+      type: "string",
+      default: '"正在生成回复"',
+      description: "供屏幕阅读器播报的状态文案。",
     },
   ]}
 />
@@ -174,22 +189,22 @@ pnpm add radix-ui motion class-variance-authority lucide-react clsx tailwind-mer
 
 ### 智能体完整工作流 (Agent Workflow)
 
-结合多阶段思考链 (`AiReasoning`)、工具调用入参与结果预检 (`AiTool`)，以及流式文本与操作栏：
+一次完整的 Agent 回合按时间推进：思考步骤逐条展开、工具从执行中切换为已完成、计划进度推进，最后流式输出结论：
 
 <ComponentPreview name="ai-chat-agent" />
 
 ### 欢迎页与空白引导态 (Empty State)
 
-在会话初次创建或尚无消息时，使用 `AiChatEmptyState` 配合场景推荐卡片引导用户快速发起提问：
+在会话初次创建或尚无消息时，使用 `AiChatEmptyState` 配合 `AiPromptSuggestions` 引导用户快速发起提问：
 
 <ComponentPreview name="ai-chat-empty" />
 
 ## 无障碍与交互 Accessibility
 
 - **ARIA 规范与屏幕阅读器**：
-  - 消息列表自动包裹在 `aria-live="polite"` 区域中，新生成的回答内容能被屏幕阅读器平稳播报，不抢占焦点；
+  - 消息列表包裹在 `role="log"`（`aria-live="polite"`）区域中，新消息能被屏幕阅读器平稳播报，不抢占焦点；
   - 每条消息使用独立的 `<article>` 语义化标签包裹；
-  - 回到底部按钮包含显式 `aria-label="滚动到最新消息"`。
+  - 回到底部按钮包含显式 `aria-label="滚动到最新消息"`，隐藏时通过 `inert` 移出焦点顺序。
 - **键盘快捷交互**：
   - <kbd>Enter</kbd>：快速发送消息。
   - <kbd>Shift</kbd> + <kbd>Enter</kbd>：在多行输入框中换行。

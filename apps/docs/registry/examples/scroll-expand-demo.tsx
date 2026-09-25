@@ -1,9 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { ArrowDown, Maximize2 } from "lucide-react"
 
-import { Badge } from "@/registry/ui/badge"
 import { ScrollExpand } from "@/registry/ui/scroll-expand"
 
 export default function ScrollExpandDemo() {
@@ -12,63 +10,48 @@ export default function ScrollExpandDemo() {
   return (
     <div
       ref={container}
-      className="relative h-[32rem] w-full overflow-y-auto rounded-2xl border border-border bg-card text-card-foreground shadow-lg [scrollbar-width:thin]"
+      className="h-[28rem] w-full overflow-y-auto rounded-b-lg"
     >
-      <div className="p-6 sm:p-8">
-        <div className="flex items-center justify-between border-b border-border pb-4">
-          <div className="flex items-center gap-2">
-            <Badge variant="outline" className="text-xs">
-              <Maximize2 className="size-3 text-sky-500" />
-              EXPAND VIEWPORT
-            </Badge>
-          </div>
-          <div className="flex items-center gap-1.5 text-xs text-sky-600 dark:text-sky-400">
-            <span>Scroll down to expand to full bleed</span>
-            <ArrowDown className="size-3.5 animate-bounce" />
-          </div>
-        </div>
-
-        <div className="my-5">
-          <h3 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-            Immersive Media Expansion
-          </h3>
-          <p className="mt-1 text-xs text-muted-foreground">
-            Watch the framed visual canvas seamlessly expand to full container
-            edges as you scroll.
-          </p>
-        </div>
+      <div className="mx-auto max-w-2xl px-6 pt-12 pb-10 text-center">
+        <p className="text-muted-foreground text-sm">影像计划 · 第四季</p>
+        <h3 className="mt-2 text-3xl font-semibold tracking-tight">
+          把山带回城市
+        </h3>
+        <p className="text-muted-foreground mx-auto mt-3 max-w-sm text-sm leading-6">
+          向下滚动，画面会从卡片展开为全幅。
+        </p>
       </div>
 
       <ScrollExpand
         container={container}
         scrollLength={2.2}
-        inset={8}
-        radius={18}
+        inset={12}
+        radius={12}
       >
-        <div className="relative size-full overflow-hidden border border-border/80 bg-muted/40 shadow-xl">
+        <div className="bg-muted relative size-full">
           <img
-            src="https://picsum.photos/seed/mountain-pass/1200/700"
-            alt="Panoramic Landscape"
+            src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1600&q=80"
+            alt="日落时分的山谷"
             className="size-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-black/20" />
-
-          <div className="absolute inset-x-6 bottom-6 flex items-end justify-between text-white sm:inset-x-8 sm:bottom-8">
+          <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 bg-gradient-to-t from-black/60 to-transparent p-6 text-white sm:p-8">
             <div>
-              <span className="text-[10px] font-mono uppercase tracking-widest text-white/70">
-                PANORAMIC HORIZON
-              </span>
-              <h4 className="text-xl font-semibold tracking-tight text-white sm:text-3xl">
-                The Alpine Ridge Route
-              </h4>
+              <p className="text-sm text-white/70">摄影 · 许然</p>
+              <p className="mt-1 text-xl font-semibold sm:text-2xl">
+                日落前的最后十分钟
+              </p>
             </div>
-
-            <span className="rounded-md bg-black/40 px-2.5 py-1 font-mono text-xs text-white backdrop-blur-md">
-              FULL BLEED
-            </span>
+            <span className="font-mono text-xs text-white/70">35mm · f/8</span>
           </div>
         </div>
       </ScrollExpand>
+
+      <div className="mx-auto max-w-2xl px-6 py-12">
+        <p className="text-muted-foreground text-sm leading-7">
+          展开完成后，画面随页面继续向上滚动离开。整个过程只改变 clip-path
+          与 transform，不触发布局计算。
+        </p>
+      </div>
     </div>
   )
 }

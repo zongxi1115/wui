@@ -1,50 +1,57 @@
-import { ExternalLinkIcon, PlayIcon } from "lucide-react"
+import { ArrowUpRightIcon, PlayIcon } from "lucide-react"
 
 import { Cursor } from "@/registry/ui/cursor"
+
+const items = [
+  {
+    image: "/wui/demo/field-notes/aerial-coast.jpg",
+    tag: "影片 · 02:14",
+    title: "海岸线航拍计划",
+    cursor: (
+      <span className="bg-background text-foreground flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium shadow-sm">
+        <PlayIcon className="size-3 fill-current" />
+        播放
+      </span>
+    ),
+  },
+  {
+    image: "/wui/demo/field-notes/concrete-stairs.jpg",
+    tag: "案例 · 建筑",
+    title: "混凝土与光的秩序",
+    cursor: (
+      <span className="bg-background text-foreground flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium shadow-sm">
+        查看案例
+        <ArrowUpRightIcon className="size-3.5" />
+      </span>
+    ),
+  },
+]
 
 export default function CursorCard() {
   return (
     <div className="grid w-full max-w-2xl grid-cols-1 gap-4 sm:grid-cols-2">
-      <div className="group relative flex h-56 flex-col justify-end overflow-hidden rounded-2xl border bg-gradient-to-br from-indigo-500/20 via-purple-500/10 to-background p-5">
-        <Cursor
-          attachToParent
-          springConfig={{ stiffness: 520, damping: 28, mass: 0.15 }}
+      {items.map((item) => (
+        <article
+          key={item.title}
+          className="group relative overflow-hidden rounded-lg"
         >
-          <div className="flex size-12 items-center justify-center rounded-full bg-indigo-600 text-white shadow-lg">
-            <PlayIcon className="size-5 fill-current pl-0.5" />
+          <Cursor
+            attachToParent
+            springConfig={{ stiffness: 420, damping: 32, mass: 0.3 }}
+          >
+            {item.cursor}
+          </Cursor>
+          <img
+            src={item.image}
+            alt=""
+            className="aspect-[4/3] w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+          />
+          <div className="pt-3">
+            <p className="text-muted-foreground text-xs">{item.tag}</p>
+            <p className="mt-1 text-sm font-medium">{item.title}</p>
           </div>
-        </Cursor>
-        <span className="text-xs font-medium uppercase tracking-wider text-indigo-500">
-          Video Reel
-        </span>
-        <h4 className="mt-1 text-base font-semibold text-foreground">
-          Brand Anthem 2026
-        </h4>
-        <p className="mt-0.5 text-xs text-muted-foreground">
-          Hover to engage spring cursor player
-        </p>
-      </div>
-
-      <div className="group relative flex h-56 flex-col justify-end overflow-hidden rounded-2xl border bg-gradient-to-br from-emerald-500/20 via-teal-500/10 to-background p-5">
-        <Cursor
-          attachToParent
-          springConfig={{ stiffness: 480, damping: 32, mass: 0.2 }}
-        >
-          <div className="flex items-center gap-1.5 rounded-full bg-emerald-600 px-3 py-1.5 text-xs font-semibold text-white shadow-lg">
-            <span>Explore</span>
-            <ExternalLinkIcon className="size-3.5" />
-          </div>
-        </Cursor>
-        <span className="text-xs font-medium uppercase tracking-wider text-emerald-500">
-          Case Study
-        </span>
-        <h4 className="mt-1 text-base font-semibold text-foreground">
-          Fintech Architecture
-        </h4>
-        <p className="mt-0.5 text-xs text-muted-foreground">
-          Global multi-region cluster scaling
-        </p>
-      </div>
+        </article>
+      ))}
     </div>
   )
 }

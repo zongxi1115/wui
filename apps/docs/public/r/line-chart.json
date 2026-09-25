@@ -5,7 +5,8 @@
   "title": "折线图 Line Chart",
   "description": "展示有序数据趋势，并支持多序列比较与键盘浏览。",
   "registryDependencies": [
-    "chart-core"
+    "chart-core",
+    "utils"
   ],
   "files": [
     {

@@ -15,6 +15,9 @@ interface TrailItem {
   itemIndex: number
   x: number
   y: number
+  rotate: number
+  dx: number
+  dy: number
 }
 
 export interface ImageTrailProps extends Omit<
@@ -31,6 +34,8 @@ export interface ImageTrailProps extends Omit<
   lifetime?: number
   /** Maximum number of trail items rendered at once. @default 8 */
   maxItems?: number
+  /** Maximum random rotation applied to each item, in degrees. @default 8 */
+  rotation?: number
   /** Classes applied to every positioned trail item. */
   itemClassName?: string
 }
@@ -42,6 +47,7 @@ function ImageTrail({
   distance = 72,
   lifetime = 720,
   maxItems = 8,
+  rotation = 8,
   className,
   itemClassName,
   onPointerMove,
@@ -72,9 +78,20 @@ function ImageTrail({
     if (previous && Math.hypot(x - previous.x, y - previous.y) < distance)
       return
 
+    // Items drift slightly along the pointer's direction as they fade out.
+    const dx = previous ? (x - previous.x) * 0.25 : 0
+    const dy = previous ? (y - previous.y) * 0.25 : 0
     lastPosition.current = { x, y }
     const id = sequence.current++
-    const nextItem = { id, itemIndex: id % items.length, x, y }
+    const nextItem = {
+      id,
+      itemIndex: id % items.length,
+      x,
+      y,
+      rotate: (Math.random() * 2 - 1) * rotation,
+      dx,
+      dy,
+    }
     setTrail((current) => [...current, nextItem].slice(-maxItems))
 
     const timer = window.setTimeout(() => {
@@ -106,14 +123,24 @@ function ImageTrail({
             aria-hidden="true"
             data-slot="image-trail-item"
             className={cn(
-              "pointer-events-none absolute left-0 top-0 z-10 -translate-x-1/2 -translate-y-1/2",
+              "pointer-events-none absolute z-10 -translate-x-1/2 -translate-y-1/2 will-change-transform",
               itemClassName
             )}
-            style={{ x: item.x, y: item.y }}
-            initial={{ opacity: 0, scale: 0.82, rotate: -3 }}
-            animate={{ opacity: 1, scale: 1, rotate: 0 }}
-            exit={{ opacity: 0, scale: 0.92, y: item.y - 20 }}
-            transition={{ duration: lifetime / 1000, ease: [0.22, 1, 0.36, 1] }}
+            style={{ left: item.x, top: item.y }}
+            initial={{ opacity: 0, scale: 0.6, rotate: item.rotate * 1.6 }}
+            animate={{
+              opacity: 1,
+              scale: 1,
+              rotate: item.rotate,
+              transition: { type: "spring", stiffness: 380, damping: 26 },
+            }}
+            exit={{
+              opacity: 0,
+              scale: 0.86,
+              x: item.dx,
+              y: item.dy + 12,
+              transition: { duration: 0.45, ease: [0.4, 0, 0.2, 1] },
+            }}
           >
             {items[item.itemIndex]}
           </motion.div>

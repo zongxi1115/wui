@@ -1,78 +1,80 @@
 "use client"
 
 import * as React from "react"
-import { MicIcon, SquareIcon } from "lucide-react"
+import { ArrowUpIcon, MicIcon, SquareIcon } from "lucide-react"
 
+import { Button } from "@/registry/ui/button"
 import { AiVoiceVisualizer } from "@/registry/ui/ai-voice-visualizer"
 
-export default function AiVoiceVisualizerLive() {
-  const [isRecording, setIsRecording] = React.useState(true)
-  const [level, setLevel] = React.useState(0.4)
+function formatTime(seconds: number) {
+  const minutes = Math.floor(seconds / 60)
+  return `${minutes}:${String(seconds % 60).padStart(2, "0")}`
+}
 
+export default function AiVoiceVisualizerLive() {
+  const [recording, setRecording] = React.useState(false)
+  const [level, setLevel] = React.useState(0)
+  const [seconds, setSeconds] = React.useState(0)
+
+  // Simulated microphone input: a speech-like envelope with short pauses.
   React.useEffect(() => {
-    if (!isRecording) return
-    const timer = setInterval(() => {
-      setLevel(0.15 + Math.random() * 0.75)
-    }, 120)
-    return () => clearInterval(timer)
-  }, [isRecording])
+    if (!recording) return
+    let frame = 0
+    const timer = window.setInterval(() => {
+      frame += 1
+      const pause = Math.sin(frame / 9) < -0.6
+      setLevel(pause ? 0.05 : 0.25 + Math.random() * 0.65)
+    }, 110)
+    const clock = window.setInterval(() => setSeconds((s) => s + 1), 1000)
+    return () => {
+      window.clearInterval(timer)
+      window.clearInterval(clock)
+    }
+  }, [recording])
 
   return (
-    <div className="flex w-full max-w-md flex-col gap-4 rounded-xl border bg-card p-5 shadow-xs">
-      <div className="flex items-center justify-between">
-        <span className="text-xs font-semibold text-foreground">语音输入条 (Live Bar Spectrum)</span>
-        <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
-          {isRecording ? (
-            <>
-              <span className="size-2 rounded-full bg-red-500 animate-pulse" />
-              正在录音 (16kHz)
-            </>
-          ) : (
-            "已暂停"
-          )}
-        </span>
-      </div>
-
-      <div className="flex h-12 items-center justify-between rounded-lg border bg-muted/30 px-4">
-        <div className="flex items-center gap-3">
-          <AiVoiceVisualizer
-            variant="bars"
-            barCount={7}
-            size="md"
-            state={isRecording ? "speaking" : "idle"}
-            audioLevel={isRecording ? level : 0}
-          />
-          <span className="text-xs text-muted-foreground">
-            {isRecording ? "识别到声音信号..." : "点击麦克风开启录音"}
-          </span>
-        </div>
-
-        <button
+    <div className="mx-auto w-full max-w-md">
+      <div className="flex h-12 items-center gap-3 rounded-full border bg-background pl-2 pr-1.5">
+        <Button
           type="button"
-          onClick={() => setIsRecording(!isRecording)}
-          className="flex size-8 items-center justify-center rounded-md bg-primary text-primary-foreground shadow-xs transition-opacity hover:opacity-90 cursor-pointer"
+          variant={recording ? "destructive" : "ghost"}
+          size="icon"
+          className="size-9 shrink-0 rounded-full"
+          aria-label={recording ? "停止录音" : "开始录音"}
+          onClick={() => {
+            if (!recording) setSeconds(0)
+            setRecording((current) => !current)
+          }}
         >
-          {isRecording ? <SquareIcon className="size-3.5" /> : <MicIcon className="size-3.5" />}
-        </button>
-      </div>
+          {recording ? <SquareIcon className="size-3 fill-current" /> : <MicIcon />}
+        </Button>
 
-      {/* 尺寸对比 */}
-      <div className="flex items-center justify-between border-t pt-3 text-xs text-muted-foreground">
-        <span>小尺寸 (sm):</span>
         <AiVoiceVisualizer
           variant="bars"
+          barCount={24}
           size="sm"
-          state="speaking"
-          audioLevel={level}
+          state={recording ? "listening" : "idle"}
+          audioLevel={recording ? level : undefined}
+          className="min-w-0 flex-1 justify-start overflow-hidden"
         />
-        <span>标准 (md):</span>
-        <AiVoiceVisualizer
-          variant="wave"
-          size="md"
-          state="speaking"
-          audioLevel={level}
-        />
+
+        <span className="w-9 shrink-0 text-right font-mono text-xs tabular-nums text-muted-foreground">
+          {formatTime(seconds)}
+        </span>
+
+        <Button
+          type="button"
+          size="icon"
+          className="size-9 shrink-0 rounded-full"
+          aria-label="发送语音"
+          disabled={recording || seconds === 0}
+        >
+          <ArrowUpIcon />
+        </Button>
       </div>
+      <p className="mt-2 text-center text-xs text-muted-foreground">
+        {recording ? "正在录音，停顿时电平会自然回落" : "点击麦克风开始录音"}
+      </p>
     </div>
   )
 }

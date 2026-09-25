@@ -1,5 +1,7 @@
+"use client"
+
 import * as React from "react"
-import { SendIcon, SparklesIcon } from "lucide-react"
+import { MessageSquareIcon } from "lucide-react"
 
 import { Button } from "@/registry/ui/button"
 import {
@@ -8,56 +10,71 @@ import {
   MorphingPopoverContent,
   MorphingPopoverTrigger,
 } from "@/registry/ui/morphing-popover"
+import { Textarea } from "@/registry/ui/textarea"
+
+const moods = ["😞", "😐", "🙂", "😍"]
 
 export default function MorphingPopoverForm() {
   const [feedback, setFeedback] = React.useState("")
+  const [mood, setMood] = React.useState<string | null>(null)
 
   return (
-    <div className="flex w-full items-center justify-center p-8">
-      <MorphingPopover>
-        <MorphingPopoverTrigger>
-          <SparklesIcon className="mr-2 size-4 text-warning" />
-          Give Feedback
-        </MorphingPopoverTrigger>
-        <MorphingPopoverContent className="w-80">
-          <div className="flex items-center gap-2">
-            <SparklesIcon className="size-4 text-warning" />
-            <h4 className="text-sm font-semibold">Share Your Feedback</h4>
-          </div>
-          <p className="mt-1 text-xs text-muted-foreground">
-            Help us improve the WUI design system and component architecture.
-          </p>
+    <MorphingPopover
+      onOpenChange={(open) => {
+        if (!open) {
+          setFeedback("")
+          setMood(null)
+        }
+      }}
+    >
+      <MorphingPopoverTrigger>
+        <MessageSquareIcon className="mr-2 size-4" />
+        意见反馈
+      </MorphingPopoverTrigger>
+      <MorphingPopoverContent className="w-80">
+        <p className="text-sm font-medium">这个页面好用吗？</p>
+        <p className="text-muted-foreground mt-1 text-xs">
+          反馈会直接发送给负责该模块的产品同学。
+        </p>
 
-          <div className="mt-3">
-            <textarea
-              rows={3}
-              value={feedback}
-              onChange={(e) => setFeedback(e.target.value)}
-              placeholder="What worked well? What felt confusing?"
-              className="bg-background placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/30 w-full resize-none rounded-md border px-3 py-2 text-xs outline-none focus-visible:ring-[3px]"
-            />
-          </div>
+        <div className="mt-3 flex gap-1.5" role="radiogroup" aria-label="满意度">
+          {moods.map((item) => (
+            <button
+              key={item}
+              type="button"
+              role="radio"
+              aria-checked={mood === item}
+              onClick={() => setMood(item)}
+              className="hover:bg-muted aria-checked:bg-muted aria-checked:border-foreground/20 focus-visible:ring-ring/50 flex size-9 items-center justify-center rounded-md border border-transparent text-lg outline-none transition-colors focus-visible:ring-[3px]"
+            >
+              {item}
+            </button>
+          ))}
+        </div>
 
-          <div className="mt-3 flex items-center justify-between border-t pt-3">
-            <span className="text-[10px] text-muted-foreground">
-              Directly delivered to DX team
-            </span>
-            <div className="flex gap-2">
-              <MorphingPopoverClose asChild>
-                <Button variant="ghost" size="sm">
-                  Cancel
-                </Button>
-              </MorphingPopoverClose>
-              <MorphingPopoverClose asChild>
-                <Button size="sm" disabled={!feedback.trim()}>
-                  <SendIcon className="mr-1 size-3" />
-                  Send
-                </Button>
-              </MorphingPopoverClose>
-            </div>
-          </div>
-        </MorphingPopoverContent>
-      </MorphingPopover>
-    </div>
+        <Textarea
+          rows={3}
+          resize="none"
+          value={feedback}
+          onChange={(event) => setFeedback(event.target.value)}
+          placeholder="哪里好用，哪里让你困惑？"
+          aria-label="反馈内容"
+          className="mt-3"
+        />
+
+        <div className="mt-3 flex justify-end gap-2">
+          <MorphingPopoverClose asChild>
+            <Button variant="ghost" size="sm">
+              取消
+            </Button>
+          </MorphingPopoverClose>
+          <MorphingPopoverClose asChild>
+            <Button size="sm" disabled={!feedback.trim() && !mood}>
+              发送
+            </Button>
+          </MorphingPopoverClose>
+        </div>
+      </MorphingPopoverContent>
+    </MorphingPopover>
   )
 }

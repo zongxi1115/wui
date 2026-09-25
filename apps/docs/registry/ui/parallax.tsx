@@ -5,8 +5,10 @@ import {
   motion,
   useReducedMotion,
   useScroll,
+  useSpring,
   useTransform,
   type HTMLMotionProps,
+  type SpringOptions,
   type UseScrollOptions,
 } from "motion/react"
 
@@ -24,10 +26,23 @@ export interface ParallaxProps extends Omit<
   distance?: [number, number]
   /** Optional scale range, useful for image-within-frame parallax. */
   scale?: [number, number]
+  /** Optional rotation range in degrees. */
+  rotate?: [number, number]
+  /** Optional opacity range. */
+  opacity?: [number, number]
+  /** Follow scroll through a spring for a softer, trailing layer. Pass spring options to tune it. @default false */
+  smooth?: boolean | SpringOptions
   /** Scrollable element to observe instead of the page. */
   container?: React.RefObject<HTMLElement | null>
   /** Motion scroll offsets for the wrapper. @default ["start end", "end start"] */
   offset?: UseScrollOptions["offset"]
+}
+
+const defaultSpring: SpringOptions = {
+  stiffness: 120,
+  damping: 24,
+  mass: 0.4,
+  restDelta: 0.0005,
 }
 
 /** Moves a layer at a different rate while it crosses the viewport. */
@@ -36,6 +51,9 @@ function Parallax({
   axis = "y",
   distance = [-48, 48],
   scale,
+  rotate,
+  opacity,
+  smooth = false,
   container,
   offset = ["start end", "end start"],
   className,
@@ -45,8 +63,15 @@ function Parallax({
   const target = React.useRef<HTMLDivElement>(null)
   const reduceMotion = useReducedMotion()
   const { scrollYProgress } = useScroll({ target, container, offset })
-  const translation = useTransform(scrollYProgress, [0, 1], distance)
-  const scaleValue = useTransform(scrollYProgress, [0, 1], scale ?? [1, 1])
+  const springProgress = useSpring(
+    scrollYProgress,
+    typeof smooth === "object" ? smooth : defaultSpring
+  )
+  const progress = smooth ? springProgress : scrollYProgress
+  const translation = useTransform(progress, [0, 1], distance)
+  const scaleValue = useTransform(progress, [0, 1], scale ?? [1, 1])
+  const rotateValue = useTransform(progress, [0, 1], rotate ?? [0, 0])
+  const opacityValue = useTransform(progress, [0, 1], opacity ?? [1, 1])
 
   return (
     <motion.div
@@ -59,6 +84,8 @@ function Parallax({
         x: reduceMotion || axis === "y" ? 0 : translation,
         y: reduceMotion || axis === "x" ? 0 : translation,
         scale: reduceMotion ? 1 : scaleValue,
+        rotate: reduceMotion ? 0 : rotateValue,
+        opacity: reduceMotion || !opacity ? style?.opacity : opacityValue,
       }}
       {...props}
     >

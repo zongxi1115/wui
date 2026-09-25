@@ -45,6 +45,12 @@ pnpm add class-variance-authority clsx tailwind-merge
       description: "空状态的垂直内边距与最小高度密度。sm 适合卡片或下拉菜单，lg 适合整页或主工作区。",
     },
     {
+      prop: "animated",
+      type: "boolean",
+      default: "true",
+      description: "挂载时让插画/图标、标题、描述与操作区依次淡入上浮（约 60ms 间隔）。插画与图标额外从 95% 缩放落定。基于 tw-animate-css，开启“减少动态效果”时自动关闭。",
+    },
+    {
       prop: "className",
       type: "string",
       description: "应用于外层容器的额外 CSS 类名。",
@@ -128,6 +134,12 @@ pnpm add class-variance-authority clsx tailwind-merge
 
 ## 场景示例
 
+### 不同场景的空状态
+
+切换首次使用、全部完成与网络异常三种场景。每次挂载 `EmptyState` 时，子元素会按顺序依次入场；通过 `key` 让场景切换重新触发入场动效：
+
+<ComponentPreview name="empty-state-scenarios" />
+
 ### 预置插画库
 
 组件内置 `gradient`、`flat` 与 `color` 三大风格插画系列，涵盖数十种常见业务场景：
@@ -136,13 +148,13 @@ pnpm add class-variance-authority clsx tailwind-merge
 
 ### 搜索无结果（重置筛选）
 
-当用户在列表或知识库中搜索无匹配项时，展示搜索类插画并提供一键重置：
+在搜索框中输入关键词过滤文档列表，无匹配项时展示搜索类插画与“清空搜索”操作，清空后列表恢复：
 
 <ComponentPreview name="empty-state-filter" />
 
 ### 紧凑卡片/下拉面板空状态
 
-在通知浮层、侧边栏小部件等小面积容器中，使用 `size="sm"` 与 `EmptyStateIcon`：
+在通知浮层、侧边栏小部件等小面积容器中，使用 `size="sm"` 与 `EmptyStateIcon` 代替大插画：
 
 <ComponentPreview name="empty-state-compact" />
 
@@ -151,4 +163,5 @@ pnpm add class-variance-authority clsx tailwind-merge
 - **语义化标题与描述**：使用标准 `h3` 标题与 `p` 描述标签，辅助技术用户通过屏幕阅读器标题大纲快速浏览页面状态。
 - **装饰性图像降级**：`EmptyStateIllustration` 默认将 `alt` 设为空字符串（`alt=""`），防止读屏器重复朗读冗余的文件名；关键信息已由文本明确表达。
 - **键盘可访问的操作入口**：所有操作按钮支持 <kbd>Tab</kbd> 聚焦并可通过 <kbd>Enter</kbd> / <kbd>Space</kbd> 激活。
+- **动效降级**：入场动效仅在 `prefers-reduced-motion: no-preference` 下生效；也可以通过 `animated={false}` 关闭，例如在高频切换的列表筛选中。
 - **动态状态通报**：若空状态是在用户异步搜索后动态出现的，父容器可配合 `aria-live="polite"`，让读屏器能主动通报“未找到匹配结果”。

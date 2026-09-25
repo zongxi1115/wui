@@ -3,25 +3,31 @@
   "type": "registry:ui",
   "title": "工具栏 Toolbar",
   "description": "为一组紧凑操作提供排列、分组与方向键导航，并复用现有按钮外观。",
-  "import": "import { Toolbar, ToolbarButton, ToolbarGroup, ToolbarSeparator } from \"@/components/ui/toolbar\"",
+  "import": "import { Toolbar, ToolbarButton, ToolbarGroup, ToolbarSeparator, ToolbarToggleItem } from \"@/components/ui/toolbar\"",
   "exports": [
     "Toolbar",
     "ToolbarButton",
     "ToolbarGroup",
-    "ToolbarSeparator"
+    "ToolbarSeparator",
+    "ToolbarToggleItem"
   ],
   "typeExports": [
     "ToolbarButtonProps",
-    "ToolbarProps"
+    "ToolbarGroupProps",
+    "ToolbarProps",
+    "ToolbarToggleItemProps"
   ],
   "install": {
     "wui": "pnpm dlx @wui-design/cli@latest add @wui/toolbar",
     "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/toolbar.json",
     "npmDependencies": [
-      "radix-ui"
+      "radix-ui",
+      "class-variance-authority"
     ],
     "registryDependencies": [
-      "utils"
+      "utils",
+      "toggle",
+      "toggle-group"
     ]
   },
   "props": [

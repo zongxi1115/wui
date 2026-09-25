@@ -2,7 +2,7 @@
   "name": "scroll-text",
   "type": "registry:ui",
   "title": "滚动文本动效 Scroll Text",
-  "description": "依据滚动视口进度，逐字渐进高亮（Highlight）或逐行位移显现（Reveal）的段落文字动效组件。",
+  "description": "依据滚动视口进度，逐字渐进高亮（Highlight）、遮罩位移显现（Reveal）或模糊聚焦（Blur）的段落文字动效组件。",
   "categories": [
     "scroll",
     "motion",
@@ -35,10 +35,11 @@
     },
     {
       "name": "mode",
-      "type": "\"highlight\" | \"reveal\"",
+      "type": "\"blur\" | \"highlight\" | \"reveal\"",
       "required": false,
       "control": "select",
       "options": [
+        "blur",
         "highlight",
         "reveal"
       ],
@@ -47,12 +48,13 @@
     },
     {
       "name": "per",
-      "type": "\"line\" | \"word\"",
+      "type": "\"line\" | \"word\" | \"char\"",
       "required": false,
       "control": "select",
       "options": [
         "line",
-        "word"
+        "word",
+        "char"
       ],
       "defaultValue": "word",
       "description": "文字拆分的粒度：行、单词或字符。"
@@ -80,6 +82,14 @@
       "control": "number",
       "defaultValue": "0.35",
       "description": "相邻文字片段之间重叠的进度范围。"
+    },
+    {
+      "name": "smooth",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否通过轻量弹簧跟随滚动，让文字片段平滑落定。"
     },
     {
       "name": "container",
@@ -111,7 +121,11 @@
     },
     {
       "name": "scroll-text-reveal",
-      "title": "逐词揭示模式（Reveal）"
+      "title": "逐行揭示（Reveal）"
+    },
+    {
+      "name": "scroll-text-blur",
+      "title": "逐字聚焦（Blur）"
     }
   ],
   "files": [

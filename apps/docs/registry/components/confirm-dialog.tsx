@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { Loader2Icon } from "lucide-react"
 
 import { Button } from "@/registry/ui/button"
 import {
@@ -88,12 +89,11 @@ function ConfirmDialog({
       if (result && typeof (result as Promise<void>).then === "function") {
         setAsyncLoading(true)
         await result
-        setAsyncLoading(false)
-        handleOpenChange(false)
-      } else {
-        handleOpenChange(false)
       }
+      handleOpenChange(false)
     } catch {
+      // Keep the dialog open so the user can retry after a failed action.
+    } finally {
       setAsyncLoading(false)
     }
   }
@@ -108,7 +108,7 @@ function ConfirmDialog({
             <DialogDescription>{description}</DialogDescription>
           ) : null}
         </DialogHeader>
-        {children ? <div className="py-2">{children}</div> : null}
+        {children ? <div>{children}</div> : null}
         <DialogFooter>
           <DialogClose asChild disabled={isLoading}>
             <Button variant="outline" disabled={isLoading}>
@@ -119,8 +119,10 @@ function ConfirmDialog({
             variant={variant}
             onClick={handleConfirm}
             disabled={isLoading}
+            aria-busy={isLoading || undefined}
           >
-            {isLoading ? "处理中..." : confirmLabel}
+            {isLoading ? <Loader2Icon className="animate-spin" /> : null}
+            {isLoading ? "处理中…" : confirmLabel}
           </Button>
         </DialogFooter>
       </DialogContent>

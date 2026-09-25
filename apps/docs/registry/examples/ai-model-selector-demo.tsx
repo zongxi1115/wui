@@ -1,7 +1,13 @@
 "use client"
 
 import * as React from "react"
-import { BrainCircuitIcon, SparklesIcon, ZapIcon } from "lucide-react"
+
+import {
+  BrandAnthropicIcon,
+  BrandGeminiIcon,
+  BrandOpenaiIcon,
+  BrandQwenIcon,
+} from "@/registry/icons/animated"
 import { Badge } from "@/registry/ui/badge"
 import {
   AiModelGroup,
@@ -14,82 +20,76 @@ import {
 
 const MODELS = [
   {
-    id: "claude-3-5-sonnet",
-    name: "Claude 3.5 Sonnet",
-    description: "最强编码与深度推理能力",
-    group: "Flagship / 深度推理",
-    icon: <SparklesIcon className="size-3.5 text-amber-500" />,
-    badge: <Badge variant="secondary" className="text-[10px] py-0">200k</Badge>,
+    id: "claude-sonnet",
+    name: "Claude Sonnet",
+    description: "长上下文编码与多步推理",
+    group: "reasoning",
+    icon: <BrandAnthropicIcon size={14} />,
+    badge: "200K",
   },
   {
-    id: "deepseek-r1",
-    name: "DeepSeek R1",
-    description: "极致性价比的长链思考模型",
-    group: "Flagship / 深度推理",
-    icon: <BrainCircuitIcon className="size-3.5 text-blue-500" />,
-    badge: <Badge variant="outline" className="text-[10px] py-0">Reasoning</Badge>,
+    id: "gpt",
+    name: "GPT",
+    description: "通用对话、工具调用与多模态理解",
+    group: "reasoning",
+    icon: <BrandOpenaiIcon size={14} />,
+    badge: "推理",
   },
   {
-    id: "gpt-4o-mini",
-    name: "GPT-4o mini",
-    description: "轻量级高频调用与流式快速响应",
-    group: "Fast / 高速轻量",
-    icon: <ZapIcon className="size-3.5 text-emerald-500" />,
-    badge: <Badge variant="secondary" className="text-[10px] py-0">Fast</Badge>,
+    id: "gemini-flash",
+    name: "Gemini Flash",
+    description: "低延迟，适合实时补全与摘要",
+    group: "fast",
+    icon: <BrandGeminiIcon size={14} />,
+    badge: "极速",
+  },
+  {
+    id: "qwen",
+    name: "Qwen",
+    description: "中文写作与本地化部署",
+    group: "fast",
+    icon: <BrandQwenIcon size={14} />,
   },
 ]
 
 export default function AiModelSelectorDemo() {
-  const [selectedId, setSelectedId] = React.useState("claude-3-5-sonnet")
+  const [selectedId, setSelectedId] = React.useState("claude-sonnet")
   const [open, setOpen] = React.useState(false)
+  const selected = MODELS.find((model) => model.id === selectedId) ?? MODELS[0]
 
-  const selectedModel = MODELS.find((m) => m.id === selectedId) ?? MODELS[0]
+  function renderGroup(group: string) {
+    return MODELS.filter((model) => model.group === group).map((model) => (
+      <AiModelItem
+        key={model.id}
+        name={model.name}
+        description={model.description}
+        icon={model.icon}
+        badge={
+          model.badge ? (
+            <Badge variant="secondary" size="sm">
+              {model.badge}
+            </Badge>
+          ) : null
+        }
+        selected={model.id === selectedId}
+        onClick={() => {
+          setSelectedId(model.id)
+          setOpen(false)
+        }}
+      />
+    ))
+  }
 
   return (
-    <div className="flex w-full max-w-sm flex-col items-center gap-4">
-      <AiModelSelector open={open} onOpenChange={setOpen}>
-        <AiModelSelectorTrigger icon={selectedModel.icon}>
-          {selectedModel.name}
-        </AiModelSelectorTrigger>
-
-        <AiModelSelectorContent>
-          <AiModelGroup heading="Flagship / 深度推理">
-            {MODELS.filter((m) => m.group.startsWith("Flagship")).map((model) => (
-              <AiModelItem
-                key={model.id}
-                name={model.name}
-                description={model.description}
-                icon={model.icon}
-                badge={model.badge}
-                selected={selectedId === model.id}
-                onClick={() => {
-                  setSelectedId(model.id)
-                  setOpen(false)
-                }}
-              />
-            ))}
-          </AiModelGroup>
-
-          <AiModelGroup heading="Fast / 高速轻量">
-            {MODELS.filter((m) => m.group.startsWith("Fast")).map((model) => (
-              <AiModelItem
-                key={model.id}
-                name={model.name}
-                description={model.description}
-                icon={model.icon}
-                badge={model.badge}
-                selected={selectedId === model.id}
-                onClick={() => {
-                  setSelectedId(model.id)
-                  setOpen(false)
-                }}
-              />
-            ))}
-          </AiModelGroup>
-
-          <AiTokenUsage used={24500} limit={128000} />
-        </AiModelSelectorContent>
-      </AiModelSelector>
-    </div>
+    <AiModelSelector open={open} onOpenChange={setOpen}>
+      <AiModelSelectorTrigger icon={selected.icon}>
+        {selected.name}
+      </AiModelSelectorTrigger>
+      <AiModelSelectorContent>
+        <AiModelGroup heading="深度推理">{renderGroup("reasoning")}</AiModelGroup>
+        <AiModelGroup heading="快速响应">{renderGroup("fast")}</AiModelGroup>
+        <AiTokenUsage used={24500} limit={128000} label="当前会话上下文" />
+      </AiModelSelectorContent>
+    </AiModelSelector>
   )
 }

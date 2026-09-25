@@ -5,19 +5,19 @@ import { cva } from "class-variance-authority"
 import { cn } from "@/registry/lib/utils"
 
 const badgeVariants = cva(
-  "inline-flex w-fit shrink-0 items-center justify-center gap-1 whitespace-nowrap rounded-full border px-2 py-0.5 text-xs font-medium leading-none transition-colors [&_svg]:pointer-events-none [&_svg]:size-3 [&_svg]:shrink-0",
+  "inline-flex w-fit shrink-0 items-center justify-center gap-1 whitespace-nowrap rounded-full border px-2 py-0.5 text-xs font-medium leading-none outline-none transition-[color,background-color,border-color,box-shadow] duration-200 focus-visible:ring-[3px] focus-visible:ring-ring/35 [&_svg]:pointer-events-none [&_svg]:size-3 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
-        default: "border-transparent bg-primary text-primary-foreground",
+        default: "border-transparent bg-primary text-primary-foreground [:is(a,button)&]:hover:bg-primary/90",
         secondary:
-          "border-transparent bg-secondary text-secondary-foreground",
-        outline: "border-border bg-background text-foreground",
+          "border-transparent bg-secondary text-secondary-foreground [:is(a,button)&]:hover:bg-secondary/80",
+        outline: "border-border bg-background text-foreground [:is(a,button)&]:hover:bg-accent [:is(a,button)&]:hover:text-accent-foreground",
         destructive:
-          "border-transparent bg-destructive text-destructive-foreground",
-        success: "border-transparent bg-success text-success-foreground",
-        warning: "border-transparent bg-warning text-warning-foreground",
-        info: "border-transparent bg-info text-info-foreground",
+          "border-transparent bg-destructive text-destructive-foreground [:is(a,button)&]:hover:bg-destructive/90",
+        success: "border-transparent bg-success text-success-foreground [:is(a,button)&]:hover:bg-success/90",
+        warning: "border-transparent bg-warning text-warning-foreground [:is(a,button)&]:hover:bg-warning/90",
+        info: "border-transparent bg-info text-info-foreground [:is(a,button)&]:hover:bg-info/90",
       },
       size: {
         sm: "min-h-4 px-1.5 text-[10px]",
@@ -48,7 +48,10 @@ export interface BadgeProps extends React.ComponentProps<"span"> {
   asChild?: boolean
 }
 
-/** A compact label for status, category, or short metadata. */
+/**
+ * A compact label for status, category, or short metadata. When rendered as a
+ * link or button via `asChild`, it gains hover and focus-visible feedback.
+ */
 function Badge({
   className,
   variant = "default",

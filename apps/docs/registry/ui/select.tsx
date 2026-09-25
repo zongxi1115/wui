@@ -3,7 +3,7 @@
 import * as React from "react"
 import * as SelectPrimitive from "radix-ui/select"
 import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from "lucide-react"
-import { motion, useReducedMotion } from "motion/react"
+import { motion, useAnimate, useReducedMotion } from "motion/react"
 import { cva } from "class-variance-authority"
 
 import { cn } from "@/registry/lib/utils"
@@ -11,16 +11,63 @@ import { cn } from "@/registry/lib/utils"
 const SelectGroup = SelectPrimitive.Group
 const MotionViewport = motion.create(SelectPrimitive.Viewport)
 
-function Select(props: React.ComponentProps<typeof SelectPrimitive.Root>) {
-  return <SelectPrimitive.Root {...props} />
+const SelectValueContext = React.createContext<string | undefined>(undefined)
+
+const SelectHighlightContext = React.createContext<{
+  highlighted: string | null
+  setHighlighted: (value: string | null) => void
+  layoutId: string
+} | null>(null)
+
+function Select({
+  value,
+  defaultValue,
+  onValueChange,
+  ...props
+}: React.ComponentProps<typeof SelectPrimitive.Root>) {
+  const [internalValue, setInternalValue] = React.useState(defaultValue)
+  const currentValue = value ?? internalValue
+
+  return (
+    <SelectValueContext.Provider value={currentValue}>
+      <SelectPrimitive.Root
+        value={value}
+        defaultValue={defaultValue}
+        onValueChange={(next) => {
+          if (value === undefined) setInternalValue(next)
+          onValueChange?.(next)
+        }}
+        {...props}
+      />
+    </SelectValueContext.Provider>
+  )
 }
 
 function SelectValue({
   className,
   ...props
 }: React.ComponentProps<typeof SelectPrimitive.Value>) {
+  const currentValue = React.useContext(SelectValueContext)
+  const reduceMotion = useReducedMotion()
+  const [scope, animate] = useAnimate<HTMLSpanElement>()
+  const previousValue = React.useRef(currentValue)
+
+  React.useEffect(() => {
+    if (previousValue.current === currentValue) return
+    previousValue.current = currentValue
+    if (reduceMotion || !scope.current) return
+    animate(
+      scope.current,
+      { opacity: [0, 1], y: [5, 0] },
+      { duration: 0.22, ease: [0.22, 1, 0.36, 1] }
+    )
+  }, [animate, currentValue, reduceMotion, scope])
+
   return (
-    <span className={cn("min-w-0 flex-1 truncate text-left", className)}>
+    <span
+      ref={scope}
+      className={cn("min-w-0 flex-1 truncate text-left", className)}
+    >
       <SelectPrimitive.Value data-slot="select-value" {...props} />
     </span>
   )
@@ -73,9 +120,12 @@ function SelectContent({
   children,
   position = "popper",
   sideOffset = 6,
+  onPointerLeave,
   ...props
 }: React.ComponentProps<typeof SelectPrimitive.Content>) {
-  const reduceMotion = useReducedMotion()
+  const [highlighted, setHighlighted] = React.useState<string | null>(null)
+  const layoutId = React.useId()
+
   return (
     <SelectPrimitive.Portal>
       <SelectPrimitive.Content
@@ -83,26 +133,28 @@ function SelectContent({
         position={position}
         sideOffset={sideOffset}
         className={cn(
-          "bg-popover text-popover-foreground relative z-50 flex max-h-[min(18rem,var(--radix-select-content-available-height))] min-w-[10rem] flex-col overflow-hidden rounded-lg border shadow-md outline-none",
+          "bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-1 data-[side=left]:slide-in-from-right-1 data-[side=right]:slide-in-from-left-1 data-[side=top]:slide-in-from-bottom-1 relative z-50 flex max-h-[min(18rem,var(--radix-select-content-available-height))] min-w-[10rem] origin-(--radix-select-content-transform-origin) flex-col overflow-hidden rounded-lg border shadow-md outline-none duration-200 motion-reduce:animate-none",
           position === "popper" && "w-[var(--radix-select-trigger-width)]",
           className
         )}
+        onPointerLeave={(event) => {
+          onPointerLeave?.(event)
+          setHighlighted(null)
+        }}
         {...props}
       >
-        <SelectScrollUpButton />
-        <MotionViewport
-          className="min-h-0 flex-1 overflow-y-auto p-1"
-          initial={reduceMotion ? false : { opacity: 0, y: -4 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={
-            reduceMotion
-              ? { duration: 0 }
-              : { type: "spring", stiffness: 500, damping: 36, mass: 0.7 }
-          }
+        <SelectHighlightContext.Provider
+          value={{ highlighted, setHighlighted, layoutId }}
         >
-          {children}
-        </MotionViewport>
-        <SelectScrollDownButton />
+          <SelectScrollUpButton />
+          <MotionViewport
+            layoutScroll
+            className="min-h-0 flex-1 scroll-py-1 overflow-y-auto p-1"
+          >
+            {children}
+          </MotionViewport>
+          <SelectScrollDownButton />
+        </SelectHighlightContext.Provider>
       </SelectPrimitive.Content>
     </SelectPrimitive.Portal>
   )
@@ -124,33 +176,77 @@ function SelectLabel({
   )
 }
 
+export interface SelectItemProps extends React.ComponentProps<
+  typeof SelectPrimitive.Item
+> {
+  /** 显示在选项名称下方的辅助说明，不会带入触发器。 */
+  description?: React.ReactNode
+}
+
 function SelectItem({
   className,
   children,
+  value,
+  description,
+  onFocus,
   ...props
-}: React.ComponentProps<typeof SelectPrimitive.Item>) {
+}: SelectItemProps) {
   const reduceMotion = useReducedMotion()
+  const highlight = React.useContext(SelectHighlightContext)
+  const highlighted = highlight?.highlighted === value
 
   return (
     <SelectPrimitive.Item
       data-slot="select-item"
+      value={value}
       className={cn(
-        "focus:bg-accent focus:text-accent-foreground relative flex w-full cursor-default select-none items-center rounded-md py-2 pl-8 pr-3 text-sm outline-none transition-colors duration-150 data-[disabled]:pointer-events-none data-[disabled]:opacity-40",
+        "data-[highlighted]:text-accent-foreground relative isolate flex w-full cursor-default select-none items-center rounded-md py-2 pl-8 pr-3 text-sm outline-none transition-colors duration-150 data-[disabled]:pointer-events-none data-[disabled]:opacity-40",
         className
       )}
+      onFocus={(event) => {
+        onFocus?.(event)
+        highlight?.setHighlighted(value)
+      }}
       {...props}
     >
+      {highlighted ? (
+        <motion.span
+          aria-hidden
+          data-slot="select-item-indicator"
+          layoutId={highlight?.layoutId}
+          className="bg-accent absolute inset-0 z-[-1] rounded-md"
+          transition={
+            reduceMotion
+              ? { duration: 0 }
+              : { type: "spring", stiffness: 520, damping: 38, mass: 0.7 }
+          }
+        />
+      ) : null}
       <span className="absolute left-2 flex size-5 items-center justify-center">
         <SelectPrimitive.ItemIndicator>
           <motion.span
-            initial={reduceMotion ? false : { scale: 0.5, opacity: 0 }}
+            className="flex"
+            initial={reduceMotion ? false : { scale: 0.4, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
+            transition={{ type: "spring", stiffness: 560, damping: 28, mass: 0.6 }}
           >
             <CheckIcon className="size-4" />
           </motion.span>
         </SelectPrimitive.ItemIndicator>
       </span>
-      <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
+      {description ? (
+        <span className="flex min-w-0 flex-col gap-0.5">
+          <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
+          <span
+            data-slot="select-item-description"
+            className="text-muted-foreground text-xs leading-4"
+          >
+            {description}
+          </span>
+        </span>
+      ) : (
+        <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
+      )}
     </SelectPrimitive.Item>
   )
 }

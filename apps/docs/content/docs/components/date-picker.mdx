@@ -21,7 +21,7 @@ component: date-picker
 <Step>安装依赖组件与图标库</Step>
 
 ```bash
-pnpm add radix-ui lucide-react class-variance-authority clsx tailwind-merge
+pnpm add radix-ui motion lucide-react class-variance-authority clsx tailwind-merge
 ```
 
 <Step>确保项目中包含 Calendar 组件，并将源码复制到 `components/ui/date-picker.tsx`</Step>
@@ -38,13 +38,13 @@ pnpm add radix-ui lucide-react class-variance-authority clsx tailwind-merge
   data={[
     {
       prop: "value",
-      type: "Date",
-      description: "受控模式下的当前选中 JavaScript Date 对象。",
+      type: "Date | string",
+      description: "受控模式下的选中日期，支持 Date 对象或 `YYYY-MM-DD` 字符串。",
     },
     {
       prop: "defaultValue",
-      type: "Date",
-      description: "非受控模式下的初始选中日期。",
+      type: "Date | string",
+      description: "非受控模式下的初始选中日期，支持 Date 对象或 `YYYY-MM-DD` 字符串。",
     },
     {
       prop: "onValueChange",
@@ -76,18 +76,23 @@ pnpm add radix-ui lucide-react class-variance-authority clsx tailwind-merge
     },
     {
       prop: "min",
-      type: "Date",
+      type: "Date | string",
       description: "允许选择的最早起始日期，早于该日期的单元格自动禁用。",
     },
     {
       prop: "max",
-      type: "Date",
+      type: "Date | string",
       description: "允许选择的最晚截止日期，晚于该日期的单元格自动禁用。",
     },
     {
       prop: "disabledDate",
       type: "(date: Date) => boolean",
       description: "自定义特定日期的禁用判定函数（例如禁用所有周末或法定节假日）。",
+    },
+    {
+      prop: "presets",
+      type: "{ label: string; value: Date }[]",
+      description: "显示在日历左侧的快捷日期列表，点击后直接选中并收起弹层。",
     },
     {
       prop: "size",
@@ -165,6 +170,12 @@ return (
 )
 ```
 
+### 快捷日期
+
+通过 `presets` 在日历左侧放置常用日期，适合截止日期、提醒时间等高频场景：
+
+<ComponentPreview name="date-picker-presets" />
+
 ### 尺寸规格
 
 组件提供 `sm`（32px）、`default`（40px）和 `lg`（48px）三种物理尺寸：
@@ -206,5 +217,8 @@ return (
     - <kbd>↑</kbd> / <kbd>↓</kbd>：移动到上一周 / 下一周同一天。
     - <kbd>PageUp</kbd> / <kbd>PageDown</kbd>：快速翻到上个月 / 下个月。
     - <kbd>Shift</kbd> + <kbd>PageUp</kbd> / <kbd>PageDown</kbd>：快速翻到上一年 / 下一年。
+    - <kbd>Home</kbd> / <kbd>End</kbd>：移动到本周第一天 / 最后一天。
+    - 点击日历标题可切换到月份 / 年份视图，快速跨月跨年定位。
     - <kbd>Enter</kbd>：确认选中高亮日期并自动收起弹层。
     - <kbd>Escape</kbd>：关闭日历弹层并归还焦点至触发按钮。
+- **动效**：弹层从触发器方向缩放展开；触发器中的日期文本在变更时上移淡入刷新；日历翻月按方向左右滑动。均遵循 `prefers-reduced-motion`。

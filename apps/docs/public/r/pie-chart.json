@@ -5,7 +5,8 @@
   "title": "饼图 Pie Chart",
   "description": "展示少量类别的部分与整体关系，并支持饼图和环图形态。",
   "registryDependencies": [
-    "chart-core"
+    "chart-core",
+    "utils"
   ],
   "files": [
     {

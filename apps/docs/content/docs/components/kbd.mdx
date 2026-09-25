@@ -43,6 +43,12 @@ pnpm add class-variance-authority clsx tailwind-merge
       description: "按键提示的物理尺寸密度。default（高度 24px），sm（高度 20px，适用于紧凑下拉菜单与搜索输入框）。",
     },
     {
+      prop: "pressed",
+      type: "boolean",
+      default: "false",
+      description: "以主色高亮并轻微下沉，表示该键正被按下。适合在新手引导、快捷键设置中实时映射用户的键盘输入；系统开启“减少动态效果”时仅变色不位移。",
+    },
+    {
       prop: "className",
       type: "string",
       description: "应用于 <kbd> 标签的额外 CSS 类名。",
@@ -83,6 +89,12 @@ pnpm add class-variance-authority clsx tailwind-merge
 对比标准尺寸与紧凑小尺寸在不同修饰键下的视觉呈现：
 
 <ComponentPreview name="kbd-sizes" />
+
+### 实时按键反馈（pressed）
+
+在输入框中按下 <kbd>Enter</kbd> 或 <kbd>Shift</kbd> + <kbd>Enter</kbd>，对应的按键提示会实时高亮并轻微下沉，帮助用户建立快捷键记忆：
+
+<ComponentPreview name="kbd-live" />
 
 ### 下拉菜单与命令面板中的快捷键提示
 

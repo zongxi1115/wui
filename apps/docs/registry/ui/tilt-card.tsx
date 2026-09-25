@@ -24,11 +24,15 @@ export interface TiltCardProps extends Omit<
   perspective?: number
   /** Scale applied while the pointer is over the card. @default 1.015 */
   hoverScale?: number
-  /** Show a pointer-position glare layer. @default false */
+  /** Show a pointer-position glare layer that fades in on hover. @default false */
   glare?: boolean
+  /** Peak opacity of the glare layer. @default 0.35 */
+  glareOpacity?: number
   /** Classes applied to the optional glare layer. */
   glareClassName?: string
 }
+
+const tiltSpring = { stiffness: 220, damping: 24, mass: 0.45 }
 
 /** Tilts a surface in 3D according to the pointer position and springs to rest. */
 function TiltCard({
@@ -37,33 +41,38 @@ function TiltCard({
   perspective = 900,
   hoverScale = 1.015,
   glare = false,
+  glareOpacity = 0.35,
   className,
   glareClassName,
   style,
+  onPointerEnter,
   onPointerMove,
   onPointerLeave,
   ...props
 }: TiltCardProps) {
   const reduceMotion = useReducedMotion()
+  // Measured at rest on enter; reading the rect of a tilted card makes the input feed back into itself.
+  const rectRef = React.useRef<DOMRect | null>(null)
   const rotateXValue = useMotionValue(0)
   const rotateYValue = useMotionValue(0)
+  const scaleValue = useMotionValue(1)
+  const glareVisibility = useMotionValue(0)
   const glareX = useMotionValue(50)
   const glareY = useMotionValue(50)
-  const rotateX = useSpring(rotateXValue, {
-    stiffness: 220,
-    damping: 24,
-    mass: 0.45,
-  })
-  const rotateY = useSpring(rotateYValue, {
-    stiffness: 220,
-    damping: 24,
-    mass: 0.45,
-  })
-  const glareBackground = useMotionTemplate`radial-gradient(circle at ${glareX}% ${glareY}%, white, transparent 46%)`
+  const rotateX = useSpring(rotateXValue, tiltSpring)
+  const rotateY = useSpring(rotateYValue, tiltSpring)
+  const scale = useSpring(scaleValue, { stiffness: 300, damping: 26 })
+  const glareAlpha = useSpring(glareVisibility, { stiffness: 160, damping: 26 })
+  const glareBackground = useMotionTemplate`radial-gradient(circle at ${glareX}% ${glareY}%, white, transparent 52%)`
 
-  function reset() {
-    rotateXValue.set(0)
-    rotateYValue.set(0)
+  function handleMove(event: React.PointerEvent<HTMLDivElement>) {
+    const rect = rectRef.current ?? event.currentTarget.getBoundingClientRect()
+    const x = Math.min(Math.max((event.clientX - rect.left) / rect.width, 0), 1)
+    const y = Math.min(Math.max((event.clientY - rect.top) / rect.height, 0), 1)
+    rotateXValue.set((0.5 - y) * maxTilt * 2)
+    rotateYValue.set((x - 0.5) * maxTilt * 2)
+    glareX.set(x * 100)
+    glareY.set(y * 100)
   }
 
   return (
@@ -74,38 +83,43 @@ function TiltCard({
         ...style,
         rotateX: reduceMotion ? 0 : rotateX,
         rotateY: reduceMotion ? 0 : rotateY,
+        scale: reduceMotion ? 1 : scale,
         transformPerspective: perspective,
         transformStyle: "preserve-3d",
       }}
-      whileHover={reduceMotion ? undefined : { scale: hoverScale }}
-      onPointerMove={(event) => {
+      onPointerEnter={(event) => {
         if (!reduceMotion && event.pointerType !== "touch") {
-          const rect = event.currentTarget.getBoundingClientRect()
-          const x = (event.clientX - rect.left) / rect.width
-          const y = (event.clientY - rect.top) / rect.height
-          rotateXValue.set((0.5 - y) * maxTilt * 2)
-          rotateYValue.set((x - 0.5) * maxTilt * 2)
-          glareX.set(x * 100)
-          glareY.set(y * 100)
+          rectRef.current = event.currentTarget.getBoundingClientRect()
+          scaleValue.set(hoverScale)
+          glareVisibility.set(glareOpacity)
+          handleMove(event)
         }
+        onPointerEnter?.(event)
+      }}
+      onPointerMove={(event) => {
+        if (!reduceMotion && event.pointerType !== "touch") handleMove(event)
         onPointerMove?.(event)
       }}
       onPointerLeave={(event) => {
-        reset()
+        rectRef.current = null
+        rotateXValue.set(0)
+        rotateYValue.set(0)
+        scaleValue.set(1)
+        glareVisibility.set(0)
         onPointerLeave?.(event)
       }}
       {...props}
     >
       {children}
-      {glare ? (
+      {glare && !reduceMotion ? (
         <motion.div
           aria-hidden="true"
           data-slot="tilt-card-glare"
           className={cn(
-            "pointer-events-none absolute inset-0 opacity-35 mix-blend-soft-light",
+            "pointer-events-none absolute inset-0 rounded-[inherit] mix-blend-soft-light",
             glareClassName
           )}
-          style={{ background: glareBackground }}
+          style={{ background: glareBackground, opacity: glareAlpha }}
         />
       ) : null}
     </motion.div>

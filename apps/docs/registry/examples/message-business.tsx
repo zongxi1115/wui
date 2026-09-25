@@ -1,6 +1,6 @@
 "use client"
 
-import { CheckIcon, CopyIcon, Trash2Icon, UploadCloudIcon } from "lucide-react"
+import { ArchiveIcon, CopyIcon, UploadCloudIcon } from "lucide-react"
 
 import { Button } from "@/registry/ui/button"
 import { MessageProvider, useMessage } from "@/registry/ui/message"
@@ -17,71 +17,57 @@ function BusinessScenarioBar() {
   const message = useMessage()
 
   const copyApiKey = () => {
-    navigator.clipboard?.writeText?.("sk_live_51M089278912384789123")
-    message.success(
-      <span className="flex items-center gap-1.5 font-medium">
-        <CheckIcon className="size-4 text-emerald-500" />
-        API 生产密钥已复制到剪贴板
-      </span>,
-      { icon: false }
-    )
+    navigator.clipboard?.writeText?.("sk_live_51M0892789123847")
+    message.success("生产环境密钥已复制到剪贴板")
   }
 
   const uploadFile = () => {
-    message.open({
-      variant: "info",
-      description: (
-        <span className="flex items-center gap-2">
-          <UploadCloudIcon className="size-4 text-sky-500 animate-pulse" />
-          <span>正在同步 14 个资源文件至全球 CDN...</span>
-        </span>
-      ),
-      icon: false,
-      duration: 3000,
-    })
+    const id = message.loading("正在同步 14 个资源文件至 CDN…")
+    window.setTimeout(() => {
+      message.update(id, {
+        variant: "success",
+        title: "同步完成",
+        description: "14 个文件已在全部边缘节点生效。",
+      })
+    }, 2200)
   }
 
-  const batchDelete = () => {
-    message.open({
-      variant: "destructive",
+  const archiveProjects = () => {
+    const id = message.open({
+      closable: true,
+      duration: 6000,
       description: (
-        <div className="flex items-center justify-between gap-3 w-full">
-          <span>已将 3 个项目归档至废纸篓</span>
+        <span className="flex items-center justify-between gap-3">
+          已将 3 个项目移至归档
           <button
             type="button"
-            className="text-xs font-semibold text-primary underline underline-offset-2 hover:opacity-80 transition-opacity"
+            className="text-primary shrink-0 text-sm font-medium underline-offset-4 hover:underline"
             onClick={() => {
-              message.dismiss("last-delete")
-              message.success("归档操作已成功撤销")
+              message.update(id, {
+                variant: "info",
+                closable: false,
+                duration: 2000,
+                description: "已撤销归档，项目已恢复。",
+              })
             }}
           >
-            撤销 (Undo)
+            撤销
           </button>
-        </div>
+        </span>
       ),
-      icon: false,
-      closable: true,
-      duration: 5000,
     })
   }
 
   return (
     <div className="flex flex-wrap items-center justify-center gap-3">
-      <Button variant="outline" size="sm" className="gap-1.5" onClick={copyApiKey}>
-        <CopyIcon className="size-3.5" /> 复制密钥
+      <Button variant="outline" size="sm" onClick={copyApiKey}>
+        <CopyIcon /> 复制密钥
       </Button>
-
-      <Button variant="outline" size="sm" className="gap-1.5" onClick={uploadFile}>
-        <UploadCloudIcon className="size-3.5" /> 上传资产
+      <Button variant="outline" size="sm" onClick={uploadFile}>
+        <UploadCloudIcon /> 同步资源
       </Button>
-
-      <Button
-        variant="outline"
-        size="sm"
-        className="gap-1.5 text-destructive hover:text-destructive hover:bg-destructive/10"
-        onClick={batchDelete}
-      >
-        <Trash2Icon className="size-3.5" /> 批量归档
+      <Button variant="outline" size="sm" onClick={archiveProjects}>
+        <ArchiveIcon /> 归档项目
       </Button>
     </div>
   )

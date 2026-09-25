@@ -39,7 +39,7 @@ pnpm add motion lucide-react class-variance-authority clsx tailwind-merge
     {
       prop: "label",
       type: "string",
-      default: '"Drop files here or click to browse"',
+      default: '"拖拽文件到此处，或点击选择"',
       description: "拖拽放置区域内的主标题文案引导。",
     },
     {
@@ -100,6 +100,57 @@ pnpm add motion lucide-react class-variance-authority clsx tailwind-merge
   ]}
 />
 
+### UploadFileList 与 UploadFileItem
+
+用于展示已选择文件的列表。`UploadFileList` 内的条目新增时自下而上滑入，移除时淡出，其余条目平滑补位；上传中的条目底部带有随 `progress` 平滑推进的进度条。
+
+<PropsTable
+  data={[
+    {
+      prop: "name",
+      type: "string",
+      required: true,
+      description: "文件名，超出宽度时截断。",
+    },
+    {
+      prop: "size",
+      type: "number | string",
+      description: "文件大小。传入数字（字节）时自动格式化为 B / KB / MB。",
+    },
+    {
+      prop: "status",
+      type: '"idle" | "uploading" | "complete" | "error"',
+      default: '"complete"',
+      description: "该文件的上传状态，决定右侧状态图标与副标题文案，状态切换时图标缩放交替。",
+    },
+    {
+      prop: "progress",
+      type: "number",
+      default: "0",
+      description: "上传中的进度（0 ~ 100），驱动条目底部的进度条。",
+    },
+    {
+      prop: "description",
+      type: "React.ReactNode",
+      description: "替换副标题的说明或错误文案，例如“文件超过 20 MB”。",
+    },
+    {
+      prop: "icon",
+      type: "React.ReactNode",
+      description: "左侧的文件图标或缩略图，默认使用通用文件图标。",
+    },
+    {
+      prop: "onRemove",
+      type: "() => void",
+      description: "传入后显示移除按钮，点击时调用。",
+    },
+  ]}
+/>
+
+<Callout title="保持条目为列表的直接子元素">
+  `UploadFileList` 依赖 `AnimatePresence` 追踪条目的进出，请为每个 `UploadFileItem` 提供稳定的 `key`，并将其作为列表的直接子元素渲染。
+</Callout>
+
 ## 事件 Events
 
 <PropsTable
@@ -121,7 +172,7 @@ pnpm add motion lucide-react class-variance-authority clsx tailwind-merge
 
 `Upload` 适用于**附件上传、个人资料头像设定、大型文件与素材交付**等场景。
 
-- **拖拽热区反馈（Drop Zone）**：当文件悬停在组件上方时，边框高亮并伴随柔和的弹簧放大效果；松开鼠标后自动解析文件列表。
+- **拖拽热区反馈（Drop Zone）**：当文件悬停在组件上方时，边框高亮并伴随轻微的弹簧放大效果；松开鼠标后自动解析文件列表。
 - **状态流转与微动效**：
   - `idle`：常态虚线框与云上传图标。
   - `uploading`：平滑旋转的加载指示器与进度条。
@@ -145,7 +196,7 @@ pnpm add motion lucide-react class-variance-authority clsx tailwind-merge
 
 ### 多文件批量拖拽清单
 
-开启 `multiple` 支持多文档同时拖入，在下方展示文件清单卡片并支持单项移除与清空：
+开启 `multiple` 支持多文档同时拖入，并用 `UploadFileList` 展示每个文件独立的上传进度。超过大小限制的文件直接标记为失败；移除条目时其余文件平滑补位：
 
 <ComponentPreview name="upload-dropzone" />
 

@@ -1,6 +1,8 @@
 "use client"
 
 import * as React from "react"
+
+import { Input } from "@/registry/ui/input"
 import {
   Pagination,
   PaginationContent,
@@ -10,132 +12,138 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/registry/ui/pagination"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/registry/ui/select"
+
+const TOTAL_ITEMS = 286
+
+function getPageRange(page: number, total: number) {
+  if (total <= 7) return Array.from({ length: total }, (_, index) => index + 1)
+
+  const start = Math.max(2, Math.min(page - 1, total - 4))
+  const end = Math.min(total - 1, Math.max(page + 1, 5))
+  const range: Array<number | "start-ellipsis" | "end-ellipsis"> = [1]
+
+  if (start > 2) range.push("start-ellipsis")
+  for (let item = start; item <= end; item++) range.push(item)
+  if (end < total - 1) range.push("end-ellipsis")
+  range.push(total)
+
+  return range
+}
 
 export default function PaginationTable() {
   const [page, setPage] = React.useState(5)
-  const [pageSize, setPageSize] = React.useState(10)
-  const totalItems = 286
-  const totalPages = Math.ceil(totalItems / pageSize)
+  const [pageSize, setPageSize] = React.useState(20)
+  const [jump, setJump] = React.useState("")
+  const totalPages = Math.ceil(TOTAL_ITEMS / pageSize)
+  const from = (page - 1) * pageSize + 1
+  const to = Math.min(page * pageSize, TOTAL_ITEMS)
 
-  // 动态生成页码数组 (支持双侧省略)
-  const getPageNumbers = () => {
-    const delta = 1
-    const range: number[] = []
-    const rangeWithDots: (number | "dots")[] = []
-    let l: number | undefined
-
-    for (let i = 1; i <= totalPages; i++) {
-      if (i === 1 || i === totalPages || (i >= page - delta && i <= page + delta)) {
-        range.push(i)
-      }
+  function go(next: number) {
+    return (event: React.MouseEvent<HTMLAnchorElement>) => {
+      event.preventDefault()
+      setPage(Math.min(totalPages, Math.max(1, next)))
     }
-
-    for (const i of range) {
-      if (l) {
-        if (i - l === 2) {
-          rangeWithDots.push(l + 1)
-        } else if (i - l !== 1) {
-          rangeWithDots.push("dots")
-        }
-      }
-      rangeWithDots.push(i)
-      l = i
-    }
-
-    return rangeWithDots
   }
 
   return (
-    <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-4 rounded-xl border bg-background p-4 shadow-xs">
-      {/* 左侧总数统计与每页条数 */}
-      <div className="flex items-center gap-3 text-xs text-muted-foreground">
-        <span>共 <strong className="text-foreground font-semibold">{totalItems}</strong> 条数据</span>
-        <span className="text-border">|</span>
-        <div className="flex items-center gap-1.5">
-          <span>每页</span>
-          <select
-            value={pageSize}
-            onChange={(e) => {
-              setPageSize(Number(e.target.value))
-              setPage(1)
-            }}
-            className="h-7 rounded border bg-transparent px-2 text-xs text-foreground outline-none focus:border-ring"
-          >
-            <option value={10}>10 条</option>
-            <option value={20}>20 条</option>
-            <option value={50}>50 条</option>
-          </select>
-        </div>
+    <div className="flex w-full flex-wrap items-center justify-between gap-x-6 gap-y-3 border-t pt-4 text-sm">
+      <div className="text-muted-foreground flex items-center gap-3">
+        <span className="tabular-nums">
+          第 {from}–{to} 条，共 {TOTAL_ITEMS} 条
+        </span>
+        <Select
+          value={String(pageSize)}
+          onValueChange={(value) => {
+            setPageSize(Number(value))
+            setPage(1)
+          }}
+        >
+          <SelectTrigger size="sm" className="min-w-24" aria-label="每页条数">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="10">10 条/页</SelectItem>
+            <SelectItem value="20">20 条/页</SelectItem>
+            <SelectItem value="50">50 条/页</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
 
-      {/* 中间页码翻页器 */}
-      <Pagination className="mx-0 w-auto">
-        <PaginationContent>
-          <PaginationItem>
-            <PaginationPrevious
-              href="#"
-              aria-disabled={page === 1}
-              className={page === 1 ? "pointer-events-none opacity-50" : undefined}
-              onClick={(e) => {
-                e.preventDefault()
-                setPage((p) => Math.max(1, p - 1))
-              }}
-            />
-          </PaginationItem>
+      <div className="flex items-center gap-4">
+        <Pagination className="mx-0 w-auto">
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious
+                href="#"
+                size="icon"
+                className="px-0 sm:pr-0"
+                disabled={page === 1}
+                onClick={go(page - 1)}
+              >
+                <span className="sr-only">上一页</span>
+              </PaginationPrevious>
+            </PaginationItem>
+            {getPageRange(page, totalPages).map((item) =>
+              typeof item === "number" ? (
+                <PaginationItem key={item}>
+                  <PaginationLink
+                    href={`#page-${item}`}
+                    isActive={page === item}
+                    onClick={go(item)}
+                  >
+                    {item}
+                  </PaginationLink>
+                </PaginationItem>
+              ) : (
+                <PaginationItem key={item}>
+                  <PaginationEllipsis />
+                </PaginationItem>
+              )
+            )}
+            <PaginationItem>
+              <PaginationNext
+                href="#"
+                size="icon"
+                className="px-0 sm:pl-0"
+                disabled={page === totalPages}
+                onClick={go(page + 1)}
+              >
+                <span className="sr-only">下一页</span>
+              </PaginationNext>
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
 
-          {getPageNumbers().map((item, index) =>
-            item === "dots" ? (
-              <PaginationItem key={`dots-${index}`}>
-                <PaginationEllipsis />
-              </PaginationItem>
-            ) : (
-              <PaginationItem key={item}>
-                <PaginationLink
-                  href="#"
-                  isActive={page === item}
-                  onClick={(e) => {
-                    e.preventDefault()
-                    setPage(item)
-                  }}
-                >
-                  {item}
-                </PaginationLink>
-              </PaginationItem>
-            )
-          )}
-
-          <PaginationItem>
-            <PaginationNext
-              href="#"
-              aria-disabled={page === totalPages}
-              className={page === totalPages ? "pointer-events-none opacity-50" : undefined}
-              onClick={(e) => {
-                e.preventDefault()
-                setPage((p) => Math.min(totalPages, p + 1))
-              }}
-            />
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
-
-      {/* 右侧快速跳转 */}
-      <div className="hidden md:flex items-center gap-1.5 text-xs text-muted-foreground">
-        <span>跳至</span>
-        <input
-          type="number"
-          min={1}
-          max={totalPages}
-          defaultValue={page}
-          key={page}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              const target = Math.max(1, Math.min(totalPages, Number((e.target as HTMLInputElement).value)))
-              setPage(target)
-            }
+        <form
+          className="text-muted-foreground hidden items-center gap-2 md:flex"
+          onSubmit={(event) => {
+            event.preventDefault()
+            const target = Number(jump)
+            if (!Number.isFinite(target) || target < 1) return
+            setPage(Math.min(totalPages, Math.round(target)))
+            setJump("")
           }}
-          className="h-7 w-12 rounded border bg-transparent px-1.5 text-center text-xs text-foreground outline-none focus:border-ring tabular-nums"
-        />
-        <span>页</span>
+        >
+          <label htmlFor="pagination-jump">前往</label>
+          <Input
+            id="pagination-jump"
+            size="sm"
+            inputMode="numeric"
+            value={jump}
+            placeholder={String(page)}
+            onChange={(event) => setJump(event.target.value.replace(/\D/g, ""))}
+            wrapperClassName="w-14"
+            className="px-2 text-center tabular-nums"
+          />
+          <span>页</span>
+        </form>
       </div>
     </div>
   )

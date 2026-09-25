@@ -13,7 +13,7 @@ export default function ConfirmDialogCustom() {
     <div className="flex flex-col items-center gap-4">
       <Button variant="outline" onClick={() => setOpen(true)}>
         <ShieldAlertIcon />
-        重置组织访问令牌 (受控模式)
+        重置组织访问令牌
       </Button>
 
       <ConfirmDialog
@@ -28,17 +28,15 @@ export default function ConfirmDialogCustom() {
           await new Promise((resolve) => setTimeout(resolve, 1000))
         }}
       >
-        <div className="rounded-lg border border-amber-500/30 bg-amber-500/10 p-3 text-xs text-amber-600 dark:text-amber-400">
-          <div className="flex items-start gap-2">
-            <AlertCircleIcon className="mt-0.5 size-4 shrink-0" />
-            <div className="space-y-1">
-              <p className="font-semibold">影响范围评估：</p>
-              <ul className="list-disc pl-4 space-y-0.5 text-muted-foreground">
-                <li>38 个正在运行的微服务实例</li>
-                <li>5 个生产环境流水线任务</li>
-              </ul>
-            </div>
-          </div>
+        <div className="border-warning-border bg-warning-subtle rounded-md border px-3 py-2.5 text-sm">
+          <p className="text-warning flex items-center gap-1.5 font-medium">
+            <AlertCircleIcon className="size-4 shrink-0" />
+            影响范围
+          </p>
+          <ul className="text-muted-foreground mt-1.5 list-disc space-y-0.5 pl-5">
+            <li>38 个正在运行的微服务实例</li>
+            <li>5 条生产环境流水线任务</li>
+          </ul>
         </div>
       </ConfirmDialog>
     </div>

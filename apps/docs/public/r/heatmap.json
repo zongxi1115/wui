@@ -5,7 +5,8 @@
   "title": "热力图 Heatmap",
   "description": "仿 GitHub 贡献日历风格的时间序列活跃度与活动密度热力矩阵图表。",
   "registryDependencies": [
-    "chart-core"
+    "chart-core",
+    "utils"
   ],
   "files": [
     {

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "number-ticker",
+  "type": "registry:ui",
+  "title": "数字滚动 Number Ticker",
+  "description": "进入视口时从起始值计数到目标值，支持本地化格式、小数位与前后缀。",
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/ui/number-ticker.tsx",
+      "type": "registry:ui",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport {\n  animate,\n  useInView,\n  useMotionValue,\n  useReducedMotion,\n  type Transition,\n  type UseInViewOptions,\n} from \"motion/react\"\n\nimport { cn } from \"@/registry/lib/utils\"\n\nexport interface NumberTickerProps\n  extends Omit<React.ComponentProps<\"span\">, \"children\" | \"prefix\"> {\n  /** Target value the number animates to. */\n  value: number\n  /** Value the first animation starts from. @default 0 */\n  from?: number\n  /** Seconds to wait before the first animation starts. @default 0 */\n  delay?: number\n  /** Fixed number of decimal places. @default 0 */\n  decimalPlaces?: number\n  /** BCP 47 locale used by `Intl.NumberFormat`. @default \"zh-CN\" */\n  locale?: string\n  /** Extra `Intl.NumberFormat` options such as currency, percent or compact notation. */\n  formatOptions?: Intl.NumberFormatOptions\n  /** Text rendered before the number. */\n  prefix?: React.ReactNode\n  /** Text rendered after the number. */\n  suffix?: React.ReactNode\n  /** Wait until the number scrolls into view before counting. @default true */\n  startOnView?: boolean\n  /** Intersection options used when `startOnView` is on. */\n  viewOptions?: UseInViewOptions\n  /** Motion transition for every count. Defaults to a spring with no overshoot. */\n  transition?: Transition\n  /** Called when a count finishes, with the final value. */\n  onComplete?: (value: number) => void\n}\n\nconst defaultTransition: Transition = {\n  type: \"spring\",\n  duration: 1.6,\n  bounce: 0,\n}\n\n/**\n * Counts up or down to `value` once it scrolls into view, then animates from\n * the current number whenever `value` changes.\n */\nfunction NumberTicker({\n  value,\n  from = 0,\n  delay = 0,\n  decimalPlaces = 0,\n  locale = \"zh-CN\",\n  formatOptions,\n  prefix,\n  suffix,\n  startOnView = true,\n  viewOptions,\n  transition = defaultTransition,\n  onComplete,\n  className,\n  ...props\n}: NumberTickerProps) {\n  const ref = React.useRef<HTMLSpanElement>(null)\n  const numberRef = React.useRef<HTMLSpanElement>(null)\n  const reduceMotion = useReducedMotion()\n  const inView = useInView(ref, { once: true, ...viewOptions })\n  const motionValue = useMotionValue(from)\n  const hasStarted = React.useRef(false)\n  const options = React.useRef({ transition, delay, onComplete })\n\n  React.useEffect(() => {\n    options.current = { transition, delay, onComplete }\n  })\n\n  const formatter = React.useMemo(\n    () =>\n      new Intl.NumberFormat(locale, {\n        minimumFractionDigits: decimalPlaces,\n        maximumFractionDigits: decimalPlaces,\n        ...formatOptions,\n      }),\n    [decimalPlaces, formatOptions, locale]\n  )\n\n  React.useEffect(() => {\n    const node = numberRef.current\n    if (!node) return\n    node.textContent = formatter.format(motionValue.get())\n    return motionValue.on(\"change\", (latest) => {\n      node.textContent = formatter.format(latest)\n    })\n  }, [formatter, motionValue])\n\n  React.useEffect(() => {\n    if (startOnView && !inView) return\n    if (reduceMotion) {\n      motionValue.jump(value)\n      return\n    }\n    const { transition, delay, onComplete } = options.current\n    const firstRun = !hasStarted.current\n    hasStarted.current = true\n    const controls = animate(motionValue, value, {\n      ...transition,\n      delay: firstRun ? delay : 0,\n      onComplete: () => onComplete?.(value),\n    })\n    return () => controls.stop()\n  }, [inView, motionValue, reduceMotion, startOnView, value])\n\n  return (\n    <span\n      ref={ref}\n      data-slot=\"number-ticker\"\n      className={cn(\"inline-flex items-baseline tabular-nums\", className)}\n      {...props}\n    >\n      <span className=\"sr-only\">\n        {prefix}\n        {formatter.format(value)}\n        {suffix}\n      </span>\n      <span aria-hidden=\"true\" className=\"inline-flex items-baseline\">\n        {prefix}\n        <span ref={numberRef} data-slot=\"number-ticker-value\">\n          {formatter.format(from)}\n        </span>\n        {suffix}\n      </span>\n    </span>\n  )\n}\n\nexport { NumberTicker }\n"
+    }
+  ],
+  "categories": [
+    "motion",
+    "number-effect"
+  ]
+}

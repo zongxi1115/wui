@@ -6,7 +6,7 @@ component: notification-badge
 
 ## 基础用法
 
-最基础的消息提示用法。包裹任意图标按钮或头像，通过数字或红点呈现待办与未读提醒：
+包裹任意图标按钮或头像，通过数字或圆点呈现待办与未读提醒。点击「收到新消息」时数字向上滚动，「全部已读」时徽标收回；点击收件箱可清除带波纹的圆点：
 
 <ComponentPreview name="notification-badge-demo" />
 
@@ -21,7 +21,7 @@ component: notification-badge
 <Step>安装基础依赖与工具函数</Step>
 
 ```bash
-pnpm add class-variance-authority clsx tailwind-merge
+pnpm add motion class-variance-authority clsx tailwind-merge
 ```
 
 <Step>复制组件源码到 `components/ui/notification-badge.tsx`</Step>
@@ -42,7 +42,7 @@ pnpm add class-variance-authority clsx tailwind-merge
     {
       prop: "count",
       type: "React.ReactNode",
-      description: "徽标展示的内容。传入数字时会自动受 max 限制，也可以传入文本或动效数字组件。",
+      description: "徽标展示的内容。传入数字时会自动受 max 限制，数值变化时各位数字按增减方向上下滚动；也可以传入文本或自定义节点。",
     },
     {
       prop: "max",
@@ -63,10 +63,16 @@ pnpm add class-variance-authority clsx tailwind-merge
       description: "是否以极简微圆点形态展示，不显示任何具体数字文本。",
     },
     {
+      prop: "pulse",
+      type: "boolean",
+      default: "false",
+      description: "仅在 dot 模式下生效。圆点周围持续扩散柔和的波纹，用于提示需要尽快关注的状态（如在线、待处理）。开启减弱动态效果时不播放。",
+    },
+    {
       prop: "visible",
       type: "boolean",
       default: "true",
-      description: "受控显隐状态。为 false 时完全不渲染徽标节点。",
+      description: "受控显隐状态。切换时徽标以弹簧缩放弹出或收回；为 false 时退场结束后移除徽标节点。",
     },
     {
       prop: "variant",
@@ -144,5 +150,6 @@ pnpm add class-variance-authority clsx tailwind-merge
 ## 无障碍与交互 Accessibility
 
 - **状态通报角色**：徽标节点内置 `role="status"` 与 `tabular-nums`，确保视障辅助设备可以正确捕获未读数量变动。
-- **自动无障碍文案生成**：当未显式传入 `label` 时，组件会根据传入的 `count` 自动合成 `aria-label="X notifications"`；在 `dot` 模式下自动合成 `aria-label="New notification"`。
+- **自动无障碍文案生成**：当未显式传入 `label` 时，组件会根据传入的 `count` 自动合成 `aria-label="X 条未读通知"`；在 `dot` 模式下自动合成 `aria-label="有新通知"`。
+- **动效降级**：开启系统「减弱动态效果」后，数字滚动、弹出缩放与圆点波纹全部停用，仅保留透明度切换。
 - **子元素可访问性独立性**：被包裹的图标按钮仍需保持自身具备合法的 `aria-label`（如 `aria-label="查看消息通知"`），徽标不会破坏底层按钮的可访问名称。

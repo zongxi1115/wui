@@ -191,7 +191,7 @@ pnpm add radix-ui class-variance-authority clsx tailwind-merge
 
 ### 受控模式与快捷预设
 
-使用 `value` 和 `onValueChange` 实现受控管理，并提供一键设置常用预设档位（25%, 50%, 75%, 100%）：
+使用 `value` 和 `onValueChange` 实现受控管理。点击预设档位、点击轨道或使用方向键时，抓手与填充会平滑滑向新值；拖动时则严格跟随指针，不产生拖影：
 
 <ComponentPreview name="slider-controlled" />
 
@@ -233,7 +233,7 @@ return (
 
 ### 与数字输入框联动
 
-在专业设计器或参数调试面板中，将 Slider 与 `Input` 深度联动，既支持拖拽预览，又支持键盘精确输入：
+在专业设计器或参数调试面板中，将 Slider 与 `InputNumber` 联动，既支持拖拽预览，又支持键盘精确输入与长按步进：
 
 <ComponentPreview name="slider-with-input" />
 
@@ -253,6 +253,7 @@ return (
 
 - **ARIA 标准角色与属性**：
   - 滑块抓手自动挂载 `role="slider"`。
+  - 传给 `Slider` 的 `aria-label` / `aria-labelledby` 会转发到每个抓手上；范围滑块会自动追加“最小值 / 最大值”以区分两个抓手。
   - 自动同步 `aria-valuemin`、`aria-valuemax` 与当前 `aria-valuenow`。
   - 范围滑块在包含两个抓手时，两个抓手均具有合规的 ARIA 属性，独立朗读各自数值。
 - **键盘导航支持**：
@@ -266,4 +267,4 @@ return (
 - **触控与移动端优化**：
   - 轨道与抓手自动应用 `touch-action: none`，确保在移动设备上拖动滑块时不会与页面的垂直滚动产生冲突。
 - **减弱动态效果适配**：
-  - 浮动标签的过渡与轨道缩放动效会自动遵循 `prefers-reduced-motion` 设置，关闭不必要的过渡动画。
+  - 浮动标签的弹出、抓手的滑动与轨道缩放动效会自动遵循 `prefers-reduced-motion` 设置，关闭不必要的过渡动画。

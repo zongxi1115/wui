@@ -32,3 +32,7 @@ component: text-shimmer-wave
 
 `xDistance`、`yDistance`、`zDistance` 控制空间位移，`scaleDistance` 和 `rotateYDistance` 控制形变。使用自定义 `transition` 时，
 建议保持较小的位移和旋转，避免文字难以阅读。
+
+## 无障碍
+
+组件内部保留一份视觉隐藏（`sr-only`）的完整文本，逐字符动画的 span 对读屏工具隐藏，整句只会被朗读一次。

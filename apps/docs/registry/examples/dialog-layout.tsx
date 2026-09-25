@@ -1,6 +1,7 @@
 import { Settings2Icon } from "lucide-react"
 
 import { Button } from "@/registry/ui/button"
+import { Checkbox } from "@/registry/ui/checkbox"
 import {
   Dialog,
   DialogClose,
@@ -11,6 +12,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/registry/ui/dialog"
+import { Input } from "@/registry/ui/input"
 
 export default function DialogLayout() {
   return (
@@ -19,38 +21,34 @@ export default function DialogLayout() {
         <DialogTrigger asChild>
           <Button variant="outline">
             <Settings2Icon />
-            Workspace access
+            访问权限设置
           </Button>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Workspace access</DialogTitle>
+            <DialogTitle>工作区访问权限</DialogTitle>
             <DialogDescription>
-              Update how members discover and request access to this workspace.
+              设置成员如何发现并申请加入此工作区。
             </DialogDescription>
           </DialogHeader>
-          <div className="space-y-1">
-            <label htmlFor="workspace-name" className="text-xs font-medium">
-              Workspace name
+          <div className="space-y-1.5">
+            <label htmlFor="workspace-name" className="text-sm font-medium">
+              工作区名称
             </label>
-            <input
-              id="workspace-name"
-              defaultValue="Northstar Design"
-              className="h-9 w-full rounded-md border bg-background px-3 text-sm outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/30"
-            />
+            <Input id="workspace-name" defaultValue="北极星设计组" />
           </div>
-          <label className="flex items-center gap-2 text-sm text-muted-foreground">
-            <input type="checkbox" defaultChecked className="size-4 accent-primary" />
-            Allow members to request access
+          <label className="text-muted-foreground flex items-center gap-2 text-sm">
+            <Checkbox defaultChecked />
+            允许成员申请访问
           </label>
           <DialogFooter>
             <DialogClose asChild>
               <Button variant="ghost" size="sm">
-                Cancel
+                取消
               </Button>
             </DialogClose>
             <DialogClose asChild>
-              <Button size="sm">Save changes</Button>
+              <Button size="sm">保存</Button>
             </DialogClose>
           </DialogFooter>
         </DialogContent>

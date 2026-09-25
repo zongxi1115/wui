@@ -55,13 +55,13 @@ pnpm add radix-ui motion lucide-react class-variance-authority clsx tailwind-mer
     {
       prop: "transition",
       type: "Transition",
-      default: '{ type: "spring", stiffness: 460, damping: 36, mass: 0.65 }',
+      default: '{ type: "spring", bounce: 0.14, visualDuration: 0.36 }',
       description: "原地形变过渡使用的 Motion 弹簧动画配置。",
     },
     {
       prop: "variants",
       type: "Variants",
-      description: "气泡内部子内容在进场与离场阶段的渐变或位移变体。",
+      description: "气泡内部子内容在进场与离场阶段的变体。默认在表面形变开始后稍晚以模糊对焦方式淡入，关闭时快速淡出。",
     },
     {
       prop: "className",
@@ -96,7 +96,7 @@ pnpm add radix-ui motion lucide-react class-variance-authority clsx tailwind-mer
     {
       prop: "className",
       type: "string",
-      description: "应用于展开后气泡卡片表面的 CSS 类名。",
+      description: "应用于展开后气泡面板的 CSS 类名（尺寸、内边距、圆角等）。背景与阴影由独立的形变表面绘制，文字不会在形变过程中被拉伸。",
     },
     {
       prop: "children",

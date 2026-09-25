@@ -1,9 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Minimize2Icon } from "lucide-react"
 
-import { Badge } from "@/registry/ui/badge"
 import { ScrollExpand } from "@/registry/ui/scroll-expand"
 
 export default function ScrollExpandCollapse() {
@@ -12,45 +10,36 @@ export default function ScrollExpandCollapse() {
   return (
     <div
       ref={container}
-      className="relative h-96 w-full max-w-xl overflow-y-auto rounded-2xl border bg-card p-6 shadow-md [scrollbar-width:thin]"
+      className="h-[26rem] w-full overflow-y-auto rounded-b-lg"
     >
-      <div className="mb-4">
-        <Badge variant="outline" className="text-xs">
-          <Minimize2Icon className="mr-1 size-3 text-primary" />
-          Direction: Collapse
-        </Badge>
-        <h3 className="mt-2 text-lg font-semibold text-foreground">
-          Scroll Down to Collapse
-        </h3>
-        <p className="text-xs text-muted-foreground">
-          The full-bleed canvas transitions into a compact rounded card.
-        </p>
-      </div>
-
       <ScrollExpand
         container={container}
         direction="collapse"
         scrollLength={1.8}
-        inset={12}
-        radius={24}
+        inset={14}
+        radius={12}
       >
-        <div className="relative size-full overflow-hidden bg-muted">
+        <div className="bg-muted relative size-full">
           <img
-            src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1000&q=80"
-            alt="Neon architecture"
+            src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1600&q=80"
+            alt="阳光穿过森林"
             className="size-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-          <div className="absolute bottom-4 left-4 text-white">
-            <span className="text-[10px] font-mono uppercase tracking-widest text-white/70">
-              Cyberpunk Metropolis
-            </span>
-            <h4 className="text-base font-semibold">Neo Tokyo Night Corridor</h4>
+          <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/25 text-center text-white">
+            <p className="text-sm text-white/80">森林疗愈 · 周末营</p>
+            <p className="mt-2 text-3xl font-semibold tracking-tight">
+              向下滚动
+            </p>
           </div>
         </div>
       </ScrollExpand>
 
-      <div className="h-24" />
+      <div className="mx-auto max-w-xl px-6 py-12">
+        <h4 className="font-semibold">两天一夜，离开屏幕</h4>
+        <p className="text-muted-foreground mt-2 text-sm leading-7">
+          封面从全幅收缩为画框，把注意力交还给接下来的正文。适合作为长文或活动页的开场：先给出氛围，再进入信息。
+        </p>
+      </div>
     </div>
   )
 }

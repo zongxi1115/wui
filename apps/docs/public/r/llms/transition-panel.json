@@ -1,0 +1,116 @@
+{
+  "name": "transition-panel",
+  "type": "registry:ui",
+  "title": "过渡面板 Transition Panel",
+  "description": "按索引切换一组面板，带方向感知的滑入、淡出与模糊过渡，容器高度随新面板平滑变化。",
+  "categories": [
+    "motion"
+  ],
+  "import": "import { TransitionPanel } from \"@/components/ui/transition-panel\"",
+  "exports": [
+    "TransitionPanel"
+  ],
+  "typeExports": [
+    "TransitionPanelProps"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/transition-panel",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/transition-panel.json",
+    "npmDependencies": [
+      "motion"
+    ],
+    "registryDependencies": [
+      "utils"
+    ]
+  },
+  "props": [
+    {
+      "name": "children",
+      "type": "ReactNode[]",
+      "required": true,
+      "control": "text",
+      "description": "按索引排列的面板，每次只渲染当前激活的一个。"
+    },
+    {
+      "name": "activeIndex",
+      "type": "number",
+      "required": true,
+      "control": "number",
+      "description": "当前显示的面板索引，前进时新面板从末端方向滑入。"
+    },
+    {
+      "name": "axis",
+      "type": "\"x\" | \"y\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "x",
+        "y"
+      ],
+      "defaultValue": "x",
+      "description": "面板移动所沿的坐标轴。"
+    },
+    {
+      "name": "offset",
+      "type": "number",
+      "required": false,
+      "control": "number",
+      "defaultValue": "24",
+      "description": "面板进入和离开时的位移距离，单位为像素。"
+    },
+    {
+      "name": "blur",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "进入和离开时是否附带模糊效果。"
+    },
+    {
+      "name": "animateHeight",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否平滑调整容器高度以适配下一个面板。"
+    },
+    {
+      "name": "transition",
+      "type": "Transition",
+      "required": false,
+      "control": "text",
+      "defaultValue": "{\r\n  duration: 0.36,\r\n  ease: [0.22, 1, 0.36, 1],\r\n}",
+      "description": "面板进入和离开使用的过渡配置。"
+    },
+    {
+      "name": "heightTransition",
+      "type": "Transition",
+      "required": false,
+      "control": "text",
+      "defaultValue": "{\r\n  type: \"spring\",\r\n  stiffness: 420,\r\n  damping: 40,\r\n  mass: 0.8,\r\n}",
+      "description": "容器高度变化使用的过渡配置。"
+    },
+    {
+      "name": "panelClassName",
+      "type": "string",
+      "required": false,
+      "control": "text",
+      "description": "应用于每个面板包装元素的类名。"
+    }
+  ],
+  "examples": [
+    {
+      "name": "transition-panel-demo",
+      "title": "基础用法"
+    },
+    {
+      "name": "transition-panel-onboarding",
+      "title": "多步引导"
+    }
+  ],
+  "files": [
+    "registry/ui/transition-panel.tsx"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/transition-panel",
+  "sourceUrl": "https://ui.wzx.wang/r/transition-panel.json"
+}

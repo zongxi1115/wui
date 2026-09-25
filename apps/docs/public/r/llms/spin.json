@@ -3,14 +3,16 @@
   "type": "registry:ui",
   "title": "加载中 Spin",
   "description": "轻量且支持无障碍降级的动态加载指示器，支持独立展示、局部内容遮罩与全屏阻塞。",
-  "import": "import { Spin, spinIndicatorVariants } from \"@/components/ui/spin\"",
+  "import": "import { Spin, SpinIndicator, spinIndicatorVariants } from \"@/components/ui/spin\"",
   "exports": [
     "Spin",
+    "SpinIndicator",
     "spinIndicatorVariants"
   ],
   "typeExports": [
     "SpinIndicatorProps",
-    "SpinProps"
+    "SpinProps",
+    "SpinVariant"
   ],
   "install": {
     "wui": "pnpm dlx @wui-design/cli@latest add @wui/spin",
@@ -60,6 +62,18 @@
       "description": "替换默认的轨道式加载指示器。"
     },
     {
+      "name": "variant",
+      "type": "\"dots\" | \"ring\"",
+      "required": false,
+      "control": "select",
+      "options": [
+        "dots",
+        "ring"
+      ],
+      "defaultValue": "ring",
+      "description": "指示器样式：呼吸式旋转圆弧或三个脉动圆点。"
+    },
+    {
       "name": "delay",
       "type": "number",
       "required": false,
@@ -91,7 +105,7 @@
     },
     {
       "name": "spin-custom",
-      "title": "自定义指示器"
+      "title": "指示器样式与自定义"
     },
     {
       "name": "spin-fullscreen",

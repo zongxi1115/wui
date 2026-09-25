@@ -6,9 +6,9 @@ component: scroll-snap
 
 ## 基础用法
 
-垂直全屏翻页吸附，每次轻推滚轮即可精准对齐到下一张幻灯片卡片：
+垂直分屏吸附，每次滚动对齐到下一章。通过 `onActiveChange` 拿到当前章节，驱动右侧指示器与文案入场动画：
 
-<ComponentPreview name="scroll-snap-demo" />
+<ComponentPreview name="scroll-snap-demo" previewClassName="min-h-0 p-0" />
 
 ## 安装与引入
 
@@ -53,6 +53,11 @@ pnpm add lucide-react class-variance-authority clsx tailwind-merge
       type: "boolean",
       default: "false",
       description: "是否隐藏原生滚动条 UI，同时保留完整的滚轮与触摸滑动能力。",
+    },
+    {
+      prop: "onActiveChange",
+      type: "(index: number) => void",
+      description: "当前对齐到吸附边缘的子项索引变化时触发。滚动到末端时返回最后一项。仅在传入时才会监听滚动。",
     },
     {
       prop: "className",
@@ -102,14 +107,14 @@ pnpm add lucide-react class-variance-authority clsx tailwind-merge
 
 `ScrollSnap` 适用于**全屏幻灯片、移动端横向滑块、财务仪表盘指标卡轮播**：
 
-- **纯原生性能 0 JS 开销**：底层完全由浏览器原生 CSS `scroll-snap-type` 与 `overscroll-behavior` 处理，无需加载庞大的第三方滑块库，触控与惯性极其丝滑。
+- **原生性能**：吸附完全由浏览器原生 CSS `scroll-snap-type` 与 `overscroll-behavior` 处理，触控与惯性保持系统手感；`onActiveChange` 使用 requestAnimationFrame 节流，只在索引变化时回调。
 - **防止过冲（scroll-snap-stop: always）**：对关键章节配置 `stop={true}`，确保用户即使用力猛滑也不会漏掉核心信息。
 
 ## 场景示例
 
-### 横向财务指标卡吸附
+### 横向商品列表
 
-水平滑动浏览多个指标卡，滑动结束时自动对齐到左侧边缘：
+水平滑动浏览商品，结合 `onActiveChange` 显示当前位置并控制前后切换按钮：
 
 <ComponentPreview name="scroll-snap-horizontal" />
 

@@ -81,7 +81,7 @@ pnpm add radix-ui class-variance-authority clsx tailwind-merge
 
 ### TypographyLink Props
 
-继承原生 HTML `<a>` 锚点链接的全部属性，默认应用语义化焦点指示与下划线偏移。
+继承原生 HTML `<a>` 锚点链接的全部属性，默认应用语义化焦点指示与下划线偏移；悬停时下划线颜色加深并轻微下移，系统开启“减少动态效果”时不做过渡。
 
 ## 事件 Events
 
@@ -118,7 +118,7 @@ pnpm add radix-ui class-variance-authority clsx tailwind-merge
 
 ### 多态标签与语义解耦
 
-通过 `as` 属性自由切换底层渲染元素，兼顾 SEO 语义权重与设计系统视觉规范：
+通过 `as` 属性自由切换底层渲染元素，兼顾文档大纲语义与设计系统视觉规范；示例中页面标题语义为 `<h1>`、视觉为 `h3`，小节标签语义为 `<h2>`、视觉为 `small`，“相关文章”则通过 `asChild` 把正文样式合并到自定义容器：
 
 <ComponentPreview name="typography-custom-tag" />
 

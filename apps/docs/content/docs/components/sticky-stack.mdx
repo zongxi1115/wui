@@ -6,9 +6,9 @@ component: sticky-stack
 
 ## 基础用法
 
-向下滚动查看多张技术支柱卡片，前一张卡片吸顶后随新卡片到来而微微缩小下沉，形成立体层叠感：
+向下滚动，卡片依次吸顶；新卡片到来时，下方卡片微微缩小并被 `dim` 薄雾覆盖，层级自然后退：
 
-<ComponentPreview name="sticky-stack-demo" />
+<ComponentPreview name="sticky-stack-demo" previewClassName="min-h-0 p-0" />
 
 ## 安装与引入
 
@@ -60,6 +60,12 @@ pnpm add motion lucide-react class-variance-authority clsx tailwind-merge
       description: "每被一张新卡片盖在上方时，底层卡片逐级衰减缩小的比例步进值（如 0.035 代表缩小 3.5%）。",
     },
     {
+      prop: "dim",
+      type: "number",
+      default: "0",
+      description: "被覆盖卡片上背景色薄雾的最大不透明度（0–1）。越靠底层的卡片越接近该值，`0` 表示关闭。",
+    },
+    {
       prop: "container",
       type: "React.RefObject<HTMLElement | null>",
       description: "局部滚动容器的 ref 引用（不传时监听整个页面滚动）。",
@@ -94,37 +100,21 @@ pnpm add motion lucide-react class-variance-authority clsx tailwind-merge
   ]}
 />
 
-## 事件 Events
-
-<PropsTable
-  data={[
-    {
-      prop: "onAnimationStart",
-      type: "() => void",
-      description: "当卡片因滚动进入层叠与缩放动画区间时触发。",
-    },
-    {
-      prop: "onAnimationComplete",
-      type: "() => void",
-      description: "当卡片缩放到达稳定终态时触发。",
-    },
-  ]}
-/>
-
 ## 使用场景与设计规范
 
 `StickyStack` 适用于**核心功能三大支柱、递进式流程步骤、定价套餐等级对比**：
 
 - **强化叙事节奏**：相比一次性列出所有卡片，粘性层叠让用户的注意力一次只聚焦在一张核心内容上，滚动时带来强烈的成就感与进展感。
-- **色彩与层级呼应**：为不同顺序的卡片搭配轻微的渐变背景或顶部色条，可以让堆叠后的顶端露白显得井然有序。
+- **层级表达**：用 `dim` 让底层卡片退后，比为每张卡片换背景色更克制；卡片之间的露出高度由 `gap` 控制，8–16px 即可读出层次。
+- **卡片间距**：卡片默认带 `mb-[18vh]` 的滚动间距，可通过 `className` 覆盖（如 `mb-24`）。
 
 ## 场景示例
 
-### RAG 知识库流水线执行阶段
+### 定价方案
 
-展示复杂流程（数据摄取、语义检索、回答生成）的分阶段堆叠推进：
+窄栏中的方案卡片逐张叠放，适合在移动端依次对比：
 
-<ComponentPreview name="sticky-stack-features" />
+<ComponentPreview name="sticky-stack-features" previewClassName="min-h-0 p-0" />
 
 ## 无障碍与交互 Accessibility
 

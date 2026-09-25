@@ -8,6 +8,7 @@
     "Textarea"
   ],
   "typeExports": [
+    "TextareaAutoSize",
     "TextareaProps"
   ],
   "install": {
@@ -42,6 +43,14 @@
       "description": "用户可以拖动调整文本域尺寸的方向。"
     },
     {
+      "name": "autoSize",
+      "type": "boolean | TextareaAutoSize",
+      "required": false,
+      "control": "text",
+      "defaultValue": "false",
+      "description": "根据内容平滑地自适应高度；传入对象可限制最少与最多行数。@default false"
+    },
+    {
       "name": "wrapperClassName",
       "type": "string",
       "required": false,
@@ -68,6 +77,10 @@
     {
       "name": "textarea-count",
       "title": "字符计数与最大字数限制"
+    },
+    {
+      "name": "textarea-autosize",
+      "title": "自适应高度 (AutoSize)"
     },
     {
       "name": "textarea-resize",

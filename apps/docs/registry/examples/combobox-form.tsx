@@ -32,7 +32,7 @@ export default function ComboboxForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex w-full max-w-md flex-col gap-4 rounded-xl border bg-card p-5 text-card-foreground shadow-xs">
+    <form onSubmit={handleSubmit} className="flex w-full max-w-md flex-col gap-4 rounded-lg border bg-card p-5 text-card-foreground">
       <div className="flex items-center gap-2 border-b pb-3">
         <Cloud className="size-4 text-primary" />
         <h4 className="text-sm font-semibold">服务部署目标集群配置</h4>
@@ -66,7 +66,7 @@ export default function ComboboxForm() {
 
       <div className="flex items-center justify-between pt-2">
         {saved ? (
-          <span className="flex items-center gap-1 text-xs text-emerald-600 dark:text-emerald-400">
+          <span className="flex items-center gap-1 text-xs text-success">
             <CheckCircle2 className="size-3.5" />
             集群目标配置已保存
           </span>

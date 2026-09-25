@@ -53,7 +53,7 @@ function InView({
     <MotionComponent
       ref={ref}
       data-slot="in-view"
-      initial={reduceMotion ? false : "hidden"}
+      initial="hidden"
       animate={reduceMotion || isInView ? "visible" : "hidden"}
       variants={variants}
       transition={reduceMotion ? { duration: 0 } : transition}

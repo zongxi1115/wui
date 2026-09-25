@@ -1,37 +1,198 @@
 ---
 title: 代码块 Code Block
-description: 用于在页面中优雅展示结构化源代码的高亮容器，内置行号、高亮行与一键复制。
+description: 用于在页面中展示结构化源代码的容器，内置行号、滑动高亮带、多文件切换、折叠展开与带动效反馈的一键复制。
 component: code-block
 ---
 
-## 基础示例 · Basic example
+## 基础用法
 
-<ComponentPreview name="code-block-demo" previewClassName="min-h-0 p-6 flex justify-center" />
+标题栏展示文件路径，`highlightLines` 支持行号与区间；复制按钮在复制成功后以模糊缩放过渡为对勾：
+
+<ComponentPreview name="code-block-demo" previewClassName="min-h-0" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
 
 <CodeTabs command="@wui-design/cli@latest add @wui/code-block" />
 
+<Steps>
+
+<Step>安装基础依赖与动效库</Step>
+
+```bash
+pnpm add radix-ui motion class-variance-authority lucide-react clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/code-block.tsx`</Step>
+
 <ComponentSource name="code-block" title="components/ui/code-block.tsx" />
 
-## 组件作用 · What it's for
+</Steps>
 
-`CodeBlock` 是专为技术文档、AI 生成代码与开发工具设计的独立代码展示容器。
+## 属性 Props
 
-### 适用场景
-- **行号与指定行高亮**：通过 `showLineNumbers` 和 `highlightLines={[3, 7]}` 清晰引导关键逻辑。
-- **标题栏与复制反馈**：集成文件标题、语言标签与带动效反馈的复制按钮。
-- **多风格适配**：支持 `default`（浅底通栏）、`bordered`（边框卡片）与 `ghost`（无边框透明）变体。
+### CodeBlock (根容器)
 
-### 何时不建议使用
-- 如果是在 Markdown 长文解析流中渲染内联语法，建议使用 `Markdown` 组件统一处理。
+继承原生 `<div>` 元素的全部 HTML 属性：
 
-## 组件属性 · Props
+<PropsTable
+  data={[
+    {
+      prop: "variant",
+      type: '"default" | "bordered" | "ghost"',
+      default: '"default"',
+      description: "外观变体。'default' 浅灰底；'bordered' 背景色底加描边，适合放在正文中；'ghost' 无描边。",
+    },
+    {
+      prop: "showLineNumbers",
+      type: "boolean",
+      default: "true",
+      description: "是否为内部的 CodeBlockBody 展示行号，可被 CodeBlockBody 自身的同名属性覆盖。",
+    },
+    {
+      prop: "highlightLines",
+      type: "Array<number | string>",
+      default: "[]",
+      description: "高亮行，支持单行与区间（如 [2, \"5-7\"]）。值变化时高亮带会以弹簧动效滑动到新位置。",
+    },
+    {
+      prop: "maxHeight",
+      type: "number | string",
+      description: "代码区最大高度，超出后垂直滚动；开启 expandable 时作为折叠高度（默认 240px）。",
+    },
+    {
+      prop: "expandable",
+      type: "boolean",
+      default: "false",
+      description: "是否支持折叠长代码。内容超过折叠高度时底部出现展开按钮，高度平滑过渡。",
+    },
+    {
+      prop: "value",
+      type: "string",
+      description: "多文件模式下受控的当前文件，对应 CodeBlockTab 与 CodeBlockBody 的 value。",
+    },
+    {
+      prop: "defaultValue",
+      type: "string",
+      description: "多文件模式下非受控的初始文件。",
+    },
+    {
+      prop: "onValueChange",
+      type: "(value: string) => void",
+      description: "切换文件时触发。",
+    },
+  ]}
+/>
 
-<PropsTable name="code-block" />
+### CodeBlockBody
 
-## 事件 · Events
+继承原生 `<pre>` 元素的全部 HTML 属性：
 
-- `CodeBlockCopy.onCopy`：成功复制代码内容至系统剪贴板时的回调函数。
+<PropsTable
+  data={[
+    {
+      prop: "code",
+      type: "string",
+      description: "纯文本代码内容，按行渲染行号与高亮；也可直接传入字符串 children。",
+    },
+    {
+      prop: "language",
+      type: "string",
+      description: "语言标识。未使用 CodeBlockHeader 时显示在右上角。",
+    },
+    {
+      prop: "showLineNumbers",
+      type: "boolean",
+      description: "是否展示行号，默认继承 CodeBlock。",
+    },
+    {
+      prop: "highlightLines",
+      type: "Array<number | string>",
+      description: "高亮行，默认继承 CodeBlock。",
+    },
+    {
+      prop: "value",
+      type: "string",
+      description: "多文件模式下对应的文件标识，仅在该文件激活时渲染，切换时内容淡入。",
+    },
+  ]}
+/>
 
-## 拓展使用 · Extended usage
+### CodeBlockCopy
 
-可与 `Tabs` 组合实现多文件/多语言 Tab 切换，或设置 `expandable` 控制超长代码折叠。
+<PropsTable
+  data={[
+    {
+      prop: "content",
+      type: "string",
+      description: "需要复制的文本。省略时复制当前显示的 CodeBlockBody 内容。",
+    },
+    {
+      prop: "label",
+      type: "string",
+      default: '"复制代码"',
+      description: "按钮的无障碍名称；复制成功后通过隐藏的状态区域播报「已复制到剪贴板」。",
+    },
+    {
+      prop: "onCopy",
+      type: "() => void",
+      description: "成功写入剪贴板后的回调。",
+    },
+  ]}
+/>
+
+### CodeBlockHeader / CodeBlockTitle / CodeBlockTabs / CodeBlockTab / CodeBlockActions
+
+<PropsTable
+  data={[
+    {
+      prop: "icon",
+      type: "React.ReactNode",
+      description: "仅 CodeBlockTitle：标题左侧图标，默认为文件图标。",
+    },
+    {
+      prop: "value",
+      type: "string",
+      description: "仅 CodeBlockTab：文件标识，与 CodeBlockBody 的 value 对应。激活指示线在标签之间滑动。",
+    },
+    {
+      prop: "className",
+      type: "string",
+      description: "应用于对应子容器的额外 CSS 类名。",
+    },
+  ]}
+/>
+
+## 场景示例
+
+### 多文件切换
+
+`CodeBlockTabs` 放在标题栏中，激活下划线以弹簧动效在文件之间滑动，代码区随之淡入；复制按钮自动复制当前文件：
+
+<ComponentPreview name="code-block-tabs" previewClassName="min-h-0" />
+
+### 分步讲解
+
+受控切换 `highlightLines`，高亮带在代码行之间平滑滑动，适合教程与代码评审：
+
+<ComponentPreview name="code-block-walkthrough" previewClassName="min-h-0" />
+
+### 折叠长代码
+
+`expandable` 搭配 `maxHeight` 折叠配置文件等长代码，底部渐隐提示还有更多内容：
+
+<ComponentPreview name="code-block-expandable" previewClassName="min-h-0" />
+
+## 使用场景与设计规范
+
+- **适用**：技术文档、AI 生成代码、配置片段与代码评审说明。
+- **不适用**：Markdown 长文中的代码围栏由 `Markdown` 组件自动渲染为代码块，无需手动组合。
+- **高亮克制**：一次只高亮与当前讲解相关的连续行，避免整段着色削弱层级。
+
+## 无障碍与交互 Accessibility
+
+- **多文件切换**：基于 Radix Tabs，标签支持方向键切换，面板与标签自动关联 `aria-controls`。
+- **复制反馈**：复制成功后通过 `role="status"` 播报结果，而不仅依赖图标变化。
+- **折叠按钮**：展开按钮带有 `aria-expanded` 并通过 `aria-controls` 指向代码区域。
+- **减弱动态效果**：高亮带滑动、图标变换与高度过渡在 `prefers-reduced-motion` 下即时完成。

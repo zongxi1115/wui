@@ -90,26 +90,46 @@ export interface RichTextEditorImage {
 }
 
 const toolbarItems: Array<{
+  /** Stable id; also the active-state key for toggle items. */
+  id: string
   command: Command
   label: string
   icon: React.ComponentType<{ className?: string }>
   value?: string
+  /** Toggle items expose `aria-pressed`; one-shot actions do not. */
+  toggle?: boolean
 }> = [
-  { command: "undo", label: "撤销", icon: Undo2Icon },
-  { command: "redo", label: "重做", icon: Redo2Icon },
-  { command: "formatBlock", value: "h1", label: "一级标题", icon: Heading1Icon },
-  { command: "formatBlock", value: "h2", label: "二级标题", icon: Heading2Icon },
-  { command: "bold", label: "加粗", icon: BoldIcon },
-  { command: "italic", label: "斜体", icon: ItalicIcon },
-  { command: "underline", label: "下划线", icon: UnderlineIcon },
-  { command: "strikeThrough", label: "删除线", icon: StrikethroughIcon },
-  { command: "insertUnorderedList", label: "无序列表", icon: ListIcon },
-  { command: "insertOrderedList", label: "有序列表", icon: ListOrderedIcon },
-  { command: "formatBlockQuote", label: "引用", icon: QuoteIcon },
-  { command: "formatCode", label: "代码", icon: CodeIcon },
-  { command: "createLink", label: "插入链接", icon: LinkIcon },
-  { command: "removeFormat", label: "清除格式", icon: RemoveFormattingIcon },
+  { id: "undo", command: "undo", label: "撤销", icon: Undo2Icon },
+  { id: "redo", command: "redo", label: "重做", icon: Redo2Icon },
+  { id: "h1", command: "formatBlock", value: "h1", label: "一级标题", icon: Heading1Icon, toggle: true },
+  { id: "h2", command: "formatBlock", value: "h2", label: "二级标题", icon: Heading2Icon, toggle: true },
+  { id: "bold", command: "bold", label: "加粗", icon: BoldIcon, toggle: true },
+  { id: "italic", command: "italic", label: "斜体", icon: ItalicIcon, toggle: true },
+  { id: "underline", command: "underline", label: "下划线", icon: UnderlineIcon, toggle: true },
+  { id: "strikeThrough", command: "strikeThrough", label: "删除线", icon: StrikethroughIcon, toggle: true },
+  { id: "insertUnorderedList", command: "insertUnorderedList", label: "无序列表", icon: ListIcon, toggle: true },
+  { id: "insertOrderedList", command: "insertOrderedList", label: "有序列表", icon: ListOrderedIcon, toggle: true },
+  { id: "blockquote", command: "formatBlockQuote", label: "引用", icon: QuoteIcon, toggle: true },
+  { id: "pre", command: "formatCode", label: "代码块", icon: CodeIcon, toggle: true },
+  { id: "createLink", command: "createLink", label: "插入链接", icon: LinkIcon },
+  { id: "removeFormat", command: "removeFormat", label: "清除格式", icon: RemoveFormattingIcon },
 ]
+
+const inlineStateCommands = [
+  "bold",
+  "italic",
+  "underline",
+  "strikeThrough",
+  "insertUnorderedList",
+  "insertOrderedList",
+]
+
+function isEditorEmpty(editor: HTMLElement) {
+  return (
+    !editor.textContent?.trim() &&
+    !editor.querySelector("img, hr, li, pre, blockquote")
+  )
+}
 
 /**
  * A dependency-free rich text editor built on the browser's native editing API.
@@ -128,6 +148,9 @@ function RichTextEditor({
   multiple = true,
   onFileUpload,
   onImageUpload,
+  "aria-label": ariaLabel,
+  "aria-labelledby": ariaLabelledBy,
+  "aria-describedby": ariaDescribedBy,
   ...props
 }: RichTextEditorProps) {
   const editorRef = React.useRef<HTMLDivElement>(null)
@@ -137,6 +160,7 @@ function RichTextEditor({
   const selectionRef = React.useRef<Range | null>(null)
   const [activeCommands, setActiveCommands] = React.useState<string[]>([])
   const [isUploading, setIsUploading] = React.useState(false)
+  const [isEmpty, setIsEmpty] = React.useState(!(value ?? defaultValue))
   const [hoveredLink, setHoveredLink] = React.useState<{
     href: string
     left: number
@@ -159,7 +183,13 @@ function RichTextEditor({
     if (editor.innerHTML !== value) {
       editor.innerHTML = value
     }
+    setIsEmpty(isEditorEmpty(editor))
   }, [value])
+
+  const emitChange = (editor: HTMLDivElement) => {
+    setIsEmpty(isEditorEmpty(editor))
+    onValueChange?.(editor.innerHTML)
+  }
 
   const updateLinkAction = React.useCallback(() => {
     const editor = editorRef.current
@@ -182,11 +212,13 @@ function RichTextEditor({
   }, [])
 
   const updateActiveCommands = React.useCallback(() => {
-    setActiveCommands(
-      ["bold", "italic", "underline", "strikeThrough", "insertUnorderedList", "insertOrderedList"].filter(
-        (command) => document.queryCommandState(command)
-      )
-    )
+    const block = String(document.queryCommandValue("formatBlock") ?? "")
+      .toLowerCase()
+      .replace(/[<>]/g, "")
+    setActiveCommands([
+      ...inlineStateCommands.filter((command) => document.queryCommandState(command)),
+      ...(["h1", "h2", "blockquote", "pre"].includes(block) ? [block] : []),
+    ])
     updateLinkAction()
   }, [updateLinkAction])
 
@@ -196,19 +228,29 @@ function RichTextEditor({
 
     editor.focus()
 
+    // Applying an active block format again turns the block back into a paragraph.
+    const toggleBlock = (block: string) =>
+      document.execCommand(
+        "formatBlock",
+        false,
+        activeCommands.includes(block) ? "p" : block
+      )
+
     if (command === "createLink") {
       const url = window.prompt("输入链接地址")
       if (!url) return
       document.execCommand(command, false, url)
     } else if (command === "formatBlockQuote") {
-      document.execCommand("formatBlock", false, "blockquote")
+      toggleBlock("blockquote")
     } else if (command === "formatCode") {
-      document.execCommand("formatBlock", false, "pre")
+      toggleBlock("pre")
+    } else if (command === "formatBlock" && commandValue) {
+      toggleBlock(commandValue)
     } else {
       document.execCommand(command, false, commandValue)
     }
 
-    onValueChange?.(editor.innerHTML)
+    emitChange(editor)
     updateActiveCommands()
   }
 
@@ -231,7 +273,7 @@ function RichTextEditor({
       link.className = "text-primary underline underline-offset-4"
       document.execCommand("insertHTML", false, `${link.outerHTML}&nbsp;`)
     }
-    onValueChange?.(editor.innerHTML)
+    emitChange(editor)
   }
 
   const restoreSelection = () => {
@@ -262,25 +304,29 @@ function RichTextEditor({
       img.className = "my-3 max-w-full rounded-md"
       document.execCommand("insertHTML", false, `${img.outerHTML}<br>`)
     }
-    onValueChange?.(editor.innerHTML)
+    emitChange(editor)
   }
 
   const uploadFiles = async (fileList: FileList | null) => {
     if (!fileList?.length || !onFileUpload) return
 
     setIsUploading(true)
-    const attachments = await onFileUpload(Array.from(fileList))
-    insertAttachments(attachments)
-    setIsUploading(false)
+    try {
+      insertAttachments(await onFileUpload(Array.from(fileList)))
+    } finally {
+      setIsUploading(false)
+    }
   }
 
   const uploadImages = async (fileList: FileList | null) => {
     if (!fileList?.length || !onImageUpload) return
 
     setIsUploading(true)
-    const images = await onImageUpload(Array.from(fileList))
-    insertImages(images)
-    setIsUploading(false)
+    try {
+      insertImages(await onImageUpload(Array.from(fileList)))
+    } finally {
+      setIsUploading(false)
+    }
   }
 
   return (
@@ -298,30 +344,31 @@ function RichTextEditor({
           aria-label="富文本格式工具"
           className="bg-muted/30 flex flex-wrap items-center gap-0.5 border-b px-2 py-1.5"
         >
-          {toolbarItems.map(({ command, icon: Icon, label, value: commandValue }, index) => (
-            <React.Fragment key={`${command}-${commandValue ?? index}`}>
-              {[2, 4, 8, 12].includes(index) ? (
-                <span aria-hidden className="bg-border mx-1 h-4 w-px" />
-              ) : null}
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                disabled={disabled}
-                aria-label={label}
-                aria-pressed={activeCommands.includes(command)}
-                title={label}
-                className={cn(
-                  "size-7 rounded-md",
-                  activeCommands.includes(command) && "bg-accent text-accent-foreground"
-                )}
-                onMouseDown={(event) => event.preventDefault()}
-                onClick={() => executeCommand(command, commandValue)}
-              >
-                <Icon className="size-3.5" />
-              </Button>
-            </React.Fragment>
-          ))}
+          {toolbarItems.map(({ id, command, icon: Icon, label, value: commandValue, toggle }, index) => {
+            const active = toggle ? activeCommands.includes(id) : false
+            return (
+              <React.Fragment key={id}>
+                {[2, 4, 8, 12].includes(index) ? (
+                  <span aria-hidden className="bg-border mx-1 h-4 w-px" />
+                ) : null}
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  disabled={disabled}
+                  aria-label={label}
+                  aria-pressed={toggle ? active : undefined}
+                  data-active={active || undefined}
+                  title={label}
+                  className="data-[active=true]:bg-accent data-[active=true]:text-accent-foreground size-7 rounded-md transition-[background-color,color,scale] duration-150 active:scale-90 motion-reduce:transition-none"
+                  onMouseDown={(event) => event.preventDefault()}
+                  onClick={() => executeCommand(command, commandValue)}
+                >
+                  <Icon className="size-3.5" />
+                </Button>
+              </React.Fragment>
+            )
+          })}
           {onFileUpload ? (
             <>
               <span aria-hidden className="bg-border mx-1 h-4 w-px" />
@@ -398,9 +445,13 @@ function RichTextEditor({
         suppressContentEditableWarning
         role="textbox"
         aria-multiline="true"
-        aria-label={props["aria-label"] ?? "富文本编辑器"}
+        aria-label={ariaLabelledBy ? ariaLabel : (ariaLabel ?? "富文本编辑器")}
+        aria-labelledby={ariaLabelledBy}
+        aria-describedby={ariaDescribedBy}
+        aria-disabled={disabled || undefined}
         data-placeholder={placeholder}
-        onInput={(event) => onValueChange?.(event.currentTarget.innerHTML)}
+        data-empty={isEmpty || undefined}
+        onInput={(event) => emitChange(event.currentTarget)}
         onFocus={updateActiveCommands}
         onBlur={() => setHoveredLink(null)}
         onKeyUp={updateActiveCommands}
@@ -411,14 +462,14 @@ function RichTextEditor({
           }
         }}
         className={cn(
-          "min-h-44 px-4 py-3 text-sm leading-7 outline-none empty:before:pointer-events-none empty:before:text-muted-foreground/70 empty:before:content-[attr(data-placeholder)] [&_blockquote]:border-l-primary [&_blockquote]:my-3 [&_blockquote]:border-l-2 [&_blockquote]:pl-4 [&_code]:rounded [&_code]:bg-muted [&_code]:px-1 [&_h1]:my-3 [&_h1]:text-2xl [&_h1]:font-semibold [&_h2]:my-3 [&_h2]:text-xl [&_h2]:font-semibold [&_img]:my-3 [&_img]:max-w-full [&_img]:rounded-md [&_li]:ml-5 [&_ol]:my-3 [&_ol]:list-decimal [&_p]:my-2 [&_pre]:my-3 [&_pre]:overflow-x-auto [&_pre]:rounded-md [&_pre]:bg-muted [&_pre]:p-3 [&_ul]:my-3 [&_ul]:list-disc",
+          "relative min-h-44 px-4 py-3 text-sm leading-7 outline-none data-[empty=true]:before:pointer-events-none data-[empty=true]:before:absolute data-[empty=true]:before:text-muted-foreground/70 data-[empty=true]:before:content-[attr(data-placeholder)] [&_blockquote]:border-l-primary [&_blockquote]:my-3 [&_blockquote]:border-l-2 [&_blockquote]:pl-4 [&_code]:rounded [&_code]:bg-muted [&_code]:px-1 [&_h1]:my-3 [&_h1]:text-2xl [&_h1]:font-semibold [&_h2]:my-3 [&_h2]:text-xl [&_h2]:font-semibold [&_img]:my-3 [&_img]:max-w-full [&_img]:rounded-md [&_li]:ml-5 [&_ol]:my-3 [&_ol]:list-decimal [&_p]:my-2 [&_pre]:my-3 [&_pre]:overflow-x-auto [&_pre]:rounded-md [&_pre]:bg-muted [&_pre]:p-3 [&_ul]:my-3 [&_ul]:list-disc",
           editorClassName
         )}
       />
       {hoveredLink ? (
         <div
           data-slot="rich-text-editor-link-action"
-          className="fixed z-[60]"
+          className="animate-in fade-in-0 zoom-in-95 slide-in-from-bottom-1 fixed z-[60] duration-150 motion-reduce:animate-none"
           style={{
             left: hoveredLink.left,
             top: hoveredLink.top,

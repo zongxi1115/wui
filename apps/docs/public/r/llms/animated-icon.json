@@ -21,7 +21,9 @@
     "npmDependencies": [
       "@animateicons/react"
     ],
-    "registryDependencies": []
+    "registryDependencies": [
+      "utils"
+    ]
   },
   "props": [
     {

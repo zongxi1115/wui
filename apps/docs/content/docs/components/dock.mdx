@@ -34,4 +34,26 @@ component: dock
 
 ## 拓展使用 · Extended usage
 
-可结合 `DockSeparator` 划分功能模块，并在 `DockItem` 中放置徽标计数或状态呼吸点。
+可结合 `DockSeparator` 划分功能模块，通过 `active` 标记当前所在的入口（图标下方显示指示点）。图标放大时底栏自身尺寸保持不变，图标沿垂直于排列方向的一侧溢出，相邻图标被平滑推开；内部 SVG 图标会随按钮尺寸等比放大。
+
+### 垂直工具栏
+
+`direction="vertical"` 适合画布类产品的左侧工具栏，提示标签显示在图标右侧：
+
+<ComponentPreview name="dock-vertical" previewClassName="min-h-0 p-6" />
+
+### DockItem
+
+<PropsTable
+  data={[
+    { prop: "size", type: "number", default: "40", description: "未放大时的边长（像素）。" },
+    { prop: "label", type: "string", description: "悬停或键盘聚焦时显示的提示文字，同时作为按钮的无障碍名称。" },
+    { prop: "active", type: "boolean", default: "false", description: "标记为当前激活项，显示指示点。" },
+  ]}
+/>
+
+### 无障碍
+
+- `Dock` 渲染为 `role="toolbar"` 并声明 `aria-orientation`。
+- 提示标签在键盘 `focus-visible` 时同样显示；触屏指针不会触发放大。
+- 开启“减少动态效果”时，图标保持固定尺寸。

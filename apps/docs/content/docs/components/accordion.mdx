@@ -34,4 +34,14 @@ component: accordion
 
 ## 拓展使用 · Extended usage
 
-支持通过 `variant="default" | "bordered" | "separated"` 切换通栏分割、圆角外框以及独立卡片式 3 种视觉形态。
+支持通过 `variant="default" | "bordered" | "separated"` 切换通栏分割、圆角外框以及独立卡片式 3 种视觉形态（见基础示例中的切换）。
+
+### 动效说明
+
+展开与收起时，面板高度基于 Radix 测得的 `--radix-accordion-content-height` 以 300ms 缓出曲线过渡，正文同步淡入并轻微下移，指示箭头平滑旋转；`separated` 形态下展开项的边框会加深以强调当前焦点。系统开启“减少动态效果”时，所有过渡自动关闭。
+
+### 多项展开与受控
+
+`type="multiple"` 允许同时展开多项。配合受控的 `value` / `onValueChange`，可以实现“全部展开 / 全部收起”等批量操作：
+
+<ComponentPreview name="accordion-multiple" previewClassName="min-h-0 p-6 flex justify-center" />

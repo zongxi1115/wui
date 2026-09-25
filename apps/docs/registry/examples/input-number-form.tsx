@@ -75,7 +75,7 @@ export default function InputNumberForm() {
 
       <div className="flex items-center justify-between pt-1">
         {saved ? (
-          <span className="flex items-center gap-1.5 text-xs text-emerald-600 dark:text-emerald-400">
+          <span className="flex items-center gap-1.5 text-xs text-success">
             <CheckCircle2 className="size-3.5" />
             配额配置已生效
           </span>

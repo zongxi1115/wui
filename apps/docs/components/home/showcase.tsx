@@ -36,6 +36,7 @@ import {
   KanbanColumnCount,
   KanbanColumnHeader,
   KanbanColumnTitle,
+  moveKanbanItem,
   type KanbanMove,
 } from "@/registry/ui/kanban"
 import { Progress } from "@/registry/ui/progress"
@@ -136,16 +137,8 @@ const initialBoard: Record<
 function KanbanTile() {
   const [board, setBoard] = React.useState(initialBoard)
 
-  function move({ itemId, from, to }: KanbanMove) {
-    setBoard((current) => {
-      const item = current[from].find((task) => task.id === itemId)
-      if (!item) return current
-      return {
-        ...current,
-        [from]: current[from].filter((task) => task.id !== itemId),
-        [to]: [...current[to], item],
-      }
-    })
+  function move(next: KanbanMove) {
+    setBoard((current) => moveKanbanItem(current, next, (task) => task.id))
   }
 
   return (

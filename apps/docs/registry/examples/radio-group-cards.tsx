@@ -1,81 +1,80 @@
 "use client"
 
 import * as React from "react"
+import { motion, useReducedMotion } from "motion/react"
+
 import { RadioGroup, RadioGroupItem } from "@/registry/ui/radio-group"
 
-interface Plan {
-  id: string
-  name: string
-  price: string
-  description: string
-  badge?: string
-}
+const plans = [
+  {
+    id: "starter",
+    name: "个人版",
+    price: "免费",
+    description: "3 个项目、基础 API 调用，适合独立开发者",
+  },
+  {
+    id: "pro",
+    name: "团队版",
+    price: "¥99/月",
+    description: "不限项目、高级分析与团队协作，优先工单支持",
+    badge: "推荐",
+  },
+  {
+    id: "enterprise",
+    name: "企业版",
+    price: "¥399/月",
+    description: "私有化部署、SSO 单点登录与 99.99% SLA 保障",
+  },
+]
 
 export default function RadioGroupCards() {
+  const reduceMotion = useReducedMotion()
+  const layoutId = React.useId()
   const [selectedPlan, setSelectedPlan] = React.useState("pro")
 
-  const plans: Plan[] = [
-    {
-      id: "starter",
-      name: "个人版 Starter",
-      price: "¥ 0 / 永久免费",
-      description: "适合独立开发者与个人项目，支持 3 个项目与基础 API 访问。",
-    },
-    {
-      id: "pro",
-      name: "专业版 Pro",
-      price: "¥ 99 / 每月",
-      description: "面向成长型团队，无限项目、高级分析、团队协作与优先客服支持。",
-      badge: "最受欢迎",
-    },
-    {
-      id: "enterprise",
-      name: "企业版 Enterprise",
-      price: "¥ 399 / 每月",
-      description: "专为大规模业务设计，独立私有化部署、SSO 登录及 99.99% SLA 保障。",
-    },
-  ]
-
   return (
-    <div className="w-full max-w-lg">
-      <RadioGroup
-        value={selectedPlan}
-        onValueChange={setSelectedPlan}
-        className="gap-3"
-      >
-        {plans.map((plan) => {
-          const isChecked = selectedPlan === plan.id
-          return (
-            <label
-              key={plan.id}
-              htmlFor={`plan-${plan.id}`}
-              className={`relative flex cursor-pointer items-start justify-between rounded-xl border p-4 transition-all ${
-                isChecked
-                  ? "border-primary bg-primary/5 shadow-xs"
-                  : "border-border hover:border-border/80 hover:bg-muted/30"
-              }`}
-            >
-              <div className="flex items-start gap-3.5">
-                <RadioGroupItem value={plan.id} id={`plan-${plan.id}`} className="mt-0.5" />
-                <div className="grid gap-1">
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm font-semibold text-foreground">{plan.name}</span>
-                    {plan.badge ? (
-                      <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-medium text-primary">
-                        {plan.badge}
-                      </span>
-                    ) : null}
-                  </div>
-                  <p className="text-xs text-muted-foreground">{plan.description}</p>
-                </div>
-              </div>
-              <span className="shrink-0 text-xs font-semibold tabular-nums text-foreground">
-                {plan.price}
+    <RadioGroup
+      value={selectedPlan}
+      onValueChange={setSelectedPlan}
+      aria-label="订阅方案"
+      className="w-full max-w-md gap-2"
+    >
+      {plans.map((plan) => {
+        const checked = selectedPlan === plan.id
+        return (
+          <label
+            key={plan.id}
+            htmlFor={`plan-${plan.id}`}
+            className="hover:bg-muted/40 relative flex cursor-pointer items-start gap-3 rounded-lg border p-4 transition-colors"
+          >
+            {checked ? (
+              <motion.span
+                aria-hidden="true"
+                layoutId={layoutId}
+                className="border-primary pointer-events-none absolute -inset-px rounded-lg border-2"
+                transition={
+                  reduceMotion
+                    ? { duration: 0 }
+                    : { type: "spring", stiffness: 520, damping: 38, mass: 0.7 }
+                }
+              />
+            ) : null}
+            <RadioGroupItem value={plan.id} id={`plan-${plan.id}`} className="mt-px" />
+            <span className="grid flex-1 gap-1">
+              <span className="flex items-center gap-2">
+                <span className="text-sm font-medium leading-none">{plan.name}</span>
+                {plan.badge ? (
+                  <span className="bg-primary/10 text-primary rounded px-1.5 py-0.5 text-[10px] font-medium leading-none">
+                    {plan.badge}
+                  </span>
+                ) : null}
               </span>
-            </label>
-          )
-        })}
-      </RadioGroup>
-    </div>
+              <span className="text-muted-foreground text-xs">{plan.description}</span>
+            </span>
+            <span className="text-sm font-semibold tabular-nums">{plan.price}</span>
+          </label>
+        )
+      })}
+    </RadioGroup>
   )
 }

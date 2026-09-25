@@ -1,0 +1,193 @@
+---
+title: 文本轮转 Text Rotate
+description: 逐字符、单词或整行错峰轮换一组文本：旧文本向上移出、新文本自下方进入，容器宽度随新内容平滑过渡。
+component: text-rotate
+---
+
+## 基础用法
+
+传入 `texts` 数组即可自动轮换。每个字符按设定的错峰节奏向上移出，下一段文本的字符从下方依次进入；外层容器宽度会以弹簧动画过渡到新文本的宽度，因此放在标题中间也不会造成周围文字跳动：
+
+<ComponentPreview name="text-rotate-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
+
+<CodeTabs command="@wui-design/cli@latest add @wui/text-rotate" />
+
+<Steps>
+
+<Step>安装基础依赖与 Motion 动效库</Step>
+
+```bash
+pnpm add motion clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/text-rotate.tsx`</Step>
+
+<ComponentSource name="text-rotate" title="components/ui/text-rotate.tsx" />
+
+</Steps>
+
+## 属性 Props
+
+`TextRotate` 支持以下配置属性，并继承原生 `<span>` 的其余 HTML 属性：
+
+<PropsTable
+  data={[
+    {
+      prop: "texts",
+      type: "string[]",
+      required: true,
+      description: "依次轮换的文本数组。`split=\"lines\"` 时可用 `\\n` 表示换行。",
+    },
+    {
+      prop: "split",
+      type: '"characters" | "words" | "lines"',
+      default: '"characters"',
+      description: "错峰动画的拆分粒度：逐字符、逐单词（按空格拆分）或逐行。",
+    },
+    {
+      prop: "direction",
+      type: '"up" | "down"',
+      default: '"up"',
+      description: "运动方向。up 表示旧文本向上移出、新文本自下方进入；down 则相反。",
+    },
+    {
+      prop: "staggerFrom",
+      type: '"first" | "last" | "center" | "random" | number',
+      default: '"first"',
+      description: "错峰的起点：首个元素、末尾、中心向两侧、随机顺序，或指定的元素下标。随机顺序为确定性计算，不会导致水合不一致。",
+    },
+    {
+      prop: "staggerDuration",
+      type: "number",
+      default: "0.025",
+      description: "相邻两个元素之间的延迟（秒）。",
+    },
+    {
+      prop: "blur",
+      type: "boolean",
+      default: "false",
+      description: "进出场时叠加模糊，让切换更柔和。",
+    },
+    {
+      prop: "auto",
+      type: "boolean",
+      default: "true",
+      description: "是否按 `interval` 自动轮换。",
+    },
+    {
+      prop: "interval",
+      type: "number",
+      default: "2.5",
+      description: "每段文本停留的时长（秒）。手动切换后会重新计时。",
+    },
+    {
+      prop: "loop",
+      type: "boolean",
+      default: "true",
+      description: "到达最后一段后是否回到第一段。关闭后自动轮换会停在最后一段。",
+    },
+    {
+      prop: "paused",
+      type: "boolean",
+      default: "false",
+      description: "暂停自动轮换，常用于悬停或聚焦时让用户读完当前内容。",
+    },
+    {
+      prop: "index",
+      type: "number",
+      description: "受控模式下的当前下标，需配合 `onIndexChange` 使用。",
+    },
+    {
+      prop: "defaultIndex",
+      type: "number",
+      default: "0",
+      description: "非受控模式下的初始下标。",
+    },
+    {
+      prop: "transition",
+      type: "Transition",
+      default: '{ type: "spring", stiffness: 380, damping: 32, mass: 0.8 }',
+      description: "每个动画元素的过渡参数，错峰延迟会自动叠加。",
+    },
+    {
+      prop: "sizeTransition",
+      type: "Transition",
+      default: '{ type: "spring", stiffness: 520, damping: 38, mass: 0.7 }',
+      description: "容器尺寸适配新文本时的过渡参数。characters 与 words 模式下过渡宽度；lines 模式允许自动换行，过渡高度。",
+    },
+    {
+      prop: "groupClassName",
+      type: "string",
+      description: "应用于每个单词或每一行分组的类名。",
+    },
+    {
+      prop: "elementClassName",
+      type: "string",
+      description: "应用于每个动画元素（字符、单词或行）的类名。",
+    },
+    {
+      prop: "ref",
+      type: "React.Ref<TextRotateHandle>",
+      description: "获取命令式方法：`next()`、`previous()`、`jumpTo(index)` 与 `reset()`。",
+    },
+  ]}
+/>
+
+## 事件 Events
+
+<PropsTable
+  data={[
+    {
+      prop: "onIndexChange",
+      type: "(index: number) => void",
+      description: "自动轮换或调用命令式方法切换下标时触发，参数为新的下标。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`TextRotate` 适合营销页主标题中的关键词轮换、产品能力或受众的并列展示，以及紧凑的状态文案。与 [文本循环 Text Loop](/docs/components/text-loop) 整块替换不同，它把文本拆成字符、单词或行逐个运动，并自动适配宽度。
+
+- **同一语法位置**：轮换的文本应能填入同一句话的同一位置，保证任意时刻整句通顺，例如「为 设计师 / 开发者 打造」。
+- **拆分粒度与文本长度匹配**：短词用 `characters`；较长的英文短句用 `words`，避免错峰总时长过长；整句提示或中文长句用 `lines`，此时文本可随容器宽度换行，组件改为过渡高度。
+- **克制的错峰**：字符级 `staggerDuration` 建议在 0.02–0.04 秒之间，总时长超过 0.6 秒会让人觉得拖沓。
+- **给阅读留时间**：信息量较大的文案建议把 `interval` 调到 4 秒以上，并在悬停时通过 `paused` 暂停。
+
+## 场景示例
+
+### 字符级错峰与方向
+
+切换错峰起点、运动方向与模糊，观察同一组英文单词的不同节奏：
+
+<ComponentPreview name="text-rotate-characters" />
+
+### 按单词轮换状态文案
+
+`split="words"` 按空格拆分，适合长度差异较大的日志或状态短句：
+
+<ComponentPreview name="text-rotate-words" />
+
+### 命令式控制与悬停暂停
+
+通过 `ref` 调用 `previous()` / `next()`，结合 `direction` 让“上一条”向下滚动、“下一条”向上滚动；悬停时 `paused` 暂停自动轮换，`onIndexChange` 同步计数：
+
+<ComponentPreview name="text-rotate-controlled" />
+
+```tsx
+const rotateRef = React.useRef<TextRotateHandle>(null)
+
+<TextRotate ref={rotateRef} texts={tips} split="lines" paused={hovered} />
+<Button onClick={() => rotateRef.current?.next()}>下一条</Button>
+```
+
+## 无障碍与交互 Accessibility
+
+- **完整文本朗读**：组件内置一个 `sr-only` 节点输出当前完整文本，视觉上被拆分的字符节点均设置了 `aria-hidden`，读屏软件不会逐字朗读。
+- **不打断用户**：当前文本没有使用 `aria-live`，自动轮换不会持续打断读屏播报。若轮换内容本身是需要播报的状态，请在外层自行添加 `aria-live="polite"`。
+- **减少动态效果**：开启 `prefers-reduced-motion` 时，字符位移、错峰与宽度动画全部即时完成，仅保留内容切换。
+- **SSR 友好**：首屏直接渲染第一段文本，宽度测量与随机错峰都在客户端挂载后进行，不会产生水合差异。

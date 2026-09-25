@@ -21,7 +21,8 @@
     "npmDependencies": [],
     "registryDependencies": [
       "slider",
-      "chart-core"
+      "chart-core",
+      "utils"
     ]
   },
   "props": [

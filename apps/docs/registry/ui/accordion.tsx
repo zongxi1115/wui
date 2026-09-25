@@ -11,7 +11,7 @@ const accordionVariants = cva("w-full", {
   variants: {
     variant: {
       default: "divide-y divide-border border-y border-border",
-      bordered: "divide-y divide-border rounded-xl border border-border overflow-hidden bg-card",
+      bordered: "divide-y divide-border rounded-lg border border-border overflow-hidden bg-card",
       separated: "flex flex-col gap-2.5",
     },
   },
@@ -60,7 +60,8 @@ const accordionItemVariants = cva("transition-colors", {
     variant: {
       default: "",
       bordered: "",
-      separated: "rounded-xl border border-border bg-card shadow-xs",
+      separated:
+        "overflow-hidden rounded-lg border border-border bg-card shadow-xs transition-[border-color] duration-200 data-[state=open]:border-foreground/20",
     },
   },
   defaultVariants: {
@@ -107,7 +108,7 @@ function AccordionTrigger({
       <AccordionPrimitive.Trigger
         data-slot="accordion-trigger"
         className={cn(
-          "group flex flex-1 items-center justify-between py-3.5 px-4 text-left text-sm font-medium text-foreground transition-all hover:text-foreground/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/35 disabled:pointer-events-none disabled:opacity-50 cursor-pointer select-none",
+          "group flex flex-1 cursor-pointer select-none items-center justify-between gap-3 px-4 py-3.5 text-left text-sm font-medium text-foreground outline-none transition-colors duration-200 hover:bg-muted/40 focus-visible:ring-[3px] focus-visible:ring-inset focus-visible:ring-ring/35 disabled:pointer-events-none disabled:opacity-50",
           className
         )}
         {...props}
@@ -116,7 +117,8 @@ function AccordionTrigger({
         {showIndicator && (
           <ChevronDownIcon
             aria-hidden
-            className="size-4 shrink-0 text-muted-foreground transition-transform duration-200 group-data-[state=open]:rotate-180"
+            data-slot="accordion-indicator"
+            className="size-4 shrink-0 text-muted-foreground transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:text-foreground group-data-[state=open]:rotate-180 motion-reduce:transition-none"
           />
         )}
       </AccordionPrimitive.Trigger>
@@ -136,12 +138,14 @@ function AccordionContent({
     <AccordionPrimitive.Content
       data-slot="accordion-content"
       className={cn(
-        "overflow-hidden text-xs sm:text-sm text-muted-foreground leading-relaxed transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down",
+        "overflow-hidden text-sm leading-relaxed text-muted-foreground duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down motion-reduce:animate-none",
         className
       )}
       {...props}
     >
-      <div className="px-4 pb-4 pt-0">{children}</div>
+      <div className="px-4 pb-4 pt-0 duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:animate-none [[data-state=closed]>&]:animate-out [[data-state=closed]>&]:fade-out-0 [[data-state=open]>&]:animate-in [[data-state=open]>&]:fade-in-0 [[data-state=open]>&]:slide-in-from-top-1">
+        {children}
+      </div>
     </AccordionPrimitive.Content>
   )
 }

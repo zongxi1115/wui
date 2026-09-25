@@ -1,106 +1,96 @@
-"use client"
-
-import * as React from "react"
-import { ArrowRightIcon } from "lucide-react"
-
+import { Badge } from "@/registry/ui/badge"
 import {
   Carousel,
   CarouselContent,
+  CarouselDots,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
 } from "@/registry/ui/carousel"
-import { Badge } from "@/registry/ui/badge"
-import { Button } from "@/registry/ui/button"
 
-const CARDS = [
+const routes = [
   {
-    title: "Vibe UI Next-Gen 设计系统",
-    category: "Design System",
-    desc: "极致打磨的 80+ 现代化组件与 15+ 业务场景模板，开箱即用。",
+    title: "东极岛环岛海岸线",
+    tag: "轻徒步",
+    days: "2 天 1 晚",
+    distance: "14 km",
     image: "/wui/demo/field-notes/coastal-hill.jpg",
   },
   {
-    title: "AI Agent 流式工作流编排器",
-    category: "AI Platform",
-    desc: "基于可视化节点连线的智能体自主编排引擎，支持工具链自动调用。",
+    title: "安吉芒草坡日落线",
+    tag: "摄影",
+    days: "1 天",
+    distance: "6 km",
     image: "/wui/demo/field-notes/silver-grass.jpg",
   },
   {
-    title: "全自动化云原生发布平台",
-    category: "DevOps",
-    desc: "无缝对接 Kubernetes 集群，支持金丝雀灰度与秒级故障回滚。",
+    title: "城市混凝土建筑漫步",
+    tag: "城市",
+    days: "半天",
+    distance: "4 km",
     image: "/wui/demo/field-notes/concrete-stairs.jpg",
   },
   {
-    title: "实时分布式监控与链路追踪",
-    category: "Observability",
-    desc: "全链路毫秒级拓扑分析，智能定位性能瓶颈与异常调用栈。",
+    title: "金石滩悬崖观景步道",
+    tag: "进阶",
+    days: "1 天",
+    distance: "11 km",
     image: "/wui/demo/field-notes/cliff-horizon.jpg",
+  },
+  {
+    title: "鸣沙山沙丘穿越",
+    tag: "露营",
+    days: "3 天 2 晚",
+    distance: "22 km",
+    image: "/wui/demo/field-notes/dune-figure.jpg",
   },
 ]
 
 export default function CarouselCards() {
-  const [current, setCurrent] = React.useState(0)
-
   return (
-    <div className="w-full max-w-3xl space-y-4">
-      <Carousel
-        loop
-        onIndexChange={setCurrent}
-        className="w-full px-12"
-        aria-label="精选产品架构方案"
-      >
-        <CarouselContent className="-ml-4">
-          {CARDS.map((card, index) => (
-            <CarouselItem key={card.title} className="pl-4 md:basis-1/2">
-              <div className="group overflow-hidden rounded-xl border bg-card text-card-foreground shadow-xs transition-all hover:shadow-md">
-                <div className="aspect-video w-full overflow-hidden bg-muted">
-                  <img
-                    src={card.image}
-                    alt={card.title}
-                    className="size-full object-cover transition-transform duration-300 group-hover:scale-105"
-                  />
-                </div>
-                <div className="p-5 space-y-3">
-                  <div className="flex items-center justify-between">
-                    <Badge variant="secondary" className="text-[10px]">
-                      {card.category}
-                    </Badge>
-                    <span className="text-[11px] text-muted-foreground tabular-nums">
-                      {index + 1} / {CARDS.length}
-                    </span>
-                  </div>
-                  <h3 className="font-semibold text-sm line-clamp-1 group-hover:text-primary transition-colors">
-                    {card.title}
-                  </h3>
-                  <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed">
-                    {card.desc}
-                  </p>
-                  <Button variant="ghost" size="sm" className="h-7 px-0 text-xs text-primary gap-1">
-                    <span>了解更多</span>
-                    <ArrowRightIcon className="size-3" />
-                  </Button>
-                </div>
-              </div>
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
-      </Carousel>
-
-      {/* 底部指示圆点 */}
-      <div className="flex justify-center gap-1.5">
-        {CARDS.map((_, i) => (
-          <div
-            key={i}
-            className={`h-1.5 rounded-full transition-all duration-300 ${
-              i === current ? "w-6 bg-primary" : "w-1.5 bg-muted-foreground/30"
-            }`}
-          />
-        ))}
+    <Carousel loop className="w-full max-w-3xl" aria-label="本周推荐路线">
+      <div className="mb-4 flex items-end justify-between gap-4">
+        <div>
+          <h3 className="text-base font-semibold">本周推荐路线</h3>
+          <p className="text-muted-foreground mt-1 text-sm">
+            根据你收藏的目的地挑选，共 {routes.length} 条
+          </p>
+        </div>
+        <div className="flex gap-2">
+          <CarouselPrevious className="static size-8 translate-x-0 translate-y-0" />
+          <CarouselNext className="static size-8 translate-x-0 translate-y-0" />
+        </div>
       </div>
-    </div>
+
+      <CarouselContent className="-ml-4">
+        {routes.map((route) => (
+          <CarouselItem
+            key={route.title}
+            className="pl-4 opacity-50 transition-opacity duration-300 data-[active]:opacity-100 sm:basis-1/2 lg:basis-1/3"
+          >
+            <article>
+              <img
+                src={route.image}
+                alt={route.title}
+                className="aspect-[4/3] w-full rounded-md object-cover"
+              />
+              <div className="mt-3 flex items-center gap-2">
+                <Badge variant="secondary" size="sm">
+                  {route.tag}
+                </Badge>
+                <span className="text-muted-foreground text-xs tabular-nums">
+                  {route.days} · {route.distance}
+                </span>
+              </div>
+              <h4 className="mt-1.5 truncate text-sm font-medium">
+                {route.title}
+              </h4>
+            </article>
+          </CarouselItem>
+        ))}
+      </CarouselContent>
+
+      <CarouselDots className="mt-3" />
+    </Carousel>
   )
 }

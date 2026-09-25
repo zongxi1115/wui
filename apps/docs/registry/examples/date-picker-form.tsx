@@ -22,7 +22,7 @@ export default function DatePickerForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex w-full max-w-md flex-col gap-4 rounded-xl border bg-card p-5 text-card-foreground shadow-xs">
+    <form onSubmit={handleSubmit} className="flex w-full max-w-md flex-col gap-4 rounded-lg border bg-card p-5 text-card-foreground">
       <div className="flex items-center gap-2 border-b pb-3">
         <CalendarRange className="size-4 text-primary" />
         <h4 className="text-sm font-semibold">项目迭代周期规划表单</h4>
@@ -59,7 +59,7 @@ export default function DatePickerForm() {
 
       <div className="flex items-center justify-between pt-1">
         {saved ? (
-          <span className="flex items-center gap-1 text-xs text-emerald-600 dark:text-emerald-400">
+          <span className="flex items-center gap-1 text-xs text-success">
             <CheckCircle2 className="size-3.5" />
             迭代计划已提交
           </span>

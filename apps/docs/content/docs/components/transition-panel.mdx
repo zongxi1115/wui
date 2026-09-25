@@ -1,0 +1,115 @@
+---
+title: 过渡面板 Transition Panel
+description: 按索引切换一组面板，带方向感知的滑入、淡出与模糊过渡，容器高度随新面板平滑变化。
+component: transition-panel
+---
+
+## 基础用法
+
+传入面板数组与 `activeIndex`。向后切换时新面板从右侧进入、旧面板向左退出，向前切换时方向相反；面板高度不同时，容器高度会以弹簧动画过渡：
+
+<ComponentPreview name="transition-panel-demo" />
+
+## 安装与引入
+
+通过 CLI 自动添加组件，或手动复制源码至项目中：
+
+<CodeTabs command="@wui-design/cli@latest add @wui/transition-panel" />
+
+<Steps>
+
+<Step>安装基础依赖与 Motion 动效库</Step>
+
+```bash
+pnpm add motion clsx tailwind-merge
+```
+
+<Step>复制组件源码到 `components/ui/transition-panel.tsx`</Step>
+
+<ComponentSource name="transition-panel" title="components/ui/transition-panel.tsx" />
+
+</Steps>
+
+## 属性 Props
+
+`TransitionPanel` 支持以下配置属性，并继承原生 `<div>` 的其余 HTML 属性：
+
+<PropsTable
+  data={[
+    {
+      prop: "children",
+      type: "React.ReactNode[]",
+      required: true,
+      description: "面板数组，只渲染 `activeIndex` 对应的一项。",
+    },
+    {
+      prop: "activeIndex",
+      type: "number",
+      required: true,
+      description: "当前面板下标。组件会与上一次下标比较，自动推断运动方向。",
+    },
+    {
+      prop: "axis",
+      type: '"x" | "y"',
+      default: '"x"',
+      description: "面板位移的方向轴。",
+    },
+    {
+      prop: "offset",
+      type: "number",
+      default: "24",
+      description: "进出场的位移距离（像素）。",
+    },
+    {
+      prop: "blur",
+      type: "boolean",
+      default: "true",
+      description: "进出场时是否叠加轻微模糊。",
+    },
+    {
+      prop: "animateHeight",
+      type: "boolean",
+      default: "true",
+      description: "是否让容器高度平滑过渡到新面板的高度。",
+    },
+    {
+      prop: "transition",
+      type: "Transition",
+      default: "{ duration: 0.36, ease: [0.22, 1, 0.36, 1] }",
+      description: "面板进出场的过渡参数。",
+    },
+    {
+      prop: "heightTransition",
+      type: "Transition",
+      default: '{ type: "spring", stiffness: 420, damping: 40, mass: 0.8 }',
+      description: "容器高度变化的过渡参数。",
+    },
+    {
+      prop: "panelClassName",
+      type: "string",
+      description: "应用于每个面板包裹元素的类名。",
+    },
+  ]}
+/>
+
+## 使用场景与设计规范
+
+`TransitionPanel` 只负责“切换哪一块内容”的动效，不包含标签或步骤导航，可自由搭配 [切换组 Toggle Group](/docs/components/toggle-group)、按钮或 [步骤条 Steps](/docs/components/steps)。
+
+- **多步表单与引导**：方向感知的位移能让用户感知“前进”与“后退”。
+- **内容区域切换**：设置页、发布说明等高度不一的内容切换，高度过渡能避免下方内容突然跳动。
+- **需要完整 Tab 语义时**：若内容是标准标签页，请优先使用 [标签页 Tabs](/docs/components/tabs)，它提供 `tablist` / `tabpanel` 语义与键盘导航。
+
+## 场景示例
+
+### 多步引导
+
+配合上一步 / 下一步按钮使用，后退时面板从左侧进入。面板容器会裁剪溢出内容，示例通过 `panelClassName="p-1"` 与外层负边距为输入框的聚焦光环预留空间：
+
+<ComponentPreview name="transition-panel-onboarding" />
+
+## 无障碍与交互 Accessibility
+
+- **旧面板立即移出交互**：退出中的面板会脱离文档流并在动画结束后卸载，不会与新面板争夺焦点。
+- **语义由外部提供**：组件本身不添加 ARIA 角色，请根据场景为触发器与面板补充 `aria-controls`、`aria-labelledby` 等属性。
+- **减少动态效果**：开启 `prefers-reduced-motion` 时，面板切换与高度变化均即时完成。

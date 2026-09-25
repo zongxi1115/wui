@@ -40,6 +40,14 @@
       "description": "挂载表单时是否播放入场动效。"
     },
     {
+      "name": "noValidate",
+      "type": "boolean",
+      "required": false,
+      "control": "boolean",
+      "defaultValue": "true",
+      "description": "是否跳过浏览器原生表单校验。"
+    },
+    {
       "name": "autoComplete",
       "type": "string",
       "required": false,
@@ -80,13 +88,6 @@
       "required": false,
       "control": "text",
       "description": "提交表单时使用的编码类型。"
-    },
-    {
-      "name": "noValidate",
-      "type": "boolean",
-      "required": false,
-      "control": "boolean",
-      "description": "是否跳过浏览器原生表单校验。"
     }
   ],
   "examples": [
@@ -96,7 +97,7 @@
     },
     {
       "name": "form-validation",
-      "title": "实时表单校验与错误抖动"
+      "title": "实时表单校验"
     },
     {
       "name": "form-layout",
