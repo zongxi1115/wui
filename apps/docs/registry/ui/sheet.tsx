@@ -120,6 +120,8 @@ export interface SheetContentProps
   size?: "sm" | "default" | "lg" | "xl" | "full"
   /** Hide the built-in close button. @default false */
   hideClose?: boolean
+  /** Whether to display the close button. */
+  showCloseButton?: boolean
 }
 
 /** A focus-managed slide-out sheet panel with spring-based motion. */
@@ -129,6 +131,7 @@ function SheetContent({
   side = "right",
   size = "default",
   hideClose = false,
+  showCloseButton = !hideClose,
   ...props
 }: SheetContentProps) {
   const { open, modal } = useSheetContext()
@@ -187,10 +190,10 @@ function SheetContent({
       >)}
     >
       {children}
-      {hideClose ? null : (
+      {!showCloseButton ? null : (
         <SheetPrimitive.Close
           data-slot="sheet-close-btn"
-          className="absolute right-4 top-4 flex size-8 items-center justify-center rounded-md text-muted-foreground outline-none transition-colors hover:bg-accent hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/40"
+          className="absolute right-4 top-4 flex size-8 items-center justify-center rounded-md text-muted-foreground outline-none transition-colors hover:bg-accent hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/40 [@media(pointer:coarse)]:size-10"
         >
           <XIcon className="size-4" />
           <span className="sr-only">关闭</span>
@@ -238,7 +241,7 @@ function SheetHeader({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="sheet-header"
-      className={cn("grid gap-1.5 border-b px-5 py-4 pr-14", className)}
+      className={cn("grid shrink-0 gap-1.5 border-b px-5 py-4 pr-14", className)}
       {...props}
     />
   )
@@ -248,7 +251,7 @@ function SheetBody({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="sheet-body"
-      className={cn("min-h-0 flex-1 overflow-y-auto px-5 py-4", className)}
+      className={cn("min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 py-4 [scrollbar-gutter:stable]", className)}
       {...props}
     />
   )
@@ -259,7 +262,7 @@ function SheetFooter({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="sheet-footer"
       className={cn(
-        "mt-auto flex flex-col-reverse gap-2 border-t px-5 py-4 sm:flex-row sm:justify-end",
+        "mt-auto flex shrink-0 flex-col-reverse gap-2 border-t px-5 py-4 pb-[max(1rem,env(safe-area-inset-bottom))] sm:flex-row sm:justify-end",
         className
       )}
       {...props}
