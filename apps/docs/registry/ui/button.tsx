@@ -37,7 +37,7 @@ const buttonVariants = cva(
         default: "h-9 px-4 py-2 has-[>svg]:px-3",
         sm: "h-8 gap-1.5 rounded-md px-3 has-[>svg]:px-2.5",
         lg: "h-10 rounded-md px-6 has-[>svg]:px-4",
-        icon: "size-9",
+        icon: "size-9 [@media(pointer:coarse)]:min-h-9 [@media(pointer:coarse)]:min-w-9",
       },
     },
     defaultVariants: {
@@ -74,10 +74,12 @@ export interface ButtonProps extends React.ComponentProps<"button"> {
   ripple?: boolean
   /**
    * Show an inline spinner and block interaction while an async action runs.
-   * The spinner slides in before the label (or replaces the glyph for
-   * `size="icon"`). Sets `aria-busy` and disables the button.
+   * Text buttons reserve a spinner slot and both labels; icon buttons replace
+   * their glyph. Sets `aria-busy` and disables the button.
    */
   loading?: boolean
+  /** Label while loading; both labels reserve space so adjacent actions stay still. */
+  loadingText?: string
 }
 
 const spring = { type: "spring", stiffness: 520, damping: 38, mass: 0.7 } as const
@@ -92,6 +94,7 @@ function Button({
   motion: enableMotion = false,
   ripple: enableRipple = false,
   loading: loadingProp,
+  loadingText,
   disabled,
   onClick,
   children,
@@ -152,7 +155,6 @@ function Button({
   // so existing `[&>svg]` overrides keep matching the glyph directly.
   const isIcon = size === "icon" && loadingProp !== undefined
   const swap = reduceMotion ? { duration: 0 } : spring
-  const gap = size === "sm" ? 6 : 8
 
   const label = isLink ? <LinkLabel>{children}</LinkLabel> : children
 
@@ -188,23 +190,15 @@ function Button({
         </>
       ) : (
         <>
-          <AnimatePresence initial={false}>
-            {loading ? (
-              <motion.span
-                key="spinner"
-                aria-hidden
-                data-slot="button-spinner"
-                className="inline-flex shrink-0 items-center overflow-hidden"
-                initial={{ width: 0, opacity: 0, marginInlineEnd: -gap }}
-                animate={{ width: 16, opacity: 1, marginInlineEnd: 0 }}
-                exit={{ width: 0, opacity: 0, marginInlineEnd: -gap }}
-                transition={swap}
-              >
-                <LoaderCircleIcon className="animate-spin motion-reduce:animate-none" />
-              </motion.span>
-            ) : null}
-          </AnimatePresence>
-          {label}
+          {loadingProp !== undefined ? <>
+            <span aria-hidden data-slot="button-spinner" className="inline-flex size-4 shrink-0 items-center justify-center">
+              {loading && <LoaderCircleIcon className="animate-spin motion-reduce:animate-none" />}
+            </span>
+            <span className="inline-grid">
+              <span className={cn("col-start-1 row-start-1 inline-flex items-center justify-center gap-2", loading && "invisible")} aria-hidden={loading || undefined}>{label}</span>
+              <span className={cn("col-start-1 row-start-1 inline-flex items-center justify-center gap-2", !loading && "invisible")} aria-hidden={!loading || undefined}>{loadingText ?? label}</span>
+            </span>
+          </> : label}
         </>
       )}
       {useRipple ? (
