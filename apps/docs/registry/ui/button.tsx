@@ -74,8 +74,8 @@ export interface ButtonProps extends React.ComponentProps<"button"> {
   ripple?: boolean
   /**
    * Show an inline spinner and block interaction while an async action runs.
-   * Text buttons reserve a spinner slot and both labels; icon buttons replace
-   * their glyph. Sets `aria-busy` and disables the button.
+   * Text buttons overlap centered idle/loading rows and reserve the larger row;
+   * icon buttons replace their glyph. Sets `aria-busy` and disables the button.
    */
   loading?: boolean
   /** Label while loading; both labels reserve space so adjacent actions stay still. */
@@ -191,12 +191,14 @@ function Button({
       ) : (
         <>
           {loadingProp !== undefined ? <>
-            <span aria-hidden data-slot="button-spinner" className="inline-flex size-4 shrink-0 items-center justify-center">
-              {loading && <LoaderCircleIcon className="animate-spin motion-reduce:animate-none" />}
-            </span>
-            <span className="inline-grid">
-              <span className={cn("col-start-1 row-start-1 inline-flex items-center justify-center gap-2", loading && "invisible")} aria-hidden={loading || undefined}>{label}</span>
-              <span className={cn("col-start-1 row-start-1 inline-flex items-center justify-center gap-2", !loading && "invisible")} aria-hidden={!loading || undefined}>{loadingText ?? label}</span>
+            <span className="inline-grid place-items-center">
+              <span data-slot="button-label" className={cn("col-start-1 row-start-1 inline-flex items-center justify-center gap-2", loading && "invisible")} aria-hidden={loading || undefined}>{label}</span>
+              <span className={cn("col-start-1 row-start-1 inline-flex items-center justify-center gap-2", !loading && "invisible")} aria-hidden={!loading || undefined}>
+                <span aria-hidden data-slot="button-spinner" className="inline-flex size-4 shrink-0 items-center justify-center">
+                  <LoaderCircleIcon className={cn("size-4", loading && "animate-spin motion-reduce:animate-none")} />
+                </span>
+                {loadingText ?? label}
+              </span>
             </span>
           </> : label}
         </>

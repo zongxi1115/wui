@@ -70,7 +70,12 @@ pnpm add radix-ui motion class-variance-authority clsx tailwind-merge
       prop: "loading",
       type: "boolean",
       default: "false",
-      description: "加载状态。开启后加载指示器会从文案左侧平滑展开（icon 尺寸下与图标交叉淡入替换），同时禁用按钮并设置 aria-busy。使用 asChild 时仅同步状态属性，不注入指示器。",
+      description: "加载状态。普通与加载内容分别居中并保持宽度稳定；icon 尺寸下与图标交叉淡入替换。同时禁用按钮并设置 aria-busy。使用 asChild 时仅同步状态属性，不注入指示器。",
+    },
+    {
+      prop: "loadingText",
+      type: "string",
+      description: "加载时显示的文案，未指定时沿用按钮文案。会预留较宽状态的空间，避免切换时相邻按钮移动。",
     },
     {
       prop: "disabled",
@@ -163,7 +168,7 @@ pnpm add radix-ui motion class-variance-authority clsx tailwind-merge
 
 ### 加载状态（loading）
 
-设置 `loading` 后，加载指示器会从文案左侧以弹簧曲线展开，按钮宽度随之平滑过渡；纯图标按钮则在原图标与指示器之间交叉淡入。加载期间按钮自动禁用并声明 `aria-busy`：
+设置 `loading` 后，按钮在普通文案和“指示器 + 文案”之间切换，两种状态分别居中，并预留较宽状态的空间以保持按钮宽度稳定。普通状态不会留下偏向一侧的图标空位；纯图标按钮在原图标与指示器之间交叉淡入。可通过 `loadingText` 指定处理中文案，未指定时沿用按钮文案。加载期间按钮自动禁用并声明 `aria-busy`：
 
 <ComponentPreview name="button-loading" />
 
