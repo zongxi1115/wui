@@ -32,6 +32,10 @@ export interface TableProps extends React.ComponentProps<"table"> {
   striped?: boolean
   /** Keeps the header visible while the table container scrolls. @default false */
   stickyHeader?: boolean
+  /** Access the scroll viewport to restore reading position or change pages. */
+  containerRef?: React.Ref<HTMLDivElement>
+  /** Reserve the viewport's height during data updates. */
+  containerStyle?: React.CSSProperties
 }
 
 /** A responsive native table with composable semantic sections. */
@@ -41,13 +45,37 @@ function Table({
   density = "default",
   striped = false,
   stickyHeader = false,
+  containerRef,
+  containerStyle,
   ...props
 }: TableProps) {
+  const viewportRef = React.useRef<HTMLDivElement>(null)
+  React.useImperativeHandle(containerRef, () => viewportRef.current!, [])
+  const [edges, setEdges] = React.useState({ left: false, right: false })
+  React.useLayoutEffect(() => {
+    const viewport = viewportRef.current!
+    const update = () => {
+      const next = { left: viewport.scrollLeft > 1, right: viewport.scrollWidth - viewport.clientWidth - viewport.scrollLeft > 1 }
+      setEdges((previous) => previous.left === next.left && previous.right === next.right ? previous : next)
+    }
+    const observer = new ResizeObserver(update)
+    observer.observe(viewport)
+    observer.observe(viewport.firstElementChild!)
+    viewport.addEventListener('scroll', update, { passive: true })
+    update()
+    return () => { observer.disconnect(); viewport.removeEventListener('scroll', update) }
+  }, [])
   return (
     <div
+      ref={viewportRef}
+      style={containerStyle}
       data-slot="table-container"
+      data-scroll-left={edges.left || undefined}
+      data-scroll-right={edges.right || undefined}
       className={cn(
-        "relative isolate w-full overflow-auto overscroll-x-contain",
+        "relative isolate min-w-0 w-full overflow-auto overscroll-x-contain [scrollbar-gutter:stable] [&_[data-pinned]]:transition-shadow [&_[data-pinned]]:duration-150",
+        edges.left && "[&_[data-pinned=left]]:shadow-[8px_0_12px_-10px_var(--foreground)]",
+        edges.right && "[&_[data-pinned=right]]:shadow-[-8px_0_12px_-10px_var(--foreground)]",
         containerClassName
       )}
     >
