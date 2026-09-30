@@ -248,7 +248,7 @@ function DialogContent({
       data-slot="dialog-content"
       forceMount
       className={cn(
-        "pointer-events-auto relative grid w-full max-w-[calc(100%-2rem)] gap-4 rounded-lg border bg-background p-6 shadow-lg sm:max-w-lg",
+        "pointer-events-auto relative grid max-h-[calc(100dvh-2rem)] w-full max-w-[calc(100%-2rem)] gap-4 overflow-y-auto overscroll-contain rounded-lg border bg-background p-6 shadow-lg sm:max-w-lg",
         className
       )}
       initial={hidden}
@@ -319,7 +319,7 @@ function DialogContentClose() {
   return (
     <DialogPrimitive.Close
       data-slot="dialog-close-button"
-      className="absolute right-4 top-4 flex size-7 items-center justify-center rounded-md text-muted-foreground outline-none transition-colors hover:bg-accent hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/40 disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+      className="absolute right-4 top-4 flex size-7 items-center justify-center rounded-md text-muted-foreground outline-none transition-colors hover:bg-accent hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/40 disabled:pointer-events-none [@media(pointer:coarse)]:size-10 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
     >
       <XIcon />
       <span className="sr-only">关闭</span>
