@@ -1,0 +1,6 @@
+{
+  "name": "ai-tool-demo",
+  "component": "ai-tool",
+  "title": "基础用法",
+  "code": "import {\n  AiTool,\n  AiToolCode,\n  AiToolContent,\n  AiToolError,\n  AiToolLabel,\n  AiToolSection,\n  AiToolTrigger,\n} from \"@/components/ui/ai-tool\"\n\nexport default function AiToolDemo() {\n  return (\n    <div className=\"mx-auto grid w-full max-w-2xl gap-3\">\n      <AiTool status=\"running\" defaultOpen>\n        <AiToolTrigger name=\"search_docs\" />\n        <AiToolContent>\n          <AiToolSection>\n            <AiToolLabel>输入</AiToolLabel>\n            <AiToolCode>{`{\n  \"query\": \"React Server Components\",\n  \"limit\": 5\n}`}</AiToolCode>\n          </AiToolSection>\n        </AiToolContent>\n      </AiTool>\n\n      <AiTool status=\"success\">\n        <AiToolTrigger name=\"read_file\" />\n        <AiToolContent>\n          <AiToolSection>\n            <AiToolLabel>结果</AiToolLabel>\n            已读取 app/dashboard/page.tsx，共 184 行。\n          </AiToolSection>\n        </AiToolContent>\n      </AiTool>\n\n      <AiTool status=\"error\" defaultOpen>\n        <AiToolTrigger name=\"database_query\" />\n        <AiToolContent>\n          <AiToolSection>\n            <AiToolLabel>错误</AiToolLabel>\n            <AiToolError>连接超时，请检查数据库网络策略。</AiToolError>\n          </AiToolSection>\n        </AiToolContent>\n      </AiTool>\n    </div>\n  )\n}\n"
+}

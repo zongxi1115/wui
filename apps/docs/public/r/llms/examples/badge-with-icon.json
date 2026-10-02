@@ -1,0 +1,6 @@
+{
+  "name": "badge-with-icon",
+  "component": "badge",
+  "title": "搭配图标",
+  "code": "import {\n  AlertCircleIcon,\n  ArrowUpRightIcon,\n  ShieldCheckIcon,\n  TagIcon,\n} from \"lucide-react\"\n\nimport { Badge } from \"@/components/ui/badge\"\n\nexport default function BadgeWithIcon() {\n  return (\n    <div className=\"flex flex-wrap items-center justify-center gap-3\">\n      <Badge variant=\"secondary\">\n        <TagIcon /> v2.4.0\n      </Badge>\n      <Badge variant=\"success\">\n        <ShieldCheckIcon /> 已认证\n      </Badge>\n      <Badge variant=\"destructive\">\n        <AlertCircleIcon /> 安全告警\n      </Badge>\n      <Badge variant=\"outline\">\n        接口文档 <ArrowUpRightIcon />\n      </Badge>\n    </div>\n  )\n}\n"
+}

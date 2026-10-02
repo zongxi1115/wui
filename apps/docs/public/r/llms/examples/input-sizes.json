@@ -1,0 +1,6 @@
+{
+  "name": "input-sizes",
+  "component": "input",
+  "title": "尺寸规格",
+  "code": "\"use client\"\n\nimport * as React from \"react\"\nimport { Input } from \"@/components/ui/input\"\n\nexport default function InputSizes() {\n  return (\n    <div className=\"grid w-full max-w-sm gap-4\">\n      <div className=\"space-y-1\">\n        <span className=\"text-muted-foreground text-xs font-medium\">\n          紧凑尺寸 (size=\"sm\" - 32px)\n        </span>\n        <Input size=\"sm\" placeholder=\"紧凑输入框...\" />\n      </div>\n\n      <div className=\"space-y-1\">\n        <span className=\"text-muted-foreground text-xs font-medium\">\n          默认尺寸 (size=\"default\" - 40px)\n        </span>\n        <Input size=\"default\" placeholder=\"标准尺寸输入框...\" />\n      </div>\n\n      <div className=\"space-y-1\">\n        <span className=\"text-muted-foreground text-xs font-medium\">\n          大尺寸 (size=\"lg\" - 48px)\n        </span>\n        <Input size=\"lg\" placeholder=\"大尺寸突出输入框...\" />\n      </div>\n    </div>\n  )\n}\n"
+}

@@ -33,6 +33,91 @@
       "description": "在手柄中央显示抓取指示器。@default false"
     }
   ],
+  "api": [
+    {
+      "name": "ResizableHandle",
+      "props": [
+        {
+          "name": "withHandle",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "在手柄中央显示抓取指示器。@default false"
+        }
+      ]
+    },
+    {
+      "name": "ResizablePanel",
+      "props": []
+    },
+    {
+      "name": "ResizablePanelGroup",
+      "props": [
+        {
+          "name": "size",
+          "type": "number",
+          "required": false,
+          "description": "首个面板的受控尺寸百分比。"
+        },
+        {
+          "name": "defaultSize",
+          "type": "number",
+          "required": false,
+          "defaultValue": "50",
+          "description": "首个面板的初始尺寸百分比。@default 50"
+        },
+        {
+          "name": "minSize",
+          "type": "number",
+          "required": false,
+          "defaultValue": "20",
+          "description": "首个面板允许的最小尺寸百分比。@default 20"
+        },
+        {
+          "name": "maxSize",
+          "type": "number",
+          "required": false,
+          "defaultValue": "80",
+          "description": "首个面板允许的最大尺寸百分比。@default 80"
+        },
+        {
+          "name": "orientation",
+          "type": "\"horizontal\" | \"vertical\"",
+          "required": false,
+          "options": [
+            "horizontal",
+            "vertical"
+          ],
+          "defaultValue": "horizontal",
+          "description": "面板排列与拖动方向。@default \"horizontal\""
+        },
+        {
+          "name": "step",
+          "type": "number",
+          "required": false,
+          "defaultValue": "2",
+          "description": "键盘方向键每次调整的百分比。@default 2"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "禁止指针与键盘调整。@default false"
+        },
+        {
+          "name": "onSizeChange",
+          "type": "((size: number) => void)",
+          "required": false,
+          "description": "首个面板尺寸变化时触发。"
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`Resizable` 适合编辑器、文件管理器、预览器等需要由用户分配空间的双面板工作区。它不适合普通内容页，也不应替代响应式断点：窄屏下通常应切换为抽屉或上下布局。\n\n组件聚焦于两个直接面板。请按 `ResizablePanel → ResizableHandle → ResizablePanel` 的顺序组合，并为面板组提供明确高度；面板内容默认可独立滚动。",
+  "extended": "### 受控的纵向面板\n\n受控模式适合显示当前比例、保存用户偏好或与其他布局状态同步；示例中的快捷按钮直接修改 `size`，面板会平滑过渡到目标比例。拖动过程中会连续触发 `onSizeChange`，业务层如需持久化，建议在外部进行节流或仅在交互结束后保存。",
+  "accessibility": "手柄使用 `separator` 角色并暴露当前、最小与最大值。聚焦手柄后，方向键按 `step` 调整，`Home` 与 `End` 分别移动到最小和最大尺寸。禁用时手柄会从 Tab 顺序中移除。",
   "examples": [
     {
       "name": "resizable-demo",

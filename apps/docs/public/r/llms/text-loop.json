@@ -29,14 +29,12 @@
       "name": "children",
       "type": "ReactNode[]",
       "required": true,
-      "control": "text",
       "description": "按顺序逐个显示的文本或行内内容。"
     },
     {
       "name": "interval",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "2.5",
       "description": "两项内容之间的切换间隔，单位为秒。"
     },
@@ -44,7 +42,6 @@
       "name": "direction",
       "type": "\"up\" | \"down\"",
       "required": false,
-      "control": "select",
       "options": [
         "up",
         "down"
@@ -56,7 +53,6 @@
       "name": "transition",
       "type": "Transition",
       "required": false,
-      "control": "text",
       "defaultValue": "{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }",
       "description": "每项内容使用的 Motion 过渡动画。"
     },
@@ -64,14 +60,12 @@
       "name": "variants",
       "type": "Variants",
       "required": false,
-      "control": "text",
       "description": "内容的初始、播放中和离场动画状态。"
     },
     {
       "name": "animateWidth",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "false",
       "description": "切换长度不同的内容时是否平滑调整容器宽度。"
     },
@@ -79,14 +73,12 @@
       "name": "onIndexChange",
       "type": "((index: number) => void)",
       "required": false,
-      "control": "text",
       "description": "当前内容索引变化后触发。"
     },
     {
       "name": "trigger",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "true",
       "description": "是否自动开始循环切换。"
     },
@@ -94,7 +86,6 @@
       "name": "mode",
       "type": "\"sync\" | \"popLayout\" | \"wait\"",
       "required": false,
-      "control": "select",
       "options": [
         "sync",
         "popLayout",
@@ -104,6 +95,87 @@
       "description": "AnimatePresence 使用的动画排队模式。"
     }
   ],
+  "api": [
+    {
+      "name": "TextLoop",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode[]",
+          "required": true,
+          "description": "按顺序逐个显示的文本或行内内容。"
+        },
+        {
+          "name": "interval",
+          "type": "number",
+          "required": false,
+          "defaultValue": "2.5",
+          "description": "两项内容之间的切换间隔，单位为秒。"
+        },
+        {
+          "name": "direction",
+          "type": "\"up\" | \"down\"",
+          "required": false,
+          "options": [
+            "up",
+            "down"
+          ],
+          "defaultValue": "up",
+          "description": "默认动画的运动方向。up 从顶部离开、从底部进入，down 相反；传入自定义 variants 时忽略。"
+        },
+        {
+          "name": "transition",
+          "type": "Transition",
+          "required": false,
+          "defaultValue": "{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }",
+          "description": "每项内容使用的 Motion 过渡动画。"
+        },
+        {
+          "name": "variants",
+          "type": "Variants",
+          "required": false,
+          "description": "内容的初始、播放中和离场动画状态。"
+        },
+        {
+          "name": "animateWidth",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "切换长度不同的内容时是否平滑调整容器宽度。"
+        },
+        {
+          "name": "onIndexChange",
+          "type": "((index: number) => void)",
+          "required": false,
+          "description": "当前内容索引变化后触发。"
+        },
+        {
+          "name": "trigger",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "是否自动开始循环切换。"
+        },
+        {
+          "name": "mode",
+          "type": "\"sync\" | \"popLayout\" | \"wait\"",
+          "required": false,
+          "options": [
+            "sync",
+            "popLayout",
+            "wait"
+          ],
+          "defaultValue": "popLayout",
+          "description": "AnimatePresence 使用的动画排队模式。"
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`TextLoop` 适用于在**有限的水平空间内**展示多样化或动态更新的内容，常见于产品主标语的关键词轮换、动态公告胶囊栏、客户评价轮播和系统状态展示。\n\n- **尺寸相近原则**：轮换的各个子项应尽量保持相近的字符长度与物理高度。长度差异无法避免时，开启 `animateWidth` 让容器宽度平滑过渡。\n- **语义一致性**：同一行轮换的内容必须属于同一个语法范畴（例如皆为主语修饰词、技术栈名称或功能特性），确保句子在任何时刻都能完整通顺地表达含义。\n- **可控交互与悬停暂停**：对于包含较多信息量的公告栏或评价，强烈建议搭配悬停暂停（`onMouseEnter` 时设置 `trigger={false}`），让用户有充足的时间阅读并点击感兴趣的条目。",
+  "extended": "### 运动方向\n\n通过 `direction` 切换默认动画方向：`up` 从底部进入、从顶部离开，`down` 反之，适合表达状态推进或回溯：\n\n### 业务动态与公告胶囊\n\n将徽章与文字的复合节点放入 `TextLoop`，并开启 `animateWidth`，胶囊宽度会随文案长度平滑伸缩：\n\n### 自定义过渡方向与 3D 翻转\n\n通过传入自定义 `variants`，轻松实现横向推入、3D 空间翻转或缩放淡入等多种运动质感：\n\n```tsx\nconst flipVariants = {\n  initial: { rotateX: 90, opacity: 0 },\n  animate: { rotateX: 0, opacity: 1 },\n  exit: { rotateX: -90, opacity: 0 },\n}\n\nexport function FlipLoop() {\n  return (\n    <span className=\"[perspective:600px]\">\n      部署到\n      <TextLoop\n        variants={flipVariants}\n        transition={{ type: \"spring\", stiffness: 320, damping: 24 }}\n      >\n        {[\n          <span key=\"north\">华北</span>,\n          <span key=\"east\">华东</span>,\n          <span key=\"south\">华南</span>,\n        ]}\n      </TextLoop>\n    </span>\n  )\n}\n```\n\n### 悬停暂停与步骤指示器\n\n结合 `trigger`、`onIndexChange` 与外部状态，实现悬停自动暂停、手动播放/暂停控制以及同步步骤小圆点：",
+  "events": "- `onIndexChange`: (index: number) => void — 当活动子项索引发生切换时触发的回调函数，参数为最新的索引序号（从 0 开始）。",
+  "accessibility": "- **减少动态效果降级**：组件内置适配 `prefers-reduced-motion`。当系统开启减少动态效果时，过渡时长将自动归零，新旧内容将以即时切换的形式呈现，避免产生眩晕感。\n- **布局防抖（Layout Stability）**：外层容器采用 `inline-grid` 与 `col-start-1 row-start-1` 的网格层叠布局，配合 `AnimatePresence mode=\"popLayout\"`，使得退出的旧项与进入的新项处于同一几何网格中，杜绝了由于绝对定位脱离文档流引发的父容器高度塌陷。\n- **核心关键状态警示**：对于关系到资金、数据安全或系统致命故障的核心警报，请直接使用静态明确的 `Alert` 组件呈现，切勿仅依赖轮播文字传递关键信息。",
   "examples": [
     {
       "name": "text-loop-demo",

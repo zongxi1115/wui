@@ -35,6 +35,154 @@
     ]
   },
   "props": [],
+  "api": [
+    {
+      "name": "Pagination",
+      "props": []
+    },
+    {
+      "name": "PaginationContent",
+      "props": []
+    },
+    {
+      "name": "PaginationCounter",
+      "props": [
+        {
+          "name": "page",
+          "type": "number",
+          "required": true,
+          "description": "当前页码，从 1 开始。"
+        },
+        {
+          "name": "total",
+          "type": "number",
+          "required": true,
+          "description": "总页数。"
+        }
+      ]
+    },
+    {
+      "name": "PaginationEllipsis",
+      "props": []
+    },
+    {
+      "name": "PaginationItem",
+      "props": []
+    },
+    {
+      "name": "PaginationLink",
+      "props": [
+        {
+          "name": "isActive",
+          "type": "boolean",
+          "required": false,
+          "description": "当前链接是否对应正在查看的页面。"
+        },
+        {
+          "name": "size",
+          "type": "\"default\" | \"sm\" | \"lg\" | \"icon\"",
+          "required": false,
+          "options": [
+            "default",
+            "sm",
+            "lg",
+            "icon"
+          ],
+          "defaultValue": "icon",
+          "description": "分页按钮尺寸。"
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "将样式与属性合并到唯一子元素，适合组合路由链接。"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "禁用链接：移出 Tab 序列、阻止点击并标记 `aria-disabled`。"
+        }
+      ]
+    },
+    {
+      "name": "PaginationNext",
+      "props": [
+        {
+          "name": "isActive",
+          "type": "boolean",
+          "required": false,
+          "description": "当前链接是否对应正在查看的页面。"
+        },
+        {
+          "name": "size",
+          "type": "\"default\" | \"sm\" | \"lg\" | \"icon\"",
+          "required": false,
+          "options": [
+            "default",
+            "sm",
+            "lg",
+            "icon"
+          ],
+          "description": "分页按钮尺寸。"
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false,
+          "description": "将样式与属性合并到唯一子元素，适合组合路由链接。"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "禁用链接：移出 Tab 序列、阻止点击并标记 `aria-disabled`。"
+        }
+      ]
+    },
+    {
+      "name": "PaginationPrevious",
+      "props": [
+        {
+          "name": "isActive",
+          "type": "boolean",
+          "required": false,
+          "description": "当前链接是否对应正在查看的页面。"
+        },
+        {
+          "name": "size",
+          "type": "\"default\" | \"sm\" | \"lg\" | \"icon\"",
+          "required": false,
+          "options": [
+            "default",
+            "sm",
+            "lg",
+            "icon"
+          ],
+          "description": "分页按钮尺寸。"
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false,
+          "description": "将样式与属性合并到唯一子元素，适合组合路由链接。"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "禁用链接：移出 Tab 序列、阻止点击并标记 `aria-disabled`。"
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`Pagination` 适用于数据量明确、用户需要精准跳页或在长列表中定位特定批次数据的场景：\n\n- **URL 驱动优先**：若页面支持 SSR 或需要保留搜索条件与页码在 URL query 中（例如 `/users?page=3&size=20`），优先使用真实的 `href` 链接，方便用户分享链接或前进后退。\n- **无限滚动 vs 分页**：\n  - **分页（Pagination）**：适合后台表格、交易明细、搜索结果等需要强定位与对比的场景。\n  - **无限滚动（Infinite Scroll）**：适合社交动态 Feed、即时消息流等娱乐与探索类内容。\n- **边界禁用处理**：处于第 1 页时为上一页传入 `disabled`（自动添加 `aria-disabled` 与 `tabIndex={-1}`）；处于末页时下一页同理。\n- **大页码智能折叠**：当总页数超过 7 页时，应动态保留首尾页与当前页周围的页码，中间插入 `PaginationEllipsis`。",
+  "extended": "### 完整业务表格分页条\n\n结合数据总量统计、每页条数下拉选择框（10 / 20 / 50 条）、动态双侧省略号与快速跳页输入框：\n\n### 页码窗口平移\n\n总页数较多时只保留首尾页与当前页两侧的页码。翻页时页码窗口整体平移，以页码为 `key` 的项目会滑到新位置，当前页指示器跟随目标页码：\n\n### 尺寸预设\n\n提供 `sm`（紧凑）、`default`（标准）与 `lg`（触控友好）三种尺寸变体：\n\n### 简洁分页\n\n移动端或卡片底部空间有限时，用 `PaginationCounter` 替代完整页码列表，数字随翻页方向滚动：",
+  "events": "- `onClick`: (event: React.MouseEvent<HTMLAnchorElement>) => void — 用户点击页码或翻页按钮时触发。若用于客户端受控状态，需调用 event.preventDefault() 阻止默认跳转。\n- `onKeyDown`: (event: React.KeyboardEvent<HTMLAnchorElement>) => void — 在页码按钮获得焦点并按下键盘按键时触发。",
+  "accessibility": "- **地标标识**：根组件输出 `<nav aria-label=\"分页导航\">`，读屏软件能快速定位整个分页区块。\n- **当前页播报**：激活的 `PaginationLink` 自动挂载 `aria-current=\"page\"`，读屏器会自动播报“当前页，第 X 页”。\n- **折叠项播报**：`PaginationEllipsis` 的图标对读屏隐藏，仅保留 `<span className=\"sr-only\">更多页面</span>` 供辅助技术识别。\n- **动效减弱**：系统开启「减弱动态效果」时，指示器滑动、页码平移与数字滚动全部改为即时切换。\n- **键盘遍历支持**：所有页码项均支持标准的 <kbd>Tab</kbd> 聚焦与 <kbd>Enter</kbd> 激活。",
   "examples": [
     {
       "name": "pagination-demo",

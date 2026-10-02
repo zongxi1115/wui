@@ -31,6 +31,49 @@
     ]
   },
   "props": [],
+  "api": [
+    {
+      "name": "Breadcrumb",
+      "props": []
+    },
+    {
+      "name": "BreadcrumbEllipsis",
+      "props": []
+    },
+    {
+      "name": "BreadcrumbItem",
+      "props": []
+    },
+    {
+      "name": "BreadcrumbLink",
+      "props": [
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "将样式与属性合并到唯一子元素，适合组合路由链接。"
+        }
+      ]
+    },
+    {
+      "name": "BreadcrumbList",
+      "props": []
+    },
+    {
+      "name": "BreadcrumbPage",
+      "props": []
+    },
+    {
+      "name": "BreadcrumbSeparator",
+      "props": []
+    }
+  ],
+  "types": [],
+  "usage": "`Breadcrumb` 用于表达有层级关系的纵深路径结构（例如：首页 > 控制台 > 集群管理 > 节点详情）：\n\n- **辅助导航而非主导航**：面包屑旨在辅助用户了解“我在哪里”以及“如何返回上级”，不能代替顶部 Navbar 或左侧 Sidebar 等核心主导航系统。\n- **当前页不可点击**：末尾的当前页面项必须使用 `BreadcrumbPage`（纯文本容器并内置 `aria-current=\"page\"`），不应赋予链接跳转属性，避免无意义的页面重载。\n- **层级过深时合理折叠**：当路径层级超过 4~5 层或在移动端等小屏幕上时，应使用 `BreadcrumbEllipsis` 折叠中间层级，或配合 `DropdownMenu` 提供便捷跳转。\n- **路径命名与页面标题一致**：面包屑中的每一级文案应与对应目标页面的实际主标题保持一致，降低用户的认知负荷。",
+  "extended": "### 搭配图标指示\n\n在面包屑各级节点前加入上下文图标（如首页图标、文件夹图标、配置图标），提高视觉识别效率：\n\n### 自定义分隔符\n\n支持通过在 `<BreadcrumbSeparator>` 内部传入自定义图标（如斜杠 `<SlashIcon>`、推进箭头 `<ArrowRightIcon>`）或文本字符（如 `•`）：\n\n### 折叠长路径与下拉菜单\n\n对于深层级文件目录或多层资源拓扑，将省略号与 `DropdownMenu` 结合，既节省屏幕横向宽度，又保留快速跨级导航的能力：\n\n### 简单折叠占位\n\n使用 `BreadcrumbEllipsis` 纯展示性折叠路径：\n\n### 路径进出动效与展开折叠\n\n在文件浏览器等路径频繁变化的场景中，可以用 `motion.create` 包装 `BreadcrumbItem` 与 `BreadcrumbSeparator`，配合 `AnimatePresence` 让新层级从左侧滑入、返回上级时多余层级淡出，其余项平滑补位。层级超过 4 级时中间路径折叠为省略号按钮，点击后原地展开：\n\n### 与框架路由组合 (Next.js Link)\n\n启用 `asChild` 属性，组件会自动将类名与可访问属性合并至第三方路由链接上，避免生成无效嵌套标签：\n\n```tsx\nimport Link from \"next/link\"\nimport { BreadcrumbItem, BreadcrumbLink } from \"@/registry/ui/breadcrumb\"\n\n<BreadcrumbItem>\n  <BreadcrumbLink asChild>\n    <Link href=\"/dashboard/projects\">项目列表</Link>\n  </BreadcrumbLink>\n</BreadcrumbItem>\n```",
+  "events": "面包屑各子元素均继承原生 HTML 事件：\n\n- `onClick`: (event: React.MouseEvent<HTMLAnchorElement>) => void — 用户点击可跳转链接项时触发，可用于 SPA 客户端路由拦截或埋点追踪。\n- `onFocus`: (event: React.FocusEvent<HTMLAnchorElement>) => void — 链接项通过键盘 Tab 或鼠标聚焦时触发。\n- `onKeyDown`: (event: React.KeyboardEvent<HTMLAnchorElement>) => void — 在链接项聚焦状态下按下按键时触发。",
+  "accessibility": "- **语义地标 Landmark**：根组件自动渲染为 `<nav aria-label=\"面包屑导航\">`，屏幕阅读器用户可通过快捷键直接跳转至该导航地标。\n- **列表结构语义**：内部采用 `<ol>` 与 `<li>` 的有序列表结构，精确传达出页面从上至下的父子层级顺序。\n- **当前页语义标注**：`BreadcrumbPage` 自动携带 `aria-current=\"page\"` 属性，盲文与语音读屏器会自动播报“当前页面”。\n- **装饰元素隔离**：`BreadcrumbSeparator` 内置 `aria-hidden=\"true\"` 和 `role=\"presentation\"`；`BreadcrumbEllipsis` 仅隐藏图标，保留 `sr-only` 的「更多层级」文案，放入按钮或下拉触发器时可被正确播报（也可在触发器上用 `aria-label` 覆盖）。\n- **键盘焦点轮廓**：`BreadcrumbLink` 具备高对比度的 Focus Ring 焦点态轮廓，支持通过 <kbd>Tab</kbd> 键快速顺序遍历所有有效链接。",
   "examples": [
     {
       "name": "breadcrumb-demo",

@@ -1,0 +1,6 @@
+{
+  "name": "magnetic-demo",
+  "component": "magnetic",
+  "title": "基础用法",
+  "code": "import { ArrowRightIcon } from \"lucide-react\"\n\nimport { Button } from \"@/components/ui/button\"\nimport { Magnetic } from \"@/components/ui/magnetic\"\n\nexport default function MagneticDemo() {\n  return (\n    <div className=\"flex flex-col items-center gap-4\">\n      <Magnetic strength={0.3} maxDistance={14}>\n        <Button size=\"lg\">\n          开始免费试用\n          <ArrowRightIcon />\n        </Button>\n      </Magnetic>\n      <p className=\"text-muted-foreground text-xs\">\n        把鼠标移到按钮上，它会轻轻被指针吸引\n      </p>\n    </div>\n  )\n}\n"
+}

@@ -33,36 +33,31 @@
       "name": "value",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "当前选中的时间，格式为 24 小时制 HH:mm。"
     },
     {
       "name": "defaultValue",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "非受控模式下初始选中的时间。"
     },
     {
       "name": "onValueChange",
       "type": "((value: string) => void)",
       "required": false,
-      "control": "text",
       "description": "时间变化时触发，并返回 24 小时制 HH:mm 值。"
     },
     {
       "name": "hourCycle",
-      "type": "enum",
+      "type": "12 | 24",
       "required": false,
-      "control": "text",
       "defaultValue": "24",
       "description": "时间显示使用 12 小时制还是 24 小时制。"
     },
     {
       "name": "minuteStep",
-      "type": "enum",
+      "type": "1 | 30 | 5 | 10 | 15",
       "required": false,
-      "control": "text",
       "defaultValue": "5",
       "description": "分钟选择的间隔。"
     },
@@ -70,7 +65,6 @@
       "name": "placeholder",
       "type": "string",
       "required": false,
-      "control": "text",
       "defaultValue": "选择时间",
       "description": "没有选中时间时显示的占位文本。"
     },
@@ -78,7 +72,6 @@
       "name": "size",
       "type": "\"default\" | \"sm\" | \"lg\"",
       "required": false,
-      "control": "select",
       "options": [
         "default",
         "sm",
@@ -91,7 +84,6 @@
       "name": "showNow",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "true",
       "description": "是否在面板底部显示“此刻”快捷按钮。@default true"
     },
@@ -99,10 +91,85 @@
       "name": "disabled",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "description": "是否禁用组件。"
     }
   ],
+  "api": [
+    {
+      "name": "TimePicker",
+      "props": [
+        {
+          "name": "value",
+          "type": "string",
+          "required": false,
+          "description": "当前选中的时间，格式为 24 小时制 HH:mm。"
+        },
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "required": false,
+          "description": "非受控模式下初始选中的时间。"
+        },
+        {
+          "name": "onValueChange",
+          "type": "((value: string) => void)",
+          "required": false,
+          "description": "时间变化时触发，并返回 24 小时制 HH:mm 值。"
+        },
+        {
+          "name": "hourCycle",
+          "type": "12 | 24",
+          "required": false,
+          "defaultValue": "24",
+          "description": "时间显示使用 12 小时制还是 24 小时制。"
+        },
+        {
+          "name": "minuteStep",
+          "type": "1 | 30 | 5 | 10 | 15",
+          "required": false,
+          "defaultValue": "5",
+          "description": "分钟选择的间隔。"
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "required": false,
+          "defaultValue": "选择时间",
+          "description": "没有选中时间时显示的占位文本。"
+        },
+        {
+          "name": "size",
+          "type": "\"default\" | \"sm\" | \"lg\"",
+          "required": false,
+          "options": [
+            "default",
+            "sm",
+            "lg"
+          ],
+          "defaultValue": "default",
+          "description": "尺寸密度。@default \"default\""
+        },
+        {
+          "name": "showNow",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "是否在面板底部显示“此刻”快捷按钮。@default true"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "是否禁用组件。"
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`TimePicker` 适用于**精确时刻输入**（如会议开始时间、课程时段、每日定时提醒、营业时间段）。\n\n- **TimePicker vs Select vs DatePicker**：\n  - **TimePicker（时间选择）**：专为时分秒刻度设计，分栏滚动选择并可自由控制分钟精度（1/5/15/30 分钟）。\n  - **Select（下拉选择）**：适合固定稀疏的几个粗粒度预设项（如“上午 9:00”、“下午 2:00”）。\n  - **DatePicker（日期选择）**：面向年月日维度的日历日期选择。\n- **数据格式统一规范**：无论前台 `hourCycle` 设置为 12 还是 24 小时制，`onValueChange` 回调输出的数值均始终维持标准的 **24 小时制 `HH:mm` 格式**，避免后端数据存储和业务逻辑处理产生歧义。\n- **草稿确认机制**：用户在浮层列中切换时仅暂存为内部 Draft 状态，只有点击“确定”按钮才会正式提交生效；若用户点击外部区域关闭，已选时间将自动恢复，防止误触。",
+  "extended": "### 12 小时制 (AM/PM)\n\n开启 `hourCycle={12}` 时，面板会自动呈现 AM / PM 上下午切换列，适合跨国业务或特定海外习惯：\n\n### 会议室起止时间区间校验\n\n组合两个 `TimePicker` 构建预约时间范围，并实时联动校验“结束时间晚于开始时间”：\n\n### 分钟步进粒度控制\n\n通过 `minuteStep` 在 1 分钟高精度打点与 30 分钟粗粒度日程预约之间灵活配置：",
+  "events": "- `onValueChange`: (value: string) => void — 当用户在浮层中选中时间并点击底部的“确定”按钮后触发。\n- `onFocus`: (event: React.FocusEvent<HTMLButtonElement>) => void — 触发按钮获得焦点时触发。\n- `onBlur`: (event: React.FocusEvent<HTMLButtonElement>) => void — 触发按钮失去焦点时触发。",
+  "accessibility": "- **ARIA 规范**：触发按钮由 Popover 管理 `aria-haspopup=\"dialog\"` 与 `aria-expanded`；每一列为带标签的 `role=\"listbox\"`，选项为 `role=\"option\"` 并同步 `aria-selected`。\n- **键盘支持**：\n  - <kbd>Tab</kbd>：在时、分、上/下午三列与底部按钮之间移动（每列只有选中项可聚焦）。\n  - <kbd>↑</kbd> / <kbd>↓</kbd>、<kbd>Home</kbd> / <kbd>End</kbd>：在当前列内切换数值。\n  - <kbd>Esc</kbd>：放弃修改并关闭弹层。\n- **动效**：打开时选中项自动定位到列中部，切换时平滑滚动；选中背景以弹簧动画在单元格间滑动；标题中的时间数字逐位滚动。开启 `prefers-reduced-motion` 时全部瞬间切换。\n- **数据兜底**：当已有值不在分钟步进上（如步进 5 分钟而值为 `08:03`）时，该分钟会被补入列表，保证已选时间始终可见。",
   "examples": [
     {
       "name": "time-picker-demo",

@@ -1,0 +1,6 @@
+{
+  "name": "textarea-resize",
+  "component": "textarea",
+  "title": "缩放方向控制 (Resize)",
+  "code": "\"use client\"\n\nimport { Textarea } from \"@/components/ui/textarea\"\n\nexport default function TextareaResize() {\n  return (\n    <div className=\"grid w-full max-w-2xl gap-5 sm:grid-cols-2\">\n      <div className=\"space-y-2\">\n        <label htmlFor=\"fixed-feedback\" className=\"text-xs font-medium text-muted-foreground\">\n          禁止缩放 (resize=\"none\")\n        </label>\n        <Textarea\n          id=\"fixed-feedback\"\n          resize=\"none\"\n          rows={4}\n          placeholder=\"该输入区域尺寸固定，适合紧凑弹窗与排版严格的表单。\"\n        />\n      </div>\n\n      <div className=\"space-y-2\">\n        <label htmlFor=\"vertical-feedback\" className=\"text-xs font-medium text-muted-foreground\">\n          仅垂直缩放 (resize=\"vertical\")\n        </label>\n        <Textarea\n          id=\"vertical-feedback\"\n          resize=\"vertical\"\n          rows={4}\n          className=\"min-h-24 max-h-48\"\n          placeholder=\"用户可根据内容多少自由上下拉伸，但不会破坏横向容器布局。\"\n        />\n      </div>\n    </div>\n  )\n}\n"
+}

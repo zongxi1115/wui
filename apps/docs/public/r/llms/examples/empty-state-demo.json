@@ -1,0 +1,6 @@
+{
+  "name": "empty-state-demo",
+  "component": "empty-state",
+  "title": "基础用法",
+  "code": "import { PlusIcon } from \"lucide-react\"\n\nimport { Button } from \"@/components/ui/button\"\nimport {\n  EmptyState,\n  EmptyStateActions,\n  EmptyStateDescription,\n  EmptyStateHint,\n  EmptyStateIllustration,\n  EmptyStateMedia,\n  EmptyStateTitle,\n} from \"@/components/ui/empty-state\"\n\nexport default function EmptyStateDemo() {\n  return (\n    <EmptyState className=\"rounded-lg border border-dashed\">\n      <EmptyStateMedia>\n        <EmptyStateIllustration name=\"empty-folder\" />\n      </EmptyStateMedia>\n      <EmptyStateTitle>还没有项目</EmptyStateTitle>\n      <EmptyStateDescription>\n        创建第一个项目，把任务、文件和讨论集中在一个清晰的工作空间里。\n      </EmptyStateDescription>\n      <EmptyStateActions>\n        <Button size=\"sm\">\n          <PlusIcon />\n          新建项目\n        </Button>\n        <Button size=\"sm\" variant=\"outline\">\n          导入模板\n        </Button>\n      </EmptyStateActions>\n      <EmptyStateHint>也可以直接拖入项目备份文件</EmptyStateHint>\n    </EmptyState>\n  )\n}\n"
+}

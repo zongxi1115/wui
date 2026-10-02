@@ -40,6 +40,470 @@
     ]
   },
   "props": [],
+  "api": [
+    {
+      "name": "VideoPlayer",
+      "props": []
+    },
+    {
+      "name": "VideoPlayerControlBar",
+      "props": []
+    },
+    {
+      "name": "VideoPlayerControlGroup",
+      "props": []
+    },
+    {
+      "name": "VideoPlayerControls",
+      "props": []
+    },
+    {
+      "name": "VideoPlayerFullscreenButton",
+      "props": [
+        {
+          "name": "size",
+          "type": "\"default\" | \"sm\" | \"lg\" | \"icon\"",
+          "required": false,
+          "options": [
+            "default",
+            "sm",
+            "lg",
+            "icon"
+          ],
+          "description": "Height and padding preset. Use `icon` for square icon-only buttons."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false,
+          "description": "Render as the single child element via Radix Slot, e.g. to wrap an `<a>`."
+        },
+        {
+          "name": "variant",
+          "type": "\"link\" | \"default\" | \"secondary\" | \"destructive\" | \"outline\" | \"ghost\"",
+          "required": false,
+          "options": [
+            "link",
+            "default",
+            "secondary",
+            "destructive",
+            "outline",
+            "ghost"
+          ],
+          "description": "Visual style of the button."
+        },
+        {
+          "name": "loading",
+          "type": "boolean",
+          "required": false,
+          "description": "Show an inline spinner and block interaction while an async action runs.\nText buttons overlap centered idle/loading rows and reserve the larger row;\nicon buttons replace their glyph. Sets `aria-busy` and disables the button."
+        },
+        {
+          "name": "motion",
+          "type": "boolean",
+          "required": false,
+          "description": "Enable a subtle spring press/hover micro-interaction (powered by motion).\nComposable with `ripple`. Ignored when `asChild` is set, and automatically\ndisabled when the user prefers reduced motion."
+        },
+        {
+          "name": "ripple",
+          "type": "boolean",
+          "required": false,
+          "description": "Enable a Material-style click ripple that radiates from the pointer.\nComposable with `motion`. Ignored when `asChild` is set, and automatically\ndisabled when the user prefers reduced motion."
+        },
+        {
+          "name": "loadingText",
+          "type": "string",
+          "required": false,
+          "description": "Label while loading; both labels reserve space so adjacent actions stay still."
+        }
+      ]
+    },
+    {
+      "name": "VideoPlayerMuteButton",
+      "props": [
+        {
+          "name": "size",
+          "type": "\"default\" | \"sm\" | \"lg\" | \"icon\"",
+          "required": false,
+          "options": [
+            "default",
+            "sm",
+            "lg",
+            "icon"
+          ],
+          "description": "Height and padding preset. Use `icon` for square icon-only buttons."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false,
+          "description": "Render as the single child element via Radix Slot, e.g. to wrap an `<a>`."
+        },
+        {
+          "name": "variant",
+          "type": "\"link\" | \"default\" | \"secondary\" | \"destructive\" | \"outline\" | \"ghost\"",
+          "required": false,
+          "options": [
+            "link",
+            "default",
+            "secondary",
+            "destructive",
+            "outline",
+            "ghost"
+          ],
+          "description": "Visual style of the button."
+        },
+        {
+          "name": "loading",
+          "type": "boolean",
+          "required": false,
+          "description": "Show an inline spinner and block interaction while an async action runs.\nText buttons overlap centered idle/loading rows and reserve the larger row;\nicon buttons replace their glyph. Sets `aria-busy` and disables the button."
+        },
+        {
+          "name": "motion",
+          "type": "boolean",
+          "required": false,
+          "description": "Enable a subtle spring press/hover micro-interaction (powered by motion).\nComposable with `ripple`. Ignored when `asChild` is set, and automatically\ndisabled when the user prefers reduced motion."
+        },
+        {
+          "name": "ripple",
+          "type": "boolean",
+          "required": false,
+          "description": "Enable a Material-style click ripple that radiates from the pointer.\nComposable with `motion`. Ignored when `asChild` is set, and automatically\ndisabled when the user prefers reduced motion."
+        },
+        {
+          "name": "loadingText",
+          "type": "string",
+          "required": false,
+          "description": "Label while loading; both labels reserve space so adjacent actions stay still."
+        }
+      ]
+    },
+    {
+      "name": "VideoPlayerOverlay",
+      "props": [
+        {
+          "name": "showPlayButton",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "Show a large play button until playback starts for the first time."
+        }
+      ]
+    },
+    {
+      "name": "VideoPlayerPlayButton",
+      "props": [
+        {
+          "name": "size",
+          "type": "\"default\" | \"sm\" | \"lg\" | \"icon\"",
+          "required": false,
+          "options": [
+            "default",
+            "sm",
+            "lg",
+            "icon"
+          ],
+          "description": "Height and padding preset. Use `icon` for square icon-only buttons."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false,
+          "description": "Render as the single child element via Radix Slot, e.g. to wrap an `<a>`."
+        },
+        {
+          "name": "variant",
+          "type": "\"link\" | \"default\" | \"secondary\" | \"destructive\" | \"outline\" | \"ghost\"",
+          "required": false,
+          "options": [
+            "link",
+            "default",
+            "secondary",
+            "destructive",
+            "outline",
+            "ghost"
+          ],
+          "description": "Visual style of the button."
+        },
+        {
+          "name": "loading",
+          "type": "boolean",
+          "required": false,
+          "description": "Show an inline spinner and block interaction while an async action runs.\nText buttons overlap centered idle/loading rows and reserve the larger row;\nicon buttons replace their glyph. Sets `aria-busy` and disables the button."
+        },
+        {
+          "name": "motion",
+          "type": "boolean",
+          "required": false,
+          "description": "Enable a subtle spring press/hover micro-interaction (powered by motion).\nComposable with `ripple`. Ignored when `asChild` is set, and automatically\ndisabled when the user prefers reduced motion."
+        },
+        {
+          "name": "ripple",
+          "type": "boolean",
+          "required": false,
+          "description": "Enable a Material-style click ripple that radiates from the pointer.\nComposable with `motion`. Ignored when `asChild` is set, and automatically\ndisabled when the user prefers reduced motion."
+        },
+        {
+          "name": "loadingText",
+          "type": "string",
+          "required": false,
+          "description": "Label while loading; both labels reserve space so adjacent actions stay still."
+        }
+      ]
+    },
+    {
+      "name": "VideoPlayerSeek",
+      "props": [
+        {
+          "name": "form",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "defaultValue",
+          "type": "number[]",
+          "required": false,
+          "defaultValue": "[50]"
+        },
+        {
+          "name": "dir",
+          "type": "\"ltr\" | \"rtl\"",
+          "required": false,
+          "options": [
+            "ltr",
+            "rtl"
+          ]
+        },
+        {
+          "name": "step",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "min",
+          "type": "number",
+          "required": false,
+          "defaultValue": "0"
+        },
+        {
+          "name": "orientation",
+          "type": "\"horizontal\" | \"vertical\"",
+          "required": false,
+          "options": [
+            "horizontal",
+            "vertical"
+          ],
+          "defaultValue": "horizontal"
+        },
+        {
+          "name": "variant",
+          "type": "\"default\" | \"expand\"",
+          "required": false,
+          "options": [
+            "default",
+            "expand"
+          ],
+          "defaultValue": "\"default\"",
+          "description": "Track expansion treatment used on hover and focus."
+        },
+        {
+          "name": "inverted",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false"
+        },
+        {
+          "name": "showValue",
+          "type": "\"always\" | \"hover\" | \"never\"",
+          "required": false,
+          "options": [
+            "always",
+            "hover",
+            "never"
+          ],
+          "defaultValue": "\"hover\"",
+          "description": "Controls when the value label is visible."
+        },
+        {
+          "name": "formatValue",
+          "type": "((value: number) => ReactNode)",
+          "required": false,
+          "description": "Formats the value displayed above each thumb."
+        },
+        {
+          "name": "marks",
+          "type": "number[]",
+          "required": false,
+          "description": "Values rendered as subtle dots on the track."
+        },
+        {
+          "name": "minStepsBetweenThumbs",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "onValueCommit",
+          "type": "((value: number[]) => void)",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "VideoPlayerTime",
+      "props": []
+    },
+    {
+      "name": "VideoPlayerVideo",
+      "props": []
+    },
+    {
+      "name": "VideoPlayerVolume",
+      "props": [
+        {
+          "name": "form",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "defaultValue",
+          "type": "number[]",
+          "required": false,
+          "defaultValue": "[50]"
+        },
+        {
+          "name": "dir",
+          "type": "\"ltr\" | \"rtl\"",
+          "required": false,
+          "options": [
+            "ltr",
+            "rtl"
+          ]
+        },
+        {
+          "name": "step",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "min",
+          "type": "number",
+          "required": false,
+          "defaultValue": "0"
+        },
+        {
+          "name": "orientation",
+          "type": "\"horizontal\" | \"vertical\"",
+          "required": false,
+          "options": [
+            "horizontal",
+            "vertical"
+          ],
+          "defaultValue": "horizontal"
+        },
+        {
+          "name": "variant",
+          "type": "\"default\" | \"expand\"",
+          "required": false,
+          "options": [
+            "default",
+            "expand"
+          ],
+          "defaultValue": "\"default\"",
+          "description": "Track expansion treatment used on hover and focus."
+        },
+        {
+          "name": "inverted",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false"
+        },
+        {
+          "name": "showValue",
+          "type": "\"always\" | \"hover\" | \"never\"",
+          "required": false,
+          "options": [
+            "always",
+            "hover",
+            "never"
+          ],
+          "defaultValue": "\"hover\"",
+          "description": "Controls when the value label is visible."
+        },
+        {
+          "name": "formatValue",
+          "type": "((value: number) => ReactNode)",
+          "required": false,
+          "description": "Formats the value displayed above each thumb."
+        },
+        {
+          "name": "marks",
+          "type": "number[]",
+          "required": false,
+          "description": "Values rendered as subtle dots on the track."
+        },
+        {
+          "name": "minStepsBetweenThumbs",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "onValueCommit",
+          "type": "((value: number[]) => void)",
+          "required": false
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`VideoPlayer` 负责共享媒体状态和键盘交互，界面由多个独立部件组合而成。可以替换控制栏布局、隐藏音量、加入业务按钮，\n也可以只使用媒体节点和播放按钮，不需要修改组件内部实现。播放源、封面和媒体权限仍由业务层提供。",
+  "extended": "### 组合结构\n\n- `VideoPlayer`：状态容器和可聚焦的播放器根节点。\n- `VideoPlayerVideo`：连接状态容器的原生 `<video>`，其余媒体属性会透传。\n- `VideoPlayerOverlay`：画面中央的图层。首次播放前显示大号播放按钮，之后在点击画面或使用快捷键时显示操作反馈。\n- `VideoPlayerControls`：贴在视频底部的控制区域，播放中指针闲置时自动淡出。\n- `VideoPlayerControlBar`、`VideoPlayerControlGroup`：控制按钮的布局积木。\n- `VideoPlayerPlayButton`、`VideoPlayerMuteButton`、`VideoPlayerFullscreenButton`：独立操作按钮。\n- `VideoPlayerSeek`、`VideoPlayerVolume`：复用 Slider 的进度和音量控制。\n- `VideoPlayerTime`：当前时间与总时长。\n\n### 精简组合\n\n只组合媒体节点、中央图层、静音按钮和一条细进度条，适合商品卡片或信息流中的短视频：\n\n根节点在控制栏隐藏时带有 `data-idle` 属性，脱离 `VideoPlayerControls` 的部件可以用 `group-data-[idle]/video:` 变体跟随淡出，\n如示例中的进度条。",
+  "accessibility": "播放器根节点聚焦后，可以使用空格或 `K` 播放 / 暂停、`M` 静音、`F` 切换全屏，左右方向键前后跳转 5 秒，上下方向键调节 10% 音量。\n焦点位于按钮或滑杆时，按键由对应控件处理，不会被播放器根节点重复消费。\n\n系统开启“减少动态效果”时，图标切换和中央反馈不再播放动画，控制栏的显隐改为瞬时完成。",
   "examples": [
     {
       "name": "video-player-demo",

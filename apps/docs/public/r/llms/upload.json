@@ -32,7 +32,6 @@
       "name": "label",
       "type": "string",
       "required": false,
-      "control": "text",
       "defaultValue": "拖拽文件到此处，或点击选择",
       "description": "拖放区域内显示的主要操作提示。"
     },
@@ -40,14 +39,12 @@
       "name": "description",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "主要提示下方显示的补充说明。"
     },
     {
       "name": "status",
       "type": "\"idle\" | \"error\" | \"complete\" | \"uploading\"",
       "required": false,
-      "control": "select",
       "options": [
         "idle",
         "error",
@@ -61,7 +58,6 @@
       "name": "progress",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "0",
       "description": "确定进度的上传进度，取值范围为 0 到 100。"
     },
@@ -69,7 +65,6 @@
       "name": "size",
       "type": "\"compact\" | \"default\"",
       "required": false,
-      "control": "select",
       "options": [
         "compact",
         "default"
@@ -81,7 +76,6 @@
       "name": "multiple",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "false",
       "description": "是否允许一次选择多个文件。"
     },
@@ -89,31 +83,173 @@
       "name": "accept",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "允许选择的 MIME 类型或文件扩展名，多个值用逗号分隔。"
     },
     {
       "name": "onFilesChange",
       "type": "((files: File[]) => void)",
       "required": false,
-      "control": "text",
       "description": "选择或拖入文件时触发。"
     },
     {
       "name": "onUpload",
       "type": "((files: File[]) => void | Promise<void>)",
       "required": false,
-      "control": "text",
       "description": "文件选择完成并更新内部上传状态后触发。"
     },
     {
       "name": "disabled",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "description": "是否禁用组件。"
     }
   ],
+  "api": [
+    {
+      "name": "Upload",
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "defaultValue": "拖拽文件到此处，或点击选择",
+          "description": "拖放区域内显示的主要操作提示。"
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "required": false,
+          "description": "主要提示下方显示的补充说明。"
+        },
+        {
+          "name": "status",
+          "type": "\"idle\" | \"error\" | \"complete\" | \"uploading\"",
+          "required": false,
+          "options": [
+            "idle",
+            "error",
+            "complete",
+            "uploading"
+          ],
+          "defaultValue": "\"idle\"",
+          "description": "上传流程的当前状态。"
+        },
+        {
+          "name": "progress",
+          "type": "number",
+          "required": false,
+          "defaultValue": "0",
+          "description": "确定进度的上传进度，取值范围为 0 到 100。"
+        },
+        {
+          "name": "size",
+          "type": "\"compact\" | \"default\"",
+          "required": false,
+          "options": [
+            "compact",
+            "default"
+          ],
+          "defaultValue": "default",
+          "description": "控件的高度和间距尺寸。"
+        },
+        {
+          "name": "multiple",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "是否允许一次选择多个文件。"
+        },
+        {
+          "name": "accept",
+          "type": "string",
+          "required": false,
+          "description": "允许选择的 MIME 类型或文件扩展名，多个值用逗号分隔。"
+        },
+        {
+          "name": "onFilesChange",
+          "type": "((files: File[]) => void)",
+          "required": false,
+          "description": "选择或拖入文件时触发。"
+        },
+        {
+          "name": "onUpload",
+          "type": "((files: File[]) => void | Promise<void>)",
+          "required": false,
+          "description": "文件选择完成并更新内部上传状态后触发。"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "是否禁用组件。"
+        }
+      ]
+    },
+    {
+      "name": "UploadFileItem",
+      "props": [
+        {
+          "name": "name",
+          "type": "string",
+          "required": true,
+          "description": "File name shown as the primary text."
+        },
+        {
+          "name": "size",
+          "type": "string | number",
+          "required": false,
+          "description": "控件的高度和间距尺寸。"
+        },
+        {
+          "name": "status",
+          "type": "\"idle\" | \"error\" | \"complete\" | \"uploading\"",
+          "required": false,
+          "options": [
+            "idle",
+            "error",
+            "complete",
+            "uploading"
+          ],
+          "defaultValue": "complete",
+          "description": "上传流程的当前状态。"
+        },
+        {
+          "name": "progress",
+          "type": "number",
+          "required": false,
+          "defaultValue": "0",
+          "description": "确定进度的上传进度，取值范围为 0 到 100。"
+        },
+        {
+          "name": "description",
+          "type": "ReactNode",
+          "required": false,
+          "description": "主要提示下方显示的补充说明。"
+        },
+        {
+          "name": "icon",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Leading visual such as a thumbnail; defaults to a file glyph."
+        },
+        {
+          "name": "onRemove",
+          "type": "(() => void)",
+          "required": false,
+          "description": "Shows a remove button and is called when it is pressed."
+        }
+      ]
+    },
+    {
+      "name": "UploadFileList",
+      "props": []
+    }
+  ],
+  "types": [],
+  "usage": "`Upload` 适用于**附件上传、个人资料头像设定、大型文件与素材交付**等场景。\n\n- **拖拽热区反馈（Drop Zone）**：当文件悬停在组件上方时，边框高亮并伴随轻微的弹簧放大效果；松开鼠标后自动解析文件列表。\n- **状态流转与微动效**：\n  - `idle`：常态虚线框与云上传图标。\n  - `uploading`：平滑旋转的加载指示器与进度条。\n  - `complete`：绿色实心打钩徽章与弹性缩放完成动画。\n  - `error`：红色错误提示并支持点击重新尝试。\n- **安全与校验双重防护**：前台 `accept` 仅用于便利用户筛选，服务端必须对上传的实际二进制流（Magic Number）进行严格的类型、安全扫描与大小校验。",
+  "extended": "### 用户头像即时预览上传\n\n配置 `size=\"compact\"` 并限制图片类型，在客户端生成 ObjectURL 实现无缝头像裁剪预览：\n\n### 进度条百分比反馈\n\n配合 `progress` 属性实时渲染动态进度条，适合大文件切片上传或耗时数据包解析：\n\n### 多文件批量拖拽清单\n\n开启 `multiple` 支持多文档同时拖入，并用 `UploadFileList` 展示每个文件独立的上传进度。超过大小限制的文件直接标记为失败；移除条目时其余文件平滑补位：\n\n### 状态与尺寸矩阵\n\n直观对比 `default` 与 `compact` 尺寸在不同状态下的表现：",
+  "events": "- `onFilesChange`: (files: File[]) => void — 当用户通过系统文件对话框或拖放放入合法文件时调用，参数为 File 数组。\n- `onUpload`: (files: File[]) => void | Promise<void> — 上传任务执行函数。可通过 async/await 处理上传流程，组件会据此更新图标动效与文字状态。",
+  "accessibility": "- **语义化结构**：基于原生的 `<input type=\"file\">` 隐藏渲染并使用 `<label>` 进行包裹，天然支持全键盘 Tab 聚焦与 Enter/Space 打开系统原生文件对话框。\n- **动态状态播报**：辅助描述区域包含 `aria-live=\"polite\"`，状态切换（如从“正在上传”变为“上传完成”）时屏幕阅读器会自动进行无障碍播报。\n- **动效降级**：图标翻转、旋转循环与呼吸动效在检测到系统的 `prefers-reduced-motion` 设置时自动降级为无动画静态呈现。",
   "examples": [
     {
       "name": "upload-demo",

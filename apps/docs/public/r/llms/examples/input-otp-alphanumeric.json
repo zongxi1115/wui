@@ -1,0 +1,6 @@
+{
+  "name": "input-otp-alphanumeric",
+  "component": "input-otp",
+  "title": "字母与数字混合的兑换码",
+  "code": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { Button } from \"@/components/ui/button\"\nimport { InputOTP } from \"@/components/ui/input-otp\"\n\nexport default function InputOTPAlphanumeric() {\n  const [code, setCode] = React.useState(\"\")\n  const [redeemed, setRedeemed] = React.useState(false)\n\n  return (\n    <div className=\"grid w-full max-w-md justify-items-center gap-4 text-center\">\n      <div className=\"grid gap-1\">\n        <p className=\"text-sm font-medium\">兑换礼品卡</p>\n        <p className=\"text-muted-foreground text-xs\">\n          输入卡片背面的 8 位兑换码，字母不区分大小写\n        </p>\n      </div>\n\n      <InputOTP\n        length={8}\n        numeric={false}\n        value={code}\n        onValueChange={(next) => {\n          setCode(next.toUpperCase())\n          setRedeemed(false)\n        }}\n        aria-label=\"8 位礼品卡兑换码\"\n        inputClassName=\"size-9 font-mono text-sm\"\n      />\n\n      <Button disabled={code.length < 8 || redeemed} onClick={() => setRedeemed(true)}>\n        {redeemed ? \"已兑换 ¥ 100 余额\" : \"立即兑换\"}\n      </Button>\n    </div>\n  )\n}\n"
+}

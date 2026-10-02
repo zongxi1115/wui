@@ -1,0 +1,6 @@
+{
+  "name": "spin-custom",
+  "component": "spin",
+  "title": "指示器样式与自定义",
+  "code": "\"use client\"\n\nimport { SparklesIcon } from \"lucide-react\"\n\nimport { Button } from \"@/components/ui/button\"\nimport { Spin, SpinIndicator } from \"@/components/ui/spin\"\n\nexport default function SpinCustom() {\n  return (\n    <div className=\"grid w-full max-w-lg gap-8\">\n      <div className=\"grid grid-cols-3 gap-6\">\n        <Spin label=\"同步中\" />\n        <Spin variant=\"dots\" label=\"正在生成\" />\n        <Spin\n          label=\"智能解析中\"\n          indicator={\n            <span className=\"bg-primary/10 text-primary flex size-9 items-center justify-center rounded-full\">\n              <SparklesIcon className=\"size-4 animate-pulse\" />\n            </span>\n          }\n        />\n      </div>\n      <div className=\"flex flex-wrap items-center justify-center gap-3 border-t pt-6\">\n        <Button disabled>\n          <SpinIndicator size=\"sm\" className=\"text-current\" />\n          提交中\n        </Button>\n        <Button variant=\"outline\" disabled>\n          <SpinIndicator size=\"sm\" variant=\"dots\" className=\"text-current\" />\n          正在加载更多\n        </Button>\n      </div>\n    </div>\n  )\n}\n"
+}

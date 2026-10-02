@@ -1,0 +1,6 @@
+{
+  "name": "markdown-demo",
+  "component": "markdown",
+  "title": "基础用法",
+  "code": "import { Markdown } from \"@/components/ui/markdown\"\n\nconst content = `## 发布摘要\n\n本次更新为消息内容增加了 **Markdown 解析**，并保持与现有设计变量一致。\n\n- 支持 [链接](https://commonmark.org)、引用与行内代码\n- 支持任务列表、表格和删除线等 GFM 语法\n- 默认忽略原始 HTML，不直接注入页面\n\n| 能力 | 状态 |\n| --- | --- |\n| CommonMark | 已支持 |\n| GFM | 已支持 |\n\n> 自定义渲染器可以继续替换任意 Markdown 元素。\n\n\\`\\`\\`tsx\n<Markdown>{content}</Markdown>\n\\`\\`\\``\n\nexport default function MarkdownDemo() {\n  return (\n    <div className=\"mx-auto w-full max-w-2xl\">\n      <Markdown>{content}</Markdown>\n    </div>\n  )\n}\n"
+}

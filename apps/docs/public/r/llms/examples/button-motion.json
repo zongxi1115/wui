@@ -1,0 +1,6 @@
+{
+  "name": "button-motion",
+  "component": "button",
+  "title": "微交互与物理弹簧（motion）",
+  "code": "import { Button } from \"@/components/ui/button\"\n\nexport default function ButtonMotion() {\n  return (\n    <div className=\"flex flex-wrap items-center gap-2\">\n      <Button motion>立即升级</Button>\n      <Button motion variant=\"secondary\">\n        稍后提醒\n      </Button>\n      <Button motion variant=\"outline\">\n        对比套餐\n      </Button>\n    </div>\n  )\n}\n"
+}

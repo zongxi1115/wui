@@ -1,0 +1,2560 @@
+{
+  "rich-text-editor-demo": {
+    "name": "rich-text-editor-demo",
+    "component": "rich-text-editor",
+    "title": "基础用法"
+  },
+  "ai-prompt-demo": {
+    "name": "ai-prompt-demo",
+    "component": "ai-prompt",
+    "title": "基础用法"
+  },
+  "ai-prompt-mentions": {
+    "name": "ai-prompt-mentions",
+    "component": "ai-prompt",
+    "title": "提及成员与引用上下文"
+  },
+  "ai-prompt-advanced": {
+    "name": "ai-prompt-advanced",
+    "component": "ai-prompt",
+    "title": "高级参数与多模态附件"
+  },
+  "ai-prompt-compact": {
+    "name": "ai-prompt-compact",
+    "component": "ai-prompt",
+    "title": "紧凑输入条"
+  },
+  "ai-prompt-suggestions-chips": {
+    "name": "ai-prompt-suggestions-chips",
+    "component": "ai-prompt-suggestions",
+    "title": "输入框上方的快捷追问胶囊"
+  },
+  "ai-prompt-suggestions-demo": {
+    "name": "ai-prompt-suggestions-demo",
+    "component": "ai-prompt-suggestions",
+    "title": "基础用法"
+  },
+  "ai-prompt-suggestions-scroll": {
+    "name": "ai-prompt-suggestions-scroll",
+    "component": "ai-prompt-suggestions",
+    "title": "横向滑动的场景推荐列表"
+  },
+  "ai-chat-demo": {
+    "name": "ai-chat-demo",
+    "component": "ai-chat",
+    "title": "基础用法"
+  },
+  "ai-chat-agent": {
+    "name": "ai-chat-agent",
+    "component": "ai-chat",
+    "title": "智能体完整工作流 (Agent Workflow)"
+  },
+  "ai-chat-empty": {
+    "name": "ai-chat-empty",
+    "component": "ai-chat",
+    "title": "欢迎页与空白引导态 (Empty State)"
+  },
+  "ai-conversation-timeline-demo": {
+    "name": "ai-conversation-timeline-demo",
+    "component": "ai-conversation-timeline",
+    "title": "基础用法"
+  },
+  "ai-conversation-timeline-left-preview": {
+    "name": "ai-conversation-timeline-left-preview",
+    "component": "ai-conversation-timeline",
+    "title": "右侧停靠与向左展开预览"
+  },
+  "ai-conversation-timeline-levels": {
+    "name": "ai-conversation-timeline-levels",
+    "component": "ai-conversation-timeline",
+    "title": "多层级 Agent 执行链路追踪"
+  },
+  "ai-tool-demo": {
+    "name": "ai-tool-demo",
+    "component": "ai-tool",
+    "title": "基础用法"
+  },
+  "ai-tool-approval": {
+    "name": "ai-tool-approval",
+    "component": "ai-tool",
+    "title": "人工确认与审批授权 (Human-in-the-Loop)"
+  },
+  "ai-tool-chain": {
+    "name": "ai-tool-chain",
+    "component": "ai-tool",
+    "title": "链式工具调用流水线"
+  },
+  "ai-todo-demo": {
+    "name": "ai-todo-demo",
+    "component": "ai-todo",
+    "title": "基础用法"
+  },
+  "ai-todo-interactive": {
+    "name": "ai-todo-interactive",
+    "component": "ai-todo",
+    "title": "实时自动化执行演示"
+  },
+  "ai-todo-workflow": {
+    "name": "ai-todo-workflow",
+    "component": "ai-todo",
+    "title": "只读式发布部署工作流"
+  },
+  "ai-stream-demo": {
+    "name": "ai-stream-demo",
+    "component": "ai-stream",
+    "title": "基础用法"
+  },
+  "ai-stream-deltas": {
+    "name": "ai-stream-deltas",
+    "component": "ai-stream",
+    "title": "Delta 分段增量模式"
+  },
+  "ai-stream-interactive": {
+    "name": "ai-stream-interactive",
+    "component": "ai-stream",
+    "title": "交互式流式控制器"
+  },
+  "markdown-demo": {
+    "name": "markdown-demo",
+    "component": "markdown",
+    "title": "基础用法"
+  },
+  "markdown-stream-demo": {
+    "name": "markdown-stream-demo",
+    "component": "markdown",
+    "title": "流式分片输出与末尾羽化"
+  },
+  "markdown-custom": {
+    "name": "markdown-custom",
+    "component": "markdown",
+    "title": "自定义元素重载"
+  },
+  "use-ai-stream-text-demo": {
+    "name": "use-ai-stream-text-demo",
+    "component": "use-ai-stream",
+    "title": "文本回答与请求控制"
+  },
+  "use-ai-stream-demo": {
+    "name": "use-ai-stream-demo",
+    "component": "use-ai-stream",
+    "title": "Zonix 推理与工具调用"
+  },
+  "use-ai-stream-generative-demo": {
+    "name": "use-ai-stream-generative-demo",
+    "component": "use-ai-stream",
+    "title": "Generative UI 数据部件"
+  },
+  "ai-reasoning-demo": {
+    "name": "ai-reasoning-demo",
+    "component": "ai-reasoning",
+    "title": "基础用法"
+  },
+  "ai-reasoning-advanced": {
+    "name": "ai-reasoning-advanced",
+    "component": "ai-reasoning",
+    "title": "综合步骤与工具调用组合"
+  },
+  "ai-reasoning-interactive": {
+    "name": "ai-reasoning-interactive",
+    "component": "ai-reasoning",
+    "title": "实时流式推进演练"
+  },
+  "ai-artifact-demo": {
+    "name": "ai-artifact-demo",
+    "component": "ai-artifact",
+    "title": "基础用法"
+  },
+  "ai-artifact-multi": {
+    "name": "ai-artifact-multi",
+    "component": "ai-artifact",
+    "title": "多标签多模态工作区 (Preview + Code + Console)"
+  },
+  "ai-sources-demo": {
+    "name": "ai-sources-demo",
+    "component": "ai-sources",
+    "title": "基础用法"
+  },
+  "ai-sources-rag": {
+    "name": "ai-sources-rag",
+    "component": "ai-sources",
+    "title": "企业 RAG 知识库检索溯源"
+  },
+  "ai-sources-streaming": {
+    "name": "ai-sources-streaming",
+    "component": "ai-sources",
+    "title": "边生成边引用"
+  },
+  "ai-message-actions-demo": {
+    "name": "ai-message-actions-demo",
+    "component": "ai-message-actions",
+    "title": "基础用法"
+  },
+  "ai-message-actions-bordered": {
+    "name": "ai-message-actions-bordered",
+    "component": "ai-message-actions",
+    "title": "带边框的工具条"
+  },
+  "ai-message-actions-branching": {
+    "name": "ai-message-actions-branching",
+    "component": "ai-message-actions",
+    "title": "多版本分支切换与重新生成联动"
+  },
+  "ai-voice-visualizer-demo": {
+    "name": "ai-voice-visualizer-demo",
+    "component": "ai-voice-visualizer",
+    "title": "基础用法"
+  },
+  "ai-voice-visualizer-orb": {
+    "name": "ai-voice-visualizer-orb",
+    "component": "ai-voice-visualizer",
+    "title": "实时全双工语音通话界面 (Orb 呼吸球)"
+  },
+  "ai-voice-visualizer-live": {
+    "name": "ai-voice-visualizer-live",
+    "component": "ai-voice-visualizer",
+    "title": "语音输入条与波形图谱 (Live Bar Spectrum)"
+  },
+  "ai-model-selector-demo": {
+    "name": "ai-model-selector-demo",
+    "component": "ai-model-selector",
+    "title": "基础用法"
+  },
+  "ai-model-selector-advanced": {
+    "name": "ai-model-selector-advanced",
+    "component": "ai-model-selector",
+    "title": "旗舰推理与极速轻量模型分级配置"
+  },
+  "avatar-demo": {
+    "name": "avatar-demo",
+    "component": "avatar",
+    "title": "基础用法"
+  },
+  "avatar-sizes": {
+    "name": "avatar-sizes",
+    "component": "avatar",
+    "title": "尺寸规格"
+  },
+  "avatar-status": {
+    "name": "avatar-status",
+    "component": "avatar",
+    "title": "在线状态指示"
+  },
+  "avatar-fallback": {
+    "name": "avatar-fallback",
+    "component": "avatar",
+    "title": "回退策略与自定义占位"
+  },
+  "avatar-group": {
+    "name": "avatar-group",
+    "component": "avatar",
+    "title": "头像重叠组 (AvatarGroup)"
+  },
+  "avatar-business": {
+    "name": "avatar-business",
+    "component": "avatar",
+    "title": "业务场景：协作者管理面板"
+  },
+  "badge-demo": {
+    "name": "badge-demo",
+    "component": "badge",
+    "title": "基础用法"
+  },
+  "badge-sizes": {
+    "name": "badge-sizes",
+    "component": "badge",
+    "title": "尺寸预设"
+  },
+  "badge-dot": {
+    "name": "badge-dot",
+    "component": "badge",
+    "title": "状态指示圆点"
+  },
+  "badge-count": {
+    "name": "badge-count",
+    "component": "badge",
+    "title": "未读计数与数字滚动"
+  },
+  "badge-with-icon": {
+    "name": "badge-with-icon",
+    "component": "badge",
+    "title": "搭配图标"
+  },
+  "badge-as-child": {
+    "name": "badge-as-child",
+    "component": "badge",
+    "title": "作为链接或交互项 (asChild)"
+  },
+  "badge-business": {
+    "name": "badge-business",
+    "component": "badge",
+    "title": "业务场景：服务部署列表"
+  },
+  "bubble-demo": {
+    "name": "bubble-demo",
+    "component": "bubble",
+    "title": "基础用法"
+  },
+  "bubble-conversation": {
+    "name": "bubble-conversation",
+    "component": "bubble",
+    "title": "实时对话与输入状态"
+  },
+  "bubble-ai-chat": {
+    "name": "bubble-ai-chat",
+    "component": "bubble",
+    "title": "AI 回答与 Markdown"
+  },
+  "bubble-variants": {
+    "name": "bubble-variants",
+    "component": "bubble",
+    "title": "四种表面质感 (Variants)"
+  },
+  "toolbar-demo": {
+    "name": "toolbar-demo",
+    "component": "toolbar",
+    "title": "基础用法"
+  },
+  "line-chart-demo": {
+    "name": "line-chart-demo",
+    "component": "line-chart"
+  },
+  "area-chart-demo": {
+    "name": "area-chart-demo",
+    "component": "area-chart"
+  },
+  "time-series-chart-demo": {
+    "name": "time-series-chart-demo",
+    "component": "time-series-chart"
+  },
+  "stacked-area-chart-demo": {
+    "name": "stacked-area-chart-demo",
+    "component": "stacked-area-chart"
+  },
+  "bar-chart-demo": {
+    "name": "bar-chart-demo",
+    "component": "bar-chart",
+    "title": "基础用法"
+  },
+  "horizontal-bar-chart-demo": {
+    "name": "horizontal-bar-chart-demo",
+    "component": "horizontal-bar-chart"
+  },
+  "stacked-bar-chart-demo": {
+    "name": "stacked-bar-chart-demo",
+    "component": "stacked-bar-chart"
+  },
+  "composed-chart-demo": {
+    "name": "composed-chart-demo",
+    "component": "composed-chart"
+  },
+  "pie-chart-demo": {
+    "name": "pie-chart-demo",
+    "component": "pie-chart",
+    "title": "基础用法"
+  },
+  "scatter-chart-demo": {
+    "name": "scatter-chart-demo",
+    "component": "scatter-chart"
+  },
+  "canvas-scatter-chart-demo": {
+    "name": "canvas-scatter-chart-demo",
+    "component": "canvas-scatter-chart"
+  },
+  "histogram-demo": {
+    "name": "histogram-demo",
+    "component": "histogram",
+    "title": "基础用法"
+  },
+  "chart-brush-demo": {
+    "name": "chart-brush-demo",
+    "component": "chart-brush"
+  },
+  "button-demo": {
+    "name": "button-demo",
+    "component": "button",
+    "title": "基础用法"
+  },
+  "button-variants": {
+    "name": "button-variants",
+    "component": "button",
+    "title": "视觉变体"
+  },
+  "button-sizes": {
+    "name": "button-sizes",
+    "component": "button",
+    "title": "尺寸密度"
+  },
+  "button-with-icon": {
+    "name": "button-with-icon",
+    "component": "button",
+    "title": "搭配图标"
+  },
+  "button-loading": {
+    "name": "button-loading",
+    "component": "button",
+    "title": "加载状态（loading）"
+  },
+  "button-async-action": {
+    "name": "button-async-action",
+    "component": "button",
+    "title": "异步请求与结果反馈"
+  },
+  "button-link": {
+    "name": "button-link",
+    "component": "button",
+    "title": "动态下划线链接"
+  },
+  "button-as-child": {
+    "name": "button-as-child",
+    "component": "button",
+    "title": "语义化跳转（asChild）"
+  },
+  "button-motion": {
+    "name": "button-motion",
+    "component": "button",
+    "title": "微交互与物理弹簧（motion）"
+  },
+  "button-ripple": {
+    "name": "button-ripple",
+    "component": "button",
+    "title": "坐标扩散涟漪（ripple）"
+  },
+  "button-group-advanced": {
+    "name": "button-group-advanced",
+    "component": "button-group",
+    "title": "纵向与时间维度组合"
+  },
+  "button-group-demo": {
+    "name": "button-group-demo",
+    "component": "button-group",
+    "title": "基础用法"
+  },
+  "button-group-split": {
+    "name": "button-group-split",
+    "component": "button-group",
+    "title": "分裂按钮（Split Button）"
+  },
+  "button-group-toolbar": {
+    "name": "button-group-toolbar",
+    "component": "button-group",
+    "title": "编辑器操作工具栏"
+  },
+  "dialog-demo": {
+    "name": "dialog-demo",
+    "component": "dialog",
+    "title": "基础用法"
+  },
+  "dialog-form": {
+    "name": "dialog-form",
+    "component": "dialog",
+    "title": "表单交互与受控状态"
+  },
+  "dialog-layout": {
+    "name": "dialog-layout",
+    "component": "dialog",
+    "title": "原地布局变换（非模态 `variant=\"inline\"`）"
+  },
+  "dialog-custom-size": {
+    "name": "dialog-custom-size",
+    "component": "dialog",
+    "title": "自定义尺寸与大内容展示"
+  },
+  "dialog-destructive": {
+    "name": "dialog-destructive",
+    "component": "dialog",
+    "title": "破坏性操作二次确认"
+  },
+  "morphing-dialog-demo": {
+    "name": "morphing-dialog-demo",
+    "component": "morphing-dialog",
+    "title": "基础用法"
+  },
+  "morphing-dialog-media": {
+    "name": "morphing-dialog-media",
+    "component": "morphing-dialog",
+    "title": "媒体画廊展开"
+  },
+  "morphing-dialog-card": {
+    "name": "morphing-dialog-card",
+    "component": "morphing-dialog",
+    "title": "业务卡片展开详情"
+  },
+  "morphing-popover-demo": {
+    "name": "morphing-popover-demo",
+    "component": "morphing-popover",
+    "title": "基础用法"
+  },
+  "morphing-popover-form": {
+    "name": "morphing-popover-form",
+    "component": "morphing-popover",
+    "title": "快捷反馈卡片"
+  },
+  "progressive-blur-demo": {
+    "name": "progressive-blur-demo",
+    "component": "progressive-blur",
+    "title": "基础用法"
+  },
+  "progressive-blur-directions": {
+    "name": "progressive-blur-directions",
+    "component": "progressive-blur",
+    "title": "上下方多方向虚化对比"
+  },
+  "watermark-demo": {
+    "name": "watermark-demo",
+    "component": "watermark",
+    "title": "基础用法"
+  },
+  "watermark-playground": {
+    "name": "watermark-playground",
+    "component": "watermark",
+    "title": "参数调试"
+  },
+  "watermark-custom": {
+    "name": "watermark-custom",
+    "component": "watermark",
+    "title": "多行自定义内容"
+  },
+  "watermark-image": {
+    "name": "watermark-image",
+    "component": "watermark",
+    "title": "自定义图章图片"
+  },
+  "confirm-dialog-demo": {
+    "name": "confirm-dialog-demo",
+    "component": "confirm-dialog",
+    "title": "危险破坏性确认"
+  },
+  "confirm-dialog-async": {
+    "name": "confirm-dialog-async",
+    "component": "confirm-dialog",
+    "title": "异步请求与加载保护"
+  },
+  "confirm-dialog-custom": {
+    "name": "confirm-dialog-custom",
+    "component": "confirm-dialog",
+    "title": "自定义详情内容与受控状态"
+  },
+  "motion-demo": {
+    "name": "motion-demo",
+    "component": "motion",
+    "title": "基础用法"
+  },
+  "motion-presets": {
+    "name": "motion-presets",
+    "component": "motion",
+    "title": "动画预设库（Presets）"
+  },
+  "motion-stagger-list": {
+    "name": "motion-stagger-list",
+    "component": "motion",
+    "title": "列表交错排队入场（Stagger）"
+  },
+  "motion-in-view": {
+    "name": "motion-in-view",
+    "component": "motion",
+    "title": "视口滚动监听（inView）"
+  },
+  "motion-as-child": {
+    "name": "motion-as-child",
+    "component": "motion",
+    "title": "零额外 DOM 包装（asChild）"
+  },
+  "icon-demo": {
+    "name": "icon-demo",
+    "component": "icon",
+    "title": "基础用法"
+  },
+  "icon-colors": {
+    "name": "icon-colors",
+    "component": "icon",
+    "title": "颜色变体"
+  },
+  "animated-icon-demo": {
+    "name": "animated-icon-demo",
+    "component": "animated-icon",
+    "title": "基础用法"
+  },
+  "animated-icon-colors": {
+    "name": "animated-icon-colors",
+    "component": "animated-icon",
+    "title": "颜色变体"
+  },
+  "shiny-button-demo": {
+    "name": "shiny-button-demo",
+    "component": "shiny-button",
+    "title": "基础用法"
+  },
+  "shiny-button-pricing": {
+    "name": "shiny-button-pricing",
+    "component": "shiny-button",
+    "title": "定价与方案升级对比"
+  },
+  "shiny-button-card": {
+    "name": "shiny-button-card",
+    "component": "shiny-button",
+    "title": "内测招募模块"
+  },
+  "shiny-button-variants": {
+    "name": "shiny-button-variants",
+    "component": "shiny-button",
+    "title": "尺寸与形状变体"
+  },
+  "switch-demo": {
+    "name": "switch-demo",
+    "component": "switch",
+    "title": "基础用法"
+  },
+  "switch-controlled": {
+    "name": "switch-controlled",
+    "component": "switch",
+    "title": "受控模式"
+  },
+  "switch-sizes": {
+    "name": "switch-sizes",
+    "component": "switch",
+    "title": "尺寸"
+  },
+  "switch-with-label": {
+    "name": "switch-with-label",
+    "component": "switch",
+    "title": "带标签与描述"
+  },
+  "switch-icons": {
+    "name": "switch-icons",
+    "component": "switch",
+    "title": "滑块图标"
+  },
+  "switch-disabled": {
+    "name": "switch-disabled",
+    "component": "switch",
+    "title": "禁用状态"
+  },
+  "switch-async": {
+    "name": "switch-async",
+    "component": "switch",
+    "title": "异步请求与加载保护"
+  },
+  "switch-form": {
+    "name": "switch-form",
+    "component": "switch",
+    "title": "设置分组列表"
+  },
+  "progress-demo": {
+    "name": "progress-demo",
+    "component": "progress",
+    "title": "基础用法"
+  },
+  "progress-variants": {
+    "name": "progress-variants",
+    "component": "progress",
+    "title": "语义色彩与环形形态"
+  },
+  "progress-sizes": {
+    "name": "progress-sizes",
+    "component": "progress",
+    "title": "尺寸规格对比"
+  },
+  "progress-dynamic": {
+    "name": "progress-dynamic",
+    "component": "progress",
+    "title": "动态任务流（文件上传）"
+  },
+  "progress-indeterminate": {
+    "name": "progress-indeterminate",
+    "component": "progress",
+    "title": "不确定状态与阶段切换"
+  },
+  "progress-dashboard": {
+    "name": "progress-dashboard",
+    "component": "progress",
+    "title": "仪表盘资源监控看板"
+  },
+  "slider-demo": {
+    "name": "slider-demo",
+    "component": "slider",
+    "title": "基础用法"
+  },
+  "slider-controlled": {
+    "name": "slider-controlled",
+    "component": "slider",
+    "title": "受控模式与快捷预设"
+  },
+  "slider-range": {
+    "name": "slider-range",
+    "component": "slider",
+    "title": "双端范围选择 (Range)"
+  },
+  "slider-step-marks": {
+    "name": "slider-step-marks",
+    "component": "slider",
+    "title": "步长与离散刻度标记 (Marks)"
+  },
+  "slider-tooltip": {
+    "name": "slider-tooltip",
+    "component": "slider",
+    "title": "浮动数值标签 (Tooltip)"
+  },
+  "slider-with-input": {
+    "name": "slider-with-input",
+    "component": "slider",
+    "title": "与数字输入框联动"
+  },
+  "slider-expand": {
+    "name": "slider-expand",
+    "component": "slider",
+    "title": "悬停展开变体 (Expand Variant)"
+  },
+  "slider-disabled": {
+    "name": "slider-disabled",
+    "component": "slider",
+    "title": "禁用状态"
+  },
+  "color-picker-demo": {
+    "name": "color-picker-demo",
+    "component": "color-picker",
+    "title": "基础用法"
+  },
+  "color-picker-controlled": {
+    "name": "color-picker-controlled",
+    "component": "color-picker",
+    "title": "受控模式与快捷预设"
+  },
+  "color-picker-alpha": {
+    "name": "color-picker-alpha",
+    "component": "color-picker",
+    "title": "透明度通道控制"
+  },
+  "color-picker-swatches": {
+    "name": "color-picker-swatches",
+    "component": "color-picker",
+    "title": "自定义主题预设色板"
+  },
+  "color-picker-form": {
+    "name": "color-picker-form",
+    "component": "color-picker",
+    "title": "品牌主题配置面板"
+  },
+  "radio-group-demo": {
+    "name": "radio-group-demo",
+    "component": "radio-group",
+    "title": "基础用法"
+  },
+  "radio-group-controlled": {
+    "name": "radio-group-controlled",
+    "component": "radio-group",
+    "title": "受控模式"
+  },
+  "radio-group-sizes": {
+    "name": "radio-group-sizes",
+    "component": "radio-group",
+    "title": "尺寸"
+  },
+  "radio-group-with-description": {
+    "name": "radio-group-with-description",
+    "component": "radio-group",
+    "title": "带辅助描述文本"
+  },
+  "radio-group-horizontal": {
+    "name": "radio-group-horizontal",
+    "component": "radio-group",
+    "title": "水平排列布局"
+  },
+  "radio-group-disabled": {
+    "name": "radio-group-disabled",
+    "component": "radio-group",
+    "title": "禁用状态"
+  },
+  "radio-group-cards": {
+    "name": "radio-group-cards",
+    "component": "radio-group",
+    "title": "交互式单选卡片组"
+  },
+  "radio-group-form": {
+    "name": "radio-group-form",
+    "component": "radio-group",
+    "title": "表单校验与提交"
+  },
+  "checkbox-demo": {
+    "name": "checkbox-demo",
+    "component": "checkbox",
+    "title": "基础用法"
+  },
+  "checkbox-controlled": {
+    "name": "checkbox-controlled",
+    "component": "checkbox",
+    "title": "受控模式"
+  },
+  "checkbox-sizes": {
+    "name": "checkbox-sizes",
+    "component": "checkbox",
+    "title": "尺寸"
+  },
+  "checkbox-with-label": {
+    "name": "checkbox-with-label",
+    "component": "checkbox",
+    "title": "带标签与描述"
+  },
+  "checkbox-indeterminate": {
+    "name": "checkbox-indeterminate",
+    "component": "checkbox",
+    "title": "半选与全选联动 (Indeterminate)"
+  },
+  "checkbox-disabled": {
+    "name": "checkbox-disabled",
+    "component": "checkbox",
+    "title": "禁用状态"
+  },
+  "checkbox-card-group": {
+    "name": "checkbox-card-group",
+    "component": "checkbox",
+    "title": "多选卡片组"
+  },
+  "checkbox-form": {
+    "name": "checkbox-form",
+    "component": "checkbox",
+    "title": "表单校验与错误状态"
+  },
+  "select-demo": {
+    "name": "select-demo",
+    "component": "select",
+    "title": "基础用法"
+  },
+  "select-controlled": {
+    "name": "select-controlled",
+    "component": "select",
+    "title": "受控模式与外部联动"
+  },
+  "select-sizes": {
+    "name": "select-sizes",
+    "component": "select",
+    "title": "尺寸规格"
+  },
+  "select-groups": {
+    "name": "select-groups",
+    "component": "select",
+    "title": "分组与分隔线"
+  },
+  "select-custom-item": {
+    "name": "select-custom-item",
+    "component": "select",
+    "title": "自定义选项渲染"
+  },
+  "select-disabled": {
+    "name": "select-disabled",
+    "component": "select",
+    "title": "禁用状态"
+  },
+  "select-form": {
+    "name": "select-form",
+    "component": "select",
+    "title": "表单与业务集成"
+  },
+  "cascader-demo": {
+    "name": "cascader-demo",
+    "component": "cascader",
+    "title": "基础用法"
+  },
+  "cascader-search": {
+    "name": "cascader-search",
+    "component": "cascader",
+    "title": "拼音与关键词模糊搜索"
+  },
+  "cascader-department": {
+    "name": "cascader-department",
+    "component": "cascader",
+    "title": "组织架构与多级部门"
+  },
+  "cascader-custom-render": {
+    "name": "cascader-custom-render",
+    "component": "cascader",
+    "title": "自定义选中值渲染"
+  },
+  "cascader-disabled": {
+    "name": "cascader-disabled",
+    "component": "cascader",
+    "title": "节点禁用与整控件禁用"
+  },
+  "multi-select-demo": {
+    "name": "multi-select-demo",
+    "component": "multi-select",
+    "title": "基础用法"
+  },
+  "multi-select-reviewers": {
+    "name": "multi-select-reviewers",
+    "component": "multi-select",
+    "title": "评审人指派"
+  },
+  "form-demo": {
+    "name": "form-demo",
+    "component": "form",
+    "title": "基础用法"
+  },
+  "form-validation": {
+    "name": "form-validation",
+    "component": "form",
+    "title": "实时表单校验"
+  },
+  "form-layout": {
+    "name": "form-layout",
+    "component": "form",
+    "title": "多列排版与业务配置表单"
+  },
+  "form-controlled": {
+    "name": "form-controlled",
+    "component": "form",
+    "title": "异步请求与加载反馈"
+  },
+  "tabs-demo": {
+    "name": "tabs-demo",
+    "component": "tabs",
+    "title": "胶囊式标签与微动效"
+  },
+  "tabs-underline": {
+    "name": "tabs-underline",
+    "component": "tabs",
+    "title": "下划线样式与设置页"
+  },
+  "tabs-controlled": {
+    "name": "tabs-controlled",
+    "component": "tabs",
+    "title": "受控模式与动态徽标"
+  },
+  "tabs-vertical": {
+    "name": "tabs-vertical",
+    "component": "tabs",
+    "title": "纵向设置导航"
+  },
+  "tabs-card": {
+    "name": "tabs-card",
+    "component": "tabs",
+    "title": "综合业务表单选项卡"
+  },
+  "navbar-demo": {
+    "name": "navbar-demo",
+    "component": "navbar",
+    "title": "基础用法"
+  },
+  "navbar-app-header": {
+    "name": "navbar-app-header",
+    "component": "navbar",
+    "title": "应用级顶部全局头栏"
+  },
+  "navbar-vertical": {
+    "name": "navbar-vertical",
+    "component": "navbar",
+    "title": "后台纵向侧栏与二级子菜单"
+  },
+  "navbar-controlled": {
+    "name": "navbar-controlled",
+    "component": "navbar",
+    "title": "受控模式与折叠收起"
+  },
+  "breadcrumb-demo": {
+    "name": "breadcrumb-demo",
+    "component": "breadcrumb",
+    "title": "基础用法"
+  },
+  "breadcrumb-with-icons": {
+    "name": "breadcrumb-with-icons",
+    "component": "breadcrumb",
+    "title": "搭配图标指示"
+  },
+  "breadcrumb-custom-separator": {
+    "name": "breadcrumb-custom-separator",
+    "component": "breadcrumb",
+    "title": "自定义分隔符"
+  },
+  "breadcrumb-dropdown": {
+    "name": "breadcrumb-dropdown",
+    "component": "breadcrumb",
+    "title": "折叠长路径与下拉菜单"
+  },
+  "breadcrumb-collapsed": {
+    "name": "breadcrumb-collapsed",
+    "component": "breadcrumb",
+    "title": "简单折叠占位"
+  },
+  "breadcrumb-animated": {
+    "name": "breadcrumb-animated",
+    "component": "breadcrumb",
+    "title": "路径进出动效与展开折叠"
+  },
+  "pagination-demo": {
+    "name": "pagination-demo",
+    "component": "pagination",
+    "title": "基础用法"
+  },
+  "pagination-table": {
+    "name": "pagination-table",
+    "component": "pagination",
+    "title": "完整业务表格分页条"
+  },
+  "pagination-advanced": {
+    "name": "pagination-advanced",
+    "component": "pagination",
+    "title": "页码窗口平移"
+  },
+  "pagination-sizes": {
+    "name": "pagination-sizes",
+    "component": "pagination",
+    "title": "尺寸预设"
+  },
+  "pagination-simple": {
+    "name": "pagination-simple",
+    "component": "pagination",
+    "title": "简洁分页"
+  },
+  "collapsible-demo": {
+    "name": "collapsible-demo",
+    "component": "collapsible",
+    "title": "基础用法"
+  },
+  "collapsible-controlled": {
+    "name": "collapsible-controlled",
+    "component": "collapsible",
+    "title": "受控状态模式"
+  },
+  "collapsible-nested": {
+    "name": "collapsible-nested",
+    "component": "collapsible",
+    "title": "代码变更折叠列表（Git Diff）"
+  },
+  "collapsible-card": {
+    "name": "collapsible-card",
+    "component": "collapsible",
+    "title": "表单卡片中的高级配置区块"
+  },
+  "accordion-demo": {
+    "name": "accordion-demo",
+    "component": "accordion",
+    "title": "基础示例 · Basic example"
+  },
+  "accordion-multiple": {
+    "name": "accordion-multiple",
+    "component": "accordion",
+    "title": "多项展开与受控"
+  },
+  "code-block-demo": {
+    "name": "code-block-demo",
+    "component": "code-block",
+    "title": "基础用法"
+  },
+  "code-block-tabs": {
+    "name": "code-block-tabs",
+    "component": "code-block",
+    "title": "多文件切换"
+  },
+  "code-block-walkthrough": {
+    "name": "code-block-walkthrough",
+    "component": "code-block",
+    "title": "分步讲解"
+  },
+  "code-block-expandable": {
+    "name": "code-block-expandable",
+    "component": "code-block",
+    "title": "折叠长代码"
+  },
+  "mention-demo": {
+    "name": "mention-demo",
+    "component": "mention",
+    "title": "基础示例 · Basic example"
+  },
+  "mention-topics": {
+    "name": "mention-topics",
+    "component": "mention",
+    "title": "拓展使用 · Extended usage"
+  },
+  "confetti-demo": {
+    "name": "confetti-demo",
+    "component": "confetti",
+    "title": "基础示例 · Basic example"
+  },
+  "dock-demo": {
+    "name": "dock-demo",
+    "component": "dock",
+    "title": "基础示例 · Basic example"
+  },
+  "dock-vertical": {
+    "name": "dock-vertical",
+    "component": "dock",
+    "title": "垂直工具栏"
+  },
+  "radar-chart-demo": {
+    "name": "radar-chart-demo",
+    "component": "radar-chart",
+    "title": "基础示例 · Basic example"
+  },
+  "heatmap-demo": {
+    "name": "heatmap-demo",
+    "component": "heatmap",
+    "title": "基础示例 · Basic example"
+  },
+  "gauge-chart-demo": {
+    "name": "gauge-chart-demo",
+    "component": "gauge-chart",
+    "title": "基础示例 · Basic example"
+  },
+  "funnel-chart-demo": {
+    "name": "funnel-chart-demo",
+    "component": "funnel-chart",
+    "title": "基础示例 · Basic example"
+  },
+  "popover-demo": {
+    "name": "popover-demo",
+    "component": "popover",
+    "title": "基础用法"
+  },
+  "popover-filter": {
+    "name": "popover-filter",
+    "component": "popover",
+    "title": "快捷筛选与多选条件面板"
+  },
+  "popover-form": {
+    "name": "popover-form",
+    "component": "popover",
+    "title": "轻量配置与表单输入"
+  },
+  "dropdown-menu-demo": {
+    "name": "dropdown-menu-demo",
+    "component": "dropdown-menu",
+    "title": "操作菜单与快捷键提示"
+  },
+  "dropdown-menu-advanced": {
+    "name": "dropdown-menu-advanced",
+    "component": "dropdown-menu",
+    "title": "状态项与单选设置"
+  },
+  "dropdown-menu-user": {
+    "name": "dropdown-menu-user",
+    "component": "dropdown-menu",
+    "title": "用户资料与团队切换面板"
+  },
+  "dropdown-menu-nested": {
+    "name": "dropdown-menu-nested",
+    "component": "dropdown-menu",
+    "title": "多级嵌套子菜单"
+  },
+  "input-demo": {
+    "name": "input-demo",
+    "component": "input",
+    "title": "基础用法"
+  },
+  "input-controlled": {
+    "name": "input-controlled",
+    "component": "input",
+    "title": "受控模式与字符统计"
+  },
+  "input-sizes": {
+    "name": "input-sizes",
+    "component": "input",
+    "title": "尺寸规格"
+  },
+  "input-with-icon": {
+    "name": "input-with-icon",
+    "component": "input",
+    "title": "前后置图标与操作 (Start & End Content)"
+  },
+  "input-password": {
+    "name": "input-password",
+    "component": "input",
+    "title": "密码输入与强度检测"
+  },
+  "input-floating-label": {
+    "name": "input-floating-label",
+    "component": "input",
+    "title": "浮动标签 (Floating Label)"
+  },
+  "input-underline": {
+    "name": "input-underline",
+    "component": "input",
+    "title": "下划线风格 (Underline Variant)"
+  },
+  "input-states": {
+    "name": "input-states",
+    "component": "input",
+    "title": "状态展示与表单校验"
+  },
+  "input-form": {
+    "name": "input-form",
+    "component": "input",
+    "title": "完整业务表单"
+  },
+  "input-number-advanced": {
+    "name": "input-number-advanced",
+    "component": "input-number",
+    "title": "浮点精度与自定义步长"
+  },
+  "input-number-controlled": {
+    "name": "input-number-controlled",
+    "component": "input-number",
+    "title": "受控模式与计算联动"
+  },
+  "input-number-demo": {
+    "name": "input-number-demo",
+    "component": "input-number",
+    "title": "基础用法"
+  },
+  "input-number-disabled": {
+    "name": "input-number-disabled",
+    "component": "input-number",
+    "title": "禁用与只读状态"
+  },
+  "input-number-form": {
+    "name": "input-number-form",
+    "component": "input-number",
+    "title": "资源配额与表单应用"
+  },
+  "input-number-sizes": {
+    "name": "input-number-sizes",
+    "component": "input-number",
+    "title": "尺寸规格"
+  },
+  "input-otp-advanced": {
+    "name": "input-otp-advanced",
+    "component": "input-otp"
+  },
+  "input-otp-alphanumeric": {
+    "name": "input-otp-alphanumeric",
+    "component": "input-otp",
+    "title": "字母与数字混合的兑换码"
+  },
+  "input-otp-auth-flow": {
+    "name": "input-otp-auth-flow",
+    "component": "input-otp",
+    "title": "短信认证流程与倒计时"
+  },
+  "input-otp-demo": {
+    "name": "input-otp-demo",
+    "component": "input-otp",
+    "title": "基础用法"
+  },
+  "input-otp-pin": {
+    "name": "input-otp-pin",
+    "component": "input-otp",
+    "title": "支付密码 (Mask)"
+  },
+  "textarea-demo": {
+    "name": "textarea-demo",
+    "component": "textarea",
+    "title": "基础用法"
+  },
+  "textarea-controlled": {
+    "name": "textarea-controlled",
+    "component": "textarea",
+    "title": "受控模式"
+  },
+  "textarea-count": {
+    "name": "textarea-count",
+    "component": "textarea",
+    "title": "字符计数与最大字数限制"
+  },
+  "textarea-autosize": {
+    "name": "textarea-autosize",
+    "component": "textarea",
+    "title": "自适应高度 (AutoSize)"
+  },
+  "textarea-resize": {
+    "name": "textarea-resize",
+    "component": "textarea",
+    "title": "缩放方向控制 (Resize)"
+  },
+  "textarea-states": {
+    "name": "textarea-states",
+    "component": "textarea",
+    "title": "状态展示与校验错误"
+  },
+  "textarea-form": {
+    "name": "textarea-form",
+    "component": "textarea",
+    "title": "完整反馈提交表单"
+  },
+  "command-demo": {
+    "name": "command-demo",
+    "component": "command",
+    "title": "基础用法"
+  },
+  "command-palette": {
+    "name": "command-palette",
+    "component": "command",
+    "title": "⌘K 全局调色板弹窗 (Command Palette)"
+  },
+  "command-groups": {
+    "name": "command-groups",
+    "component": "command",
+    "title": "分组、别名与禁用项"
+  },
+  "combobox-demo": {
+    "name": "combobox-demo",
+    "component": "combobox",
+    "title": "基础用法"
+  },
+  "combobox-controlled": {
+    "name": "combobox-controlled",
+    "component": "combobox",
+    "title": "受控模式与外部联动"
+  },
+  "combobox-sizes": {
+    "name": "combobox-sizes",
+    "component": "combobox",
+    "title": "尺寸规格"
+  },
+  "combobox-custom-option": {
+    "name": "combobox-custom-option",
+    "component": "combobox",
+    "title": "自定义选项渲染与副标题"
+  },
+  "combobox-clearable": {
+    "name": "combobox-clearable",
+    "component": "combobox",
+    "title": "清空与自定义空状态"
+  },
+  "combobox-form": {
+    "name": "combobox-form",
+    "component": "combobox",
+    "title": "复杂表单集成"
+  },
+  "download-demo": {
+    "name": "download-demo",
+    "component": "download",
+    "title": "基础用法"
+  },
+  "download-states": {
+    "name": "download-states",
+    "component": "download",
+    "title": "各生命周期状态与自定义图标"
+  },
+  "download-compact": {
+    "name": "download-compact",
+    "component": "download",
+    "title": "紧凑附件列表 (Compact List)"
+  },
+  "upload-demo": {
+    "name": "upload-demo",
+    "component": "upload",
+    "title": "基础用法"
+  },
+  "upload-avatar": {
+    "name": "upload-avatar",
+    "component": "upload",
+    "title": "用户头像即时预览上传"
+  },
+  "upload-progress-simulated": {
+    "name": "upload-progress-simulated",
+    "component": "upload",
+    "title": "进度条百分比反馈"
+  },
+  "upload-dropzone": {
+    "name": "upload-dropzone",
+    "component": "upload",
+    "title": "多文件批量拖拽清单"
+  },
+  "upload-states": {
+    "name": "upload-states",
+    "component": "upload",
+    "title": "状态与尺寸矩阵"
+  },
+  "kbd-demo": {
+    "name": "kbd-demo",
+    "component": "kbd",
+    "title": "基础用法"
+  },
+  "kbd-sizes": {
+    "name": "kbd-sizes",
+    "component": "kbd",
+    "title": "尺寸对比 (Default vs Small)"
+  },
+  "kbd-live": {
+    "name": "kbd-live",
+    "component": "kbd",
+    "title": "实时按键反馈（pressed）"
+  },
+  "kbd-in-menu": {
+    "name": "kbd-in-menu",
+    "component": "kbd",
+    "title": "下拉菜单与命令面板中的快捷键提示"
+  },
+  "tooltip-demo": {
+    "name": "tooltip-demo",
+    "component": "tooltip",
+    "title": "基础用法"
+  },
+  "tooltip-placement": {
+    "name": "tooltip-placement",
+    "component": "tooltip",
+    "title": "弹出方位与指示箭头"
+  },
+  "tooltip-sizes": {
+    "name": "tooltip-sizes",
+    "component": "tooltip",
+    "title": "尺寸规格与快捷键徽标"
+  },
+  "tooltip-rich": {
+    "name": "tooltip-rich",
+    "component": "tooltip",
+    "title": "丰富上下文说明（多行/状态说明）"
+  },
+  "tooltip-controlled": {
+    "name": "tooltip-controlled",
+    "component": "tooltip",
+    "title": "受控模式"
+  },
+  "image-preview-demo": {
+    "name": "image-preview-demo",
+    "component": "image-preview",
+    "title": "基础用法"
+  },
+  "image-preview-gallery": {
+    "name": "image-preview-gallery",
+    "component": "image-preview",
+    "title": "画廊分组浏览"
+  },
+  "image-preview-minimal": {
+    "name": "image-preview-minimal",
+    "component": "image-preview",
+    "title": "极简纯净模式 (隐藏工具栏)"
+  },
+  "video-player-demo": {
+    "name": "video-player-demo",
+    "component": "video-player",
+    "title": "基础用法"
+  },
+  "video-player-minimal": {
+    "name": "video-player-minimal",
+    "component": "video-player",
+    "title": "精简组合"
+  },
+  "skeleton-demo": {
+    "name": "skeleton-demo",
+    "component": "skeleton",
+    "title": "基础用法"
+  },
+  "skeleton-animation": {
+    "name": "skeleton-animation",
+    "component": "skeleton",
+    "title": "动画类型"
+  },
+  "skeleton-swap": {
+    "name": "skeleton-swap",
+    "component": "skeleton",
+    "title": "占位到内容的过渡"
+  },
+  "skeleton-layout": {
+    "name": "skeleton-layout",
+    "component": "skeleton",
+    "title": "图文资讯卡片布局"
+  },
+  "skeleton-table": {
+    "name": "skeleton-table",
+    "component": "skeleton",
+    "title": "数据表格加载骨架"
+  },
+  "skeleton-dashboard": {
+    "name": "skeleton-dashboard",
+    "component": "skeleton",
+    "title": "复杂数据分析仪表盘"
+  },
+  "alert-demo": {
+    "name": "alert-demo",
+    "component": "alert",
+    "title": "基础用法"
+  },
+  "alert-action": {
+    "name": "alert-action",
+    "component": "alert",
+    "title": "尾部操作 (Action)"
+  },
+  "alert-dismissible": {
+    "name": "alert-dismissible",
+    "component": "alert",
+    "title": "可关闭与受控显示 (Dismissible)"
+  },
+  "alert-compact": {
+    "name": "alert-compact",
+    "component": "alert",
+    "title": "紧凑单行模式 (Compact)"
+  },
+  "alert-custom-icon": {
+    "name": "alert-custom-icon",
+    "component": "alert",
+    "title": "自定义图标与隐藏图标"
+  },
+  "alert-business": {
+    "name": "alert-business",
+    "component": "alert",
+    "title": "业务场景：安全风险警报与证书预警"
+  },
+  "message-demo": {
+    "name": "message-demo",
+    "component": "message",
+    "title": "基础用法"
+  },
+  "message-positions": {
+    "name": "message-positions",
+    "component": "message",
+    "title": "弹出方位 (Positions)"
+  },
+  "message-duration": {
+    "name": "message-duration",
+    "component": "message",
+    "title": "停留时长与异步加载 (Duration)"
+  },
+  "message-stack": {
+    "name": "message-stack",
+    "component": "message",
+    "title": "卡片堆叠与手势移除 (Stacked & Drag)"
+  },
+  "message-motion": {
+    "name": "message-motion",
+    "component": "message",
+    "title": "自定义动效与透明度 (Motion & Opacity)"
+  },
+  "message-business": {
+    "name": "message-business",
+    "component": "message",
+    "title": "业务场景：复制密钥、上传同步与撤销操作"
+  },
+  "in-view-demo": {
+    "name": "in-view-demo",
+    "component": "in-view",
+    "title": "基础用法"
+  },
+  "in-view-image-reveal": {
+    "name": "in-view-image-reveal",
+    "component": "in-view",
+    "title": "图片揭示"
+  },
+  "in-view-stagger": {
+    "name": "in-view-stagger",
+    "component": "in-view",
+    "title": "瀑布流/阶梯式卡片进场（Stagger）"
+  },
+  "scroll-progress-demo": {
+    "name": "scroll-progress-demo",
+    "component": "scroll-progress",
+    "title": "基础用法"
+  },
+  "scroll-progress-container": {
+    "name": "scroll-progress-container",
+    "component": "scroll-progress",
+    "title": "协议条款通读验证"
+  },
+  "scroll-progress-steps": {
+    "name": "scroll-progress-steps",
+    "component": "scroll-progress",
+    "title": "目录章节进度"
+  },
+  "scroll-progress-variants": {
+    "name": "scroll-progress-variants",
+    "component": "scroll-progress",
+    "title": "横向滚动"
+  },
+  "smooth-scroll-demo": {
+    "name": "smooth-scroll-demo",
+    "component": "smooth-scroll",
+    "title": "基础用法"
+  },
+  "parallax-demo": {
+    "name": "parallax-demo",
+    "component": "parallax",
+    "title": "基础用法"
+  },
+  "parallax-scale": {
+    "name": "parallax-scale",
+    "component": "parallax",
+    "title": "画框内缩放"
+  },
+  "scroll-text-demo": {
+    "name": "scroll-text-demo",
+    "component": "scroll-text",
+    "title": "基础用法"
+  },
+  "scroll-text-reveal": {
+    "name": "scroll-text-reveal",
+    "component": "scroll-text",
+    "title": "逐行揭示（Reveal）"
+  },
+  "scroll-text-blur": {
+    "name": "scroll-text-blur",
+    "component": "scroll-text",
+    "title": "逐字聚焦（Blur）"
+  },
+  "sticky-stack-demo": {
+    "name": "sticky-stack-demo",
+    "component": "sticky-stack",
+    "title": "基础用法"
+  },
+  "sticky-stack-features": {
+    "name": "sticky-stack-features",
+    "component": "sticky-stack",
+    "title": "定价方案"
+  },
+  "horizontal-scroll-demo": {
+    "name": "horizontal-scroll-demo",
+    "component": "horizontal-scroll",
+    "title": "基础用法"
+  },
+  "horizontal-scroll-cards": {
+    "name": "horizontal-scroll-cards",
+    "component": "horizontal-scroll",
+    "title": "产品路线图"
+  },
+  "velocity-marquee-demo": {
+    "name": "velocity-marquee-demo",
+    "component": "velocity-marquee",
+    "title": "基础用法"
+  },
+  "velocity-marquee-logos": {
+    "name": "velocity-marquee-logos",
+    "component": "velocity-marquee",
+    "title": "客户墙"
+  },
+  "scroll-expand-demo": {
+    "name": "scroll-expand-demo",
+    "component": "scroll-expand",
+    "title": "基础用法"
+  },
+  "scroll-expand-collapse": {
+    "name": "scroll-expand-collapse",
+    "component": "scroll-expand",
+    "title": "逆向收缩为卡片（Collapse）"
+  },
+  "scroll-sequence-demo": {
+    "name": "scroll-sequence-demo",
+    "component": "scroll-sequence",
+    "title": "基础用法"
+  },
+  "scroll-sequence-story": {
+    "name": "scroll-sequence-story",
+    "component": "scroll-sequence",
+    "title": "数字叙事"
+  },
+  "scroll-snap-demo": {
+    "name": "scroll-snap-demo",
+    "component": "scroll-snap",
+    "title": "基础用法"
+  },
+  "scroll-snap-horizontal": {
+    "name": "scroll-snap-horizontal",
+    "component": "scroll-snap",
+    "title": "横向商品列表"
+  },
+  "infinite-slider-demo": {
+    "name": "infinite-slider-demo",
+    "component": "infinite-slider",
+    "title": "基础用法"
+  },
+  "infinite-slider-vertical": {
+    "name": "infinite-slider-vertical",
+    "component": "infinite-slider",
+    "title": "垂直方向滚动"
+  },
+  "infinite-slider-hover-pause": {
+    "name": "infinite-slider-hover-pause",
+    "component": "infinite-slider",
+    "title": "客户评价与悬停即停"
+  },
+  "cursor-demo": {
+    "name": "cursor-demo",
+    "component": "cursor",
+    "title": "基础用法"
+  },
+  "cursor-parent": {
+    "name": "cursor-parent",
+    "component": "cursor",
+    "title": "容器边界与坐标监听"
+  },
+  "cursor-card": {
+    "name": "cursor-card",
+    "component": "cursor",
+    "title": "创意卡片交互"
+  },
+  "magnetic-demo": {
+    "name": "magnetic-demo",
+    "component": "magnetic",
+    "title": "基础用法"
+  },
+  "magnetic-social-dock": {
+    "name": "magnetic-social-dock",
+    "component": "magnetic",
+    "title": "浮动社交操作栏（Dock）"
+  },
+  "magnetic-hero-cta": {
+    "name": "magnetic-hero-cta",
+    "component": "magnetic",
+    "title": "首屏核心行动点（Hero CTA）"
+  },
+  "glow-demo": {
+    "name": "glow-demo",
+    "component": "glow",
+    "title": "基础用法"
+  },
+  "glow-card": {
+    "name": "glow-card",
+    "component": "glow",
+    "title": "旗舰推荐定价卡片"
+  },
+  "glow-badge": {
+    "name": "glow-badge",
+    "component": "glow",
+    "title": "状态指示与公告胶囊（Pills）"
+  },
+  "annotation-demo": {
+    "name": "annotation-demo",
+    "component": "annotation",
+    "title": "基础用法"
+  },
+  "annotation-variants": {
+    "name": "annotation-variants",
+    "component": "annotation",
+    "title": "荧光笔变体"
+  },
+  "annotation-shapes": {
+    "name": "annotation-shapes",
+    "component": "annotation",
+    "title": "路径形状"
+  },
+  "annotation-callout": {
+    "name": "annotation-callout",
+    "component": "annotation",
+    "title": "引导发布操作按钮"
+  },
+  "slide-swap-demo": {
+    "name": "slide-swap-demo",
+    "component": "slide-swap",
+    "title": "基础用法"
+  },
+  "slide-swap-button": {
+    "name": "slide-swap-button",
+    "component": "slide-swap",
+    "title": "多形态按钮组合"
+  },
+  "slide-swap-badge": {
+    "name": "slide-swap-badge",
+    "component": "slide-swap",
+    "title": "顶部通知药丸徽章"
+  },
+  "animated-background-demo": {
+    "name": "animated-background-demo",
+    "component": "animated-background",
+    "title": "基础用法"
+  },
+  "animated-background-list": {
+    "name": "animated-background-list",
+    "component": "animated-background",
+    "title": "纵向设置列表"
+  },
+  "animated-background-grid": {
+    "name": "animated-background-grid",
+    "component": "animated-background",
+    "title": "网格选择"
+  },
+  "transition-panel-demo": {
+    "name": "transition-panel-demo",
+    "component": "transition-panel",
+    "title": "基础用法"
+  },
+  "transition-panel-onboarding": {
+    "name": "transition-panel-onboarding",
+    "component": "transition-panel",
+    "title": "多步引导"
+  },
+  "animated-group-demo": {
+    "name": "animated-group-demo",
+    "component": "animated-group",
+    "title": "基础用法"
+  },
+  "animated-group-in-view": {
+    "name": "animated-group-in-view",
+    "component": "animated-group",
+    "title": "滚动触发的更新日志"
+  },
+  "animated-list-demo": {
+    "name": "animated-list-demo",
+    "component": "animated-list",
+    "title": "基础用法"
+  },
+  "animated-list-log": {
+    "name": "animated-list-log",
+    "component": "animated-list",
+    "title": "逐条揭示的构建记录"
+  },
+  "border-beam-demo": {
+    "name": "border-beam-demo",
+    "component": "border-beam",
+    "title": "基础用法"
+  },
+  "border-beam-pricing": {
+    "name": "border-beam-pricing",
+    "component": "border-beam",
+    "title": "推荐套餐"
+  },
+  "hover-marquee-demo": {
+    "name": "hover-marquee-demo",
+    "component": "hover-marquee",
+    "title": "基础用法"
+  },
+  "hover-marquee-catalog": {
+    "name": "hover-marquee-catalog",
+    "component": "hover-marquee",
+    "title": "服务目录"
+  },
+  "hover-marquee-tags": {
+    "name": "hover-marquee-tags",
+    "component": "hover-marquee",
+    "title": "团队与技能标签"
+  },
+  "spotlight-card-demo": {
+    "name": "spotlight-card-demo",
+    "component": "spotlight-card",
+    "title": "基础用法"
+  },
+  "spotlight-card-colors": {
+    "name": "spotlight-card-colors",
+    "component": "spotlight-card",
+    "title": "指标卡配色"
+  },
+  "tilt-card-demo": {
+    "name": "tilt-card-demo",
+    "component": "tilt-card",
+    "title": "基础用法"
+  },
+  "tilt-card-member-pass": {
+    "name": "tilt-card-member-pass",
+    "component": "tilt-card",
+    "title": "会员卡"
+  },
+  "image-trail-demo": {
+    "name": "image-trail-demo",
+    "component": "image-trail",
+    "title": "基础用法"
+  },
+  "image-trail-cards": {
+    "name": "image-trail-cards",
+    "component": "image-trail",
+    "title": "标签拖尾"
+  },
+  "hover-preview-demo": {
+    "name": "hover-preview-demo",
+    "component": "hover-preview",
+    "title": "基础用法"
+  },
+  "hover-preview-link": {
+    "name": "hover-preview-link",
+    "component": "hover-preview",
+    "title": "文本链接卡片预览"
+  },
+  "hover-preview-user": {
+    "name": "hover-preview-user",
+    "component": "hover-preview",
+    "title": "用户资料名片"
+  },
+  "aurora-background-demo": {
+    "name": "aurora-background-demo",
+    "component": "aurora-background",
+    "title": "基础用法"
+  },
+  "aurora-background-card": {
+    "name": "aurora-background-card",
+    "component": "aurora-background",
+    "title": "定价卡片"
+  },
+  "grain-overlay-demo": {
+    "name": "grain-overlay-demo",
+    "component": "grain-overlay",
+    "title": "基础用法"
+  },
+  "grain-overlay-card": {
+    "name": "grain-overlay-card",
+    "component": "grain-overlay",
+    "title": "强度对比"
+  },
+  "spotlight-grid-demo": {
+    "name": "spotlight-grid-demo",
+    "component": "spotlight-grid",
+    "title": "基础用法"
+  },
+  "spotlight-grid-dots": {
+    "name": "spotlight-grid-dots",
+    "component": "spotlight-grid",
+    "title": "点阵模式（Dots）"
+  },
+  "text-effect-demo": {
+    "name": "text-effect-demo",
+    "component": "text-effect",
+    "title": "基础用法"
+  },
+  "text-effect-presets": {
+    "name": "text-effect-presets",
+    "component": "text-effect",
+    "title": "动效预设"
+  },
+  "text-effect-granularity": {
+    "name": "text-effect-granularity",
+    "component": "text-effect",
+    "title": "拆分颗粒度比较"
+  },
+  "text-effect-custom-variants": {
+    "name": "text-effect-custom-variants",
+    "component": "text-effect",
+    "title": "自定义 Motion 动画变体"
+  },
+  "text-effect-card": {
+    "name": "text-effect-card",
+    "component": "text-effect",
+    "title": "业务卡片级联入场"
+  },
+  "text-loop-demo": {
+    "name": "text-loop-demo",
+    "component": "text-loop",
+    "title": "基础用法"
+  },
+  "text-loop-direction": {
+    "name": "text-loop-direction",
+    "component": "text-loop",
+    "title": "运动方向"
+  },
+  "text-loop-badges": {
+    "name": "text-loop-badges",
+    "component": "text-loop",
+    "title": "业务动态与公告胶囊"
+  },
+  "text-loop-custom-transitions": {
+    "name": "text-loop-custom-transitions",
+    "component": "text-loop",
+    "title": "自定义过渡方向与 3D 翻转"
+  },
+  "text-loop-interactive": {
+    "name": "text-loop-interactive",
+    "component": "text-loop",
+    "title": "悬停暂停与步骤指示器"
+  },
+  "text-morph-demo": {
+    "name": "text-morph-demo",
+    "component": "text-morph",
+    "title": "状态操作按钮"
+  },
+  "text-morph-tabs": {
+    "name": "text-morph-tabs",
+    "component": "text-morph",
+    "title": "分段筛选标签栏"
+  },
+  "text-morph-search-bar": {
+    "name": "text-morph-search-bar",
+    "component": "text-morph",
+    "title": "智能搜索提示轮播"
+  },
+  "text-morph-stepper": {
+    "name": "text-morph-stepper",
+    "component": "text-morph",
+    "title": "部署流水线状态"
+  },
+  "text-roll-demo": {
+    "name": "text-roll-demo",
+    "component": "text-roll",
+    "title": "基础用法"
+  },
+  "text-roll-navigation": {
+    "name": "text-roll-navigation",
+    "component": "text-roll",
+    "title": "导航栏菜单链接"
+  },
+  "text-roll-button": {
+    "name": "text-roll-button",
+    "component": "text-roll",
+    "title": "CTA 行动按钮"
+  },
+  "text-roll-mount-stagger": {
+    "name": "text-roll-mount-stagger",
+    "component": "text-roll",
+    "title": "挂载即时翻滚"
+  },
+  "text-scramble-demo": {
+    "name": "text-scramble-demo",
+    "component": "text-scramble",
+    "title": "基础用法"
+  },
+  "text-scramble-character-sets": {
+    "name": "text-scramble-character-sets",
+    "component": "text-scramble",
+    "title": "自定义字符采样集"
+  },
+  "text-scramble-auth-token": {
+    "name": "text-scramble-auth-token",
+    "component": "text-scramble",
+    "title": "密钥解密与一键复制"
+  },
+  "text-scramble-status-card": {
+    "name": "text-scramble-status-card",
+    "component": "text-scramble",
+    "title": "集群遥测状态解码"
+  },
+  "text-shimmer-demo": {
+    "name": "text-shimmer-demo",
+    "component": "text-shimmer",
+    "title": "基础用法"
+  },
+  "text-shimmer-button": {
+    "name": "text-shimmer-button",
+    "component": "text-shimmer",
+    "title": "高优先级行动按钮"
+  },
+  "text-shimmer-card": {
+    "name": "text-shimmer-card",
+    "component": "text-shimmer",
+    "title": "后台处理状态卡片"
+  },
+  "text-shimmer-colors": {
+    "name": "text-shimmer-colors",
+    "component": "text-shimmer",
+    "title": "自定义主题配色"
+  },
+  "text-shimmer-wave-demo": {
+    "name": "text-shimmer-wave-demo",
+    "component": "text-shimmer-wave",
+    "title": "基础用法"
+  },
+  "text-rotate-demo": {
+    "name": "text-rotate-demo",
+    "component": "text-rotate",
+    "title": "基础用法"
+  },
+  "text-rotate-characters": {
+    "name": "text-rotate-characters",
+    "component": "text-rotate",
+    "title": "字符级错峰与方向"
+  },
+  "text-rotate-words": {
+    "name": "text-rotate-words",
+    "component": "text-rotate",
+    "title": "按单词轮换状态文案"
+  },
+  "text-rotate-controlled": {
+    "name": "text-rotate-controlled",
+    "component": "text-rotate",
+    "title": "命令式控制与悬停暂停"
+  },
+  "typewriter-demo": {
+    "name": "typewriter-demo",
+    "component": "typewriter",
+    "title": "基础用法"
+  },
+  "typewriter-cursor": {
+    "name": "typewriter-cursor",
+    "component": "typewriter",
+    "title": "光标样式"
+  },
+  "typewriter-prompt": {
+    "name": "typewriter-prompt",
+    "component": "typewriter",
+    "title": "输入框示例提问"
+  },
+  "text-highlight-demo": {
+    "name": "text-highlight-demo",
+    "component": "text-highlight",
+    "title": "基础用法"
+  },
+  "text-highlight-hover": {
+    "name": "text-highlight-hover",
+    "component": "text-highlight",
+    "title": "悬停整行触发"
+  },
+  "sliding-number-demo": {
+    "name": "sliding-number-demo",
+    "component": "sliding-number",
+    "title": "基础用法"
+  },
+  "sliding-number-clock": {
+    "name": "sliding-number-clock",
+    "component": "sliding-number",
+    "title": "实时数字时钟"
+  },
+  "sliding-number-stats": {
+    "name": "sliding-number-stats",
+    "component": "sliding-number",
+    "title": "实时指标看板"
+  },
+  "sliding-number-price-toggle": {
+    "name": "sliding-number-price-toggle",
+    "component": "sliding-number",
+    "title": "套餐计费周期切换"
+  },
+  "sliding-number-countdown": {
+    "name": "sliding-number-countdown",
+    "component": "sliding-number",
+    "title": "发布会活动倒计时"
+  },
+  "number-ticker-demo": {
+    "name": "number-ticker-demo",
+    "component": "number-ticker",
+    "title": "基础用法"
+  },
+  "number-ticker-stats": {
+    "name": "number-ticker-stats",
+    "component": "number-ticker",
+    "title": "KPI 指标行"
+  },
+  "number-ticker-live": {
+    "name": "number-ticker-live",
+    "component": "number-ticker",
+    "title": "实时数值更新"
+  },
+  "table-demo": {
+    "name": "table-demo",
+    "component": "table",
+    "title": "基础用法"
+  },
+  "table-compact": {
+    "name": "table-compact",
+    "component": "table",
+    "title": "紧凑密度与斑马纹"
+  },
+  "table-selection": {
+    "name": "table-selection",
+    "component": "table",
+    "title": "行选择与批量操作"
+  },
+  "table-expandable": {
+    "name": "table-expandable",
+    "component": "table",
+    "title": "可展开行与排序"
+  },
+  "table-advanced": {
+    "name": "table-advanced",
+    "component": "table",
+    "title": "复杂数据表格（固定列 / 树形 / 排序 / 筛选 / 拖拽）"
+  },
+  "calendar-demo": {
+    "name": "calendar-demo",
+    "component": "calendar",
+    "title": "基础用法"
+  },
+  "calendar-disabled-dates": {
+    "name": "calendar-disabled-dates",
+    "component": "calendar",
+    "title": "自定义禁用规则与工作日限制"
+  },
+  "calendar-booking": {
+    "name": "calendar-booking",
+    "component": "calendar",
+    "title": "会议与专家咨询时段预约"
+  },
+  "calendar-panel": {
+    "name": "calendar-panel",
+    "component": "calendar",
+    "title": "大型月度日程与排期面板"
+  },
+  "date-picker-demo": {
+    "name": "date-picker-demo",
+    "component": "date-picker",
+    "title": "基础用法"
+  },
+  "date-picker-controlled": {
+    "name": "date-picker-controlled",
+    "component": "date-picker",
+    "title": "受控模式与快捷预设"
+  },
+  "date-picker-presets": {
+    "name": "date-picker-presets",
+    "component": "date-picker",
+    "title": "快捷日期"
+  },
+  "date-picker-sizes": {
+    "name": "date-picker-sizes",
+    "component": "date-picker",
+    "title": "尺寸规格"
+  },
+  "date-picker-disabled-dates": {
+    "name": "date-picker-disabled-dates",
+    "component": "date-picker",
+    "title": "禁用特定日期与日期范围"
+  },
+  "date-picker-custom-format": {
+    "name": "date-picker-custom-format",
+    "component": "date-picker",
+    "title": "国际化与自定义格式化"
+  },
+  "date-picker-form": {
+    "name": "date-picker-form",
+    "component": "date-picker",
+    "title": "任务日程表单集成"
+  },
+  "time-picker-demo": {
+    "name": "time-picker-demo",
+    "component": "time-picker",
+    "title": "基础用法"
+  },
+  "time-picker-12-hour": {
+    "name": "time-picker-12-hour",
+    "component": "time-picker",
+    "title": "12 小时制 (AM/PM)"
+  },
+  "time-picker-range-form": {
+    "name": "time-picker-range-form",
+    "component": "time-picker",
+    "title": "会议室起止时间区间校验"
+  },
+  "time-picker-minute-step": {
+    "name": "time-picker-minute-step",
+    "component": "time-picker",
+    "title": "分钟步进粒度控制"
+  },
+  "kanban-demo": {
+    "name": "kanban-demo",
+    "component": "kanban",
+    "title": "基础用法"
+  },
+  "kanban-project-board": {
+    "name": "kanban-project-board",
+    "component": "kanban",
+    "title": "敏捷开发 Sprint 任务流转板"
+  },
+  "timeline-demo": {
+    "name": "timeline-demo",
+    "component": "timeline",
+    "title": "基础用法"
+  },
+  "timeline-live": {
+    "name": "timeline-live",
+    "component": "timeline",
+    "title": "实时推进的发布流程"
+  },
+  "timeline-status": {
+    "name": "timeline-status",
+    "component": "timeline",
+    "title": "流程阶段与呼吸脉冲"
+  },
+  "timeline-icons": {
+    "name": "timeline-icons",
+    "component": "timeline",
+    "title": "图标节点与独立卡片"
+  },
+  "timeline-alternate": {
+    "name": "timeline-alternate",
+    "component": "timeline",
+    "title": "左右交错里程碑 (Alternate)"
+  },
+  "timeline-horizontal": {
+    "name": "timeline-horizontal",
+    "component": "timeline",
+    "title": "横向向导流程 (Horizontal)"
+  },
+  "timeline-compact": {
+    "name": "timeline-compact",
+    "component": "timeline",
+    "title": "紧凑型系统审计日志 (Compact)"
+  },
+  "empty-state-demo": {
+    "name": "empty-state-demo",
+    "component": "empty-state",
+    "title": "基础用法"
+  },
+  "empty-state-scenarios": {
+    "name": "empty-state-scenarios",
+    "component": "empty-state",
+    "title": "不同场景的空状态"
+  },
+  "empty-state-illustrations": {
+    "name": "empty-state-illustrations",
+    "component": "empty-state",
+    "title": "预置插画库"
+  },
+  "empty-state-filter": {
+    "name": "empty-state-filter",
+    "component": "empty-state",
+    "title": "搜索无结果（重置筛选）"
+  },
+  "empty-state-compact": {
+    "name": "empty-state-compact",
+    "component": "empty-state",
+    "title": "紧凑卡片/下拉面板空状态"
+  },
+  "spin-demo": {
+    "name": "spin-demo",
+    "component": "spin",
+    "title": "基础用法"
+  },
+  "spin-sizes": {
+    "name": "spin-sizes",
+    "component": "spin",
+    "title": "尺寸对比"
+  },
+  "spin-delay": {
+    "name": "spin-delay",
+    "component": "spin",
+    "title": "防闪烁延迟保护"
+  },
+  "spin-custom": {
+    "name": "spin-custom",
+    "component": "spin",
+    "title": "指示器样式与自定义"
+  },
+  "spin-fullscreen": {
+    "name": "spin-fullscreen",
+    "component": "spin",
+    "title": "全屏遮罩模式"
+  },
+  "notification-badge-demo": {
+    "name": "notification-badge-demo",
+    "component": "notification-badge",
+    "title": "基础用法"
+  },
+  "notification-badge-variants": {
+    "name": "notification-badge-variants",
+    "component": "notification-badge",
+    "title": "语义色彩主题"
+  },
+  "notification-badge-max": {
+    "name": "notification-badge-max",
+    "component": "notification-badge",
+    "title": "数字上限与零值控制"
+  },
+  "notification-badge-offset": {
+    "name": "notification-badge-offset",
+    "component": "notification-badge",
+    "title": "像素偏移定位微调"
+  },
+  "drawer-demo": {
+    "name": "drawer-demo",
+    "component": "drawer",
+    "title": "详情预览面板"
+  },
+  "drawer-placement": {
+    "name": "drawer-placement",
+    "component": "drawer",
+    "title": "四向滑出位置"
+  },
+  "drawer-form": {
+    "name": "drawer-form",
+    "component": "drawer",
+    "title": "复杂表单与固定底部栏"
+  },
+  "drawer-sizes": {
+    "name": "drawer-sizes",
+    "component": "drawer",
+    "title": "尺寸预设与响应式"
+  },
+  "drawer-swipe": {
+    "name": "drawer-swipe",
+    "component": "drawer",
+    "title": "手势拖拽关闭"
+  },
+  "descriptions-demo": {
+    "name": "descriptions-demo",
+    "component": "descriptions",
+    "title": "基础用法"
+  },
+  "descriptions-bordered": {
+    "name": "descriptions-bordered",
+    "component": "descriptions",
+    "title": "带边框多列详情（实例档案）"
+  },
+  "descriptions-vertical": {
+    "name": "descriptions-vertical",
+    "component": "descriptions",
+    "title": "上下排版布局（订阅概览）"
+  },
+  "card-demo": {
+    "name": "card-demo",
+    "component": "card",
+    "title": "基础用法"
+  },
+  "card-variants": {
+    "name": "card-variants",
+    "component": "card",
+    "title": "表面风格 (Variants)"
+  },
+  "card-interactive": {
+    "name": "card-interactive",
+    "component": "card",
+    "title": "可交互卡片 (Interactive)"
+  },
+  "card-media": {
+    "name": "card-media",
+    "component": "card",
+    "title": "顶部媒体通栏 (CardMedia)"
+  },
+  "card-composition": {
+    "name": "card-composition",
+    "component": "card",
+    "title": "紧凑型组合"
+  },
+  "card-business": {
+    "name": "card-business",
+    "component": "card",
+    "title": "业务场景：云服务器节点监控卡片"
+  },
+  "toggle-demo": {
+    "name": "toggle-demo",
+    "component": "toggle",
+    "title": "基础用法"
+  },
+  "toggle-bookmark": {
+    "name": "toggle-bookmark",
+    "component": "toggle",
+    "title": "收藏加星与业务状态"
+  },
+  "toggle-mute": {
+    "name": "toggle-mute",
+    "component": "toggle",
+    "title": "音视频会议控制"
+  },
+  "toggle-sizes": {
+    "name": "toggle-sizes",
+    "component": "toggle",
+    "title": "尺寸与外观风格"
+  },
+  "toggle-group-alignment": {
+    "name": "toggle-group-alignment",
+    "component": "toggle-group",
+    "title": "富文本排版与格式工具栏"
+  },
+  "toggle-group-demo": {
+    "name": "toggle-group-demo",
+    "component": "toggle-group",
+    "title": "基础用法"
+  },
+  "toggle-group-device-preview": {
+    "name": "toggle-group-device-preview",
+    "component": "toggle-group",
+    "title": "响应式画布设备视口切换"
+  },
+  "toggle-group-filter": {
+    "name": "toggle-group-filter",
+    "component": "toggle-group",
+    "title": "状态标签多维筛选"
+  },
+  "toggle-group-multiple": {
+    "name": "toggle-group-multiple",
+    "component": "toggle-group",
+    "title": "多选格式样式"
+  },
+  "carousel-demo": {
+    "name": "carousel-demo",
+    "component": "carousel",
+    "title": "基础用法"
+  },
+  "carousel-cards": {
+    "name": "carousel-cards",
+    "component": "carousel",
+    "title": "多卡片响应式轮播 (Multi-card)"
+  },
+  "carousel-autoplay": {
+    "name": "carousel-autoplay",
+    "component": "carousel",
+    "title": "自动播放 (Autoplay)"
+  },
+  "carousel-vertical": {
+    "name": "carousel-vertical",
+    "component": "carousel",
+    "title": "垂直方向轮播 (Vertical)"
+  },
+  "typography-demo": {
+    "name": "typography-demo",
+    "component": "typography",
+    "title": "基础用法"
+  },
+  "typography-elements": {
+    "name": "typography-elements",
+    "component": "typography",
+    "title": "完整排版元素集合 (列表、引用与行内代码)"
+  },
+  "typography-custom-tag": {
+    "name": "typography-custom-tag",
+    "component": "typography",
+    "title": "多态标签与语义解耦"
+  },
+  "context-menu-demo": {
+    "name": "context-menu-demo",
+    "component": "context-menu",
+    "title": "基础用法"
+  },
+  "context-menu-file": {
+    "name": "context-menu-file",
+    "component": "context-menu",
+    "title": "丰富的文件管理右键菜单"
+  },
+  "context-menu-advanced": {
+    "name": "context-menu-advanced",
+    "component": "context-menu",
+    "title": "单选视图切换与偏好开关"
+  },
+  "resizable-demo": {
+    "name": "resizable-demo",
+    "component": "resizable",
+    "title": "基础用法"
+  },
+  "resizable-advanced": {
+    "name": "resizable-advanced",
+    "component": "resizable",
+    "title": "受控的纵向面板"
+  },
+  "aspect-ratio-demo": {
+    "name": "aspect-ratio-demo",
+    "component": "aspect-ratio",
+    "title": "基础用法"
+  },
+  "aspect-ratio-card": {
+    "name": "aspect-ratio-card",
+    "component": "aspect-ratio",
+    "title": "视频媒体卡片与播放覆盖层"
+  },
+  "aspect-ratio-advanced": {
+    "name": "aspect-ratio-advanced",
+    "component": "aspect-ratio",
+    "title": "多比例媒体画廊 (4:5, 1:1, 3:2)"
+  },
+  "steps-demo": {
+    "name": "steps-demo",
+    "component": "steps",
+    "title": "基础用法"
+  },
+  "steps-status": {
+    "name": "steps-status",
+    "component": "steps",
+    "title": "状态覆盖与失败重试"
+  },
+  "steps-vertical": {
+    "name": "steps-vertical",
+    "component": "steps",
+    "title": "纵向与可交互步骤"
+  },
+  "tree-demo": {
+    "name": "tree-demo",
+    "component": "tree",
+    "title": "基础用法"
+  },
+  "tree-file-icons": {
+    "name": "tree-file-icons",
+    "component": "tree-file-icons"
+  },
+  "tree-controlled": {
+    "name": "tree-controlled",
+    "component": "tree",
+    "title": "受控展开与禁用节点"
+  },
+  "tree-select-demo": {
+    "name": "tree-select-demo",
+    "component": "tree-select",
+    "title": "基础用法"
+  },
+  "tree-select-department": {
+    "name": "tree-select-department",
+    "component": "tree-select",
+    "title": "企业组织架构与审批指派"
+  },
+  "tree-select-disabled": {
+    "name": "tree-select-disabled",
+    "component": "tree-select",
+    "title": "节点禁用与不可选权限"
+  },
+  "tree-select-file-system": {
+    "name": "tree-select-file-system",
+    "component": "tree-select",
+    "title": "文件系统目录与清空重置"
+  },
+  "tree-select-search": {
+    "name": "tree-select-search",
+    "component": "tree-select",
+    "title": "拼音与首字母多维检索"
+  }
+}

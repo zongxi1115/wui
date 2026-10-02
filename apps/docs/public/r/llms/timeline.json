@@ -40,7 +40,6 @@
       "name": "orientation",
       "type": "\"horizontal\" | \"vertical\"",
       "required": false,
-      "control": "select",
       "options": [
         "horizontal",
         "vertical"
@@ -52,7 +51,6 @@
       "name": "align",
       "type": "\"start\" | \"alternate\"",
       "required": false,
-      "control": "select",
       "options": [
         "start",
         "alternate"
@@ -64,7 +62,6 @@
       "name": "density",
       "type": "\"compact\" | \"default\"",
       "required": false,
-      "control": "select",
       "options": [
         "compact",
         "default"
@@ -76,7 +73,6 @@
       "name": "connector",
       "type": "\"solid\" | \"dashed\"",
       "required": false,
-      "control": "select",
       "options": [
         "solid",
         "dashed"
@@ -88,11 +84,189 @@
       "name": "animated",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "true",
       "description": "条目滚动进入视口时，是否依次淡入、弹出节点并绘制连接线。"
     }
   ],
+  "api": [
+    {
+      "name": "Timeline",
+      "props": [
+        {
+          "name": "orientation",
+          "type": "\"horizontal\" | \"vertical\"",
+          "required": false,
+          "options": [
+            "horizontal",
+            "vertical"
+          ],
+          "defaultValue": "vertical",
+          "description": "时间线的排列方向。"
+        },
+        {
+          "name": "align",
+          "type": "\"start\" | \"alternate\"",
+          "required": false,
+          "options": [
+            "start",
+            "alternate"
+          ],
+          "defaultValue": "start",
+          "description": "内容相对时间线的对齐方式。交错对齐仅在纵向布局中生效。"
+        },
+        {
+          "name": "density",
+          "type": "\"compact\" | \"default\"",
+          "required": false,
+          "options": [
+            "compact",
+            "default"
+          ],
+          "defaultValue": "default",
+          "description": "事件之间的间距尺寸。"
+        },
+        {
+          "name": "connector",
+          "type": "\"solid\" | \"dashed\"",
+          "required": false,
+          "options": [
+            "solid",
+            "dashed"
+          ],
+          "defaultValue": "solid",
+          "description": "连接线的视觉样式。"
+        },
+        {
+          "name": "animated",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "条目滚动进入视口时，是否依次淡入、弹出节点并绘制连接线。"
+        }
+      ]
+    },
+    {
+      "name": "TimelineCard",
+      "props": []
+    },
+    {
+      "name": "TimelineContent",
+      "props": []
+    },
+    {
+      "name": "TimelineDescription",
+      "props": []
+    },
+    {
+      "name": "TimelineDot",
+      "props": [
+        {
+          "name": "variant",
+          "type": "\"default\" | \"destructive\" | \"success\" | \"warning\" | \"primary\"",
+          "required": false,
+          "options": [
+            "default",
+            "destructive",
+            "success",
+            "warning",
+            "primary"
+          ],
+          "defaultValue": "default",
+          "description": "Semantic marker color."
+        },
+        {
+          "name": "size",
+          "type": "\"icon\" | \"dot\"",
+          "required": false,
+          "options": [
+            "icon",
+            "dot"
+          ],
+          "defaultValue": "dot",
+          "description": "Marker shape. Icon markers accept an icon as children."
+        },
+        {
+          "name": "pulse",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Draw attention to the current event with a subtle pulse."
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Optional icon rendered inside an icon-sized marker."
+        }
+      ]
+    },
+    {
+      "name": "TimelineHeader",
+      "props": []
+    },
+    {
+      "name": "TimelineItem",
+      "props": [
+        {
+          "name": "side",
+          "type": "\"right\" | \"left\"",
+          "required": false,
+          "options": [
+            "right",
+            "left"
+          ],
+          "defaultValue": "right",
+          "description": "Side used by alternate timelines."
+        },
+        {
+          "name": "state",
+          "type": "\"default\" | \"complete\" | \"current\" | \"upcoming\"",
+          "required": false,
+          "options": [
+            "default",
+            "complete",
+            "current",
+            "upcoming"
+          ],
+          "defaultValue": "default",
+          "description": "Semantic progression state."
+        }
+      ]
+    },
+    {
+      "name": "TimelineMeta",
+      "props": []
+    },
+    {
+      "name": "TimelineSeparator",
+      "props": [
+        {
+          "name": "markerSize",
+          "type": "\"icon\" | \"dot\"",
+          "required": false,
+          "options": [
+            "icon",
+            "dot"
+          ],
+          "defaultValue": "dot",
+          "description": "Marker size used to align the connector with the marker edge."
+        }
+      ]
+    },
+    {
+      "name": "TimelineTime",
+      "props": []
+    },
+    {
+      "name": "TimelineTitle",
+      "props": []
+    }
+  ],
+  "types": [],
+  "usage": "`Timeline` 用于强化事件之间的时间序列感与因果演变：\n\n- **Timeline vs Steps**：Steps 侧重于用户当前需要完成的操作向导（如多步表单填报）；Timeline 侧重于记录已经发生或即将发生的系统事件（如物流轨迹、发布历史、CI/CD 构建日志）。\n- **色彩语义搭配**：\n  - `success`：构建成功、已送达、审核通过。\n  - `primary`：当前执行中（建议搭配 `pulse` 水波动效）。\n  - `destructive`：异常报错、构建失败、阻断拦截。\n  - `warning`：警告、排队等待中。\n- **入场动效**：默认开启的 `animated` 让节点在滚动进入视口时淡入、圆点弹出、连线由上至下（横向为由左至右）绘制；超长的审计日志可传 `animated={false}` 直接呈现。\n- **动效降级保障**：`TimelineDot` 的 `pulse` 呼吸扩散动效与节点入场动效在系统启用“减少动态效果（prefers-reduced-motion）”时会自动关闭，`pulse` 降级为静态微透光环。",
+  "extended": "### 实时推进的发布流程\n\n状态切换时圆点颜色平滑过渡，当前阶段带呼吸脉冲；点击「重放」可重新观察入场与连线绘制动效：\n\n### 流程阶段与呼吸脉冲\n\n通过 `state` 标记进度，并为“进行中”状态启用 `pulse` 水波纹扩散：\n\n### 图标节点与独立卡片\n\n使用 `TimelineDot size=\"icon\"` 承载图标，使用 `TimelineCard` 展示 Git 提交或详情卡片：\n\n### 左右交错里程碑 (Alternate)\n\n适合公司大事记、产品重大版本迭代路线图：\n\n### 横向向导流程 (Horizontal)\n\n横版排列节点，适用于页面顶部横向阶段指示：\n\n### 紧凑型系统审计日志 (Compact)\n\n高密度排列，适合海量运维操作流水记录：",
+  "events": "继承原生 `<ol>` 与 `<li>` 的标准 HTML 事件：\n\n- `onClick`: (event: React.MouseEvent) => void — 点击时间轴节点时触发，可用于展开事件卡片明细或跳转关联详情页。",
+  "accessibility": "- **有序列表语义**：采用标准 `<ol>` 与 `<li>` 结构，屏幕阅读器会自动播报“第 X 项，共 Y 项”，清晰传递顺序信息。\n- **时间标签解析**：`TimelineTime` 渲染为原生 `<time>` 元素，便于读屏软件与浏览器无障碍辅助引擎准确解析时间。\n- **连线与装饰隔离**：`TimelineSeparator` 自动携带 `aria-hidden=\"true\"`，不产生无意义的读屏杂音。",
   "examples": [
     {
       "name": "timeline-demo",

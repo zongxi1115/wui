@@ -1,0 +1,6 @@
+{
+  "name": "magnetic-social-dock",
+  "component": "magnetic",
+  "title": "浮动社交操作栏（Dock）",
+  "code": "import {\n  BookOpenIcon,\n  GithubIcon,\n  MessageCircleIcon,\n  RssIcon,\n  Share2Icon,\n} from \"lucide-react\"\n\nimport { Button } from \"@/components/ui/button\"\nimport { Magnetic } from \"@/components/ui/magnetic\"\n\nconst links = [\n  { icon: GithubIcon, label: \"GitHub 仓库\" },\n  { icon: BookOpenIcon, label: \"使用文档\" },\n  { icon: MessageCircleIcon, label: \"社区讨论\" },\n  { icon: RssIcon, label: \"订阅更新\" },\n]\n\nexport default function MagneticSocialDock() {\n  return (\n    <div className=\"flex flex-col items-center gap-4\">\n      <div className=\"flex items-center gap-1 rounded-lg border bg-background p-1\">\n        {links.map(({ icon: Icon, label }) => (\n          <Magnetic key={label} strength={0.35} maxDistance={8}>\n            <Button variant=\"ghost\" size=\"icon\" aria-label={label}>\n              <Icon />\n            </Button>\n          </Magnetic>\n        ))}\n        <div className=\"bg-border mx-1 h-5 w-px\" />\n        <Magnetic strength={0.35} maxDistance={8}>\n          <Button size=\"icon\" aria-label=\"分享\">\n            <Share2Icon />\n          </Button>\n        </Magnetic>\n      </div>\n      <p className=\"text-muted-foreground text-xs\">\n        图标按钮的吸附距离更小，避免与相邻按钮重叠\n      </p>\n    </div>\n  )\n}\n"
+}

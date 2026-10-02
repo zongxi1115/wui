@@ -1,0 +1,6 @@
+{
+  "name": "skeleton-layout",
+  "component": "skeleton",
+  "title": "图文资讯卡片布局",
+  "code": "import { Skeleton, SkeletonText } from \"@/components/ui/skeleton\"\n\nexport default function SkeletonLayout() {\n  return (\n    <div\n      className=\"grid w-full max-w-lg gap-4 sm:grid-cols-[11rem_1fr]\"\n      aria-busy=\"true\"\n      aria-label=\"正在加载文章\"\n    >\n      <Skeleton animation=\"shimmer\" className=\"aspect-[4/3] w-full\" />\n      <div className=\"flex flex-col justify-center gap-3\">\n        <div className=\"flex items-center gap-2\">\n          <Skeleton animation=\"shimmer\" className=\"h-5 w-12 rounded-full\" />\n          <Skeleton animation=\"shimmer\" shape=\"text\" className=\"h-3 w-16\" />\n        </div>\n        <Skeleton animation=\"shimmer\" shape=\"text\" className=\"h-5 w-3/4\" />\n        <SkeletonText animation=\"shimmer\" lines={3} lastLineWidth=\"58%\" />\n      </div>\n    </div>\n  )\n}\n"
+}

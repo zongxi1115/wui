@@ -29,14 +29,12 @@
       "name": "children",
       "type": "ReactNode",
       "required": true,
-      "control": "text",
       "description": "固定视口中随滚动展开或收拢的媒体或首屏内容。"
     },
     {
       "name": "direction",
       "type": "\"expand\" | \"collapse\"",
       "required": false,
-      "control": "select",
       "options": [
         "expand",
         "collapse"
@@ -48,7 +46,6 @@
       "name": "inset",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "10",
       "description": "紧凑状态下四条边的初始内缩比例。"
     },
@@ -56,7 +53,6 @@
       "name": "radius",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "28",
       "description": "紧凑状态下的圆角半径，单位为像素。"
     },
@@ -64,7 +60,6 @@
       "name": "scrollLength",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "1.8",
       "description": "区块占用的视口高度数量。"
     },
@@ -72,7 +67,6 @@
       "name": "contentScale",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "1.08",
       "description": "收起状态下内部内容的缩放比例，展开时形成轻微的推近效果。"
     },
@@ -80,7 +74,6 @@
       "name": "smooth",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "true",
       "description": "是否通过弹簧平滑滚动进度，让画面柔和落定。"
     },
@@ -88,24 +81,102 @@
       "name": "container",
       "type": "RefObject<HTMLElement | null>",
       "required": false,
-      "control": "text",
       "description": "要监听的滚动容器；未设置时监听页面。"
     },
     {
       "name": "viewportClassName",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "应用于固定视口的 CSS 类名。"
     },
     {
       "name": "frameClassName",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "应用于变换内容画框的 CSS 类名。"
     }
   ],
+  "api": [
+    {
+      "name": "ScrollExpand",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": true,
+          "description": "固定视口中随滚动展开或收拢的媒体或首屏内容。"
+        },
+        {
+          "name": "direction",
+          "type": "\"expand\" | \"collapse\"",
+          "required": false,
+          "options": [
+            "expand",
+            "collapse"
+          ],
+          "defaultValue": "expand",
+          "description": "视觉变换跟随的滚动方向。"
+        },
+        {
+          "name": "inset",
+          "type": "number",
+          "required": false,
+          "defaultValue": "10",
+          "description": "紧凑状态下四条边的初始内缩比例。"
+        },
+        {
+          "name": "radius",
+          "type": "number",
+          "required": false,
+          "defaultValue": "28",
+          "description": "紧凑状态下的圆角半径，单位为像素。"
+        },
+        {
+          "name": "scrollLength",
+          "type": "number",
+          "required": false,
+          "defaultValue": "1.8",
+          "description": "区块占用的视口高度数量。"
+        },
+        {
+          "name": "contentScale",
+          "type": "number",
+          "required": false,
+          "defaultValue": "1.08",
+          "description": "收起状态下内部内容的缩放比例，展开时形成轻微的推近效果。"
+        },
+        {
+          "name": "smooth",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "是否通过弹簧平滑滚动进度，让画面柔和落定。"
+        },
+        {
+          "name": "container",
+          "type": "RefObject<HTMLElement | null>",
+          "required": false,
+          "description": "要监听的滚动容器；未设置时监听页面。"
+        },
+        {
+          "name": "viewportClassName",
+          "type": "string",
+          "required": false,
+          "description": "应用于固定视口的 CSS 类名。"
+        },
+        {
+          "name": "frameClassName",
+          "type": "string",
+          "required": false,
+          "description": "应用于变换内容画框的 CSS 类名。"
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`ScrollExpand` 适用于**大片级产品宣传、全景摄影展示、旗舰设备发布会网页**：\n\n- **从精致卡片过渡到震撼大图**：用户在阅读前置文字时处于克制的信息接收状态，一旦开始滚动，画框向四周炸开铺满，带来强烈的沉浸视觉冲击。\n- **高性能 Clip-path 裁切**：使用 CSS `clip-path: inset(...)` 与 GPU 硬件加速缩放，避免修改 DOM 物理宽高带来的重排（Reflow）性能损耗。",
+  "extended": "### 逆向收缩为卡片（Collapse）\n\n从全幅封面随滚动收缩为画框，把注意力交还给后续正文：",
+  "accessibility": "- **减少动效环境处理**：当系统启用 `prefers-reduced-motion: reduce` 时，clip-path 将锁定为直接全铺状态，且取消任何缩放变换，保证视力敏感用户顺畅浏览。\n- **内容文字可访问**：覆盖在大图之上的标题与文案依然使用标准语义标签（如 `<h1>`、`<p>`），屏幕阅读器能准确提取全部语义。",
   "examples": [
     {
       "name": "scroll-expand-demo",

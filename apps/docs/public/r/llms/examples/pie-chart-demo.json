@@ -1,0 +1,6 @@
+{
+  "name": "pie-chart-demo",
+  "component": "pie-chart",
+  "title": "基础用法",
+  "code": "import { PieChart } from \"@/components/charts/pie-chart\"\n\nconst data = [\n  { source: \"自然搜索\", sessions: 3820 },\n  { source: \"直接访问\", sessions: 2740 },\n  { source: \"内容推荐\", sessions: 2180 },\n  { source: \"社交媒体\", sessions: 1460 },\n  { source: \"其他\", sessions: 820 },\n]\n\nexport default function PieChartDemo() {\n  const total = data.reduce((sum, item) => sum + item.sessions, 0)\n\n  return (\n    <div className=\"w-full max-w-3xl\">\n      <PieChart\n        title=\"访问来源构成\"\n        description=\"本月会话数 · Top 4 与其他\"\n        data={data}\n        nameKey=\"source\"\n        valueKey=\"sessions\"\n        innerRadius={0.58}\n        centerContent={\n          <span>\n            <span className=\"block font-mono text-lg tabular-nums\">\n              {total.toLocaleString(\"zh-CN\")}\n            </span>\n            <span className=\"text-muted-foreground block text-[10px] font-normal\">\n              总会话\n            </span>\n          </span>\n        }\n        valueFormatter={(value) => `${value.toLocaleString(\"zh-CN\")} 次`}\n      />\n    </div>\n  )\n}\n"
+}

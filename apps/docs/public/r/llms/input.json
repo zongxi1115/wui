@@ -26,7 +26,6 @@
       "name": "variant",
       "type": "\"default\" | \"underline\"",
       "required": false,
-      "control": "select",
       "options": [
         "default",
         "underline"
@@ -38,7 +37,6 @@
       "name": "size",
       "type": "\"default\" | \"sm\" | \"lg\"",
       "required": false,
-      "control": "select",
       "options": [
         "default",
         "sm",
@@ -51,35 +49,30 @@
       "name": "label",
       "type": "ReactNode",
       "required": false,
-      "control": "text",
       "description": "输入框获得焦点或有值前显示在输入区域内的浮动标签。"
     },
     {
       "name": "startContent",
       "type": "ReactNode",
       "required": false,
-      "control": "text",
       "description": "显示在输入内容前的装饰或操作内容。"
     },
     {
       "name": "endContent",
       "type": "ReactNode",
       "required": false,
-      "control": "text",
       "description": "显示在输入内容后的装饰或操作内容。"
     },
     {
       "name": "wrapperClassName",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "应用于最外层容器的额外 CSS 类名。"
     },
     {
       "name": "allowClear",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "false",
       "description": "输入框有内容时是否显示带动画的清除按钮，清除时会以空值触发 onChange。"
     },
@@ -87,17 +80,93 @@
       "name": "onClear",
       "type": "(() => void)",
       "required": false,
-      "control": "text",
       "description": "点击清除按钮清空内容后触发。"
     },
     {
       "name": "disabled",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "description": "是否禁用组件。"
     }
   ],
+  "api": [
+    {
+      "name": "Input",
+      "props": [
+        {
+          "name": "variant",
+          "type": "\"default\" | \"underline\"",
+          "required": false,
+          "options": [
+            "default",
+            "underline"
+          ],
+          "defaultValue": "default",
+          "description": "输入框的外观样式。"
+        },
+        {
+          "name": "size",
+          "type": "\"default\" | \"sm\" | \"lg\"",
+          "required": false,
+          "options": [
+            "default",
+            "sm",
+            "lg"
+          ],
+          "defaultValue": "default",
+          "description": "输入框的视觉尺寸。"
+        },
+        {
+          "name": "label",
+          "type": "ReactNode",
+          "required": false,
+          "description": "输入框获得焦点或有值前显示在输入区域内的浮动标签。"
+        },
+        {
+          "name": "startContent",
+          "type": "ReactNode",
+          "required": false,
+          "description": "显示在输入内容前的装饰或操作内容。"
+        },
+        {
+          "name": "endContent",
+          "type": "ReactNode",
+          "required": false,
+          "description": "显示在输入内容后的装饰或操作内容。"
+        },
+        {
+          "name": "wrapperClassName",
+          "type": "string",
+          "required": false,
+          "description": "应用于最外层容器的额外 CSS 类名。"
+        },
+        {
+          "name": "allowClear",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "输入框有内容时是否显示带动画的清除按钮，清除时会以空值触发 onChange。"
+        },
+        {
+          "name": "onClear",
+          "type": "(() => void)",
+          "required": false,
+          "description": "点击清除按钮清空内容后触发。"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "是否禁用组件。"
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`Input` 是最基础且高频的文本录入控件，用于捕获用户的**单行文本、邮箱、密码、手机号、搜索关键词**等数据。\n\n### 输入类组件选型对比\n\n| 控件类型        | 适用行数       | 输入特性                               | 典型业务场景                                |\n| :-------------- | :------------- | :------------------------------------- | :------------------------------------------ |\n| **Input**       | 单行           | 基础文本、邮箱、密码、搜索框           | 登录/注册表单、搜索栏、配置名称             |\n| **Textarea**    | 多行（可换行） | 备注、长篇描述、反馈意见、评论         | 工单描述、个人简介、文章摘要                |\n| **InputOTP**    | 单字符分段     | 验证码、双因子认证 PIN 码              | 短信验证码、Google Authenticator 6 位验证码 |\n| **InputNumber** | 数值专用       | 步进加减、上下限区间约束、高精度格式化 | 商品购买数量、金额充值、库存配置            |\n\n### 设计最佳实践\n\n- **占位符 (Placeholder) 不能替代标签 (Label)**：占位符文本在用户开始输入后会立即消失，容易导致用户遗忘当前输入项的含义。必须始终配合独立的 `<label>` 或内置的 `label` 浮动标签使用。\n- **前后置内容的合理语义**：\n  - `startContent`：通常用于放置传达字段类型的视觉图标（如邮箱图标、锁图标、放大镜图标）或固定协议头（如 `https://`）。\n  - `endContent`：通常用于交互型操作（如密码显隐切换按钮、一键清空按钮、复制按钮、单位后缀如 `px` 或 `MB`）。\n- **错误态的综合呈现**：不能仅依靠边框变红来表达错误；必须在输入框下方提供明确的错误说明文本，并通过 `aria-invalid=\"true\"` 与 `aria-describedby` 关联，保障色弱与视障用户的无障碍体验。\n- **合理选用输入类型 (type)**：对于移动端设备，设置正确的 `type=\"email\"`、`type=\"tel\"` 或 `type=\"number\"` 可以自动唤起针对性的虚拟软键盘，极大提升移动端输入效率。",
+  "extended": "### 受控模式与字符统计\n\n通过 `value` 与 `onChange` 进行受控管理，并实时呈现字数统计与一键清空操作：\n\n```tsx\nconst [value, setValue] = React.useState(\"\")\n\nreturn (\n  <Input\n    value={value}\n    onChange={(e) => setValue(e.target.value)}\n    placeholder=\"请输入文本...\"\n  />\n)\n```\n\n### 尺寸规格\n\n提供 `sm` (32px)、`default` (40px) 和 `lg` (48px) 三种尺寸以适应不同的界面密度：\n\n- `sm`：适合紧凑工具栏、数据表格内嵌编辑、过滤器条。\n- `default`：通用页面表单、弹窗配置项。\n- `lg`：登录/注册页核心 Hero 区域、醒目的搜索条。\n\n### 前后置图标与操作 (Start & End Content)\n\n利用 `startContent` 和 `endContent` 轻松组合图标、域名后缀或一键复制等实用操作：\n\n### 密码输入与强度检测\n\n结合状态切换实现密码明文/密文查看，并实时显示密码安全强度条：\n\n### 浮动标签 (Floating Label)\n\n传入 `label` 属性即可启用 Material 风格的动效浮动标签，既节省垂直空间又保留持久的字段提示：\n\n### 下划线风格 (Underline Variant)\n\n设置 `variant=\"underline\"` 呈现极简下划线风格，适合排版极简的移动端界面或已有明确卡片边界的表单区域：\n\n### 状态展示与表单校验\n\n输入框提供标准、校验错误 (`aria-invalid=\"true\"`)、只读 (`readOnly`) 与禁用 (`disabled`) 等全套状态反馈：\n\n### 完整业务表单\n\n在多字段提交的业务场景中，结合统一的校验逻辑、错误提示文案与提交反馈：",
+  "events": "- `onChange`: (event: React.ChangeEvent<HTMLInputElement>) => void — 输入框内容发生改变时触发的回调函数。\n- `onFocus`: (event: React.FocusEvent<HTMLInputElement>) => void — 输入框获得焦点时触发。\n- `onBlur`: (event: React.FocusEvent<HTMLInputElement>) => void — 输入框失去焦点时触发。\n- `onKeyDown`: (event: React.KeyboardEvent<HTMLInputElement>) => void — 在输入框获得焦点时按下键盘按键触发（如监听 Enter 提交或 Esc 清空）。\n- `onInput`: (event: React.FormEvent<HTMLInputElement>) => void — 原生 input 事件，在用户输入内容时立即触发。",
+  "accessibility": "- **ARIA 标准规范**：\n  - 支持 `aria-invalid=\"true\"`，当输入无效时自动关联错误状态并应用破坏色高亮边框。\n  - 通过 `aria-describedby` 关联下方的辅助说明或错误文本 ID。\n  - 必填项支持声明 `aria-required=\"true\"` 或原生 `required` 属性。\n- **键盘交互与焦点管理**：\n  - <kbd>Tab</kbd>：按 DOM\n    顺序移动焦点，输入框获得焦点时显示清晰的高对比度焦点光圈（Focus Ring）。\n  - `allowClear` 的清空按钮带有 `aria-label=\"清空内容\"`，但不进入 Tab 序列，避免打断表单间的焦点移动；键盘用户可直接全选删除。点击后焦点会回到输入框。\n  - 通过 `endContent` 放入的操作按钮（如密码显隐切换）应使用 `type=\"button\"` 与明确的 `aria-label`。\n- **屏幕阅读器支持**：\n  - 始终推荐使用 `<label htmlFor=\"inputId\">` 关联输入框。若使用无文字包裹的独立搜索框，务必添加 `aria-label`。",
   "examples": [
     {
       "name": "input-demo",

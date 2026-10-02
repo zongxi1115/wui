@@ -27,42 +27,37 @@
       "name": "items",
       "type": "TreeNode[]",
       "required": true,
-      "control": "text",
       "description": "树形节点数据。"
     },
     {
       "name": "value",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "受控模式下的选中值。"
     },
     {
       "name": "defaultValue",
       "type": "string",
       "required": false,
-      "control": "text",
+      "defaultValue": "",
       "description": "非受控模式下的初始选中值。"
     },
     {
       "name": "onValueChange",
       "type": "((value: string, node: TreeNode) => void)",
       "required": false,
-      "control": "text",
       "description": "节点被选中时触发。"
     },
     {
       "name": "expanded",
       "type": "string[]",
       "required": false,
-      "control": "text",
       "description": "受控模式下已展开的节点值。"
     },
     {
       "name": "defaultExpanded",
       "type": "string[]",
       "required": false,
-      "control": "text",
       "defaultValue": "[]",
       "description": "非受控模式下初始展开的节点值。"
     },
@@ -70,15 +65,81 @@
       "name": "onExpandedChange",
       "type": "((expanded: string[]) => void)",
       "required": false,
-      "control": "text",
       "description": "展开集合变化时触发。"
     }
   ],
+  "api": [
+    {
+      "name": "Tree",
+      "props": [
+        {
+          "name": "items",
+          "type": "TreeNode[]",
+          "required": true,
+          "description": "树形节点数据。"
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": false,
+          "description": "受控模式下的选中值。"
+        },
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "required": false,
+          "defaultValue": "",
+          "description": "非受控模式下的初始选中值。"
+        },
+        {
+          "name": "onValueChange",
+          "type": "((value: string, node: TreeNode) => void)",
+          "required": false,
+          "description": "节点被选中时触发。"
+        },
+        {
+          "name": "expanded",
+          "type": "string[]",
+          "required": false,
+          "description": "受控模式下已展开的节点值。"
+        },
+        {
+          "name": "defaultExpanded",
+          "type": "string[]",
+          "required": false,
+          "defaultValue": "[]",
+          "description": "非受控模式下初始展开的节点值。"
+        },
+        {
+          "name": "onExpandedChange",
+          "type": "((expanded: string[]) => void)",
+          "required": false,
+          "description": "展开集合变化时触发。"
+        }
+      ]
+    }
+  ],
+  "types": [
+    {
+      "name": "TreeNode",
+      "definition": "export interface TreeNode {\n  /** 节点的稳定值。 */\n  value: string\n  /** 展示给用户的节点文本。 */\n  label: React.ReactNode\n  /** 嵌套的子节点。 */\n  children?: TreeNode[]\n  /** 禁止展开和选择此节点。 */\n  disabled?: boolean\n  /** 显示在标签前的自定义图标。 */\n  icon?: React.ReactNode\n}"
+    },
+    {
+      "name": "TreeNode",
+      "definition": "export interface TreeNode {\n  /** 节点的稳定值。 */\n  value: string\n  /** 展示给用户的节点文本。 */\n  label: React.ReactNode\n  /** 嵌套的子节点。 */\n  children?: TreeNode[]\n  /** 禁止展开和选择此节点。 */\n  disabled?: boolean\n  /** 显示在标签前的自定义图标。 */\n  icon?: React.ReactNode\n}"
+    }
+  ],
+  "usage": "`Tree` 适合展示需要逐层展开的嵌套数据，例如文件目录、组织架构、权限节点或分类体系。仅用于选择层级路径时可使用 `Cascader`；需要在有限空间内选择单个节点时使用 `TreeSelect`。\n\n组件采用 `tree` / `treeitem` 语义，并支持 `↑`、`↓` 在可见节点间移动，`→` 展开或进入子节点，`←` 收起或返回父节点，`Home`、`End` 跳转，以及 `Enter`、空格选择。\n\n展开或收起时，子节点以高度与透明度过渡进出，箭头同步旋转；选中背景会在节点之间平滑滑动，便于用户追踪焦点变化。系统开启“减少动态效果”后动效自动关闭。",
+  "extended": "### 按文件后缀显示图标\n\n通过文件名后缀映射图标，再传入节点的 `icon`。示例包含 React、TypeScript、JavaScript、CSS、JSON、Markdown、图片和 YAML 文件，文件夹使用独立的目录图标。\n\n文件图标来自 [Material Icon Theme](https://github.com/material-extensions/vscode-material-icon-theme)，采用 MIT 许可，素材已存放在本地。复制示例时，可通过以下命令一并安装示例与图标素材，也可以将映射替换为自己的图标集：\n\n### 受控展开与禁用节点\n\n受控展开适合需要从路由、权限或外部筛选器同步树状态的场景，例如示例中的“全部展开 / 全部收起”。禁用节点保留在层级中，但不可选择或展开。",
   "events": "- `onValueChange(value, node)` 在选择可用节点时触发。\n- `onExpandedChange(expanded)` 在展开集合变化时触发。\n- `value` 与 `expanded` 分别控制选择和展开；只需初始状态时使用对应的 `defaultValue` 与 `defaultExpanded`。",
   "examples": [
     {
       "name": "tree-demo",
       "title": "基础用法"
+    },
+    {
+      "name": "tree-file-icons",
+      "title": "按文件后缀显示图标"
     },
     {
       "name": "tree-controlled",

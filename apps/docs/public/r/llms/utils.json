@@ -19,6 +19,8 @@
     ]
   },
   "props": [],
+  "api": [],
+  "types": [],
   "examples": [],
   "files": [
     "registry/lib/utils.ts"

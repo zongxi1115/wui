@@ -1,0 +1,5 @@
+{
+  "name": "horizontal-bar-chart-demo",
+  "component": "horizontal-bar-chart",
+  "code": "import { HorizontalBarChart } from \"@/components/charts/horizontal-bar-chart\"\n\nconst data = [\n  { product: \"企业协作工作台\", revenue: 4280 },\n  { product: \"客户数据平台\", revenue: 3650 },\n  { product: \"智能内容管理\", revenue: 2980 },\n  { product: \"自动化流程中心\", revenue: 2410 },\n  { product: \"实时分析服务\", revenue: 1860 },\n  { product: \"开发者工具套件\", revenue: 1320 },\n]\n\nexport default function HorizontalBarChartDemo() {\n  return (\n    <div className=\"w-full max-w-3xl\">\n      <HorizontalBarChart\n        title=\"产品收入排名\"\n        description=\"本季度确认收入 · 单位：万元\"\n        data={data}\n        categoryKey=\"product\"\n        series={[{ key: \"revenue\", label: \"收入\" }]}\n        height={320}\n        showLegend={false}\n        showValues\n        valueFormatter={(value) => `${value.toLocaleString(\"zh-CN\")} 万`}\n      />\n    </div>\n  )\n}\n"
+}

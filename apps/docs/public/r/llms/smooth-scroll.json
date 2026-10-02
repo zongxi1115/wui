@@ -27,21 +27,18 @@
       "name": "children",
       "type": "ReactNode",
       "required": false,
-      "control": "text",
       "description": "要放入 Lenis 上下文或自定义滚动容器中的内容。"
     },
     {
       "name": "options",
       "type": "LenisOptions",
       "required": false,
-      "control": "text",
       "description": "Lenis 实例的配置。"
     },
     {
       "name": "disabled",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "false",
       "description": "是否停用插值滚动，但保留内容包装结构。"
     },
@@ -49,7 +46,6 @@
       "name": "respectReducedMotion",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "true",
       "description": "是否遵循操作系统的减少动态效果偏好。"
     },
@@ -57,7 +53,6 @@
       "name": "root",
       "type": "boolean | \"asChild\"",
       "required": false,
-      "control": "text",
       "defaultValue": "true",
       "description": "是否在页面上初始化全局 Lenis 实例。"
     },
@@ -65,12 +60,59 @@
       "name": "autoRaf",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "true",
       "description": "是否自动使用 requestAnimationFrame 驱动 Lenis。"
     }
   ],
-  "usage": "平滑滚动应作为页面级能力只挂载一次，不要在普通卡片中层层嵌套。模态框、代码编辑器和需要原生滚动的区域可使用 Lenis 的\n`data-lenis-prevent` 属性。组件会尊重用户的“减少动态效果”偏好，此时保留内容并停止滚动插值，恢复为普通滚动行为。\n\nLenis 的完整选项、推荐 CSS 和集成方式请参考[官方 React 文档](https://github.com/darkroomengineering/lenis/tree/main/packages/react)。",
+  "api": [
+    {
+      "name": "SmoothScroll",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false,
+          "description": "要放入 Lenis 上下文或自定义滚动容器中的内容。"
+        },
+        {
+          "name": "options",
+          "type": "LenisOptions",
+          "required": false,
+          "description": "Lenis 实例的配置。"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "是否停用插值滚动，但保留内容包装结构。"
+        },
+        {
+          "name": "respectReducedMotion",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "是否遵循操作系统的减少动态效果偏好。"
+        },
+        {
+          "name": "root",
+          "type": "boolean | \"asChild\"",
+          "required": false,
+          "defaultValue": "true",
+          "description": "是否在页面上初始化全局 Lenis 实例。"
+        },
+        {
+          "name": "autoRaf",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "是否自动使用 requestAnimationFrame 驱动 Lenis。"
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "### 使用场景\n\n`SmoothScroll` 封装 Lenis 的 React Provider。默认 `root` 模式接管文档滚动；设置 `root={false}` 可以创建独立滚动容器。\n`options` 会直接传给 Lenis，并默认开启 `autoRaf`。页面级平滑滚动和局部内容滚动应分别选择一种，不要重复包裹同一滚动区域。\n\n子组件可以通过 `lenis/react` 导出的 `useLenis` 订阅滚动，例如驱动阅读进度：\n\n```tsx\nimport { useLenis } from \"lenis/react\"\nimport { motion, useMotionValue } from \"motion/react\"\n\nfunction Progress() {\n  const progress = useMotionValue(0)\n  useLenis((lenis) => progress.set(lenis.progress))\n  return <motion.div className=\"h-0.5 origin-left bg-foreground\" style={{ scaleX: progress }} />\n}\n```\n\n按照 Lenis 官方建议，在应用入口引入配套样式：\n\n```tsx\nimport \"lenis/dist/lenis.css\"\n```\n\n### 使用说明\n\n平滑滚动应作为页面级能力只挂载一次，不要在普通卡片中层层嵌套。模态框、代码编辑器和需要原生滚动的区域可使用 Lenis 的\n`data-lenis-prevent` 属性。组件会尊重用户的“减少动态效果”偏好，此时保留内容并停止滚动插值，恢复为普通滚动行为。\n\nLenis 的完整选项、推荐 CSS 和集成方式请参考[官方 React 文档](https://github.com/darkroomengineering/lenis/tree/main/packages/react)。",
   "examples": [
     {
       "name": "smooth-scroll-demo",

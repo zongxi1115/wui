@@ -1,0 +1,6 @@
+{
+  "name": "multi-select-demo",
+  "component": "multi-select",
+  "title": "基础用法",
+  "code": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { MultiSelect } from \"@/components/ui/multi-select\"\n\nconst labels = [\n  { value: \"bug\", label: \"缺陷\", keywords: [\"bug\", \"qx\"] },\n  { value: \"feature\", label: \"新功能\", keywords: [\"feature\", \"xgn\"] },\n  { value: \"performance\", label: \"性能\", keywords: [\"perf\", \"xn\"] },\n  { value: \"a11y\", label: \"无障碍\", keywords: [\"a11y\", \"wza\"] },\n  { value: \"docs\", label: \"文档\", keywords: [\"docs\", \"wd\"] },\n  { value: \"design\", label: \"设计走查\", keywords: [\"design\", \"sjzc\"] },\n  { value: \"blocked\", label: \"阻塞中\", keywords: [\"blocked\", \"zsz\"] },\n]\n\nexport default function MultiSelectDemo() {\n  const [value, setValue] = React.useState([\"bug\", \"performance\"])\n\n  return (\n    <div className=\"grid w-full max-w-sm gap-2\">\n      <label className=\"text-sm font-medium\">Issue 标签</label>\n      <MultiSelect\n        options={labels}\n        value={value}\n        onValueChange={setValue}\n        maxDisplay={3}\n        placeholder=\"添加标签\"\n        searchPlaceholder=\"搜索标签或拼音首字母\"\n      />\n      <p className=\"text-muted-foreground text-xs\">\n        已选择 {value.length} 个标签，超过 3 个时折叠为数量摘要。\n      </p>\n    </div>\n  )\n}\n"
+}

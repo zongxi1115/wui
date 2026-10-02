@@ -1,0 +1,5 @@
+{
+  "name": "input-otp-advanced",
+  "component": "input-otp",
+  "code": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { InputOTP } from \"@/components/ui/input-otp\"\n\nexport default function InputOTPAdvanced() {\n  const [message, setMessage] = React.useState(\"可以直接粘贴完整验证码\")\n\n  return (\n    <div className=\"grid gap-3 text-center\">\n      <InputOTP\n        length={4}\n        defaultValue=\"12\"\n        onValueChange={() => setMessage(\"继续输入剩余位数\")}\n        onComplete={(value) => setMessage(`已完成：${value}`)}\n        aria-describedby=\"otp-status\"\n        className=\"justify-center\"\n        inputClassName=\"size-12 text-lg\"\n      />\n      <p\n        id=\"otp-status\"\n        aria-live=\"polite\"\n        className=\"text-muted-foreground text-xs\"\n      >\n        {message}\n      </p>\n    </div>\n  )\n}\n"
+}

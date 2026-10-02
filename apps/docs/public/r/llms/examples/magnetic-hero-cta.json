@@ -1,0 +1,6 @@
+{
+  "name": "magnetic-hero-cta",
+  "component": "magnetic",
+  "title": "首屏核心行动点（Hero CTA）",
+  "code": "\"use client\"\n\nimport * as React from \"react\"\nimport { ArrowRightIcon, SparklesIcon } from \"lucide-react\"\nimport { Button } from \"@/components/ui/button\"\nimport { Magnetic } from \"@/components/ui/magnetic\"\n\nexport default function MagneticHeroCta() {\n  return (\n    <div className=\"flex flex-wrap items-center justify-center gap-6 p-8\">\n      {/* 柔和磁吸 (Soft strength) */}\n      <Magnetic strength={0.15} maxDistance={10}>\n        <Button variant=\"outline\" size=\"lg\" className=\"px-6\">\n          探索组件文档\n        </Button>\n      </Magnetic>\n\n      {/* 强磁吸主行动点 (Strong magnetic CTA) */}\n      <Magnetic strength={0.28} maxDistance={16}>\n        <Button size=\"lg\" className=\"px-7\">\n          <SparklesIcon className=\"size-4\" />\n          <span>即刻接入 SDK</span>\n          <ArrowRightIcon className=\"size-4\" />\n        </Button>\n      </Magnetic>\n    </div>\n  )\n}\n"
+}

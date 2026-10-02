@@ -1,0 +1,6 @@
+{
+  "name": "motion-as-child",
+  "component": "motion",
+  "title": "零额外 DOM 包装（asChild）",
+  "code": "\"use client\"\n\nimport * as React from \"react\"\nimport { SendIcon } from \"lucide-react\"\n\nimport { Button } from \"@/components/ui/button\"\nimport { Motion } from \"@/components/ui/motion\"\n\nexport default function MotionAsChild() {\n  const [key, setKey] = React.useState(0)\n\n  return (\n    <div className=\"flex flex-col items-center gap-3\">\n      <Motion key={key} asChild preset=\"pop\" transition=\"bouncy\">\n        <Button onClick={() => setKey((k) => k + 1)}>\n          <SendIcon />\n          提交审批\n        </Button>\n      </Motion>\n      <p className=\"text-muted-foreground text-xs\">\n        动效直接作用在 Button 上，DOM 中没有额外包裹层，点击重播。\n      </p>\n    </div>\n  )\n}\n"
+}

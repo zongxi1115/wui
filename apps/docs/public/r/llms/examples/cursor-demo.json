@@ -1,0 +1,6 @@
+{
+  "name": "cursor-demo",
+  "component": "cursor",
+  "title": "基础用法",
+  "code": "import { ArrowUpRightIcon } from \"lucide-react\"\n\nimport { Cursor } from \"@/components/ui/cursor\"\n\nexport default function CursorDemo() {\n  return (\n    <div className=\"bg-muted/40 relative flex h-64 w-full max-w-xl items-center justify-center overflow-hidden rounded-lg border\">\n      <Cursor attachToParent>\n        <span className=\"bg-foreground text-background flex size-12 items-center justify-center rounded-full\">\n          <ArrowUpRightIcon className=\"size-5\" />\n        </span>\n      </Cursor>\n      <div className=\"text-center\">\n        <p className=\"text-sm font-medium\">把鼠标移入此区域</p>\n        <p className=\"text-muted-foreground mt-1 text-sm\">\n          自定义光标以弹簧跟随指针，只在当前区域内生效\n        </p>\n      </div>\n    </div>\n  )\n}\n"
+}

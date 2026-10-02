@@ -81,7 +81,7 @@ claude mcp add --transport http wui https://ui.wzx.wang/api/mcp
 
 ## 接入方式二：本地（stdio）
 
-需要离线使用、或想锁定某个版本时用这种方式：
+希望通过本地进程接入时用这种方式，默认仍读取在线 registry：
 
 <Tabs items={["Claude Code", "通用配置"]}>
 
@@ -116,6 +116,8 @@ claude mcp add wui -- pnpm dlx @wui-design/mcp@latest
 pnpm dlx @wui-design/mcp@latest --registry https://你的站点/r
 ```
 
+离线使用或固定组件数据时，用 `--dir` 指向本地 registry 快照。仅固定 MCP 包版本不会固定在线组件数据。
+
 ## 验证是否接上
 
 重启 AI 工具后，问它一句：
@@ -134,7 +136,7 @@ TypeScript 类型，不是模型的记忆。
 | -------------------------- | ------------------------------------------- |
 | `wui_overview`             | 技术栈、导入路径、设计 token 约定和硬性规则 |
 | `wui_search_components`    | 按中英文关键词搜索组件，默认最多返回 12 条  |
-| `wui_get_component`        | 单个组件的完整属性、使用场景和可用示例      |
+| `wui_get_component`        | 按导出组件分组的 API、关联类型、使用场景和示例 |
 | `wui_get_example`          | 取某个示例的完整代码                        |
 | `wui_get_component_source` | 组件实现源码（需要改实现时才用）            |
 | `wui_get_theme_tokens`     | 语义 token 及明暗色值                       |

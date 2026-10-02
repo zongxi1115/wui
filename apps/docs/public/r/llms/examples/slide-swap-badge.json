@@ -1,0 +1,6 @@
+{
+  "name": "slide-swap-badge",
+  "component": "slide-swap",
+  "title": "顶部通知药丸徽章",
+  "code": "import { ChevronRightIcon } from \"lucide-react\"\n\nimport { SlideSwap } from \"@/components/ui/slide-swap\"\n\nexport default function SlideSwapBadge() {\n  return (\n    <a\n      href=\"#slide-swap-badge\"\n      className=\"bg-muted/60 hover:bg-muted focus-visible:ring-ring/50 inline-flex items-center gap-2 rounded-full border py-1 pl-1 pr-3 text-xs outline-none transition-colors focus-visible:ring-[3px]\"\n    >\n      <span className=\"bg-background rounded-full border px-2 py-0.5 font-medium\">\n        新功能\n      </span>\n      <SlideSwap trigger=\"parent\">\n        <span className=\"flex items-center gap-1\">\n          审批流模板市场上线\n          <ChevronRightIcon className=\"size-3.5\" />\n        </span>\n      </SlideSwap>\n    </a>\n  )\n}\n"
+}

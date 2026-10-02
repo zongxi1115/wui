@@ -29,14 +29,12 @@
       "name": "children",
       "type": "ReactNode",
       "required": true,
-      "control": "text",
       "description": "在无缝轨道中重复显示的内容。"
     },
     {
       "name": "baseSpeed",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "36",
       "description": "静止滚动时轨道的速度，单位为每秒像素数。"
     },
@@ -44,7 +42,6 @@
       "name": "sensitivity",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "0.08",
       "description": "滚动速度每增加一个单位时，轨道额外增加的速度。"
     },
@@ -52,7 +49,6 @@
       "name": "maxBoost",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "180",
       "description": "由滚动速度带来的最大加速值，单位为每秒像素数。"
     },
@@ -60,7 +56,6 @@
       "name": "gap",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "32",
       "description": "重复内容组之间的间距。"
     },
@@ -68,7 +63,6 @@
       "name": "reverse",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "false",
       "description": "是否反转基础滚动方向和跟随滚动的方向。"
     },
@@ -76,7 +70,6 @@
       "name": "skew",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "0",
       "description": "快速滚动时的最大倾斜角度，单位为度，设为 0 时关闭。"
     },
@@ -84,7 +77,6 @@
       "name": "pauseOnHover",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "false",
       "description": "鼠标悬停时是否让轨道缓慢停下。"
     },
@@ -92,18 +84,91 @@
       "name": "container",
       "type": "RefObject<HTMLElement | null>",
       "required": false,
-      "control": "text",
       "description": "要监听的滚动容器；未设置时监听页面。"
     },
     {
       "name": "groupClassName",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "应用于每个重复内容组的 CSS 类名。"
     }
   ],
-  "usage": "`sensitivity` 决定滚动反馈强度，`maxBoost` 防止触控板快速滑动造成不可读的速度。`skew` 只在滚动时随速度出现，静止时归零；整体斜置的构图应在组件外通过小角度 `rotate` 完成。\n组件离开视口或用户开启“减少动态效果”时会停止动画；后者回退为可横向滚动内容。",
+  "api": [
+    {
+      "name": "VelocityMarquee",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": true,
+          "description": "在无缝轨道中重复显示的内容。"
+        },
+        {
+          "name": "baseSpeed",
+          "type": "number",
+          "required": false,
+          "defaultValue": "36",
+          "description": "静止滚动时轨道的速度，单位为每秒像素数。"
+        },
+        {
+          "name": "sensitivity",
+          "type": "number",
+          "required": false,
+          "defaultValue": "0.08",
+          "description": "滚动速度每增加一个单位时，轨道额外增加的速度。"
+        },
+        {
+          "name": "maxBoost",
+          "type": "number",
+          "required": false,
+          "defaultValue": "180",
+          "description": "由滚动速度带来的最大加速值，单位为每秒像素数。"
+        },
+        {
+          "name": "gap",
+          "type": "number",
+          "required": false,
+          "defaultValue": "32",
+          "description": "重复内容组之间的间距。"
+        },
+        {
+          "name": "reverse",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "是否反转基础滚动方向和跟随滚动的方向。"
+        },
+        {
+          "name": "skew",
+          "type": "number",
+          "required": false,
+          "defaultValue": "0",
+          "description": "快速滚动时的最大倾斜角度，单位为度，设为 0 时关闭。"
+        },
+        {
+          "name": "pauseOnHover",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "鼠标悬停时是否让轨道缓慢停下。"
+        },
+        {
+          "name": "container",
+          "type": "RefObject<HTMLElement | null>",
+          "required": false,
+          "description": "要监听的滚动容器；未设置时监听页面。"
+        },
+        {
+          "name": "groupClassName",
+          "type": "string",
+          "required": false,
+          "description": "应用于每个重复内容组的 CSS 类名。"
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "### 使用场景\n\n`VelocityMarquee` 保留持续的基础速度，同时读取页面或指定容器的滚动速度来增加推进量和改变方向。\n内部只渲染两个无缝内容组，第二组对辅助技术隐藏，适合展示装饰性标题、品牌词或短列表。\n\n### 使用说明\n\n`sensitivity` 决定滚动反馈强度，`maxBoost` 防止触控板快速滑动造成不可读的速度。`skew` 只在滚动时随速度出现，静止时归零；整体斜置的构图应在组件外通过小角度 `rotate` 完成。\n组件离开视口或用户开启“减少动态效果”时会停止动画；后者回退为可横向滚动内容。",
   "examples": [
     {
       "name": "velocity-marquee-demo",

@@ -37,14 +37,12 @@
       "name": "containerClassName",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "应用于横向滚动容器的额外 CSS 类名。"
     },
     {
       "name": "density",
       "type": "\"compact\" | \"default\"",
       "required": false,
-      "control": "select",
       "options": [
         "compact",
         "default"
@@ -56,7 +54,6 @@
       "name": "striped",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "false",
       "description": "是否为表格主体的交替行添加浅色背景。"
     },
@@ -64,11 +61,191 @@
       "name": "stickyHeader",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "false",
       "description": "表格容器滚动时是否保持表头可见。"
+    },
+    {
+      "name": "containerRef",
+      "type": "Ref<HTMLDivElement>",
+      "required": false,
+      "description": "滚动容器的引用，用于读取或调整滚动位置。"
+    },
+    {
+      "name": "containerStyle",
+      "type": "CSSProperties",
+      "required": false,
+      "description": "应用于滚动容器的内联样式，可用于预留高度。"
     }
   ],
+  "api": [
+    {
+      "name": "Table",
+      "props": [
+        {
+          "name": "containerClassName",
+          "type": "string",
+          "required": false,
+          "description": "应用于横向滚动容器的额外 CSS 类名。"
+        },
+        {
+          "name": "density",
+          "type": "\"compact\" | \"default\"",
+          "required": false,
+          "options": [
+            "compact",
+            "default"
+          ],
+          "defaultValue": "default",
+          "description": "控制单元格内边距和行高。"
+        },
+        {
+          "name": "striped",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "是否为表格主体的交替行添加浅色背景。"
+        },
+        {
+          "name": "stickyHeader",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "表格容器滚动时是否保持表头可见。"
+        },
+        {
+          "name": "containerRef",
+          "type": "Ref<HTMLDivElement>",
+          "required": false,
+          "description": "滚动容器的引用，用于读取或调整滚动位置。"
+        },
+        {
+          "name": "containerStyle",
+          "type": "CSSProperties",
+          "required": false,
+          "description": "应用于滚动容器的内联样式，可用于预留高度。"
+        }
+      ]
+    },
+    {
+      "name": "TableHeader",
+      "props": []
+    },
+    {
+      "name": "TableBody",
+      "props": []
+    },
+    {
+      "name": "TableFooter",
+      "props": []
+    },
+    {
+      "name": "TableHead",
+      "props": [
+        {
+          "name": "pinned",
+          "type": "\"right\" | \"left\"",
+          "required": false,
+          "options": [
+            "right",
+            "left"
+          ],
+          "description": "Pins the column to an edge of the horizontal scroll container."
+        },
+        {
+          "name": "pinOffset",
+          "type": "string | number",
+          "required": false,
+          "defaultValue": "0",
+          "description": "Distance from the pinned edge, useful when pinning multiple columns."
+        },
+        {
+          "name": "resizeWidth",
+          "type": "number",
+          "required": false,
+          "description": "Current column width in pixels when resizing is enabled."
+        },
+        {
+          "name": "onResize",
+          "type": "((width: number) => void)",
+          "required": false,
+          "description": "Called while the resize handle is dragged or adjusted with arrow keys."
+        },
+        {
+          "name": "resizeLabel",
+          "type": "string",
+          "required": false,
+          "defaultValue": "调整列宽",
+          "description": "Accessible name for the resize handle."
+        },
+        {
+          "name": "minResizeWidth",
+          "type": "number",
+          "required": false,
+          "defaultValue": "80",
+          "description": "Smallest allowed width in pixels."
+        },
+        {
+          "name": "maxResizeWidth",
+          "type": "number",
+          "required": false,
+          "defaultValue": "800",
+          "description": "Largest allowed width in pixels."
+        }
+      ]
+    },
+    {
+      "name": "TableRow",
+      "props": []
+    },
+    {
+      "name": "TableCell",
+      "props": [
+        {
+          "name": "pinned",
+          "type": "\"right\" | \"left\"",
+          "required": false,
+          "options": [
+            "right",
+            "left"
+          ],
+          "description": "Pins the column to an edge of the horizontal scroll container."
+        },
+        {
+          "name": "pinOffset",
+          "type": "string | number",
+          "required": false,
+          "defaultValue": "0",
+          "description": "Distance from the pinned edge, useful when pinning multiple columns."
+        }
+      ]
+    },
+    {
+      "name": "TableCaption",
+      "props": []
+    },
+    {
+      "name": "TableSortButton",
+      "props": [
+        {
+          "name": "direction",
+          "type": "false | \"desc\" | \"asc\"",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Current sort direction for the column; `false` renders the idle state."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`Table` 适用于呈现列结构清晰、需要进行纵向扫描与横向对比的二维结构化数据。\n\n- **表格 vs 描述列表 Descriptions**：若数据为同构的多条业务记录（如 50 笔订单明细、团队成员列表），应使用 `Table`；若为单个实体的多维度详情画像（如单个订单的详细信息），应使用 `Descriptions`。\n- **数据对齐原则**：\n  - **文本列**：左对齐（默认）。\n  - **数值与金额列**：右对齐，并添加 `tabular-nums` 字体特性类名，保证数字与小数点垂直精确对齐，方便视觉扫视比对。\n  - **状态与标签列**：居中或左对齐，宽度相对固定。\n  - **操作列**：右对齐，建议固定在表格最右侧（`pinned=\"right\"`）。\n- **固定列（Sticky Pinning）规范**：当表格列数较多且存在横向滚动时，建议将前 1~2 列关键标识（如复选框、名称、ID）固定在左侧，将操作列固定在右侧，确保用户在滚动浏览宽数据时不迷失当前上下文。",
+  "extended": "### 紧凑密度与斑马纹\n\n在运维监控、接口日志等高密度数据分析场景下，使用 `density=\"compact\"` 降低内边距，配合 `striped` 斑马纹与 `TableFooter` 汇总行：\n\n### 行选择与批量操作\n\n在数据管理列表中，通过 `TableRow` 的 `data-state=\"selected\"` 属性呈现选中背景高亮；选中后工具栏切换为批量操作，移除的行淡出后其余行平滑上移：\n\n### 可展开行与排序\n\n点击行或左侧箭头展开订单详情，详情区域以高度过渡展开；使用 `TableSortButton` 切换金额排序，行位置通过 `motion` 的 `layout` 平滑换位。动效在系统开启“减少动态效果”时自动关闭：\n\n### 复杂数据表格（固定列 / 树形 / 排序 / 筛选 / 拖拽）\n\n针对企业级复杂中后台场景，`Table` 可以无缝承载级联多级表头、树形展开折叠、同级拖动排序、表头多维筛选与左右双向冻结列：",
+  "events": "所有表格组件均完整透传原生 DOM 事件，常用事件如下：\n\n- `onClick`: (event: React.MouseEvent<HTMLTableRowElement>) => void — 在 TableRow 或 TableCell 上点击时触发，常用于行点击查看详情或触发行选择。\n- `onPointerEnter`: (event: React.PointerEvent<HTMLTableRowElement>) => void — 指针移入数据行时触发，可用于显示悬浮操作按钮或关联图表高亮。\n- `onPointerLeave`: (event: React.PointerEvent<HTMLTableRowElement>) => void — 指针离开数据行时触发。\n- `onKeyDown`: (event: React.KeyboardEvent<HTMLTableRowElement>) => void — 在可聚焦的数据行或单元格上按下键盘按键时触发，用于支持键盘快捷操作。",
+  "accessibility": "- **语义化结构**：组件输出规范的 `<table>`、`<thead>`、`<tbody>`、`<tfoot>`、`<tr>`、`<th>` 和 `<td>` 原生元素，读屏器能够自动识别行列数与单元格坐标。\n- **表头关联**：`TableHead` 自动渲染为 `<th>` 并具有 `align-middle` 与 `font-medium` 样式，在复杂多级表头下可通过 `colSpan` 与 `rowSpan` 维持无障碍关系树。\n- **键盘焦点与选中**：当表格支持行选择时，使用带有明确 `aria-label` 的 `Checkbox` 组件；当整行支持点击时，建议通过 `tabIndex={0}` 与 `onKeyDown` 提供回车键响应支持。\n- **横向滚动容器**：外层容器具有 `overflow-auto`，在触控与键盘 Tab 导航中可顺畅聚焦与滚动，避免内容在小屏幕下溢出截断。",
   "examples": [
     {
       "name": "table-demo",

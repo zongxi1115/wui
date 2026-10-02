@@ -36,13 +36,409 @@
   },
   "props": [
     {
+      "name": "children",
+      "type": "ReactNode",
+      "required": false
+    },
+    {
+      "name": "open",
+      "type": "boolean",
+      "required": false
+    },
+    {
+      "name": "defaultOpen",
+      "type": "boolean",
+      "required": false
+    },
+    {
+      "name": "onOpenChange",
+      "type": "((open: boolean) => void)",
+      "required": false
+    },
+    {
+      "name": "dir",
+      "type": "\"ltr\" | \"rtl\"",
+      "required": false,
+      "options": [
+        "ltr",
+        "rtl"
+      ]
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "required": false
+    },
+    {
+      "name": "autoComplete",
+      "type": "string",
+      "required": false
+    },
+    {
       "name": "disabled",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "description": "是否禁用组件。"
+    },
+    {
+      "name": "required",
+      "type": "boolean",
+      "required": false
+    },
+    {
+      "name": "form",
+      "type": "string",
+      "required": false
+    },
+    {
+      "name": "value",
+      "type": "string",
+      "required": false
+    },
+    {
+      "name": "defaultValue",
+      "type": "string",
+      "required": false
+    },
+    {
+      "name": "onValueChange",
+      "type": "((value: string) => void)",
+      "required": false
     }
   ],
+  "api": [
+    {
+      "name": "Select",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "onOpenChange",
+          "type": "((open: boolean) => void)",
+          "required": false
+        },
+        {
+          "name": "dir",
+          "type": "\"ltr\" | \"rtl\"",
+          "required": false,
+          "options": [
+            "ltr",
+            "rtl"
+          ]
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "autoComplete",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "是否禁用组件。"
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "form",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "onValueChange",
+          "type": "((value: string) => void)",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "SelectContent",
+      "props": [
+        {
+          "name": "forceMount",
+          "type": "true",
+          "required": false,
+          "description": "Used to force mounting when more control is needed. Useful when\ncontrolling animation with React animation libraries."
+        },
+        {
+          "name": "onCloseAutoFocus",
+          "type": "((event: Event) => void)",
+          "required": false,
+          "description": "Event handler called when auto-focusing on close.\nCan be prevented."
+        },
+        {
+          "name": "onEscapeKeyDown",
+          "type": "((event: KeyboardEvent) => void)",
+          "required": false,
+          "description": "Event handler called when the escape key is down.\nCan be prevented."
+        },
+        {
+          "name": "onPointerDownOutside",
+          "type": "((event: PointerDownOutsideEvent) => void)",
+          "required": false,
+          "description": "Event handler called when the a `pointerdown` event happens outside of the `DismissableLayer`.\nCan be prevented."
+        },
+        {
+          "name": "position",
+          "type": "\"item-aligned\" | \"popper\"",
+          "required": false,
+          "options": [
+            "item-aligned",
+            "popper"
+          ]
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false,
+          "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
+        },
+        {
+          "name": "side",
+          "type": "\"top\" | \"right\" | \"bottom\" | \"left\"",
+          "required": false,
+          "options": [
+            "top",
+            "right",
+            "bottom",
+            "left"
+          ]
+        },
+        {
+          "name": "sideOffset",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "align",
+          "type": "\"center\" | \"start\" | \"end\"",
+          "required": false,
+          "options": [
+            "center",
+            "start",
+            "end"
+          ]
+        },
+        {
+          "name": "alignOffset",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "arrowPadding",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "avoidCollisions",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "collisionBoundary",
+          "type": "Boundary | Boundary[]",
+          "required": false
+        },
+        {
+          "name": "collisionPadding",
+          "type": "number | Partial<Record<\"top\" | \"right\" | \"bottom\" | \"left\", number>>",
+          "required": false
+        },
+        {
+          "name": "sticky",
+          "type": "\"partial\" | \"always\"",
+          "required": false,
+          "options": [
+            "partial",
+            "always"
+          ]
+        },
+        {
+          "name": "hideWhenDetached",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "updatePositionStrategy",
+          "type": "\"always\" | \"optimized\"",
+          "required": false,
+          "options": [
+            "always",
+            "optimized"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "SelectGroup",
+      "props": [
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false,
+          "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
+        }
+      ]
+    },
+    {
+      "name": "SelectItem",
+      "props": [
+        {
+          "name": "description",
+          "type": "ReactNode",
+          "required": false,
+          "description": "显示在选项名称下方的辅助说明，不会带入触发器。"
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "是否禁用组件。"
+        },
+        {
+          "name": "textValue",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false,
+          "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
+        }
+      ]
+    },
+    {
+      "name": "SelectLabel",
+      "props": [
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false,
+          "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
+        }
+      ]
+    },
+    {
+      "name": "SelectScrollDownButton",
+      "props": [
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false,
+          "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
+        }
+      ]
+    },
+    {
+      "name": "SelectScrollUpButton",
+      "props": [
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false,
+          "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
+        }
+      ]
+    },
+    {
+      "name": "SelectSeparator",
+      "props": [
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false,
+          "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
+        }
+      ]
+    },
+    {
+      "name": "SelectTrigger",
+      "props": [
+        {
+          "name": "size",
+          "type": "\"default\" | \"sm\" | \"lg\"",
+          "required": false,
+          "options": [
+            "default",
+            "sm",
+            "lg"
+          ],
+          "defaultValue": "default",
+          "description": "Height and minimum-width preset."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "是否禁用组件。"
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false,
+          "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
+        }
+      ]
+    },
+    {
+      "name": "SelectValue",
+      "props": [
+        {
+          "name": "placeholder",
+          "type": "ReactNode",
+          "required": false
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false,
+          "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`Select` 适用于从一组**已知、固定且互斥**的选项中选择单一值：\n\n- **Select vs Combobox**：当选项数量适中（如 3–15 项）且不需要用户在输入框中打字搜索时，使用 `Select`；当选项列表较长（如城市列表、用户成员池）或需要拼音/模糊关键词过滤时，请改用 [`Combobox`](/docs/components/combobox)。\n- **Select vs RadioGroup**：当选项较少（通常小于 5 项）且希望用户一眼纵览全部选项并快速比对时，优先使用 [`RadioGroup`](/docs/components/radio-group)；若页面空间极其有限或作为密集表单项，使用 `Select`。\n- **Select vs Cascader**：当选项存在“国家-省份-城市”等多层树状级联从属关系时，请使用 [`Cascader`](/docs/components/cascader) 或 [`TreeSelect`](/docs/components/tree-select)。\n- **提供有意义的占位符（Placeholder）**：当没有默认选中项时，应在 `SelectValue` 中提供明确指引文本（例如“请选择结算方式”），避免使用含糊的“请选择”。",
+  "extended": "### 受控模式与外部联动\n\n在需要与父组件状态双向绑定或通过外部按钮重置选择时，结合 `value` 与 `onValueChange`：\n\n```tsx\nconst [theme, setTheme] = React.useState(\"system\")\n\nreturn (\n  <Select value={theme} onValueChange={setTheme}>\n    <SelectTrigger>\n      <SelectValue placeholder=\"选择外观主题\" />\n    </SelectTrigger>\n    <SelectContent>\n      <SelectItem value=\"light\">浅色模式</SelectItem>\n      <SelectItem value=\"dark\">深色模式</SelectItem>\n      <SelectItem value=\"system\">跟随系统</SelectItem>\n    </SelectContent>\n  </Select>\n)\n```\n\n### 尺寸规格\n\n组件提供 `sm`（32px）、`default`（40px）和 `lg`（48px）三种尺寸，可根据所在界面的空间密度自由搭配：\n\n- `sm`：适合数据表格行内筛选、紧凑操作工具栏或多列卡片。\n- `default`：标准尺寸，适用于常规业务表单与配置对话框。\n- `lg`：大尺寸，适用于突出型首屏设置或触控友好的移动端页面。\n\n### 分组与分隔线\n\n当选项数量较多或具备明确的分类维度时，使用 `SelectGroup`、`SelectLabel` 和 `SelectSeparator` 组织结构：\n\n### 自定义选项渲染\n\n`SelectItem` 内部支持组合图标、状态标签及两行说明文字，满足复杂的企业级业务选择需求：\n\n### 禁用状态\n\n支持在根组件上使用 `disabled` 禁用整个下拉框，也可以在特定的 `SelectItem` 上单独禁用无权限或已售罄的选项：\n\n### 表单与业务集成\n\n在结算与费用配置等真实业务表单中，将多个 `Select` 与提示文案联动：",
+  "events": "- `onValueChange`: (value: string) => void — 用户通过点击选项或键盘确认选中某项时触发，传入最新选中的 value 字符串。\n- `onOpenChange`: (open: boolean) => void — 浮层打开或关闭状态变化时触发，返回布尔值。\n- `onFocus`: (event: React.FocusEvent<HTMLButtonElement>) => void — 触发器获得焦点时触发。\n- `onBlur`: (event: React.FocusEvent<HTMLButtonElement>) => void — 触发器失去焦点时触发。\n- `onKeyDown`: (event: React.KeyboardEvent<HTMLButtonElement>) => void — 焦点位于触发器或选项时按下键盘按键触发。",
+  "accessibility": "- **ARIA 角色与状态**：\n  - 触发器自动挂载 `role=\"combobox\"`、`aria-haspopup=\"listbox\"` 及 `aria-expanded`。\n  - 下拉列表渲染为 `role=\"listbox\"`，内部每个选项渲染为 `role=\"option\"` 并同步 `aria-selected`。\n- **键盘导航**：\n  - <kbd>Tab</kbd>：将焦点移入或移出选择器触发按钮。\n  - <kbd>Space</kbd> / <kbd>Enter</kbd>：展开下拉浮层；在选项高亮时确认选中并关闭浮层。\n  - <kbd>↓</kbd> / <kbd>↑</kbd>：在展开的选项之间上下导航，自动跳过被禁用的项。\n  - <kbd>Home</kbd> / <kbd>End</kbd>：快速将焦点跳至首个或最后一个可用选项。\n  - **首字母连续输入搜索 (Typeahead)**：在浮层展开时直接键入英文字符，焦点会自动快速跳至以该字符开头的选项。\n  - <kbd>Escape</kbd>：关闭下拉浮层并将焦点重新归还给触发器。\n- **动效**：\n  - 浮层从触发器方向展开（读取 `--radix-select-content-transform-origin`）。\n  - 悬停或方向键移动时，高亮背景以弹簧动画在选项之间滑动；选中后触发器中的值以淡入上移过渡刷新。\n  - 所有动效均监听 `prefers-reduced-motion`，在系统开启减弱动态效果时瞬间呈现。",
   "examples": [
     {
       "name": "select-demo",

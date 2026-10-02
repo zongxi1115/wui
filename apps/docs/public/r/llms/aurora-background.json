@@ -30,14 +30,12 @@
       "name": "children",
       "type": "ReactNode",
       "required": false,
-      "control": "text",
       "description": "显示在极光图层上方的前景内容。"
     },
     {
       "name": "colors",
       "type": "[string, string, string]",
       "required": false,
-      "control": "text",
       "defaultValue": "[\"var(--chart-1)\", \"var(--chart-3)\", \"var(--chart-5)\"]",
       "description": "移动光场使用的三个 CSS 颜色。"
     },
@@ -45,7 +43,6 @@
       "name": "duration",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "18",
       "description": "完整移动一轮所需的时间，单位为秒。"
     },
@@ -53,7 +50,6 @@
       "name": "blur",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "56",
       "description": "光场的模糊强度，单位为像素。"
     },
@@ -61,7 +57,6 @@
       "name": "interactive",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "false",
       "description": "光带是否以不同深度向指针方向漂移。"
     },
@@ -69,10 +64,61 @@
       "name": "layerClassName",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "应用于每个极光图层的 CSS 类名。"
     }
   ],
+  "api": [
+    {
+      "name": "AuroraBackground",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false,
+          "description": "显示在极光图层上方的前景内容。"
+        },
+        {
+          "name": "colors",
+          "type": "[string, string, string]",
+          "required": false,
+          "defaultValue": "[\"var(--chart-1)\", \"var(--chart-3)\", \"var(--chart-5)\"]",
+          "description": "移动光场使用的三个 CSS 颜色。"
+        },
+        {
+          "name": "duration",
+          "type": "number",
+          "required": false,
+          "defaultValue": "18",
+          "description": "完整移动一轮所需的时间，单位为秒。"
+        },
+        {
+          "name": "blur",
+          "type": "number",
+          "required": false,
+          "defaultValue": "56",
+          "description": "光场的模糊强度，单位为像素。"
+        },
+        {
+          "name": "interactive",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "光带是否以不同深度向指针方向漂移。"
+        },
+        {
+          "name": "layerClassName",
+          "type": "string",
+          "required": false,
+          "description": "应用于每个极光图层的 CSS 类名。"
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`AuroraBackground` 适用于**产品发布 Hero 区、AI 会话背景、VIP 定价卡片、创意案例展台**：\n\n- **主题自适应**：默认底色为 `bg-background`。亮色主题下光斑以普通混合呈现柔和色雾；暗色主题下切换为 `mix-blend-screen` 发光。需要固定深色舞台时，可通过 `className` 覆盖底色。\n- **微弱不抢戏**：极光动画的 `duration` 推荐在 12 ~ 20 秒之间，缓慢流动的光效能提供高级的“呼吸感”，避免过快移动造成视觉疲劳。",
+  "extended": "### 定价卡片\n\n在单张卡片内使用更小的模糊半径与更短的周期：",
+  "events": "该组件为纯视觉背景容器组件，直接继承标准 React `div` 的原生事件属性。",
+  "accessibility": "- **自动静止降级**：当用户开启 `prefers-reduced-motion: reduce` 时，光斑漂移动画将自动停滞，保留静态但依旧美观的高斯发光光晕。\n- **层级隔离**：极光图层默认标记 `pointer-events-none` 与 `aria-hidden=\"true\"`，保证上层所有表单、按钮正常获取焦点。",
   "examples": [
     {
       "name": "aurora-background-demo",

@@ -1,0 +1,6 @@
+{
+  "name": "text-shimmer-button",
+  "component": "text-shimmer",
+  "title": "高优先级行动按钮",
+  "code": "import { SparklesIcon } from \"lucide-react\"\n\nimport { Button } from \"@/components/ui/button\"\nimport { TextShimmer } from \"@/components/ui/text-shimmer\"\n\nexport default function TextShimmerButton() {\n  return (\n    <div className=\"flex flex-wrap items-center justify-center gap-3\">\n      <Button>\n        <SparklesIcon />\n        <TextShimmer\n          duration={2.2}\n          className=\"[--shimmer-base:color-mix(in_oklch,var(--primary-foreground)_60%,transparent)] [--shimmer-highlight:var(--primary-foreground)]\"\n        >\n          用 AI 润色全文\n        </TextShimmer>\n      </Button>\n      <Button variant=\"outline\">\n        <TextShimmer duration={2.6}>升级到专业版</TextShimmer>\n      </Button>\n    </div>\n  )\n}\n"
+}

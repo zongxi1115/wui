@@ -26,21 +26,18 @@
       "name": "trigger",
       "type": "ReactNode",
       "required": false,
-      "control": "text",
       "description": "打开对话框的触发元素。使用 asChild 时会直接渲染为该元素。"
     },
     {
       "name": "open",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "description": "受控模式下对话框是否打开。"
     },
     {
       "name": "defaultOpen",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "false",
       "description": "非受控模式下对话框的初始打开状态。"
     },
@@ -48,35 +45,30 @@
       "name": "onOpenChange",
       "type": "((open: boolean) => void)",
       "required": false,
-      "control": "text",
       "description": "对话框打开或关闭状态变化时触发。"
     },
     {
       "name": "title",
       "type": "string",
       "required": true,
-      "control": "text",
       "description": "对话框顶部显示的标题。"
     },
     {
       "name": "description",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "标题下方显示的补充说明。"
     },
     {
       "name": "children",
       "type": "ReactNode",
       "required": false,
-      "control": "text",
       "description": "对话框主体内容区域展示的自定义子元素。"
     },
     {
       "name": "confirmLabel",
       "type": "string",
       "required": false,
-      "control": "text",
       "defaultValue": "确认",
       "description": "确认按钮的文字。"
     },
@@ -84,7 +76,6 @@
       "name": "cancelLabel",
       "type": "string",
       "required": false,
-      "control": "text",
       "defaultValue": "取消",
       "description": "取消按钮的文字。"
     },
@@ -92,7 +83,6 @@
       "name": "variant",
       "type": "\"default\" | \"destructive\"",
       "required": false,
-      "control": "select",
       "options": [
         "default",
         "destructive"
@@ -104,17 +94,107 @@
       "name": "loading",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "description": "是否处于异步提交中的加载状态，加载期间确认按钮展示旋转指示器并禁用操作。"
     },
     {
       "name": "onConfirm",
       "type": "(() => void | Promise<void>)",
       "required": false,
-      "control": "text",
       "description": "用户点击确认按钮时触发。"
     }
   ],
+  "api": [
+    {
+      "name": "ConfirmDialog",
+      "props": [
+        {
+          "name": "trigger",
+          "type": "ReactNode",
+          "required": false,
+          "description": "打开对话框的触发元素。使用 asChild 时会直接渲染为该元素。"
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false,
+          "description": "受控模式下对话框是否打开。"
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "非受控模式下对话框的初始打开状态。"
+        },
+        {
+          "name": "onOpenChange",
+          "type": "((open: boolean) => void)",
+          "required": false,
+          "description": "对话框打开或关闭状态变化时触发。"
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "required": true,
+          "description": "对话框顶部显示的标题。"
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "required": false,
+          "description": "标题下方显示的补充说明。"
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false,
+          "description": "对话框主体内容区域展示的自定义子元素。"
+        },
+        {
+          "name": "confirmLabel",
+          "type": "string",
+          "required": false,
+          "defaultValue": "确认",
+          "description": "确认按钮的文字。"
+        },
+        {
+          "name": "cancelLabel",
+          "type": "string",
+          "required": false,
+          "defaultValue": "取消",
+          "description": "取消按钮的文字。"
+        },
+        {
+          "name": "variant",
+          "type": "\"default\" | \"destructive\"",
+          "required": false,
+          "options": [
+            "default",
+            "destructive"
+          ],
+          "defaultValue": "default",
+          "description": "确认按钮的视觉样式。"
+        },
+        {
+          "name": "loading",
+          "type": "boolean",
+          "required": false,
+          "description": "是否处于异步提交中的加载状态，加载期间确认按钮展示旋转指示器并禁用操作。"
+        },
+        {
+          "name": "onConfirm",
+          "type": "(() => void | Promise<void>)",
+          "required": false,
+          "description": "用户点击确认按钮时触发。"
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`ConfirmDialog` 将常见的“是否继续”二次确认交互抽象为高度一致的模式，避免开发者在各业务模块中重复拼装弹窗框架：\n\n- **何时使用 ConfirmDialog**：\n  - **高风险/不可逆破坏性操作**：如删除资源、注销团队、清空缓存、覆盖线上生产配置。\n  - **可能产生意外开销或中断的操作**：如大批量任务终止、重启集群、强制重置密钥。\n- **避免过度确认（Confirm Fatigue）**：\n  - 常规表单提交、轻量保存、加入收藏等安全操作**不要**增加确认弹窗，过度打断会使用户产生“确认疲劳”，在真正面临危险时习惯性点击确认。\n- **明确的文案与按钮引导**：\n  - **标题具体明确**：避免抽象的“提示”或“警告”，直接指明操作对象，如“确定要删除数据库 backup-01 吗？”。\n  - **动词匹配**：确认按钮文案应与行为动词一致（如“删除”、“强制重置”、“发布”），不要使用含糊不清的“确定”或“OK”。\n  - **说明后果**：在 `description` 中告知用户该操作是否可恢复、对关联系统有什么影响。",
+  "extended": "### 危险破坏性确认\n\n删除资源时，配置 `variant=\"destructive\"` 并提供明确的后果警告，帮助用户在做出不可逆决定前保持谨慎：\n\n### 异步请求与加载保护\n\n当确认操作需要调用远端 API 接口时，只需在 `onConfirm` 中返回一个异步 `Promise`，组件会自动进入加载中状态并阻止重复点击：\n\n```tsx\n<ConfirmDialog\n  trigger={<Button>回滚版本</Button>}\n  title=\"确认回滚至上一稳定版本？\"\n  description=\"预计需要 30 秒服务预热。\"\n  confirmLabel=\"开始回滚\"\n  onConfirm={async () => {\n    await api.rollbackCluster()\n  }}\n/>\n```\n\n### 自定义详情内容与受控状态\n\n通过 `children` 属性可插入影响评估卡片或风险条目；配合 `open` 与 `onOpenChange` 实现由外部业务状态驱动的受控弹出：",
+  "events": "- `onConfirm`: () => void | Promise<void> — 用户点击确认按钮时调用的回调函数。若返回 Promise，组件会自动管理并展示加载状态直至完成。\n- `onOpenChange`: (open: boolean) => void — 弹窗打开或关闭状态变化时的回调函数（点击遮罩、按下 Esc 或点击取消按钮均会触发）。",
+  "accessibility": "- **WAI-ARIA 规范**：底层直接复用 `Dialog` 的无障碍特性，自动挂载 `role=\"alertdialog\"` 与语义标签。\n- **焦点控制**：\n  - 弹窗唤起后，自动将初始焦点停留在“取消”按钮或安全区域，防止用户误按 Enter 键触发破坏性确认。\n  - 确认操作进行（Loading）期间，取消与确认按钮均自动进入 `disabled` 状态，防止误操作中断异步流。\n- **键盘支持**：\n  - <kbd>Esc</kbd>：快速安全退出并关闭确认弹窗。\n  - <kbd>Tab</kbd> / <kbd>Shift</kbd> + <kbd>Tab</kbd>：在取消与确认按钮之间循环切换焦点。",
   "examples": [
     {
       "name": "confirm-dialog-demo",

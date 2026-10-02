@@ -37,14 +37,12 @@
       "name": "open",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "description": "受控模式下抽屉是否打开。"
     },
     {
       "name": "defaultOpen",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "false",
       "description": "非受控模式下抽屉的初始打开状态。"
     },
@@ -52,18 +50,246 @@
       "name": "onOpenChange",
       "type": "((open: boolean) => void)",
       "required": false,
-      "control": "text",
       "description": "抽屉请求改变显示状态时触发。"
     },
     {
       "name": "modal",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "true",
       "description": "是否锁定焦点并禁止与抽屉外部内容交互。"
+    },
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": false
     }
   ],
+  "api": [
+    {
+      "name": "Drawer",
+      "props": [
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false,
+          "description": "受控模式下抽屉是否打开。"
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "非受控模式下抽屉的初始打开状态。"
+        },
+        {
+          "name": "onOpenChange",
+          "type": "((open: boolean) => void)",
+          "required": false,
+          "description": "抽屉请求改变显示状态时触发。"
+        },
+        {
+          "name": "modal",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "是否锁定焦点并禁止与抽屉外部内容交互。"
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "DrawerBody",
+      "props": []
+    },
+    {
+      "name": "DrawerClose",
+      "props": [
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "DrawerContent",
+      "props": [
+        {
+          "name": "side",
+          "type": "\"top\" | \"right\" | \"bottom\" | \"left\"",
+          "required": false,
+          "options": [
+            "top",
+            "right",
+            "bottom",
+            "left"
+          ],
+          "defaultValue": "right",
+          "description": "Edge from which the panel enters."
+        },
+        {
+          "name": "size",
+          "type": "\"default\" | \"sm\" | \"lg\" | \"full\"",
+          "required": false,
+          "options": [
+            "default",
+            "sm",
+            "lg",
+            "full"
+          ],
+          "defaultValue": "default",
+          "description": "Panel width or height preset."
+        },
+        {
+          "name": "hideClose",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Hide the built-in close button."
+        },
+        {
+          "name": "swipeToClose",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Render a grab handle on the inner edge; dragging it towards the entry edge\ndismisses the panel once it passes a quarter of its size or is flung."
+        },
+        {
+          "name": "forceMount",
+          "type": "true",
+          "required": false,
+          "description": "Used to force mounting when more control is needed. Useful when\ncontrolling animation with React animation libraries."
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "onCloseAutoFocus",
+          "type": "((event: Event) => void)",
+          "required": false,
+          "description": "Event handler called when auto-focusing on close.\nCan be prevented."
+        },
+        {
+          "name": "onEscapeKeyDown",
+          "type": "((event: KeyboardEvent) => void)",
+          "required": false,
+          "description": "Event handler called when the escape key is down.\nCan be prevented."
+        },
+        {
+          "name": "deferPointerDownOutside",
+          "type": "boolean",
+          "required": false,
+          "description": "When `true`, a `'pointerdown'` event outside of the layered element will\nwait for the interaction's click event before dispatching, allowing\nthird-party code to stop propagation of later events and cancel dismissal."
+        },
+        {
+          "name": "onPointerDownOutside",
+          "type": "((event: PointerDownOutsideEvent) => void)",
+          "required": false,
+          "description": "Event handler called when the a `pointerdown` event happens outside of the `DismissableLayer`.\nCan be prevented."
+        },
+        {
+          "name": "onFocusOutside",
+          "type": "((event: FocusOutsideEvent) => void)",
+          "required": false,
+          "description": "Event handler called when the focus moves outside of the `DismissableLayer`.\nCan be prevented."
+        },
+        {
+          "name": "onInteractOutside",
+          "type": "((event: PointerDownOutsideEvent | FocusOutsideEvent) => void)",
+          "required": false,
+          "description": "Event handler called when an interaction happens outside the `DismissableLayer`.\nSpecifically, when a `pointerdown` event happens outside or focus moves outside of it.\nCan be prevented."
+        },
+        {
+          "name": "onOpenAutoFocus",
+          "type": "((event: Event) => void)",
+          "required": false,
+          "description": "Event handler called when auto-focusing on open.\nCan be prevented."
+        }
+      ]
+    },
+    {
+      "name": "DrawerDescription",
+      "props": [
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "DrawerFooter",
+      "props": []
+    },
+    {
+      "name": "DrawerHeader",
+      "props": []
+    },
+    {
+      "name": "DrawerPortal",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false
+        },
+        {
+          "name": "container",
+          "type": "Element | DocumentFragment | null",
+          "required": false,
+          "description": "Specify a container element to portal the content into."
+        },
+        {
+          "name": "forceMount",
+          "type": "true",
+          "required": false,
+          "description": "Used to force mounting when more control is needed. Useful when\ncontrolling animation with React animation libraries."
+        }
+      ]
+    },
+    {
+      "name": "DrawerTitle",
+      "props": [
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "DrawerTrigger",
+      "props": [
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`Drawer` 在不离开当前页面上下文的前提下，为用户提供大容量、深层级的交互空间：\n\n- **组件选型对比**：\n  - **Drawer vs Dialog**：`Dialog` 适合强聚焦、短小决策或高危警告；`Drawer` 沿边缘延伸，纵向滚动空间充裕，适合多字段表单、明细查看、历史记录列表。\n  - **Drawer vs 独立路由页面**：当查看或编辑内容与当前主列表强关联，且操作完成后需要立即在主界面反映（不丢失主页滚动位置和筛选条件）时，优先采用 `Drawer` 代替路由跳转。\n- **经典三段式结构规范**：\n  - **DrawerHeader**：固定在顶部，展示清晰的业务标题与辅助描述，右上角提供关闭图标。\n  - **DrawerBody**：自适应撑满剩余高度，内置 `overflow-y-auto` 滚动容器，确保长内容流畅浏览。\n  - **DrawerFooter**：吸附在底部，保持主要操作（如“保存”、“提交”）始终可见，避免随长内容滚出视口。\n- **边缘选择建议**：\n  - **Right（右侧）**：桌面端最标准的详情面板与侧边工作台。\n  - **Bottom（底部）**：移动端触控优选（Bottom Sheet）或全局多选批量操作栏。\n  - **Left（左侧）**：收起式侧边导航或多级文档目录。",
+  "extended": "### 详情预览面板\n\n在表格或主列表中点击单条记录，从右侧拉出抽屉查看详尽的发布状态与元数据指标：\n\n### 四向滑出位置\n\n支持配置 `side=\"top\" | \"right\" | \"bottom\" | \"left\"`，以满足移动端 Bottom Sheet、左侧导航或顶部搜索托盘等多样化布局需求：\n\n### 复杂表单与固定底部栏\n\n将 `DrawerHeader`、`DrawerBody` 与 `DrawerFooter` 组合在 `<form>` 内部，实现内容独立滚动、操作栏固定吸底的表单抽屉：\n\n### 尺寸预设与响应式\n\n提供 `sm`、`default`、`lg`、`full` 四种尺寸预设，并在小屏设备上自动计算 `min(width, 100vw - 1rem)` 防止溢出：\n\n### 手势拖拽关闭\n\n开启 `swipeToClose` 后，底部抽屉顶部会出现拖拽把手。把手是唯一的拖拽起点，面板内的按钮、输入框与滚动区域不受手势干扰：",
+  "events": "- `onOpenChange`: (open: boolean) => void — 抽屉可见状态发生改变时调用（包括点击触发器、遮罩、Esc 键或关闭按钮）。\n- `onPointerDownOutside`: (event: PointerDownOutsideEvent) => void — 在抽屉浮层外部点击时触发，调用 event.preventDefault() 可阻止点击遮罩关闭抽屉。\n- `onEscapeKeyDown`: (event: KeyboardEvent) => void — 按下键盘 Esc 键时触发，调用 event.preventDefault() 可阻止快捷键关闭行为。",
+  "accessibility": "- **ARIA 规范**：\n  - 基于 Radix Dialog 语义，自动设置 `role=\"dialog\"` 与 `aria-modal=\"true\"`。\n  - `DrawerTitle` 与 `DrawerDescription` 自动生成 ID 并绑定 `aria-labelledby` 和 `aria-describedby`。\n- **键盘与焦点管理**：\n  - **焦点捕获（Focus Trap）**：抽屉滑出后，焦点被锁定在抽屉内部，键盘用户无法将焦点移到背后的被遮挡元素上。\n  - **焦点归还**：抽屉关闭后，焦点自动精确回到唤起该抽屉的触发按钮。\n  - **快捷键**：按下 <kbd>Esc</kbd> 即可平滑关闭抽屉。\n- **滚动锁定（Body Scroll Lock）**：\n  - 模态抽屉打开期间，背景页面的 `<body>` 会自动锁定滚动并补充滚动条占位，防止双重滚动与页面抖动。\n- **动效减弱**：\n  - 自动支持 `prefers-reduced-motion`，开启后禁用弹性位移动画与拖拽手势，转为淡入淡出。\n- **非模态模式**：\n  - 设置 `modal={false}` 时不渲染遮罩、不锁定滚动，面板与页面可同时交互。",
   "examples": [
     {
       "name": "drawer-demo",

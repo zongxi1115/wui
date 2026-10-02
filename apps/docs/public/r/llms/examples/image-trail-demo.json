@@ -1,0 +1,6 @@
+{
+  "name": "image-trail-demo",
+  "component": "image-trail",
+  "title": "基础用法",
+  "code": "import { ImageTrail } from \"@/components/ui/image-trail\"\n\nconst photos = [\n  \"photo-1464822759023-fed622ff2c3b\",\n  \"photo-1470071459604-3b5ec3a7fe05\",\n  \"photo-1501785888041-af3ef285b470\",\n  \"photo-1519681393784-d120267933ba\",\n  \"photo-1441974231531-c6227db76b6e\",\n  \"photo-1469474968028-56623f02e42e\",\n]\n\nconst items = photos.map((id) => (\n  <img\n    key={id}\n    src={`https://images.unsplash.com/${id}?auto=format&fit=crop&w=320&h=400&q=70`}\n    alt=\"\"\n    className=\"bg-muted h-40 w-32 rounded-md object-cover shadow-md\"\n  />\n))\n\nexport default function ImageTrailDemo() {\n  return (\n    <ImageTrail\n      items={items}\n      distance={64}\n      lifetime={600}\n      maxItems={10}\n      className=\"flex h-[26rem] w-full cursor-crosshair items-center justify-center rounded-b-lg\"\n    >\n      <div className=\"pointer-events-none relative z-20 text-center select-none\">\n        <p className=\"text-muted-foreground text-sm\">许然摄影作品集</p>\n        <h3 className=\"mt-2 text-4xl font-semibold tracking-tight sm:text-5xl\">\n          在山里的一年\n        </h3>\n        <p className=\"text-muted-foreground mt-3 text-sm\">移动鼠标翻阅照片</p>\n      </div>\n    </ImageTrail>\n  )\n}\n"
+}

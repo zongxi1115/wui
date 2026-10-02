@@ -143,6 +143,127 @@
       "description": "所有消息共用的动效配置。"
     }
   ],
+  "api": [
+    {
+      "name": "MessageProvider",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": true
+        },
+        {
+          "name": "position",
+          "type": "\"top\" | \"bottom\" | \"top-left\" | \"top-right\" | \"bottom-left\" | \"bottom-right\"",
+          "required": false,
+          "options": [
+            "top",
+            "bottom",
+            "top-left",
+            "top-right",
+            "bottom-left",
+            "bottom-right"
+          ],
+          "defaultValue": "top",
+          "description": "消息默认显示在屏幕上的位置。"
+        },
+        {
+          "name": "duration",
+          "type": "number",
+          "required": false,
+          "defaultValue": "3000",
+          "description": "消息默认显示时长，单位为毫秒。"
+        },
+        {
+          "name": "maxCount",
+          "type": "number",
+          "required": false,
+          "defaultValue": "5",
+          "description": "同时显示的消息数量上限。超出后优先移除较早的消息。"
+        },
+        {
+          "name": "offset",
+          "type": "number",
+          "required": false,
+          "defaultValue": "20",
+          "description": "消息与视口边缘的距离，单位为像素。"
+        },
+        {
+          "name": "gap",
+          "type": "number",
+          "required": false,
+          "defaultValue": "10",
+          "description": "堆叠消息之间的间距，单位为像素。"
+        },
+        {
+          "name": "stacked",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "是否将消息重叠堆叠显示，而不是显示为纵向列表。"
+        },
+        {
+          "name": "maxVisibleMessages",
+          "type": "number",
+          "required": false,
+          "defaultValue": "3",
+          "description": "堆叠队列中同时显示的最大层数。"
+        },
+        {
+          "name": "scaleFactor",
+          "type": "number",
+          "required": false,
+          "defaultValue": "0.05",
+          "description": "每增加一层时应用的缩放幅度。"
+        },
+        {
+          "name": "expandOnHover",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "鼠标悬停或键盘聚焦时是否展开消息堆。"
+        },
+        {
+          "name": "dragToDismiss",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "是否允许通过水平拖动移除消息。"
+        },
+        {
+          "name": "pauseOnHover",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "鼠标悬停在消息上时是否暂停自动关闭计时。"
+        },
+        {
+          "name": "dragThreshold",
+          "type": "number",
+          "required": false,
+          "defaultValue": "72",
+          "description": "触发拖动移除所需的水平距离，单位为像素。"
+        },
+        {
+          "name": "motion",
+          "type": "Partial<MessageMotionConfig>",
+          "required": false,
+          "defaultValue": "{}",
+          "description": "所有消息共用的动效配置。"
+        }
+      ]
+    }
+  ],
+  "types": [
+    {
+      "name": "MessageMotionConfig",
+      "definition": "export interface MessageMotionConfig {\r\n  /** Distance travelled while entering and leaving, in pixels. @default 16 */\r\n  offset: number\r\n  /** Scale at the beginning of the enter animation. @default 0.96 */\r\n  scale: number\r\n  /** Opacity at the beginning of the enter animation. @default 0 */\r\n  initialOpacity: number\r\n  /** Opacity at the end of the exit animation. @default 0 */\r\n  exitOpacity: number\r\n  /** Initial backdrop blur, in pixels. @default 6 */\r\n  blur: number\r\n  /** Enter and layout spring stiffness. @default 420 */\r\n  stiffness: number\r\n  /** Enter and layout spring damping. @default 34 */\r\n  damping: number\r\n  /** Enter and layout spring mass. @default 0.72 */\r\n  mass: number\r\n  /** Exit animation duration, in seconds. @default 0.16 */\r\n  exitDuration: number\r\n}"
+    }
+  ],
+  "usage": "`Message` 用于对用户的轻量级操作提供**即时非阻塞反馈**（如“复制成功”、“草稿已保存”、“正在上传”等）。\n\n- **非阻塞原则**：Message 通过 Portal 挂载在最顶层，不应抢占用户的交互焦点，也不应强制用户点击确认才能继续操作。\n- **简短精炼**：提示文字应尽量控制在 20 个字符以内（1~2 秒即可阅读完）。若需展示多行报错信息、排查说明或复杂表单错误，请使用 `Alert` 或 `Dialog`。\n- **避免多条轰炸**：若同一操作触发了多次异步回调，优先用 `loading` + `update` 合并为单条消息原地更新，或依赖组件内置的 `stacked` 堆叠与 `maxCount` 机制避免屏幕被弹窗淹没。",
+  "extended": "### 弹出方位 (Positions)\n\n支持 6 种视口停靠方位（`top-left`、`top`、`top-right`、`bottom-left`、`bottom`、`bottom-right`）：\n\n### 停留时长与异步加载 (Duration)\n\n可通过 `duration` 设置消息停留时间，`duration: 0` 表示不自动关闭；悬停在消息上会暂停计时。异步任务使用 `message.loading` 打开加载消息，完成后以 `message.update` 原地切换为结果，图标与文案平滑过渡而不是弹出第二条消息：\n\n### 卡片堆叠与手势移除 (Stacked & Drag)\n\n多条提示默认智能分层重叠，鼠标悬浮时丝滑展开，支持左右滑动手势快速移除：\n\n### 自定义动效与透明度 (Motion & Opacity)\n\n可微调物理弹簧刚度（stiffness）、阻尼比（damping）与进出场位移：\n\n### 业务场景：复制密钥、上传同步与撤销操作\n\n在真实 SaaS 产品中，Message 可用于敏感密钥复制确认、后台资源同步以及支持即时“撤销”的数据归档：",
+  "events": "- `onClose`: () => void — 单条消息因超时自动倒计时结束、点击叉号按钮、手势滑动移除或超出 maxCount 队列时触发。",
+  "accessibility": "- **动态实时区域 (Live Region)**：\n  - `warning` 与 `destructive` 消息自动分配 `role=\"alert\"`，协助读屏器及时播报错误。\n  - 普通信息与成功提示使用 `role=\"status\"`，确保在不打断用户当前焦点操作的前提下进行提示。\n- **焦点与键盘交互**：当展开为列表并包含 `closable` 按钮或交互链接时，支持通过键盘进入并激活操作。\n- **减弱动态效果 (Reduced Motion)**：组件会自动监听操作系统的减弱动态效果偏好（`prefers-reduced-motion`），开启时将禁用位移、缩放与毛玻璃模糊动效，以纯淡入淡出形式呈现。",
   "examples": [
     {
       "name": "message-demo",

@@ -27,14 +27,12 @@
       "name": "children",
       "type": "ReactNode",
       "required": true,
-      "control": "text",
       "description": "显示在指针聚光效果上方的内容。"
     },
     {
       "name": "radius",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "220",
       "description": "聚光区域的半径，单位为像素。"
     },
@@ -42,7 +40,6 @@
       "name": "color",
       "type": "string",
       "required": false,
-      "control": "text",
       "defaultValue": "color-mix(in oklab, var(--foreground) 16%, transparent)",
       "description": "聚光中心使用的 CSS 颜色。"
     },
@@ -50,14 +47,12 @@
       "name": "borderColor",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "跟随指针的 1px 边缘高光颜色，不传则关闭。"
     },
     {
       "name": "smooth",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "true",
       "description": "光斑是否以缓动方式跟随指针，而不是直接跳到指针位置。"
     },
@@ -65,10 +60,60 @@
       "name": "spotlightClassName",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "应用于聚光图层的 CSS 类名。"
     }
   ],
+  "api": [
+    {
+      "name": "SpotlightCard",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": true,
+          "description": "显示在指针聚光效果上方的内容。"
+        },
+        {
+          "name": "radius",
+          "type": "number",
+          "required": false,
+          "defaultValue": "220",
+          "description": "聚光区域的半径，单位为像素。"
+        },
+        {
+          "name": "color",
+          "type": "string",
+          "required": false,
+          "defaultValue": "color-mix(in oklab, var(--foreground) 16%, transparent)",
+          "description": "聚光中心使用的 CSS 颜色。"
+        },
+        {
+          "name": "borderColor",
+          "type": "string",
+          "required": false,
+          "description": "跟随指针的 1px 边缘高光颜色，不传则关闭。"
+        },
+        {
+          "name": "smooth",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "光斑是否以缓动方式跟随指针，而不是直接跳到指针位置。"
+        },
+        {
+          "name": "spotlightClassName",
+          "type": "string",
+          "required": false,
+          "description": "应用于聚光图层的 CSS 类名。"
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`SpotlightCard` 是打造现代高质感 SaaS 首页与核心产品功能网格的利器。\n\n- **适用场景**：\n  - **核心功能亮点网格（Features Grid）**：在产品矩阵展示中，为每个功能卡片添加低饱和度微光，增强探索欲。\n  - **作品集与案例展示（Portfolio）**：鼠标滑动时产生渐进式照明，提升视觉沉浸感。\n  - **定价与方案卡片**：突出重点套餐或企业方案。\n- **性能与渲染优势**：\n  - 坐标写入卡片根节点的 CSS 自定义属性（`--spotlight-x`、`--spotlight-y`），光晕与边缘高光共享同一组变量；整个过程不触发 React 重渲染，缓动循环在光晕到位后自动停止。\n- **色彩与饱和度建议**：\n  - 聚光属于辅助视觉层，光晕透明度应保持在 `10%~20%` 之间，避免过于刺眼影响卡片中文字内容的可读性。",
+  "extended": "### 指标卡配色\n\n为不同指标分别传入主题图表色，光晕与边缘高光同色呼应：",
+  "events": "`SpotlightCard` 继承原生容器的事件回调，并在内部优化了指针位移计算：\n\n- `onPointerEnter`: (event: React.PointerEvent<HTMLDivElement>) => void — 光标指针进入卡片区域时触发，内部同步淡入聚光层。\n- `onPointerMove`: (event: React.PointerEvent<HTMLDivElement>) => void — 光标指针在卡片内移动时触发，内部通过 requestAnimationFrame 缓动更新光斑坐标 CSS 变量。\n- `onPointerLeave`: (event: React.PointerEvent<HTMLDivElement>) => void — 光标指针离开卡片区域时触发，内部自动淡出聚光层。",
+  "accessibility": "- **非阻断式视觉层**：内部的光晕图层标注为 `aria-hidden=\"true\"` 并配置 `pointer-events-none`，绝不拦截卡片内部按钮、超链接的点击与键盘交互。\n- **移动端触控友好**：触摸（Touch）设备上不会出现生硬的光斑闪烁，保持清晰优雅的静态卡片呈现。\n- **高对比度文字保障**：卡片内部的标题与正文颜色不受光晕叠加的负面影响，始终满足 WCAG AA 级对比度要求。",
   "examples": [
     {
       "name": "spotlight-card-demo",

@@ -1,0 +1,5 @@
+{
+  "name": "canvas-scatter-chart-demo",
+  "component": "canvas-scatter-chart",
+  "code": "import { CanvasScatterChart } from \"@/components/charts/canvas-scatter-chart\"\n\nconst segments = [\"企业\", \"团队\", \"个人\"]\nconst data = Array.from({ length: 1200 }, (_, index) => {\n  const segment = segments[index % segments.length]\n  const adoption = 18 + ((index * 37) % 74)\n  const retention = Math.min(\n    98,\n    38 + adoption * 0.54 + Math.sin(index * 0.73) * 15\n  )\n  return {\n    account: `账户 ${index + 1}`,\n    adoption,\n    retention: Number(retention.toFixed(1)),\n    segment,\n  }\n})\n\nexport default function CanvasScatterChartDemo() {\n  return (\n    <div className=\"w-full max-w-3xl\">\n      <CanvasScatterChart\n        title=\"账户采用率与留存率\"\n        description=\"同一季度账户样本 · n=1,200\"\n        data={data}\n        xKey=\"adoption\"\n        yKey=\"retention\"\n        labelKey=\"account\"\n        groupKey=\"segment\"\n        xLabel=\"采用率\"\n        yLabel=\"次月留存率\"\n        xFormatter={(value) => `${value}%`}\n        yFormatter={(value) => `${value}%`}\n      />\n    </div>\n  )\n}\n"
+}

@@ -73,7 +73,10 @@
       ],
       "keyProps": [
         "status: error|pending|approval|running|success|denied",
+        "defaultOpen: boolean",
+        "open: boolean",
         "disabled: boolean",
+        "onOpenChange: ((open: boolean) => void)",
         "asChild: boolean"
       ],
       "exampleCount": 3
@@ -98,7 +101,6 @@
         "ai"
       ],
       "keyProps": [
-        "children: string",
         "isStreaming: boolean",
         "featherLength: number",
         "caret: boolean"
@@ -115,12 +117,12 @@
         "ai"
       ],
       "keyProps": [
-        "children: string",
         "isStreaming: boolean",
         "featherLength: number",
         "components: Components",
         "allowElement: AllowElement | null",
-        "allowedElements: readonly string[] | null"
+        "allowedElements: readonly string[] | null",
+        "disallowedElements: readonly string[] | null"
       ],
       "exampleCount": 3
     },
@@ -146,8 +148,10 @@
       "keyProps": [
         "isStreaming: boolean",
         "duration: number",
+        "defaultOpen: boolean",
+        "open: boolean",
         "disabled: boolean",
-        "asChild: boolean"
+        "onOpenChange: ((open: boolean) => void)"
       ],
       "exampleCount": 3
     },
@@ -286,7 +290,8 @@
       "description": "为一组紧凑操作提供排列、分组与方向键导航，并复用现有按钮外观。",
       "keyProps": [
         "asChild: boolean",
-        "orientation: horizontal|vertical"
+        "orientation: horizontal|vertical",
+        "loop: boolean"
       ],
       "exampleCount": 1
     },
@@ -579,7 +584,11 @@
       "title": "对话框 Dialog",
       "description": "基于 Radix UI 与 Motion 构建的模态浮层窗口，支持焦点锁定、平滑弹性展开动效以及原地布局变换。",
       "keyProps": [
-        "variant: inline|modal"
+        "variant: inline|modal",
+        "open: boolean",
+        "defaultOpen: boolean",
+        "onOpenChange: ((open: boolean) => void)",
+        "modal: boolean"
       ],
       "exampleCount": 5
     },
@@ -593,7 +602,11 @@
         "advanced"
       ],
       "keyProps": [
-        "transition: Transition"
+        "transition: Transition",
+        "open: boolean",
+        "defaultOpen: boolean",
+        "onOpenChange: ((open: boolean) => void)",
+        "modal: boolean"
       ],
       "exampleCount": 3
     },
@@ -738,8 +751,8 @@
         "checkedIcon: ReactNode",
         "uncheckedIcon: ReactNode",
         "loading: boolean",
-        "disabled: boolean",
-        "asChild: boolean"
+        "defaultChecked: boolean",
+        "disabled: boolean"
       ],
       "exampleCount": 8
     },
@@ -754,7 +767,7 @@
         "color: destructive|success|warning|primary|blue",
         "showValue: boolean",
         "indicatorClassName: string",
-        "asChild: boolean"
+        "value: number | null"
       ],
       "exampleCount": 6
     },
@@ -769,7 +782,7 @@
         "formatValue: ((value: number) => ReactNode)",
         "marks: number[]",
         "disabled: boolean",
-        "asChild: boolean"
+        "orientation: horizontal|vertical"
       ],
       "exampleCount": 8
     },
@@ -794,8 +807,12 @@
       "title": "单选框组 Radio Group",
       "description": "用于在一组互斥选项中选取单一值的表单控件，提供流畅的视觉反馈与完整的键盘无障碍导航。",
       "keyProps": [
+        "required: boolean",
         "disabled: boolean",
-        "asChild: boolean"
+        "orientation: horizontal|vertical",
+        "loop: boolean",
+        "defaultValue: string",
+        "value: string | null"
       ],
       "exampleCount": 8
     },
@@ -806,8 +823,11 @@
       "description": "支持选中、未选中与半选（不确定）状态的交互式多选控件，内置平滑勾选微动效与完整的键盘无障碍能力。",
       "keyProps": [
         "size: default|sm|lg",
-        "disabled: boolean",
-        "asChild: boolean"
+        "checked: CheckedState",
+        "defaultChecked: CheckedState",
+        "required: boolean",
+        "onCheckedChange: ((checked: CheckedState) => void)",
+        "disabled: boolean"
       ],
       "exampleCount": 8
     },
@@ -817,7 +837,12 @@
       "title": "下拉选择器 Select",
       "description": "用于在有限互斥选项中进行单项选择的下拉菜单组件，支持分组、尺寸密度、自定义渲染与完整的键盘导航无障碍支持。",
       "keyProps": [
-        "disabled: boolean"
+        "open: boolean",
+        "defaultOpen: boolean",
+        "onOpenChange: ((open: boolean) => void)",
+        "disabled: boolean",
+        "required: boolean",
+        "value: string"
       ],
       "exampleCount": 7
     },
@@ -863,10 +888,10 @@
       "keyProps": [
         "animated: boolean",
         "noValidate: boolean",
-        "autoComplete: string",
         "target: string",
         "method: string",
-        "acceptCharset: string"
+        "acceptCharset: string",
+        "action: string | ((formData: FormData) => void | Promise<void>)"
       ],
       "exampleCount": 4
     },
@@ -876,6 +901,11 @@
       "title": "标签栏 Tabs",
       "description": "用于在同一界面区域切换展示同层级内容分区的导航组件，内置共享布局弹性滑块动效与完整的键盘无障碍能力。",
       "keyProps": [
+        "value: string",
+        "defaultValue: string",
+        "onValueChange: ((value: string) => void)",
+        "orientation: horizontal|vertical",
+        "activationMode: manual|automatic",
         "asChild: boolean"
       ],
       "exampleCount": 5
@@ -927,7 +957,10 @@
         "layout"
       ],
       "keyProps": [
+        "defaultOpen: boolean",
+        "open: boolean",
         "disabled: boolean",
+        "onOpenChange: ((open: boolean) => void)",
         "asChild: boolean"
       ],
       "exampleCount": 4
@@ -942,9 +975,12 @@
         "layout"
       ],
       "keyProps": [
-        "disabled: boolean",
-        "asChild: boolean",
-        "variant: default|bordered|separated"
+        "type: multiple|single",
+        "value: string | string[]",
+        "defaultValue: string | string[]",
+        "onValueChange: ((value: string) => void) | ((value: string[]) => void)",
+        "collapsible: boolean",
+        "disabled: boolean"
       ],
       "exampleCount": 2
     },
@@ -1094,7 +1130,12 @@
       "type": "registry:ui",
       "title": "气泡浮层 Popover",
       "description": "在指定触发锚点周围展示富文本内容、轻量表单或操作卡片，支持自动碰撞避让与完整的焦点管理。",
-      "keyProps": [],
+      "keyProps": [
+        "open: boolean",
+        "defaultOpen: boolean",
+        "onOpenChange: ((open: boolean) => void)",
+        "modal: boolean"
+      ],
       "exampleCount": 3
     },
     {
@@ -1105,7 +1146,12 @@
       "categories": [
         "navigation"
       ],
-      "keyProps": [],
+      "keyProps": [
+        "open: boolean",
+        "defaultOpen: boolean",
+        "onOpenChange: ((open: boolean) => void)",
+        "modal: boolean"
+      ],
       "exampleCount": 4
     },
     {
@@ -1295,7 +1341,6 @@
         "motion"
       ],
       "keyProps": [
-        "children: ReactNode",
         "variants: Variants",
         "transition: Transition",
         "viewOptions: UseInViewOptions",
@@ -1333,7 +1378,6 @@
         "motion"
       ],
       "keyProps": [
-        "children: ReactNode",
         "options: LenisOptions",
         "disabled: boolean",
         "respectReducedMotion: boolean",
@@ -1352,12 +1396,12 @@
         "motion"
       ],
       "keyProps": [
-        "children: ReactNode",
         "axis: x|y",
         "distance: [number, number]",
         "scale: [number, number]",
         "rotate: [number, number]",
-        "opacity: [number, number]"
+        "opacity: [number, number]",
+        "smooth: boolean | SpringOptions"
       ],
       "exampleCount": 2
     },
@@ -1372,12 +1416,12 @@
         "text-effect"
       ],
       "keyProps": [
-        "children: string",
         "mode: blur|highlight|reveal",
         "per: line|word|char",
         "as: ElementType<any, keyof IntrinsicElements>",
         "range: readonly [number, number]",
-        "overlap: number"
+        "overlap: number",
+        "smooth: boolean"
       ],
       "exampleCount": 3
     },
@@ -1391,7 +1435,6 @@
         "motion"
       ],
       "keyProps": [
-        "children: ReactNode",
         "top: number",
         "gap: number",
         "scaleStep: number",
@@ -1410,7 +1453,6 @@
         "motion"
       ],
       "keyProps": [
-        "children: ReactNode",
         "container: RefObject<HTMLElement | null>",
         "scrollPadding: number",
         "smooth: boolean",
@@ -1429,12 +1471,12 @@
         "motion"
       ],
       "keyProps": [
-        "children: ReactNode",
         "baseSpeed: number",
         "sensitivity: number",
         "maxBoost: number",
         "gap: number",
-        "reverse: boolean"
+        "reverse: boolean",
+        "skew: number"
       ],
       "exampleCount": 2
     },
@@ -1448,12 +1490,12 @@
         "motion"
       ],
       "keyProps": [
-        "children: ReactNode",
         "direction: expand|collapse",
         "inset: number",
         "radius: number",
         "scrollLength: number",
-        "contentScale: number"
+        "contentScale: number",
+        "smooth: boolean"
       ],
       "exampleCount": 2
     },
@@ -1467,12 +1509,12 @@
         "motion"
       ],
       "keyProps": [
-        "children: ReactNode",
         "stepLength: number",
         "effect: fade|blur|slide",
         "container: RefObject<HTMLElement | null>",
         "showProgress: boolean",
-        "onStepChange: ((index: number) => void)"
+        "onStepChange: ((index: number) => void)",
+        "viewportClassName: string"
       ],
       "exampleCount": 2
     },
@@ -1501,7 +1543,6 @@
         "motion"
       ],
       "keyProps": [
-        "children: ReactNode",
         "gap: number",
         "speed: number",
         "speedOnHover: number",
@@ -1519,12 +1560,12 @@
         "motion"
       ],
       "keyProps": [
-        "children: ReactNode",
         "springConfig: SpringOptions",
         "attachToParent: boolean",
         "transition: Transition",
         "variants: Variants",
-        "hideNativeCursor: boolean"
+        "hideNativeCursor: boolean",
+        "onPositionChange: ((position: CursorPosition) => void)"
       ],
       "exampleCount": 3
     },
@@ -1553,12 +1594,12 @@
         "fancy"
       ],
       "keyProps": [
-        "children: ReactNode",
         "variant: rainbow|solid",
         "color: string",
         "colors: string[]",
         "spread: number",
-        "borderWidth: number"
+        "borderWidth: number",
+        "glowOpacity: number"
       ],
       "exampleCount": 3
     },
@@ -1572,12 +1613,12 @@
         "motion"
       ],
       "keyProps": [
-        "children: ReactNode",
         "variant: smooth|rough",
         "color: string",
         "duration: number",
         "delay: number",
-        "inView: boolean"
+        "inView: boolean",
+        "once: boolean"
       ],
       "exampleCount": 4
     },
@@ -1590,7 +1631,6 @@
         "motion"
       ],
       "keyProps": [
-        "children: ReactNode",
         "direction: up|down",
         "trigger: hover|parent",
         "active: boolean",
@@ -1607,12 +1647,12 @@
         "motion"
       ],
       "keyProps": [
-        "children: ReactElement<AnimatedBackgroundItemProps, string | JSXElementConstructor<any>> | ReactElement<AnimatedBackgroundItemProps, string | JSXElementConstructor<...>>[]",
         "mode: hover|click",
         "value: string | null",
         "defaultValue: string | null",
         "onValueChange: ((value: string) => void)",
-        "highlightClassName: string"
+        "highlightClassName: string",
+        "transition: Transition"
       ],
       "exampleCount": 3
     },
@@ -1625,12 +1665,12 @@
         "motion"
       ],
       "keyProps": [
-        "children: ReactNode[]",
         "activeIndex: number",
         "axis: x|y",
         "offset: number",
         "blur: boolean",
-        "animateHeight: boolean"
+        "animateHeight: boolean",
+        "transition: Transition"
       ],
       "exampleCount": 2
     },
@@ -1643,12 +1683,12 @@
         "motion"
       ],
       "keyProps": [
-        "children: ReactNode",
         "preset: scale|zoom|bounce|fade|flip|slide|blur-slide",
         "variants: Variants",
         "stagger: number",
         "delay: number",
-        "inView: boolean"
+        "inView: boolean",
+        "once: boolean"
       ],
       "exampleCount": 2
     },
@@ -1661,7 +1701,6 @@
         "motion"
       ],
       "keyProps": [
-        "children: ReactNode",
         "delay: number",
         "max: number",
         "transition: Transition",
@@ -1697,12 +1736,12 @@
         "motion"
       ],
       "keyProps": [
-        "children: ReactNode",
         "marquee: ReactNode",
         "speed: number",
         "gap: number",
         "reverse: boolean",
-        "active: boolean"
+        "active: boolean",
+        "marqueeClassName: string"
       ],
       "exampleCount": 3
     },
@@ -1716,7 +1755,6 @@
         "fancy"
       ],
       "keyProps": [
-        "children: ReactNode",
         "radius: number",
         "color: string",
         "borderColor: string",
@@ -1736,12 +1774,12 @@
         "fancy"
       ],
       "keyProps": [
-        "children: ReactNode",
         "maxTilt: number",
         "perspective: number",
         "hoverScale: number",
         "glare: boolean",
-        "glareOpacity: number"
+        "glareOpacity: number",
+        "glareClassName: string"
       ],
       "exampleCount": 2
     },
@@ -1757,11 +1795,11 @@
       ],
       "keyProps": [
         "items: ReactNode[]",
-        "children: ReactNode",
         "distance: number",
         "lifetime: number",
         "maxItems: number",
-        "rotation: number"
+        "rotation: number",
+        "itemClassName: string"
       ],
       "exampleCount": 2
     },
@@ -1776,12 +1814,12 @@
         "fancy"
       ],
       "keyProps": [
-        "children: ReactNode",
         "preview: ReactNode",
         "offsetX: number",
         "offsetY: number",
         "tilt: number",
-        "open: boolean"
+        "open: boolean",
+        "previewClassName: string"
       ],
       "exampleCount": 3
     },
@@ -1796,7 +1834,6 @@
         "fancy"
       ],
       "keyProps": [
-        "children: ReactNode",
         "colors: [string, string, string]",
         "duration: number",
         "blur: number",
@@ -1835,12 +1872,12 @@
         "fancy"
       ],
       "keyProps": [
-        "children: ReactNode",
         "pattern: grid|dots",
         "size: number",
         "radius: number",
         "patternColor: string",
-        "baseOpacity: number"
+        "baseOpacity: number",
+        "fadeEdges: boolean"
       ],
       "exampleCount": 2
     },
@@ -1854,12 +1891,12 @@
         "text-effect"
       ],
       "keyProps": [
-        "children: string",
         "per: line|word|char",
         "as: ElementType<any, keyof IntrinsicElements>",
         "preset: scale|fade|blur|flip|slide|blur-sm|fade-in-blur|rise|drop",
         "variants: { container?: Variants; item?: Variants; } | undefined",
-        "delay: number"
+        "delay: number",
+        "trigger: boolean"
       ],
       "exampleCount": 5
     },
@@ -1873,12 +1910,12 @@
         "text-effect"
       ],
       "keyProps": [
-        "children: ReactNode[]",
         "interval: number",
         "direction: up|down",
         "transition: Transition",
         "variants: Variants",
-        "animateWidth: boolean"
+        "animateWidth: boolean",
+        "onIndexChange: ((index: number) => void)"
       ],
       "exampleCount": 5
     },
@@ -1892,7 +1929,6 @@
         "text-effect"
       ],
       "keyProps": [
-        "children: string",
         "as: ElementType<any, keyof IntrinsicElements>",
         "transition: Transition",
         "variants: Variants"
@@ -1909,12 +1945,12 @@
         "text-effect"
       ],
       "keyProps": [
-        "children: string",
         "duration: number",
         "getEnterDelay: ((index: number) => number)",
         "getExitDelay: ((index: number) => number)",
         "transition: Transition",
-        "variants: Variants"
+        "variants: Variants",
+        "trigger: hover|parent|mount"
       ],
       "exampleCount": 4
     },
@@ -1928,12 +1964,12 @@
         "text-effect"
       ],
       "keyProps": [
-        "children: string",
         "as: ElementType<any, keyof IntrinsicElements>",
         "duration: number",
         "speed: number",
         "characterSet: string",
-        "trigger: boolean"
+        "trigger: boolean",
+        "onScrambleComplete: (() => void)"
       ],
       "exampleCount": 4
     },
@@ -1947,7 +1983,6 @@
         "text-effect"
       ],
       "keyProps": [
-        "children: string",
         "as: ElementType<any, keyof IntrinsicElements>",
         "duration: number",
         "spread: number"
@@ -1964,12 +1999,12 @@
         "text-effect"
       ],
       "keyProps": [
-        "children: string",
         "as: ElementType<any, keyof IntrinsicElements>",
         "duration: number",
         "zDistance: number",
         "xDistance: number",
-        "yDistance: number"
+        "yDistance: number",
+        "spread: number"
       ],
       "exampleCount": 1
     },
@@ -2021,12 +2056,12 @@
         "text-effect"
       ],
       "keyProps": [
-        "children: ReactNode",
         "trigger: always|hover|inView",
         "active: boolean",
         "variant: underline|block",
         "color: string",
-        "from: right|left"
+        "from: right|left",
+        "delay: number"
       ],
       "exampleCount": 2
     },
@@ -2075,7 +2110,9 @@
         "containerClassName: string",
         "density: compact|default",
         "striped: boolean",
-        "stickyHeader: boolean"
+        "stickyHeader: boolean",
+        "containerRef: Ref<HTMLDivElement>",
+        "containerStyle: CSSProperties"
       ],
       "exampleCount": 5
     },
@@ -2118,8 +2155,8 @@
         "value: string",
         "defaultValue: string",
         "onValueChange: ((value: string) => void)",
-        "hourCycle: enum",
-        "minuteStep: enum",
+        "hourCycle: 12 | 24",
+        "minuteStep: 1 | 30 | 5 | 10 | 15",
         "placeholder: string"
       ],
       "exampleCount": 4
@@ -2210,7 +2247,7 @@
       "keyProps": [
         "title: ReactNode",
         "extra: ReactNode",
-        "columns: enum",
+        "columns: 1 | 4 | 3 | 2",
         "bordered: boolean",
         "layout: horizontal|vertical",
         "size: default|sm"
@@ -2234,10 +2271,12 @@
       "title": "切换按钮 Toggle",
       "description": "用于在激活（On）与未激活（Off）两种双态之间切换并持久保持状态的轻量级动作按钮。",
       "keyProps": [
+        "pressed: boolean",
+        "defaultPressed: boolean",
+        "onPressedChange: ((pressed: boolean) => void)",
         "disabled: boolean",
         "asChild: boolean",
-        "size: \"default\" | \"sm\" | \"lg\" | null",
-        "variant: \"default\" | \"outline\" | null"
+        "size: \"default\" | \"sm\" | \"lg\" | null"
       ],
       "exampleCount": 9
     },
@@ -2247,10 +2286,12 @@
       "title": "切换按钮组 Toggle Group",
       "description": "将多个双态切换按钮组合为单选互斥（Single）或并列多选（Multiple）的分组控件。",
       "keyProps": [
+        "type: multiple|single",
+        "value: string | string[]",
+        "defaultValue: string | string[]",
+        "onValueChange: ((value: string) => void) | ((value: string[]) => void)",
         "disabled: boolean",
-        "asChild: boolean",
-        "size: \"default\" | \"sm\" | \"lg\" | null",
-        "variant: \"default\" | \"outline\" | null"
+        "rovingFocus: boolean"
       ],
       "exampleCount": 5
     },
@@ -2325,7 +2366,11 @@
       "type": "registry:ui",
       "title": "右键菜单 Context Menu",
       "description": "在指定对象、表格行或操作区域上通过鼠标右键或触屏长按呼出的就地快捷操作浮层。",
-      "keyProps": [],
+      "keyProps": [
+        "open: boolean",
+        "onOpenChange: ((open: boolean) => void)",
+        "modal: boolean"
+      ],
       "exampleCount": 3
     },
     {
@@ -2375,7 +2420,15 @@
         "expanded: string[]",
         "defaultExpanded: string[]"
       ],
-      "exampleCount": 7
+      "exampleCount": 8
+    },
+    {
+      "name": "tree-file-icons",
+      "type": "registry:example",
+      "title": "文件类型图标树",
+      "description": "根据文件后缀匹配 Material Icon Theme 图标的文件目录示例。",
+      "keyProps": [],
+      "exampleCount": 1
     },
     {
       "name": "tree-select",

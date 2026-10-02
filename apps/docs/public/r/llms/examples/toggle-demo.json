@@ -1,0 +1,6 @@
+{
+  "name": "toggle-demo",
+  "component": "toggle",
+  "title": "基础用法",
+  "code": "\"use client\"\n\nimport * as React from \"react\"\nimport { BoldIcon } from \"lucide-react\"\n\nimport { Toggle } from \"@/components/ui/toggle\"\n\nexport default function ToggleDemo() {\n  const [pressed, setPressed] = React.useState(false)\n\n  return (\n    <Toggle\n      pressed={pressed}\n      onPressedChange={setPressed}\n      variant=\"outline\"\n      aria-label=\"切换粗体\"\n    >\n      <BoldIcon />\n      粗体\n    </Toggle>\n  )\n}\n"
+}

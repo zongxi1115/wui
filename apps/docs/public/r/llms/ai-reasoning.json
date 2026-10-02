@@ -39,7 +39,6 @@
       "name": "isStreaming",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "false",
       "description": "是否仍在接收推理过程。"
     },
@@ -47,24 +46,175 @@
       "name": "duration",
       "type": "number",
       "required": false,
-      "control": "number",
       "description": "已完成的推理耗时，单位为秒。"
+    },
+    {
+      "name": "defaultOpen",
+      "type": "boolean",
+      "required": false
+    },
+    {
+      "name": "open",
+      "type": "boolean",
+      "required": false
     },
     {
       "name": "disabled",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "description": "是否禁用组件。"
+    },
+    {
+      "name": "onOpenChange",
+      "type": "((open: boolean) => void)",
+      "required": false
     },
     {
       "name": "asChild",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
     }
   ],
+  "api": [
+    {
+      "name": "AiReasoning",
+      "props": [
+        {
+          "name": "isStreaming",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "是否仍在接收推理过程。"
+        },
+        {
+          "name": "duration",
+          "type": "number",
+          "required": false,
+          "description": "已完成的推理耗时，单位为秒。"
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "是否禁用组件。"
+        },
+        {
+          "name": "onOpenChange",
+          "type": "((open: boolean) => void)",
+          "required": false
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false,
+          "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
+        }
+      ]
+    },
+    {
+      "name": "AiReasoningContent",
+      "props": [
+        {
+          "name": "forceMount",
+          "type": "true",
+          "required": false,
+          "description": "Used to force mounting when more control is needed. Useful when\ncontrolling animation with React animation libraries."
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false,
+          "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
+        }
+      ]
+    },
+    {
+      "name": "AiReasoningStep",
+      "props": [
+        {
+          "name": "status",
+          "type": "\"pending\" | \"active\" | \"complete\"",
+          "required": false,
+          "options": [
+            "pending",
+            "active",
+            "complete"
+          ],
+          "defaultValue": "pending",
+          "description": "Progress state for this visible reasoning summary."
+        },
+        {
+          "name": "label",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Short step label. Plain-text labels shimmer while the step is active."
+        },
+        {
+          "name": "description",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Optional supporting description."
+        },
+        {
+          "name": "icon",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Optional icon used for this kind of reasoning activity."
+        },
+        {
+          "name": "meta",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Optional metadata aligned to the end of the step."
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Arbitrary React content rendered in the step body."
+        }
+      ]
+    },
+    {
+      "name": "AiReasoningTrigger",
+      "props": [
+        {
+          "name": "getLabel",
+          "type": "((isStreaming: boolean, duration?: number) => ReactNode)",
+          "required": false,
+          "description": "Customize the trigger summary."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "是否禁用组件。"
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false,
+          "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`AiReasoning` 适用于 OpenAI o1/o3、DeepSeek R1 等具备原生思考链（CoT）能力的大模型，或多智能体协作推演场景：\n\n- **何时使用**：\n  - 展示深度推理模型的思考过程摘要；\n  - 呈现 Agent 多阶段任务规划与推演步骤（规划 -> 检索 -> 代码验证 -> 总结）；\n  - 让用户直观理解模型得出复杂结论背后的依据与逻辑。\n- **何时不应使用**：\n  - 不要用于直接暴露包含系统 Prompt 密钥、敏感内部策略或内部私有数据的原始日志；\n  - 简单的单步回答无需额外增加思考折叠框。\n- **设计最佳实践**：\n  - **默认智能折叠**：思考生成中保持展开，生成完毕后自动折叠，避免冗长的推演文字占据过大垂直屏宽；\n  - **步骤连线与状态明确**：利用步骤间的竖直连线表达先后时序，未执行步骤淡化，当前步骤高亮旋转；\n  - **精简易读**：对推理内容进行关键步骤提炼，配合 `meta` 标注耗时，避免大段无结构纯文本倾泻。",
+  "extended": "### 综合步骤与工具调用组合\n\n在思考步骤内嵌入 Badge 状态、代码片段与下游工具调用：\n\n### 实时流式推进演练\n\n模拟多阶段智能体在进行复杂系统设计时的思考推演与状态实时流转。示例未传入 `duration`，触发器会自动计量并展示思考耗时：",
+  "events": "- `onOpenChange`: (open: boolean) => void — 用户点击触发器展开或收起思考链详情时触发。",
+  "accessibility": "- **折叠控件标准 (Radix Collapsible)**：\n  - 触发器自带 `aria-expanded` 与 `aria-controls` 属性，屏幕阅读器可清晰感知内容展开状态；\n  - 箭头图标根据展开状态平滑旋转 180 度。\n- **键盘导航支持**：\n  - <kbd>Tab</kbd>：聚焦至推理触发器按钮，展示高对比度聚焦环；\n  - <kbd>Space</kbd> / <kbd>Enter</kbd>：快速切换思考链面板的展开与折叠。\n- **动效降级**：\n  - 步骤进场淡入与折叠展开高度过渡均适配 `prefers-reduced-motion`，开启后直接无动效瞬时呈现。",
   "examples": [
     {
       "name": "ai-reasoning-demo",

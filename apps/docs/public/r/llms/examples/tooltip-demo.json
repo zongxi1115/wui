@@ -1,0 +1,6 @@
+{
+  "name": "tooltip-demo",
+  "component": "tooltip",
+  "title": "基础用法",
+  "code": "import { BellIcon, SearchIcon, SettingsIcon } from \"lucide-react\"\n\nimport { Button } from \"@/components/ui/button\"\nimport {\n  Tooltip,\n  TooltipContent,\n  TooltipProvider,\n  TooltipTrigger,\n} from \"@/components/ui/tooltip\"\n\nconst actions = [\n  { label: \"搜索\", shortcut: \"Ctrl K\", icon: SearchIcon },\n  { label: \"通知\", shortcut: \"G N\", icon: BellIcon },\n  { label: \"设置\", shortcut: \"Ctrl ,\", icon: SettingsIcon },\n]\n\nexport default function TooltipDemo() {\n  return (\n    <TooltipProvider>\n      <div className=\"flex items-center gap-1\">\n        {actions.map(({ label, shortcut, icon: Icon }) => (\n          <Tooltip key={label}>\n            <TooltipTrigger asChild>\n              <Button variant=\"ghost\" size=\"icon\" aria-label={label}>\n                <Icon />\n              </Button>\n            </TooltipTrigger>\n            <TooltipContent>\n              {label}\n              <span className=\"text-background/60 ml-2\">{shortcut}</span>\n            </TooltipContent>\n          </Tooltip>\n        ))}\n      </div>\n    </TooltipProvider>\n  )\n}\n"
+}

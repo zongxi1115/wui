@@ -1,0 +1,6 @@
+{
+  "name": "aurora-background-demo",
+  "component": "aurora-background",
+  "title": "基础用法",
+  "code": "import { ArrowRightIcon } from \"lucide-react\"\n\nimport { AuroraBackground } from \"@/components/ui/aurora-background\"\nimport { Button } from \"@/components/ui/button\"\n\nexport default function AuroraBackgroundDemo() {\n  return (\n    <AuroraBackground\n      interactive\n      className=\"flex min-h-[26rem] w-full items-center justify-center rounded-b-lg px-6 py-16\"\n    >\n      <div className=\"mx-auto max-w-xl text-center\">\n        <p className=\"text-muted-foreground text-sm\">WUI 2.0 · 动效版本</p>\n        <h2 className=\"mt-3 text-4xl font-semibold tracking-tight text-balance sm:text-5xl\">\n          让界面有呼吸感\n        </h2>\n        <p className=\"text-muted-foreground mx-auto mt-4 max-w-md leading-7\">\n          一套以动效为先的组件库。滚动、悬停与转场都经过调校，默认克制，按需生动。\n        </p>\n        <div className=\"mt-8 flex flex-wrap justify-center gap-3\">\n          <Button>\n            开始使用\n            <ArrowRightIcon />\n          </Button>\n          <Button variant=\"outline\">查看组件</Button>\n        </div>\n      </div>\n    </AuroraBackground>\n  )\n}\n"
+}

@@ -29,14 +29,12 @@
       "name": "children",
       "type": "string",
       "required": true,
-      "control": "text",
       "description": "字符位置发生变化时需要进行形变的文字。"
     },
     {
       "name": "as",
       "type": "ElementType<any, keyof IntrinsicElements>",
       "required": false,
-      "control": "text",
       "defaultValue": "p",
       "description": "组件实际渲染的 HTML 元素。"
     },
@@ -44,7 +42,6 @@
       "name": "transition",
       "type": "Transition",
       "required": false,
-      "control": "text",
       "defaultValue": "{\n  type: \"spring\",\n  stiffness: 380,\n  damping: 32,\n  mass: 0.6,\n}",
       "description": "共享字符移动时使用的弹簧或补间过渡。"
     },
@@ -52,11 +49,49 @@
       "name": "variants",
       "type": "Variants",
       "required": false,
-      "control": "text",
       "defaultValue": "{\n  initial: { opacity: 0, filter: \"blur(2px)\" },\n  animate: { opacity: 1, filter: \"blur(0px)\" },\n  exit: { opacity: 0, filter: \"blur(2px)\" },\n}",
       "description": "新出现或离开字符的初始、播放中和离场状态。"
     }
   ],
+  "api": [
+    {
+      "name": "TextMorph",
+      "props": [
+        {
+          "name": "children",
+          "type": "string",
+          "required": true,
+          "description": "字符位置发生变化时需要进行形变的文字。"
+        },
+        {
+          "name": "as",
+          "type": "ElementType<any, keyof IntrinsicElements>",
+          "required": false,
+          "defaultValue": "p",
+          "description": "组件实际渲染的 HTML 元素。"
+        },
+        {
+          "name": "transition",
+          "type": "Transition",
+          "required": false,
+          "defaultValue": "{\n  type: \"spring\",\n  stiffness: 380,\n  damping: 32,\n  mass: 0.6,\n}",
+          "description": "共享字符移动时使用的弹簧或补间过渡。"
+        },
+        {
+          "name": "variants",
+          "type": "Variants",
+          "required": false,
+          "defaultValue": "{\n  initial: { opacity: 0, filter: \"blur(2px)\" },\n  animate: { opacity: 1, filter: \"blur(0px)\" },\n  exit: { opacity: 0, filter: \"blur(2px)\" },\n}",
+          "description": "新出现或离开字符的初始、播放中和离场状态。"
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`TextMorph` 专为**微交互中的文字状态转换**而设计，尤其适合操作反馈、分段控制、步骤进度与搜索引导。\n\n- **词汇相关性**：形变效果在“新旧文案共享部分相同字符”时最具视觉魔力（例如 `保存草稿` ➜ `正在保存草稿` ➜ `草稿已保存`，或 `Download` ➜ `Downloaded`）。如果两段文案完全无相同字符，形变将自然退化为字符淡入淡出。\n- **避免过长段落形变**：仅将 `TextMorph` 用于短句、单词或标题（建议小于 40 个字符）。对几百字的文章正文执行字符级全局追踪会消耗不必要的布局计算。\n- **与按钮/徽章深度融合**：在提交按钮中使用 `TextMorph`，可以避免按钮在加载和成功状态之间发生突兀的白屏跳闪，提供原生应用级的精致触感。",
+  "extended": "### 状态操作按钮\n\n结合异步保存的三个状态，共享的“保存草稿”四个字在按钮内滑动换位，新增的字淡入：\n\n### 分段筛选标签栏\n\n切换任务筛选时，下方统计文案中共享的“个任务”原地滑动，数字与状态词淡入淡出：\n\n### 智能搜索提示轮播\n\n在 AI 提问框中轮换占位提示，共同的前缀“让 AI 帮你”保持稳定，只有后半句发生形变；用户开始输入后停止轮换：\n\n### 部署流水线状态\n\n展示长耗时任务在不同阶段之间的递进演进：",
+  "events": "`TextMorph` 会将 `{...props}` 展开到底层元素，因此支持所有原生事件：\n\n- `onClick`: (event: React.MouseEvent) => void — 点击文本区域时触发的原生点击事件。",
+  "accessibility": "- **屏幕阅读器支持**：组件内部渲染一份视觉隐藏（`sr-only`）的完整文本，各个独立的形变 `motion.span` 标记有 `aria-hidden=\"true\"`，保证辅助技术始终将文本作为完整词语朗读，不会因单个字母的位移而产生碎片化发音。\n- **系统减少动态偏好（Reduced Motion）**：当用户系统启用了“减少动态效果（prefers-reduced-motion）”时，组件保持相同结构但过渡时长归零，文本直接更新。\n- **实例隔离**：每个 `TextMorph` 使用独立的 `LayoutGroup`，页面上同时存在多个实例时，相同字符不会在不同实例之间“飞来飞去”。\n- **空格与排版保护**：每个字符以 `whitespace-pre` 渲染，空格宽度在形变过程中保持稳定。",
   "examples": [
     {
       "name": "text-morph-demo",

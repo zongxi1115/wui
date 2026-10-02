@@ -29,35 +29,31 @@
       "name": "items",
       "type": "TreeNode[]",
       "required": true,
-      "control": "text",
       "description": "树形选项数据。"
     },
     {
       "name": "value",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "受控模式下的选中值。"
     },
     {
       "name": "defaultValue",
       "type": "string",
       "required": false,
-      "control": "text",
+      "defaultValue": "",
       "description": "非受控模式下的初始选中值。"
     },
     {
       "name": "onValueChange",
       "type": "((value: string, node?: TreeNode) => void)",
       "required": false,
-      "control": "text",
       "description": "选中值变化或清空时触发。"
     },
     {
       "name": "placeholder",
       "type": "string",
       "required": false,
-      "control": "text",
       "defaultValue": "请选择",
       "description": "未选中时显示的文本。@default \"请选择\""
     },
@@ -65,7 +61,6 @@
       "name": "clearable",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "true",
       "description": "是否允许清空已选值。@default true"
     },
@@ -73,7 +68,6 @@
       "name": "searchable",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "true",
       "description": "是否显示搜索框。@default true"
     },
@@ -81,7 +75,6 @@
       "name": "searchPlaceholder",
       "type": "string",
       "required": false,
-      "control": "text",
       "defaultValue": "搜索节点",
       "description": "搜索框占位文本。@default \"搜索节点\""
     },
@@ -89,7 +82,6 @@
       "name": "emptyText",
       "type": "ReactNode",
       "required": false,
-      "control": "text",
       "defaultValue": "没有匹配的节点",
       "description": "没有匹配节点时显示的文本。@default \"没有匹配的节点\""
     },
@@ -97,24 +89,116 @@
       "name": "contentClassName",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "应用于浮层面板的额外类名。"
     },
     {
       "name": "filterNode",
       "type": "((query: string, node: TreeNode) => boolean)",
       "required": false,
-      "control": "text",
       "description": "自定义节点搜索逻辑。"
     },
     {
       "name": "disabled",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "description": "是否禁用组件。"
     }
   ],
+  "api": [
+    {
+      "name": "TreeSelect",
+      "props": [
+        {
+          "name": "items",
+          "type": "TreeNode[]",
+          "required": true,
+          "description": "树形选项数据。"
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": false,
+          "description": "受控模式下的选中值。"
+        },
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "required": false,
+          "defaultValue": "",
+          "description": "非受控模式下的初始选中值。"
+        },
+        {
+          "name": "onValueChange",
+          "type": "((value: string, node?: TreeNode) => void)",
+          "required": false,
+          "description": "选中值变化或清空时触发。"
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "required": false,
+          "defaultValue": "请选择",
+          "description": "未选中时显示的文本。@default \"请选择\""
+        },
+        {
+          "name": "clearable",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "是否允许清空已选值。@default true"
+        },
+        {
+          "name": "searchable",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "是否显示搜索框。@default true"
+        },
+        {
+          "name": "searchPlaceholder",
+          "type": "string",
+          "required": false,
+          "defaultValue": "搜索节点",
+          "description": "搜索框占位文本。@default \"搜索节点\""
+        },
+        {
+          "name": "emptyText",
+          "type": "ReactNode",
+          "required": false,
+          "defaultValue": "没有匹配的节点",
+          "description": "没有匹配节点时显示的文本。@default \"没有匹配的节点\""
+        },
+        {
+          "name": "contentClassName",
+          "type": "string",
+          "required": false,
+          "description": "应用于浮层面板的额外类名。"
+        },
+        {
+          "name": "filterNode",
+          "type": "((query: string, node: TreeNode) => boolean)",
+          "required": false,
+          "description": "自定义节点搜索逻辑。"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "是否禁用组件。"
+        }
+      ]
+    }
+  ],
+  "types": [
+    {
+      "name": "TreeNode",
+      "definition": "export interface TreeNode {\n  /** 节点的稳定值。 */\n  value: string\n  /** 展示给用户的节点文本。 */\n  label: React.ReactNode\n  /** 嵌套的子节点。 */\n  children?: TreeNode[]\n  /** 禁止展开和选择此节点。 */\n  disabled?: boolean\n  /** 显示在标签前的自定义图标。 */\n  icon?: React.ReactNode\n}"
+    }
+  ],
+  "usage": "`TreeSelect` 适用于从**具有层次组织结构**（如公司部门、知识库分类树、文件系统目录）中选取**单个目标节点**的业务场景。\n\n- **TreeSelect vs Cascader vs Tree**：\n  - **TreeSelect（树选择）**：在紧凑表单中使用，浮层展开为树，注重从树中定位单点值。\n  - **Cascader（级联选择）**：多列横向展开，强制体现层级路径关系（如省市区）。\n  - **Tree（树形控件）**：常驻页面主体布局中，支持大面积展示、多选复选框、拖拽排序等深交互。\n- **搜索自动展开祖先链**：用户在 `TreeSelect` 中搜索时，组件会自动过滤出匹配的节点并自动展开其上层的所有父级节点路径，确保用户直观理解搜索结果的上下文。\n- **一键清空机制**：非必填表单字段建议保留 `clearable={true}`，方便用户快速取消选择而无需重新展开树进行反选。",
+  "extended": "### 拼音与首字母多维检索\n\n通过 `filterNode` 接入自定义别名映射字典，支持拼音或业务首字母极速检索：\n\n### 企业组织架构与审批指派\n\n配合节点自定义图标（`icon`）呈现具有层级分工的企业部门树，提供专业清晰的层级视觉反馈：\n\n### 文件系统目录与清空重置\n\n在代码管理或云存储目录场景中，结合 `clearable` 属性实现自由关联与随时清空重置：\n\n### 节点禁用与不可选权限\n\n当用户缺少特定分支的操作权限（如只读管理员分支）时，可单独对节点设置 `disabled: true`：",
+  "events": "- `onValueChange`: (value: string, node?: TreeNode) => void — 用户点击某个节点或点击清空按钮时触发。清空时 value 为空字符串，node 为 undefined。\n- `onFocus`: (event: React.FocusEvent<HTMLButtonElement>) => void — 触发器获得焦点时触发。\n- `onBlur`: (event: React.FocusEvent<HTMLButtonElement>) => void — 触发器失去焦点时触发。",
+  "accessibility": "- **ARIA 规范**：触发按钮具有 `role=\"combobox\"`、`aria-expanded` 与 `aria-haspopup=\"dialog\"`；内部树结构遵循 WAI-ARIA `tree` 与 `treeitem` 无障碍规范。\n- **键盘导航**：\n  - <kbd>Tab</kbd>：在表单字段间切换焦点至触发框。\n  - <kbd>Enter</kbd> / <kbd>Space</kbd>：展开树选择浮层，光标自动聚焦至内部搜索框。\n  - <kbd>↑</kbd> / <kbd>↓</kbd>：在树节点列表中上下移动聚焦。\n  - <kbd>→</kbd>：展开当前聚焦的父节点。\n  - <kbd>←</kbd>：收起当前聚焦的父节点，或返回上层父级。\n  - <kbd>Esc</kbd>：收起浮层并将焦点送回触发按钮。\n- **清空操作无障碍**：清空按钮具有独立的 `aria-label=\"清空选择\"`，支持独立键盘 Tab 聚焦与激活。\n- **打开即定位**：打开浮层时自动展开已选节点的所有祖先，已选项始终可见；搜索时自动展开匹配路径。\n- **动效**：浮层从触发器方向展开，触发器中的值在切换时上移淡入，清空按钮缩放出现，箭头平滑旋转；均遵循 `prefers-reduced-motion`。",
   "examples": [
     {
       "name": "tree-select-demo",

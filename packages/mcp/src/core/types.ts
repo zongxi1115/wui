@@ -9,6 +9,16 @@ export interface PropMeta {
   description?: string
 }
 
+export interface ComponentApi {
+  name: string
+  props: PropMeta[]
+}
+
+export interface TypeDefinition {
+  name: string
+  definition: string
+}
+
 export interface ComponentDigest {
   name: string
   type: string
@@ -25,9 +35,12 @@ export interface ComponentDigest {
     registryDependencies: string[]
   }
   props: PropMeta[]
+  api: ComponentApi[]
+  types: TypeDefinition[]
   usage?: string
   extended?: string
   events?: string
+  accessibility?: string
   examples: Array<{ name: string; title?: string }>
   files: string[]
   docsUrl?: string
@@ -64,6 +77,8 @@ export interface ExampleEntry {
   title?: string
   code: string
 }
+
+export type ExampleIndex = Record<string, Omit<ExampleEntry, "code">>
 
 /**
  * Reads a path relative to the registry root (the directory that holds

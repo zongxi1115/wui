@@ -35,6 +35,10 @@
     "registryDependencies": []
   },
   "props": [],
+  "api": [],
+  "types": [],
+  "usage": "`useAiStream` 消费 `text/event-stream` 响应，并把 Vercel AI SDK UI Message Stream v1 的 chunk 整理为结构兼容\n`UIMessage` 的 `message.parts`。它不依赖 `ai` 或 `@ai-sdk/react`，适合 Zonix、FastAPI 等非 JavaScript 后端直接接入 WUI 的\n[`AiStream`](/docs/components/ai-stream)、[`AiReasoning`](/docs/components/ai-reasoning) 与\n[`AiTool`](/docs/components/ai-tool)。已经使用 AI SDK `useChat` 的项目应继续使用官方 transport。\n\n支持的内容包括文本、推理、工具输入与输出、审批、来源、文件、自定义 `data-*`、step 边界、消息 metadata、错误、终止和\n`[DONE]`。自定义 `data-*` 会保留在 `message.parts`；相同 `type + id` 的数据会原位更新，`transient: true` 只触发 `onData`。\n\nZonix 0.3.x 的 `reasoning-delta` 没有配套 `reasoning-start` / `reasoning-end`。Hook 会为这类分片补齐前端状态，并在\n`finish` 或流结束时收口为 `done`；`finish.usage` 也会保留在 `message.usage`。这层兼容只作用于本 Hook，若直接使用 AI SDK\n`useChat`，后端仍应发送完整的 reasoning start/delta/end 序列。",
+  "extended": "配置 `api` 后，`send(input)` 默认发送 JSON POST 请求：\n\n```tsx\nconst stream = useAiStream({ api: \"/api/agent\" })\n\nawait stream.send({ task: \"检查登录页\" })\n```\n\n已有 `Response`、自定义 transport 或测试流可以交给 `consume(response)`。`stop()` 会中止当前 fetch 并取消 body reader，\n`reset()` 还会清空当前消息。`status` 与 AI 输入组件一致，取值为 `idle`、`submitted`、`streaming` 或 `error`。\n\n渲染时可以直接使用聚合后的 `text`、`reasoning` 和 `toolParts`，也可以遍历完整的 `message.parts` 实现 Generative UI：\n\n```tsx\nconst { message, text, isStreaming } = useAiStream({ api: \"/api/agent\" })\n\nreturn (\n  <>\n    <AiStream isStreaming={isStreaming}>{text}</AiStream>\n    {message?.parts\n      .filter((part) => part.type.startsWith(\"data-\"))\n      .map((part) => renderGenerativePart(part))}\n  </>\n)\n```\n\n服务端响应需要使用以下头部，并以 `data: {...}\\n\\n` 发送每个 chunk：\n\n```http\ncontent-type: text/event-stream\nx-vercel-ai-ui-message-stream: v1\n```",
   "examples": [
     {
       "name": "use-ai-stream-text-demo",

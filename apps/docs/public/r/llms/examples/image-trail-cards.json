@@ -1,0 +1,6 @@
+{
+  "name": "image-trail-cards",
+  "component": "image-trail",
+  "title": "标签拖尾",
+  "code": "import { ImageTrail } from \"@/components/ui/image-trail\"\n\nconst tags = [\n  { label: \"品牌\", color: \"var(--chart-1)\" },\n  { label: \"插画\", color: \"var(--chart-2)\" },\n  { label: \"交互\", color: \"var(--chart-3)\" },\n  { label: \"动效\", color: \"var(--chart-4)\" },\n  { label: \"字体\", color: \"var(--chart-5)\" },\n]\n\nconst items = tags.map((tag) => (\n  <span\n    key={tag.label}\n    className=\"bg-background flex items-center gap-1.5 rounded-full border px-3 py-1 text-sm font-medium shadow-sm\"\n  >\n    <span className=\"size-1.5 rounded-full\" style={{ background: tag.color }} />\n    {tag.label}\n  </span>\n))\n\nexport default function ImageTrailCards() {\n  return (\n    <ImageTrail\n      items={items}\n      distance={48}\n      lifetime={700}\n      rotation={14}\n      className=\"bg-muted/40 flex h-72 w-full max-w-xl items-center justify-center rounded-lg border\"\n    >\n      <div className=\"pointer-events-none text-center select-none\">\n        <h4 className=\"text-xl font-semibold tracking-tight\">我们擅长的事</h4>\n        <p className=\"text-muted-foreground mt-1 text-sm\">在这里移动指针</p>\n      </div>\n    </ImageTrail>\n  )\n}\n"
+}

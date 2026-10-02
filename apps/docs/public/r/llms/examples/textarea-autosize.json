@@ -1,0 +1,6 @@
+{
+  "name": "textarea-autosize",
+  "component": "textarea",
+  "title": "自适应高度 (AutoSize)",
+  "code": "\"use client\"\n\nimport * as React from \"react\"\nimport { ArrowUpIcon, PaperclipIcon } from \"lucide-react\"\n\nimport { Button } from \"@/components/ui/button\"\nimport { Textarea } from \"@/components/ui/textarea\"\n\nexport default function TextareaAutosize() {\n  const [value, setValue] = React.useState(\"\")\n\n  return (\n    <div className=\"grid w-full max-w-md gap-2\">\n      <label htmlFor=\"release-comment\" className=\"text-sm font-medium\">\n        评论\n      </label>\n      <Textarea\n        id=\"release-comment\"\n        value={value}\n        onChange={(event) => setValue(event.target.value)}\n        autoSize={{ minRows: 1, maxRows: 6 }}\n        placeholder=\"输入评论，换行时高度会平滑增长，超过 6 行后滚动\"\n      />\n      <div className=\"flex items-center justify-between\">\n        <Button variant=\"ghost\" size=\"icon\" className=\"size-8\" aria-label=\"添加附件\">\n          <PaperclipIcon />\n        </Button>\n        <Button size=\"sm\" disabled={!value.trim()}>\n          <ArrowUpIcon />\n          发送\n        </Button>\n      </div>\n    </div>\n  )\n}\n"
+}

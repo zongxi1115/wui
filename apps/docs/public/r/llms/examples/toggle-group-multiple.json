@@ -1,0 +1,6 @@
+{
+  "name": "toggle-group-multiple",
+  "component": "toggle-group",
+  "title": "多选格式样式",
+  "code": "import {\n  BoldIcon,\n  ItalicIcon,\n  StrikethroughIcon,\n  UnderlineIcon,\n} from \"lucide-react\"\n\nimport { ToggleGroup, ToggleGroupItem } from \"@/components/ui/toggle-group\"\n\nexport default function ToggleGroupMultiple() {\n  return (\n    <ToggleGroup type=\"multiple\" defaultValue={[\"bold\"]} aria-label=\"文字格式\">\n      <ToggleGroupItem value=\"bold\" aria-label=\"加粗\">\n        <BoldIcon />\n      </ToggleGroupItem>\n      <ToggleGroupItem value=\"italic\" aria-label=\"斜体\">\n        <ItalicIcon />\n      </ToggleGroupItem>\n      <ToggleGroupItem value=\"underline\" aria-label=\"下划线\">\n        <UnderlineIcon />\n      </ToggleGroupItem>\n      <ToggleGroupItem value=\"strikethrough\" aria-label=\"删除线\">\n        <StrikethroughIcon />\n      </ToggleGroupItem>\n    </ToggleGroup>\n  )\n}\n"
+}

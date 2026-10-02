@@ -1,0 +1,6 @@
+{
+  "name": "alert-action",
+  "component": "alert",
+  "title": "尾部操作 (Action)",
+  "code": "import { RefreshCwIcon } from \"lucide-react\"\n\nimport { Alert } from \"@/components/ui/alert\"\nimport { Button } from \"@/components/ui/button\"\n\nexport default function AlertAction() {\n  return (\n    <div className=\"grid w-full max-w-lg gap-3\">\n      <Alert\n        variant=\"warning\"\n        title=\"支付方式即将到期\"\n        action={\n          <Button variant=\"outline\" size=\"sm\">\n            更新账单\n          </Button>\n        }\n      >\n        您的信用卡将于本月 31 日失效，请及时更新以防服务暂停。\n      </Alert>\n\n      <Alert\n        variant=\"destructive\"\n        title=\"构建流水线中断\"\n        action={\n          <Button variant=\"outline\" size=\"sm\" className=\"gap-1\">\n            <RefreshCwIcon className=\"size-3.5\" /> 重试构建\n          </Button>\n        }\n      >\n        任务在执行 `pnpm test` 时超时退出（错误代码 137）。\n      </Alert>\n    </div>\n  )\n}\n"
+}

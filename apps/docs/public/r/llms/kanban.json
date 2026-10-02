@@ -36,10 +36,77 @@
       "name": "onMove",
       "type": "((move: KanbanMove) => void)",
       "required": false,
-      "control": "text",
       "description": "卡片被拖入其他列后触发。"
     }
   ],
+  "api": [
+    {
+      "name": "Kanban",
+      "props": [
+        {
+          "name": "onMove",
+          "type": "((move: KanbanMove) => void)",
+          "required": false,
+          "description": "卡片被拖入其他列后触发。"
+        }
+      ]
+    },
+    {
+      "name": "KanbanCard",
+      "props": [
+        {
+          "name": "value",
+          "type": "string",
+          "required": true,
+          "description": "Stable card identifier supplied to onMove."
+        },
+        {
+          "name": "draggable",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "Enable pointer drag-and-drop and keyboard moves."
+        }
+      ]
+    },
+    {
+      "name": "KanbanColumn",
+      "props": [
+        {
+          "name": "value",
+          "type": "string",
+          "required": true,
+          "description": "Stable column identifier used by drag-and-drop."
+        }
+      ]
+    },
+    {
+      "name": "KanbanColumnBody",
+      "props": []
+    },
+    {
+      "name": "KanbanColumnCount",
+      "props": []
+    },
+    {
+      "name": "KanbanColumnHeader",
+      "props": []
+    },
+    {
+      "name": "KanbanColumnTitle",
+      "props": []
+    }
+  ],
+  "types": [
+    {
+      "name": "KanbanMove",
+      "definition": "type KanbanMove = {\r\n  itemId: string\r\n  from: string\r\n  to: string\r\n  /** Final position of the card inside `to`, counted after it left `from`. */\r\n  index: number\r\n}"
+    }
+  ],
+  "usage": "`Kanban` 适用于表达具备明确流转阶段（Pipeline）的工作项：\n\n- **状态持久化与乐观更新**：组件本身不持有数据状态。在 `onMove` 回调中，建议先进行本地乐观更新（Optimistic UI），随后发起网络请求，失败时回滚。\n- **横向自适应与移动端适配**：组件默认内置 `grid auto-cols-[minmax(17rem,1fr)] grid-flow-col overflow-x-auto`，在窄屏幕上会自动支持横向手势平滑滑动。\n- **卡片信息层级清晰**：卡片上建议突出任务标题与编号，标签（Tag）、优先级角标（Priority）、负责人头像和故事点（Story Points）应保持紧凑统一的对齐。",
+  "extended": "### 敏捷开发 Sprint 任务流转板\n\n包含 4 个流转阶段、优先级、任务标签、故事点与负责人头像。「开发中」与「代码评审」设置了 WIP 上限，超出时计数变为警示色；顶部汇总故事点会随拖拽实时更新：",
+  "events": "- `onMove`: ({ itemId: string, from: string, to: string, index: number }) => void — 卡片跨列放下或列内排序时触发，键盘移动时每一步都会触发。业务层应在回调中更新本地状态或调用后端流转 API，可直接使用 moveKanbanItem。\n- `onDragStart`: (event: React.DragEvent<HTMLElement>) => void — 开始拖动卡片时触发。\n- `onDragEnd`: (event: React.DragEvent<HTMLElement>) => void — 卡片拖拽结束（无论是否成功放置）时触发。",
+  "accessibility": "- **语义分块**：每个 `KanbanColumn` 渲染为 `<section>`，卡片渲染为 `<article>`，列头渲染为 `<header>`。\n- **键盘移动**：卡片可通过 <kbd>Tab</kbd> 聚焦，按 <kbd>Space</kbd> 或 <kbd>Enter</kbd> 拿起；拿起后 <kbd>↑</kbd> <kbd>↓</kbd> 在列内排序，<kbd>←</kbd> <kbd>→</kbd> 移动到相邻列，再次按 <kbd>Space</kbd> 放下，<kbd>Esc</kbd> 回到拿起前的位置。卡片跨列后焦点会自动跟随。\n- **读屏播报**：卡片带有 `aria-roledescription=\"可拖拽卡片\"` 与操作说明，拿起、移动、放下时通过 `aria-live` 区域播报目标列名称与位置。\n- **抓手手势指示**：可拖拽卡片的指针为 `cursor-grab`，拖动中为 `cursor-grabbing`，悬停或键盘聚焦时右上角显示抓手图标。\n- **拖拽反馈**：拖动中原卡片变为虚线占位，目标列添加 `data-over=\"true\"` 并高亮边框与背景，插入线以弹簧动画指示放置位置。\n- **动效降级**：开启“减少动态效果”时，布局过渡、计数滚动与插入线动画均直接跳到终点。",
   "examples": [
     {
       "name": "kanban-demo",

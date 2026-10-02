@@ -33,28 +33,24 @@
       "name": "value",
       "type": "string | Date",
       "required": false,
-      "control": "text",
       "description": "当前选中的日期。"
     },
     {
       "name": "defaultValue",
       "type": "string | Date",
       "required": false,
-      "control": "text",
       "description": "非受控模式下初始选中的日期。"
     },
     {
       "name": "onValueChange",
       "type": "((date: Date) => void)",
       "required": false,
-      "control": "text",
       "description": "选择或清除日期后触发。"
     },
     {
       "name": "placeholder",
       "type": "string",
       "required": false,
-      "control": "text",
       "defaultValue": "选择日期",
       "description": "没有选中日期时显示的占位文本。"
     },
@@ -62,7 +58,6 @@
       "name": "locale",
       "type": "string",
       "required": false,
-      "control": "text",
       "defaultValue": "zh-CN",
       "description": "格式化日期时使用的地区设置。"
     },
@@ -70,14 +65,12 @@
       "name": "formatOptions",
       "type": "DateTimeFormatOptions",
       "required": false,
-      "control": "text",
       "description": "传递给 Intl.DateTimeFormat 的日期格式化选项。"
     },
     {
       "name": "clearable",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "true",
       "description": "是否允许清除当前日期。"
     },
@@ -85,28 +78,24 @@
       "name": "min",
       "type": "string | Date",
       "required": false,
-      "control": "text",
       "description": "允许选择的最早日期。"
     },
     {
       "name": "max",
       "type": "string | Date",
       "required": false,
-      "control": "text",
       "description": "允许选择的最晚日期。"
     },
     {
       "name": "disabledDate",
       "type": "((date: Date) => boolean)",
       "required": false,
-      "control": "text",
       "description": "用于判断日期是否禁用的匹配函数。"
     },
     {
       "name": "size",
       "type": "\"default\" | \"sm\" | \"lg\"",
       "required": false,
-      "control": "select",
       "options": [
         "default",
         "sm",
@@ -119,17 +108,119 @@
       "name": "presets",
       "type": "DatePickerPreset[]",
       "required": false,
-      "control": "text",
       "description": "显示在日历左侧的快捷日期，例如“今天”“下周一”。"
     },
     {
       "name": "disabled",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "description": "是否禁用组件。"
     }
   ],
+  "api": [
+    {
+      "name": "DatePicker",
+      "props": [
+        {
+          "name": "value",
+          "type": "string | Date",
+          "required": false,
+          "description": "当前选中的日期。"
+        },
+        {
+          "name": "defaultValue",
+          "type": "string | Date",
+          "required": false,
+          "description": "非受控模式下初始选中的日期。"
+        },
+        {
+          "name": "onValueChange",
+          "type": "((date: Date) => void)",
+          "required": false,
+          "description": "选择或清除日期后触发。"
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "required": false,
+          "defaultValue": "选择日期",
+          "description": "没有选中日期时显示的占位文本。"
+        },
+        {
+          "name": "locale",
+          "type": "string",
+          "required": false,
+          "defaultValue": "zh-CN",
+          "description": "格式化日期时使用的地区设置。"
+        },
+        {
+          "name": "formatOptions",
+          "type": "DateTimeFormatOptions",
+          "required": false,
+          "description": "传递给 Intl.DateTimeFormat 的日期格式化选项。"
+        },
+        {
+          "name": "clearable",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "是否允许清除当前日期。"
+        },
+        {
+          "name": "min",
+          "type": "string | Date",
+          "required": false,
+          "description": "允许选择的最早日期。"
+        },
+        {
+          "name": "max",
+          "type": "string | Date",
+          "required": false,
+          "description": "允许选择的最晚日期。"
+        },
+        {
+          "name": "disabledDate",
+          "type": "((date: Date) => boolean)",
+          "required": false,
+          "description": "用于判断日期是否禁用的匹配函数。"
+        },
+        {
+          "name": "size",
+          "type": "\"default\" | \"sm\" | \"lg\"",
+          "required": false,
+          "options": [
+            "default",
+            "sm",
+            "lg"
+          ],
+          "defaultValue": "default",
+          "description": "尺寸密度。@default \"default\""
+        },
+        {
+          "name": "presets",
+          "type": "DatePickerPreset[]",
+          "required": false,
+          "description": "显示在日历左侧的快捷日期，例如“今天”“下周一”。"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "是否禁用组件。"
+        }
+      ]
+    }
+  ],
+  "types": [
+    {
+      "name": "DatePickerPreset",
+      "definition": "export interface DatePickerPreset {\n  /** 快捷项文本。 */\n  label: string\n  /** 点击后选中的日期。 */\n  value: Date\n}"
+    }
+  ],
+  "usage": "`DatePicker` 适用于表单中**单一日期的录入、排期与预约**：\n\n- **DatePicker vs Calendar**：当需要将日历长期平铺在页面或仪表盘中（如日程看板）时，使用 [`Calendar`](/docs/components/calendar)；当作为表单录入项、需要节省屏幕空间并在弹层中快速点选时，使用 `DatePicker`。\n- **DatePicker vs TimePicker**：当需要精确到小时、分、秒的时间录入时，应配合 [`TimePicker`](/docs/components/time-picker)；如只需年月日粒度，保持使用 `DatePicker` 以降低用户认知负担。\n- **数据持久化格式**：组件内部通过标准 JavaScript `Date` 交互，提交给后端接口时建议转换为标准 ISO 8601 字符串（如 `2026-08-19T00:00:00.000Z`）或 UTC 时间戳，避免受用户本地时区或本地化格式化字符串影响。\n- **明确的日期边界约束**：对于生日选择、历史账单查询或预约等业务，务必配置 `min`、`max` 或 `disabledDate`，避免用户误选未来日期或非法工作日。",
+  "extended": "### 受控模式与快捷预设\n\n使用受控的 `value` 与 `onValueChange`，搭配“今天”、“明天”、“下周”等业务快捷按钮快速设定日期：\n\n```tsx\nconst [date, setDate] = React.useState<Date | undefined>(new Date())\n\nreturn (\n  <DatePicker\n    value={date}\n    onValueChange={setDate}\n    placeholder=\"选择会议排期…\"\n  />\n)\n```\n\n### 快捷日期\n\n通过 `presets` 在日历左侧放置常用日期，适合截止日期、提醒时间等高频场景：\n\n### 尺寸规格\n\n组件提供 `sm`（32px）、`default`（40px）和 `lg`（48px）三种物理尺寸：\n\n- `sm`：紧凑尺寸，适合表格行内筛选或紧凑过滤面板。\n- `default`：标准尺寸，通用业务表单。\n- `lg`：大尺寸，适用于触控平板或突出型预订页面。\n\n### 禁用特定日期与日期范围\n\n结合 `min`、`max` 限制可选范围，并使用 `disabledDate` 自定义禁用规则（例如禁用所有周末）：\n\n### 国际化与自定义格式化\n\n通过 `locale` 与 `formatOptions` 自定义触发器按钮中的日期展示文案格式：\n\n### 任务日程表单集成\n\n在实际业务表单中，将两个 `DatePicker` 组合为起止日期选择，并自动计算周期天数：",
+  "events": "- `onValueChange`: (date: Date | undefined) => void — 用户在日历中点击某一天、按回车选中或点击清除按钮时触发。\n- `onFocus`: (event: React.FocusEvent<HTMLButtonElement>) => void — 触发器按钮获得焦点时触发。\n- `onBlur`: (event: React.FocusEvent<HTMLButtonElement>) => void — 触发器按钮失去焦点时触发。\n- `onKeyDown`: (event: React.KeyboardEvent<HTMLButtonElement>) => void — 焦点位于触发器按钮时按下键盘按键触发（按 Backspace/Delete 键可快速清除已选日期）。",
+  "accessibility": "- **ARIA 规范**：\n  - 触发器按钮带有 `data-slot=\"date-picker\"` 并由 Popover 管理 `aria-expanded` 与 `aria-haspopup`。\n  - 日历面板基于表格语义构建，各日期单元格均带有标准的 `role=\"gridcell\"` 与 `aria-selected` 属性。\n- **键盘导航**：\n  - <kbd>Space</kbd> / <kbd>Enter</kbd>：在聚焦触发器时打开日历弹层。\n  - <kbd>Backspace</kbd> / <kbd>Delete</kbd>：在聚焦触发器且已有日期时，快速清除已选日期而无需展开弹层。\n  - 在日历弹层内：\n    - <kbd>←</kbd> / <kbd>→</kbd>：移动到前一天 / 后一天。\n    - <kbd>↑</kbd> / <kbd>↓</kbd>：移动到上一周 / 下一周同一天。\n    - <kbd>PageUp</kbd> / <kbd>PageDown</kbd>：快速翻到上个月 / 下个月。\n    - <kbd>Shift</kbd> + <kbd>PageUp</kbd> / <kbd>PageDown</kbd>：快速翻到上一年 / 下一年。\n    - <kbd>Home</kbd> / <kbd>End</kbd>：移动到本周第一天 / 最后一天。\n    - 点击日历标题可切换到月份 / 年份视图，快速跨月跨年定位。\n    - <kbd>Enter</kbd>：确认选中高亮日期并自动收起弹层。\n    - <kbd>Escape</kbd>：关闭日历弹层并归还焦点至触发按钮。\n- **动效**：弹层从触发器方向缩放展开；触发器中的日期文本在变更时上移淡入刷新；日历翻月按方向左右滑动。均遵循 `prefers-reduced-motion`。",
   "examples": [
     {
       "name": "date-picker-demo",

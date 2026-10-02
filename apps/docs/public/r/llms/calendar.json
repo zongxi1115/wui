@@ -32,70 +32,60 @@
       "name": "value",
       "type": "Date",
       "required": false,
-      "control": "text",
       "description": "当前选中的日期。"
     },
     {
       "name": "defaultValue",
       "type": "Date",
       "required": false,
-      "control": "text",
       "description": "非受控模式下初始选中的日期。"
     },
     {
       "name": "onValueChange",
       "type": "((date: Date) => void)",
       "required": false,
-      "control": "text",
       "description": "用户选择日期时触发。"
     },
     {
       "name": "month",
       "type": "Date",
       "required": false,
-      "control": "text",
       "description": "当前显示的月份。"
     },
     {
       "name": "defaultMonth",
       "type": "Date",
       "required": false,
-      "control": "text",
       "description": "非受控模式下初始显示的月份。"
     },
     {
       "name": "onMonthChange",
       "type": "((month: Date) => void)",
       "required": false,
-      "control": "text",
       "description": "用户切换月份导致显示月份变化时触发。"
     },
     {
       "name": "min",
       "type": "Date",
       "required": false,
-      "control": "text",
       "description": "允许选择的最早日期。"
     },
     {
       "name": "max",
       "type": "Date",
       "required": false,
-      "control": "text",
       "description": "允许选择的最晚日期。"
     },
     {
       "name": "disabled",
       "type": "((date: Date) => boolean)",
       "required": false,
-      "control": "text",
       "description": "用于判断日期是否禁用的匹配函数。"
     },
     {
       "name": "showOutsideDays",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "true",
       "description": "是否显示当前月份前后相邻月份的日期。"
     },
@@ -103,7 +93,6 @@
       "name": "locale",
       "type": "string",
       "required": false,
-      "control": "text",
       "defaultValue": "zh-CN",
       "description": "格式化月份标题时使用的地区设置。"
     },
@@ -111,11 +100,174 @@
       "name": "enableViewSwitch",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "true",
       "description": "是否允许点击标题切换到月份 / 年份视图。@default true"
     }
   ],
+  "api": [
+    {
+      "name": "Calendar",
+      "props": [
+        {
+          "name": "value",
+          "type": "Date",
+          "required": false,
+          "description": "当前选中的日期。"
+        },
+        {
+          "name": "defaultValue",
+          "type": "Date",
+          "required": false,
+          "description": "非受控模式下初始选中的日期。"
+        },
+        {
+          "name": "onValueChange",
+          "type": "((date: Date) => void)",
+          "required": false,
+          "description": "用户选择日期时触发。"
+        },
+        {
+          "name": "month",
+          "type": "Date",
+          "required": false,
+          "description": "当前显示的月份。"
+        },
+        {
+          "name": "defaultMonth",
+          "type": "Date",
+          "required": false,
+          "description": "非受控模式下初始显示的月份。"
+        },
+        {
+          "name": "onMonthChange",
+          "type": "((month: Date) => void)",
+          "required": false,
+          "description": "用户切换月份导致显示月份变化时触发。"
+        },
+        {
+          "name": "min",
+          "type": "Date",
+          "required": false,
+          "description": "允许选择的最早日期。"
+        },
+        {
+          "name": "max",
+          "type": "Date",
+          "required": false,
+          "description": "允许选择的最晚日期。"
+        },
+        {
+          "name": "disabled",
+          "type": "((date: Date) => boolean)",
+          "required": false,
+          "description": "用于判断日期是否禁用的匹配函数。"
+        },
+        {
+          "name": "showOutsideDays",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "是否显示当前月份前后相邻月份的日期。"
+        },
+        {
+          "name": "locale",
+          "type": "string",
+          "required": false,
+          "defaultValue": "zh-CN",
+          "description": "格式化月份标题时使用的地区设置。"
+        },
+        {
+          "name": "enableViewSwitch",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "是否允许点击标题切换到月份 / 年份视图。@default true"
+        }
+      ]
+    },
+    {
+      "name": "CalendarPanel",
+      "props": [
+        {
+          "name": "value",
+          "type": "Date",
+          "required": false,
+          "description": "当前选中的日期。"
+        },
+        {
+          "name": "defaultValue",
+          "type": "Date",
+          "required": false,
+          "description": "非受控模式下初始选中的日期。"
+        },
+        {
+          "name": "onValueChange",
+          "type": "((date: Date) => void)",
+          "required": false,
+          "description": "用户选择日期时触发。"
+        },
+        {
+          "name": "month",
+          "type": "Date",
+          "required": false,
+          "description": "当前显示的月份。"
+        },
+        {
+          "name": "defaultMonth",
+          "type": "Date",
+          "required": false,
+          "description": "非受控模式下初始显示的月份。"
+        },
+        {
+          "name": "onMonthChange",
+          "type": "((month: Date) => void)",
+          "required": false,
+          "description": "用户切换月份导致显示月份变化时触发。"
+        },
+        {
+          "name": "events",
+          "type": "CalendarEvent[]",
+          "required": false,
+          "defaultValue": "[]",
+          "description": "Events rendered inside the month grid."
+        },
+        {
+          "name": "maxVisibleEvents",
+          "type": "number",
+          "required": false,
+          "defaultValue": "3",
+          "description": "Maximum visible events in each day cell."
+        },
+        {
+          "name": "onEventClick",
+          "type": "((event: CalendarEvent) => void)",
+          "required": false,
+          "description": "Called when an event is activated."
+        },
+        {
+          "name": "locale",
+          "type": "string",
+          "required": false,
+          "defaultValue": "zh-CN",
+          "description": "格式化月份标题时使用的地区设置。"
+        }
+      ]
+    }
+  ],
+  "types": [
+    {
+      "name": "CalendarEvent",
+      "definition": "export interface CalendarEvent {\n  /** Stable event identifier. */\n  id: string\n  /** Date on which the event is displayed. */\n  date: Date\n  /** Short event label. */\n  title: string\n  /** Optional time or supporting metadata. */\n  meta?: string\n  /** Semantic event color. @default \"primary\" */\n  tone?: CalendarEventTone\n}"
+    },
+    {
+      "name": "CalendarEventTone",
+      "definition": "export type CalendarEventTone =\n  \"primary\" | \"info\" | \"success\" | \"warning\" | \"neutral\""
+    }
+  ],
+  "usage": "`Calendar` 与 `CalendarPanel` 适用于需要直观展示**整月时间维度上下文**的业务界面。\n\n- **Calendar vs DatePicker vs CalendarPanel**：\n  - **Calendar（日历）**：常驻内嵌于页面，适合表单旁直接操作选日、工作日排期、预约看板。\n  - **DatePicker（日期选择器）**：由 Input 触发并以 Popover 浮层弹出 Calendar，适合空间紧凑的标准表单。\n  - **CalendarPanel（大型月度日程面板）**：全宽大格视图，承载丰富的团队日程、待办清单与状态色块。\n- **平滑物理弹性动效**：当鼠标掠过网格时，悬停胶囊会以弹簧动力学（Spring Physics）平滑跟随；当用户选定日期或切换“今天”时，指示圆点会动态伸缩过渡为全选底色。\n- **禁用规则与边界控制**：利用 `disabled` 函数可轻松剔除周末、节假日或不可预约的历史时段。",
+  "extended": "### 自定义禁用规则与工作日限制\n\n通过 `disabled={(date) => ...}` 禁用过去的历史日期以及所有周末，仅允许选择未来的工作日：\n\n### 会议与专家咨询时段预约\n\n将 `Calendar` 与右侧可选时段芯片（Time Slots）组合，构建完整的预约订购链路：\n\n### 大型月度日程与排期面板\n\n在运营控制台或项目管理面板中，通过 `CalendarPanel` 展示团队周会、发版冻结等关键里程碑事件：",
+  "events": "- `onValueChange`: (date: Date) => void — 用户选择日期时触发，参数为最新选中的 Date 对象。\n- `onMonthChange`: (month: Date) => void — 月份视图翻页时触发，适合在此处发起异步日程数据请求。\n- `onEventClick`: (event: CalendarEvent) => void — 在 CalendarPanel 中点击具体日程条目时触发。",
+  "accessibility": "- **ARIA 标准**：日期网格为 `role=\"grid\"`，按周划分 `role=\"row\"`，日期单元格为 `role=\"gridcell\"` 并在选中项上标记 `aria-selected`；日期按钮带完整日期（含星期）的 `aria-label`，当天标记 `aria-current=\"date\"`。\n- **键盘导航矩阵**：\n  - <kbd>←</kbd> / <kbd>→</kbd>：在前后一天之间移动焦点。\n  - <kbd>↑</kbd> / <kbd>↓</kbd>：在上下周之间移动焦点，到达月份边缘时自动翻月。\n  - <kbd>Home</kbd> / <kbd>End</kbd>：移动到本周第一天 / 最后一天。\n  - <kbd>PageUp</kbd> / <kbd>PageDown</kbd>：翻到上个月 / 下个月的同一天；配合 <kbd>Shift</kbd> 按年翻页。\n  - <kbd>Enter</kbd> / <kbd>Space</kbd>：选定当前聚焦的日期。\n  - 可见月份中始终有一个日期可通过 <kbd>Tab</kbd> 聚焦（选中日 → 今天 → 当月 1 日）。\n- **视图切换**：点击标题从日视图进入月份视图，再次点击进入 12 年的年份视图；选择后逐级返回。\n- **动态无障碍播报**：标题变化通过 `aria-live=\"polite\"` 区域播报。\n- **动效**：翻月按方向左右滑动，标题同步上下滚动；日 / 月 / 年视图之间以缩放淡入切换；选中背景在日期间滑动并在新月份中弹出；悬停背景跟随指针。全部遵循 `prefers-reduced-motion`。",
   "examples": [
     {
       "name": "calendar-demo",

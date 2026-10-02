@@ -1,0 +1,6 @@
+{
+  "name": "switch-disabled",
+  "component": "switch",
+  "title": "禁用状态",
+  "code": "import { Switch } from \"@/components/ui/switch\"\n\nexport default function SwitchDisabled() {\n  return (\n    <div className=\"flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-8\">\n      <div className=\"flex items-center gap-3\">\n        <Switch id=\"switch-disabled-off\" disabled />\n        <label\n          htmlFor=\"switch-disabled-off\"\n          className=\"text-sm font-medium text-muted-foreground cursor-not-allowed\"\n        >\n          禁用（未选中）\n        </label>\n      </div>\n\n      <div className=\"flex items-center gap-3\">\n        <Switch id=\"switch-disabled-on\" defaultChecked disabled />\n        <label\n          htmlFor=\"switch-disabled-on\"\n          className=\"text-sm font-medium text-muted-foreground cursor-not-allowed\"\n        >\n          禁用（已选中）\n        </label>\n      </div>\n    </div>\n  )\n}\n"
+}

@@ -29,14 +29,12 @@
       "name": "children",
       "type": "ReactNode",
       "required": true,
-      "control": "text",
       "description": "随包装容器经过视口而产生位移的内容。"
     },
     {
       "name": "axis",
       "type": "\"x\" | \"y\"",
       "required": false,
-      "control": "select",
       "options": [
         "x",
         "y"
@@ -48,7 +46,6 @@
       "name": "distance",
       "type": "[number, number]",
       "required": false,
-      "control": "text",
       "defaultValue": "[-48, 48]",
       "description": "从滚动开始到结束的位移范围，单位为像素。"
     },
@@ -56,28 +53,24 @@
       "name": "scale",
       "type": "[number, number]",
       "required": false,
-      "control": "text",
       "description": "可选的缩放范围，适合在画框中展示图片时使用。"
     },
     {
       "name": "rotate",
       "type": "[number, number]",
       "required": false,
-      "control": "text",
       "description": "随滚动变化的旋转角度范围，单位为度。"
     },
     {
       "name": "opacity",
       "type": "[number, number]",
       "required": false,
-      "control": "text",
       "description": "随滚动变化的透明度范围。"
     },
     {
       "name": "smooth",
       "type": "boolean | SpringOptions",
       "required": false,
-      "control": "text",
       "defaultValue": "false",
       "description": "是否通过弹簧跟随滚动，让图层产生柔和的拖尾感；也可传入弹簧参数。"
     },
@@ -85,18 +78,89 @@
       "name": "container",
       "type": "RefObject<HTMLElement | null>",
       "required": false,
-      "control": "text",
       "description": "要监听的滚动容器；未设置时监听页面。"
     },
     {
       "name": "offset",
       "type": "ScrollOffset",
       "required": false,
-      "control": "text",
       "defaultValue": "[\"start end\", \"end start\"]",
       "description": "包装容器使用的 Motion 滚动偏移范围。"
     }
   ],
+  "api": [
+    {
+      "name": "Parallax",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": true,
+          "description": "随包装容器经过视口而产生位移的内容。"
+        },
+        {
+          "name": "axis",
+          "type": "\"x\" | \"y\"",
+          "required": false,
+          "options": [
+            "x",
+            "y"
+          ],
+          "defaultValue": "y",
+          "description": "内容移动的方向。"
+        },
+        {
+          "name": "distance",
+          "type": "[number, number]",
+          "required": false,
+          "defaultValue": "[-48, 48]",
+          "description": "从滚动开始到结束的位移范围，单位为像素。"
+        },
+        {
+          "name": "scale",
+          "type": "[number, number]",
+          "required": false,
+          "description": "可选的缩放范围，适合在画框中展示图片时使用。"
+        },
+        {
+          "name": "rotate",
+          "type": "[number, number]",
+          "required": false,
+          "description": "随滚动变化的旋转角度范围，单位为度。"
+        },
+        {
+          "name": "opacity",
+          "type": "[number, number]",
+          "required": false,
+          "description": "随滚动变化的透明度范围。"
+        },
+        {
+          "name": "smooth",
+          "type": "boolean | SpringOptions",
+          "required": false,
+          "defaultValue": "false",
+          "description": "是否通过弹簧跟随滚动，让图层产生柔和的拖尾感；也可传入弹簧参数。"
+        },
+        {
+          "name": "container",
+          "type": "RefObject<HTMLElement | null>",
+          "required": false,
+          "description": "要监听的滚动容器；未设置时监听页面。"
+        },
+        {
+          "name": "offset",
+          "type": "ScrollOffset",
+          "required": false,
+          "defaultValue": "[\"start end\", \"end start\"]",
+          "description": "包装容器使用的 Motion 滚动偏移范围。"
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`Parallax` 适用于**官网 Hero 首屏、沉浸式品牌故事页、媒体图文画廊**：\n\n- **分层速率递进**：背景层使用低速慢移（如 `distance={[-30, 30]}`），中景使用标准速度，前景点缀元素使用大位移（如 `distance={[-100, 100]}`），能够营造出极强的真实 3D 纵深感。\n- **画框内裁切**：对图片外层使用 `overflow-hidden`，并让缩放余量大于位移量（或把图层向外扩展，如 `-inset-y-20`），避免图片在位移边缘露白。\n- **惯性拖尾**：前景小元素开启 `smooth` 会显得更轻盈；大面积背景保持默认的直接绑定，避免与滚动产生错位感。",
+  "extended": "### 画框内缩放\n\n图片在固定画框内同时缩放与位移，说明文字通过 `opacity` 与自定义 `offset` 随后淡入：",
+  "accessibility": "- **自动静止降级**：当系统配置了 `prefers-reduced-motion: reduce` 时，组件将直接将 `x`、`y` 位移重置为 0，`scale` 重置为 1，完全消除晃动感。\n- **硬件加速**：自动附带 `will-change-transform` 类名，交由 GPU 独立合成图层渲染，避免重排导致的掉帧与滚动卡顿。",
   "examples": [
     {
       "name": "parallax-demo",

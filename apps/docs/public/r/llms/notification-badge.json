@@ -27,14 +27,12 @@
       "name": "count",
       "type": "ReactNode",
       "required": false,
-      "control": "text",
       "description": "提示标记中显示的内容。传入数字时会受 max 限制。"
     },
     {
       "name": "max",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "99",
       "description": "显示数字前允许的最大值，超过后显示带加号的最大值。"
     },
@@ -42,7 +40,6 @@
       "name": "showZero",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "false",
       "description": "数值为 0 时是否仍显示标记。"
     },
@@ -50,7 +47,6 @@
       "name": "dot",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "false",
       "description": "是否显示小圆点，而不是显示 count 内容。"
     },
@@ -58,7 +54,6 @@
       "name": "pulse",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "false",
       "description": "是否在圆点周围显示柔和扩散的光圈，仅在 dot 模式下生效。"
     },
@@ -66,7 +61,6 @@
       "name": "visible",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "true",
       "description": "受控模式下提示标记是否显示。"
     },
@@ -74,7 +68,6 @@
       "name": "variant",
       "type": "\"default\" | \"destructive\" | \"success\" | \"warning\" | \"info\"",
       "required": false,
-      "control": "select",
       "options": [
         "default",
         "destructive",
@@ -89,7 +82,6 @@
       "name": "offset",
       "type": "readonly [number, number]",
       "required": false,
-      "control": "text",
       "defaultValue": "[0, 0]",
       "description": "标记相对右上角锚点的像素偏移量。"
     },
@@ -97,10 +89,89 @@
       "name": "label",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "提示标记的无障碍名称。"
     }
   ],
+  "api": [
+    {
+      "name": "NotificationBadge",
+      "props": [
+        {
+          "name": "count",
+          "type": "ReactNode",
+          "required": false,
+          "description": "提示标记中显示的内容。传入数字时会受 max 限制。"
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "required": false,
+          "defaultValue": "99",
+          "description": "显示数字前允许的最大值，超过后显示带加号的最大值。"
+        },
+        {
+          "name": "showZero",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "数值为 0 时是否仍显示标记。"
+        },
+        {
+          "name": "dot",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "是否显示小圆点，而不是显示 count 内容。"
+        },
+        {
+          "name": "pulse",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "是否在圆点周围显示柔和扩散的光圈，仅在 dot 模式下生效。"
+        },
+        {
+          "name": "visible",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "受控模式下提示标记是否显示。"
+        },
+        {
+          "name": "variant",
+          "type": "\"default\" | \"destructive\" | \"success\" | \"warning\" | \"info\"",
+          "required": false,
+          "options": [
+            "default",
+            "destructive",
+            "success",
+            "warning",
+            "info"
+          ],
+          "defaultValue": "destructive",
+          "description": "提示标记使用的语义颜色。"
+        },
+        {
+          "name": "offset",
+          "type": "readonly [number, number]",
+          "required": false,
+          "defaultValue": "[0, 0]",
+          "description": "标记相对右上角锚点的像素偏移量。"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "提示标记的无障碍名称。"
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`NotificationBadge` 专用于**附着在既有控件角落**的轻量级角标状态提醒。\n\n- **NotificationBadge vs 独立 Badge**：\n  - **NotificationBadge**：附着在图标/头像右上角（绝对定位），用于未读数量、在线指示。\n  - **Badge**：独立流式排版的标签或徽章（如“PRO”、“已发布”）。\n- **红点（Dot）vs 数字（Count）**：\n  - **红点**：适用于弱提醒或用户无需知道精确数量的场景（如“有新版本发布”、“有新系统公告”）。\n  - **数字**：适用于待办、未读私信、待审批等用户需要明确感知工作量的场景。\n- **合理设置最大上限（`max`）**：\n  - 导航栏或移动端等小尺寸区域建议设置 `max={9}` 或 `max={99}`，防止多位数字破坏界面视觉平衡。\n- **白边遮罩（Outline Ring）**：组件内置与背景同色的 `border-background`，确保徽标在重叠在复杂图形或深色头像边缘时具有清晰的轮廓边界与视觉呼吸感。",
+  "extended": "### 语义色彩主题\n\n提供 `destructive`（紧急/消息）、`default`（主色）、`info`（信息）、`warning`（预警）与 `success`（成功/在线）五种语义主题：\n\n### 数字上限与零值控制\n\n通过 `max` 属性控制数字截断格式，使用 `showZero` 控制是否在计数归零时保持可见：\n\n### 像素偏移定位微调\n\n针对圆形头像、矩形按钮或文字链接，通过 `offset={[x, y]}` 进行精准的坐标补偿：",
+  "events": "`NotificationBadge` 容器本身为行内语义容器，透传所有原生 DOM 事件，同时不会阻碍内部子控件（如 Button 或链接）的正常点击与快捷键交互：\n\n- `onClick`: (event: React.MouseEvent<HTMLSpanElement>) => void — 在徽标外层容器上点击时触发的原生 DOM 事件。",
+  "accessibility": "- **状态通报角色**：徽标节点内置 `role=\"status\"` 与 `tabular-nums`，确保视障辅助设备可以正确捕获未读数量变动。\n- **自动无障碍文案生成**：当未显式传入 `label` 时，组件会根据传入的 `count` 自动合成 `aria-label=\"X 条未读通知\"`；在 `dot` 模式下自动合成 `aria-label=\"有新通知\"`。\n- **动效降级**：开启系统「减弱动态效果」后，数字滚动、弹出缩放与圆点波纹全部停用，仅保留透明度切换。\n- **子元素可访问性独立性**：被包裹的图标按钮仍需保持自身具备合法的 `aria-label`（如 `aria-label=\"查看消息通知\"`），徽标不会破坏底层按钮的可访问名称。",
   "examples": [
     {
       "name": "notification-badge-demo",

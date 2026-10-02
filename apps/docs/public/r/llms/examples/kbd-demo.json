@@ -1,0 +1,6 @@
+{
+  "name": "kbd-demo",
+  "component": "kbd",
+  "title": "基础用法",
+  "code": "import type { ReactNode } from \"react\"\n\nimport { Kbd, KbdGroup } from \"@/components/ui/kbd\"\n\nexport default function KbdDemo() {\n  return (\n    <div className=\"w-full max-w-sm divide-y border-y text-sm\">\n      <Shortcut label=\"打开全局搜索\">\n        <Kbd>Ctrl</Kbd>\n        <Kbd>K</Kbd>\n      </Shortcut>\n      <Shortcut label=\"保存更改\">\n        <Kbd>Ctrl</Kbd>\n        <Kbd>S</Kbd>\n      </Shortcut>\n      <Shortcut label=\"关闭面板\">\n        <Kbd>Esc</Kbd>\n      </Shortcut>\n    </div>\n  )\n}\n\nfunction Shortcut({\n  label,\n  children,\n}: {\n  label: string\n  children: ReactNode\n}) {\n  return (\n    <div className=\"flex items-center justify-between py-3\">\n      <span>{label}</span>\n      <KbdGroup>{children}</KbdGroup>\n    </div>\n  )\n}\n"
+}

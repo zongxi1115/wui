@@ -29,11 +29,14 @@
   },
   "exports": {
     ".": "./dist/index.js",
-    "./core": "./src/core/index.ts"
+    "./core": "./src/core/index.ts",
+    "./http": "./src/http.ts"
   },
   "files": [
     "dist",
-    "src/core"
+    "src/core",
+    "src/http.ts",
+    "src/server.ts"
   ],
   "publishConfig": {
     "access": "public"

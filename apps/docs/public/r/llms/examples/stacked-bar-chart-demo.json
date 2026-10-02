@@ -1,0 +1,5 @@
+{
+  "name": "stacked-bar-chart-demo",
+  "component": "stacked-bar-chart",
+  "code": "import { StackedBarChart } from \"@/components/charts/stacked-bar-chart\"\n\nconst data = [\n  { quarter: \"Q1\", web: 46, ios: 32, android: 22 },\n  { quarter: \"Q2\", web: 42, ios: 35, android: 23 },\n  { quarter: \"Q3\", web: 39, ios: 37, android: 24 },\n  { quarter: \"Q4\", web: 36, ios: 39, android: 25 },\n]\n\nexport default function StackedBarChartDemo() {\n  return (\n    <div className=\"w-full max-w-3xl\">\n      <StackedBarChart\n        title=\"访问终端构成\"\n        description=\"季度会话占比 · 每组总计 100%\"\n        data={data}\n        categoryKey=\"quarter\"\n        series={[\n          { key: \"web\", label: \"Web\" },\n          { key: \"ios\", label: \"iOS\" },\n          { key: \"android\", label: \"Android\" },\n        ]}\n        normalize\n        showValues\n      />\n    </div>\n  )\n}\n"
+}

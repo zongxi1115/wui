@@ -10,6 +10,8 @@ import { notFound } from "next/navigation"
 import { getMDXComponents } from "@/mdx-components"
 import { DependencyBadges } from "@/components/dependency-badges"
 import { LLMPageActions } from "@/components/llm-page-actions"
+import { Playground } from "@/components/playground"
+import { playgroundConfigs } from "@/lib/playground-config"
 import { source } from "@/lib/source"
 
 export default async function Page(props: {
@@ -30,6 +32,9 @@ export default async function Page(props: {
       <LLMPageActions markdownUrl={`/api/llm/${page.slugs.join("/")}`} />
       {componentName ? <DependencyBadges name={componentName} /> : null}
       <DocsBody>
+        {componentName && playgroundConfigs[componentName] ? (
+          <Playground name={componentName} />
+        ) : null}
         <MDX components={getMDXComponents()} />
       </DocsBody>
     </DocsPage>

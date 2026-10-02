@@ -39,11 +39,306 @@
       "name": "transition",
       "type": "Transition",
       "required": false,
-      "control": "text",
       "defaultValue": "{\n  type: \"spring\",\n  bounce: 0.12,\n  visualDuration: 0.42,\n} as const",
       "description": "控制触发元素与对话框之间形变过程的弹簧或补间动画。"
+    },
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": false
+    },
+    {
+      "name": "open",
+      "type": "boolean",
+      "required": false
+    },
+    {
+      "name": "defaultOpen",
+      "type": "boolean",
+      "required": false
+    },
+    {
+      "name": "onOpenChange",
+      "type": "((open: boolean) => void)",
+      "required": false
+    },
+    {
+      "name": "modal",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": "true"
     }
   ],
+  "api": [
+    {
+      "name": "MorphingDialog",
+      "props": [
+        {
+          "name": "transition",
+          "type": "Transition",
+          "required": false,
+          "defaultValue": "{\n  type: \"spring\",\n  bounce: 0.12,\n  visualDuration: 0.42,\n} as const",
+          "description": "控制触发元素与对话框之间形变过程的弹簧或补间动画。"
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "onOpenChange",
+          "type": "((open: boolean) => void)",
+          "required": false
+        },
+        {
+          "name": "modal",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true"
+        }
+      ]
+    },
+    {
+      "name": "MorphingDialogClose",
+      "props": [
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "MorphingDialogContent",
+      "props": [
+        {
+          "name": "overlayClassName",
+          "type": "string",
+          "required": false,
+          "description": "Classes applied to the viewport backdrop."
+        },
+        {
+          "name": "variants",
+          "type": "Variants",
+          "required": false,
+          "description": "Motion variants for the content inside the morphing surface."
+        },
+        {
+          "name": "media",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Content rendered above the body without the fade-in, typically a\n`MorphingDialogImage`, so shared media stays fully visible while it morphs."
+        },
+        {
+          "name": "forceMount",
+          "type": "true",
+          "required": false,
+          "description": "Used to force mounting when more control is needed. Useful when\ncontrolling animation with React animation libraries."
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "onCloseAutoFocus",
+          "type": "((event: Event) => void)",
+          "required": false,
+          "description": "Event handler called when auto-focusing on close.\nCan be prevented."
+        },
+        {
+          "name": "onEscapeKeyDown",
+          "type": "((event: KeyboardEvent) => void)",
+          "required": false,
+          "description": "Event handler called when the escape key is down.\nCan be prevented."
+        },
+        {
+          "name": "deferPointerDownOutside",
+          "type": "boolean",
+          "required": false,
+          "description": "When `true`, a `'pointerdown'` event outside of the layered element will\nwait for the interaction's click event before dispatching, allowing\nthird-party code to stop propagation of later events and cancel dismissal."
+        },
+        {
+          "name": "onPointerDownOutside",
+          "type": "((event: PointerDownOutsideEvent) => void)",
+          "required": false,
+          "description": "Event handler called when the a `pointerdown` event happens outside of the `DismissableLayer`.\nCan be prevented."
+        },
+        {
+          "name": "onFocusOutside",
+          "type": "((event: FocusOutsideEvent) => void)",
+          "required": false,
+          "description": "Event handler called when the focus moves outside of the `DismissableLayer`.\nCan be prevented."
+        },
+        {
+          "name": "onInteractOutside",
+          "type": "((event: PointerDownOutsideEvent | FocusOutsideEvent) => void)",
+          "required": false,
+          "description": "Event handler called when an interaction happens outside the `DismissableLayer`.\nSpecifically, when a `pointerdown` event happens outside or focus moves outside of it.\nCan be prevented."
+        },
+        {
+          "name": "onOpenAutoFocus",
+          "type": "((event: Event) => void)",
+          "required": false,
+          "description": "Event handler called when auto-focusing on open.\nCan be prevented."
+        }
+      ]
+    },
+    {
+      "name": "MorphingDialogDescription",
+      "props": [
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "MorphingDialogImage",
+      "props": [
+        {
+          "name": "alt",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "height",
+          "type": "string | number",
+          "required": false
+        },
+        {
+          "name": "src",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "width",
+          "type": "string | number",
+          "required": false
+        },
+        {
+          "name": "referrerPolicy",
+          "type": "\"\" | \"origin\" | \"no-referrer\" | \"no-referrer-when-downgrade\" | \"origin-when-cross-origin\" | \"same-origin\" | \"strict-origin\" | \"strict-origin-when-cross-origin\" | \"unsafe-url\"",
+          "required": false,
+          "options": [
+            "",
+            "origin",
+            "no-referrer",
+            "no-referrer-when-downgrade",
+            "origin-when-cross-origin",
+            "same-origin",
+            "strict-origin",
+            "strict-origin-when-cross-origin",
+            "unsafe-url"
+          ]
+        },
+        {
+          "name": "crossOrigin",
+          "type": "\"\" | \"anonymous\" | \"use-credentials\"",
+          "required": false,
+          "options": [
+            "",
+            "anonymous",
+            "use-credentials"
+          ]
+        },
+        {
+          "name": "decoding",
+          "type": "\"auto\" | \"async\" | \"sync\"",
+          "required": false,
+          "options": [
+            "auto",
+            "async",
+            "sync"
+          ]
+        },
+        {
+          "name": "fetchPriority",
+          "type": "\"auto\" | \"high\" | \"low\"",
+          "required": false,
+          "options": [
+            "auto",
+            "high",
+            "low"
+          ]
+        },
+        {
+          "name": "loading",
+          "type": "\"eager\" | \"lazy\"",
+          "required": false,
+          "options": [
+            "eager",
+            "lazy"
+          ]
+        },
+        {
+          "name": "sizes",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "srcSet",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "useMap",
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "MorphingDialogSubtitle",
+      "props": []
+    },
+    {
+      "name": "MorphingDialogTitle",
+      "props": [
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "MorphingDialogTrigger",
+      "props": [
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`MorphingDialog` 适用于**由卡片/卡槽展开为深度详情或沉浸式预览**的交互流程：\n\n- **连续性心智模型**：相比普通弹窗突兀的淡入或弹跳，形变动画建立了明确的视觉空间因果关系，让用户清晰感知“当前对话框是从哪张卡片/哪个按钮演变而来的”。\n- **媒体与画廊展开**：搭配 `MorphingDialogImage` 可以让缩略图直接放大为全高清画幅，视觉无闪烁。\n- **信息分级与渐进披露**：在卡片态只保留高层关键指标，点击后顺畅展开为完整配置项或账单流水，避免界面信息过载。",
+  "extended": "### 媒体画廊展开\n\n通过 `media` 插槽放置共享图片，在缩略图卡片与详情弹窗之间实现全程可见的图片缩放形变：\n\n### 业务卡片展开详情\n\n适用于费用卡、资产账户或监控卡片从概览形态平滑过渡为详情面板：",
+  "events": "- `onOpenChange`: (open: boolean) => void — 当用户点击触发器、点击关闭按钮、点击背景遮罩或按下 Escape 键时触发，返回最新的打开布尔值。\n- `onPointerDownOutside`: (event: CustomEvent) => void — 当用户点击对话框外部遮罩区域时触发，可通过 preventDefault 阻止关闭。\n- `onEscapeKeyDown`: (event: KeyboardEvent) => void — 当对话框处于打开状态并按下 Esc 键时触发，可通过 preventDefault 阻止关闭。",
+  "accessibility": "- **焦点管理与捕捉**：基于 Radix Dialog，打开时自动将键盘焦点转移至弹窗内首个可交互控件，关闭后焦点平稳归还至触发器按钮。\n- **键盘快捷键**：\n  - <kbd>Esc</kbd>：立即关闭当前对话框并归还焦点。\n  - <kbd>Tab</kbd> / <kbd>Shift + Tab</kbd>：在弹窗内部可聚焦元素间循环跳转，严格防止焦点逸出至底层背景。\n- **动态效果减弱（prefers-reduced-motion）**：当用户在操作系统中开启“减弱动态效果”时，共享形变动画将自动降级为瞬间切换，避免可能引起晕动症的高振幅形变。",
   "examples": [
     {
       "name": "morphing-dialog-demo",

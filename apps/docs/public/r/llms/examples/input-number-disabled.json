@@ -1,0 +1,6 @@
+{
+  "name": "input-number-disabled",
+  "component": "input-number",
+  "title": "禁用与只读状态",
+  "code": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { InputNumber } from \"@/components/ui/input-number\"\n\nexport default function InputNumberDisabled() {\n  return (\n    <div className=\"flex w-full max-w-sm flex-col gap-5\">\n      <div className=\"flex flex-col gap-1.5\">\n        <label className=\"text-sm font-medium text-muted-foreground\">\n          禁用状态 (disabled)\n        </label>\n        <InputNumber\n          disabled\n          defaultValue={42}\n          prefix=\"#\"\n          suffix=\"项\"\n        />\n        <p className=\"text-xs text-muted-foreground\">\n          禁用状态下阻止文本录入与步进按钮交互。\n        </p>\n      </div>\n\n      <div className=\"flex flex-col gap-1.5\">\n        <label className=\"text-sm font-medium text-foreground\">\n          只读状态 (readOnly)\n        </label>\n        <InputNumber\n          readOnly\n          defaultValue={1024}\n          suffix=\"MB\"\n        />\n        <p className=\"text-xs text-muted-foreground\">\n          只读模式支持选中文本复制，但禁止键盘编辑与增减操作。\n        </p>\n      </div>\n    </div>\n  )\n}\n"
+}

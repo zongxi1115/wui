@@ -1,0 +1,6 @@
+{
+  "name": "empty-state-compact",
+  "component": "empty-state",
+  "title": "紧凑卡片/下拉面板空状态",
+  "code": "import { BellOffIcon, Settings2Icon } from \"lucide-react\"\n\nimport { Button } from \"@/components/ui/button\"\nimport {\n  EmptyState,\n  EmptyStateActions,\n  EmptyStateDescription,\n  EmptyStateIcon,\n  EmptyStateTitle,\n} from \"@/components/ui/empty-state\"\n\nexport default function EmptyStateCompact() {\n  return (\n    <div className=\"bg-popover text-popover-foreground w-full max-w-xs rounded-lg border shadow-sm\">\n      <div className=\"flex items-center justify-between border-b px-4 py-2.5\">\n        <p className=\"text-sm font-medium\">通知</p>\n        <Button size=\"icon\" variant=\"ghost\" className=\"size-7\" aria-label=\"通知设置\">\n          <Settings2Icon />\n        </Button>\n      </div>\n      <EmptyState size=\"sm\">\n        <EmptyStateIcon>\n          <BellOffIcon />\n        </EmptyStateIcon>\n        <EmptyStateTitle className=\"text-sm\">暂无新通知</EmptyStateTitle>\n        <EmptyStateDescription className=\"text-xs leading-5\">\n          有人提及你、指派任务或审批状态变化时，会在这里提醒。\n        </EmptyStateDescription>\n        <EmptyStateActions className=\"mt-4\">\n          <Button size=\"sm\" variant=\"outline\">\n            查看历史通知\n          </Button>\n        </EmptyStateActions>\n      </EmptyState>\n    </div>\n  )\n}\n"
+}

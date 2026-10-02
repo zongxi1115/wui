@@ -31,14 +31,12 @@
       "name": "children",
       "type": "ReactNode",
       "required": true,
-      "control": "text",
       "description": "按堆叠顺序渲染的 StickyStackItem 元素。"
     },
     {
       "name": "top",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "24",
       "description": "第一个粘性项目距离顶部的偏移量，单位为像素。"
     },
@@ -46,7 +44,6 @@
       "name": "gap",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "12",
       "description": "堆叠项目之间仍可见的垂直偏移量，单位为像素。"
     },
@@ -54,7 +51,6 @@
       "name": "scaleStep",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "0.035",
       "description": "每有一张卡片位于当前项目上方时减少的缩放比例。"
     },
@@ -62,7 +58,6 @@
       "name": "dim",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "0",
       "description": "后方卡片上遮罩层的最大不透明度，设为 0 时关闭。"
     },
@@ -70,10 +65,82 @@
       "name": "container",
       "type": "RefObject<HTMLElement | null>",
       "required": false,
-      "control": "text",
       "description": "要监听的滚动容器；未设置时监听页面。"
     }
   ],
+  "api": [
+    {
+      "name": "StickyStack",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": true,
+          "description": "按堆叠顺序渲染的 StickyStackItem 元素。"
+        },
+        {
+          "name": "top",
+          "type": "number",
+          "required": false,
+          "defaultValue": "24",
+          "description": "第一个粘性项目距离顶部的偏移量，单位为像素。"
+        },
+        {
+          "name": "gap",
+          "type": "number",
+          "required": false,
+          "defaultValue": "12",
+          "description": "堆叠项目之间仍可见的垂直偏移量，单位为像素。"
+        },
+        {
+          "name": "scaleStep",
+          "type": "number",
+          "required": false,
+          "defaultValue": "0.035",
+          "description": "每有一张卡片位于当前项目上方时减少的缩放比例。"
+        },
+        {
+          "name": "dim",
+          "type": "number",
+          "required": false,
+          "defaultValue": "0",
+          "description": "后方卡片上遮罩层的最大不透明度，设为 0 时关闭。"
+        },
+        {
+          "name": "container",
+          "type": "RefObject<HTMLElement | null>",
+          "required": false,
+          "description": "要监听的滚动容器；未设置时监听页面。"
+        }
+      ]
+    },
+    {
+      "name": "StickyStackItem",
+      "props": [
+        {
+          "name": "stackIndex",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": true,
+          "description": "按堆叠顺序渲染的 StickyStackItem 元素。"
+        },
+        {
+          "name": "index",
+          "type": "number",
+          "required": false,
+          "description": "Position in the stack. Inferred automatically for direct children."
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`StickyStack` 适用于**核心功能三大支柱、递进式流程步骤、定价套餐等级对比**：\n\n- **强化叙事节奏**：相比一次性列出所有卡片，粘性层叠让用户的注意力一次只聚焦在一张核心内容上，滚动时带来强烈的成就感与进展感。\n- **层级表达**：用 `dim` 让底层卡片退后，比为每张卡片换背景色更克制；卡片之间的露出高度由 `gap` 控制，8–16px 即可读出层次。\n- **卡片间距**：卡片默认带 `mb-[18vh]` 的滚动间距，可通过 `className` 覆盖（如 `mb-24`）。",
+  "extended": "### 定价方案\n\n窄栏中的方案卡片逐张叠放，适合在移动端依次对比：",
+  "accessibility": "- **自动降级**：当用户开启 `prefers-reduced-motion: reduce` 时，卡片将锁定 scale 为 1，仅保留标准的 CSS `position: sticky` 堆叠，完全消除缩放造成的视觉冲击。\n- **DOM 结构平铺**：卡片在 DOM 树中依然保持自然的先后顺序，屏幕阅读器与读屏软件可以线性无歧义地逐项读取所有卡片文本。",
   "examples": [
     {
       "name": "sticky-stack-demo",

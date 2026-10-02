@@ -31,7 +31,6 @@
       "name": "variant",
       "type": "\"bars\" | \"orb\" | \"wave\"",
       "required": false,
-      "control": "select",
       "options": [
         "bars",
         "orb",
@@ -44,7 +43,6 @@
       "name": "state",
       "type": "\"idle\" | \"listening\" | \"thinking\" | \"speaking\"",
       "required": false,
-      "control": "select",
       "options": [
         "idle",
         "listening",
@@ -58,14 +56,12 @@
       "name": "audioLevel",
       "type": "number",
       "required": false,
-      "control": "number",
       "description": "实时音频电平归一化数值 [0.0 ~ 1.0]。省略时根据状态生成自然的模拟起伏。"
     },
     {
       "name": "barCount",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "5",
       "description": "柱状声波模式下的柱子数量。"
     },
@@ -73,7 +69,6 @@
       "name": "size",
       "type": "\"sm\" | \"lg\" | \"md\"",
       "required": false,
-      "control": "select",
       "options": [
         "sm",
         "lg",
@@ -83,6 +78,68 @@
       "description": "尺寸大小。"
     }
   ],
+  "api": [
+    {
+      "name": "AiVoiceVisualizer",
+      "props": [
+        {
+          "name": "variant",
+          "type": "\"bars\" | \"orb\" | \"wave\"",
+          "required": false,
+          "options": [
+            "bars",
+            "orb",
+            "wave"
+          ],
+          "defaultValue": "bars",
+          "description": "可视化声波形态（柱状、呼吸光环或正弦曲线）。"
+        },
+        {
+          "name": "state",
+          "type": "\"idle\" | \"listening\" | \"thinking\" | \"speaking\"",
+          "required": false,
+          "options": [
+            "idle",
+            "listening",
+            "thinking",
+            "speaking"
+          ],
+          "defaultValue": "idle",
+          "description": "语音会话当前所处的生命周期状态。"
+        },
+        {
+          "name": "audioLevel",
+          "type": "number",
+          "required": false,
+          "description": "实时音频电平归一化数值 [0.0 ~ 1.0]。省略时根据状态生成自然的模拟起伏。"
+        },
+        {
+          "name": "barCount",
+          "type": "number",
+          "required": false,
+          "defaultValue": "5",
+          "description": "柱状声波模式下的柱子数量。"
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"lg\" | \"md\"",
+          "required": false,
+          "options": [
+            "sm",
+            "lg",
+            "md"
+          ],
+          "defaultValue": "md",
+          "description": "尺寸大小。"
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`AiVoiceVisualizer` 为**多模态语音交互（Voice Agent / Realtime API / STT / TTS）**提供灵动、优雅的视觉反馈：\n\n- **4 种生命周期状态对应色彩与动效**：\n  - `idle`：低对比度灰色静止，表达“准备就绪但未激活”。\n  - `listening`：信息蓝（info）随电平跳动，表达“正在专注捕获用户声音”。\n  - `thinking`：前景色波峰依次流过（圆环模式显示旋转弧线），表达“正在理解上下文与调用工具”。\n  - `speaking`：前景色随音量振幅起伏，表达“AI 正在实时回传发音”。\n- **性能**：动画运行在帧循环中并直接写入样式，`audioLevel` 以 60Hz 更新也不会触发额外的 React 渲染开销。\n- **对接 Web Audio API**：推荐通过浏览器的 `AudioContext` 与 `AnalyserNode` 获取麦克风或音频元素的 `getByteFrequencyData`，经过归一化计算后传入 `audioLevel`，达到毫秒级音画同步。",
+  "extended": "### 实时全双工语音通话界面 (Orb 呼吸球)\n\n类似 ChatGPT Voice Mode 或 Siri 的全屏沉浸式语音通话卡片，结合静音、状态切换与挂断控制：\n\n### 语音输入条与波形图谱 (Live Bar Spectrum)\n\n嵌入在聊天输入框或录音控制条中的紧凑声波指示器，直观反映麦克风拾音信号强弱：",
+  "events": "- `className / style`: React.HTMLAttributes<HTMLDivElement> — 继承原生 <div> 容器属性，作为纯渲染视觉反馈组件，状态由外部 audio 流或业务逻辑统一调度驱动。",
+  "accessibility": "- **状态语义声明**：外层容器为 `role=\"img\"`，并按状态提供默认 `aria-label`（如「正在聆听」），可通过传入 `aria-label` 覆盖；同时带有 `data-state` 与 `data-variant` 属性。\n- **动效降级**：开启 `prefers-reduced-motion` 时帧循环停止，波形直接根据电平渲染静态形态。",
   "examples": [
     {
       "name": "ai-voice-visualizer-demo",

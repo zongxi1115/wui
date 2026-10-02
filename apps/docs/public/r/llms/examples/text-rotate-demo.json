@@ -1,0 +1,6 @@
+{
+  "name": "text-rotate-demo",
+  "component": "text-rotate",
+  "title": "基础用法",
+  "code": "import { TextRotate } from \"@/components/ui/text-rotate\"\n\nexport default function TextRotateDemo() {\n  return (\n    <div className=\"flex flex-col items-center gap-4 text-center\">\n      <h2 className=\"flex flex-wrap items-center justify-center gap-x-2.5 gap-y-2 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl\">\n        <span>为</span>\n        <TextRotate\n          texts={[\"设计师\", \"开发者\", \"产品团队\", \"增长运营\"]}\n          staggerFrom=\"last\"\n          staggerDuration={0.03}\n          className=\"rounded-md bg-primary px-3 py-1 text-primary-foreground\"\n        />\n        <span>打造的界面工具</span>\n      </h2>\n      <p className=\"max-w-sm text-sm text-muted-foreground\">\n        从设计稿到上线，同一套组件贯穿评审、开发与发布。\n      </p>\n    </div>\n  )\n}\n"
+}

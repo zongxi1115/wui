@@ -30,7 +30,6 @@
       "name": "direction",
       "type": "\"top\" | \"right\" | \"bottom\" | \"left\"",
       "required": false,
-      "control": "select",
       "options": [
         "top",
         "right",
@@ -44,7 +43,6 @@
       "name": "blurLayers",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "8",
       "description": "叠加的遮罩层数量，小于 2 时会按 2 层处理。"
     },
@@ -52,11 +50,49 @@
       "name": "blurIntensity",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "0.25",
       "description": "每增加一层时叠加的模糊强度，单位为像素。"
     }
   ],
+  "api": [
+    {
+      "name": "ProgressiveBlur",
+      "props": [
+        {
+          "name": "direction",
+          "type": "\"top\" | \"right\" | \"bottom\" | \"left\"",
+          "required": false,
+          "options": [
+            "top",
+            "right",
+            "bottom",
+            "left"
+          ],
+          "defaultValue": "bottom",
+          "description": "模糊效果最强的一侧。"
+        },
+        {
+          "name": "blurLayers",
+          "type": "number",
+          "required": false,
+          "defaultValue": "8",
+          "description": "叠加的遮罩层数量，小于 2 时会按 2 层处理。"
+        },
+        {
+          "name": "blurIntensity",
+          "type": "number",
+          "required": false,
+          "defaultValue": "0.25",
+          "description": "每增加一层时叠加的模糊强度，单位为像素。"
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`ProgressiveBlur` 适用于**截断列表提示、吸顶导航栏底部、图片渐隐遮罩**：\n\n- **告别生硬的纯色遮罩**：传统的 `bg-gradient-to-t from-background` 容易遮盖住文字的色彩，而渐进模糊（Backdrop Blur）则能保留底层色相同时让文本轮廓柔和化。\n- **层数建议**：通常 6 ~ 8 层可以在极佳的平滑度与 GPU 显存消耗之间取得完美平衡。",
+  "extended": "### 上下方多方向虚化对比\n\n在图片上叠加顶部或底部的渐进模糊，为标题与悬浮导航提供可读的底衬，而不必使用生硬的遮罩色块：",
+  "events": "该组件为纯展示型分层视觉遮罩层，自身不派发专用业务交互事件，默认标记 `pointer-events: none` 且不阻挡底层鼠标点击。",
+  "accessibility": "- **点击穿透**：容器默认携带 `pointer-events-none`，用户隔着模糊区域点击下方的链接或按钮依然能够精准响应。\n- **无障碍树隐藏**：默认设置 `aria-hidden=\"true\"`，屏幕阅读器不受任何视觉滤镜干扰。",
   "examples": [
     {
       "name": "progressive-blur-demo",

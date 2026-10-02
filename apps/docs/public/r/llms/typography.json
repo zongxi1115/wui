@@ -29,14 +29,12 @@
       "name": "as",
       "type": "ElementType<any, keyof IntrinsicElements>",
       "required": false,
-      "control": "text",
       "description": "覆盖当前排版变体默认使用的 HTML 元素。"
     },
     {
       "name": "asChild",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "false",
       "description": "将排版样式合并到唯一子元素。@default false"
     },
@@ -44,11 +42,58 @@
       "name": "variant",
       "type": "\"blockquote\" | \"body\" | \"code\" | \"h1\" | \"h2\" | \"h3\" | \"h4\" | \"small\" | \"muted\" | \"lead\" | null",
       "required": false,
-      "control": "text",
       "defaultValue": "body",
       "description": "文本元素使用的语义层级与排版样式。"
     }
   ],
+  "api": [
+    {
+      "name": "Typography",
+      "props": [
+        {
+          "name": "as",
+          "type": "ElementType<any, keyof IntrinsicElements>",
+          "required": false,
+          "description": "覆盖当前排版变体默认使用的 HTML 元素。"
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "将排版样式合并到唯一子元素。@default false"
+        },
+        {
+          "name": "variant",
+          "type": "\"blockquote\" | \"body\" | \"code\" | \"h1\" | \"h2\" | \"h3\" | \"h4\" | \"small\" | \"muted\" | \"lead\" | null",
+          "required": false,
+          "defaultValue": "body",
+          "description": "文本元素使用的语义层级与排版样式。"
+        }
+      ]
+    },
+    {
+      "name": "TypographyLink",
+      "props": []
+    },
+    {
+      "name": "TypographyList",
+      "props": [
+        {
+          "name": "ordered",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "是否渲染为有序列表。@default false"
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`Typography` 统一控制全站文本排版规格，避免在业务代码中随意书写杂乱的字号与行高 class：\n\n- **标题与字距（Tracking）微调**：大字号标题（h1/h2）内置负字距（tight tracking）与 `text-balance`，防止换行时出现单字掉行。\n- **行高与可读性（Leading）**：正文使用舒适的 `leading-7` 行高，辅以 `text-pretty` 算法，在长段落阅读时保持眼睛对焦稳定。\n- **语义与视觉解耦**：当页面 SEO 结构与 UI 设计规范产生冲突时（例如侧边栏需要一个语义 `<h2>` 但视觉要求 `small` 尺寸），使用 `<Typography variant=\"small\" as=\"h2\">` 实现无缝解耦。",
+  "extended": "### 完整排版元素集合 (列表、引用与行内代码)\n\n展示无序列表、有序列表、块级引用与行内代码样式的组合使用：\n\n### 多态标签与语义解耦\n\n通过 `as` 属性自由切换底层渲染元素，兼顾文档大纲语义与设计系统视觉规范；示例中页面标题语义为 `<h1>`、视觉为 `h3`，小节标签语义为 `<h2>`、视觉为 `small`，“相关文章”则通过 `asChild` 把正文样式合并到自定义容器：",
+  "events": "- `onClick`: (event: React.MouseEvent<HTMLElement>) => void — 透传原生点击事件。\n- `onMouseEnter / onMouseLeave`: (event: React.MouseEvent<HTMLElement>) => void — 透传原生鼠标悬停事件。",
+  "accessibility": "- **文本换行优化**：标题使用 CSS `text-wrap: balance`，长正文使用 `text-wrap: pretty`，杜绝孤字换行（Widows/Orphans），提升排版可读性。\n- **清晰对比度**：正文、弱化文本（muted）与代码块背景颜色均符合 WCAG 2.1 AA 级对比度标准。\n- **可访问链接**：`TypographyLink` 提供明确的下划线和高亮焦点环，色盲用户亦能清晰辨识可点击区域。",
   "examples": [
     {
       "name": "typography-demo",

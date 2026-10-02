@@ -1,0 +1,6 @@
+{
+  "name": "kbd-sizes",
+  "component": "kbd",
+  "title": "尺寸对比 (Default vs Small)",
+  "code": "import { Kbd, KbdGroup } from \"@/components/ui/kbd\"\n\nexport default function KbdSizes() {\n  return (\n    <div className=\"grid w-full max-w-md grid-cols-[5rem_1fr] items-center gap-x-4 gap-y-5 text-sm\">\n      <span className=\"text-muted-foreground text-xs\">default</span>\n      <div className=\"flex flex-wrap items-center gap-3\">\n        <KbdGroup>\n          <Kbd>⌘</Kbd>\n          <Kbd>K</Kbd>\n        </KbdGroup>\n        <KbdGroup>\n          <Kbd>Ctrl</Kbd>\n          <Kbd>Shift</Kbd>\n          <Kbd>P</Kbd>\n        </KbdGroup>\n        <Kbd>Enter</Kbd>\n        <Kbd>Esc</Kbd>\n      </div>\n\n      <span className=\"text-muted-foreground text-xs\">sm</span>\n      <div className=\"flex flex-wrap items-center gap-3\">\n        <KbdGroup>\n          <Kbd size=\"sm\">⌘</Kbd>\n          <Kbd size=\"sm\">C</Kbd>\n        </KbdGroup>\n        <KbdGroup>\n          <Kbd size=\"sm\">Alt</Kbd>\n          <Kbd size=\"sm\">F4</Kbd>\n        </KbdGroup>\n        <Kbd size=\"sm\">Tab</Kbd>\n        <Kbd size=\"sm\">Space</Kbd>\n      </div>\n    </div>\n  )\n}\n"
+}

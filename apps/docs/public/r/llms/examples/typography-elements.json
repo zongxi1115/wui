@@ -1,0 +1,6 @@
+{
+  "name": "typography-elements",
+  "component": "typography",
+  "title": "完整排版元素集合 (列表、引用与行内代码)",
+  "code": "import { Typography, TypographyList } from \"@/components/ui/typography\"\n\nexport default function TypographyElements() {\n  return (\n    <article className=\"w-full max-w-xl\">\n      <Typography variant=\"h4\">发布前检查</Typography>\n      <TypographyList>\n        <li>标题准确描述页面内容，不超过一行半</li>\n        <li>正文保持适合连续阅读的行高与行宽</li>\n        <li>\n          接口参数使用行内代码，例如 <Typography variant=\"code\">timeout</Typography>\n        </li>\n      </TypographyList>\n\n      <Typography variant=\"h4\" className=\"mt-8\">\n        发布流程\n      </Typography>\n      <TypographyList ordered>\n        <li>在预发环境完成冒烟测试</li>\n        <li>由负责人确认变更说明</li>\n        <li>按 10%、50%、100% 分批放量</li>\n      </TypographyList>\n\n      <Typography variant=\"blockquote\" className=\"mt-6\">\n        排版的目标不是展示字体，而是帮助用户理解内容。\n      </Typography>\n      <Typography variant=\"muted\" className=\"mt-6\">\n        最后更新于今天 14:20\n      </Typography>\n    </article>\n  )\n}\n"
+}

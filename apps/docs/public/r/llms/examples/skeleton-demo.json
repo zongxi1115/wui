@@ -1,0 +1,6 @@
+{
+  "name": "skeleton-demo",
+  "component": "skeleton",
+  "title": "基础用法",
+  "code": "import { Skeleton, SkeletonText } from \"@/components/ui/skeleton\"\n\nexport default function SkeletonDemo() {\n  return (\n    <div\n      className=\"flex w-full max-w-md items-start gap-4\"\n      aria-busy=\"true\"\n      aria-label=\"正在加载个人资料\"\n    >\n      <Skeleton shape=\"circle\" className=\"size-11\" />\n      <div className=\"min-w-0 flex-1 space-y-3 pt-0.5\">\n        <div className=\"flex items-center gap-2\">\n          <Skeleton shape=\"text\" className=\"w-28\" />\n          <Skeleton shape=\"text\" className=\"h-3 w-14\" />\n        </div>\n        <SkeletonText lines={2} lastLineWidth=\"82%\" />\n      </div>\n    </div>\n  )\n}\n"
+}

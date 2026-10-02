@@ -32,6 +32,16 @@ component: tree
 
 ## 扩展用法
 
+### 按文件后缀显示图标
+
+通过文件名后缀映射图标，再传入节点的 `icon`。示例包含 React、TypeScript、JavaScript、CSS、JSON、Markdown、图片和 YAML 文件，文件夹使用独立的目录图标。
+
+<ComponentPreview name="tree-file-icons" />
+
+文件图标来自 [Material Icon Theme](https://github.com/material-extensions/vscode-material-icon-theme)，采用 MIT 许可，素材已存放在本地。复制示例时，可通过以下命令一并安装示例与图标素材，也可以将映射替换为自己的图标集：
+
+<CodeTabs command="@wui-design/cli@latest add @wui/tree-file-icons" />
+
 ### 受控展开与禁用节点
 
 <ComponentPreview name="tree-controlled" />

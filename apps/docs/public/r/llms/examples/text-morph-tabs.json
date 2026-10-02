@@ -1,0 +1,6 @@
+{
+  "name": "text-morph-tabs",
+  "component": "text-morph",
+  "title": "分段筛选标签栏",
+  "code": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { TextMorph } from \"@/components/ui/text-morph\"\nimport { ToggleGroup, ToggleGroupItem } from \"@/components/ui/toggle-group\"\n\nconst filters = [\n  { id: \"all\", label: \"全部\", summary: \"共 24 个任务\" },\n  { id: \"active\", label: \"进行中\", summary: \"14 个任务进行中\" },\n  { id: \"review\", label: \"待评审\", summary: \"6 个任务待评审\" },\n  { id: \"done\", label: \"已完成\", summary: \"4 个任务已完成\" },\n]\n\nexport default function TextMorphTabs() {\n  const [active, setActive] = React.useState(\"all\")\n  const current = filters.find((filter) => filter.id === active)\n\n  return (\n    <div className=\"flex w-full max-w-md flex-col items-center gap-4\">\n      <ToggleGroup\n        type=\"single\"\n        value={active}\n        onValueChange={(value) => value && setActive(value)}\n        aria-label=\"任务筛选\"\n      >\n        {filters.map((filter) => (\n          <ToggleGroupItem key={filter.id} value={filter.id}>\n            {filter.label}\n          </ToggleGroupItem>\n        ))}\n      </ToggleGroup>\n      <TextMorph as=\"p\" className=\"text-muted-foreground text-sm\">\n        {current?.summary ?? \"\"}\n      </TextMorph>\n    </div>\n  )\n}\n"
+}

@@ -27,7 +27,6 @@
       "name": "variant",
       "type": "\"default\" | \"expand\"",
       "required": false,
-      "control": "select",
       "options": [
         "default",
         "expand"
@@ -39,7 +38,6 @@
       "name": "showValue",
       "type": "\"always\" | \"hover\" | \"never\"",
       "required": false,
-      "control": "select",
       "options": [
         "always",
         "hover",
@@ -52,7 +50,6 @@
       "name": "formatValue",
       "type": "((value: number) => ReactNode)",
       "required": false,
-      "control": "text",
       "defaultValue": "(current) => current",
       "description": "格式化滑块手柄上方显示的数值。"
     },
@@ -60,25 +57,239 @@
       "name": "marks",
       "type": "number[]",
       "required": false,
-      "control": "text",
       "defaultValue": "[]",
       "description": "在轨道上显示为圆点的刻度值数组。"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "required": false
     },
     {
       "name": "disabled",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "description": "是否禁用组件。"
+    },
+    {
+      "name": "orientation",
+      "type": "\"horizontal\" | \"vertical\"",
+      "required": false,
+      "options": [
+        "horizontal",
+        "vertical"
+      ],
+      "defaultValue": "horizontal"
+    },
+    {
+      "name": "dir",
+      "type": "\"ltr\" | \"rtl\"",
+      "required": false,
+      "options": [
+        "ltr",
+        "rtl"
+      ]
+    },
+    {
+      "name": "min",
+      "type": "number",
+      "required": false,
+      "defaultValue": "0"
+    },
+    {
+      "name": "max",
+      "type": "number",
+      "required": false,
+      "defaultValue": "100"
+    },
+    {
+      "name": "step",
+      "type": "number",
+      "required": false
+    },
+    {
+      "name": "minStepsBetweenThumbs",
+      "type": "number",
+      "required": false
+    },
+    {
+      "name": "value",
+      "type": "number[]",
+      "required": false
+    },
+    {
+      "name": "defaultValue",
+      "type": "number[]",
+      "required": false,
+      "defaultValue": "[50]"
+    },
+    {
+      "name": "onValueChange",
+      "type": "((value: number[]) => void)",
+      "required": false
+    },
+    {
+      "name": "onValueCommit",
+      "type": "((value: number[]) => void)",
+      "required": false
+    },
+    {
+      "name": "inverted",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": "false"
+    },
+    {
+      "name": "form",
+      "type": "string",
+      "required": false
     },
     {
       "name": "asChild",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
     }
   ],
+  "api": [
+    {
+      "name": "Slider",
+      "props": [
+        {
+          "name": "variant",
+          "type": "\"default\" | \"expand\"",
+          "required": false,
+          "options": [
+            "default",
+            "expand"
+          ],
+          "defaultValue": "default",
+          "description": "轨道的默认或交互展开样式。"
+        },
+        {
+          "name": "showValue",
+          "type": "\"always\" | \"hover\" | \"never\"",
+          "required": false,
+          "options": [
+            "always",
+            "hover",
+            "never"
+          ],
+          "defaultValue": "hover",
+          "description": "控制数值标签的显示时机。"
+        },
+        {
+          "name": "formatValue",
+          "type": "((value: number) => ReactNode)",
+          "required": false,
+          "defaultValue": "(current) => current",
+          "description": "格式化滑块手柄上方显示的数值。"
+        },
+        {
+          "name": "marks",
+          "type": "number[]",
+          "required": false,
+          "defaultValue": "[]",
+          "description": "在轨道上显示为圆点的刻度值数组。"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "是否禁用组件。"
+        },
+        {
+          "name": "orientation",
+          "type": "\"horizontal\" | \"vertical\"",
+          "required": false,
+          "options": [
+            "horizontal",
+            "vertical"
+          ],
+          "defaultValue": "horizontal"
+        },
+        {
+          "name": "dir",
+          "type": "\"ltr\" | \"rtl\"",
+          "required": false,
+          "options": [
+            "ltr",
+            "rtl"
+          ]
+        },
+        {
+          "name": "min",
+          "type": "number",
+          "required": false,
+          "defaultValue": "0"
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "required": false,
+          "defaultValue": "100"
+        },
+        {
+          "name": "step",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "minStepsBetweenThumbs",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "value",
+          "type": "number[]",
+          "required": false
+        },
+        {
+          "name": "defaultValue",
+          "type": "number[]",
+          "required": false,
+          "defaultValue": "[50]"
+        },
+        {
+          "name": "onValueChange",
+          "type": "((value: number[]) => void)",
+          "required": false
+        },
+        {
+          "name": "onValueCommit",
+          "type": "((value: number[]) => void)",
+          "required": false
+        },
+        {
+          "name": "inverted",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false"
+        },
+        {
+          "name": "form",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false,
+          "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`Slider` 适用于用户需要在一段连续或离散的数值区间内进行**快速试探与相对调整**的场景（例如调节音频音量、画布缩放比例、屏幕亮度、筛选价格预算等）。\n\n### 数值录入控件选型对比\n\n| 控件类型 | 核心优势 | 精度要求 | 典型适用场景 |\n| :--- | :--- | :--- | :--- |\n| **Slider** | 视觉化直观、拖拽调整手感流畅、即时试探 | 中 ~ 低精度（支持模糊调整） | 音量、亮度、透明度、价格区间筛选 |\n| **NumberInput** | 精准数字键盘录入、微调步进按钮 | 高精度（要求绝对准确） | 商品订购数量、转账金额、库存盘点 |\n| **Slider + Input 联动** | 兼顾大范围快速滑动与微观精确数值输入 | 全精度适配 | 图像编辑（模糊半径/饱和度）、专业参数调谐 |\n\n### 设计最佳实践\n\n- **即时响应视觉变化**：使用 `onValueChange` 即时更新关联的 UI 效果（如预览框圆角、音量图标状态）；但涉及远端接口保存时，应使用 `onValueCommit` 避免发起海量高频请求。\n- **提供明确的极值与当前值**：确保用户了解滑块的取值边界（如最小值与最大值）；结合 `showValue` 或在外部放置数值标签，保证数值透明可读。\n- **步长 (Step) 设置合理性**：根据业务精度设置 `step`。如果是大额价格区间可设为 `10` 或 `50`；如果是缩放系数可设为 `0.1` 或 `0.01`。\n- **无障碍文案命名**：为滑块 thumb 提供明确的 `aria-label`（如 `aria-label=\"音量调节\"`），让屏幕阅读器准确获知该控件的具体用途。",
+  "extended": "### 受控模式与快捷预设\n\n使用 `value` 和 `onValueChange` 实现受控管理。点击预设档位、点击轨道或使用方向键时，抓手与填充会平滑滑向新值；拖动时则严格跟随指针，不产生拖影：\n\n```tsx\nconst [value, setValue] = React.useState([50])\n\nreturn (\n  <Slider\n    value={value}\n    onValueChange={setValue}\n    min={0}\n    max={100}\n    step={1}\n  />\n)\n```\n\n### 双端范围选择 (Range)\n\n向 `value` 或 `defaultValue` 传入两个数值即可启用双滑块区间选择，常用于电商商品价格、房源面积或时间区间的过滤筛选：\n\n### 步长与离散刻度标记 (Marks)\n\n通过 `marks` 属性在轨道上标注关键档位刻度，配合 `step` 实现非均匀或分段式的阶梯调整（如存储容量）：\n\n### 浮动数值标签 (Tooltip)\n\n通过 `showValue` 属性可自由配置气泡标签的出现时机，并通过 `formatValue` 自定义显示的单位格式：\n\n- `showValue=\"always\"`：始终固定展示数值气泡。\n- `showValue=\"hover\"`：仅在鼠标悬停或键盘聚焦在滑块抓手上时浮现。\n- `showValue=\"never\"`：隐藏气泡，通常在外部已有独立数值展示区域时使用。\n\n### 与数字输入框联动\n\n在专业设计器或参数调试面板中，将 Slider 与 `InputNumber` 联动，既支持拖拽预览，又支持键盘精确输入与长按步进：\n\n### 悬停展开变体 (Expand Variant)\n\n设置 `variant=\"expand\"` 时，轨道在默认状态下保持极细线条，当鼠标悬停或获得焦点时平滑展开变粗：\n\n### 禁用状态\n\n设置 `disabled` 属性后，滑块轨道与抓手将降低透明度并拦截一切指针与键盘交互：",
+  "events": "- `onValueChange`: (value: number[]) => void — 拖拽滑块或按下方向键时高频连续触发，返回最新的数值数组。\n- `onValueCommit`: (value: number[]) => void — 用户释放指针拖拽或停止键盘操作时触发，适合防抖保存或发起网络请求。\n- `onFocus`: (event: React.FocusEvent<HTMLSpanElement>) => void — 滑块抓手获得键盘焦点时触发。\n- `onBlur`: (event: React.FocusEvent<HTMLSpanElement>) => void — 滑块抓手失去焦点时触发。\n- `onKeyDown`: (event: React.KeyboardEvent<HTMLSpanElement>) => void — 在滑块聚焦状态下按下键盘按键时触发。",
+  "accessibility": "- **ARIA 标准角色与属性**：\n  - 滑块抓手自动挂载 `role=\"slider\"`。\n  - 传给 `Slider` 的 `aria-label` / `aria-labelledby` 会转发到每个抓手上；范围滑块会自动追加“最小值 / 最大值”以区分两个抓手。\n  - 自动同步 `aria-valuemin`、`aria-valuemax` 与当前 `aria-valuenow`。\n  - 范围滑块在包含两个抓手时，两个抓手均具有合规的 ARIA 属性，独立朗读各自数值。\n- **键盘导航支持**：\n  - <kbd>Tab</kbd>：聚焦到滑块抓手上。\n  - 方向键 <kbd>→</kbd> / <kbd>↑</kbd>：按 `step` 步长递增数值。\n  - 方向键 <kbd>←</kbd> / <kbd>↓</kbd>：按 `step` 步长递减数值。\n  - <kbd>PageUp</kbd>：以大步长（通常为 10% 区间）递增数值。\n  - <kbd>PageDown</kbd>：以大步长递减数值。\n  - <kbd>Home</kbd>：直接跳至最小值 `min`。\n  - <kbd>End</kbd>：直接跳至最大值 `max`。\n- **触控与移动端优化**：\n  - 轨道与抓手自动应用 `touch-action: none`，确保在移动设备上拖动滑块时不会与页面的垂直滚动产生冲突。\n- **减弱动态效果适配**：\n  - 浮动标签的弹出、抓手的滑动与轨道缩放动效会自动遵循 `prefers-reduced-motion` 设置，关闭不必要的过渡动画。",
   "examples": [
     {
       "name": "slider-demo",

@@ -29,28 +29,24 @@
       "name": "items",
       "type": "readonly AiConversationTimelineItem[]",
       "required": true,
-      "control": "text",
       "description": "按对话发生顺序排列的轮次数据。"
     },
     {
       "name": "activeId",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "当前激活轮次的受控 ID。"
     },
     {
       "name": "defaultActiveId",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "非受控模式下初始激活轮次的 ID。"
     },
     {
       "name": "previewSide",
       "type": "\"right\" | \"left\"",
       "required": false,
-      "control": "select",
       "options": [
         "right",
         "left"
@@ -62,7 +58,6 @@
       "name": "preview",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "true",
       "description": "是否显示悬停预览卡片。"
     },
@@ -70,17 +65,80 @@
       "name": "onActiveChange",
       "type": "((id: string) => void)",
       "required": false,
-      "control": "text",
       "description": "时间线标记变为激活状态时触发。"
     },
     {
       "name": "onNavigate",
       "type": "((item: AiConversationTimelineItem, index: number) => void)",
       "required": false,
-      "control": "text",
       "description": "用户选择某个时间线标记时触发。"
     }
   ],
+  "api": [
+    {
+      "name": "AiConversationTimeline",
+      "props": [
+        {
+          "name": "items",
+          "type": "readonly AiConversationTimelineItem[]",
+          "required": true,
+          "description": "按对话发生顺序排列的轮次数据。"
+        },
+        {
+          "name": "activeId",
+          "type": "string",
+          "required": false,
+          "description": "当前激活轮次的受控 ID。"
+        },
+        {
+          "name": "defaultActiveId",
+          "type": "string",
+          "required": false,
+          "description": "非受控模式下初始激活轮次的 ID。"
+        },
+        {
+          "name": "previewSide",
+          "type": "\"right\" | \"left\"",
+          "required": false,
+          "options": [
+            "right",
+            "left"
+          ],
+          "defaultValue": "right",
+          "description": "悬停预览卡片显示在时间线的哪一侧。"
+        },
+        {
+          "name": "preview",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "是否显示悬停预览卡片。"
+        },
+        {
+          "name": "onActiveChange",
+          "type": "((id: string) => void)",
+          "required": false,
+          "description": "时间线标记变为激活状态时触发。"
+        },
+        {
+          "name": "onNavigate",
+          "type": "((item: AiConversationTimelineItem, index: number) => void)",
+          "required": false,
+          "description": "用户选择某个时间线标记时触发。"
+        }
+      ]
+    }
+  ],
+  "types": [
+    {
+      "name": "AiConversationTimelineItem",
+      "definition": "export interface AiConversationTimelineItem {\n  /** Stable item identifier. */\n  id: string\n  /** Primary text shown in the preview. */\n  title: string\n  /** Optional response or contextual summary. */\n  description?: string\n  /** Optional compact metadata, such as a time or model name. */\n  meta?: string\n  /** Visual depth of the tick; deeper levels render shorter. @default 1 */\n  level?: 1 | 2 | 3\n}"
+    }
+  ],
+  "usage": "`AiConversationTimeline` 专为**长篇幅 AI 会话、多步 Agent 工作流与复杂链路追踪**设计。\n\n- **静止时克制，交互时细腻**：静止状态下所有轮次收敛为等距的灰色细短线，绝不喧宾夺主抢占正文注意力；鼠标靠近时，通过高斯衰减算法（Gaussian falloff）平滑放大邻近刻度，提供流畅的鱼眼放大镜探寻体验。\n- **导航组件而非列表呈现**：本组件是视口定位的快捷导航控件，不是用于完整罗列事件历史的审计日志 [`Timeline`](/docs/components/timeline)。当对话仅有 2~3 轮或屏幕高度足够展示全部内容时，无需使用。\n- **层级与结构映射**：善用 `level` 属性表达调用链嵌套关系（如 Level 1 表示用户提问/主意图，Level 2 表示工具调用/思维推演，Level 3 表示底层细粒度日志），帮助用户一目了然把握对话脉络。",
+  "extended": "### 右侧停靠与向左展开预览\n\n当时间线布局在屏幕或卡片右侧边缘时，设置 `previewSide=\"left\"`，预览卡片将向左侧空白区域弹出，避免遮挡屏幕右边缘：\n\n### 多层级 Agent 执行链路追踪\n\n通过为关键节点设置 `level={1}`，中间推理与工具调用设置 `level={2}` 或 `level={3}`，直观呈现复杂的任务拆解与推演过程：",
+  "events": "- `onActiveChange`: (id: string) => void — 当选中的轮次项发生改变时触发，返回当前激活的 item.id。\n- `onNavigate`: (item: AiConversationTimelineItem, index: number) => void — 用户点击刻度或按回车确认选择时触发，提供完整的条目对象和索引序号，便于调用 scrollIntoView。\n- `onPointerMove`: (event: React.PointerEvent<HTMLElement>) => void — 指针在时间线刻度列滑动时触发，内部通过 MotionValue 计算高斯邻近放大系数。\n- `onPointerLeave`: () => void — 指针离开时间线区域时触发，刻度平滑回缩至静止静默状态。",
+  "accessibility": "- **语义结构**：外层使用 `<nav aria-label=\"...\">` 语义标签，内层使用 `<ol>` 有序列表组织刻度。\n- **键盘导航**：\n  - <kbd>Tab</kbd> / <kbd>Shift + Tab</kbd>：在各个轮次刻度按钮之间依次切换焦点。\n  - 聚焦至刻度时自动触发该项的放大与摘要卡片展开，完全无需依赖鼠标。\n  - <kbd>Enter</kbd> / <kbd>Space</kbd>：触发 `onNavigate` 回调执行跳转。\n- **ARIA 状态**：当前激活项会自动挂载 `aria-current=\"step\"`，向辅助技术精准表达当前阅读进度。\n- **动效降级**：内置弹簧物理动画自动监听 `prefers-reduced-motion` 设置。开启后，刻度直接跳变至目标尺寸，浮动预览卡片立即显隐，保障无障碍体验。",
   "examples": [
     {
       "name": "ai-conversation-timeline-demo",

@@ -30,20 +30,101 @@
   },
   "props": [
     {
+      "name": "defaultOpen",
+      "type": "boolean",
+      "required": false
+    },
+    {
+      "name": "open",
+      "type": "boolean",
+      "required": false
+    },
+    {
       "name": "disabled",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "description": "是否禁用组件。"
+    },
+    {
+      "name": "onOpenChange",
+      "type": "((open: boolean) => void)",
+      "required": false
     },
     {
       "name": "asChild",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
     }
   ],
+  "api": [
+    {
+      "name": "Collapsible",
+      "props": [
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "是否禁用组件。"
+        },
+        {
+          "name": "onOpenChange",
+          "type": "((open: boolean) => void)",
+          "required": false
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false,
+          "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
+        }
+      ]
+    },
+    {
+      "name": "CollapsibleContent",
+      "props": []
+    },
+    {
+      "name": "CollapsibleTrigger",
+      "props": [
+        {
+          "name": "showIndicator",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "Show the built-in rotating chevron after the label."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "是否禁用组件。"
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`Collapsible` 用于在不跳转页面的前提下，按需**渐进式披露（Progressive Disclosure）**次要或高级内容。\n\n- **组件选型对比**：\n  - **Collapsible**：用于**单一独立区域**的按需展开（如单个卡片内部的“高级设置”、单项代码变更 Diff）。\n  - **Accordion（手风琴）**：用于**一组多项并列折叠面板**（通常支持单项互斥或多项批量展开，如常见 FAQ 列表、多分组导航树）。\n- **默认展开策略**：\n  - **关键主流程字段**：切勿默认收起；若用户必须填写或频繁阅读，应直接平铺展示。\n  - **低频配置（如高级安全签名、日志明细）**：默认收起（`defaultOpen={false}`），保持界面整洁精炼。\n- **指示器旋转动效**：右侧箭头在展开时顺畅旋转 180°，明确传达当前开合状态。",
+  "extended": "### 受控状态模式\n\n通过 `open` 与 `onOpenChange` 将折叠状态与外部指示器或工具栏联动：\n\n### 代码变更折叠列表（Git Diff）\n\n在代码评审或发布日志中，将每个文件的改动包裹在独立的折叠面板中按需查阅：\n\n### 表单卡片中的高级配置区块\n\n在配置面板中将高级安全参数置于卡片底部的折叠区中，保持主表单专注干净：",
+  "events": "- `onOpenChange`: (open: boolean) => void — 用户点击触发器、使用快捷键或外部状态更新导致展开/收起状态改变时触发，返回最新的布尔值。",
+  "accessibility": "- **ARIA 状态关联**：底层基于 Radix UI 原语，触发器自动携带 `aria-expanded=\"true | false\"` 并通过 `aria-controls` 关联对应内容块 ID。\n- **键盘快捷键**：\n  - <kbd>Tab</kbd>：聚焦到触发器按钮上，展现清晰的高对比度焦点圈。\n  - <kbd>Enter</kbd> / <kbd>Space</kbd>：快速切换展开与收起状态。\n- **焦点隔离与惰性隐藏**：内容在收起状态下会自动设置 `inert` 与 `aria-hidden=\"true\"`，键盘 Tab 键无法意外聚焦到已折叠隐藏的内部输入框或链接上。\n- **平滑动画与动效降级**：高度补间通过 `motion/react` 驱动，系统开启“减少动态效果（prefers-reduced-motion）”时动画持续时间自动归零，实现瞬间无闪烁切换。",
   "examples": [
     {
       "name": "collapsible-demo",

@@ -1,0 +1,6 @@
+{
+  "name": "video-player-minimal",
+  "component": "video-player",
+  "title": "精简组合",
+  "code": "import {\n  VideoPlayer,\n  VideoPlayerMuteButton,\n  VideoPlayerOverlay,\n  VideoPlayerSeek,\n  VideoPlayerVideo,\n} from \"@/components/ui/video-player\"\n\nexport default function VideoPlayerMinimal() {\n  return (\n    <article className=\"w-full max-w-64\">\n      <VideoPlayer\n        className=\"aspect-[4/5] w-full rounded-lg\"\n        aria-label=\"商品视频：春日花束\"\n      >\n        <VideoPlayerVideo\n          src=\"https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4\"\n          preload=\"metadata\"\n          className=\"object-cover\"\n          muted\n          loop\n          playsInline\n        />\n        <VideoPlayerOverlay />\n        <VideoPlayerMuteButton className=\"absolute right-2 top-2 z-20 rounded-full bg-black/40\" />\n        <VideoPlayerSeek\n          showValue=\"never\"\n          className=\"absolute inset-x-3 bottom-1 z-20 w-auto transition-opacity duration-300 group-data-[idle]/video:opacity-0\"\n        />\n      </VideoPlayer>\n      <h3 className=\"mt-3 text-sm font-medium\">春日花束 · 12 支装</h3>\n      <p className=\"text-muted-foreground mt-1 text-xs\">\n        花艺师现场包扎，当日下单次日送达\n      </p>\n    </article>\n  )\n}\n"
+}

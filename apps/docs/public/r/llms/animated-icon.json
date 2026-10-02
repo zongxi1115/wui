@@ -30,28 +30,24 @@
       "name": "icon",
       "type": "AnimatedIconGlyph",
       "required": true,
-      "control": "text",
       "description": "从 @animateicons/react/lucide 导入的路径动画图标。"
     },
     {
       "name": "label",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "图标的无障碍名称。纯装饰图标无需设置。"
     },
     {
       "name": "ref",
       "type": "Ref<AnimatedIconHandle>",
       "required": false,
-      "control": "text",
       "description": "由动态路径图标暴露的命令式播放控制句柄。"
     },
     {
       "name": "size",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "24",
       "description": "图标尺寸，单位为像素。"
     },
@@ -59,21 +55,18 @@
       "name": "duration",
       "type": "number",
       "required": false,
-      "control": "number",
       "description": "图标支持时，单次动画的时长，单位为秒。"
     },
     {
       "name": "isAnimated",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "description": "是否播放图标动画，具体效果取决于图标本身是否支持。"
     },
     {
       "name": "variant",
       "type": "\"default\" | \"secondary\" | \"destructive\" | \"success\" | \"warning\" | \"info\" | \"primary\" | \"muted\"",
       "required": false,
-      "control": "select",
       "options": [
         "default",
         "secondary",
@@ -91,8 +84,96 @@
       "name": "color",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "自定义 CSS/SVG 颜色。设置后会覆盖 variant。"
+    }
+  ],
+  "api": [
+    {
+      "name": "AnimatedIcon",
+      "props": [
+        {
+          "name": "icon",
+          "type": "AnimatedIconGlyph",
+          "required": true,
+          "description": "从 @animateicons/react/lucide 导入的路径动画图标。"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "图标的无障碍名称。纯装饰图标无需设置。"
+        },
+        {
+          "name": "ref",
+          "type": "Ref<AnimatedIconHandle>",
+          "required": false,
+          "description": "由动态路径图标暴露的命令式播放控制句柄。"
+        },
+        {
+          "name": "size",
+          "type": "number",
+          "required": false,
+          "defaultValue": "24",
+          "description": "图标尺寸，单位为像素。"
+        },
+        {
+          "name": "duration",
+          "type": "number",
+          "required": false,
+          "description": "图标支持时，单次动画的时长，单位为秒。"
+        },
+        {
+          "name": "isAnimated",
+          "type": "boolean",
+          "required": false,
+          "description": "是否播放图标动画，具体效果取决于图标本身是否支持。"
+        },
+        {
+          "name": "variant",
+          "type": "\"default\" | \"secondary\" | \"destructive\" | \"success\" | \"warning\" | \"info\" | \"primary\" | \"muted\"",
+          "required": false,
+          "options": [
+            "default",
+            "secondary",
+            "destructive",
+            "success",
+            "warning",
+            "info",
+            "primary",
+            "muted"
+          ],
+          "defaultValue": "default",
+          "description": "图标使用的语义文字颜色。"
+        },
+        {
+          "name": "color",
+          "type": "string",
+          "required": false,
+          "description": "自定义 CSS/SVG 颜色。设置后会覆盖 variant。"
+        }
+      ]
+    }
+  ],
+  "types": [
+    {
+      "name": "AnimatedIconHandle",
+      "definition": "export interface AnimatedIconHandle {\n  startAnimation: () => void\n  stopAnimation: () => void\n}"
+    },
+    {
+      "name": "AnimatedIconGlyph",
+      "definition": "export type AnimatedIconGlyph = React.ForwardRefExoticComponent<\n  AnimatedIconGlyphProps & React.RefAttributes<AnimatedIconHandle>\n>"
+    },
+    {
+      "name": "AnimatedIconGlyphProps",
+      "definition": "export interface AnimatedIconGlyphProps extends Omit<\n  React.HTMLAttributes<HTMLDivElement>,\n  | \"color\"\n  | \"onAnimationEnd\"\n  | \"onAnimationIteration\"\n  | \"onAnimationStart\"\n  | \"onDrag\"\n  | \"onDragEnd\"\n  | \"onDragStart\"\n> {\n  /** Icon dimensions in pixels. @default 24 */\n  size?: number\n  /** Optional animation duration in seconds, when supported by the glyph. */\n  duration?: number\n  /** Whether the glyph should animate, when supported by the glyph. */\n  isAnimated?: boolean\n  /** Semantic text color token. @default \"default\" */\n  variant?: AnimatedIconColor\n  /** Custom CSS/SVG color. Overrides the semantic color when provided. */\n  color?: string\n}"
+    },
+    {
+      "name": "AnimatedIconColor",
+      "definition": "export type AnimatedIconColor = keyof typeof animatedIconColorVariants"
+    },
+    {
+      "name": "AnimatedIconHandle",
+      "definition": "export interface AnimatedIconHandle {\n  startAnimation: () => void\n  stopAnimation: () => void\n}"
     }
   ],
   "usage": "```tsx\nimport { BellRingIcon, CopyIcon } from \"@animateicons/react/lucide\"\nimport {\n  AirplaneIcon,\n  BrandOpenaiIcon,\n} from \"@/components/ui/animated-icons\"\n\n<BellRingIcon size={24} />\n<CopyIcon size={24} duration={0.7} />\n<AirplaneIcon size={24} />\n<BrandOpenaiIcon size={24} />\n```\n\n每个图标默认在自身悬停时播放。如果交互区域比图标大，例如工具栏按钮或菜单项，建议使用 wui 的 `AnimatedIcon`，\n并通过 `ref` 让父元素控制动画。这样用户悬停按钮空白区域时，图标也会给出反馈。\n\nSVGlide 使用受控的 `data-hovered` 属性：\n\n```tsx\nimport { useState } from \"react\"\nimport { Activity } from \"svglide\"\n\nexport function ActivityButton() {\n  const [hovered, setHovered] = useState(false)\n\n  return (\n    <button\n      onPointerEnter={() => setHovered(true)}\n      onPointerLeave={() => setHovered(false)}\n      onFocus={() => setHovered(true)}\n      onBlur={() => setHovered(false)}\n    >\n      <Activity data-hovered={hovered} className=\"size-6\" />\n      Activity\n    </button>\n  )\n}\n```",

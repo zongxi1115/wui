@@ -1,0 +1,6 @@
+{
+  "name": "input-demo",
+  "component": "input",
+  "title": "基础用法",
+  "code": "\"use client\"\n\nimport * as React from \"react\"\nimport { SearchIcon } from \"lucide-react\"\n\nimport { Input } from \"@/components/ui/input\"\nimport { Kbd } from \"@/components/ui/kbd\"\n\nexport default function InputDemo() {\n  const [value, setValue] = React.useState(\"\")\n\n  return (\n    <div className=\"grid w-full max-w-sm gap-2\">\n      <label htmlFor=\"spotlight-search\" className=\"text-sm font-medium\">\n        搜索文档\n      </label>\n      <Input\n        id=\"spotlight-search\"\n        value={value}\n        onChange={(event) => setValue(event.target.value)}\n        placeholder=\"组件、API 或设计规范\"\n        allowClear\n        startContent={<SearchIcon />}\n        endContent={\n          value ? null : (\n            <Kbd size=\"sm\" className=\"text-muted-foreground font-mono text-[10px]\">\n              ⌘K\n            </Kbd>\n          )\n        }\n      />\n      <p className=\"text-muted-foreground text-xs\">支持模糊匹配与拼音首字母检索</p>\n    </div>\n  )\n}\n"
+}

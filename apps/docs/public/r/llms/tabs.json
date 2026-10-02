@@ -29,13 +29,201 @@
   },
   "props": [
     {
+      "name": "value",
+      "type": "string",
+      "required": false,
+      "description": "The value for the selected tab, if controlled"
+    },
+    {
+      "name": "defaultValue",
+      "type": "string",
+      "required": false,
+      "description": "The value of the tab to select by default, if uncontrolled"
+    },
+    {
+      "name": "onValueChange",
+      "type": "((value: string) => void)",
+      "required": false,
+      "description": "A function called when a new tab is selected"
+    },
+    {
+      "name": "orientation",
+      "type": "\"horizontal\" | \"vertical\"",
+      "required": false,
+      "options": [
+        "horizontal",
+        "vertical"
+      ],
+      "defaultValue": "horizontal",
+      "description": "The orientation the tabs are layed out.\nMainly so arrow navigation is done accordingly (left & right vs. up & down)\n@defaultValue horizontal"
+    },
+    {
+      "name": "dir",
+      "type": "\"ltr\" | \"rtl\"",
+      "required": false,
+      "options": [
+        "ltr",
+        "rtl"
+      ],
+      "description": "The direction of navigation between toolbar items."
+    },
+    {
+      "name": "activationMode",
+      "type": "\"manual\" | \"automatic\"",
+      "required": false,
+      "options": [
+        "manual",
+        "automatic"
+      ],
+      "description": "Whether a tab is activated automatically or manually.\n@defaultValue automatic"
+    },
+    {
       "name": "asChild",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
     }
   ],
+  "api": [
+    {
+      "name": "Tabs",
+      "props": [
+        {
+          "name": "value",
+          "type": "string",
+          "required": false,
+          "description": "The value for the selected tab, if controlled"
+        },
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "required": false,
+          "description": "The value of the tab to select by default, if uncontrolled"
+        },
+        {
+          "name": "onValueChange",
+          "type": "((value: string) => void)",
+          "required": false,
+          "description": "A function called when a new tab is selected"
+        },
+        {
+          "name": "orientation",
+          "type": "\"horizontal\" | \"vertical\"",
+          "required": false,
+          "options": [
+            "horizontal",
+            "vertical"
+          ],
+          "defaultValue": "horizontal",
+          "description": "The orientation the tabs are layed out.\nMainly so arrow navigation is done accordingly (left & right vs. up & down)\n@defaultValue horizontal"
+        },
+        {
+          "name": "dir",
+          "type": "\"ltr\" | \"rtl\"",
+          "required": false,
+          "options": [
+            "ltr",
+            "rtl"
+          ],
+          "description": "The direction of navigation between toolbar items."
+        },
+        {
+          "name": "activationMode",
+          "type": "\"manual\" | \"automatic\"",
+          "required": false,
+          "options": [
+            "manual",
+            "automatic"
+          ],
+          "description": "Whether a tab is activated automatically or manually.\n@defaultValue automatic"
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false,
+          "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
+        }
+      ]
+    },
+    {
+      "name": "TabsContent",
+      "props": [
+        {
+          "name": "value",
+          "type": "string",
+          "required": false,
+          "description": "The value for the selected tab, if controlled"
+        },
+        {
+          "name": "forceMount",
+          "type": "true",
+          "required": false,
+          "description": "Used to force mounting when more control is needed. Useful when\ncontrolling animation with React animation libraries."
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false,
+          "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
+        }
+      ]
+    },
+    {
+      "name": "TabsList",
+      "props": [
+        {
+          "name": "variant",
+          "type": "\"pill\" | \"underline\"",
+          "required": false,
+          "options": [
+            "pill",
+            "underline"
+          ],
+          "defaultValue": "pill",
+          "description": "Indicator treatment used by every trigger inside the list."
+        },
+        {
+          "name": "loop",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false,
+          "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
+        }
+      ]
+    },
+    {
+      "name": "TabsTrigger",
+      "props": [
+        {
+          "name": "value",
+          "type": "string",
+          "required": false,
+          "description": "The value for the selected tab, if controlled"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "是否禁用组件。"
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false,
+          "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`Tabs` 用于在同一视觉空间内对信息进行结构化分类，降低单屏认知负荷：\n\n- **组件选型对比**：\n  - **Tabs vs 路由页面导航**：若各个分类属于独立的功能模块或具备不同的 URL 路径，推荐采用顶栏导航或侧边栏菜单；若属于同一实体对象的不同维度属性（如“概览 / 审计日志 / 权限设置”），采用 `Tabs` 更高效。\n  - **Tabs vs 手风琴 Accordion**：`Tabs` 每次仅展示一个互斥分类；`Accordion` 适合纵向排布并支持同时展开多个折叠项（如 FAQ、长文档目录）。\n- **样式选择指南（Pill vs Underline）**：\n  - **Pill（胶囊式）**：视觉重量较轻，带有浅灰色外框与背景高亮块，适合局部工具栏、图表维度切换或卡片内部的次级筛选。\n  - **Underline（下划线式）**：具有清晰的底部分界线，排版更具呼吸感，适合页面级设置、主体详情页面的顶部分区。\n- **设计规范与避坑原则**：\n  - **标签数量适中**：建议保持在 2 ~ 6 个之间。标签过多易造成移动端折行或视觉混乱。\n  - **文案简短对称**：标签文案应保持词性与字数相近（如“基本信息”、“成员管理”、“安全策略”），避免单个标签过长。\n  - **勿用于强步骤流程**：若内容存在严格的前后依赖（第一步 -> 第二步 -> 第三步），请改用 [`Steps` 步骤条](/docs/components/steps)，不要使用允许自由跳转的 `Tabs`。",
+  "extended": "### 胶囊式标签与微动效\n\n使用默认的 `pill` 样式，搭配图标与数据指标卡片，体验平滑的物理弹簧滑块过渡动效：\n\n### 下划线样式与设置页\n\n设置 `variant=\"underline\"` 构建企业级后台中常用的主设置分区页：\n\n### 受控模式与动态徽标\n\n通过 `value` / `onValueChange` 受控，结合 `Badge` 展示各分类未读数；「全部已读」等外部操作会实时更新标签上的计数：\n\n### 纵向设置导航\n\n设置 `orientation=\"vertical\"` 构建左侧导航、右侧内容的设置页。指示器沿竖线滑动，内容面板按切换方向上下滑入：\n\n### 综合业务表单选项卡\n\n在每个 `TabsContent` 中组合 `Card`、`Input` 与操作按钮，组织结构清晰的账户与安全配置中心：",
+  "events": "- `onValueChange`: (value: string) => void — 当用户点击、触摸或通过键盘改变当前激活的标签页时触发，参数为最新激活的 value 字符串。",
+  "accessibility": "- **WAI-ARIA Tabs 规范**：\n  - `TabsList` 自动挂载 `role=\"tablist\"` 与 `aria-orientation`。\n  - `TabsTrigger` 自动挂载 `role=\"tab\"`、`aria-selected` 以及 `aria-controls`（指向关联的 content 面板 ID）。\n  - `TabsContent` 自动挂载 `role=\"tabpanel\"` 与 `aria-labelledby`。\n- **键盘导航支持**：\n  - <kbd>→</kbd> / <kbd>←</kbd>：在水平标签项之间顺次切换焦点并激活。\n  - <kbd>↓</kbd> / <kbd>↑</kbd>：在垂直标签项之间切换焦点。\n  - <kbd>Home</kbd>：快速跳转并激活第一个标签。\n  - <kbd>End</kbd>：快速跳转并激活最后一个标签。\n  - <kbd>Tab</kbd>：将焦点从当前激活的 Tab 触发器直接移入下方的内容面板。\n- **动效减弱（Reduced Motion）**：\n  - 自动适配用户的系统无障碍设置。当开启“减弱动态效果”时，指示器与内容面板将关闭弹簧插值与方向位移动画，立即呈现切换结果。",
   "examples": [
     {
       "name": "tabs-demo",

@@ -3139,6 +3139,65 @@
       ]
     },
     {
+      "name": "tree-file-icons",
+      "type": "registry:example",
+      "title": "文件类型图标树",
+      "description": "根据文件后缀匹配 Material Icon Theme 图标的文件目录示例。",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["tree"],
+      "files": [
+        {
+          "path": "registry/examples/tree-file-icons.tsx",
+          "type": "registry:example"
+        },
+        {
+          "path": "registry/assets/tree/react.svg",
+          "type": "registry:asset",
+          "target": "public/wui/tree/react.svg"
+        },
+        {
+          "path": "registry/assets/tree/typescript.svg",
+          "type": "registry:asset",
+          "target": "public/wui/tree/typescript.svg"
+        },
+        {
+          "path": "registry/assets/tree/javascript.svg",
+          "type": "registry:asset",
+          "target": "public/wui/tree/javascript.svg"
+        },
+        {
+          "path": "registry/assets/tree/css.svg",
+          "type": "registry:asset",
+          "target": "public/wui/tree/css.svg"
+        },
+        {
+          "path": "registry/assets/tree/json.svg",
+          "type": "registry:asset",
+          "target": "public/wui/tree/json.svg"
+        },
+        {
+          "path": "registry/assets/tree/markdown.svg",
+          "type": "registry:asset",
+          "target": "public/wui/tree/markdown.svg"
+        },
+        {
+          "path": "registry/assets/tree/image.svg",
+          "type": "registry:asset",
+          "target": "public/wui/tree/image.svg"
+        },
+        {
+          "path": "registry/assets/tree/yaml.svg",
+          "type": "registry:asset",
+          "target": "public/wui/tree/yaml.svg"
+        },
+        {
+          "path": "registry/assets/tree/LICENSE",
+          "type": "registry:asset",
+          "target": "public/wui/tree/LICENSE"
+        }
+      ]
+    },
+    {
       "name": "tree-select",
       "type": "registry:ui",
       "title": "树选择 TreeSelect",

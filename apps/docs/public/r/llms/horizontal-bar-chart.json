@@ -27,21 +27,18 @@
       "name": "data",
       "type": "ChartDatum[]",
       "required": true,
-      "control": "text",
       "description": "每行代表一个分类的数据。"
     },
     {
       "name": "title",
       "type": "ReactNode",
       "required": true,
-      "control": "text",
       "description": "图表标题，用于说明正在比较的总量或构成。"
     },
     {
       "name": "height",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "300",
       "description": "图表绘图区高度，单位为像素。"
     },
@@ -49,28 +46,24 @@
       "name": "description",
       "type": "ReactNode",
       "required": false,
-      "control": "text",
       "description": "补充单位、时间范围或分母口径的副标题。"
     },
     {
       "name": "actions",
       "type": "ReactNode",
       "required": false,
-      "control": "text",
       "description": "标题右侧的操作区。"
     },
     {
       "name": "series",
       "type": "ChartSeries[]",
       "required": true,
-      "control": "text",
       "description": "参与堆叠的数值序列。"
     },
     {
       "name": "showGrid",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "true",
       "description": "是否显示数值参考网格。"
     },
@@ -78,7 +71,6 @@
       "name": "showLegend",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "true",
       "description": "是否显示图例。"
     },
@@ -86,28 +78,24 @@
       "name": "valueFormatter",
       "type": "ChartValueFormatter",
       "required": false,
-      "control": "text",
       "description": "自定义原始数值的显示格式。"
     },
     {
       "name": "labelFormatter",
       "type": "ChartLabelFormatter",
       "required": false,
-      "control": "text",
       "description": "自定义分类标签。"
     },
     {
       "name": "categoryKey",
       "type": "string",
       "required": true,
-      "control": "text",
       "description": "分类名称字段。"
     },
     {
       "name": "labelWidth",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "112",
       "description": "横向布局为分类标签保留的宽度。"
     },
@@ -115,7 +103,6 @@
       "name": "showValues",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "false",
       "description": "是否在足够宽的堆叠段内显示数值。"
     },
@@ -123,10 +110,107 @@
       "name": "onValueSelect",
       "type": "((datum: ChartDatum, series: ChartSeries, value: number) => void)",
       "required": false,
-      "control": "text",
       "description": "点击某个堆叠段时触发。"
     }
   ],
+  "api": [
+    {
+      "name": "HorizontalBarChart",
+      "props": [
+        {
+          "name": "data",
+          "type": "ChartDatum[]",
+          "required": true,
+          "description": "每行代表一个分类的数据。"
+        },
+        {
+          "name": "title",
+          "type": "ReactNode",
+          "required": true,
+          "description": "图表标题，用于说明正在比较的总量或构成。"
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "required": false,
+          "defaultValue": "300",
+          "description": "图表绘图区高度，单位为像素。"
+        },
+        {
+          "name": "description",
+          "type": "ReactNode",
+          "required": false,
+          "description": "补充单位、时间范围或分母口径的副标题。"
+        },
+        {
+          "name": "actions",
+          "type": "ReactNode",
+          "required": false,
+          "description": "标题右侧的操作区。"
+        },
+        {
+          "name": "series",
+          "type": "ChartSeries[]",
+          "required": true,
+          "description": "参与堆叠的数值序列。"
+        },
+        {
+          "name": "showGrid",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "是否显示数值参考网格。"
+        },
+        {
+          "name": "showLegend",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "是否显示图例。"
+        },
+        {
+          "name": "valueFormatter",
+          "type": "ChartValueFormatter",
+          "required": false,
+          "description": "自定义原始数值的显示格式。"
+        },
+        {
+          "name": "labelFormatter",
+          "type": "ChartLabelFormatter",
+          "required": false,
+          "description": "自定义分类标签。"
+        },
+        {
+          "name": "categoryKey",
+          "type": "string",
+          "required": true,
+          "description": "分类名称字段。"
+        },
+        {
+          "name": "labelWidth",
+          "type": "number",
+          "required": false,
+          "defaultValue": "112",
+          "description": "横向布局为分类标签保留的宽度。"
+        },
+        {
+          "name": "showValues",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "是否在足够宽的堆叠段内显示数值。"
+        },
+        {
+          "name": "onValueSelect",
+          "type": "((datum: ChartDatum, series: ChartSeries, value: number) => void)",
+          "required": false,
+          "description": "点击某个堆叠段时触发。"
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`HorizontalBarChart` 是 `StackedBarChart` 的横向薄封装，适合排序后的排名、长产品名称和 5–10 个分类比较。\n单指标时只传一个序列，不要为了给每行制造不同颜色而重复分类维度。",
   "examples": [
     {
       "name": "horizontal-bar-chart-demo"

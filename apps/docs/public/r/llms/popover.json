@@ -27,7 +27,286 @@
       "utils"
     ]
   },
-  "props": [],
+  "props": [
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": false
+    },
+    {
+      "name": "open",
+      "type": "boolean",
+      "required": false
+    },
+    {
+      "name": "defaultOpen",
+      "type": "boolean",
+      "required": false
+    },
+    {
+      "name": "onOpenChange",
+      "type": "((open: boolean) => void)",
+      "required": false
+    },
+    {
+      "name": "modal",
+      "type": "boolean",
+      "required": false
+    }
+  ],
+  "api": [
+    {
+      "name": "Popover",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "onOpenChange",
+          "type": "((open: boolean) => void)",
+          "required": false
+        },
+        {
+          "name": "modal",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "PopoverAnchor",
+      "props": [
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "virtualRef",
+          "type": "RefObject<Measurable | null>",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "PopoverClose",
+      "props": [
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "PopoverContent",
+      "props": [
+        {
+          "name": "sideOffset",
+          "type": "number",
+          "required": false,
+          "defaultValue": "6",
+          "description": "浮层与触发器之间的距离，单位为像素。@default 6"
+        },
+        {
+          "name": "showArrow",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "是否显示指向触发器的箭头。@default false"
+        },
+        {
+          "name": "forceMount",
+          "type": "true",
+          "required": false,
+          "description": "Used to force mounting when more control is needed. Useful when\ncontrolling animation with React animation libraries."
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "side",
+          "type": "\"top\" | \"right\" | \"bottom\" | \"left\"",
+          "required": false,
+          "options": [
+            "top",
+            "right",
+            "bottom",
+            "left"
+          ]
+        },
+        {
+          "name": "align",
+          "type": "\"center\" | \"start\" | \"end\"",
+          "required": false,
+          "options": [
+            "center",
+            "start",
+            "end"
+          ]
+        },
+        {
+          "name": "alignOffset",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "arrowPadding",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "avoidCollisions",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "collisionBoundary",
+          "type": "Boundary | Boundary[]",
+          "required": false
+        },
+        {
+          "name": "collisionPadding",
+          "type": "number | Partial<Record<\"top\" | \"right\" | \"bottom\" | \"left\", number>>",
+          "required": false
+        },
+        {
+          "name": "sticky",
+          "type": "\"partial\" | \"always\"",
+          "required": false,
+          "options": [
+            "partial",
+            "always"
+          ]
+        },
+        {
+          "name": "hideWhenDetached",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "updatePositionStrategy",
+          "type": "\"always\" | \"optimized\"",
+          "required": false,
+          "options": [
+            "always",
+            "optimized"
+          ]
+        },
+        {
+          "name": "onCloseAutoFocus",
+          "type": "((event: Event) => void)",
+          "required": false,
+          "description": "Event handler called when auto-focusing on close.\nCan be prevented."
+        },
+        {
+          "name": "onEscapeKeyDown",
+          "type": "((event: KeyboardEvent) => void)",
+          "required": false,
+          "description": "Event handler called when the escape key is down.\nCan be prevented."
+        },
+        {
+          "name": "deferPointerDownOutside",
+          "type": "boolean",
+          "required": false,
+          "description": "When `true`, a `'pointerdown'` event outside of the layered element will\nwait for the interaction's click event before dispatching, allowing\nthird-party code to stop propagation of later events and cancel dismissal."
+        },
+        {
+          "name": "onPointerDownOutside",
+          "type": "((event: PointerDownOutsideEvent) => void)",
+          "required": false,
+          "description": "Event handler called when the a `pointerdown` event happens outside of the `DismissableLayer`.\nCan be prevented."
+        },
+        {
+          "name": "onFocusOutside",
+          "type": "((event: FocusOutsideEvent) => void)",
+          "required": false,
+          "description": "Event handler called when the focus moves outside of the `DismissableLayer`.\nCan be prevented."
+        },
+        {
+          "name": "onInteractOutside",
+          "type": "((event: PointerDownOutsideEvent | FocusOutsideEvent) => void)",
+          "required": false,
+          "description": "Event handler called when an interaction happens outside the `DismissableLayer`.\nSpecifically, when a `pointerdown` event happens outside or focus moves outside of it.\nCan be prevented."
+        },
+        {
+          "name": "onOpenAutoFocus",
+          "type": "((event: Event) => void)",
+          "required": false,
+          "description": "Event handler called when auto-focusing on open.\nCan be prevented."
+        }
+      ]
+    },
+    {
+      "name": "PopoverDescription",
+      "props": []
+    },
+    {
+      "name": "PopoverPortal",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false
+        },
+        {
+          "name": "container",
+          "type": "Element | DocumentFragment | null",
+          "required": false,
+          "description": "Specify a container element to portal the content into."
+        },
+        {
+          "name": "forceMount",
+          "type": "true",
+          "required": false,
+          "description": "Used to force mounting when more control is needed. Useful when\ncontrolling animation with React animation libraries."
+        }
+      ]
+    },
+    {
+      "name": "PopoverTitle",
+      "props": []
+    },
+    {
+      "name": "PopoverTrigger",
+      "props": [
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`Popover` 用于就地承载比 Tooltip 更加复杂的可交互内容：\n\n- **选型对比**：\n  - **Popover vs Tooltip**：Tooltip 仅用于鼠标悬停展示纯文本提示，禁止包含可点击链接或输入框；Popover 专为包含表单、多选框、按钮等交互设计。\n  - **Popover vs Dialog**：Popover 紧贴触发元素，适合轻量设置与单列筛选；Dialog 居中遮罩，适合大表单、重要确认与复杂流程。\n- **避免过重表单**：Popover 内部宜保持紧凑（推荐 1~3 个字段），如果需要滚动长表单，请改用 Sheet 侧抽屉或 Dialog 模态弹窗。\n- **语义化标题配对**：推荐始终在内部放置 `PopoverTitle` 与 `PopoverDescription`，为屏幕阅读器建立清晰的无障碍无缝解读。",
+  "extended": "### 快捷筛选与多选条件面板\n\n在表格工具栏中展开包含状态多选与重置操作的筛选气泡：\n\n### 轻量配置与表单输入\n\n受控模式下调整画布宽高参数，支持取消与保存：",
+  "events": "- `onOpenChange`: (open: boolean) => void — 浮层可见性发生变化时调用（点击外部、按下 Esc 键或点击关闭按钮）。\n- `onInteractOutside`: (event: CustomEvent) => void — 用户在浮层外部发生点击或聚焦时触发，可通过 event.preventDefault() 阻止自动关闭。\n- `onEscapeKeyDown`: (event: KeyboardEvent) => void — 用户按下键盘 Esc 键时触发。",
+  "accessibility": "- **焦点管理**：浮层打开后，焦点会自动安全转移到浮层内的第一个可交互元素；关闭后焦点精确恢复至触发按钮。\n- **快捷键**：按下 <kbd>Esc</kbd> 即可随时安全退出并关闭浮层。\n- **视口碰撞翻转**：内置自动边界检测（Floating UI / Radix Popper），当屏幕下方空间不足时，自动翻转至上方或侧面，防止内容被浏览器视口截断。\n- **方向感知动效**：浮层以触发器一侧为缩放原点（`--radix-popover-content-transform-origin`）淡入展开并向外轻微滑入，收起时更快地淡出；系统开启“减少动态效果”时自动关闭。",
   "examples": [
     {
       "name": "popover-demo",

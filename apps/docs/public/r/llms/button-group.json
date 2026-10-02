@@ -24,7 +24,6 @@
       "name": "orientation",
       "type": "\"horizontal\" | \"vertical\"",
       "required": false,
-      "control": "select",
       "options": [
         "horizontal",
         "vertical"
@@ -33,6 +32,29 @@
       "description": "按钮排列方向。"
     }
   ],
+  "api": [
+    {
+      "name": "ButtonGroup",
+      "props": [
+        {
+          "name": "orientation",
+          "type": "\"horizontal\" | \"vertical\"",
+          "required": false,
+          "options": [
+            "horizontal",
+            "vertical"
+          ],
+          "defaultValue": "horizontal",
+          "description": "按钮排列方向。"
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`ButtonGroup` 适用于需要把多个紧密关联、同频触发的操作聚合在一起的场景。\n\n- **适用场景**：\n  - **文本与视图排版**：如左中右对齐方式、网格/列表视图切换。\n  - **分裂按钮（Split Button）**：主动作（如“合并代码”）与下拉更多策略（如“压缩合并”、“变基合并”）拼接。\n  - **连续时间与状态筛选**：如“今天 / 本周 / 本月 / 本年”的时间跨度筛选。\n  - **编辑器工具栏**：撤销/重做、文字样式格式化组等。\n- **避免异质混合**：切勿将彼此无关、破坏性级别悬殊的操作（例如把“保存”和“删除账号”）硬性缝合在同一个按钮组中。\n- **边框与圆角管理**：组件内部自动通过 CSS 规则将中间子项的圆角抹平（只保留两端圆角），并通过负外边距（-1px）消除双重边框，并在按钮聚焦时自动将 `z-index` 提升，防止焦点轮廓被相邻按钮遮挡。规则作用于直接子元素，因此被 `DropdownMenuTrigger asChild` 等包装的按钮同样能正确拼接。\n- **实心按钮分隔线**：相邻的 `default` / `destructive` 实心按钮之间会自动绘制一条低对比度分隔线，分裂按钮无需额外样式。",
+  "extended": "### 分裂按钮（Split Button）\n\n将主要执行动作与 `DropdownMenu` 组合成一个紧凑的操作单元，兼顾高频单次点击与低频分支选择：\n\n### 编辑器操作工具栏\n\n在富文本编辑器或数据面板头部，将功能分类成多个独立的按钮组：\n\n### 纵向与时间维度组合\n\n通过 `orientation=\"vertical\"` 切换为纵向排列，适合侧边栏操作或高密度的垂直工具栏：",
+  "events": "`ButtonGroup` 本身作为结构容器容器透传事件，通常各个交互事件直接绑定在具体的子元素 `Button` 上：\n\n- `onKeyDown`: (event: React.KeyboardEvent<HTMLDivElement>) => void — 在按钮组容器内发生键盘事件时触发。\n- `onFocusCapture`: (event: React.FocusEvent<HTMLDivElement>) => void — 当组内任意按钮获得焦点时在捕获阶段触发。",
+  "accessibility": "- **ARIA 角色与描述**：默认渲染 `role=\"group\"`。强烈建议为 `ButtonGroup` 显式添加 `aria-label`（如 `aria-label=\"文本格式化\"`）或 `aria-labelledby`，告知辅助技术当前按钮组的整体功能。\n- **纯图标可读性**：组内的每个纯图标 `Button` 必须单独设置 `aria-label`。\n- **状态表达**：如果组内按钮表达切换激活状态（Toggle 行为），应在被选中的 `Button` 上声明 `aria-pressed=\"true\"`，或者对于互斥单选场景推荐使用专业的 `ToggleGroup` 组件。\n- **键盘导航**：用户可以通过 <kbd>Tab</kbd> / <kbd>Shift + Tab</kbd> 在各个按钮之间顺畅穿梭，聚焦的按钮会自动提升显示层级，焦点轮廓（Focus Ring）保持完整可见。",
   "examples": [
     {
       "name": "button-group-demo",

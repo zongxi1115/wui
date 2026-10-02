@@ -33,7 +33,6 @@
       "name": "layout",
       "type": "\"grid\" | \"scroll\" | \"chips\"",
       "required": false,
-      "control": "select",
       "options": [
         "grid",
         "scroll",
@@ -43,6 +42,82 @@
       "description": "快捷提示词组的排版布局方式（网格、横向滚动或胶囊标签）。"
     }
   ],
+  "api": [
+    {
+      "name": "AiPromptSuggestionItem",
+      "props": [
+        {
+          "name": "title",
+          "type": "ReactNode",
+          "required": true,
+          "description": "Main prompt headline or question."
+        },
+        {
+          "name": "description",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Optional supporting description or detail."
+        },
+        {
+          "name": "icon",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Optional leading icon."
+        },
+        {
+          "name": "badge",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Optional tag/badge indicator (e.g. \"Popular\", \"Code\")."
+        },
+        {
+          "name": "promptText",
+          "type": "string",
+          "required": false,
+          "description": "Full prompt text to send when clicked."
+        },
+        {
+          "name": "onSelectPrompt",
+          "type": "((prompt: string) => void)",
+          "required": false,
+          "description": "Callback fired with the prompt text upon selection."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "variant",
+          "type": "\"ghost\" | \"card\" | \"chip\" | null",
+          "required": false,
+          "defaultValue": "card"
+        }
+      ]
+    },
+    {
+      "name": "AiPromptSuggestions",
+      "props": [
+        {
+          "name": "layout",
+          "type": "\"grid\" | \"scroll\" | \"chips\"",
+          "required": false,
+          "options": [
+            "grid",
+            "scroll",
+            "chips"
+          ],
+          "defaultValue": "grid",
+          "description": "快捷提示词组的排版布局方式（网格、横向滚动或胶囊标签）。"
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`AiPromptSuggestions` 用于**冷启动引导与上下文追问**：\n\n- **会话初始空状态 (Empty State)**：当用户首次打开聊天页面或新建对话时，空白界面容易造成“不知道该问什么”的困惑。提供 4~6 个代表性强、覆盖主要技能的 Prompt 卡片（`layout=\"grid\"`），可以大幅提升新用户交互转化率。\n- **对话中途的上下文追问 (Follow-up Chips)**：在 AI 助手回答完毕后，可在输入框上方推荐 2~4 个相关的快捷追问标签（`layout=\"chips\"`），引导用户继续深入探索。\n- **文案简明有力**：卡片标题建议控制在 10 字以内，描述控制在 2 行以内，使用动宾结构（例如“生成代码架构”、“优化 SQL 查询”）。",
+  "extended": "### 输入框上方的快捷追问胶囊\n\n在输入框上方以 `layout=\"chips\"` 展示紧凑药丸标签，点击后自动填入输入框：\n\n### 横向滑动的场景推荐列表\n\n在空间受限的侧边栏或移动端界面中，使用 `layout=\"scroll\"` 实现横向平滑滚动的提示词流：",
+  "events": "- `onSelectPrompt`: (prompt: string) => void — 用户点击建议卡片或按键触发时调用，返回 promptText 或 title 文本，可直接注入输入框或触发发送。\n- `onClick`: (event: React.MouseEvent<HTMLButtonElement>) => void — 原生按钮点击事件透传。\n- `onKeyDown`: (event: React.KeyboardEvent<HTMLButtonElement>) => void — 原生键盘按键事件透传。",
+  "accessibility": "- **原生按钮语义**：每个 `AiPromptSuggestionItem` 均为原生 `<button type=\"button\">`，天然具备可点击与可聚焦语义。\n- **键盘导航支持**：\n  - <kbd>Tab</kbd>：在建议项之间顺次切换焦点。\n  - <kbd>Enter</kbd> / <kbd>Space</kbd>：选中并触发提示词填充。\n- **屏幕阅读器**：内置图标采用装饰性隐藏或通过 title 提供完整语义表达。",
   "examples": [
     {
       "name": "ai-prompt-suggestions-demo",

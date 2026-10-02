@@ -42,32 +42,316 @@
       "name": "defaultOpen",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "description": "默认是否展开模型选择弹层（非受控）。"
     },
     {
       "name": "open",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "description": "是否展开模型选择弹层（受控）。"
     },
     {
       "name": "onOpenChange",
       "type": "((open: boolean) => void)",
       "required": false,
-      "control": "text",
       "description": "弹层展开或关闭状态改变时的回调函数。"
     },
     {
       "name": "modal",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "false",
       "description": "是否以模态方式呈现。"
+    },
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": false
     }
   ],
+  "api": [
+    {
+      "name": "AiModelGroup",
+      "props": [
+        {
+          "name": "heading",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Group title label."
+        }
+      ]
+    },
+    {
+      "name": "AiModelItem",
+      "props": [
+        {
+          "name": "name",
+          "type": "ReactNode",
+          "required": true,
+          "description": "模型名称或标题。"
+        },
+        {
+          "name": "description",
+          "type": "ReactNode",
+          "required": false,
+          "description": "模型的简短描述或特性。"
+        },
+        {
+          "name": "selected",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "当前模型是否处于选中状态。"
+        },
+        {
+          "name": "icon",
+          "type": "ReactNode",
+          "required": false,
+          "description": "模型厂商或类型专属图标。"
+        },
+        {
+          "name": "badge",
+          "type": "ReactNode",
+          "required": false,
+          "description": "模型能力或参数标签（如 Vision、Reasoning）。"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "AiModelSelector",
+      "props": [
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "required": false,
+          "description": "默认是否展开模型选择弹层（非受控）。"
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false,
+          "description": "是否展开模型选择弹层（受控）。"
+        },
+        {
+          "name": "onOpenChange",
+          "type": "((open: boolean) => void)",
+          "required": false,
+          "description": "弹层展开或关闭状态改变时的回调函数。"
+        },
+        {
+          "name": "modal",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "是否以模态方式呈现。"
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "AiModelSelectorContent",
+      "props": [
+        {
+          "name": "forceMount",
+          "type": "true",
+          "required": false,
+          "description": "Used to force mounting when more control is needed. Useful when\ncontrolling animation with React animation libraries."
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "side",
+          "type": "\"top\" | \"right\" | \"bottom\" | \"left\"",
+          "required": false,
+          "options": [
+            "top",
+            "right",
+            "bottom",
+            "left"
+          ]
+        },
+        {
+          "name": "sideOffset",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "align",
+          "type": "\"center\" | \"start\" | \"end\"",
+          "required": false,
+          "options": [
+            "center",
+            "start",
+            "end"
+          ]
+        },
+        {
+          "name": "alignOffset",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "arrowPadding",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "avoidCollisions",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "collisionBoundary",
+          "type": "Boundary | Boundary[]",
+          "required": false
+        },
+        {
+          "name": "collisionPadding",
+          "type": "number | Partial<Record<\"top\" | \"right\" | \"bottom\" | \"left\", number>>",
+          "required": false
+        },
+        {
+          "name": "sticky",
+          "type": "\"partial\" | \"always\"",
+          "required": false,
+          "options": [
+            "partial",
+            "always"
+          ]
+        },
+        {
+          "name": "hideWhenDetached",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "updatePositionStrategy",
+          "type": "\"always\" | \"optimized\"",
+          "required": false,
+          "options": [
+            "always",
+            "optimized"
+          ]
+        },
+        {
+          "name": "onCloseAutoFocus",
+          "type": "((event: Event) => void)",
+          "required": false,
+          "description": "Event handler called when auto-focusing on close.\nCan be prevented."
+        },
+        {
+          "name": "onEscapeKeyDown",
+          "type": "((event: KeyboardEvent) => void)",
+          "required": false,
+          "description": "Event handler called when the escape key is down.\nCan be prevented."
+        },
+        {
+          "name": "deferPointerDownOutside",
+          "type": "boolean",
+          "required": false,
+          "description": "When `true`, a `'pointerdown'` event outside of the layered element will\nwait for the interaction's click event before dispatching, allowing\nthird-party code to stop propagation of later events and cancel dismissal."
+        },
+        {
+          "name": "onPointerDownOutside",
+          "type": "((event: PointerDownOutsideEvent) => void)",
+          "required": false,
+          "description": "Event handler called when the a `pointerdown` event happens outside of the `DismissableLayer`.\nCan be prevented."
+        },
+        {
+          "name": "onFocusOutside",
+          "type": "((event: FocusOutsideEvent) => void)",
+          "required": false,
+          "description": "Event handler called when the focus moves outside of the `DismissableLayer`.\nCan be prevented."
+        },
+        {
+          "name": "onInteractOutside",
+          "type": "((event: PointerDownOutsideEvent | FocusOutsideEvent) => void)",
+          "required": false,
+          "description": "Event handler called when an interaction happens outside the `DismissableLayer`.\nSpecifically, when a `pointerdown` event happens outside or focus moves outside of it.\nCan be prevented."
+        },
+        {
+          "name": "onOpenAutoFocus",
+          "type": "((event: Event) => void)",
+          "required": false,
+          "description": "Event handler called when auto-focusing on open.\nCan be prevented."
+        }
+      ]
+    },
+    {
+      "name": "AiModelSelectorTrigger",
+      "props": [
+        {
+          "name": "icon",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Optional icon rendered on the left of the model name."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "variant",
+          "type": "\"default\" | \"ghost\" | null",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "AiTokenUsage",
+      "props": [
+        {
+          "name": "used",
+          "type": "number",
+          "required": true,
+          "description": "Used token count."
+        },
+        {
+          "name": "limit",
+          "type": "number",
+          "required": true,
+          "description": "Maximum context window limit."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Context Window",
+          "description": "Label describing the quota."
+        },
+        {
+          "name": "showPercentage",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "Whether to show percentage string."
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`AiModelSelector` 帮助用户根据任务复杂度（如纯文本快速总结 vs 多模态深度推演）选择合适的大模型，并实时掌握上下文窗口容量：\n\n- **何时使用**：\n  - 支持多模型路由的 AI 平台、开发平台或 Copilot 工具栏；\n  - 需要告知用户当前所选模型的上下文窗口限制（如 128k、200k、1M tokens）；\n  - 需要在推理旗舰（Flagship）与高速轻量（Fast）模型之间建立清晰层级。\n- **何时不应使用**：\n  - 系统底层固定单一模型、不向终端用户暴露切换入口的应用；\n  - 常规表单下拉项（请使用通用 `Select`）。\n- **设计最佳实践**：\n  - **清晰的能力徽章**：为具备长思维链的模型添加 `Reasoning` 标签，为高并发低延迟模型添加 `Fast` 标签；\n  - **告警阈值指示**：`AiTokenUsage` 会根据已用比例自动切换色相（正常为 Primary、超 80% 为 Warning、超 95% 为 Destructive）；\n  - **紧凑集成**：可直接置于 `AiPromptFooter` 或 `AiChatPromptTools` 工具栏中。",
+  "extended": "### 旗舰推理与极速轻量模型分级配置\n\n按上下文窗口分级展示模型：当前会话超出窗口的模型自动禁用，底部用量条随所选模型变化：",
+  "events": "- `onOpenChange`: (open: boolean) => void — 模型选择器下拉面板展开或关闭时触发。\n- `onClick`: (event: React.MouseEvent<HTMLButtonElement>) => void — 点击具体的 `AiModelItem` 时触发，通常在此切换当前激活的模型 ID。",
+  "accessibility": "- **Popover 语义支持**：\n  - 触发器挂载 `aria-haspopup=\"dialog\"` 与 `aria-expanded`，并关联下拉浮层的 `id`；\n  - 选中的 `AiModelItem` 带有 `data-selected=\"true\"` 与视觉勾选指示。\n- **键盘导航支持**：\n  - <kbd>Tab</kbd>：按顺序聚焦模型选项；\n  - <kbd>Enter</kbd> / <kbd>Space</kbd>：选中目标模型并关闭弹层；\n  - <kbd>Escape</kbd>：快速退出选择面板。\n- **高对比度焦点环**：\n  - 触发器与所有模型子选项在键盘聚焦时均具备清晰的高对比度外边框。",
   "examples": [
     {
       "name": "ai-model-selector-demo",

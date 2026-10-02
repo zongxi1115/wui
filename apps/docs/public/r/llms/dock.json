@@ -33,7 +33,6 @@
       "name": "magnification",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "56",
       "description": "鼠标悬停时的最大放大尺寸（像素）。"
     },
@@ -41,7 +40,6 @@
       "name": "distance",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "120",
       "description": "触发放大影响的鼠标距离阈值（像素）。"
     },
@@ -49,7 +47,6 @@
       "name": "direction",
       "type": "\"horizontal\" | \"vertical\"",
       "required": false,
-      "control": "select",
       "options": [
         "horizontal",
         "vertical"
@@ -58,6 +55,82 @@
       "description": "排列方向。"
     }
   ],
+  "api": [
+    {
+      "name": "Dock",
+      "props": [
+        {
+          "name": "magnification",
+          "type": "number",
+          "required": false,
+          "defaultValue": "56",
+          "description": "鼠标悬停时的最大放大尺寸（像素）。"
+        },
+        {
+          "name": "distance",
+          "type": "number",
+          "required": false,
+          "defaultValue": "120",
+          "description": "触发放大影响的鼠标距离阈值（像素）。"
+        },
+        {
+          "name": "direction",
+          "type": "\"horizontal\" | \"vertical\"",
+          "required": false,
+          "options": [
+            "horizontal",
+            "vertical"
+          ],
+          "defaultValue": "horizontal",
+          "description": "排列方向。"
+        }
+      ]
+    },
+    {
+      "name": "DockItem",
+      "props": [
+        {
+          "name": "size",
+          "type": "number",
+          "required": false,
+          "defaultValue": "40",
+          "description": "基础默认尺寸（像素）。"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "提示标签文案，同时作为无障碍名称。"
+        },
+        {
+          "name": "active",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "标记为当前激活项，在图标下方显示指示点。"
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false,
+          "description": "子元素内容，内部 SVG 图标会随尺寸等比放大。"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "DockSeparator",
+      "props": []
+    }
+  ],
+  "types": [],
+  "usage": "`Dock` 适合作为桌面端应用全局导航栏、画布控制台工具条或现代营销主页的常驻快捷入口。\n\n### 适用场景\n- **桌面级工作台快捷导航**：高频工具的快速触达与悬浮切换。\n- **弹簧距离插值**：基于 Motion Spring 动态计算邻近项的放大比例，手感细腻跟手。\n- **方向与尺寸自定义**：支持 `horizontal`（水平）与 `vertical`（垂直）两种布局。\n\n### 何时不建议使用\n- 在紧凑的移动端触屏视口中，建议使用标准 `Tabs` 或底部导航栏以避免 hover 依赖。",
+  "extended": "可结合 `DockSeparator` 划分功能模块，通过 `active` 标记当前所在的入口（图标下方显示指示点）。图标放大时底栏自身尺寸保持不变，图标沿垂直于排列方向的一侧溢出，相邻图标被平滑推开；内部 SVG 图标会随按钮尺寸等比放大。\n\n### 垂直工具栏\n\n`direction=\"vertical\"` 适合画布类产品的左侧工具栏，提示标签显示在图标右侧：\n\n### DockItem\n\n- `size`: number（默认：40） — 未放大时的边长（像素）。\n- `label`: string — 悬停或键盘聚焦时显示的提示文字，同时作为按钮的无障碍名称。\n- `active`: boolean（默认：false） — 标记为当前激活项，显示指示点。\n\n### 无障碍\n\n- `Dock` 渲染为 `role=\"toolbar\"` 并声明 `aria-orientation`。\n- 提示标签在键盘 `focus-visible` 时同样显示；触屏指针不会触发放大。\n- 开启“减少动态效果”时，图标保持固定尺寸。",
+  "events": "- `DockItem` 继承原生按钮属性，支持标准的 `onClick` 事件。",
   "examples": [
     {
       "name": "dock-demo",

@@ -1,0 +1,6 @@
+{
+  "name": "date-picker-sizes",
+  "component": "date-picker",
+  "title": "尺寸规格",
+  "code": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { DatePicker } from \"@/components/ui/date-picker\"\n\nexport default function DatePickerSizes() {\n  const [date] = React.useState<Date>(new Date())\n\n  return (\n    <div className=\"flex w-full max-w-sm flex-col gap-5\">\n      <div className=\"flex flex-col gap-1.5\">\n        <span className=\"text-xs font-medium text-muted-foreground\">紧凑尺寸 (sm - 32px)</span>\n        <DatePicker size=\"sm\" defaultValue={date} placeholder=\"选择日期\" />\n      </div>\n\n      <div className=\"flex flex-col gap-1.5\">\n        <span className=\"text-xs font-medium text-muted-foreground\">默认尺寸 (default - 40px)</span>\n        <DatePicker size=\"default\" defaultValue={date} placeholder=\"选择日期\" />\n      </div>\n\n      <div className=\"flex flex-col gap-1.5\">\n        <span className=\"text-xs font-medium text-muted-foreground\">大尺寸 (lg - 48px)</span>\n        <DatePicker size=\"lg\" defaultValue={date} placeholder=\"选择日期\" />\n      </div>\n    </div>\n  )\n}\n"
+}

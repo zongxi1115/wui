@@ -1,0 +1,6 @@
+{
+  "name": "input-otp-demo",
+  "component": "input-otp",
+  "title": "基础用法",
+  "code": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { InputOTP } from \"@/components/ui/input-otp\"\n\nexport default function InputOTPDemo() {\n  const [code, setCode] = React.useState(\"\")\n\n  return (\n    <div className=\"grid gap-3 text-center\">\n      <div>\n        <p className=\"text-sm font-medium\">输入验证码</p>\n        <p className=\"text-muted-foreground mt-1 text-xs\">\n          验证码已发送至尾号 2048 的手机\n        </p>\n      </div>\n      <InputOTP\n        value={code}\n        onValueChange={setCode}\n        aria-label=\"短信验证码\"\n        className=\"justify-center\"\n      />\n    </div>\n  )\n}\n"
+}

@@ -1,0 +1,6 @@
+{
+  "name": "input-underline",
+  "component": "input",
+  "title": "下划线风格 (Underline Variant)",
+  "code": "import { LinkIcon } from \"lucide-react\"\n\nimport { Input } from \"@/components/ui/input\"\n\nexport default function InputUnderline() {\n  return (\n    <div className=\"grid w-full max-w-sm gap-6\">\n      <Input variant=\"underline\" placeholder=\"项目名称\" allowClear />\n      <Input variant=\"underline\" label=\"访问地址\" startContent={<LinkIcon />} />\n    </div>\n  )\n}\n"
+}

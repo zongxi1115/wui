@@ -1,0 +1,6 @@
+{
+  "name": "radio-group-controlled",
+  "component": "radio-group",
+  "title": "受控模式",
+  "code": "\"use client\"\n\nimport * as React from \"react\"\nimport { RadioGroup, RadioGroupItem } from \"@/components/ui/radio-group\"\n\nexport default function RadioGroupControlled() {\n  const [value, setValue] = React.useState(\"monthly\")\n\n  return (\n    <div className=\"flex flex-col items-start gap-4\">\n      <RadioGroup value={value} onValueChange={setValue} className=\"gap-3\">\n        <label htmlFor=\"billing-monthly\" className=\"flex cursor-pointer items-center gap-3\">\n          <RadioGroupItem value=\"monthly\" id=\"billing-monthly\" />\n          <span className=\"text-sm font-medium\">按月结算（无长期合约）</span>\n        </label>\n        <label htmlFor=\"billing-yearly\" className=\"flex cursor-pointer items-center gap-3\">\n          <RadioGroupItem value=\"yearly\" id=\"billing-yearly\" />\n          <span className=\"text-sm font-medium\">按年结算（立省 20%）</span>\n        </label>\n      </RadioGroup>\n\n      <div className=\"flex items-center gap-2 text-xs text-muted-foreground\">\n        <span>当前选定方案：</span>\n        <code className=\"rounded bg-muted px-1.5 py-0.5 font-mono font-medium text-foreground\">\n          {value}\n        </code>\n      </div>\n    </div>\n  )\n}\n"
+}

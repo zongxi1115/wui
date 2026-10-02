@@ -1,0 +1,6 @@
+{
+  "name": "text-effect-demo",
+  "component": "text-effect",
+  "title": "基础用法",
+  "code": "\"use client\"\n\nimport * as React from \"react\"\nimport { RotateCcwIcon } from \"lucide-react\"\n\nimport { Button } from \"@/components/ui/button\"\nimport { TextEffect } from \"@/components/ui/text-effect\"\n\nexport default function TextEffectDemo() {\n  const [key, setKey] = React.useState(0)\n\n  return (\n    <div className=\"flex w-full max-w-md flex-col items-center gap-6 text-center\">\n      <div key={key} className=\"space-y-3\">\n        <TextEffect\n          as=\"h3\"\n          per=\"char\"\n          preset=\"fade-in-blur\"\n          className=\"text-2xl font-semibold tracking-tight sm:text-3xl\"\n        >\n          让每一次发布都从容不迫\n        </TextEffect>\n        <TextEffect\n          per=\"word\"\n          preset=\"fade\"\n          delay={0.45}\n          speedReveal={3}\n          className=\"text-muted-foreground text-sm leading-6\"\n        >\n          自动化测试、灰度发布与一键回滚，帮助团队在工作日的任何时刻安心上线。\n        </TextEffect>\n      </div>\n      <Button variant=\"ghost\" size=\"sm\" onClick={() => setKey((k) => k + 1)}>\n        <RotateCcwIcon />\n        重播\n      </Button>\n    </div>\n  )\n}\n"
+}

@@ -1,4 +1,6 @@
 import { NotFoundError, type Registry } from "./registry"
+import { AjvJsonSchemaValidator } from "@modelcontextprotocol/sdk/validation/ajv"
+import type { JsonSchemaType } from "@modelcontextprotocol/sdk/validation/types.js"
 import type { ComponentDigest, IndexEntry, PropMeta } from "./types"
 
 export interface ToolDefinition {
@@ -6,8 +8,9 @@ export interface ToolDefinition {
   description: string
   inputSchema: {
     type: "object"
-    properties: Record<string, unknown>
+    properties: Record<string, JsonSchemaType>
     required?: string[]
+    additionalProperties?: boolean
   }
   handler: (
     args: Record<string, unknown>,
@@ -43,21 +46,37 @@ function renderComponent(d: ComponentDigest): string {
   if (d.docsUrl) out.push(`**文档**：${d.docsUrl}`)
   out.push("")
 
-  out.push("## 属性")
+  out.push("## 属性", "")
+  for (const part of d.api) {
+    out.push(`### ${part.name}`, "")
+    out.push(
+      part.props.length
+        ? part.props.map(renderProp).join("\n")
+        : "_未提取到专用属性，请结合示例或源码确认用法。_"
+    )
+    out.push("")
+  }
+  if (!d.api.length)
+    out.push("_此条目没有组件属性摘要，请查看示例或源码中的函数签名。_", "")
   out.push(
-    d.props.length
-      ? d.props.map(renderProp).join("\n")
-      : "_该组件没有自定义 props，所有属性透传到底层元素。_"
+    "> 属性按导出组件分别列出；常规 DOM 属性已省略。属性是否透传、落在哪个元素上，以对应组件类型和实现为准。",
+    ""
   )
-  out.push("")
-  out.push(
-    "> 只使用上面列出的 props。其余属性会展开到底层 DOM 元素，因此原生属性可直接传。"
-  )
-  out.push("")
+  if (d.types.length) {
+    out.push(
+      "## 关联类型",
+      "",
+      "```ts",
+      ...d.types.map((t) => t.definition),
+      "```",
+      ""
+    )
+  }
 
   if (d.usage) out.push("## 何时使用", "", d.usage, "")
   if (d.events) out.push("## 事件", "", d.events, "")
   if (d.extended) out.push("## 进阶用法", "", d.extended, "")
+  if (d.accessibility) out.push("## 无障碍与交互", "", d.accessibility, "")
 
   if (d.examples.length) {
     out.push("## 可用示例", "")
@@ -76,22 +95,25 @@ function renderIndexEntry(i: IndexEntry): string {
   return `- \`${i.name}\` **${i.title}**: ${i.description}${props}`
 }
 
-function matches(entry: IndexEntry, q: string): boolean {
-  const hay = [
-    entry.name,
-    entry.title,
-    entry.description,
-    ...(entry.categories ?? []),
-    ...entry.keyProps,
-  ]
-    .join(" ")
-    .toLowerCase()
-  // Every whitespace-separated term must appear somewhere.
-  return q
-    .toLowerCase()
-    .split(/\s+/)
-    .filter(Boolean)
-    .every((term) => hay.includes(term))
+function relevance(entry: IndexEntry, query: string): number {
+  const name = entry.name.toLowerCase()
+  const title = entry.title.toLowerCase()
+  const categories = (entry.categories ?? []).map((c) => c.toLowerCase())
+  const detail =
+    `${entry.description} ${entry.keyProps.join(" ")}`.toLowerCase()
+  const q = query.toLowerCase()
+  let score = name === q ? 1000 : 0
+  for (const term of q.split(/\s+/)) {
+    if (name === term) score += 100
+    else if (name.startsWith(term)) score += 80
+    else if (name.includes(term)) score += 60
+    else if (title.split(/\s+/).includes(term) || categories.includes(term))
+      score += 50
+    else if (title.includes(term)) score += 30
+    else if (detail.includes(term)) score += 10
+    else return 0
+  }
+  return score
 }
 
 // ---------------------------------------------------------------------------
@@ -105,8 +127,10 @@ export const tools: ToolDefinition[] = [
     inputSchema: { type: "object", properties: {} },
     async handler(_args, registry) {
       const o = await registry.overview()
-      const groups = Object.keys(o.tokens)
-      const names = Object.keys(o.tokens[groups[0]] ?? {})
+      const groups = Object.keys(o.tokens).filter((g) => g !== "theme")
+      const names = [
+        ...new Set(groups.flatMap((g) => Object.keys(o.tokens[g]))),
+      ]
       return [
         o.instructions.trim(),
         "",
@@ -132,11 +156,14 @@ export const tools: ToolDefinition[] = [
       properties: {
         query: {
           type: "string",
+          pattern: "\\S",
           description:
             "搜索关键词，支持中英文，多个词以空格分隔（需全部命中）。",
         },
         limit: {
-          type: "number",
+          type: "integer",
+          minimum: 1,
+          maximum: 30,
           description: "最多返回多少条结果，默认 12，最大 30。",
         },
       },
@@ -144,16 +171,15 @@ export const tools: ToolDefinition[] = [
     },
     async handler(args, registry) {
       const { items } = await registry.index()
-      const q = typeof args.query === "string" ? args.query.trim() : ""
-      if (!q)
-        return "请提供组件名称、用途或类别关键词，例如 `dialog`、`表格`、`输入`。"
-
-      const requestedLimit =
-        typeof args.limit === "number" && Number.isFinite(args.limit)
-          ? Math.floor(args.limit)
-          : 12
-      const limit = Math.min(Math.max(requestedLimit, 1), 30)
-      const matchesAll = items.filter((i) => matches(i, q))
+      const q = (args.query as string).trim()
+      const limit = (args.limit as number | undefined) ?? 12
+      const matchesAll = items
+        .map((item) => ({ item, score: relevance(item, q) }))
+        .filter(({ score }) => score > 0)
+        .sort(
+          (a, b) => b.score - a.score || a.item.name.localeCompare(b.item.name)
+        )
+        .map(({ item }) => item)
       const hits = matchesAll.slice(0, limit)
       if (!hits.length) {
         return `没有匹配 "${q}" 的组件。请尝试更短的名称、用途或类别关键词。`
@@ -166,7 +192,7 @@ export const tools: ToolDefinition[] = [
           ? `\n结果已截断，可缩小关键词范围或把 limit 调高至最多 30。`
           : "",
         "",
-        "用 `wui_get_component` 获取某个组件完整的 props 和用法。",
+        "用 `wui_get_component` 获取某个组件的 API 摘要和用法。",
       ].join("\n")
     },
   },
@@ -174,19 +200,20 @@ export const tools: ToolDefinition[] = [
   {
     name: "wui_get_component",
     description:
-      "获取单个 wui 组件的完整 API：props（类型、默认值、说明）、导入语句、安装命令、依赖、何时使用的约束，以及可用示例列表。组件名可先通过 wui_search_components 查找；写代码前不要凭记忆猜 props。",
+      "获取单个 wui 组件的 API 摘要：按导出组件分组的 props、关联类型、导入语句、安装命令、依赖、使用约束和示例列表。省略常规 DOM 属性；不确定的细节可继续查看示例或源码。",
     inputSchema: {
       type: "object",
       properties: {
         name: {
           type: "string",
+          pattern: "^[a-z0-9]+(?:-[a-z0-9]+)*$",
           description: "组件名，例如 button、morphing-dialog。",
         },
       },
       required: ["name"],
     },
     async handler(args, registry) {
-      return renderComponent(await registry.component(String(args.name ?? "")))
+      return renderComponent(await registry.component(args.name as string))
     },
   },
 
@@ -197,12 +224,16 @@ export const tools: ToolDefinition[] = [
     inputSchema: {
       type: "object",
       properties: {
-        name: { type: "string", description: "示例名，例如 button-variants。" },
+        name: {
+          type: "string",
+          pattern: "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+          description: "示例名，例如 button-variants。",
+        },
       },
       required: ["name"],
     },
     async handler(args, registry) {
-      const e = await registry.example(String(args.name ?? ""))
+      const e = await registry.example(args.name as string)
       return [
         `# ${e.name}${e.title ? ` — ${e.title}` : ""}（组件：\`${e.component}\`）`,
         "",
@@ -220,12 +251,16 @@ export const tools: ToolDefinition[] = [
     inputSchema: {
       type: "object",
       properties: {
-        name: { type: "string", description: "组件名，例如 button。" },
+        name: {
+          type: "string",
+          pattern: "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+          description: "组件名，例如 button。",
+        },
       },
       required: ["name"],
     },
     async handler(args, registry) {
-      const name = String(args.name ?? "")
+      const name = args.name as string
       const item = await registry.source(name)
       return item.files
         .map((f) => `# ${f.path}\n\n\`\`\`tsx\n${f.content.trim()}\n\`\`\``)
@@ -261,6 +296,31 @@ export const tools: ToolDefinition[] = [
   },
 ]
 
+const schemaValidator = new AjvJsonSchemaValidator()
+const validators = new Map(
+  tools.map((tool) => {
+    tool.inputSchema.additionalProperties = false
+    return [
+      tool.name,
+      schemaValidator.getValidator<Record<string, unknown>>(tool.inputSchema),
+    ]
+  })
+)
+
+export const toolDefinitions = tools.map(
+  ({ name, description, inputSchema }) => ({
+    name,
+    description,
+    inputSchema,
+    annotations: {
+      readOnlyHint: true,
+      destructiveHint: false,
+      idempotentHint: true,
+      openWorldHint: false,
+    },
+  })
+)
+
 /** Dispatch a tool call, turning a missing name into a usable error message. */
 export async function callTool(
   name: string,
@@ -275,7 +335,10 @@ export async function callTool(
     }
   }
   try {
-    return { text: await tool.handler(args, registry), isError: false }
+    const validation = validators.get(name)!(args)
+    if (!validation.valid)
+      return { text: `参数无效：${validation.errorMessage}`, isError: true }
+    return { text: await tool.handler(validation.data, registry), isError: false }
   } catch (err) {
     if (err instanceof NotFoundError)
       return { text: err.message, isError: true }

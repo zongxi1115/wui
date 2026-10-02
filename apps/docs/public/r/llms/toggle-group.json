@@ -31,24 +31,77 @@
   },
   "props": [
     {
+      "name": "type",
+      "type": "\"multiple\" | \"single\"",
+      "required": true,
+      "options": [
+        "multiple",
+        "single"
+      ]
+    },
+    {
+      "name": "value",
+      "type": "string | string[]",
+      "required": false,
+      "description": "The controlled stateful value of the item that is pressed.\nThe controlled stateful value of the items that are pressed."
+    },
+    {
+      "name": "defaultValue",
+      "type": "string | string[]",
+      "required": false,
+      "description": "The value of the item that is pressed when initially rendered. Use\n`defaultValue` if you do not need to control the state of a toggle group.\nThe value of the items that are pressed when initially rendered. Use\n`defaultValue` if you do not need to control the state of a toggle group."
+    },
+    {
+      "name": "onValueChange",
+      "type": "((value: string) => void) | ((value: string[]) => void)",
+      "required": false,
+      "description": "The callback that fires when the value of the toggle group changes.\nThe callback that fires when the state of the toggle group changes."
+    },
+    {
       "name": "disabled",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "description": "是否禁用组件。"
+    },
+    {
+      "name": "rovingFocus",
+      "type": "boolean",
+      "required": false,
+      "description": "Whether the group should maintain roving focus of its buttons.\n@defaultValue true"
+    },
+    {
+      "name": "loop",
+      "type": "boolean",
+      "required": false
+    },
+    {
+      "name": "orientation",
+      "type": "\"horizontal\" | \"vertical\"",
+      "required": false,
+      "options": [
+        "horizontal",
+        "vertical"
+      ]
+    },
+    {
+      "name": "dir",
+      "type": "\"ltr\" | \"rtl\"",
+      "required": false,
+      "options": [
+        "ltr",
+        "rtl"
+      ]
     },
     {
       "name": "asChild",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
     },
     {
       "name": "size",
       "type": "\"default\" | \"sm\" | \"lg\" | null",
       "required": false,
-      "control": "text",
       "defaultValue": "default",
       "description": "组内切换按钮统一使用的高度与内边距尺寸。"
     },
@@ -56,11 +109,156 @@
       "name": "variant",
       "type": "\"default\" | \"outline\" | null",
       "required": false,
-      "control": "text",
       "defaultValue": "default",
       "description": "组内切换按钮统一使用的视觉样式。"
     }
   ],
+  "api": [
+    {
+      "name": "ToggleGroup",
+      "props": [
+        {
+          "name": "type",
+          "type": "\"multiple\" | \"single\"",
+          "required": true,
+          "options": [
+            "multiple",
+            "single"
+          ]
+        },
+        {
+          "name": "value",
+          "type": "string | string[]",
+          "required": false,
+          "description": "The controlled stateful value of the item that is pressed.\nThe controlled stateful value of the items that are pressed."
+        },
+        {
+          "name": "defaultValue",
+          "type": "string | string[]",
+          "required": false,
+          "description": "The value of the item that is pressed when initially rendered. Use\n`defaultValue` if you do not need to control the state of a toggle group.\nThe value of the items that are pressed when initially rendered. Use\n`defaultValue` if you do not need to control the state of a toggle group."
+        },
+        {
+          "name": "onValueChange",
+          "type": "((value: string) => void) | ((value: string[]) => void)",
+          "required": false,
+          "description": "The callback that fires when the value of the toggle group changes.\nThe callback that fires when the state of the toggle group changes."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "是否禁用组件。"
+        },
+        {
+          "name": "rovingFocus",
+          "type": "boolean",
+          "required": false,
+          "description": "Whether the group should maintain roving focus of its buttons.\n@defaultValue true"
+        },
+        {
+          "name": "loop",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "orientation",
+          "type": "\"horizontal\" | \"vertical\"",
+          "required": false,
+          "options": [
+            "horizontal",
+            "vertical"
+          ]
+        },
+        {
+          "name": "dir",
+          "type": "\"ltr\" | \"rtl\"",
+          "required": false,
+          "options": [
+            "ltr",
+            "rtl"
+          ]
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false,
+          "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
+        },
+        {
+          "name": "size",
+          "type": "\"default\" | \"sm\" | \"lg\" | null",
+          "required": false,
+          "defaultValue": "default",
+          "description": "组内切换按钮统一使用的高度与内边距尺寸。"
+        },
+        {
+          "name": "variant",
+          "type": "\"default\" | \"outline\" | null",
+          "required": false,
+          "defaultValue": "default",
+          "description": "组内切换按钮统一使用的视觉样式。"
+        }
+      ]
+    },
+    {
+      "name": "ToggleGroupIndicator",
+      "props": [
+        {
+          "name": "active",
+          "type": "boolean",
+          "required": true,
+          "description": "Whether the owning item is currently on."
+        },
+        {
+          "name": "layoutId",
+          "type": "string",
+          "required": false,
+          "description": "Shared layout id; pass it in single mode so the highlight slides between items."
+        }
+      ]
+    },
+    {
+      "name": "ToggleGroupItem",
+      "props": [
+        {
+          "name": "value",
+          "type": "string | string[]",
+          "required": false,
+          "description": "The controlled stateful value of the item that is pressed.\nThe controlled stateful value of the items that are pressed."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "是否禁用组件。"
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false,
+          "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
+        },
+        {
+          "name": "size",
+          "type": "\"default\" | \"sm\" | \"lg\" | null",
+          "required": false,
+          "description": "组内切换按钮统一使用的高度与内边距尺寸。"
+        },
+        {
+          "name": "variant",
+          "type": "\"default\" | \"outline\" | null",
+          "required": false,
+          "description": "组内切换按钮统一使用的视觉样式。"
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`ToggleGroup` 适用于**同级别多项操作的聚合控制栏**（如富文本工具栏、画布视口设备切换、工单多维状态筛选）。\n\n- **ToggleGroup vs RadioGroup vs CheckboxGroup**：\n  - **ToggleGroup（切换按钮组）**：以紧凑水平/网格按钮栏呈现，适合工具栏与高频筛选，视觉更加扁平轻快。\n  - **RadioGroup（单选框组）**：标准表单录入，每个选项通常带有标题和详细文字解释。\n  - **CheckboxGroup（复选框组）**：纵向或大面积表单复选，支持半选（Indeterminate）等深层状态。\n- **单选 vs 多选场景**：\n  - `type=\"single\"`：视图模式切换（网格 / 列表）、对齐方式（左 / 中 / 右）。\n  - `type=\"multiple\"`：富文本样式（加粗 + 斜体 + 下划线）、复合标签筛选。\n- **图标子项必须配备 ARIA 标签**：在纯图标按钮组中，每个 `ToggleGroupItem` 都应配备精准的 `aria-label`。\n- **选中动效**：单选模式下，选中背景是一个共享布局的指示层（`data-slot=\"toggle-group-indicator\"`），会在选项之间滑动；多选模式下每个选项的指示层独立缩放淡入。每个 `ToggleGroup` 实例使用独立的布局 ID，同页多个实例互不干扰；系统开启“减少动态效果”时直接切换。\n- **自定义选中色**：选中背景由指示层绘制，请通过 `className=\"[&>[data-slot=toggle-group-indicator]]:bg-primary/10\"` 调整，而不是覆盖 `data-[state=on]:bg-*`。",
+  "extended": "### 富文本排版与格式工具栏\n\n将单选对齐方式与多选文字修饰样式组合，构成紧凑完整的文本编辑器工具栏，并实时作用于下方段落：\n\n### 响应式画布设备视口切换\n\n在设计器或页面预览中，通过单选切换按钮组在桌面端、平板和移动端视口间切换，预览画布宽度随之以弹簧过渡：\n\n### 状态标签多维筛选\n\n多选模式配合数量提示，构建轻巧直观的工单或订单状态过滤器：\n\n### 多选格式样式\n\n经典的多选字体样式控制：",
+  "events": "- `onValueChange`: (value: string) => void (single) | (value: string[]) => void (multiple) — 当用户在单选或多选模式下切换选中项时触发，返回最新的值或值数组。",
+  "accessibility": "- **ARIA 角色矩阵**：\n  - 单选模式（`type=\"single\"`）：容器挂载 `role=\"radiogroup\"`，子项挂载 `role=\"radio\"` 与 `aria-checked`。\n  - 多选模式（`type=\"multiple\"`）：容器挂载 `role=\"group\"`，子项挂载 `role=\"button\"` 与 `aria-pressed`。\n- **键盘导航**：\n  - <kbd>Tab</kbd>：聚焦到切换按钮组。\n  - <kbd>←</kbd> / <kbd>→</kbd>（或 <kbd>↑</kbd> / <kbd>↓</kbd>）：在单选模式下，方向键自动在同组按钮之间循环漫游切换焦点。\n  - <kbd>Space</kbd> / <kbd>Enter</kbd>：激活选定项。\n- **高对比度焦点环**：子项聚焦时具备高清晰度焦点环，支持暗色模式与系统高对比度模式。",
   "examples": [
     {
       "name": "toggle-group-demo",

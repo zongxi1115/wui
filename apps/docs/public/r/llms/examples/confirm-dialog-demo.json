@@ -1,0 +1,6 @@
+{
+  "name": "confirm-dialog-demo",
+  "component": "confirm-dialog",
+  "title": "危险破坏性确认",
+  "code": "\"use client\"\n\nimport * as React from \"react\"\nimport { Trash2Icon } from \"lucide-react\"\n\nimport { Button } from \"@/components/ui/button\"\nimport { ConfirmDialog } from \"@/components/confirm-dialog\"\n\nexport default function ConfirmDialogDemo() {\n  return (\n    <ConfirmDialog\n      trigger={\n        <Button variant=\"destructive\">\n          <Trash2Icon />\n          删除项目\n        </Button>\n      }\n      title=\"确定要删除该项目吗？\"\n      description=\"此操作不可撤销。项目内的所有数据与历史构建记录都将被永久清理。\"\n      confirmLabel=\"确认删除\"\n      cancelLabel=\"取消\"\n      variant=\"destructive\"\n      onConfirm={() => {\n        // 执行同步删除逻辑\n      }}\n    />\n  )\n}\n"
+}

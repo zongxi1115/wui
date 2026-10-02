@@ -27,7 +27,6 @@
       "name": "fillOpacity",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "0.14",
       "description": "面积填充的不透明度。"
     },
@@ -35,7 +34,6 @@
       "name": "showDots",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "false",
       "description": "是否显示数据节点。"
     },
@@ -43,21 +41,18 @@
       "name": "data",
       "type": "ChartDatum[]",
       "required": true,
-      "control": "text",
       "description": "每行代表一个横轴节点的数据。"
     },
     {
       "name": "title",
       "type": "ReactNode",
       "required": true,
-      "control": "text",
       "description": "图表标题，用于说明正在展示的指标。"
     },
     {
       "name": "height",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "280",
       "description": "图表绘图区高度，单位为像素。"
     },
@@ -65,42 +60,36 @@
       "name": "description",
       "type": "ReactNode",
       "required": false,
-      "control": "text",
       "description": "补充单位、时间范围或筛选条件的副标题。"
     },
     {
       "name": "actions",
       "type": "ReactNode",
       "required": false,
-      "control": "text",
       "description": "标题右侧的操作区，适合组合 Button、Select 或业务工具栏。"
     },
     {
       "name": "xKey",
       "type": "string",
       "required": true,
-      "control": "text",
       "description": "用作横轴标签的数据字段。"
     },
     {
       "name": "series",
       "type": "ChartSeries[]",
       "required": true,
-      "control": "text",
       "description": "要绘制的数值序列。"
     },
     {
       "name": "domain",
       "type": "[number, number]",
       "required": false,
-      "control": "text",
       "description": "手动指定纵轴最小值和最大值。"
     },
     {
       "name": "showGrid",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "true",
       "description": "是否显示水平参考网格。"
     },
@@ -108,7 +97,6 @@
       "name": "showLegend",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "true",
       "description": "是否在多序列时显示图例。"
     },
@@ -116,31 +104,137 @@
       "name": "referenceLines",
       "type": "ChartReferenceLine[]",
       "required": false,
-      "control": "text",
       "description": "目标值、均值或阈值等纵轴参考线。"
     },
     {
       "name": "yAxisFormatter",
       "type": "((value: number) => ReactNode)",
       "required": false,
-      "control": "text",
       "description": "自定义纵轴刻度的显示格式。"
     },
     {
       "name": "valueFormatter",
       "type": "ChartValueFormatter",
       "required": false,
-      "control": "text",
       "description": "自定义数值的显示格式。"
     },
     {
       "name": "labelFormatter",
       "type": "ChartLabelFormatter",
       "required": false,
-      "control": "text",
       "description": "自定义横轴标签和提示框标题的显示格式。"
     }
   ],
+  "api": [
+    {
+      "name": "AreaChart",
+      "props": [
+        {
+          "name": "fillOpacity",
+          "type": "number",
+          "required": false,
+          "defaultValue": "0.14",
+          "description": "面积填充的不透明度。"
+        },
+        {
+          "name": "showDots",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "是否显示数据节点。"
+        },
+        {
+          "name": "data",
+          "type": "ChartDatum[]",
+          "required": true,
+          "description": "每行代表一个横轴节点的数据。"
+        },
+        {
+          "name": "title",
+          "type": "ReactNode",
+          "required": true,
+          "description": "图表标题，用于说明正在展示的指标。"
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "required": false,
+          "defaultValue": "280",
+          "description": "图表绘图区高度，单位为像素。"
+        },
+        {
+          "name": "description",
+          "type": "ReactNode",
+          "required": false,
+          "description": "补充单位、时间范围或筛选条件的副标题。"
+        },
+        {
+          "name": "actions",
+          "type": "ReactNode",
+          "required": false,
+          "description": "标题右侧的操作区，适合组合 Button、Select 或业务工具栏。"
+        },
+        {
+          "name": "xKey",
+          "type": "string",
+          "required": true,
+          "description": "用作横轴标签的数据字段。"
+        },
+        {
+          "name": "series",
+          "type": "ChartSeries[]",
+          "required": true,
+          "description": "要绘制的数值序列。"
+        },
+        {
+          "name": "domain",
+          "type": "[number, number]",
+          "required": false,
+          "description": "手动指定纵轴最小值和最大值。"
+        },
+        {
+          "name": "showGrid",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "是否显示水平参考网格。"
+        },
+        {
+          "name": "showLegend",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "是否在多序列时显示图例。"
+        },
+        {
+          "name": "referenceLines",
+          "type": "ChartReferenceLine[]",
+          "required": false,
+          "description": "目标值、均值或阈值等纵轴参考线。"
+        },
+        {
+          "name": "yAxisFormatter",
+          "type": "((value: number) => ReactNode)",
+          "required": false,
+          "description": "自定义纵轴刻度的显示格式。"
+        },
+        {
+          "name": "valueFormatter",
+          "type": "ChartValueFormatter",
+          "required": false,
+          "description": "自定义数值的显示格式。"
+        },
+        {
+          "name": "labelFormatter",
+          "type": "ChartLabelFormatter",
+          "required": false,
+          "description": "自定义横轴标签和提示框标题的显示格式。"
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`AreaChart` 复用 [`LineChart`](/docs/charts/line-chart) 的坐标、提示框、参考线和无障碍能力，只增加面积填充。\n适合强调单个连续指标的规模变化；比较多个轨迹时优先使用折线图，表达组成随时间变化时再引入堆叠面积能力。\n\n示例通过 `actions` 组合已有的 `Select` 与 `Button`。图表不重复实现工具栏控件，也不会接管筛选状态。",
   "events": "图表不产生业务事件。工具区中的筛选、下载和刷新行为由传入 `actions` 的现有组件负责。",
   "examples": [
     {

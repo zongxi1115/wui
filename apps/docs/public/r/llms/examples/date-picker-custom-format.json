@@ -1,0 +1,6 @@
+{
+  "name": "date-picker-custom-format",
+  "component": "date-picker",
+  "title": "国际化与自定义格式化",
+  "code": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { DatePicker } from \"@/components/ui/date-picker\"\n\nexport default function DatePickerCustomFormat() {\n  const [date, setDate] = React.useState<Date | undefined>(new Date())\n\n  return (\n    <div className=\"flex w-full max-w-sm flex-col gap-5\">\n      <div className=\"flex flex-col gap-1.5\">\n        <label className=\"text-sm font-medium text-foreground\">\n          中文长日期格式 (含星期)\n        </label>\n        <DatePicker\n          value={date}\n          onValueChange={setDate}\n          locale=\"zh-CN\"\n          formatOptions={{\n            year: \"numeric\",\n            month: \"long\",\n            day: \"numeric\",\n            weekday: \"short\",\n          }}\n        />\n      </div>\n\n      <div className=\"flex flex-col gap-1.5\">\n        <label className=\"text-sm font-medium text-foreground\">\n          英文简写格式 (US Locale)\n        </label>\n        <DatePicker\n          value={date}\n          onValueChange={setDate}\n          locale=\"en-US\"\n          formatOptions={{\n            month: \"short\",\n            day: \"numeric\",\n            year: \"numeric\",\n          }}\n        />\n      </div>\n    </div>\n  )\n}\n"
+}

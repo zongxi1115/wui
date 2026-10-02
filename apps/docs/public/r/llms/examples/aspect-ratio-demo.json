@@ -1,0 +1,6 @@
+{
+  "name": "aspect-ratio-demo",
+  "component": "aspect-ratio",
+  "title": "基础用法",
+  "code": "import { AspectRatio } from \"@/components/ui/aspect-ratio\"\n\nexport default function AspectRatioDemo() {\n  return (\n    <div className=\"w-full max-w-xl\">\n      <AspectRatio ratio={16 / 9} className=\"bg-muted\">\n        <img\n          src=\"/wui/demo/field-notes/coastal-hill.jpg\"\n          alt=\"海岸山丘\"\n          className=\"size-full object-cover\"\n        />\n      </AspectRatio>\n    </div>\n  )\n}\n"
+}

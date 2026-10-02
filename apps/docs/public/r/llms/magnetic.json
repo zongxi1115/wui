@@ -28,7 +28,6 @@
       "name": "strength",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "0.18",
       "description": "内容跟随指针移动的强度。"
     },
@@ -36,7 +35,6 @@
       "name": "maxDistance",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "12",
       "description": "任一方向允许移动的最大距离，单位为像素。"
     },
@@ -44,7 +42,6 @@
       "name": "springConfig",
       "type": "SpringOptions",
       "required": false,
-      "control": "text",
       "defaultValue": "{ stiffness: 260, damping: 22, mass: 0.35 }",
       "description": "内容移动和回弹时使用的弹簧参数。"
     },
@@ -52,11 +49,50 @@
       "name": "disabled",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "false",
       "description": "是否停用指针跟随，同时保留原有布局。"
     }
   ],
+  "api": [
+    {
+      "name": "Magnetic",
+      "props": [
+        {
+          "name": "strength",
+          "type": "number",
+          "required": false,
+          "defaultValue": "0.18",
+          "description": "内容跟随指针移动的强度。"
+        },
+        {
+          "name": "maxDistance",
+          "type": "number",
+          "required": false,
+          "defaultValue": "12",
+          "description": "任一方向允许移动的最大距离，单位为像素。"
+        },
+        {
+          "name": "springConfig",
+          "type": "SpringOptions",
+          "required": false,
+          "defaultValue": "{ stiffness: 260, damping: 22, mass: 0.35 }",
+          "description": "内容移动和回弹时使用的弹簧参数。"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "是否停用指针跟随，同时保留原有布局。"
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`Magnetic` 能够赋予静态按钮生动的物理反馈，极大地提升用户的点击意愿。\n\n- **使用场景**：\n  - **社交媒体与快捷操作浮动栏（Dock）**：导航坞、工具条中的图标吸附反馈。\n  - **首屏主操作 CTA（Hero CTA）**：官网头部的核心操作按钮。\n  - **创意交互与展示项**：作品展示、浮动联系小球（Floating Action Button）。\n- **设计规范与克制原则**：\n  - **位移幅度控制**：`maxDistance` 建议设置在 `8px~16px` 以内。过大的位移会造成光标“追逐”按钮的糟糕体验，导致用户难以精准点击。\n  - **移动端与触控**：触控设备（Touch）由于没有持续光标位置，组件内部会自动忽略位移计算，防止页面滚动卡顿。\n- **与 Button 组合**：\n  - 内部子组件通常搭配 `Button` 或可点击的链接，磁吸容器不会影响原生点击事件触发。",
+  "extended": "### 浮动社交操作栏（Dock）\n\n在悬浮操作栏中将每个图标单独赋予微磁吸动效：\n\n### 首屏核心行动点（Hero CTA）\n\n在官网顶部主视觉区域为操作按钮配置磁吸反馈：",
+  "events": "`Magnetic` 透传底层的指针跟踪事件：\n\n- `onPointerMove`: (event: React.PointerEvent<HTMLDivElement>) => void — 指针在元素内移动时触发，内部通过 MotionValue 计算坐标偏移并驱动 Spring 弹簧。\n- `onPointerLeave`: (event: React.PointerEvent<HTMLDivElement>) => void — 指针离开元素边界时触发，内部自动平滑回弹归零。\n- `onPointerCancel`: (event: React.PointerEvent<HTMLDivElement>) => void — 指针事件被系统中断时触发，自动回弹归零。",
+  "accessibility": "- **减少动态效果降级**：内置 `useReducedMotion` 监听。当用户系统设置了“减少动态效果（prefers-reduced-motion）”时，磁吸位移自动清零并停止监听，保证元素处于静止状态。\n- **键盘导航兼容**：磁吸包装层不会干扰子元素的 Tab 焦点流与屏幕阅读器朗读，键盘用户可以正常聚焦与激活。\n- **触摸屏兼容**：触摸屏上自动静止，避免干扰手势上下滑动。",
   "examples": [
     {
       "name": "magnetic-demo",

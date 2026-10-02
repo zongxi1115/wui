@@ -1,0 +1,6 @@
+{
+  "name": "slider-step-marks",
+  "component": "slider",
+  "title": "步长与离散刻度标记 (Marks)",
+  "code": "\"use client\"\n\nimport * as React from \"react\"\nimport { Slider } from \"@/components/ui/slider\"\n\nexport default function SliderStepMarks() {\n  const [storage, setStorage] = React.useState([256])\n  const marks = [64, 128, 256, 512, 1024]\n\n  return (\n    <div className=\"w-full max-w-sm space-y-4\">\n      <div className=\"flex items-center justify-between\">\n        <span id=\"storage-slider-label\" className=\"text-sm font-medium\">\n          云存储容量配额\n        </span>\n        <span className=\"text-xs font-semibold tabular-nums text-foreground\">\n          {storage[0] >= 1024 ? `${storage[0] / 1024} TB` : `${storage[0]} GB`}\n        </span>\n      </div>\n\n      <Slider\n        aria-labelledby=\"storage-slider-label\"\n        value={storage}\n        onValueChange={setStorage}\n        min={64}\n        max={1024}\n        step={64}\n        marks={marks}\n        formatValue={(val) => (val >= 1024 ? \"1TB\" : `${val}G`)}\n      />\n\n      <div className=\"flex justify-between px-0.5 text-[10px] tabular-nums text-muted-foreground\">\n        {marks.map((mark) => (\n          <span key={mark}>{mark >= 1024 ? \"1TB\" : `${mark}G`}</span>\n        ))}\n      </div>\n    </div>\n  )\n}\n"
+}

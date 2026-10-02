@@ -1,0 +1,6 @@
+{
+  "name": "typewriter-demo",
+  "component": "typewriter",
+  "title": "基础用法",
+  "code": "import { Typewriter } from \"@/components/ui/typewriter\"\n\nexport default function TypewriterDemo() {\n  return (\n    <div className=\"flex max-w-lg flex-col items-center gap-3 text-center\">\n      <h2 className=\"text-2xl font-semibold tracking-tight text-foreground sm:text-3xl\">\n        让团队把时间花在\n        <br />\n        <Typewriter\n          className=\"text-primary\"\n          texts={[\"真正重要的决策上\", \"打磨产品细节上\", \"与用户的对话上\"]}\n        />\n      </h2>\n      <p className=\"text-sm text-muted-foreground\">\n        自动整理会议纪要、同步任务进度，减少重复沟通。\n      </p>\n    </div>\n  )\n}\n"
+}

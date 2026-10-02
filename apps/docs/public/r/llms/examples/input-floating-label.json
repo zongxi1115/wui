@@ -1,0 +1,6 @@
+{
+  "name": "input-floating-label",
+  "component": "input",
+  "title": "浮动标签 (Floating Label)",
+  "code": "import { MailIcon, UserIcon } from \"lucide-react\"\n\nimport { Input } from \"@/components/ui/input\"\n\nexport default function InputFloatingLabel() {\n  return (\n    <div className=\"grid w-full max-w-sm gap-3\">\n      <Input label=\"姓名\" autoComplete=\"name\" startContent={<UserIcon />} />\n      <Input\n        label=\"工作邮箱\"\n        type=\"email\"\n        autoComplete=\"email\"\n        defaultValue=\"lin.wei@example.com\"\n        startContent={<MailIcon />}\n        allowClear\n      />\n    </div>\n  )\n}\n"
+}

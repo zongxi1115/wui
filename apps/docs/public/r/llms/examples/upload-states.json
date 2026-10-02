@@ -1,0 +1,6 @@
+{
+  "name": "upload-states",
+  "component": "upload",
+  "title": "状态与尺寸矩阵",
+  "code": "import { Upload } from \"@/components/ui/upload\"\n\nexport default function UploadStates() {\n  return (\n    <div className=\"grid w-full max-w-lg gap-3 sm:grid-cols-2\">\n      <Upload size=\"compact\" label=\"上传合同\" description=\"PDF 或 DOCX，不超过 20 MB\" accept=\".pdf,.docx\" />\n      <Upload size=\"compact\" label=\"上传素材\" status=\"uploading\" progress={68} multiple />\n      <Upload size=\"compact\" label=\"素材已接收\" status=\"complete\" />\n      <Upload size=\"compact\" label=\"上传素材\" status=\"error\" />\n    </div>\n  )\n}\n"
+}

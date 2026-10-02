@@ -34,7 +34,6 @@
       "name": "trigger",
       "type": "string",
       "required": false,
-      "control": "text",
       "defaultValue": "@",
       "description": "触发提及菜单的前缀字符（如 \"@\", \"#\", \"/\"）。"
     },
@@ -42,7 +41,6 @@
       "name": "options",
       "type": "MentionOption[]",
       "required": false,
-      "control": "text",
       "defaultValue": "[]",
       "description": "可供匹配选择的候选提及列表。"
     },
@@ -50,35 +48,31 @@
       "name": "value",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "当前输入框文本（受控模式）。"
     },
     {
       "name": "defaultValue",
       "type": "string",
       "required": false,
-      "control": "text",
+      "defaultValue": "",
       "description": "默认输入框文本（非受控模式）。"
     },
     {
       "name": "onValueChange",
       "type": "((value: string) => void)",
       "required": false,
-      "control": "text",
       "description": "输入文本发生变动时的回调。"
     },
     {
       "name": "onSelectOption",
       "type": "((option: MentionOption) => void)",
       "required": false,
-      "control": "text",
       "description": "选中某项提及项时的回调函数。"
     },
     {
       "name": "placeholder",
       "type": "string",
       "required": false,
-      "control": "text",
       "defaultValue": "输入 @ 提及成员或技能...",
       "description": "输入框占位提示文案。"
     },
@@ -86,7 +80,6 @@
       "name": "variant",
       "type": "\"default\" | \"ghost\"",
       "required": false,
-      "control": "select",
       "options": [
         "default",
         "ghost"
@@ -95,6 +88,92 @@
       "description": "外观样式变体。"
     }
   ],
+  "api": [
+    {
+      "name": "Mention",
+      "props": [
+        {
+          "name": "trigger",
+          "type": "string",
+          "required": false,
+          "defaultValue": "@",
+          "description": "触发提及菜单的前缀字符（如 \"@\", \"#\", \"/\"）。"
+        },
+        {
+          "name": "options",
+          "type": "MentionOption[]",
+          "required": false,
+          "defaultValue": "[]",
+          "description": "可供匹配选择的候选提及列表。"
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": false,
+          "description": "当前输入框文本（受控模式）。"
+        },
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "required": false,
+          "defaultValue": "",
+          "description": "默认输入框文本（非受控模式）。"
+        },
+        {
+          "name": "onValueChange",
+          "type": "((value: string) => void)",
+          "required": false,
+          "description": "输入文本发生变动时的回调。"
+        },
+        {
+          "name": "onSelectOption",
+          "type": "((option: MentionOption) => void)",
+          "required": false,
+          "description": "选中某项提及项时的回调函数。"
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "required": false,
+          "defaultValue": "输入 @ 提及成员或技能...",
+          "description": "输入框占位提示文案。"
+        },
+        {
+          "name": "variant",
+          "type": "\"default\" | \"ghost\"",
+          "required": false,
+          "options": [
+            "default",
+            "ghost"
+          ],
+          "defaultValue": "default",
+          "description": "外观样式变体。"
+        }
+      ]
+    },
+    {
+      "name": "MentionBadge",
+      "props": [
+        {
+          "name": "prefix",
+          "type": "string",
+          "required": false,
+          "defaultValue": "@",
+          "description": "提及前缀符号。"
+        }
+      ]
+    }
+  ],
+  "types": [
+    {
+      "name": "MentionOption",
+      "definition": "export interface MentionOption {\n  /** 选项唯一标识值。 */\n  id: string\n  /** 选项展示主文本。 */\n  label: string\n  /** 补充描述信息。 */\n  description?: string\n  /** 自定义头像或图标。 */\n  icon?: React.ReactNode\n  /** 分组标签。 */\n  group?: string\n  /** 徽标标签。 */\n  badge?: React.ReactNode\n}"
+    }
+  ],
+  "usage": "`Mention` 专用于支持富交互提及场景，通过键盘打字实时捕获前缀并呈现建议浮层。\n\n候选项通过 `group` 区分成员、助手等类别；相邻的同组候选项显示在同一分组下。左侧头像或图标使用统一的展示区域，名称、描述与右侧徽标分别对齐，当前高亮项显示回车图标提示插入操作。\n\n### 适用场景\n- **协作任务与评论区**：键入 `@` 快速提醒团队成员或关联特定负责人。\n- **AI 助手与角色指派**：在提示词中键入 `@bot` 指定协同 Agent。\n- **键盘导航支持**：原生支持上下方向键高亮、Enter/Tab 快捷上屏与 Esc 取消。\n\n### 何时不建议使用\n- 如果仅仅是普通无特殊触发符号的单行表单输入，使用 `Input` 即可。",
+  "extended": "可通过 `trigger` 属性自定义触发符号，例如传入 `#` 实现话题标签自动补全，或传入 `/` 实现斜杠快捷指令。配合 `onSelectOption` 可以把选中的话题同步到外部，用 `MentionBadge` 展示：",
+  "events": "- `onValueChange?: (value: string) => void`：文本内容变化时的回调。\n- `onSelectOption?: (option: MentionOption) => void`：选中某一匹配项时的回调。",
+  "accessibility": "- 候选浮层以轻微的上移与缩放进入、退出；键盘或鼠标移动时，当前选项通过底色和回车图标高亮，并自动滚动到可视区域。\n- 输入框声明为 `role=\"combobox\"`，浮层为 `role=\"listbox\"`，通过 `aria-activedescendant` 指向当前高亮项，屏幕阅读器能够读出候选内容。\n- 点击候选项不会让输入框失焦；输入框失焦或按 <kbd>Esc</kbd> 时浮层关闭。\n- 所有过渡在 `prefers-reduced-motion` 下关闭。",
   "examples": [
     {
       "name": "mention-demo",

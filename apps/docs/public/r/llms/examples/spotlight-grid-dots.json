@@ -1,0 +1,6 @@
+{
+  "name": "spotlight-grid-dots",
+  "component": "spotlight-grid",
+  "title": "点阵模式（Dots）",
+  "code": "import { SpotlightGrid } from \"@/components/ui/spotlight-grid\"\n\nexport default function SpotlightGridDots() {\n  return (\n    <SpotlightGrid\n      pattern=\"dots\"\n      size={18}\n      radius={160}\n      baseOpacity={0.14}\n      patternColor=\"var(--chart-1)\"\n      className=\"bg-card w-full max-w-md rounded-lg border\"\n    >\n      <div className=\"flex h-56 flex-col items-center justify-center text-center\">\n        <p className=\"font-medium\">拖拽文件到这里上传</p>\n        <p className=\"text-muted-foreground mt-1 text-sm\">\n          支持 PNG、JPG、PDF，单个文件不超过 20MB\n        </p>\n      </div>\n    </SpotlightGrid>\n  )\n}\n"
+}

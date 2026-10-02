@@ -30,28 +30,24 @@
       "name": "data",
       "type": "ChartDatum[]",
       "required": true,
-      "control": "text",
       "description": "与主图横轴顺序一致的数据。"
     },
     {
       "name": "labelKey",
       "type": "string",
       "required": true,
-      "control": "text",
       "description": "用于显示选区边界的标签字段。"
     },
     {
       "name": "value",
       "type": "[number, number]",
       "required": false,
-      "control": "text",
       "description": "受控的起止索引。"
     },
     {
       "name": "defaultValue",
       "type": "[number, number]",
       "required": false,
-      "control": "text",
       "defaultValue": "[0, data.length - 1]",
       "description": "非受控的初始起止索引。"
     },
@@ -59,14 +55,12 @@
       "name": "onValueChange",
       "type": "((value: [number, number]) => void)",
       "required": false,
-      "control": "text",
       "description": "选区索引变化时触发。"
     },
     {
       "name": "minPoints",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "2",
       "description": "两个边界之间至少保留的数据点数量。"
     },
@@ -74,11 +68,69 @@
       "name": "labelFormatter",
       "type": "((value: string | number, datum: ChartDatum) => ReactNode)",
       "required": false,
-      "control": "text",
       "defaultValue": "(next) => String(next)",
       "description": "自定义边界标签。"
     }
   ],
+  "api": [
+    {
+      "name": "ChartBrush",
+      "props": [
+        {
+          "name": "data",
+          "type": "ChartDatum[]",
+          "required": true,
+          "description": "与主图横轴顺序一致的数据。"
+        },
+        {
+          "name": "labelKey",
+          "type": "string",
+          "required": true,
+          "description": "用于显示选区边界的标签字段。"
+        },
+        {
+          "name": "value",
+          "type": "[number, number]",
+          "required": false,
+          "description": "受控的起止索引。"
+        },
+        {
+          "name": "defaultValue",
+          "type": "[number, number]",
+          "required": false,
+          "defaultValue": "[0, data.length - 1]",
+          "description": "非受控的初始起止索引。"
+        },
+        {
+          "name": "onValueChange",
+          "type": "((value: [number, number]) => void)",
+          "required": false,
+          "description": "选区索引变化时触发。"
+        },
+        {
+          "name": "minPoints",
+          "type": "number",
+          "required": false,
+          "defaultValue": "2",
+          "description": "两个边界之间至少保留的数据点数量。"
+        },
+        {
+          "name": "labelFormatter",
+          "type": "((value: string | number, datum: ChartDatum) => ReactNode)",
+          "required": false,
+          "defaultValue": "(next) => String(next)",
+          "description": "自定义边界标签。"
+        }
+      ]
+    }
+  ],
+  "types": [
+    {
+      "name": "ChartDatum",
+      "definition": "export type ChartDatum = Record<string, string | number | null | undefined>"
+    }
+  ],
+  "usage": "`ChartBrush` 直接复用现有 `Slider` 的双 Thumb、键盘和触摸交互，只负责返回起止索引。主图的数据切片和请求范围由业务状态控制，\n因此它可以与折线、面积、时间序列或其他有序图表组合。",
   "examples": [
     {
       "name": "chart-brush-demo"

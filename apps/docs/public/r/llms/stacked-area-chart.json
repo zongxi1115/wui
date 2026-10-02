@@ -33,49 +33,42 @@
       "name": "title",
       "type": "ReactNode",
       "required": true,
-      "control": "text",
       "description": "图表标题，用于说明总量及其组成。"
     },
     {
       "name": "description",
       "type": "ReactNode",
       "required": false,
-      "control": "text",
       "description": "补充单位、时间范围或分母口径的副标题。"
     },
     {
       "name": "actions",
       "type": "ReactNode",
       "required": false,
-      "control": "text",
       "description": "标题右侧的操作区。"
     },
     {
       "name": "data",
       "type": "ChartDatum[]",
       "required": true,
-      "control": "text",
       "description": "每行代表一个有序横轴节点的数据。"
     },
     {
       "name": "xKey",
       "type": "string",
       "required": true,
-      "control": "text",
       "description": "横轴标签字段。"
     },
     {
       "name": "series",
       "type": "ChartSeries[]",
       "required": true,
-      "control": "text",
       "description": "参与堆叠的数值序列。"
     },
     {
       "name": "normalize",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "false",
       "description": "是否把每个横轴节点归一化为百分比。"
     },
@@ -83,7 +76,6 @@
       "name": "height",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "300",
       "description": "图表绘图区高度，单位为像素。"
     },
@@ -91,7 +83,6 @@
       "name": "showGrid",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "true",
       "description": "是否显示水平参考网格。"
     },
@@ -99,7 +90,6 @@
       "name": "showLegend",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "true",
       "description": "是否显示图例。"
     },
@@ -107,7 +97,6 @@
       "name": "valueFormatter",
       "type": "ChartValueFormatter",
       "required": false,
-      "control": "text",
       "defaultValue": "(value) => defaultValueFormatter(value)",
       "description": "自定义原始数值的显示格式。"
     },
@@ -115,11 +104,114 @@
       "name": "labelFormatter",
       "type": "ChartLabelFormatter",
       "required": false,
-      "control": "text",
       "defaultValue": "(value) => String(value)",
       "description": "自定义横轴标签。"
     }
   ],
+  "api": [
+    {
+      "name": "StackedAreaChart",
+      "props": [
+        {
+          "name": "title",
+          "type": "ReactNode",
+          "required": true,
+          "description": "图表标题，用于说明总量及其组成。"
+        },
+        {
+          "name": "description",
+          "type": "ReactNode",
+          "required": false,
+          "description": "补充单位、时间范围或分母口径的副标题。"
+        },
+        {
+          "name": "actions",
+          "type": "ReactNode",
+          "required": false,
+          "description": "标题右侧的操作区。"
+        },
+        {
+          "name": "data",
+          "type": "ChartDatum[]",
+          "required": true,
+          "description": "每行代表一个有序横轴节点的数据。"
+        },
+        {
+          "name": "xKey",
+          "type": "string",
+          "required": true,
+          "description": "横轴标签字段。"
+        },
+        {
+          "name": "series",
+          "type": "ChartSeries[]",
+          "required": true,
+          "description": "参与堆叠的数值序列。"
+        },
+        {
+          "name": "normalize",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "是否把每个横轴节点归一化为百分比。"
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "required": false,
+          "defaultValue": "300",
+          "description": "图表绘图区高度，单位为像素。"
+        },
+        {
+          "name": "showGrid",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "是否显示水平参考网格。"
+        },
+        {
+          "name": "showLegend",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "是否显示图例。"
+        },
+        {
+          "name": "valueFormatter",
+          "type": "ChartValueFormatter",
+          "required": false,
+          "defaultValue": "(value) => defaultValueFormatter(value)",
+          "description": "自定义原始数值的显示格式。"
+        },
+        {
+          "name": "labelFormatter",
+          "type": "ChartLabelFormatter",
+          "required": false,
+          "defaultValue": "(value) => String(value)",
+          "description": "自定义横轴标签。"
+        }
+      ]
+    }
+  ],
+  "types": [
+    {
+      "name": "ChartDatum",
+      "definition": "export type ChartDatum = Record<string, string | number | null | undefined>"
+    },
+    {
+      "name": "ChartLabelFormatter",
+      "definition": "export type ChartLabelFormatter = (\r\n  value: string | number,\r\n  datum: ChartDatum\r\n) => React.ReactNode"
+    },
+    {
+      "name": "ChartSeries",
+      "definition": "export interface ChartSeries {\r\n  /** 数据字段名。 */\r\n  key: string\r\n  /** 图例和提示框中显示的名称。 */\r\n  label?: string\r\n  /** 覆盖当前序列的颜色。 */\r\n  color?: string\r\n  /** 折线序列的 SVG 虚线模式。 */\r\n  strokeDasharray?: string\r\n}"
+    },
+    {
+      "name": "ChartValueFormatter",
+      "definition": "export type ChartValueFormatter = (\r\n  value: number,\r\n  series: ChartSeries,\r\n  datum: ChartDatum\r\n) => React.ReactNode"
+    }
+  ],
+  "usage": "`StackedAreaChart` 用于组成随时间变化，并且各序列能合理相加为一个总量的场景。需要比较每条轨迹本身时，应改用折线图。\n`normalize` 会将每个横轴节点转换为 100%，用于观察份额变化。",
   "examples": [
     {
       "name": "stacked-area-chart-demo"

@@ -1,0 +1,6 @@
+{
+  "name": "dropdown-menu-demo",
+  "component": "dropdown-menu",
+  "title": "操作菜单与快捷键提示",
+  "code": "import {\n  CopyIcon,\n  MoreHorizontalIcon,\n  PencilIcon,\n  Trash2Icon,\n} from \"lucide-react\"\n\nimport { Button } from \"@/components/ui/button\"\nimport {\n  DropdownMenu,\n  DropdownMenuContent,\n  DropdownMenuItem,\n  DropdownMenuSeparator,\n  DropdownMenuShortcut,\n  DropdownMenuTrigger,\n} from \"@/components/ui/dropdown-menu\"\n\nexport default function DropdownMenuDemo() {\n  return (\n    <DropdownMenu>\n      <DropdownMenuTrigger asChild>\n        <Button variant=\"outline\" size=\"icon\" aria-label=\"更多操作\">\n          <MoreHorizontalIcon />\n        </Button>\n      </DropdownMenuTrigger>\n      <DropdownMenuContent align=\"end\">\n        <DropdownMenuItem>\n          <PencilIcon />\n          编辑\n          <DropdownMenuShortcut>⌘ E</DropdownMenuShortcut>\n        </DropdownMenuItem>\n        <DropdownMenuItem>\n          <CopyIcon />\n          创建副本\n          <DropdownMenuShortcut>⌘ D</DropdownMenuShortcut>\n        </DropdownMenuItem>\n        <DropdownMenuSeparator />\n        <DropdownMenuItem destructive>\n          <Trash2Icon />\n          删除\n          <DropdownMenuShortcut>⌘ ⌫</DropdownMenuShortcut>\n        </DropdownMenuItem>\n      </DropdownMenuContent>\n    </DropdownMenu>\n  )\n}\n"
+}

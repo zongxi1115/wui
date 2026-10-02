@@ -10,7 +10,8 @@
  * Emits:
  *   public/r/llms/index.json     — discovery list (name/title/description/props gist)
  *   public/r/llms/<name>.json    — per-component digest (props, usage, examples, install)
- *   public/r/llms/examples.json  — example name -> { component, title, code }
+ *   public/r/llms/examples/index.json — example metadata without source
+ *   public/r/llms/examples/<name>.json — one example's code
  *   public/r/llms/overview.json  — library-level rules + theme tokens
  *   public/llms.txt              — the llms.txt convention, for non-MCP consumers
  *
@@ -18,10 +19,21 @@
  */
 import { promises as fs } from "node:fs"
 import path from "node:path"
+import ts from "typescript"
+import type {
+  ComponentApi,
+  ComponentDigest,
+  ExampleEntry,
+  ExampleIndex,
+  IndexEntry,
+  PropMeta,
+  TypeDefinition,
+} from "@wui-design/mcp/core"
 
 const ROOT = process.cwd() // apps/docs
 const REGISTRY_JSON = path.join(ROOT, "registry.json")
 const PROPS_JSON = path.join(ROOT, "registry", "__props__.json")
+const API_JSON = path.join(ROOT, "registry", "__api__.json")
 const OVERVIEW_MD = path.join(ROOT, "llms", "overview.md")
 const DOCS_DIR = path.join(ROOT, "content", "docs")
 const EXAMPLES_DIR = path.join(ROOT, "registry", "examples")
@@ -51,14 +63,6 @@ interface RegistryItem {
   cssVars?: Record<string, Record<string, string>>
   categories?: string[]
 }
-interface PropMeta {
-  name: string
-  type: string
-  required: boolean
-  options?: string[]
-  defaultValue?: string
-  description?: string
-}
 
 // ---------------------------------------------------------------------------
 // MDX helpers
@@ -81,12 +85,13 @@ function splitFrontmatter(raw: string): {
 /**
  * Remove the docs-site-only MDX components, leaving prose a model can read.
  * `<Callout>` and `<Steps>` wrappers keep their inner text; self-closing
- * preview/source/table tags are dropped entirely.
+ * preview/source tags are dropped. Literal PropsTable rows become Markdown.
  */
 function stripMdxComponents(body: string): string {
   return body
+    .replace(/<PropsTable\b[\s\S]*?\/>/g, renderPropsTable)
     .replace(
-      /<(ComponentPreview|ComponentSource|CodeTabs|Playground|PropsTable)\b[\s\S]*?\/>/g,
+      /<(ComponentPreview|ComponentSource|CodeTabs|Playground)\b[\s\S]*?\/>/g,
       ""
     )
     .replace(/<PropsTable\b[\s\S]*?<\/PropsTable>/g, "")
@@ -98,25 +103,79 @@ function stripMdxComponents(body: string): string {
     .trim()
 }
 
+/** Read only literal table data through the TS parser; never execute MDX. */
+function renderPropsTable(tag: string): string {
+  const source = ts.createSourceFile(
+    "props.tsx",
+    `const table = (${tag})`,
+    ts.ScriptTarget.Latest,
+    true,
+    ts.ScriptKind.TSX
+  )
+  const rows: string[] = []
+  function visit(node: ts.Node) {
+    if (
+      ts.isJsxAttribute(node) &&
+      node.name.getText(source) === "data" &&
+      node.initializer &&
+      ts.isJsxExpression(node.initializer)
+    ) {
+      const value = node.initializer.expression
+      if (value && ts.isArrayLiteralExpression(value)) {
+        for (const element of value.elements) {
+          if (!ts.isObjectLiteralExpression(element)) continue
+          const fields: Record<string, string> = {}
+          for (const property of element.properties) {
+            if (!ts.isPropertyAssignment(property)) continue
+            const value = property.initializer
+            if (
+              ts.isStringLiteral(value) ||
+              ts.isNoSubstitutionTemplateLiteral(value)
+            ) {
+              fields[
+                property.name.getText(source).replace(/^["']|["']$/g, "")
+              ] = value.text
+            }
+          }
+          if (fields.prop)
+            rows.push(
+              `- \`${fields.prop}\`${fields.type ? `: ${fields.type}` : ""}${fields.default ? `（默认：${fields.default}）` : ""}${fields.description ? ` — ${fields.description}` : ""}`
+            )
+        }
+      }
+    }
+    ts.forEachChild(node, visit)
+  }
+  visit(source)
+  return rows.join("\n")
+}
+
 /**
- * Pull one `## <heading>` section's body out of an MDX document. Split on the
+ * Pull matching `## <heading>` sections out of an MDX document. Split on the
  * heading rather than one regex with a lookahead — JS has no `\z`, and `$`
  * under /m means end-of-line, so a single-pass pattern truncates mid-section.
  */
 function section(body: string, ...headings: string[]): string | undefined {
   const parts = body.split(/^##\s+(.+?)\s*$/m) // [pre, h1, body1, h2, body2, ...]
+  const normalize = (heading: string) =>
+    heading.replace(/\s+(?:[·|｜]\s*)?[A-Za-z].*$/, "").trim()
+  const matches: Array<{ heading: string; text: string }> = []
   for (const heading of headings) {
     for (let i = 1; i < parts.length; i += 2) {
-      if (parts[i] !== heading) continue
+      if (normalize(parts[i]) !== normalize(heading)) continue
+      if (matches.some((m) => m.heading === parts[i])) continue
       const text = stripMdxComponents(parts[i + 1] ?? "")
       // Sections that are only sub-headings wrapping previews carry no prose.
       const hasProse = text
         .split(/\r?\n/)
         .some((l) => l.trim() && !/^#{1,6}\s/.test(l.trim()))
-      if (text && hasProse) return text
+      if (text && hasProse) matches.push({ heading: parts[i], text })
     }
   }
-  return undefined
+  if (!matches.length) return undefined
+  return matches.length === 1
+    ? matches[0].text
+    : matches.map((m) => `### ${m.heading}\n\n${m.text}`).join("\n\n")
 }
 
 /**
@@ -228,6 +287,10 @@ async function main() {
     string,
     PropMeta[]
   >
+  const apis = JSON.parse(await fs.readFile(API_JSON, "utf8")) as Record<
+    string,
+    { api: ComponentApi[]; types: TypeDefinition[] }
+  >
   const overviewMd = await readText(OVERVIEW_MD)
 
   const site = (process.env.WUI_SITE_URL ?? registry.homepage ?? "").replace(
@@ -235,16 +298,22 @@ async function main() {
     ""
   )
 
+  // Validate the deletion target before clearing generated artifacts.
+  if (path.resolve(OUT_DIR) !== path.resolve(ROOT, "public/r/llms"))
+    throw new Error("Unexpected digest output directory")
   await fs.rm(OUT_DIR, { recursive: true, force: true })
   await fs.mkdir(OUT_DIR, { recursive: true })
+  await fs.mkdir(path.join(OUT_DIR, "examples"), { recursive: true })
 
   const exampleFiles = (await fs.readdir(EXAMPLES_DIR))
     .filter((f) => f.endsWith(".tsx"))
     .map((f) => f.replace(/\.tsx$/, ""))
     .sort()
 
-  const discovery: unknown[] = []
-  const exampleBank: Record<string, unknown> = {}
+  const discovery: IndexEntry[] = []
+  const exampleBank: Record<string, ExampleEntry> = {}
+  const exampleIndex: ExampleIndex = {}
+  const missingUsage: string[] = []
   const componentTxtLines: string[] = []
   const chartTxtLines: string[] = []
 
@@ -260,8 +329,9 @@ async function main() {
       const parsed = splitFrontmatter(await readText(mdxPath))
       front = parsed.data
       body = parsed.body
-    } catch {
-      // lib items (utils) have no component page
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error
+      // Internal lib items have no component page.
     }
 
     const title = front.title ?? item.title ?? item.name
@@ -286,6 +356,11 @@ async function main() {
         ...(titles[name] ? { title: titles[name] } : {}),
         code: rewriteImports(code),
       }
+      exampleIndex[name] = {
+        name,
+        component: item.name,
+        ...(titles[name] ? { title: titles[name] } : {}),
+      }
       examples.push({ name, ...(titles[name] ? { title: titles[name] } : {}) })
     }
 
@@ -294,8 +369,15 @@ async function main() {
       ? parseExports(await readText(path.join(ROOT, sourceFile.path)))
       : { values: [], types: [] }
     const imp = importPath(item)
+    const api = apis[item.name]?.api ?? []
+    const primaryProps =
+      api.find(
+        (part) => part.name.toLowerCase() === item.name.replace(/-/g, "")
+      )?.props ??
+      props[item.name] ??
+      []
 
-    const digest = {
+    const digest: ComponentDigest = {
       name: item.name,
       type: item.type,
       title,
@@ -315,15 +397,44 @@ async function main() {
         npmDependencies: item.dependencies ?? [],
         registryDependencies: item.registryDependencies ?? [],
       },
-      props: props[item.name] ?? [],
-      usage: section(body, "组件作用", "使用说明", "使用方式", "直接使用"),
-      extended: section(body, "扩展使用", "拓展使用"),
-      events: section(body, "事件"),
+      props: primaryProps,
+      api,
+      types: apis[item.name]?.types ?? [],
+      usage: section(
+        body,
+        "使用场景与设计规范",
+        "使用场景",
+        "使用建议",
+        "组件作用",
+        "使用说明",
+        "使用方式",
+        "直接使用",
+        "协议定位"
+      ),
+      extended: section(
+        body,
+        "场景示例",
+        "扩展使用",
+        "拓展使用",
+        "扩展用法",
+        "组合结构",
+        "精简组合",
+        "请求接口"
+      ),
+      events: section(body, "事件 Events", "事件"),
+      accessibility: section(
+        body,
+        "无障碍与交互",
+        "交互与无障碍",
+        "无障碍",
+        "键盘操作"
+      ),
       examples,
       files: item.files.map((f) => f.path),
       docsUrl: site ? `${site}/docs/${sectionName}/${item.name}` : undefined,
       sourceUrl: site ? `${site}/r/${item.name}.json` : undefined,
     }
+    if (body && !digest.usage) missingUsage.push(item.name)
 
     await fs.writeFile(
       path.join(OUT_DIR, `${item.name}.json`),
@@ -338,7 +449,13 @@ async function main() {
       description,
       ...(item.categories?.length ? { categories: item.categories } : {}),
       // A props gist lets a model shortlist candidates without a second call.
-      keyProps: (props[item.name] ?? [])
+      keyProps: primaryProps
+        .filter(
+          (p) =>
+            !["children", "dir", "name", "autoComplete", "form"].includes(
+              p.name
+            )
+        )
         .slice(0, 6)
         .map((p) =>
           p.options
@@ -354,6 +471,8 @@ async function main() {
     if (sectionName === "charts") chartTxtLines.push(txtLine)
     else componentTxtLines.push(txtLine)
   }
+  if (missingUsage.length)
+    throw new Error(`Missing usage section: ${missingUsage.join(", ")}`)
 
   // --- Overview: authored rules + the live token list ------------------------
   const theme = registry.items.find((i) => i.type === "registry:theme")
@@ -388,6 +507,20 @@ async function main() {
     JSON.stringify(exampleBank, null, 2) + "\n",
     "utf8"
   )
+  // Retain the existing bank for already-published stdio clients. New clients
+  // fetch a small index and only the requested example.
+  await fs.writeFile(
+    path.join(OUT_DIR, "examples", "index.json"),
+    JSON.stringify(exampleIndex, null, 2) + "\n",
+    "utf8"
+  )
+  for (const [name, entry] of Object.entries(exampleBank)) {
+    await fs.writeFile(
+      path.join(OUT_DIR, "examples", `${name}.json`),
+      JSON.stringify(entry, null, 2) + "\n",
+      "utf8"
+    )
+  }
 
   const llmsTxt = [
     `# ${registry.name}`,

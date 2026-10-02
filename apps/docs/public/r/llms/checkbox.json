@@ -28,7 +28,6 @@
       "name": "size",
       "type": "\"default\" | \"sm\" | \"lg\"",
       "required": false,
-      "control": "select",
       "options": [
         "default",
         "sm",
@@ -38,20 +37,96 @@
       "description": "复选框的尺寸。"
     },
     {
+      "name": "checked",
+      "type": "CheckedState",
+      "required": false
+    },
+    {
+      "name": "defaultChecked",
+      "type": "CheckedState",
+      "required": false,
+      "defaultValue": "false"
+    },
+    {
+      "name": "required",
+      "type": "boolean",
+      "required": false
+    },
+    {
+      "name": "onCheckedChange",
+      "type": "((checked: CheckedState) => void)",
+      "required": false
+    },
+    {
       "name": "disabled",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "description": "是否禁用组件。"
     },
     {
       "name": "asChild",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
     }
   ],
+  "api": [
+    {
+      "name": "Checkbox",
+      "props": [
+        {
+          "name": "size",
+          "type": "\"default\" | \"sm\" | \"lg\"",
+          "required": false,
+          "options": [
+            "default",
+            "sm",
+            "lg"
+          ],
+          "defaultValue": "default",
+          "description": "复选框的尺寸。"
+        },
+        {
+          "name": "checked",
+          "type": "CheckedState",
+          "required": false
+        },
+        {
+          "name": "defaultChecked",
+          "type": "CheckedState",
+          "required": false,
+          "defaultValue": "false"
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "onCheckedChange",
+          "type": "((checked: CheckedState) => void)",
+          "required": false
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "是否禁用组件。"
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false,
+          "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`Checkbox` 适用于在一组选项中选择**零项、一项或多项**，或用于需要用户明确确认的**单个二元选择**（如同意协议条款）。\n\n### 组件选型对比\n\n| 控制类型 | 适用场景 | 交互与生效模式 | 典型用例 |\n| :--- | :--- | :--- | :--- |\n| **Checkbox** | 多项非互斥选择、从属层级全选/半选、协议确认 | 延迟生效（通常随表单提交保存） | 批量任务选择、订阅偏好设置、同意条款 |\n| **RadioGroup** | 2~5 个互斥选项中**必须单选一项** | 延迟生效（切换选项即选中该项） | 支付方式、配送方式、发票类型选择 |\n| **Switch** | 独立二元状态的开关切换 | **即时生效**（切换后立即触发后台更新） | 开启深色模式、推送通知开关、飞行模式 |\n\n### 设计最佳实践\n\n- **始终绑定文本标签**：不要单独放置没有文字说明的复选框。通过 `<label htmlFor=\"...\">` 显式关联复选框 `id`，扩大可点击热区。\n- **清晰的文案肯定语**：复选框文案应使用肯定语气描述选中后的结果（如“接收新版本通知”），避免使用双重否定（如“不接收通知”）。\n- **半选（Indeterminate）状态的规范使用**：半选状态只能用在包含子选项的父级复选框中，表示“子项部分被选中”。它是一个由子项状态计算得出的**派生状态**，而不是用户可以直接循环选中的第三种独立持久状态。\n- **校验与错误反馈**：对于协议勾选等必选项，校验失败时应将 `aria-invalid=\"true\"` 传给组件，并在复选框下方清晰呈现错误提示文案。",
+  "extended": "### 受控模式\n\n在需要精确管理多选状态或与外部状态保持双向同步时，使用 `checked` 和 `onCheckedChange`：\n\n```tsx\nconst [checked, setChecked] = React.useState<boolean | \"indeterminate\">(true)\n\nreturn (\n  <Checkbox\n    checked={checked}\n    onCheckedChange={setChecked}\n  />\n)\n```\n\n### 尺寸\n\n组件提供 `sm` (16px)、`default` (20px) 和 `lg` (24px) 三种尺寸以适应不同密度的排版：\n\n- `sm`：适合数据表格中的批量选择列、紧凑下拉菜单。\n- `default`：通用表单项、设置面板及标准卡片。\n- `lg`：移动端触控场景、突出的核心协议确认区域。\n\n### 带标签与描述\n\n将复选框与主标题和副文本描述组合，为用户提供清晰的决策上下文：\n\n### 半选与全选联动 (Indeterminate)\n\n当管理具有父子层级的列表时，父级多选框会根据子项的完成情况自动在“未选”、“半选（不确定）”和“全选”之间切换。对勾与半选横线共享同一条路径，状态变化时会直接形变过渡，而不是先消失再出现：\n\n### 禁用状态\n\n当用户无权限修改、配置项处于只读模式或依赖项未满足时，使用 `disabled` 禁用交互：\n\n### 多选卡片组\n\n在增值服务选配、功能包订购等现代 SaaS 场景中，将复选框包裹在卡片内，提供更大的点击面积与丰富的内容排版：\n\n### 表单校验与错误状态\n\n在用户注册或提交表单时，为多选框设置 `aria-invalid` 会切换为危险色边框；配合 `FormField` 与 `FormMessage`，错误提示会平滑展开与收起：",
+  "events": "- `onCheckedChange`: (checked: boolean | \"indeterminate\") => void — 用户通过点击、触摸或键盘按键切换复选框状态时触发，返回最新的布尔值或 \"indeterminate\"。\n- `onFocus`: (event: React.FocusEvent<HTMLButtonElement>) => void — 复选框获得焦点时触发。\n- `onBlur`: (event: React.FocusEvent<HTMLButtonElement>) => void — 复选框失去焦点时触发。\n- `onKeyDown`: (event: React.KeyboardEvent<HTMLButtonElement>) => void — 在复选框获得焦点时按下键盘按键触发（如空格键切换选中）。",
+  "accessibility": "- **ARIA 角色与属性**：\n  - 自动渲染 `role=\"checkbox\"`。\n  - 根据状态自动维护 `aria-checked=\"true\" | \"false\" | \"mixed\"`（半选状态对应 `\"mixed\"`）。\n  - 支持 `aria-invalid=\"true\"` 与 `aria-required=\"true\"`。\n- **键盘导航**：\n  - <kbd>Tab</kbd>：在表单各控件间移动焦点，聚焦时显示清晰的高对比度焦点环（Focus Ring）。\n  - <kbd>Space</kbd>：切换选中 / 未选中状态。\n- **屏幕阅读器支持**：\n  - 务必使用 `<label htmlFor=\"id\">` 或 `aria-labelledby` 关联标签文案，确保屏幕阅读器能准确朗读选项名称与当前状态。\n  - 辅助说明文字可通过 `aria-describedby` 关联至提示元素 ID。\n- **动态效果降级**：\n  - 对勾的路径绘制、勾选与半选之间的形变以及按压缩放都会适配系统的 `prefers-reduced-motion` 设置。开启减弱动态效果时，图标立即呈现，避免引发眩晕。",
   "examples": [
     {
       "name": "checkbox-demo",

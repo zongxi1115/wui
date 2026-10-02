@@ -1,0 +1,6 @@
+{
+  "name": "timeline-demo",
+  "component": "timeline",
+  "title": "基础用法",
+  "code": "import {\n  Timeline,\n  TimelineContent,\n  TimelineDescription,\n  TimelineDot,\n  TimelineHeader,\n  TimelineItem,\n  TimelineTime,\n  TimelineTitle,\n} from \"@/components/ui/timeline\"\n\nconst events = [\n  {\n    title: \"版本已发布\",\n    time: \"今天 14:32\",\n    description: \"v2.4.0 已部署到生产环境。\",\n    variant: \"success\" as const,\n  },\n  {\n    title: \"审核已通过\",\n    time: \"今天 11:08\",\n    description: \"设计与无障碍检查均已完成。\",\n    variant: \"primary\" as const,\n  },\n  {\n    title: \"提交变更\",\n    time: \"昨天 18:46\",\n    description: \"林宁合并了 12 个组件更新。\",\n    variant: \"default\" as const,\n  },\n]\n\nexport default function TimelineDemo() {\n  return (\n    <Timeline className=\"w-full max-w-lg\">\n      {events.map((event) => (\n        <TimelineItem key={event.title}>\n          <TimelineDot variant={event.variant} />\n          <TimelineContent>\n            <TimelineHeader>\n              <TimelineTitle>{event.title}</TimelineTitle>\n              <TimelineTime>{event.time}</TimelineTime>\n            </TimelineHeader>\n            <TimelineDescription>{event.description}</TimelineDescription>\n          </TimelineContent>\n        </TimelineItem>\n      ))}\n    </Timeline>\n  )\n}\n"
+}

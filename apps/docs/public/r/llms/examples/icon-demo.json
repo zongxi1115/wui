@@ -1,0 +1,6 @@
+{
+  "name": "icon-demo",
+  "component": "icon",
+  "title": "基础用法",
+  "code": "import { BellIcon } from \"lucide-react\"\n\nimport { Icon, iconSizes, type IconSize } from \"@/components/ui/icon\"\n\nconst sizes = Object.keys(iconSizes) as IconSize[]\n\nexport default function IconDemo() {\n  return (\n    <div className=\"flex flex-wrap items-end gap-x-6 gap-y-4\">\n      {sizes.map((size) => (\n        <div key={size} className=\"flex min-w-12 flex-col items-center gap-2\">\n          <Icon icon={BellIcon} size={size} strokeWidth={1.75} />\n          <span className=\"text-muted-foreground font-mono text-xs\">\n            {size} · {iconSizes[size]}\n          </span>\n        </div>\n      ))}\n    </div>\n  )\n}\n"
+}

@@ -29,14 +29,12 @@
       "name": "children",
       "type": "string",
       "required": true,
-      "control": "text",
       "description": "通过扰码效果最终显示的目标文字。"
     },
     {
       "name": "as",
       "type": "ElementType<any, keyof IntrinsicElements>",
       "required": false,
-      "control": "text",
       "defaultValue": "p",
       "description": "组件实际渲染的 HTML 元素。"
     },
@@ -44,7 +42,6 @@
       "name": "duration",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "0.8",
       "description": "完整揭示文字所需的时间，单位为秒。"
     },
@@ -52,7 +49,6 @@
       "name": "speed",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "0.04",
       "description": "两次扰码帧之间的间隔，单位为秒。"
     },
@@ -60,7 +56,6 @@
       "name": "characterSet",
       "type": "string",
       "required": false,
-      "control": "text",
       "defaultValue": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&*",
       "description": "扰码过程中随机抽取的字符集合。"
     },
@@ -68,7 +63,6 @@
       "name": "trigger",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "true",
       "description": "是否播放扰码效果。先切换为 false 再切换为 true 可重新播放。"
     },
@@ -76,10 +70,68 @@
       "name": "onScrambleComplete",
       "type": "(() => void)",
       "required": false,
-      "control": "text",
       "description": "每个字符都解析为最终值后触发。"
     }
   ],
+  "api": [
+    {
+      "name": "TextScramble",
+      "props": [
+        {
+          "name": "children",
+          "type": "string",
+          "required": true,
+          "description": "通过扰码效果最终显示的目标文字。"
+        },
+        {
+          "name": "as",
+          "type": "ElementType<any, keyof IntrinsicElements>",
+          "required": false,
+          "defaultValue": "p",
+          "description": "组件实际渲染的 HTML 元素。"
+        },
+        {
+          "name": "duration",
+          "type": "number",
+          "required": false,
+          "defaultValue": "0.8",
+          "description": "完整揭示文字所需的时间，单位为秒。"
+        },
+        {
+          "name": "speed",
+          "type": "number",
+          "required": false,
+          "defaultValue": "0.04",
+          "description": "两次扰码帧之间的间隔，单位为秒。"
+        },
+        {
+          "name": "characterSet",
+          "type": "string",
+          "required": false,
+          "defaultValue": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&*",
+          "description": "扰码过程中随机抽取的字符集合。"
+        },
+        {
+          "name": "trigger",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "是否播放扰码效果。先切换为 false 再切换为 true 可重新播放。"
+        },
+        {
+          "name": "onScrambleComplete",
+          "type": "(() => void)",
+          "required": false,
+          "description": "每个字符都解析为最终值后触发。"
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`TextScramble` 专为**极客科技、AI 运算、安全防护与数据大屏**等硬核场景设计。\n\n- **使用等宽字体（Monospace）**：扰动过程中字符频繁随机替换，若使用变宽字体可能造成严重的水平抖动。组件默认内置 `font-mono`，请确保目标容器维持等宽排版。\n- **合理设置持续时间**：推荐将 `duration` 控制在 `0.6s ~ 1.2s` 之间。过短无法看清解密细节，过长则会延误用户获取关键信息的效率。\n- **智能保留空白符号**：组件内部算法自动识别并保留原始文本中的空格与换行符，不会用随机字符填充空格位置，从而保持段落结构稳定。",
+  "extended": "### 自定义字符采样集\n\n根据不同业务风格挑选合适的采样字符集，如二进制（0/1）、十六进制哈希或标点符号集合：\n\n### 密钥解密与一键复制\n\n在开发者控制台展示敏感 Token 或 API Key 时，提供极具仪式感的解密动效：\n\n### 集群遥测状态解码\n\n在系统服务监控面板中，文本变化时自动重新解码，并在 `onScrambleComplete` 中切换状态指示点：",
+  "events": "- `onScrambleComplete`: () => void — 当整段文字的所有字符全部完成解码并锁定为最终值时触发的回调函数。回调通过 ref 读取，传入内联函数不会导致动画重新开始。",
+  "accessibility": "- **完整的屏幕阅读器直读**：组件内部保留一份视觉隐藏（`sr-only`）的最终文本，内部跳动的扰动字符包装在 `aria-hidden=\"true\"` 的 span 标签中。辅助技术将立即把最终真实文案朗读给视障用户，绝不会朗读瞬态的无意义随机乱码。\n- **系统减少动态偏好（Reduced Motion）**：在系统启用了 `prefers-reduced-motion` 时，组件将直接跳过定时器与字符随机化逻辑，立即渲染最终纯文本。",
   "examples": [
     {
       "name": "text-scramble-demo",

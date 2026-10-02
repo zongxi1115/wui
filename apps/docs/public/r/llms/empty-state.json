@@ -40,7 +40,6 @@
       "name": "size",
       "type": "\"default\" | \"sm\" | \"lg\"",
       "required": false,
-      "control": "select",
       "options": [
         "default",
         "sm",
@@ -53,11 +52,178 @@
       "name": "animated",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "true",
       "description": "挂载时是否依次让插图、标题、描述和操作淡入。"
     }
   ],
+  "api": [
+    {
+      "name": "EmptyState",
+      "props": [
+        {
+          "name": "size",
+          "type": "\"default\" | \"sm\" | \"lg\"",
+          "required": false,
+          "options": [
+            "default",
+            "sm",
+            "lg"
+          ],
+          "defaultValue": "default",
+          "description": "空状态内容的垂直密度。"
+        },
+        {
+          "name": "animated",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "挂载时是否依次让插图、标题、描述和操作淡入。"
+        }
+      ]
+    },
+    {
+      "name": "EmptyStateActions",
+      "props": []
+    },
+    {
+      "name": "EmptyStateDescription",
+      "props": []
+    },
+    {
+      "name": "EmptyStateHint",
+      "props": []
+    },
+    {
+      "name": "EmptyStateIcon",
+      "props": []
+    },
+    {
+      "name": "EmptyStateIllustration",
+      "props": [
+        {
+          "name": "variant",
+          "type": "\"color\" | \"flat\" | \"gradient\"",
+          "required": false,
+          "options": [
+            "color",
+            "flat",
+            "gradient"
+          ],
+          "defaultValue": "gradient"
+        },
+        {
+          "name": "name",
+          "type": "\"search\" | \"nothing-here-no-image\" | \"under-construction-maintenance\" | \"no-files-found\" | \"empty-folder\" | \"add-files\" | \"search-folder\" | \"add-media\" | \"xls-file\" | \"zip-file\" | \"file-not-found\" | \"file-broken-or-not-found\" | \"general-files\" | \"search-general\" | \"content-unavailable\" | \"add-photo\" | \"add-photos\" | \"search-photos-files\" | \"task-done\" | \"no-content-general\" | \"no-reports\" | \"add-dashboard\" | \"no-files\" | \"upload-file\" | \"upload-general\" | \"messages-add-message\" | \"no-messages\" | \"cards\" | \"add-card\" | \"card-expired\" | \"card-rejected\" | \"no-credits\" | \"no-tasks\" | \"add-task\" | \"no-appointments\" | \"no-location\" | \"no-address\" | \"empty-inbox\" | \"add-to-inbox\" | \"email-sent\" | \"empty-inbox-2\" | \"check-your-inbox\" | \"no-emails\" | \"add-to-group\" | \"add-user\" | \"search-user\" | \"add-user-2\" | \"users\" | \"something-went-wrong\" | \"404-page-not-found\" | \"nothing-here\" | \"nothing-here-2\" | \"no-products\" | \"no-friends\" | \"trash-empty\" | \"empty-box\" | \"add-product\" | \"no-notifications\" | \"launch-app\" | \"add-alarm\" | \"no-alarms\" | \"youre-awesome\" | \"no-vacation\" | \"empty-cart\" | \"connection-lost\" | \"add-email\" | \"allow-notifications\" | \"app-locked\" | \"camera-access\" | \"expired-alt\" | \"expired\" | \"microphone-access\" | \"no-plan-chosen\" | \"payment\" | \"phone-numbers\" | \"send-email\" | \"settings\" | \"resource-1\" | \"resource-2\" | \"resource-3\" | \"resource-4\" | \"resource-5\" | \"resource-6\"",
+          "required": true,
+          "options": [
+            "search",
+            "nothing-here-no-image",
+            "under-construction-maintenance",
+            "no-files-found",
+            "empty-folder",
+            "add-files",
+            "search-folder",
+            "add-media",
+            "xls-file",
+            "zip-file",
+            "file-not-found",
+            "file-broken-or-not-found",
+            "general-files",
+            "search-general",
+            "content-unavailable",
+            "add-photo",
+            "add-photos",
+            "search-photos-files",
+            "task-done",
+            "no-content-general",
+            "no-reports",
+            "add-dashboard",
+            "no-files",
+            "upload-file",
+            "upload-general",
+            "messages-add-message",
+            "no-messages",
+            "cards",
+            "add-card",
+            "card-expired",
+            "card-rejected",
+            "no-credits",
+            "no-tasks",
+            "add-task",
+            "no-appointments",
+            "no-location",
+            "no-address",
+            "empty-inbox",
+            "add-to-inbox",
+            "email-sent",
+            "empty-inbox-2",
+            "check-your-inbox",
+            "no-emails",
+            "add-to-group",
+            "add-user",
+            "search-user",
+            "add-user-2",
+            "users",
+            "something-went-wrong",
+            "404-page-not-found",
+            "nothing-here",
+            "nothing-here-2",
+            "no-products",
+            "no-friends",
+            "trash-empty",
+            "empty-box",
+            "add-product",
+            "no-notifications",
+            "launch-app",
+            "add-alarm",
+            "no-alarms",
+            "youre-awesome",
+            "no-vacation",
+            "empty-cart",
+            "connection-lost",
+            "add-email",
+            "allow-notifications",
+            "app-locked",
+            "camera-access",
+            "expired-alt",
+            "expired",
+            "microphone-access",
+            "no-plan-chosen",
+            "payment",
+            "phone-numbers",
+            "send-email",
+            "settings",
+            "resource-1",
+            "resource-2",
+            "resource-3",
+            "resource-4",
+            "resource-5",
+            "resource-6"
+          ]
+        },
+        {
+          "name": "assetBasePath",
+          "type": "string",
+          "required": false,
+          "defaultValue": "/wui/empty-state",
+          "description": "Public directory that contains the bundled illustration variants."
+        }
+      ]
+    },
+    {
+      "name": "EmptyStateMedia",
+      "props": []
+    },
+    {
+      "name": "EmptyStateTitle",
+      "props": []
+    }
+  ],
+  "types": [],
+  "usage": "空状态不仅是“没有数据”时的占位，更是引导用户开展下一步行为的黄金转化触点。\n\n- **空状态分类与对应策略**：\n  - **初次使用（First-time Onboarding）**：用户首次进入页面尚未创建任何内容（如“还没有项目”）。应提供明确的主引导按钮（如“新建第一个项目”），甚至提供模板导入。\n  - **搜索/筛选无结果（Zero Search Results）**：用户的主动过滤条件未匹配到数据。**切忌直接提供“新建”按钮**，而应解释“未找到相关结果”，并提供“清空筛选”或“重置搜索”按钮。\n  - **内容被清空/已完成（All Done）**：如所有待办任务已处理完毕、回收站已清空。应使用轻松积极的文案（如“全部处理完毕，去休息一下吧”）。\n  - **网络或权限异常**：应提供“刷新重试”或“申请权限”操作。\n- **与相关状态组件的区别**：\n  - **加载中**：使用 `Skeleton` 或 `Spin`，不要在请求刚发起时提前展示空状态。\n  - **操作执行结果反馈**：使用 `Alert` 或 `Message/Toast`。\n- **操作层级清晰**：`EmptyStateActions` 中最多放置一个主要操作（Primary Button）和一个次要操作（Outline/Ghost Button），避免用户产生决策迟疑。",
+  "extended": "### 不同场景的空状态\n\n切换首次使用、全部完成与网络异常三种场景。每次挂载 `EmptyState` 时，子元素会按顺序依次入场；通过 `key` 让场景切换重新触发入场动效：\n\n### 预置插画库\n\n组件内置 `gradient`、`flat` 与 `color` 三大风格插画系列，涵盖数十种常见业务场景：\n\n### 搜索无结果（重置筛选）\n\n在搜索框中输入关键词过滤文档列表，无匹配项时展示搜索类插画与“清空搜索”操作，清空后列表恢复：\n\n### 紧凑卡片/下拉面板空状态\n\n在通知浮层、侧边栏小部件等小面积容器中，使用 `size=\"sm\"` 与 `EmptyStateIcon` 代替大插画：",
+  "events": "空状态容器本身不直接发射业务事件，所有交互行为（如点击新建、重置筛选、重试请求）由其内部 `EmptyStateActions` 中挂载的 `Button` 或链接处理：\n\n- `onClick`: (event: React.MouseEvent<HTMLDivElement>) => void — 在容器上点击时触发的原生 DOM 事件。",
+  "accessibility": "- **语义化标题与描述**：使用标准 `h3` 标题与 `p` 描述标签，辅助技术用户通过屏幕阅读器标题大纲快速浏览页面状态。\n- **装饰性图像降级**：`EmptyStateIllustration` 默认将 `alt` 设为空字符串（`alt=\"\"`），防止读屏器重复朗读冗余的文件名；关键信息已由文本明确表达。\n- **键盘可访问的操作入口**：所有操作按钮支持 <kbd>Tab</kbd> 聚焦并可通过 <kbd>Enter</kbd> / <kbd>Space</kbd> 激活。\n- **动效降级**：入场动效仅在 `prefers-reduced-motion: no-preference` 下生效；也可以通过 `animated={false}` 关闭，例如在高频切换的列表筛选中。\n- **动态状态通报**：若空状态是在用户异步搜索后动态出现的，父容器可配合 `aria-live=\"polite\"`，让读屏器能主动通报“未找到匹配结果”。",
   "examples": [
     {
       "name": "empty-state-demo",

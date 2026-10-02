@@ -1,0 +1,6 @@
+{
+  "name": "time-picker-demo",
+  "component": "time-picker",
+  "title": "基础用法",
+  "code": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { TimePicker } from \"@/components/ui/time-picker\"\n\nexport default function TimePickerDemo() {\n  const [time, setTime] = React.useState(\"09:30\")\n  return (\n    <div className=\"grid w-full max-w-sm gap-2\">\n      <label className=\"text-sm font-medium\">会议开始时间</label>\n      <TimePicker value={time} onValueChange={setTime} minuteStep={5} />\n      <p className=\"text-muted-foreground text-xs\">\n        当前设置为 {time}，每 5 分钟一个时间点。\n      </p>\n    </div>\n  )\n}\n"
+}

@@ -1,0 +1,6 @@
+{
+  "name": "button-group-demo",
+  "component": "button-group",
+  "title": "基础用法",
+  "code": "import { AlignCenter, AlignLeft, AlignRight } from \"lucide-react\"\n\nimport { Button } from \"@/components/ui/button\"\nimport { ButtonGroup } from \"@/components/ui/button-group\"\n\nexport default function ButtonGroupDemo() {\n  return (\n    <ButtonGroup aria-label=\"文本对齐方式\">\n      <Button variant=\"outline\" size=\"icon\" aria-label=\"左对齐\">\n        <AlignLeft />\n      </Button>\n      <Button variant=\"outline\" size=\"icon\" aria-label=\"居中对齐\">\n        <AlignCenter />\n      </Button>\n      <Button variant=\"outline\" size=\"icon\" aria-label=\"右对齐\">\n        <AlignRight />\n      </Button>\n    </ButtonGroup>\n  )\n}\n"
+}

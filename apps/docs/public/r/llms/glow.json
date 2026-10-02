@@ -28,14 +28,12 @@
       "name": "children",
       "type": "ReactNode",
       "required": true,
-      "control": "text",
       "description": "显示在发光边缘上方的内容。"
     },
     {
       "name": "variant",
       "type": "\"rainbow\" | \"solid\"",
       "required": false,
-      "control": "select",
       "options": [
         "rainbow",
         "solid"
@@ -47,7 +45,6 @@
       "name": "color",
       "type": "string",
       "required": false,
-      "control": "text",
       "defaultValue": "var(--chart-1)",
       "description": "solid 样式使用的 CSS 颜色。"
     },
@@ -55,7 +52,6 @@
       "name": "colors",
       "type": "string[]",
       "required": false,
-      "control": "text",
       "defaultValue": "[\r\n    \"var(--chart-1)\",\r\n    \"var(--chart-5)\",\r\n    \"var(--chart-2)\",\r\n    \"var(--chart-3)\",\r\n    \"var(--chart-1)\",\r\n  ]",
       "description": "沿彩虹边缘分布的颜色列表。"
     },
@@ -63,7 +59,6 @@
       "name": "spread",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "18",
       "description": "光线超出边缘的距离，单位为像素。"
     },
@@ -71,7 +66,6 @@
       "name": "borderWidth",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "1",
       "description": "发光边缘的宽度，单位为像素。"
     },
@@ -79,7 +73,6 @@
       "name": "glowOpacity",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "0.7",
       "description": "发光效果的最大不透明度。"
     },
@@ -87,7 +80,6 @@
       "name": "pulse",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "true",
       "description": "是否让 solid 样式缓慢呼吸。"
     },
@@ -95,11 +87,88 @@
       "name": "duration",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "4",
       "description": "一次发光动画循环的时长，单位为秒。"
     }
   ],
+  "api": [
+    {
+      "name": "Glow",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": true,
+          "description": "显示在发光边缘上方的内容。"
+        },
+        {
+          "name": "variant",
+          "type": "\"rainbow\" | \"solid\"",
+          "required": false,
+          "options": [
+            "rainbow",
+            "solid"
+          ],
+          "defaultValue": "rainbow",
+          "description": "发光边缘的视觉样式。"
+        },
+        {
+          "name": "color",
+          "type": "string",
+          "required": false,
+          "defaultValue": "var(--chart-1)",
+          "description": "solid 样式使用的 CSS 颜色。"
+        },
+        {
+          "name": "colors",
+          "type": "string[]",
+          "required": false,
+          "defaultValue": "[\r\n    \"var(--chart-1)\",\r\n    \"var(--chart-5)\",\r\n    \"var(--chart-2)\",\r\n    \"var(--chart-3)\",\r\n    \"var(--chart-1)\",\r\n  ]",
+          "description": "沿彩虹边缘分布的颜色列表。"
+        },
+        {
+          "name": "spread",
+          "type": "number",
+          "required": false,
+          "defaultValue": "18",
+          "description": "光线超出边缘的距离，单位为像素。"
+        },
+        {
+          "name": "borderWidth",
+          "type": "number",
+          "required": false,
+          "defaultValue": "1",
+          "description": "发光边缘的宽度，单位为像素。"
+        },
+        {
+          "name": "glowOpacity",
+          "type": "number",
+          "required": false,
+          "defaultValue": "0.7",
+          "description": "发光效果的最大不透明度。"
+        },
+        {
+          "name": "pulse",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "是否让 solid 样式缓慢呼吸。"
+        },
+        {
+          "name": "duration",
+          "type": "number",
+          "required": false,
+          "defaultValue": "4",
+          "description": "一次发光动画循环的时长，单位为秒。"
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`Glow` 属于高吸引力的视觉强调组件（Fancy 系列）。\n\n- **适用场景**：\n  - **核心推荐方案（Pro / Featured Plan）**：定价页中将“最推荐”套餐包裹 Glow，迅速建立视觉第一焦点。\n  - **旗舰功能或 AI 核心卡片**：突出具有代表性的技术亮点。\n  - **顶部醒目状态胶囊 / 公告条（Pills）**：新版本发布通知、系统运行健康状态等。\n- **色彩与层级搭配**：\n  - `Glow` 内部使用智能 CSS 遮罩（Mask exclude），光晕与边框精确贴合在内容最外缘，内部内容保持纯净背景，不会发生色彩溢出污染文字。\n  - 务必确保传递给 `Glow` 的 `className` 圆角与内部卡片保持一致（例如两者均为 `rounded-2xl`），以获得最平滑的边缘贴合。\n- **克制设计原则**：\n  - 同一屏内通常只推荐配置 1~2 个发光焦点，避免光晕泛滥导致用户无法聚焦核心内容。",
+  "extended": "### 旗舰推荐定价卡片\n\n在价格对比表中为核心方案包裹流光边框，强化转化意图：\n\n### 状态指示与公告胶囊（Pills）\n\n在小型胶囊标签或系统状态徽标上使用单色呼吸光或彩虹流光：",
+  "events": "`Glow` 作为视觉展示容器透传标准的 React / Motion 容器事件：\n\n- `onHoverStart`: (event: MouseEvent, info: EventInfo) => void — 指针进入发光容器时触发。\n- `onHoverEnd`: (event: MouseEvent, info: EventInfo) => void — 指针离开发光容器时触发。\n- `onClick`: (event: React.MouseEvent<HTMLDivElement>) => void — 点击发光卡片容器时触发。",
+  "accessibility": "- **自动动效降级**：当操作系统开启了“减少动态效果（prefers-reduced-motion）”时，彩虹旋转与呼吸脉冲动画自动停止，保持静态柔和光晕，杜绝视觉干扰。\n- **非侵入式光效**：发光层标注为 `aria-hidden=\"true\"` 并配置 `pointer-events-none`，不遮挡卡片内部的文本选区与按钮点击。\n- **可读性保障**：发光位于底层外周，内容区域通过实体背景色隔绝，文字始终保持高对比度与清晰可读。",
   "examples": [
     {
       "name": "glow-demo",

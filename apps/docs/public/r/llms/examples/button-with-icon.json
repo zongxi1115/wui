@@ -1,0 +1,6 @@
+{
+  "name": "button-with-icon",
+  "component": "button",
+  "title": "搭配图标",
+  "code": "import { ArrowRightIcon, DownloadIcon, PlusIcon } from \"lucide-react\"\n\nimport { Button } from \"@/components/ui/button\"\n\nexport default function ButtonWithIcon() {\n  return (\n    <div className=\"flex flex-wrap items-center gap-2\">\n      <Button>\n        <PlusIcon />\n        新建工作区\n      </Button>\n      <Button variant=\"outline\">\n        <DownloadIcon />\n        导出报表\n      </Button>\n      <Button variant=\"ghost\">\n        下一步\n        <ArrowRightIcon />\n      </Button>\n    </div>\n  )\n}\n"
+}

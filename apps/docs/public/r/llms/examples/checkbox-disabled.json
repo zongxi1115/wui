@@ -1,0 +1,6 @@
+{
+  "name": "checkbox-disabled",
+  "component": "checkbox",
+  "title": "禁用状态",
+  "code": "\"use client\"\n\nimport * as React from \"react\"\nimport { Checkbox } from \"@/components/ui/checkbox\"\n\nexport default function CheckboxDisabled() {\n  return (\n    <div className=\"flex flex-col gap-3\">\n      <label className=\"flex cursor-not-allowed items-center gap-3 text-muted-foreground\">\n        <Checkbox disabled defaultChecked={false} />\n        <span className=\"text-sm\">未勾选且禁用（无权修改）</span>\n      </label>\n\n      <label className=\"flex cursor-not-allowed items-center gap-3 text-muted-foreground\">\n        <Checkbox disabled defaultChecked={true} />\n        <span className=\"text-sm\">已勾选且禁用（系统默认开启）</span>\n      </label>\n\n      <label className=\"flex cursor-not-allowed items-center gap-3 text-muted-foreground\">\n        <Checkbox disabled checked=\"indeterminate\" />\n        <span className=\"text-sm\">半选且禁用（部分锁定）</span>\n      </label>\n    </div>\n  )\n}\n"
+}

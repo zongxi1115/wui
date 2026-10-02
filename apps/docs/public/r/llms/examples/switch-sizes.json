@@ -1,0 +1,6 @@
+{
+  "name": "switch-sizes",
+  "component": "switch",
+  "title": "尺寸",
+  "code": "import { Switch } from \"@/components/ui/switch\"\n\nexport default function SwitchSizes() {\n  return (\n    <div className=\"flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-8\">\n      <div className=\"flex items-center gap-2.5\">\n        <Switch size=\"sm\" id=\"switch-size-sm\" defaultChecked />\n        <label htmlFor=\"switch-size-sm\" className=\"text-xs font-medium cursor-pointer\">\n          小号 (sm)\n        </label>\n      </div>\n\n      <div className=\"flex items-center gap-2.5\">\n        <Switch size=\"default\" id=\"switch-size-default\" defaultChecked />\n        <label htmlFor=\"switch-size-default\" className=\"text-sm font-medium cursor-pointer\">\n          默认 (default)\n        </label>\n      </div>\n\n      <div className=\"flex items-center gap-2.5\">\n        <Switch size=\"lg\" id=\"switch-size-lg\" defaultChecked />\n        <label htmlFor=\"switch-size-lg\" className=\"text-base font-medium cursor-pointer\">\n          大号 (lg)\n        </label>\n      </div>\n    </div>\n  )\n}\n"
+}

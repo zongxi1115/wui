@@ -1,6 +1,7 @@
 import type {
   ComponentDigest,
   ExampleEntry,
+  ExampleIndex,
   Loader,
   Overview,
   RegistryIndex,
@@ -12,7 +13,9 @@ export const DEFAULT_REGISTRY_URL = "https://ui.wzx.wang/r"
 export function createRemoteLoader(baseUrl: string): Loader {
   const base = baseUrl.replace(/\/$/, "")
   return async (relPath) => {
-    const res = await fetch(`${base}/${relPath}`)
+    const res = await fetch(`${base}/${relPath}`, {
+      signal: AbortSignal.timeout(10_000),
+    })
     if (!res.ok) {
       throw new Error(`GET ${base}/${relPath} → HTTP ${res.status}`)
     }
@@ -35,20 +38,33 @@ export function createFileLoader(dir: string): Loader {
 }
 
 /**
- * Caches parsed digests for the process lifetime. The registry is a build
- * artifact, so it cannot change under a running server.
+ * Shares in-flight reads. Refresh the entire cache periodically for long-lived
+ * stdio clients; immutable deployments can explicitly opt out with Infinity.
  */
 export class Registry {
   private cache = new Map<string, Promise<unknown>>()
+  private expiresAt = 0
+  private readonly ttlMs: number
 
-  constructor(private loader: Loader) {}
+  constructor(
+    private loader: Loader,
+    options: { ttlMs?: number } = {}
+  ) {
+    this.ttlMs = options.ttlMs ?? 60_000
+  }
 
   private read<T>(relPath: string): Promise<T> {
+    if (Date.now() >= this.expiresAt) {
+      this.cache.clear()
+      this.expiresAt = Date.now() + this.ttlMs
+    }
     let hit = this.cache.get(relPath)
     if (!hit) {
       hit = this.loader(relPath).then((raw) => JSON.parse(raw) as unknown)
       // Don't cache failures — a transient fetch error shouldn't be permanent.
-      hit.catch(() => this.cache.delete(relPath))
+      hit.catch(() => {
+        if (this.cache.get(relPath) === hit) this.cache.delete(relPath)
+      })
       this.cache.set(relPath, hit)
     }
     return hit as Promise<T>
@@ -62,8 +78,8 @@ export class Registry {
     return this.read<RegistryIndex>("llms/index.json")
   }
 
-  examples(): Promise<Record<string, ExampleEntry>> {
-    return this.read<Record<string, ExampleEntry>>("llms/examples.json")
+  examples(): Promise<ExampleIndex> {
+    return this.read<ExampleIndex>("llms/examples/index.json")
   }
 
   async component(name: string): Promise<ComponentDigest> {
@@ -88,9 +104,9 @@ export class Registry {
 
   async example(name: string): Promise<ExampleEntry> {
     const bank = await this.examples()
-    const hit = bank[name]
-    if (!hit) throw new NotFoundError(name, Object.keys(bank))
-    return hit
+    if (!Object.hasOwn(bank, name))
+      throw new NotFoundError(name, Object.keys(bank))
+    return this.read<ExampleEntry>(`llms/examples/${name}.json`)
   }
 }
 

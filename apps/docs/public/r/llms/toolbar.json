@@ -35,7 +35,6 @@
       "name": "asChild",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "false",
       "description": "是否将 Toolbar 的行为合并到唯一的子元素上。"
     },
@@ -43,15 +42,228 @@
       "name": "orientation",
       "type": "\"horizontal\" | \"vertical\"",
       "required": false,
-      "control": "select",
       "options": [
         "horizontal",
         "vertical"
       ],
       "defaultValue": "horizontal",
       "description": "工具项的排列方向。"
+    },
+    {
+      "name": "loop",
+      "type": "boolean",
+      "required": false
+    },
+    {
+      "name": "dir",
+      "type": "\"ltr\" | \"rtl\"",
+      "required": false,
+      "options": [
+        "ltr",
+        "rtl"
+      ]
     }
   ],
+  "api": [
+    {
+      "name": "Toolbar",
+      "props": [
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "是否将 Toolbar 的行为合并到唯一的子元素上。"
+        },
+        {
+          "name": "orientation",
+          "type": "\"horizontal\" | \"vertical\"",
+          "required": false,
+          "options": [
+            "horizontal",
+            "vertical"
+          ],
+          "defaultValue": "horizontal",
+          "description": "工具项的排列方向。"
+        },
+        {
+          "name": "loop",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "dir",
+          "type": "\"ltr\" | \"rtl\"",
+          "required": false,
+          "options": [
+            "ltr",
+            "rtl"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ToolbarButton",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactElement<unknown, string | JSXElementConstructor<any>>",
+          "required": true,
+          "description": "已有的 Button、链接按钮或其他单一交互元素。"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "ToolbarGroup",
+      "props": [
+        {
+          "name": "defaultValue",
+          "type": "string | string[]",
+          "required": false,
+          "description": "The value of the item that is pressed when initially rendered. Use\n`defaultValue` if you do not need to control the state of a toggle group.\nThe value of the items that are pressed when initially rendered. Use\n`defaultValue` if you do not need to control the state of a toggle group."
+        },
+        {
+          "name": "value",
+          "type": "string | string[]",
+          "required": false,
+          "description": "The controlled stateful value of the item that is pressed.\nThe controlled stateful value of the items that are pressed."
+        },
+        {
+          "name": "dir",
+          "type": "\"ltr\" | \"rtl\"",
+          "required": false,
+          "options": [
+            "ltr",
+            "rtl"
+          ]
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "Whether the group is disabled from user interaction.\n@defaultValue false"
+        },
+        {
+          "name": "onValueChange",
+          "type": "((value: string) => void) | ((value: string[]) => void)",
+          "required": false,
+          "description": "The callback that fires when the value of the toggle group changes.\nThe callback that fires when the state of the toggle group changes."
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "loop",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "type",
+          "type": "\"multiple\" | \"single\"",
+          "required": true,
+          "options": [
+            "multiple",
+            "single"
+          ]
+        },
+        {
+          "name": "orientation",
+          "type": "\"horizontal\" | \"vertical\"",
+          "required": false,
+          "options": [
+            "horizontal",
+            "vertical"
+          ]
+        },
+        {
+          "name": "rovingFocus",
+          "type": "boolean",
+          "required": false,
+          "description": "Whether the group should maintain roving focus of its buttons.\n@defaultValue true"
+        },
+        {
+          "name": "variant",
+          "type": "\"default\" | \"outline\" | null",
+          "required": false,
+          "defaultValue": "default",
+          "description": "组内 ToolbarToggleItem 的统一外观。"
+        },
+        {
+          "name": "size",
+          "type": "\"default\" | \"sm\" | \"lg\" | null",
+          "required": false,
+          "defaultValue": "sm",
+          "description": "组内 ToolbarToggleItem 的统一尺寸。"
+        }
+      ]
+    },
+    {
+      "name": "ToolbarSeparator",
+      "props": [
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "orientation",
+          "type": "\"horizontal\" | \"vertical\"",
+          "required": false,
+          "options": [
+            "horizontal",
+            "vertical"
+          ],
+          "description": "Either `vertical` or `horizontal`. Defaults to `horizontal`."
+        },
+        {
+          "name": "decorative",
+          "type": "boolean",
+          "required": false,
+          "description": "Whether or not the component is purely decorative. When true, accessibility-related attributes\nare updated so that that the rendered element is removed from the accessibility tree."
+        }
+      ]
+    },
+    {
+      "name": "ToolbarToggleItem",
+      "props": [
+        {
+          "name": "value",
+          "type": "string | string[]",
+          "required": false,
+          "description": "The controlled stateful value of the item that is pressed.\nThe controlled stateful value of the items that are pressed."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "size",
+          "type": "\"default\" | \"sm\" | \"lg\" | null",
+          "required": false
+        },
+        {
+          "name": "variant",
+          "type": "\"default\" | \"outline\" | null",
+          "required": false
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`Toolbar` 用于编辑器、数据表和图表标题旁的一组相关操作。`ToolbarButton` 通过 `asChild` 把已有 `Button` 接入 Radix Toolbar 的方向键导航，\n不会再造一套按钮尺寸、颜色或焦点样式。下拉选择器等复杂控件可以直接与 `ToolbarButton` 并列组合。\n\n需要保持选中状态的格式按钮（加粗、对齐方式等）使用 `ToolbarGroup` + `ToolbarToggleItem`：\n\n- `ToolbarGroup` 需要声明 `type=\"single\" | \"multiple\"`，支持 `value` / `defaultValue` / `onValueChange`，并通过 `variant`、`size`（默认 `sm`）统一组内外观。\n- `ToolbarToggleItem` 复用 `Toggle` 的样式：单选组的选中背景会在选项之间平滑滑动，多选组的每个选项背景独立缩放淡入；系统开启“减少动态效果”时直接切换。\n- 组内选项与 `ToolbarButton` 共享同一套方向键漫游焦点。\n- `ToolbarSeparator` 自动与工具栏方向垂直：横向工具栏显示为竖线，纵向工具栏显示为横线。",
   "events": "工具栏只协调布局和键盘导航，各个按钮、链接和选择器继续处理自己的业务事件。",
   "examples": [
     {

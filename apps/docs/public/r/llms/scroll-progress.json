@@ -29,7 +29,6 @@
       "name": "variant",
       "type": "\"circle\" | \"bar\"",
       "required": false,
-      "control": "select",
       "options": [
         "circle",
         "bar"
@@ -41,7 +40,6 @@
       "name": "position",
       "type": "\"inline\" | \"top\" | \"bottom\"",
       "required": false,
-      "control": "select",
       "options": [
         "inline",
         "top",
@@ -54,7 +52,6 @@
       "name": "axis",
       "type": "\"x\" | \"y\"",
       "required": false,
-      "control": "select",
       "options": [
         "x",
         "y"
@@ -66,28 +63,24 @@
       "name": "container",
       "type": "RefObject<HTMLElement | null>",
       "required": false,
-      "control": "text",
       "description": "要监听的滚动容器；未设置时监听页面。"
     },
     {
       "name": "target",
       "type": "RefObject<HTMLElement | null>",
       "required": false,
-      "control": "text",
       "description": "用于计算进度的目标元素。目标元素经过视口时会推动进度变化。"
     },
     {
       "name": "offset",
       "type": "ScrollOffset",
       "required": false,
-      "control": "text",
       "description": "设置 target 后使用的 Motion 滚动偏移范围。"
     },
     {
       "name": "size",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "44",
       "description": "环形指示器的直径，单位为像素。"
     },
@@ -95,7 +88,6 @@
       "name": "strokeWidth",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "3",
       "description": "环形指示器的描边宽度，单位为像素。"
     },
@@ -103,7 +95,6 @@
       "name": "showValue",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "true",
       "description": "是否在环形指示器中显示百分比。"
     },
@@ -111,7 +102,6 @@
       "name": "smooth",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "true",
       "description": "是否使用弹簧平滑处理突然的滚动进度变化。"
     },
@@ -119,17 +109,119 @@
       "name": "trackClassName",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "应用于未完成轨道的 CSS 类名。"
     },
     {
       "name": "indicatorClassName",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "应用于移动进度指示器的 CSS 类名。"
     }
   ],
+  "api": [
+    {
+      "name": "ScrollProgress",
+      "props": [
+        {
+          "name": "variant",
+          "type": "\"circle\" | \"bar\"",
+          "required": false,
+          "options": [
+            "circle",
+            "bar"
+          ],
+          "defaultValue": "bar",
+          "description": "进度指示器的视觉形式。"
+        },
+        {
+          "name": "position",
+          "type": "\"inline\" | \"top\" | \"bottom\"",
+          "required": false,
+          "options": [
+            "inline",
+            "top",
+            "bottom"
+          ],
+          "defaultValue": "top",
+          "description": "固定进度条所在的边缘。使用 inline 可让它保留在正常文档流中。"
+        },
+        {
+          "name": "axis",
+          "type": "\"x\" | \"y\"",
+          "required": false,
+          "options": [
+            "x",
+            "y"
+          ],
+          "defaultValue": "y",
+          "description": "监听的滚动方向，横向滚动容器使用 x。"
+        },
+        {
+          "name": "container",
+          "type": "RefObject<HTMLElement | null>",
+          "required": false,
+          "description": "要监听的滚动容器；未设置时监听页面。"
+        },
+        {
+          "name": "target",
+          "type": "RefObject<HTMLElement | null>",
+          "required": false,
+          "description": "用于计算进度的目标元素。目标元素经过视口时会推动进度变化。"
+        },
+        {
+          "name": "offset",
+          "type": "ScrollOffset",
+          "required": false,
+          "description": "设置 target 后使用的 Motion 滚动偏移范围。"
+        },
+        {
+          "name": "size",
+          "type": "number",
+          "required": false,
+          "defaultValue": "44",
+          "description": "环形指示器的直径，单位为像素。"
+        },
+        {
+          "name": "strokeWidth",
+          "type": "number",
+          "required": false,
+          "defaultValue": "3",
+          "description": "环形指示器的描边宽度，单位为像素。"
+        },
+        {
+          "name": "showValue",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "是否在环形指示器中显示百分比。"
+        },
+        {
+          "name": "smooth",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "是否使用弹簧平滑处理突然的滚动进度变化。"
+        },
+        {
+          "name": "trackClassName",
+          "type": "string",
+          "required": false,
+          "description": "应用于未完成轨道的 CSS 类名。"
+        },
+        {
+          "name": "indicatorClassName",
+          "type": "string",
+          "required": false,
+          "description": "应用于移动进度指示器的 CSS 类名。"
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`ScrollProgress` 适用于**长内容阅读、多步骤向导、长协议确认与专题落地页**。\n\n- **整页阅读 vs 局部容器**：\n  - 全局博客/文档页：推荐使用 `position=\"top\"` 固定于屏幕最顶部，配合 `h-0.5` 或 `h-1` 的极细线条，给读者明确的篇幅预期。\n  - 条款协议/模态弹窗：传入 `container={ref}` 并设置 `position=\"inline\"`，将进度条限制在局部弹窗内部。\n- **弹簧滤波平滑（Smooth Spring）**：在高刷新率（120Hz/144Hz）屏幕或触控板快速滑动时，原生滚动事件存在微量离散阶梯跳跃。组件默认开启 `smooth={true}`，通过精确阻尼弹簧将阶跃信号滤波为自然流体动效。\n- **渐进显隐**：环形进度条常与“返回顶部”浮动悬钮结合，可配合页面滚动超过 20% 时淡入显示。\n- **零进度隐藏**：环形指示在 0% 时自动隐藏圆头端点，避免出现孤立的小圆点。",
+  "extended": "### 协议条款通读验证\n\n监听局部容器的滚动进度，只有当用户阅读至文末时才解锁“同意并继续”：\n\n### 目录章节进度\n\n为每个章节分别传入 `target`，目录中的小圆环会随对应章节的阅读进度填满。点击目录项可在容器内平滑跳转：\n\n### 横向滚动\n\n设置 `axis=\"x\"` 监听横向列表，并通过 `indicatorClassName` 使用图表色作为强调：",
+  "events": "`ScrollProgress` 支持所有原生 HTML `<div>` 的鼠标与焦点事件：\n\n- `onClick`: (event: React.MouseEvent<HTMLDivElement>) => void — 点击进度指示器区域时触发（常用于点击环形返回页面顶部）。",
+  "accessibility": "- **标准 ARIA 进度条角色**：组件自动挂载 `role=\"progressbar\"`、`aria-valuemin={0}`、`aria-valuemax={100}` 以及动态响应的 `aria-valuenow` 属性，读屏软件可无障碍查询当前完成百分比。\n- **系统减少动态偏好（Reduced Motion）**：当检测到用户的系统开启 `prefers-reduced-motion` 时，组件将自动关闭 Spring 滤波插值，进度条直接实时绑定原生像素位置，避免不必要的物理回弹。",
   "examples": [
     {
       "name": "scroll-progress-demo",

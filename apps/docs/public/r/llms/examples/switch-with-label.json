@@ -1,0 +1,6 @@
+{
+  "name": "switch-with-label",
+  "component": "switch",
+  "title": "带标签与描述",
+  "code": "import { Switch } from \"@/components/ui/switch\"\n\nexport default function SwitchWithLabel() {\n  return (\n    <div className=\"w-full max-w-md rounded-lg border p-4\">\n      <div className=\"flex items-center justify-between gap-4\">\n        <label htmlFor=\"marketing-emails\" className=\"flex flex-col gap-1 cursor-pointer select-none\">\n          <span className=\"text-sm font-medium\">营销邮件推送</span>\n          <span className=\"text-xs text-muted-foreground\">\n            接收有关新功能、产品更新以及活动促销的电子邮件通知。\n          </span>\n        </label>\n        <Switch id=\"marketing-emails\" defaultChecked />\n      </div>\n    </div>\n  )\n}\n"
+}

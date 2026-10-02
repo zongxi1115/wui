@@ -28,49 +28,42 @@
       "name": "title",
       "type": "ReactNode",
       "required": true,
-      "control": "text",
       "description": "图表标题。"
     },
     {
       "name": "description",
       "type": "ReactNode",
       "required": false,
-      "control": "text",
       "description": "补充说明或副标题。"
     },
     {
       "name": "actions",
       "type": "ReactNode",
       "required": false,
-      "control": "text",
       "description": "标题右侧操作区。"
     },
     {
       "name": "data",
       "type": "ChartDatum[]",
       "required": true,
-      "control": "text",
       "description": "漏斗图阶段数据列表。"
     },
     {
       "name": "nameKey",
       "type": "string",
       "required": true,
-      "control": "text",
       "description": "阶段名称字段。"
     },
     {
       "name": "valueKey",
       "type": "string",
       "required": true,
-      "control": "text",
       "description": "阶段数值字段。"
     },
     {
       "name": "height",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "320",
       "description": "绘图区高度（像素）。"
     },
@@ -78,7 +71,6 @@
       "name": "showConversionRate",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "true",
       "description": "是否展示基于首阶段的转化率百分比。"
     },
@@ -86,7 +78,6 @@
       "name": "showDropOff",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "true",
       "description": "是否展示相邻阶段之间的流失率。"
     },
@@ -94,10 +85,88 @@
       "name": "valueFormatter",
       "type": "((value: number, datum: ChartDatum) => ReactNode)",
       "required": false,
-      "control": "text",
       "description": "数值格式化函数。"
     }
   ],
+  "api": [
+    {
+      "name": "FunnelChart",
+      "props": [
+        {
+          "name": "title",
+          "type": "ReactNode",
+          "required": true,
+          "description": "图表标题。"
+        },
+        {
+          "name": "description",
+          "type": "ReactNode",
+          "required": false,
+          "description": "补充说明或副标题。"
+        },
+        {
+          "name": "actions",
+          "type": "ReactNode",
+          "required": false,
+          "description": "标题右侧操作区。"
+        },
+        {
+          "name": "data",
+          "type": "ChartDatum[]",
+          "required": true,
+          "description": "漏斗图阶段数据列表。"
+        },
+        {
+          "name": "nameKey",
+          "type": "string",
+          "required": true,
+          "description": "阶段名称字段。"
+        },
+        {
+          "name": "valueKey",
+          "type": "string",
+          "required": true,
+          "description": "阶段数值字段。"
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "required": false,
+          "defaultValue": "320",
+          "description": "绘图区高度（像素）。"
+        },
+        {
+          "name": "showConversionRate",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "是否展示基于首阶段的转化率百分比。"
+        },
+        {
+          "name": "showDropOff",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "是否展示相邻阶段之间的流失率。"
+        },
+        {
+          "name": "valueFormatter",
+          "type": "((value: number, datum: ChartDatum) => ReactNode)",
+          "required": false,
+          "description": "数值格式化函数。"
+        }
+      ]
+    }
+  ],
+  "types": [
+    {
+      "name": "ChartDatum",
+      "definition": "export type ChartDatum = Record<string, string | number | null | undefined>"
+    }
+  ],
+  "usage": "`FunnelChart` 将多阶段线性流转数据逐层呈现，清晰展示各个环节的留存量与流失瓶颈。\n\n### 适用场景\n- **用户注册与付费转化**：从访问、注册、激活到付费订阅的全链路漏斗。\n- **电商结账流**：加入购物车 → 填写地址 → 发起支付 → 支付成功。\n- **Agent 任务执行链路**：任务分解 → 工具调用 → 结果返回 → 最终达成。\n\n### 何时不建议使用\n- 如果数据没有先后递进或转化因果关系，应使用柱状图（`BarChart`）或饼图（`PieChart`）。",
+  "extended": "可通过 `showDropOff` 开关控制是否显示相邻环节之间的流失百分比徽标。",
+  "events": "- 鼠标悬停任意阶段条形块时触发 `ChartTooltip` 显示绝对量级与总转化率。",
   "examples": [
     {
       "name": "funnel-chart-demo",

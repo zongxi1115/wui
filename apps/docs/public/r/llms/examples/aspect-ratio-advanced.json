@@ -1,0 +1,6 @@
+{
+  "name": "aspect-ratio-advanced",
+  "component": "aspect-ratio",
+  "title": "多比例媒体画廊 (4:5, 1:1, 3:2)",
+  "code": "import { AspectRatio } from \"@/components/ui/aspect-ratio\"\n\nconst media = [\n  {\n    ratio: 4 / 5,\n    src: \"/wui/demo/field-notes/silver-grass.jpg\",\n    alt: \"银色草地\",\n    label: \"4:5 竖幅\",\n  },\n  {\n    ratio: 1,\n    src: \"/wui/demo/field-notes/concrete-stairs.jpg\",\n    alt: \"混凝土楼梯\",\n    label: \"1:1 方形\",\n  },\n  {\n    ratio: 3 / 2,\n    src: \"/wui/demo/field-notes/cliff-horizon.jpg\",\n    alt: \"悬崖地平线\",\n    label: \"3:2 横幅\",\n  },\n]\n\nexport default function AspectRatioAdvanced() {\n  return (\n    <div className=\"grid w-full max-w-3xl items-end gap-5 sm:grid-cols-3\">\n      {media.map((item) => (\n        <figure key={item.label}>\n          <AspectRatio ratio={item.ratio} className=\"bg-muted\">\n            <img\n              src={item.src}\n              alt={item.alt}\n              className=\"size-full object-cover\"\n            />\n          </AspectRatio>\n          <figcaption className=\"text-muted-foreground mt-2 text-xs\">\n            {item.label}\n          </figcaption>\n        </figure>\n      ))}\n    </div>\n  )\n}\n"
+}

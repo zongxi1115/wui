@@ -2,7 +2,12 @@
 
 import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
-import { AtSignIcon, HashIcon, SlashIcon } from "lucide-react"
+import {
+  AtSignIcon,
+  CornerDownLeftIcon,
+  HashIcon,
+  SlashIcon,
+} from "lucide-react"
 import { AnimatePresence, motion, useReducedMotion } from "motion/react"
 
 import { cn } from "@/registry/lib/utils"
@@ -38,7 +43,8 @@ const mentionVariants = cva(
 )
 
 export interface MentionProps
-  extends Omit<React.ComponentProps<"div">, "onChange">,
+  extends
+    Omit<React.ComponentProps<"div">, "onChange">,
     VariantProps<typeof mentionVariants> {
   /** 触发提及菜单的前缀字符（如 "@", "#", "/"）。 @default "@" */
   trigger?: string
@@ -93,6 +99,24 @@ function Mention({
     )
   }, [options, query])
 
+  const optionGroups = React.useMemo(() => {
+    const groups: {
+      label?: string
+      items: { option: MentionOption; index: number }[]
+    }[] = []
+
+    filteredOptions.forEach((option, index) => {
+      const previous = groups.at(-1)
+      if (previous && previous.label === option.group) {
+        previous.items.push({ option, index })
+      } else {
+        groups.push({ label: option.group, items: [{ option, index }] })
+      }
+    })
+
+    return groups
+  }, [filteredOptions])
+
   const showList = isOpen && filteredOptions.length > 0
   const activeOption = showList ? filteredOptions[selectedIndex] : undefined
   const optionId = (option: MentionOption) => `${baseId}-option-${option.id}`
@@ -111,7 +135,10 @@ function Mention({
     const textBeforeCursor = nextValue.slice(0, cursor)
     const triggerIndex = textBeforeCursor.lastIndexOf(trigger)
 
-    if (triggerIndex !== -1 && (triggerIndex === 0 || /\s/.test(textBeforeCursor[triggerIndex - 1]))) {
+    if (
+      triggerIndex !== -1 &&
+      (triggerIndex === 0 || /\s/.test(textBeforeCursor[triggerIndex - 1]))
+    ) {
       const currentQuery = textBeforeCursor.slice(triggerIndex + 1)
       if (!/\s/.test(currentQuery)) {
         setQuery(currentQuery)
@@ -153,7 +180,8 @@ function Mention({
     setTimeout(() => {
       if (inputRef.current) {
         inputRef.current.focus()
-        const newPos = (triggerIndex !== -1 ? triggerIndex : cursor) + insertText.length
+        const newPos =
+          (triggerIndex !== -1 ? triggerIndex : cursor) + insertText.length
         inputRef.current.setSelectionRange(newPos, newPos)
       }
     }, 0)
@@ -167,7 +195,9 @@ function Mention({
       setSelectedIndex((prev) => (prev + 1) % filteredOptions.length)
     } else if (e.key === "ArrowUp") {
       e.preventDefault()
-      setSelectedIndex((prev) => (prev - 1 + filteredOptions.length) % filteredOptions.length)
+      setSelectedIndex(
+        (prev) => (prev - 1 + filteredOptions.length) % filteredOptions.length
+      )
     } else if (e.key === "Enter" || e.key === "Tab") {
       e.preventDefault()
       const selected = filteredOptions[selectedIndex]
@@ -198,21 +228,22 @@ function Mention({
         aria-autocomplete="list"
         aria-expanded={showList}
         aria-controls={showList ? listId : undefined}
-        aria-activedescendant={activeOption ? optionId(activeOption) : undefined}
+        aria-activedescendant={
+          activeOption ? optionId(activeOption) : undefined
+        }
         className="text-foreground placeholder:text-muted-foreground w-full resize-none bg-transparent px-3 py-2.5 text-sm leading-6 outline-none"
       />
 
       <AnimatePresence>
         {showList ? (
           <motion.div
-            ref={listRef}
-            id={listId}
-            role="listbox"
-            data-slot="mention-list"
-            className="bg-popover text-popover-foreground absolute bottom-full left-2 z-50 mb-2 max-h-60 w-64 origin-bottom-left overflow-y-auto rounded-lg border p-1 shadow-md"
+            data-slot="mention-menu"
+            className="bg-popover text-popover-foreground border-border/80 absolute bottom-full start-0 z-50 mb-2 w-80 max-w-full origin-bottom-left overflow-hidden rounded-lg border shadow-sm"
             initial={reduceMotion ? false : { opacity: 0, y: 6, scale: 0.97 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 4, scale: 0.98 }}
+            exit={
+              reduceMotion ? { opacity: 0 } : { opacity: 0, y: 4, scale: 0.98 }
+            }
             transition={
               reduceMotion
                 ? { duration: 0 }
@@ -221,64 +252,104 @@ function Mention({
             // Keep focus in the textarea while picking with the pointer.
             onMouseDown={(event) => event.preventDefault()}
           >
-          <div className="flex flex-col gap-0.5">
-            {filteredOptions.map((opt, idx) => {
-              const isSelected = idx === selectedIndex
-              return (
+            <div
+              ref={listRef}
+              id={listId}
+              role="listbox"
+              aria-label="提及候选项"
+              data-slot="mention-list"
+              className="max-h-72 overflow-y-auto overscroll-contain p-1"
+            >
+              {optionGroups.map((group, groupIndex) => (
                 <div
-                  key={opt.id}
-                  id={optionId(opt)}
-                  role="option"
-                  aria-selected={isSelected}
-                  data-slot="mention-item"
-                  data-selected={isSelected ? "true" : "false"}
-                  onMouseMove={() => {
-                    if (!isSelected) setSelectedIndex(idx)
-                  }}
-                  onClick={() => handleSelect(opt)}
-                  className={cn(
-                    "relative isolate flex w-full cursor-pointer items-center gap-2.5 rounded-md px-2.5 py-1.5 text-left text-xs outline-none transition-colors",
-                    isSelected ? "text-foreground" : "text-muted-foreground"
-                  )}
+                  key={groupIndex}
+                  role="group"
+                  aria-labelledby={
+                    group.label ? `${baseId}-group-${groupIndex}` : undefined
+                  }
+                  className="not-first:mt-2"
                 >
-                  {isSelected ? (
-                    <motion.span
-                      aria-hidden="true"
-                      layoutId={`${baseId}-highlight`}
-                      className="bg-accent absolute inset-0 -z-10 rounded-md"
-                      transition={
-                        reduceMotion
-                          ? { duration: 0 }
-                          : { type: "spring", stiffness: 520, damping: 38, mass: 0.7 }
-                      }
-                    />
-                  ) : null}
-                  <span className="flex size-6 shrink-0 items-center justify-center text-muted-foreground">
-                    {opt.icon ?? (
-                      trigger === "@" ? (
-                        <AtSignIcon className="size-3.5" />
-                      ) : trigger === "#" ? (
-                        <HashIcon className="size-3.5" />
-                      ) : (
-                        <SlashIcon className="size-3.5" />
-                      )
-                    )}
-                  </span>
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center justify-between gap-1">
-                      <span className="truncate text-foreground font-medium">{opt.label}</span>
-                      {opt.badge}
+                  {group.label ? (
+                    <div
+                      id={`${baseId}-group-${groupIndex}`}
+                      data-slot="mention-group-label"
+                      className="text-muted-foreground px-2 py-1.5 text-[11px] font-medium leading-4"
+                    >
+                      {group.label}
                     </div>
-                    {opt.description && (
-                      <p className="line-clamp-1 text-[11px] text-muted-foreground">
-                        {opt.description}
-                      </p>
-                    )}
-                  </div>
+                  ) : null}
+                  {group.items.map(({ option: opt, index: idx }) => {
+                    const isSelected = idx === selectedIndex
+                    return (
+                      <div
+                        key={opt.id}
+                        id={optionId(opt)}
+                        role="option"
+                        aria-selected={isSelected}
+                        data-slot="mention-item"
+                        data-selected={isSelected ? "true" : "false"}
+                        onMouseMove={() => {
+                          if (!isSelected) setSelectedIndex(idx)
+                        }}
+                        onClick={() => handleSelect(opt)}
+                        className={cn(
+                          "flex w-full cursor-pointer items-center gap-3 rounded-sm px-2 py-2 text-start outline-none transition-colors duration-150 motion-reduce:transition-none",
+                          isSelected && "bg-accent"
+                        )}
+                      >
+                        <span
+                          data-slot="mention-item-icon"
+                          aria-hidden="true"
+                          className="text-muted-foreground [&:has(>svg)]:bg-muted flex size-8 shrink-0 items-center justify-center [&:has(>svg)]:rounded-md [&>[data-slot=avatar]]:size-full [&>svg]:size-4"
+                        >
+                          {opt.icon ??
+                            (trigger === "@" ? (
+                              <AtSignIcon className="size-3.5" />
+                            ) : trigger === "#" ? (
+                              <HashIcon className="size-3.5" />
+                            ) : (
+                              <SlashIcon className="size-3.5" />
+                            ))}
+                        </span>
+                        <div className="flex min-w-0 flex-1 flex-col gap-0.5">
+                          <span
+                            data-slot="mention-item-label"
+                            className="text-foreground truncate text-[13px] font-medium leading-4"
+                          >
+                            {opt.label}
+                          </span>
+                          {opt.description && (
+                            <p
+                              data-slot="mention-item-description"
+                              className="text-muted-foreground m-0 truncate text-xs leading-4"
+                            >
+                              {opt.description}
+                            </p>
+                          )}
+                        </div>
+                        <div className="flex shrink-0 items-center gap-2">
+                          {opt.badge ? (
+                            <span
+                              data-slot="mention-item-badge"
+                              className="inline-flex shrink-0 items-center"
+                            >
+                              {opt.badge}
+                            </span>
+                          ) : null}
+                          <CornerDownLeftIcon
+                            aria-hidden="true"
+                            className={cn(
+                              "text-muted-foreground/70 size-3.5",
+                              !isSelected && "invisible"
+                            )}
+                          />
+                        </div>
+                      </div>
+                    )
+                  })}
                 </div>
-              )
-            })}
-          </div>
+              ))}
+            </div>
           </motion.div>
         ) : null}
       </AnimatePresence>
@@ -301,7 +372,7 @@ function MentionBadge({
     <span
       data-slot="mention-badge"
       className={cn(
-        "inline-flex items-center gap-0.5 rounded-md bg-primary/10 px-1.5 py-0.5 font-medium text-primary text-xs",
+        "bg-primary/10 text-primary inline-flex items-center gap-0.5 rounded-md px-1.5 py-0.5 text-xs font-medium",
         className
       )}
       {...props}

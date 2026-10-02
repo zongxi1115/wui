@@ -1,0 +1,6 @@
+{
+  "name": "text-shimmer-wave-demo",
+  "component": "text-shimmer-wave",
+  "title": "基础用法",
+  "code": "import { TextShimmerWave } from \"@/components/ui/text-shimmer-wave\"\n\nexport default function TextShimmerWaveDemo() {\n  return (\n    <TextShimmerWave className=\"text-2xl font-medium tracking-tight\" duration={1.6}>\n      正在为你规划最佳路线…\n    </TextShimmerWave>\n  )\n}\n"
+}

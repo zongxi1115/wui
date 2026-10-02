@@ -1,0 +1,6 @@
+{
+  "name": "badge-sizes",
+  "component": "badge",
+  "title": "尺寸预设",
+  "code": "import { Badge } from \"@/components/ui/badge\"\n\nexport default function BadgeSizes() {\n  return (\n    <div className=\"flex flex-wrap items-center justify-center gap-3\">\n      <Badge size=\"sm\" variant=\"secondary\">\n        紧凑 sm\n      </Badge>\n      <Badge variant=\"secondary\">标准 default</Badge>\n      <Badge size=\"lg\" variant=\"secondary\">\n        突出 lg\n      </Badge>\n    </div>\n  )\n}\n"
+}

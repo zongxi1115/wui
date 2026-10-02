@@ -1,0 +1,6 @@
+{
+  "name": "typography-demo",
+  "component": "typography",
+  "title": "基础用法",
+  "code": "import { Typography, TypographyLink } from \"@/components/ui/typography\"\n\nexport default function TypographyDemo() {\n  return (\n    <article className=\"w-full max-w-2xl\">\n      <Typography variant=\"muted\">产品设计 · 阅读约 4 分钟</Typography>\n      <Typography variant=\"h1\" className=\"mt-2\">\n        为复杂产品建立清晰层级\n      </Typography>\n      <Typography variant=\"lead\" className=\"mt-4\">\n        一套稳定的排版比例，比不断增加装饰更容易建立可靠的阅读体验。\n      </Typography>\n      <Typography variant=\"h3\" as=\"h2\" className=\"mt-10\">\n        先确定信息的主次\n      </Typography>\n      <Typography className=\"mt-3\">\n        标题说明页面主题，正文承载完整信息，辅助文字只补充必要上下文。当一个页面同时出现五种字号和三种字重时，用户往往需要额外判断“哪一段更重要”。\n      </Typography>\n      <Typography className=\"mt-4\">\n        建议正文保持 16px 与 1.75 倍行高，段落之间留出一行的呼吸空间。完整规则见\n        <TypographyLink href=\"#\">排版规范</TypographyLink>。\n      </Typography>\n    </article>\n  )\n}\n"
+}

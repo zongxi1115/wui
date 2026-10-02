@@ -1,0 +1,5 @@
+{
+  "name": "chart-brush-demo",
+  "component": "chart-brush",
+  "code": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { ChartBrush } from \"@/components/charts/chart-brush\"\nimport { LineChart } from \"@/components/charts/line-chart\"\n\nconst data = Array.from({ length: 24 }, (_, index) => ({\n  week: `W${index + 1}`,\n  active: 1800 + index * 92 + Math.round(Math.sin(index * 0.8) * 260),\n}))\n\nexport default function ChartBrushDemo() {\n  const [range, setRange] = React.useState<[number, number]>([8, 23])\n  const visibleData = data.slice(range[0], range[1] + 1)\n\n  return (\n    <div className=\"w-full max-w-3xl\">\n      <LineChart\n        title=\"周活跃用户\"\n        description={`${data[range[0]].week}–${data[range[1]].week} · 拖动下方范围调整`}\n        data={visibleData}\n        xKey=\"week\"\n        series={[{ key: \"active\", label: \"周活\" }]}\n        showDots={false}\n      />\n      <ChartBrush\n        data={data}\n        labelKey=\"week\"\n        value={range}\n        onValueChange={setRange}\n        minPoints={4}\n      />\n    </div>\n  )\n}\n"
+}

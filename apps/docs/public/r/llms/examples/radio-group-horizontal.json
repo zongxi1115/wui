@@ -1,0 +1,6 @@
+{
+  "name": "radio-group-horizontal",
+  "component": "radio-group",
+  "title": "水平排列布局",
+  "code": "\"use client\"\n\nimport * as React from \"react\"\nimport { RadioGroup, RadioGroupItem } from \"@/components/ui/radio-group\"\n\nexport default function RadioGroupHorizontal() {\n  const priorities = [\n    { value: \"low\", label: \"低优先级\" },\n    { value: \"medium\", label: \"中等\" },\n    { value: \"high\", label: \"高优先级\" },\n    { value: \"urgent\", label: \"紧急\" },\n  ]\n\n  return (\n    <div className=\"w-full max-w-lg space-y-2\">\n      <span className=\"text-xs font-medium text-muted-foreground\">任务处理优先级</span>\n      <RadioGroup defaultValue=\"medium\" orientation=\"horizontal\" className=\"flex flex-wrap items-center gap-5\">\n        {priorities.map((item) => (\n          <label\n            key={item.value}\n            htmlFor={`priority-${item.value}`}\n            className=\"flex cursor-pointer items-center gap-2 text-sm\"\n          >\n            <RadioGroupItem value={item.value} id={`priority-${item.value}`} size=\"sm\" />\n            <span>{item.label}</span>\n          </label>\n        ))}\n      </RadioGroup>\n    </div>\n  )\n}\n"
+}

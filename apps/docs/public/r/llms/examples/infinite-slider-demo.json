@@ -1,0 +1,6 @@
+{
+  "name": "infinite-slider-demo",
+  "component": "infinite-slider",
+  "title": "基础用法",
+  "code": "import { InfiniteSlider } from \"@/components/ui/infinite-slider\"\n\nconst partners = [\n  \"青禾零售\",\n  \"远帆科技\",\n  \"知行教育\",\n  \"山海工作室\",\n  \"北辰物流\",\n  \"云栖医疗\",\n  \"拾光影像\",\n]\n\nexport default function InfiniteSliderDemo() {\n  return (\n    <div className=\"w-full max-w-2xl\">\n      <p className=\"text-muted-foreground mb-4 text-center text-xs\">\n        超过 2,000 家团队正在使用\n      </p>\n      <div className=\"[mask-image:linear-gradient(to_right,transparent,black_12%,black_88%,transparent)]\">\n        <InfiniteSlider speed={40} speedOnHover={12} gap={40}>\n          {partners.map((name) => (\n            <span\n              key={name}\n              className=\"text-muted-foreground hover:text-foreground shrink-0 text-lg font-semibold tracking-tight transition-colors\"\n            >\n              {name}\n            </span>\n          ))}\n        </InfiniteSlider>\n      </div>\n    </div>\n  )\n}\n"
+}

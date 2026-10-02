@@ -1,0 +1,6 @@
+{
+  "name": "shiny-button-variants",
+  "component": "shiny-button",
+  "title": "尺寸与形状变体",
+  "code": "import { SparklesIcon } from \"lucide-react\"\n\nimport { ShinyButton } from \"@/components/ui/shiny-button\"\n\nexport default function ShinyButtonVariantsDemo() {\n  return (\n    <div className=\"flex flex-wrap items-center justify-center gap-4\">\n      <ShinyButton className=\"h-11 px-7 text-base\">\n        <SparklesIcon />\n        大号\n      </ShinyButton>\n      <ShinyButton>默认尺寸</ShinyButton>\n      <ShinyButton className=\"h-8 rounded-md px-3.5 text-xs\">小号</ShinyButton>\n      <ShinyButton\n        speed={2.4}\n        gap={0.6}\n        className=\"border-border bg-secondary text-secondary-foreground h-8 rounded-full px-4 text-xs\"\n      >\n        胶囊 · 次要色\n      </ShinyButton>\n    </div>\n  )\n}\n"
+}

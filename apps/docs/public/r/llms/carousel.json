@@ -33,7 +33,6 @@
       "name": "orientation",
       "type": "\"horizontal\" | \"vertical\"",
       "required": false,
-      "control": "select",
       "options": [
         "horizontal",
         "vertical"
@@ -45,7 +44,6 @@
       "name": "loop",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "false",
       "description": "到达末端后是否允许循环到另一端。@default false"
     },
@@ -53,7 +51,6 @@
       "name": "defaultIndex",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "0",
       "description": "初次渲染时显示的项目索引。@default 0"
     },
@@ -61,18 +58,210 @@
       "name": "onIndexChange",
       "type": "((index: number) => void)",
       "required": false,
-      "control": "text",
       "description": "当前项目变化时触发。"
     },
     {
       "name": "autoplay",
       "type": "number | boolean",
       "required": false,
-      "control": "text",
       "defaultValue": "false",
       "description": "自动播放。传入数字时作为每页停留的毫秒数，`true` 为 5000ms。\n指针悬停、键盘焦点位于轮播内或页面隐藏时自动暂停；到达末页后回到第一页。"
     }
   ],
+  "api": [
+    {
+      "name": "Carousel",
+      "props": [
+        {
+          "name": "orientation",
+          "type": "\"horizontal\" | \"vertical\"",
+          "required": false,
+          "options": [
+            "horizontal",
+            "vertical"
+          ],
+          "defaultValue": "horizontal",
+          "description": "轮播内容的滚动方向。@default \"horizontal\""
+        },
+        {
+          "name": "loop",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "到达末端后是否允许循环到另一端。@default false"
+        },
+        {
+          "name": "defaultIndex",
+          "type": "number",
+          "required": false,
+          "defaultValue": "0",
+          "description": "初次渲染时显示的项目索引。@default 0"
+        },
+        {
+          "name": "onIndexChange",
+          "type": "((index: number) => void)",
+          "required": false,
+          "description": "当前项目变化时触发。"
+        },
+        {
+          "name": "autoplay",
+          "type": "number | boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "自动播放。传入数字时作为每页停留的毫秒数，`true` 为 5000ms。\n指针悬停、键盘焦点位于轮播内或页面隐藏时自动暂停；到达末页后回到第一页。"
+        }
+      ]
+    },
+    {
+      "name": "CarouselContent",
+      "props": []
+    },
+    {
+      "name": "CarouselDots",
+      "props": []
+    },
+    {
+      "name": "CarouselItem",
+      "props": []
+    },
+    {
+      "name": "CarouselNext",
+      "props": [
+        {
+          "name": "variant",
+          "type": "\"link\" | \"default\" | \"secondary\" | \"destructive\" | \"outline\" | \"ghost\"",
+          "required": false,
+          "options": [
+            "link",
+            "default",
+            "secondary",
+            "destructive",
+            "outline",
+            "ghost"
+          ],
+          "description": "Visual style of the button."
+        },
+        {
+          "name": "size",
+          "type": "\"default\" | \"sm\" | \"lg\" | \"icon\"",
+          "required": false,
+          "options": [
+            "default",
+            "sm",
+            "lg",
+            "icon"
+          ],
+          "description": "Height and padding preset. Use `icon` for square icon-only buttons."
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false,
+          "description": "Render as the single child element via Radix Slot, e.g. to wrap an `<a>`."
+        },
+        {
+          "name": "motion",
+          "type": "boolean",
+          "required": false,
+          "description": "Enable a subtle spring press/hover micro-interaction (powered by motion).\nComposable with `ripple`. Ignored when `asChild` is set, and automatically\ndisabled when the user prefers reduced motion."
+        },
+        {
+          "name": "ripple",
+          "type": "boolean",
+          "required": false,
+          "description": "Enable a Material-style click ripple that radiates from the pointer.\nComposable with `motion`. Ignored when `asChild` is set, and automatically\ndisabled when the user prefers reduced motion."
+        },
+        {
+          "name": "loading",
+          "type": "boolean",
+          "required": false,
+          "description": "Show an inline spinner and block interaction while an async action runs.\nText buttons overlap centered idle/loading rows and reserve the larger row;\nicon buttons replace their glyph. Sets `aria-busy` and disables the button."
+        },
+        {
+          "name": "loadingText",
+          "type": "string",
+          "required": false,
+          "description": "Label while loading; both labels reserve space so adjacent actions stay still."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "CarouselPrevious",
+      "props": [
+        {
+          "name": "variant",
+          "type": "\"link\" | \"default\" | \"secondary\" | \"destructive\" | \"outline\" | \"ghost\"",
+          "required": false,
+          "options": [
+            "link",
+            "default",
+            "secondary",
+            "destructive",
+            "outline",
+            "ghost"
+          ],
+          "description": "Visual style of the button."
+        },
+        {
+          "name": "size",
+          "type": "\"default\" | \"sm\" | \"lg\" | \"icon\"",
+          "required": false,
+          "options": [
+            "default",
+            "sm",
+            "lg",
+            "icon"
+          ],
+          "description": "Height and padding preset. Use `icon` for square icon-only buttons."
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false,
+          "description": "Render as the single child element via Radix Slot, e.g. to wrap an `<a>`."
+        },
+        {
+          "name": "motion",
+          "type": "boolean",
+          "required": false,
+          "description": "Enable a subtle spring press/hover micro-interaction (powered by motion).\nComposable with `ripple`. Ignored when `asChild` is set, and automatically\ndisabled when the user prefers reduced motion."
+        },
+        {
+          "name": "ripple",
+          "type": "boolean",
+          "required": false,
+          "description": "Enable a Material-style click ripple that radiates from the pointer.\nComposable with `motion`. Ignored when `asChild` is set, and automatically\ndisabled when the user prefers reduced motion."
+        },
+        {
+          "name": "loading",
+          "type": "boolean",
+          "required": false,
+          "description": "Show an inline spinner and block interaction while an async action runs.\nText buttons overlap centered idle/loading rows and reserve the larger row;\nicon buttons replace their glyph. Sets `aria-busy` and disables the button."
+        },
+        {
+          "name": "loadingText",
+          "type": "string",
+          "required": false,
+          "description": "Label while loading; both labels reserve space so adjacent actions stay still."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`Carousel` 适用于在有限的视口高度内浏览同质化的系列卡片或媒体：\n\n- **原生性能与手势**：组件基于纯 CSS `scroll-snap-type` 与 `overflow-x: auto`，在触控屏、Mac 触控板双指滑动与鼠标滚轮上具备极致的原生 120fps 顺滑度，不额外劫持手势。\n- **一屏多卡展示**：通过给 `CarouselItem` 设置 `className=\"basis-full sm:basis-1/2 lg:basis-1/3\"`，可轻松实现响应式多列轮播布局。\n- **重要信息避免隐藏**：核心关键操作或阻断性信息不建议仅放在轮播的第 2 页之后，因为多数用户可能不会主动滑动至末尾。",
+  "extended": "### 多卡片响应式轮播 (Multi-card)\n\n结合响应式多卡（`sm:basis-1/2 lg:basis-1/3`）与循环（`loop`），翻页按钮移入标题栏；滑动过程中半露出的卡片通过 `data-[active]:` 变体淡出：\n\n### 自动播放 (Autoplay)\n\n设置 `autoplay` 后指示器胶囊内显示停留进度，悬停时暂停。配合 `useCarousel` 读取当前页，让左侧文案随图片同步切换：\n\n### 垂直方向轮播 (Vertical)\n\n配置 `orientation=\"vertical\"` 实现纵向滚动的公告栏，结合 `autoplay` 与纵向页码指示器：",
+  "events": "- `onIndexChange`: (index: number) => void — 轮播吸附到新的卡片项目后触发，参数为最新的活动项下标索引。\n- `onScroll`: (event: React.UIEvent<HTMLDivElement>) => void — 视口发生原生滚动时触发。",
+  "accessibility": "- **WAI-ARIA Carousel Pattern**：根容器标注 `role=\"region\"` 与 `aria-roledescription=\"carousel\"`；每个卡片项标注 `role=\"group\"` 与 `aria-roledescription=\"slide\"`。\n- **按键与焦点管理**：焦点位于轮播内时，可用 <kbd>←</kbd> / <kbd>→</kbd>（纵向为 <kbd>↑</kbd> / <kbd>↓</kbd>）切换。翻页按钮具备 `aria-label=\"上一项\"` 与 `aria-label=\"下一项\"`，并在到达首末边界且未开启 `loop` 时自动 `disabled`。\n- **页码指示器**：每个圆点标注“第 n 页，共 m 页”，当前页带有 `aria-current`。\n- **自动播放**：键盘焦点进入或指针悬停时暂停；开启自动播放时视口 `aria-live` 为 `off`，避免读屏软件频繁播报。\n- **减少动态效果**：系统开启“减少动态效果”时，翻页改为瞬时跳转，指示器不再做弹簧过渡。",
   "examples": [
     {
       "name": "carousel-demo",

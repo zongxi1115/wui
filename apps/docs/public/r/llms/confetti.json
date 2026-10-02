@@ -31,18 +31,49 @@
       "name": "options",
       "type": "ConfettiOptions",
       "required": false,
-      "control": "text",
       "description": "挂载时使用的纸屑粒子选项。"
     },
     {
       "name": "fireOnMount",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "false",
       "description": "是否在组件挂载时立即触发一次。"
     }
   ],
+  "api": [
+    {
+      "name": "Confetti",
+      "props": [
+        {
+          "name": "options",
+          "type": "ConfettiOptions",
+          "required": false,
+          "description": "挂载时使用的纸屑粒子选项。"
+        },
+        {
+          "name": "fireOnMount",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "是否在组件挂载时立即触发一次。"
+        }
+      ]
+    }
+  ],
+  "types": [
+    {
+      "name": "ConfettiOptions",
+      "definition": "export interface ConfettiOptions {\n  /** 粒子数量。 @default 60 */\n  particleCount?: number\n  /** 扩散角度范围（0 ~ 360 度）。 @default 70 */\n  spread?: number\n  /** 发射方向角度，90 为正上方，0 为向右，180 为向左。 @default 90 */\n  angle?: number\n  /** 发射原点坐标 [0.0 ~ 1.0]，相对视口。 @default { x: 0.5, y: 0.65 } */\n  origin?: { x?: number; y?: number }\n  /** 粒子颜色数组。 */\n  colors?: string[]\n  /** 粒子形状，随机从数组中取值。 @default [\"square\", \"strip\", \"circle\"] */\n  shapes?: ConfettiShape[]\n  /** 粒子尺寸缩放系数。 @default 1 */\n  scalar?: number\n  /** 初始发射速度（像素 / 帧，以 60fps 为基准）。 @default 40 */\n  startVelocity?: number\n  /** 重力加速度。 @default 1.2 */\n  gravity?: number\n  /** 每帧速度衰减系数（空气阻力），越小停得越快。 @default 0.92 */\n  decay?: number\n  /** 横向漂移，正值向右飘。 @default 0 */\n  drift?: number\n  /** @deprecated 未使用，请改用 `decay`。 */\n  ticks?: number\n  /** 持续时间（毫秒），粒子在此期间逐渐淡出。 @default 2500 */\n  duration?: number\n  /** 画布层级。 @default 9999 */\n  zIndex?: number\n  /** 用户开启“减少动态效果”时不播放。 @default true */\n  disableForReducedMotion?: boolean\n}"
+    },
+    {
+      "name": "ConfettiShape",
+      "definition": "export type ConfettiShape = \"square\" | \"circle\" | \"strip\""
+    }
+  ],
+  "usage": "`Confetti` 为核心里程碑操作提供具有成就感的即时视觉反馈。\n\n### 适用场景\n- **目标达成与等级提升**：用户完成挑战、表单提交成功或积分升级。\n- **支付与购买成功**：电商结算或 SaaS 订阅完成时的庆祝。\n- **免除外部冗余依赖**：纯原生 Canvas 与 requestAnimationFrame 实现，轻量零负担。\n\n### 何时不建议使用\n- 避免在常规高频操作（如普通按钮点击或翻页）中滥用，以免分散用户注意力。",
+  "extended": "可自定义 `colors` 传入品牌主题色，或控制 `origin` 与 `angle` 实现从按钮位置、屏幕两侧或底部发射粒子。粒子物理按真实帧间隔归一化，在 60Hz 与 120Hz 屏幕上速度一致；每片纸屑会随机翻转与摆动，模拟真实飘落。\n\n### ConfettiOptions\n\n- `particleCount`: number（默认：60） — 粒子数量。\n- `spread`: number（默认：70） — 扩散角度范围（度）。\n- `angle`: number（默认：90） — 发射方向，90 为正上方，60 偏右上，120 偏左上。\n- `origin`: { x?: number; y?: number }（默认：{ x: 0.5, y: 0.65 }） — 发射原点，取值 0 ~ 1，相对视口。可由按钮的 getBoundingClientRect 计算。\n- `colors`: string[] — 粒子颜色，随机取用。\n- `shapes`: (\"square\" | \"circle\" | \"strip\")[]（默认：[\"square\", \"strip\", \"circle\"]） — 粒子形状，strip 为细长彩带。\n- `scalar`: number（默认：1） — 粒子尺寸缩放系数。\n- `startVelocity`: number（默认：40） — 初始速度（以 60fps 每帧像素计）。\n- `gravity`: number（默认：1.2） — 重力加速度。\n- `decay`: number（默认：0.92） — 每帧速度衰减（空气阻力），越小越快停下。\n- `drift`: number（默认：0） — 横向漂移，正值向右飘。\n- `duration`: number（默认：2500） — 持续时间（毫秒），末段逐渐淡出。\n- `zIndex`: number（默认：9999） — 画布层级。\n- `disableForReducedMotion`: boolean（默认：true） — 用户开启“减少动态效果”时不播放。",
+  "events": "- 支持通过 `fireConfetti({ particleCount, spread, origin })` 随时在任意异步回调中命令式触发。\n- `fireConfetti` 返回一个清理函数，调用后立即停止动画并移除画布，适合在组件卸载时调用。",
   "examples": [
     {
       "name": "confetti-demo",

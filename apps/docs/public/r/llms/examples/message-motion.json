@@ -1,0 +1,6 @@
+{
+  "name": "message-motion",
+  "component": "message",
+  "title": "自定义动效与透明度 (Motion & Opacity)",
+  "code": "\"use client\"\n\nimport { Button } from \"@/components/ui/button\"\nimport { MessageProvider, useMessage } from \"@/components/ui/message\"\n\nexport default function MessageMotion() {\n  return (\n    <MessageProvider\n      position=\"top-right\"\n      gap={12}\n      motion={{ offset: 24, scale: 0.9, blur: 8, damping: 28, stiffness: 350 }}\n    >\n      <MessageMotionButton />\n    </MessageProvider>\n  )\n}\n\nfunction MessageMotionButton() {\n  const message = useMessage()\n\n  return (\n    <Button\n      variant=\"outline\"\n      onClick={() =>\n        message.success(\"带高弹性物理弹簧微动效的提示消息\", {\n          opacity: 0.95,\n          motion: { offset: 32, scale: 0.88, blur: 12 },\n        })\n      }\n    >\n      触发高弹性动效消息 (Top-Right)\n    </Button>\n  )\n}\n"
+}

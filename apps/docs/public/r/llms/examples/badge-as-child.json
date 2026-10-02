@@ -1,0 +1,6 @@
+{
+  "name": "badge-as-child",
+  "component": "badge",
+  "title": "作为链接或交互项 (asChild)",
+  "code": "import { ArrowUpRightIcon } from \"lucide-react\"\n\nimport { Badge } from \"@/components/ui/badge\"\n\nexport default function BadgeAsChild() {\n  return (\n    <div className=\"flex flex-wrap items-center justify-center gap-3\">\n      <Badge asChild variant=\"outline\">\n        <a href=\"#changelog\">\n          更新日志 <ArrowUpRightIcon />\n        </a>\n      </Badge>\n      <Badge asChild variant=\"secondary\">\n        <a href=\"#react\">React 19</a>\n      </Badge>\n      <Badge asChild>\n        <a href=\"#pro-plan\">升级专业版</a>\n      </Badge>\n    </div>\n  )\n}\n"
+}

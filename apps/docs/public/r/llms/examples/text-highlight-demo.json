@@ -1,0 +1,6 @@
+{
+  "name": "text-highlight-demo",
+  "component": "text-highlight",
+  "title": "基础用法",
+  "code": "import { TextHighlight } from \"@/components/ui/text-highlight\"\n\nexport default function TextHighlightDemo() {\n  return (\n    <div className=\"flex w-full max-w-lg flex-col gap-3\">\n      <h3 className=\"text-lg font-semibold tracking-tight\">为什么选择按席位计费</h3>\n      <p className=\"text-sm leading-7 text-muted-foreground\">\n        过去一年，我们访谈了 120 家客户，发现按用量计费让团队在月底\n        <TextHighlight className=\"text-foreground\">\n          不敢放心地运行自动化\n        </TextHighlight>\n        。改为按席位计费后，\n        <TextHighlight delay={0.5} className=\"text-foreground\">\n          每位成员都能无上限地使用全部功能\n        </TextHighlight>\n        ，账单也变得\n        <TextHighlight\n          delay={1}\n          variant=\"underline\"\n          color=\"color-mix(in oklab, var(--primary) 22%, transparent)\"\n          className=\"text-foreground\"\n        >\n          可预测、可审批\n        </TextHighlight>\n        。\n      </p>\n    </div>\n  )\n}\n"
+}

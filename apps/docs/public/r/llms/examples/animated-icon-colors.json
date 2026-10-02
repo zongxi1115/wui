@@ -1,0 +1,6 @@
+{
+  "name": "animated-icon-colors",
+  "component": "animated-icon",
+  "title": "颜色变体",
+  "code": "import { HeartIcon } from \"@animateicons/react/lucide\"\n\nimport {\n  AnimatedIcon,\n  type AnimatedIconColor,\n} from \"@/components/ui/animated-icon\"\n\nconst colors: Array<{ variant: AnimatedIconColor; label: string }> = [\n  { variant: \"default\", label: \"Default\" },\n  { variant: \"primary\", label: \"Primary\" },\n  { variant: \"secondary\", label: \"Secondary\" },\n  { variant: \"muted\", label: \"Muted\" },\n  { variant: \"info\", label: \"Info\" },\n  { variant: \"success\", label: \"Success\" },\n  { variant: \"warning\", label: \"Warning\" },\n  { variant: \"destructive\", label: \"Destructive\" },\n]\n\nexport default function AnimatedIconColors() {\n  return (\n    <div className=\"flex flex-wrap items-end gap-x-5 gap-y-4\">\n      {colors.map(({ variant, label }) => (\n        <div\n          key={variant}\n          className=\"flex min-w-16 flex-col items-center gap-2\"\n        >\n          <AnimatedIcon\n            icon={HeartIcon}\n            variant={variant}\n            size={24}\n            label={label}\n          />\n          <span className=\"text-muted-foreground text-xs\">{label}</span>\n        </div>\n      ))}\n    </div>\n  )\n}\n"
+}

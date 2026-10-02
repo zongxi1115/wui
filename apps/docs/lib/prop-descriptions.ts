@@ -66,6 +66,7 @@ export const PropDescriptions: Record<string, Record<string, string>> = {
     side: "消息气泡的水平对齐方向。",
   },
   button: {
+    loadingText: "加载时显示的文案，未指定时沿用按钮内容。",
     loading:
       "是否处于加载中。加载时在文字前滑入转圈图标（icon 尺寸下替换图标），并禁用按钮、设置 aria-busy。",
     variant: "按钮的视觉样式。",
@@ -661,6 +662,8 @@ export const PropDescriptions: Record<string, Record<string, string>> = {
   },
   table: {
     containerClassName: "应用于横向滚动容器的额外 CSS 类名。",
+    containerRef: "滚动容器的引用，用于读取或调整滚动位置。",
+    containerStyle: "应用于滚动容器的内联样式，可用于预留高度。",
     density: "控制单元格内边距和行高。",
     striped: "是否为表格主体的交替行添加浅色背景。",
     stickyHeader: "表格容器滚动时是否保持表头可见。",

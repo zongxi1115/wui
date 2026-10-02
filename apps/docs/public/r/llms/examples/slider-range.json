@@ -1,0 +1,6 @@
+{
+  "name": "slider-range",
+  "component": "slider",
+  "title": "双端范围选择 (Range)",
+  "code": "\"use client\"\n\nimport * as React from \"react\"\nimport { Slider } from \"@/components/ui/slider\"\n\nexport default function SliderRange() {\n  const [priceRange, setPriceRange] = React.useState<number[]>([150, 650])\n\n  return (\n    <div className=\"w-full max-w-sm space-y-4 rounded-lg border border-border bg-card p-4 text-card-foreground shadow-xs\">\n      <div className=\"flex items-center justify-between\">\n        <span className=\"text-sm font-medium\">价格区间筛选</span>\n        <span className=\"text-xs font-semibold tabular-nums text-primary\">\n          ¥ {priceRange[0]} - ¥ {priceRange[1]}\n        </span>\n      </div>\n\n      <Slider\n        value={priceRange}\n        onValueChange={setPriceRange}\n        min={0}\n        max={1000}\n        step={10}\n        formatValue={(val) => `¥${val}`}\n        aria-label=\"价格区间\"\n      />\n\n      <div className=\"flex items-center justify-between text-xs text-muted-foreground\">\n        <span>最低: ¥0</span>\n        <span>最高: ¥1,000+</span>\n      </div>\n    </div>\n  )\n}\n"
+}

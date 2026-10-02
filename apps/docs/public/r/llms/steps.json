@@ -27,14 +27,12 @@
       "name": "items",
       "type": "StepItem[]",
       "required": true,
-      "control": "text",
       "description": "按顺序展示的步骤。"
     },
     {
       "name": "current",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "0",
       "description": "当前步骤的索引，从 0 开始。@default 0"
     },
@@ -42,7 +40,6 @@
       "name": "orientation",
       "type": "\"horizontal\" | \"vertical\"",
       "required": false,
-      "control": "select",
       "options": [
         "horizontal",
         "vertical"
@@ -54,10 +51,58 @@
       "name": "onCurrentChange",
       "type": "((current: number) => void)",
       "required": false,
-      "control": "text",
       "description": "点击可用步骤时触发；提供后步骤标题会呈现为按钮。"
     }
   ],
+  "api": [
+    {
+      "name": "Steps",
+      "props": [
+        {
+          "name": "items",
+          "type": "StepItem[]",
+          "required": true,
+          "description": "按顺序展示的步骤。"
+        },
+        {
+          "name": "current",
+          "type": "number",
+          "required": false,
+          "defaultValue": "0",
+          "description": "当前步骤的索引，从 0 开始。@default 0"
+        },
+        {
+          "name": "orientation",
+          "type": "\"horizontal\" | \"vertical\"",
+          "required": false,
+          "options": [
+            "horizontal",
+            "vertical"
+          ],
+          "defaultValue": "horizontal",
+          "description": "步骤排列方向。@default \"horizontal\""
+        },
+        {
+          "name": "onCurrentChange",
+          "type": "((current: number) => void)",
+          "required": false,
+          "description": "点击可用步骤时触发；提供后步骤标题会呈现为按钮。"
+        }
+      ]
+    }
+  ],
+  "types": [
+    {
+      "name": "StepItem",
+      "definition": "export interface StepItem {\n  /** 步骤标题。 */\n  title: React.ReactNode\n  /** 标题下方的补充说明。 */\n  description?: React.ReactNode\n  /** 自定义步骤图标；未提供时显示序号或完成标记。 */\n  icon?: React.ReactNode\n  /** 覆盖由 current 自动推导的步骤状态。 */\n  status?: StepStatus\n  /** 禁止点击此步骤。 */\n  disabled?: boolean\n}"
+    },
+    {
+      "name": "StepStatus",
+      "definition": "export type StepStatus = \"wait\" | \"process\" | \"finish\" | \"error\""
+    }
+  ],
+  "usage": "`Steps` 用于展示具有明确先后顺序的流程，例如创建向导、订单处理或审批进度。组件使用有序列表表达步骤关系，并通过 `aria-current=\"step\"` 标识当前阶段。\n\n步骤数量较少且空间充足时使用横向排列；标题较长、带有详细说明或位于侧栏时使用纵向排列。它只负责流程导航和状态呈现，具体页面内容应由外部状态控制。",
+  "extended": "### 纵向与可交互步骤\n\n提供 `onCurrentChange` 后，可用步骤会渲染为按钮。是否允许跳过未完成步骤属于业务规则，可以在回调中决定是否更新 `current`。",
   "examples": [
     {
       "name": "steps-demo",

@@ -1,0 +1,6 @@
+{
+  "name": "button-as-child",
+  "component": "button",
+  "title": "语义化跳转（asChild）",
+  "code": "import { ArrowUpRightIcon } from \"lucide-react\"\n\nimport { Button } from \"@/components/ui/button\"\n\nexport default function ButtonAsChild() {\n  return (\n    <Button asChild variant=\"outline\">\n      <a href=\"#button\">\n        前往控制台\n        <ArrowUpRightIcon />\n      </a>\n    </Button>\n  )\n}\n"
+}

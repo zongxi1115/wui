@@ -1,0 +1,6 @@
+{
+  "name": "shiny-button-card",
+  "component": "shiny-button",
+  "title": "内测招募模块",
+  "code": "import { ArrowRightIcon } from \"lucide-react\"\n\nimport { Button } from \"@/components/ui/button\"\nimport { ShinyButton } from \"@/components/ui/shiny-button\"\n\nexport default function ShinyButtonCardDemo() {\n  return (\n    <div className=\"w-full max-w-lg\">\n      <p className=\"text-muted-foreground text-xs\">抢先体验 · 名额有限</p>\n      <h3 className=\"mt-3 text-xl font-semibold tracking-tight sm:text-2xl\">\n        让 AI 帮你整理每一次会议\n      </h3>\n      <p className=\"text-muted-foreground mt-2 text-sm leading-6\">\n        自动转写、提炼行动项并同步到任务看板。加入内测，免费使用至 2026 年底。\n      </p>\n      <div className=\"mt-6 flex flex-wrap items-center gap-3\">\n        <ShinyButton>\n          申请内测资格\n          <ArrowRightIcon />\n        </ShinyButton>\n        <Button variant=\"ghost\">了解更多</Button>\n      </div>\n    </div>\n  )\n}\n"
+}

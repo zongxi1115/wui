@@ -29,35 +29,30 @@
       "name": "filename",
       "type": "string",
       "required": true,
-      "control": "text",
       "description": "控件中显示的文件名称。"
     },
     {
       "name": "meta",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "文件类型、大小等补充信息。"
     },
     {
       "name": "fileIcon",
       "type": "ReactNode",
       "required": false,
-      "control": "text",
       "description": "根据文件名推断的文件类型图标。传入节点可覆盖默认图标，传入 false 可隐藏图标。"
     },
     {
       "name": "href",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "激活控件后下载的文件地址。"
     },
     {
       "name": "status",
       "type": "\"idle\" | \"error\" | \"complete\" | \"downloading\"",
       "required": false,
-      "control": "select",
       "options": [
         "idle",
         "error",
@@ -71,7 +66,6 @@
       "name": "progress",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "0",
       "description": "确定进度的下载进度，取值范围为 0 到 100。"
     },
@@ -79,7 +73,6 @@
       "name": "size",
       "type": "\"compact\" | \"default\"",
       "required": false,
-      "control": "select",
       "options": [
         "compact",
         "default"
@@ -91,17 +84,94 @@
       "name": "onDownload",
       "type": "(() => void | Promise<void>)",
       "required": false,
-      "control": "text",
       "description": "用户请求下载时触发。"
     },
     {
       "name": "disabled",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "description": "是否禁用组件。"
     }
   ],
+  "api": [
+    {
+      "name": "Download",
+      "props": [
+        {
+          "name": "filename",
+          "type": "string",
+          "required": true,
+          "description": "控件中显示的文件名称。"
+        },
+        {
+          "name": "meta",
+          "type": "string",
+          "required": false,
+          "description": "文件类型、大小等补充信息。"
+        },
+        {
+          "name": "fileIcon",
+          "type": "ReactNode",
+          "required": false,
+          "description": "根据文件名推断的文件类型图标。传入节点可覆盖默认图标，传入 false 可隐藏图标。"
+        },
+        {
+          "name": "href",
+          "type": "string",
+          "required": false,
+          "description": "激活控件后下载的文件地址。"
+        },
+        {
+          "name": "status",
+          "type": "\"idle\" | \"error\" | \"complete\" | \"downloading\"",
+          "required": false,
+          "options": [
+            "idle",
+            "error",
+            "complete",
+            "downloading"
+          ],
+          "defaultValue": "\"idle\"",
+          "description": "下载流程的当前状态。"
+        },
+        {
+          "name": "progress",
+          "type": "number",
+          "required": false,
+          "defaultValue": "0",
+          "description": "确定进度的下载进度，取值范围为 0 到 100。"
+        },
+        {
+          "name": "size",
+          "type": "\"compact\" | \"default\"",
+          "required": false,
+          "options": [
+            "compact",
+            "default"
+          ],
+          "defaultValue": "default",
+          "description": "控件的高度和间距尺寸。"
+        },
+        {
+          "name": "onDownload",
+          "type": "(() => void | Promise<void>)",
+          "required": false,
+          "description": "用户请求下载时触发。"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "是否禁用组件。"
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`Download` 专为**导出报表、资源包分发、多媒体附件与文档下载**设计：\n\n- **自动推导 30+ 种文件格式图标**：内置对 `pdf`, `zip`, `mp4`, `xlsx`, `docx`, `ts`, `svg`, `key` 等主流后缀的智能映射，开发者只需传入 `filename=\"Design.zip\"` 即可自动渲染对应的压缩包图标。\n- **确切进度 vs 不确定进度**：\n  - 若能获取真实下载字节数，传入 `progress={percent}`，展示平滑增长的进度条。\n  - 若处于服务端打包或流式准备阶段无法预估大小，保持 `progress={0}`，组件会自动展示流光往返呼吸态。\n- **微动效与反馈**：进度条随下载开始平滑展开、结束后收起；右侧操作按钮在确切进度下绘制环形进度，并在“下载 → 进度 → 完成 / 重试”之间以旋转缩放交叉切换，底色同步过渡为成功或警示色；下载完成时文件图标轻微弹跳。",
+  "extended": "### 各生命周期状态与自定义图标\n\n对比 `idle`、`downloading`（确切进度）、`complete`、`error` 以及自定义文件图标：\n\n### 紧凑附件列表 (Compact List)\n\n在消息气泡底部或邮件附件区域使用 `size=\"compact\"` 密集排布多个文件：",
+  "events": "- `onDownload`: () => void | Promise<void> — 用户点击卡片触发下载时调用，可返回 Promise 自动等待异步任务结束。\n- `onClick`: (event: React.MouseEvent<HTMLButtonElement>) => void — 原生按钮点击事件。\n- `onFocus`: (event: React.FocusEvent<HTMLButtonElement>) => void — 卡片获得键盘焦点时触发。\n- `onBlur`: (event: React.FocusEvent<HTMLButtonElement>) => void — 卡片失去键盘焦点时触发。",
+  "accessibility": "- **语义按钮结构**：外层基于 `<button type=\"button\">` 构建，原生支持键盘 <kbd>Enter</kbd> / <kbd>Space</kbd> 触发。\n- **动态状态播报**：副标题为 `aria-live=\"polite\"` 区域，根据 `status` 自动播报“正在准备…”、“已下载 64%”、“已保存到本地”等文案；下载中按钮声明 `aria-busy`。\n- **动效降级**：进度条填充与图标缩放弹簧在检测到 `prefers-reduced-motion` 时自动关闭过渡动效。",
   "examples": [
     {
       "name": "download-demo",

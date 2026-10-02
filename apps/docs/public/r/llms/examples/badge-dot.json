@@ -1,0 +1,6 @@
+{
+  "name": "badge-dot",
+  "component": "badge",
+  "title": "状态指示圆点",
+  "code": "import { cn } from \"@/lib/utils\"\nimport { Badge } from \"@/components/ui/badge\"\n\nconst services = [\n  { label: \"运行正常\", dot: \"bg-success\", live: false },\n  { label: \"性能降级\", dot: \"bg-warning\", live: true },\n  { label: \"服务中断\", dot: \"bg-destructive\", live: true },\n  { label: \"维护中\", dot: \"bg-muted-foreground\", live: false },\n]\n\nexport default function BadgeDot() {\n  return (\n    <div className=\"flex flex-wrap items-center justify-center gap-3\">\n      {services.map((item) => (\n        <Badge key={item.label} variant=\"outline\" className=\"gap-1.5\">\n          <span className=\"relative flex size-1.5\">\n            {item.live ? (\n              <span\n                className={cn(\n                  \"absolute inline-flex size-full animate-ping rounded-full opacity-60 motion-reduce:animate-none\",\n                  item.dot\n                )}\n              />\n            ) : null}\n            <span className={cn(\"relative inline-flex size-1.5 rounded-full\", item.dot)} />\n          </span>\n          {item.label}\n        </Badge>\n      ))}\n    </div>\n  )\n}\n"
+}

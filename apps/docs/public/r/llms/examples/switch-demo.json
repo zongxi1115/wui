@@ -1,0 +1,6 @@
+{
+  "name": "switch-demo",
+  "component": "switch",
+  "title": "基础用法",
+  "code": "\"use client\"\n\nimport * as React from \"react\"\nimport { Switch } from \"@/components/ui/switch\"\n\nexport default function SwitchDemo() {\n  const [airplaneMode, setAirplaneMode] = React.useState(false)\n\n  return (\n    <div className=\"flex items-center space-x-3\">\n      <Switch\n        id=\"airplane-mode\"\n        checked={airplaneMode}\n        onCheckedChange={setAirplaneMode}\n      />\n      <label\n        htmlFor=\"airplane-mode\"\n        className=\"text-sm font-medium leading-none select-none cursor-pointer peer-disabled:cursor-not-allowed peer-disabled:opacity-70\"\n      >\n        飞行模式\n      </label>\n    </div>\n  )\n}\n"
+}

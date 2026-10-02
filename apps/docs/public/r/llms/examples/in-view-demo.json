@@ -1,0 +1,6 @@
+{
+  "name": "in-view-demo",
+  "component": "in-view",
+  "title": "基础用法",
+  "code": "import { InView } from \"@/components/ui/in-view\"\n\nexport default function InViewDemo() {\n  return (\n    <div className=\"bg-muted/30 h-72 w-full max-w-xl overflow-y-auto rounded-lg border p-6 text-center\">\n      <p className=\"text-muted-foreground text-sm\">向下滚动</p>\n      <div className=\"h-56\" />\n      <InView\n        className=\"bg-background shadow-xs rounded-md border px-5 py-4 text-left\"\n        viewOptions={{ margin: \"-15% 0px\" }}\n      >\n        <p className=\"font-medium\">内容进入视口</p>\n        <p className=\"text-muted-foreground mt-1 text-sm\">\n          透明度与位移同时过渡，并且默认只播放一次。\n        </p>\n      </InView>\n      <div className=\"h-24\" />\n    </div>\n  )\n}\n"
+}

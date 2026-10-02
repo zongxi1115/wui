@@ -37,21 +37,18 @@
       "name": "options",
       "type": "MultiSelectOption[]",
       "required": true,
-      "control": "text",
       "description": "可供选择的选项集合。"
     },
     {
       "name": "value",
       "type": "string[]",
       "required": false,
-      "control": "text",
       "description": "受控模式下当前选中的值数组。"
     },
     {
       "name": "defaultValue",
       "type": "string[]",
       "required": false,
-      "control": "text",
       "defaultValue": "[]",
       "description": "非受控模式下初始选中的值数组。"
     },
@@ -59,14 +56,12 @@
       "name": "onValueChange",
       "type": "((value: string[]) => void)",
       "required": false,
-      "control": "text",
       "description": "选中值变化或清空时触发。"
     },
     {
       "name": "placeholder",
       "type": "string",
       "required": false,
-      "control": "text",
       "defaultValue": "请选择",
       "description": "未选择任何选项时显示的占位文本。"
     },
@@ -74,7 +69,6 @@
       "name": "searchPlaceholder",
       "type": "string",
       "required": false,
-      "control": "text",
       "defaultValue": "搜索选项",
       "description": "下拉搜索输入框的占位文本。"
     },
@@ -82,7 +76,6 @@
       "name": "emptyText",
       "type": "ReactNode",
       "required": false,
-      "control": "text",
       "defaultValue": "没有匹配的选项",
       "description": "没有匹配选项时显示的内容。"
     },
@@ -90,7 +83,6 @@
       "name": "maxDisplay",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "2",
       "description": "触发器内最多直接展示的已选项数量。"
     },
@@ -98,7 +90,6 @@
       "name": "clearable",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "true",
       "description": "是否显示一键清空按钮。"
     },
@@ -106,7 +97,6 @@
       "name": "size",
       "type": "\"default\" | \"sm\" | \"lg\"",
       "required": false,
-      "control": "select",
       "options": [
         "default",
         "sm",
@@ -119,17 +109,114 @@
       "name": "contentClassName",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "应用于浮层的额外类名。"
     },
     {
       "name": "disabled",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "description": "是否禁用组件。"
     }
   ],
+  "api": [
+    {
+      "name": "MultiSelect",
+      "props": [
+        {
+          "name": "options",
+          "type": "MultiSelectOption[]",
+          "required": true,
+          "description": "可供选择的选项集合。"
+        },
+        {
+          "name": "value",
+          "type": "string[]",
+          "required": false,
+          "description": "受控模式下当前选中的值数组。"
+        },
+        {
+          "name": "defaultValue",
+          "type": "string[]",
+          "required": false,
+          "defaultValue": "[]",
+          "description": "非受控模式下初始选中的值数组。"
+        },
+        {
+          "name": "onValueChange",
+          "type": "((value: string[]) => void)",
+          "required": false,
+          "description": "选中值变化或清空时触发。"
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "required": false,
+          "defaultValue": "请选择",
+          "description": "未选择任何选项时显示的占位文本。"
+        },
+        {
+          "name": "searchPlaceholder",
+          "type": "string",
+          "required": false,
+          "defaultValue": "搜索选项",
+          "description": "下拉搜索输入框的占位文本。"
+        },
+        {
+          "name": "emptyText",
+          "type": "ReactNode",
+          "required": false,
+          "defaultValue": "没有匹配的选项",
+          "description": "没有匹配选项时显示的内容。"
+        },
+        {
+          "name": "maxDisplay",
+          "type": "number",
+          "required": false,
+          "defaultValue": "2",
+          "description": "触发器内最多直接展示的已选项数量。"
+        },
+        {
+          "name": "clearable",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "是否显示一键清空按钮。"
+        },
+        {
+          "name": "size",
+          "type": "\"default\" | \"sm\" | \"lg\"",
+          "required": false,
+          "options": [
+            "default",
+            "sm",
+            "lg"
+          ],
+          "defaultValue": "default",
+          "description": "组件的尺寸密度。"
+        },
+        {
+          "name": "contentClassName",
+          "type": "string",
+          "required": false,
+          "description": "应用于浮层的额外类名。"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "是否禁用组件。"
+        }
+      ]
+    }
+  ],
+  "types": [
+    {
+      "name": "MultiSelectOption",
+      "definition": "export interface MultiSelectOption {\n  /** 表单状态中使用的稳定值。 */\n  value: string\n  /** 展示给用户的选项名称。 */\n  label: React.ReactNode\n  /** 参与本地搜索的别名，例如拼音或缩写。 */\n  keywords?: string[]\n  /** 禁止选择此项。 */\n  disabled?: boolean\n}"
+    }
+  ],
+  "usage": "- 选项较多时保留搜索框；选项较少时仍可使用相同组件保持表单一致性。\n- 触发器只展示前 `maxDisplay` 个选项，其余以数量摘要呈现，避免表单被大量标签撑高。\n- 选择面板保持打开，便于连续选择；按 <kbd>Esc</kbd> 或点击外部关闭。\n- 层级数据请使用 `Cascader`，单选数据请使用 `Select` 或 `Combobox`。\n- 标签增删带有弹入 / 弹出与重排动画，折叠数量逐位滚动；开启 `prefers-reduced-motion` 时瞬间切换。",
+  "extended": "### 评审人指派\n\n结合外部按钮批量追加选项，触发器中的标签会依次弹入并平滑重排，超出部分以滚动数字摘要展示：",
   "examples": [
     {
       "name": "multi-select-demo",

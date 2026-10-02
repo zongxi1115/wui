@@ -1,0 +1,6 @@
+{
+  "name": "scroll-text-blur",
+  "component": "scroll-text",
+  "title": "逐字聚焦（Blur）",
+  "code": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { ScrollText } from \"@/components/ui/scroll-text\"\n\nexport default function ScrollTextBlur() {\n  const container = React.useRef<HTMLDivElement>(null)\n\n  return (\n    <div\n      ref={container}\n      className=\"h-[22rem] w-full overflow-y-auto rounded-b-lg\"\n    >\n      <div className=\"flex flex-col items-center px-6 pt-44 pb-52 text-center\">\n        <ScrollText\n          as=\"h3\"\n          container={container}\n          mode=\"blur\"\n          per=\"char\"\n          overlap={2}\n          offset={[\"start 0.9\", \"start 0.4\"]}\n          className=\"text-4xl font-semibold tracking-tight sm:text-5xl\"\n        >\n          专注，从这里开始\n        </ScrollText>\n        <ScrollText\n          container={container}\n          mode=\"blur\"\n          offset={[\"start 0.9\", \"start 0.5\"]}\n          className=\"text-muted-foreground mt-4 max-w-sm text-sm leading-6\"\n        >\n          专注模式会隐去当前段落之外的一切，让注意力只停留在正在写的句子上。\n        </ScrollText>\n      </div>\n    </div>\n  )\n}\n"
+}

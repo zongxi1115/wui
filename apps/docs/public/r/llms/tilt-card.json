@@ -30,14 +30,12 @@
       "name": "children",
       "type": "ReactNode",
       "required": true,
-      "control": "text",
       "description": "显示在 3D 倾斜平面上的内容。"
     },
     {
       "name": "maxTilt",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "9",
       "description": "任一方向允许的最大旋转角度，单位为度。"
     },
@@ -45,7 +43,6 @@
       "name": "perspective",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "900",
       "description": "透视深度，单位为像素。"
     },
@@ -53,7 +50,6 @@
       "name": "hoverScale",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "1.015",
       "description": "指针悬停在卡片上时使用的缩放比例。"
     },
@@ -61,7 +57,6 @@
       "name": "glare",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "false",
       "description": "是否显示随指针移动的高光图层。"
     },
@@ -69,7 +64,6 @@
       "name": "glareOpacity",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "0.35",
       "description": "光泽层的最大不透明度。"
     },
@@ -77,10 +71,68 @@
       "name": "glareClassName",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "应用于可选高光图层的 CSS 类名。"
     }
   ],
+  "api": [
+    {
+      "name": "TiltCard",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": true,
+          "description": "显示在 3D 倾斜平面上的内容。"
+        },
+        {
+          "name": "maxTilt",
+          "type": "number",
+          "required": false,
+          "defaultValue": "9",
+          "description": "任一方向允许的最大旋转角度，单位为度。"
+        },
+        {
+          "name": "perspective",
+          "type": "number",
+          "required": false,
+          "defaultValue": "900",
+          "description": "透视深度，单位为像素。"
+        },
+        {
+          "name": "hoverScale",
+          "type": "number",
+          "required": false,
+          "defaultValue": "1.015",
+          "description": "指针悬停在卡片上时使用的缩放比例。"
+        },
+        {
+          "name": "glare",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "是否显示随指针移动的高光图层。"
+        },
+        {
+          "name": "glareOpacity",
+          "type": "number",
+          "required": false,
+          "defaultValue": "0.35",
+          "description": "光泽层的最大不透明度。"
+        },
+        {
+          "name": "glareClassName",
+          "type": "string",
+          "required": false,
+          "description": "应用于可选高光图层的 CSS 类名。"
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`TiltCard` 为界面带来触手可及的“实体感”与空间交互魅力。\n\n- **使用场景**：\n  - **数字会员卡 / 凭证（Pass & Badges）**：极具科技感的开发者通行证、VIP 权益卡。\n  - **核心作品 / 摄影与艺术案例**：作品集封面、获奖项目展示。\n  - **旗舰硬件 / 核心特性展示**：让用户在鼠标滑动中全方位感受产品的精细质感。\n- **3D 分层与纵深技巧**：\n  - 卡片内部容器默认启用了 `transform-style: preserve-3d`。\n  - 在内部子元素上添加 Tailwind 类名 `[transform:translateZ(24px)]` 或 `[transform:translateZ(36px)]`，可以使文字和图标“悬浮”在卡片表面上方，产生视差立体感。\n  - 注意：`overflow-hidden` 会强制扁平化 3D 上下文，使 `translateZ` 失效。需要裁切图片时，请把 `overflow-hidden` 放在图片自身或内层容器上，而不是卡片根节点。\n  - 指针位置基于进入时测得的静止尺寸计算，避免倾斜后的包围盒反过来影响角度，边缘处不会抖动。\n- **克制设计原则**：\n  - 避免在密集的数据表格行或长列表项中过度使用 3D 倾斜，以免干扰用户的浏览与点击精度。",
+  "extended": "### 会员卡\n\n三层内容分别使用不同的 `translateZ` 深度，配合高光打造会员卡的实体感：",
+  "events": "`TiltCard` 继承 Motion 容器的事件回调：\n\n- `onPointerMove`: (event: React.PointerEvent<HTMLDivElement>) => void — 指针在卡片内移动时触发，内部通过 MotionValue 计算 X/Y 倾角并触发物理弹簧插值。\n- `onPointerLeave`: (event: React.PointerEvent<HTMLDivElement>) => void — 指针离开卡片时触发，内部自动通过 Spring 回弹归零复位。",
+  "accessibility": "- **自动无障碍降级**：内置 `useReducedMotion` 监听。当系统开启了“减少动态效果”时，3D 旋转与缩放动效自动归零（Static 0deg / 1.0 Scale），高光层不渲染，避免任何视觉眩晕。\n- **触摸屏保护**：在移动端触摸（Touch）环境下自动跳过倾斜计算，避免与页面上下滑动手势冲突。\n- **反光层穿透**：高光层标记为 `aria-hidden=\"true\"` 且带有 `pointer-events-none`，不遮挡内部可聚焦元素。",
   "examples": [
     {
       "name": "tilt-card-demo",

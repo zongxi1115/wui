@@ -1,0 +1,6 @@
+{
+  "name": "time-picker-minute-step",
+  "component": "time-picker",
+  "title": "分钟步进粒度控制",
+  "code": "\"use client\"\n\nimport * as React from \"react\"\nimport { TimePicker } from \"@/components/ui/time-picker\"\n\nexport default function TimePickerMinuteStep() {\n  const [preciseTime, setPreciseTime] = React.useState(\"08:03\")\n  const [halfHourTime, setHalfHourTime] = React.useState(\"14:30\")\n\n  return (\n    <div className=\"grid w-full max-w-md gap-4 sm:grid-cols-2\">\n      <div className=\"grid gap-2\">\n        <label className=\"text-xs font-medium\">高精度 (1 分钟步进)</label>\n        <TimePicker\n          minuteStep={1}\n          value={preciseTime}\n          onValueChange={setPreciseTime}\n        />\n        <p className=\"text-muted-foreground text-[11px]\">\n          适合定时任务、闹钟与工单精确打点\n        </p>\n      </div>\n\n      <div className=\"grid gap-2\">\n        <label className=\"text-xs font-medium\">半小时粗粒度 (30 分钟步进)</label>\n        <TimePicker\n          minuteStep={30}\n          value={halfHourTime}\n          onValueChange={setHalfHourTime}\n        />\n        <p className=\"text-muted-foreground text-[11px]\">\n          适合课程预约、日程规划等低频切换场景\n        </p>\n      </div>\n    </div>\n  )\n}\n"
+}

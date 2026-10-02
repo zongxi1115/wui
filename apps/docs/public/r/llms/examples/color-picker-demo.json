@@ -1,0 +1,6 @@
+{
+  "name": "color-picker-demo",
+  "component": "color-picker",
+  "title": "基础用法",
+  "code": "\"use client\"\n\nimport * as React from \"react\"\nimport { Palette } from \"lucide-react\"\n\nimport { ColorPicker } from \"@/components/ui/color-picker\"\n\nexport default function ColorPickerDemo() {\n  const [color, setColor] = React.useState(\"oklch(0.546 0.245 262.881)\")\n\n  return (\n    <div className=\"flex w-full max-w-sm flex-col gap-3\">\n      <label className=\"text-sm font-medium text-foreground flex items-center gap-1.5\">\n        <Palette className=\"size-4 text-muted-foreground\" />\n        <span>品牌主色调配置</span>\n      </label>\n      <div className=\"flex items-center gap-3\">\n        <ColorPicker value={color} onValueChange={setColor} />\n        <div className=\"flex flex-col\">\n          <code className=\"text-xs font-mono font-medium text-foreground\">{color}</code>\n          <span className=\"text-[11px] text-muted-foreground\">点击色块展开色彩面板调节</span>\n        </div>\n      </div>\n    </div>\n  )\n}\n"
+}

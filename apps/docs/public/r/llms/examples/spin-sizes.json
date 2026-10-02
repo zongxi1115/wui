@@ -1,0 +1,6 @@
+{
+  "name": "spin-sizes",
+  "component": "spin",
+  "title": "尺寸对比",
+  "code": "import { Spin } from \"@/components/ui/spin\"\n\nexport default function SpinSizes() {\n  return (\n    <div className=\"flex flex-wrap items-center gap-10\">\n      <div className=\"flex flex-col items-center gap-2\">\n        <Spin size=\"sm\" />\n        <span className=\"text-xs text-muted-foreground\">小号 (sm - 16px)</span>\n      </div>\n\n      <div className=\"flex flex-col items-center gap-2\">\n        <Spin size=\"default\" />\n        <span className=\"text-xs text-muted-foreground\">标准 (default - 24px)</span>\n      </div>\n\n      <div className=\"flex flex-col items-center gap-2\">\n        <Spin size=\"lg\" />\n        <span className=\"text-xs text-muted-foreground\">大号 (lg - 36px)</span>\n      </div>\n\n      <div className=\"flex flex-col items-center gap-2\">\n        <Spin size=\"default\" label=\"正在同步数据…\" />\n        <span className=\"text-xs text-muted-foreground\">带文字描述</span>\n      </div>\n    </div>\n  )\n}\n"
+}

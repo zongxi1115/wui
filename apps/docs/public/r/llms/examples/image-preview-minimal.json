@@ -1,0 +1,6 @@
+{
+  "name": "image-preview-minimal",
+  "component": "image-preview",
+  "title": "极简纯净模式 (隐藏工具栏)",
+  "code": "import { ImagePreview } from \"@/components/ui/image-preview\"\n\nexport default function ImagePreviewMinimal() {\n  return (\n    <article className=\"w-full max-w-md text-sm leading-6\">\n      <p className=\"text-muted-foreground\">\n        第二天清晨我们沿着台阶下到海边。退潮后的礁石露出大片青苔，\n        光线从云层缝隙里斜着打下来。\n      </p>\n      <ImagePreview\n        src=\"/wui/demo/field-notes/concrete-stairs.jpg\"\n        alt=\"通往海边的混凝土台阶\"\n        showToolbar={false}\n        className=\"my-4 aspect-video w-full\"\n      />\n      <p className=\"text-muted-foreground\">\n        这段路不长，但坡度很陡，雨天建议穿防滑鞋。\n      </p>\n    </article>\n  )\n}\n"
+}

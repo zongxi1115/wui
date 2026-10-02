@@ -29,14 +29,12 @@
       "name": "value",
       "type": "string | number",
       "required": true,
-      "control": "text",
       "description": "要显示的数字或数字字符串。"
     },
     {
       "name": "padStart",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "false",
       "description": "是否为一位整数补充前导零。"
     },
@@ -44,7 +42,6 @@
       "name": "decimalSeparator",
       "type": "string",
       "required": false,
-      "control": "text",
       "defaultValue": ".",
       "description": "替代小数点显示的字符。"
     },
@@ -52,11 +49,49 @@
       "name": "transition",
       "type": "Transition",
       "required": false,
-      "control": "text",
       "defaultValue": "{\n  type: \"spring\",\n  stiffness: 260,\n  damping: 28,\n}",
       "description": "每个数字滚轮使用的过渡动画。"
     }
   ],
+  "api": [
+    {
+      "name": "SlidingNumber",
+      "props": [
+        {
+          "name": "value",
+          "type": "string | number",
+          "required": true,
+          "description": "要显示的数字或数字字符串。"
+        },
+        {
+          "name": "padStart",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "是否为一位整数补充前导零。"
+        },
+        {
+          "name": "decimalSeparator",
+          "type": "string",
+          "required": false,
+          "defaultValue": ".",
+          "description": "替代小数点显示的字符。"
+        },
+        {
+          "name": "transition",
+          "type": "Transition",
+          "required": false,
+          "defaultValue": "{\n  type: \"spring\",\n  stiffness: 260,\n  damping: 28,\n}",
+          "description": "每个数字滚轮使用的过渡动画。"
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`SlidingNumber` 适用于需要**强调量化变化趋势与实时动态**的界面场景，例如实时遥测仪表盘、计费套餐切换、时钟日历以及倒计时。\n\n- **开启等宽数字（Tabular Nums）**：组件内置了 `tabular-nums` 类名，确保数字 `1` 与 `8` 占用完全相同的字宽，避免因数位宽度变动导致整行文字左右晃动。\n- **智能方向识别**：组件内部会自动比较最新值与前次值（Previous Value），当数值上升时每一位都向上滚动（9 → 0 也继续向上绕一圈），数值下降时向下倒退；新增或移除的数位同样沿该方向滑入、滑出。\n- **稳定的动画**：滚动方向与 `transition` 通过 ref 读取，父组件因其他原因重新渲染时不会打断正在进行的滚动。\n- **高频更新性能优化**：每个数位由独立的 `MotionValue` 和 `transform` 驱动，仅改变 GPU 复合层的 `transform: translateY`，不会触发整行 DOM 的回流（Reflow）。",
+  "extended": "### 实时数字时钟\n\n结合 `padStart` 属性自动补零，呈现高精度的数字时钟看板：\n\n### 实时指标看板\n\n在业务看板中，以滚动直观展示在线用户、请求量与延迟的实时波动，右侧箭头提示变化方向：\n\n### 套餐计费周期切换\n\n在月付与年付之间切换时，价格数字平滑滚动过渡，提升定价页面的交互品质：\n\n### 发布会活动倒计时\n\n将天、时、分、秒分别绑定至 `SlidingNumber` 并开启 `padStart`，构建发布会倒计时：",
+  "events": "`SlidingNumber` 支持所有原生 `<span>` 事件（如 `onClick`, `onMouseEnter` 等），并将属性直接透传至外层容器：\n\n- `onClick`: (event: React.MouseEvent<HTMLSpanElement>) => void — 点击数字区域时触发的原生点击事件。",
+  "accessibility": "- **屏幕阅读器无障碍读数**：外层容器挂载 `aria-label={displayValue}`，内部 0~9 的滚轮数字节点均打上 `aria-hidden=\"true\"` 标记。屏幕阅读器只会将最新的完整数值播报给视障用户，绝不会重复读取隐藏滚轮中的多余数字。\n- **系统减少动态偏好（Reduced Motion）**：当系统启用 `prefers-reduced-motion` 时，组件将自动跳过 Spring 物理回弹模拟，数字将以直接赋值的方式瞬时刷新，保障无障碍兼容。",
   "examples": [
     {
       "name": "sliding-number-demo",

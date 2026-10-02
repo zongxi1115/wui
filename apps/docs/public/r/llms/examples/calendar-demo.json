@@ -1,0 +1,6 @@
+{
+  "name": "calendar-demo",
+  "component": "calendar",
+  "title": "基础用法",
+  "code": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { Calendar } from \"@/components/ui/calendar\"\n\nexport default function CalendarDemo() {\n  const [date, setDate] = React.useState(new Date(2026, 6, 28))\n\n  return (\n    <div className=\"grid w-full max-w-md gap-4 sm:grid-cols-[auto_1fr] sm:items-start\">\n      <Calendar\n        value={date}\n        onValueChange={setDate}\n        className=\"bg-background shadow-xs rounded-lg border\"\n      />\n      <div className=\"border-primary border-l-2 pl-3\">\n        <p className=\"text-muted-foreground text-xs font-medium uppercase tracking-wider\">\n          已选择\n        </p>\n        <p className=\"mt-1 text-sm font-semibold\">\n          {new Intl.DateTimeFormat(\"zh-CN\", { dateStyle: \"full\" }).format(date)}\n        </p>\n        <p className=\"text-muted-foreground mt-1 text-xs leading-5\">\n          点击标题切换到月份 / 年份视图；方向键移动焦点，PageUp / PageDown 翻月。\n        </p>\n      </div>\n    </div>\n  )\n}\n"
+}

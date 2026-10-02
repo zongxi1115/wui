@@ -1,0 +1,6 @@
+{
+  "name": "alert-custom-icon",
+  "component": "alert",
+  "title": "自定义图标与隐藏图标",
+  "code": "import { BellRingIcon, SparklesIcon } from \"lucide-react\"\n\nimport { Alert } from \"@/components/ui/alert\"\n\nexport default function AlertCustomIcon() {\n  return (\n    <div className=\"grid w-full max-w-lg gap-3\">\n      <Alert\n        variant=\"info\"\n        icon={<SparklesIcon className=\"text-primary\" />}\n        title=\"AI 智能优化建议\"\n      >\n        我们分析了你的数据流并生成了 3 条缓存优化规则，预计可降低 35% 的延迟。\n      </Alert>\n\n      <Alert\n        icon={<BellRingIcon className=\"text-foreground\" />}\n        title=\"推送订阅已就绪\"\n      >\n        你将通过飞书与邮件接收每小时的集群健康度报告。\n      </Alert>\n\n      <Alert icon={false} title=\"无图标模式\">\n        隐藏左侧图标的简洁模式，适合在狭窄弹窗或嵌套表单提示中呈现。\n      </Alert>\n    </div>\n  )\n}\n"
+}

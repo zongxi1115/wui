@@ -38,14 +38,12 @@
       "name": "count",
       "type": "number",
       "required": false,
-      "control": "number",
       "description": "检索到的参考来源总数，未自定义标题时显示在折叠按钮中。"
     },
     {
       "name": "defaultOpen",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "false",
       "description": "默认是否展开参考来源列表。"
     },
@@ -53,24 +51,186 @@
       "name": "open",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "description": "是否展开参考来源列表（受控）。"
     },
     {
       "name": "onOpenChange",
       "type": "((open: boolean) => void)",
       "required": false,
-      "control": "text",
       "description": "展开/折叠状态改变时的回调函数。"
     },
     {
       "name": "disabled",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "description": "是否禁用折叠展开交互。"
     }
   ],
+  "api": [
+    {
+      "name": "AiCitation",
+      "props": [
+        {
+          "name": "index",
+          "type": "string | number",
+          "required": true,
+          "description": "Numeric reference or source index (e.g. 1, 2)."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "required": false,
+          "description": "Source title."
+        },
+        {
+          "name": "domain",
+          "type": "string",
+          "required": false,
+          "description": "Domain or publisher name."
+        },
+        {
+          "name": "snippet",
+          "type": "string",
+          "required": false,
+          "description": "Brief excerpt or highlight."
+        },
+        {
+          "name": "href",
+          "type": "string",
+          "required": false,
+          "description": "Link URL to original source."
+        },
+        {
+          "name": "favicon",
+          "type": "string",
+          "required": false,
+          "description": "Favicon or logo image URL."
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "AiSourceItem",
+      "props": [
+        {
+          "name": "index",
+          "type": "string | number",
+          "required": false,
+          "description": "Numerical index/citation identifier (1, 2, 3...)."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "required": true,
+          "description": "Source website title or document name."
+        },
+        {
+          "name": "domain",
+          "type": "string",
+          "required": false,
+          "description": "Domain name or source category."
+        },
+        {
+          "name": "snippet",
+          "type": "string",
+          "required": false,
+          "description": "Optional snippet or excerpt from the source."
+        },
+        {
+          "name": "favicon",
+          "type": "string",
+          "required": false,
+          "description": "Optional icon or favicon URL."
+        }
+      ]
+    },
+    {
+      "name": "AiSources",
+      "props": [
+        {
+          "name": "count",
+          "type": "number",
+          "required": false,
+          "description": "检索到的参考来源总数，未自定义标题时显示在折叠按钮中。"
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "默认是否展开参考来源列表。"
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false,
+          "description": "是否展开参考来源列表（受控）。"
+        },
+        {
+          "name": "onOpenChange",
+          "type": "((open: boolean) => void)",
+          "required": false,
+          "description": "展开/折叠状态改变时的回调函数。"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "是否禁用折叠展开交互。"
+        }
+      ]
+    },
+    {
+      "name": "AiSourcesContent",
+      "props": [
+        {
+          "name": "forceMount",
+          "type": "true",
+          "required": false,
+          "description": "Used to force mounting when more control is needed. Useful when\ncontrolling animation with React animation libraries."
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "AiSourcesHeader",
+      "props": [
+        {
+          "name": "label",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Custom count or header label."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "AiSourcesList",
+      "props": []
+    }
+  ],
+  "types": [],
+  "usage": "`AiSources` 专用于 AI 联网搜索（Search-augmented Generation）和企业级 RAG 知识库场景：\n\n- **何时使用**：\n  - 联网搜索问答（如 Perplexity / SearchGPT 模式）；\n  - 基于企业文档、Wiki 或代码库的 RAG 知识检索问答；\n  - 需要对生成事实进行权威溯源与防止模型幻觉的场景。\n- **何时不应使用**：\n  - 基于模型常识的普通对话，若没有检索工具介入无需堆砌无意义引用；\n  - 纯系统静态配置项说明。\n- **设计最佳实践**：\n  - **行内精准标记**：在每一个由外部事实支撑的断言后放置 `AiCitation`，用户无需滑到页面最底部即可直接悬停核查证据；\n  - **网格整齐排列**：在底部聚合时，使用 `AiSourcesList` 的自适应网格（Grid），卡片限制行数（`line-clamp`），保持版面整洁；\n  - **外链安全属性**：外跳链接统一默认添加 `rel=\"noreferrer noopener\"` 与 `target=\"_blank\"`。",
+  "extended": "### 企业 RAG 知识库检索溯源\n\n内部知识库场景：来源为文档而非网页，标题自定义为「引用了 N 篇内部文档」，默认收起：\n\n### 边生成边引用\n\n回答流式输出时，每写完一句就在句尾弹出引用角标，来源卡片随之逐条错峰进入列表：",
+  "events": "- `onOpenChange`: (open: boolean) => void — 来源面板展开或收起时触发。\n- `onClick`: (event: React.MouseEvent<HTMLAnchorElement>) => void — 点击来源卡片或直达链接时触发。",
+  "accessibility": "- **HoverCard 无障碍规范**：\n  - `AiCitation` 触发器是原生 `<button>`，可通过键盘聚焦，并带有「引用 N：标题」的无障碍名称；聚焦或悬停都会打开预览卡片；\n  - 具备 `openDelay` (120ms) 与 `closeDelay` (80ms) 防抖保护，避免用户光标掠过时频繁闪烁。\n- **键盘导航支持**：\n  - <kbd>Tab</kbd>：按顺序聚焦行内引用角标与来源卡片；\n  - <kbd>Enter</kbd> / <kbd>Space</kbd>：展开折叠面板或在悬停气泡中打开源文档外链。\n- **高对比度焦点环**：\n  - 来源卡片与角标在获得焦点时均具备标准的 `focus-visible:ring-2` 高亮轮廓。",
   "examples": [
     {
       "name": "ai-sources-demo",

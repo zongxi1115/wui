@@ -1,0 +1,6 @@
+{
+  "name": "text-loop-demo",
+  "component": "text-loop",
+  "title": "基础用法",
+  "code": "import { TextLoop } from \"@/components/ui/text-loop\"\n\nexport default function TextLoopDemo() {\n  return (\n    <div className=\"w-full max-w-lg text-center\">\n      <h3 className=\"text-2xl font-semibold tracking-tight sm:text-3xl\">\n        为\n        <TextLoop\n          animateWidth\n          interval={2.2}\n          className=\"text-muted-foreground mx-1.5\"\n        >\n          {[\n            <span key=\"design\">设计师</span>,\n            <span key=\"engineer\">前端工程师</span>,\n            <span key=\"pm\">产品经理</span>,\n            <span key=\"ops\">运营团队</span>,\n          ]}\n        </TextLoop>\n        打造的协作空间\n      </h3>\n      <p className=\"text-muted-foreground mt-3 text-sm\">\n        开启 animateWidth 后，关键词长度变化时容器宽度平滑过渡，后面的文字不会跳动。\n      </p>\n    </div>\n  )\n}\n"
+}

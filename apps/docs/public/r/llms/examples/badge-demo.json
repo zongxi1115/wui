@@ -1,0 +1,6 @@
+{
+  "name": "badge-demo",
+  "component": "badge",
+  "title": "基础用法",
+  "code": "import { CheckIcon, ClockIcon, SparklesIcon } from \"lucide-react\"\n\nimport { Badge } from \"@/components/ui/badge\"\n\nexport default function BadgeDemo() {\n  return (\n    <div className=\"flex flex-wrap items-center justify-center gap-2.5\">\n      <Badge>默认</Badge>\n      <Badge variant=\"secondary\">次要</Badge>\n      <Badge variant=\"outline\">描边</Badge>\n      <Badge variant=\"info\">\n        <SparklesIcon /> 新功能\n      </Badge>\n      <Badge variant=\"success\">\n        <CheckIcon /> 已上线\n      </Badge>\n      <Badge variant=\"warning\">\n        <ClockIcon /> 审核中\n      </Badge>\n      <Badge variant=\"destructive\">已驳回</Badge>\n    </div>\n  )\n}\n"
+}

@@ -1,0 +1,6 @@
+{
+  "name": "checkbox-with-label",
+  "component": "checkbox",
+  "title": "带标签与描述",
+  "code": "\"use client\"\n\nimport * as React from \"react\"\nimport { Checkbox } from \"@/components/ui/checkbox\"\n\nexport default function CheckboxWithLabel() {\n  return (\n    <div className=\"w-full max-w-sm rounded-lg border border-border p-4\">\n      <label htmlFor=\"terms-and-conditions\" className=\"flex cursor-pointer items-start gap-3\">\n        <Checkbox id=\"terms-and-conditions\" defaultChecked className=\"mt-0.5\" />\n        <div className=\"grid gap-1 leading-none\">\n          <span className=\"text-sm font-medium\">接受服务条款与隐私政策</span>\n          <p className=\"text-xs text-muted-foreground\">\n            勾选即表示您已阅读并同意我们的用户使用协议及数据处理声明。\n          </p>\n        </div>\n      </label>\n    </div>\n  )\n}\n"
+}

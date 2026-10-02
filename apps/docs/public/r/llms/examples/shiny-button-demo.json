@@ -1,0 +1,6 @@
+{
+  "name": "shiny-button-demo",
+  "component": "shiny-button",
+  "title": "基础用法",
+  "code": "import { ArrowRightIcon, SparklesIcon } from \"lucide-react\"\n\nimport { ShinyButton } from \"@/components/ui/shiny-button\"\n\nexport default function ShinyButtonDemo() {\n  return (\n    <ShinyButton>\n      <SparklesIcon />\n      开始免费试用\n      <ArrowRightIcon />\n    </ShinyButton>\n  )\n}\n"
+}

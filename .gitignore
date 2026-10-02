@@ -21,4 +21,7 @@ apps/docs/registry/__index__.tsx
 apps/docs/registry/__components__.tsx
 apps/docs/registry/__props__.ts
 apps/docs/registry/__props__.json
+apps/docs/registry/__api__.json
 apps/docs/registry/__playground__.tsx
+apps/docs/registry/__playground-config__.ts
+apps/docs/registry/playgrounds/

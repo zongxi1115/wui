@@ -25,21 +25,19 @@
       "name": "value",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "验证码内容；传入后组件进入受控模式。"
     },
     {
       "name": "defaultValue",
       "type": "string",
       "required": false,
-      "control": "text",
+      "defaultValue": "",
       "description": "非受控模式下的初始内容。"
     },
     {
       "name": "length",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "6",
       "description": "输入位数。"
     },
@@ -47,21 +45,18 @@
       "name": "onValueChange",
       "type": "((value: string) => void)",
       "required": false,
-      "control": "text",
       "description": "内容变化时触发。"
     },
     {
       "name": "onComplete",
       "type": "((value: string) => void)",
       "required": false,
-      "control": "text",
       "description": "所有输入位填满时触发。"
     },
     {
       "name": "numeric",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "true",
       "description": "是否只接受数字。"
     },
@@ -69,7 +64,6 @@
       "name": "mask",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "false",
       "description": "是否以圆点遮挡已输入内容，适用于支付密码等敏感场景。"
     },
@@ -77,14 +71,12 @@
       "name": "disabled",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "description": "是否禁用全部输入位。"
     },
     {
       "name": "invalid",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "false",
       "description": "标记为校验失败，输入位边框切换为危险色。"
     },
@@ -92,18 +84,100 @@
       "name": "inputClassName",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "单个输入框的样式。"
     },
     {
       "name": "aria-label",
       "type": "string",
       "required": false,
-      "control": "text",
       "defaultValue": "验证码",
       "description": "验证码输入组的无障碍名称。"
     }
   ],
+  "api": [
+    {
+      "name": "InputOTP",
+      "props": [
+        {
+          "name": "value",
+          "type": "string",
+          "required": false,
+          "description": "验证码内容；传入后组件进入受控模式。"
+        },
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "required": false,
+          "defaultValue": "",
+          "description": "非受控模式下的初始内容。"
+        },
+        {
+          "name": "length",
+          "type": "number",
+          "required": false,
+          "defaultValue": "6",
+          "description": "输入位数。"
+        },
+        {
+          "name": "onValueChange",
+          "type": "((value: string) => void)",
+          "required": false,
+          "description": "内容变化时触发。"
+        },
+        {
+          "name": "onComplete",
+          "type": "((value: string) => void)",
+          "required": false,
+          "description": "所有输入位填满时触发。"
+        },
+        {
+          "name": "numeric",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "是否只接受数字。"
+        },
+        {
+          "name": "mask",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "是否以圆点遮挡已输入内容，适用于支付密码等敏感场景。"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "是否禁用全部输入位。"
+        },
+        {
+          "name": "invalid",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "标记为校验失败，输入位边框切换为危险色。"
+        },
+        {
+          "name": "inputClassName",
+          "type": "string",
+          "required": false,
+          "description": "单个输入框的样式。"
+        },
+        {
+          "name": "aria-label",
+          "type": "string",
+          "required": false,
+          "defaultValue": "验证码",
+          "description": "验证码输入组的无障碍名称。"
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`InputOTP` 适用于**短小固定长度、即时验证**的安全校验场景（如手机短信验证码、邮箱二次认证、支付密码、安全令牌）。\n\n- **InputOTP vs 普通 Input**：\n  - 固定位数的短信/邮箱验证码使用 `InputOTP`，分格视觉能明确告知用户所需长度并支持自动跳格。\n  - 变长密码、身份证号或常规文本请使用普通 `Input`，避免给用户造成打断感。\n- **智能剪贴板粘贴（Clipboard Paste）**：无论焦点处于第 1 格还是中间某格，直接 <kbd>Ctrl</kbd> + <kbd>V</kbd> 粘贴完整 6 位码，组件会自动截取对应长度并顺序填入所有格子，并立即触发 `onComplete`。\n- **移动端适配**：在 `numeric={true}` 模式下，组件为首个格子配置了 `autoComplete=\"one-time-code\"` 与 `inputMode=\"numeric\"`，iOS / Android 系统键盘可一键识别短信验证码并自动填充。",
+  "extended": "### 短信认证流程与倒计时\n\n真实业务中的 6 位手机短信验证流程，集成倒计时重发、`invalid` 错误反馈与填满后自动提交。输入时字符会轻微弹入，激活高亮在分格之间滑动，空白的激活格显示闪烁光标：\n\n### 支付密码 (Mask)\n\n开启 `mask` 后已输入的字符以圆点显示，并通过 `inputClassName` 放大输入格，适用于支付确认与二级解锁：\n\n### 字母与数字混合的兑换码\n\n设置 `numeric={false}` 支持字母、数字混合的 8 位企业兑换码或序列号：",
+  "events": "- `onValueChange`: (value: string) => void — 用户输入、退格删除或粘贴内容使整体值变化时触发。\n- `onComplete`: (value: string) => void — 当所有格子全部填满时触发，返回完整的验证码字符串，常用于无感自动请求后台接口。",
+  "accessibility": "- **ARIA 角色与分组**：外层容器具有 `role=\"group\"` 和 `aria-label=\"验证码\"`，每个单格具有细化描述 `aria-label=\"第 X 位，共 Y 位\"`。\n- **键盘导航交互**：\n  - <kbd>Backspace</kbd>：清除当前格子；若当前格已为空，光标自动回退至前一个格子并清除内容。\n  - <kbd>←</kbd> / <kbd>→</kbd>：在不同分格之间平滑穿梭移动焦点。\n  - <kbd>Delete</kbd>：清除当前格子内容而不移动光标。\n- **高对比度焦点环**：激活格子提供清晰的环绕焦点高亮，并在分格之间平滑移动，确保弱视与键盘操作用户随时辨识当前光标位置。\n- **顺序输入**：点击尚不能输入的靠后分格时，焦点会自动回到第一个空格，避免出现“跳格”输入。\n- **短信自动填充**：首格设置 `autoComplete=\"one-time-code\"`，系统一次性填入的完整验证码会被自动分发到各个分格。\n- **动效降级**：字符弹入、光标闪烁与高亮滑动在 `prefers-reduced-motion` 下全部关闭。",
   "examples": [
     {
       "name": "input-otp-demo",

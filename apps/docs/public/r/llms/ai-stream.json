@@ -34,14 +34,12 @@
       "name": "children",
       "type": "string",
       "required": true,
-      "control": "text",
       "description": "已经接收到的完整文本内容。"
     },
     {
       "name": "isStreaming",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "false",
       "description": "是否仍在接收后续文本。"
     },
@@ -49,7 +47,6 @@
       "name": "featherLength",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "18",
       "description": "实时渐隐效果覆盖的末尾字符数量。"
     },
@@ -57,11 +54,82 @@
       "name": "caret",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "false",
       "description": "流式输出时是否在最新字符后显示闪烁光标。"
     }
   ],
+  "api": [
+    {
+      "name": "AiStream",
+      "props": [
+        {
+          "name": "children",
+          "type": "string",
+          "required": true,
+          "description": "已经接收到的完整文本内容。"
+        },
+        {
+          "name": "isStreaming",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "是否仍在接收后续文本。"
+        },
+        {
+          "name": "featherLength",
+          "type": "number",
+          "required": false,
+          "defaultValue": "18",
+          "description": "实时渐隐效果覆盖的末尾字符数量。"
+        },
+        {
+          "name": "caret",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "流式输出时是否在最新字符后显示闪烁光标。"
+        }
+      ]
+    },
+    {
+      "name": "AiStreamCaret",
+      "props": []
+    },
+    {
+      "name": "AiStreamDeltas",
+      "props": [
+        {
+          "name": "deltas",
+          "type": "readonly string[]",
+          "required": true,
+          "description": "Ordered delta segments. Append entries without rewriting previous ones."
+        },
+        {
+          "name": "isStreaming",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "是否仍在接收后续文本。"
+        },
+        {
+          "name": "caret",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "流式输出时是否在最新字符后显示闪烁光标。"
+        }
+      ]
+    },
+    {
+      "name": "AiStreamEdge",
+      "props": []
+    }
+  ],
+  "types": [],
+  "usage": "`AiStream` 将流式文字动画与具体的会话容器解耦，可灵活嵌入在普通对话、思考折叠框或全屏代码预览中：\n\n- **何时使用**：\n  - 大语言模型流式输出正文内容；\n  - 推理链 (`AiReasoning`) 内部的动态思考文字；\n  - 代码生成或日志输出过程中的渐进式打字效果。\n- **两种模式的选型建议**：\n  - **`AiStream`（累计模式，推荐）**：只需传入单一的 `string`。内部将已稳定的前段文本与末尾羽化边缘分离，DOM 节点极度精简，即使面对数万字的长文本也不会引起卡顿；\n  - **`AiStreamDeltas`（分段模式）**：当服务端返回的是成块的句子或 Markdown Token 时使用，每个新块会独立经历微位移与淡入。\n- **设计最佳实践**：\n  - **避免逐字高开销重绘**：避免在每一个中文字符生成时触发整段文本的重解析；\n  - **错误终止处理**：若后端连接中断或抛错，业务层应立即将 `isStreaming` 设为 `false`，并就地展示错误通知。",
+  "extended": "### Delta 分段增量模式\n\n适合按句子或段落返回的大颗粒度服务端增量输出，新片段进入时伴随柔和淡入：\n\n### 交互式流式控制器\n\n实时测试流式羽化长度、速度调节与暂停/继续状态切换：",
+  "events": "`AiStream` 与 `AiStreamDeltas` 为纯展示组件，不产生业务事件；流式生命周期完全由外部请求状态（`isStreaming`）控制。",
+  "accessibility": "- **实时区域播报 (ARIA Live Regions)**：\n  - 在 `isStreaming=true` 时，组件外层自动挂载 `aria-live=\"polite\"` 与 `aria-busy=\"true\"`；\n  - 屏幕阅读器会在用户停顿时平稳朗读新到达的内容，不会产生连续打断或噪音。\n- **文字选择与复制**：\n  - 渐变羽化通过 CSS `background-clip: text` 实现，不插入额外的破坏性 DOM 占位符，用户在流式过程中仍可自由选中文本并直接复制。\n- **减少动态效果 (Reduced Motion)**：\n  - 内置 `useReducedMotion()` 监听；当用户启用系统的“减少动态效果”偏好时，`AiStreamDeltas` 会跳过位移与模糊动效，直接以完整透明度渲染新文本。",
   "examples": [
     {
       "name": "ai-stream-demo",

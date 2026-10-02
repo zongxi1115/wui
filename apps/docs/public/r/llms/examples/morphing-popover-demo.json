@@ -1,0 +1,6 @@
+{
+  "name": "morphing-popover-demo",
+  "component": "morphing-popover",
+  "title": "基础用法",
+  "code": "import { PlusIcon } from \"lucide-react\"\n\nimport { Button } from \"@/components/ui/button\"\nimport {\n  MorphingPopover,\n  MorphingPopoverClose,\n  MorphingPopoverContent,\n  MorphingPopoverTrigger,\n} from \"@/components/ui/morphing-popover\"\nimport { Textarea } from \"@/components/ui/textarea\"\n\nexport default function MorphingPopoverDemo() {\n  return (\n    <MorphingPopover>\n      <MorphingPopoverTrigger>\n        <PlusIcon className=\"mr-2 size-4\" />\n        添加备注\n      </MorphingPopoverTrigger>\n      <MorphingPopoverContent>\n        <label htmlFor=\"quick-note\" className=\"text-sm font-medium\">\n          快速备注\n        </label>\n        <Textarea\n          id=\"quick-note\"\n          rows={3}\n          resize=\"none\"\n          placeholder=\"记录一个想法…\"\n          className=\"mt-2\"\n        />\n        <div className=\"mt-3 flex justify-end gap-2\">\n          <MorphingPopoverClose asChild>\n            <Button variant=\"ghost\" size=\"sm\">\n              取消\n            </Button>\n          </MorphingPopoverClose>\n          <MorphingPopoverClose asChild>\n            <Button size=\"sm\">保存</Button>\n          </MorphingPopoverClose>\n        </div>\n      </MorphingPopoverContent>\n    </MorphingPopover>\n  )\n}\n"
+}

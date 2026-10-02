@@ -1,0 +1,6 @@
+{
+  "name": "avatar-sizes",
+  "component": "avatar",
+  "title": "尺寸规格",
+  "code": "import { Avatar, AvatarFallback, AvatarImage } from \"@/components/ui/avatar\"\n\nconst sizes = [\n  { size: \"xs\", label: \"xs · 24px\" },\n  { size: \"sm\", label: \"sm · 32px\" },\n  { size: \"default\", label: \"default · 40px\" },\n  { size: \"lg\", label: \"lg · 48px\" },\n] as const\n\nexport default function AvatarSizes() {\n  return (\n    <div className=\"flex flex-wrap items-end justify-center gap-6\">\n      {sizes.map((item) => (\n        <div key={item.size} className=\"flex flex-col items-center gap-2\">\n          <Avatar size={item.size}>\n            <AvatarImage\n              src=\"https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80\"\n              alt=\"沈知意\"\n            />\n            <AvatarFallback>沈</AvatarFallback>\n          </Avatar>\n          <span className=\"text-muted-foreground font-mono text-xs\">\n            {item.label}\n          </span>\n        </div>\n      ))}\n    </div>\n  )\n}\n"
+}

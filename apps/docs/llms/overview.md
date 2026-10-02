@@ -30,8 +30,9 @@ pnpm dlx @wui-design/cli@latest add @wui/<name>     # 或者：pnpm dlx shadcn@l
 
 ## 硬性规则
 
-1. **不要臆造 prop。** 只使用 `wui_get_component` 返回的 props 表里存在的属性；
-   组件都会把剩余 props 展开到底层 DOM 元素，所以原生属性可以直接传。
+1. **不要臆造 prop。** 用 `wui_get_component` 查看按导出组件分组的 API 摘要，
+   注意区分根组件与子组件的属性。摘要省略常规 DOM 属性；属性是否透传、落在哪个元素，
+   以对应组件类型和实现为准。不确定时继续查看示例或源码。
 2. **用语义 token，不要用调色板色值。** 写 `bg-primary text-primary-foreground`、
    `border-border`、`text-muted-foreground`，不要写 `bg-blue-500`、`text-gray-400`、
    `#fff`。token 清单见 `wui_get_theme_tokens`。深色模式由 token 自动处理，

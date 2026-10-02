@@ -36,15 +36,243 @@
       "name": "variant",
       "type": "\"inline\" | \"modal\"",
       "required": false,
-      "control": "select",
       "options": [
         "inline",
         "modal"
       ],
       "defaultValue": "modal",
       "description": "显示为居中的模态对话框，或在文档流中从触发元素原地展开。"
+    },
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": false
+    },
+    {
+      "name": "open",
+      "type": "boolean",
+      "required": false
+    },
+    {
+      "name": "defaultOpen",
+      "type": "boolean",
+      "required": false
+    },
+    {
+      "name": "onOpenChange",
+      "type": "((open: boolean) => void)",
+      "required": false
+    },
+    {
+      "name": "modal",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": "true"
     }
   ],
+  "api": [
+    {
+      "name": "Dialog",
+      "props": [
+        {
+          "name": "variant",
+          "type": "\"inline\" | \"modal\"",
+          "required": false,
+          "options": [
+            "inline",
+            "modal"
+          ],
+          "defaultValue": "modal",
+          "description": "显示为居中的模态对话框，或在文档流中从触发元素原地展开。"
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "onOpenChange",
+          "type": "((open: boolean) => void)",
+          "required": false
+        },
+        {
+          "name": "modal",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true"
+        }
+      ]
+    },
+    {
+      "name": "DialogClose",
+      "props": [
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "DialogContent",
+      "props": [
+        {
+          "name": "forceMount",
+          "type": "true",
+          "required": false,
+          "description": "Used to force mounting when more control is needed. Useful when\ncontrolling animation with React animation libraries."
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "onCloseAutoFocus",
+          "type": "((event: Event) => void)",
+          "required": false,
+          "description": "Event handler called when auto-focusing on close.\nCan be prevented."
+        },
+        {
+          "name": "onEscapeKeyDown",
+          "type": "((event: KeyboardEvent) => void)",
+          "required": false,
+          "description": "Event handler called when the escape key is down.\nCan be prevented."
+        },
+        {
+          "name": "deferPointerDownOutside",
+          "type": "boolean",
+          "required": false,
+          "description": "When `true`, a `'pointerdown'` event outside of the layered element will\nwait for the interaction's click event before dispatching, allowing\nthird-party code to stop propagation of later events and cancel dismissal."
+        },
+        {
+          "name": "onPointerDownOutside",
+          "type": "((event: PointerDownOutsideEvent) => void)",
+          "required": false,
+          "description": "Event handler called when the a `pointerdown` event happens outside of the `DismissableLayer`.\nCan be prevented."
+        },
+        {
+          "name": "onFocusOutside",
+          "type": "((event: FocusOutsideEvent) => void)",
+          "required": false,
+          "description": "Event handler called when the focus moves outside of the `DismissableLayer`.\nCan be prevented."
+        },
+        {
+          "name": "onInteractOutside",
+          "type": "((event: PointerDownOutsideEvent | FocusOutsideEvent) => void)",
+          "required": false,
+          "description": "Event handler called when an interaction happens outside the `DismissableLayer`.\nSpecifically, when a `pointerdown` event happens outside or focus moves outside of it.\nCan be prevented."
+        },
+        {
+          "name": "onOpenAutoFocus",
+          "type": "((event: Event) => void)",
+          "required": false,
+          "description": "Event handler called when auto-focusing on open.\nCan be prevented."
+        }
+      ]
+    },
+    {
+      "name": "DialogDescription",
+      "props": [
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "DialogFooter",
+      "props": []
+    },
+    {
+      "name": "DialogHeader",
+      "props": []
+    },
+    {
+      "name": "DialogOverlay",
+      "props": [
+        {
+          "name": "forceMount",
+          "type": "true",
+          "required": false,
+          "description": "Used to force mounting when more control is needed. Useful when\ncontrolling animation with React animation libraries."
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "DialogPortal",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false
+        },
+        {
+          "name": "container",
+          "type": "Element | DocumentFragment | null",
+          "required": false,
+          "description": "Specify a container element to portal the content into."
+        },
+        {
+          "name": "forceMount",
+          "type": "true",
+          "required": false,
+          "description": "Used to force mounting when more control is needed. Useful when\ncontrolling animation with React animation libraries."
+        }
+      ]
+    },
+    {
+      "name": "DialogTitle",
+      "props": [
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "DialogTrigger",
+      "props": [
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`Dialog` 用于中断用户当前流程，引导用户聚焦于高优先级的操作任务或重要信息决策：\n\n- **组件选型对比**：\n  - **Dialog vs Drawer**：对于简短、强聚焦、破坏性或即刻决策的场景（如密码确认、新建配置），优先使用居中的 `Dialog`；对于包含多字段长表单、主从关联详情、复杂过滤筛选器的场景，优先使用侧边滑出的 `Drawer`。\n  - **Dialog vs ConfirmDialog**：如果仅需简单的“确定/取消”二元确认，推荐使用轻量开箱即用的 [`ConfirmDialog`](/docs/components/confirm-dialog)；如果包含自定义表单控件、多步骤或长说明文本，使用灵活组合的 `Dialog`。\n  - **Dialog vs Popover**：`Popover` 是依附于触发器的轻量非模态气泡卡片，不锁定焦点；`Dialog` 会阻断页面交互并锁定焦点。\n- **信息层级与语义规范**：\n  - 每个 `DialogContent` 必须包含 `DialogTitle`，便于屏幕阅读器朗读。若设计上无需显式标题，需添加 `sr-only` 隐藏文本或通过 `aria-label` 声明。\n  - 底部操作栏（`DialogFooter`）应遵循视觉主次规范：主要操作（Primary Button）置于最右侧，取消操作（Outline/Ghost）紧随其左。\n- **动态原点展开（Origin Morphing）**：\n  - 组件内置智能原点计算能力：打开时，面板会自动从触发按钮的几何中心以弹性缓动膨胀至屏幕中央；关闭时则精准缩回原按钮，维持空间连续性。",
+  "extended": "### 表单交互与受控状态\n\n在对话框中嵌入复杂表单，通过受控的 `open` 状态结合异步请求与加载反馈，提供安全顺畅的提交体验：\n\n### 原地布局变换（非模态 `variant=\"inline\"`）\n\n设置 `variant=\"inline\"` 时，Dialog 会在原文档流位置展开，Trigger 与 Content 共享同一个背景表面并执行平滑的形态变换，适合轻量级行内设置与详情展开：\n\n  `variant=\"inline\"` 不会渲染全屏遮罩，也不会锁定全局焦点，适合嵌入在卡片或侧边栏内的局部编辑场景。如果需要阻断用户操作，请使用默认的 `variant=\"modal\"`。\n\n### 自定义尺寸与大内容展示\n\n通过为 `DialogContent` 传入 Tailwind 宽度类（例如 `sm:max-w-[640px]`），可扩展对话框宽度以展示代码片段、数据结构或多栏信息：\n\n### 破坏性操作二次确认\n\n对于删除仓库、清空数据等不可逆危险操作，可在对话框中要求用户输入确认关键字，配合警示色按钮防止误触：",
+  "events": "- `onOpenChange`: (open: boolean) => void — 当用户通过点击触发器、点击遮罩、按下 Esc 键或点击关闭按钮导致开启状态改变时触发。\n- `onPointerDownOutside`: (event: PointerDownOutsideEvent) => void — 在模态框外部按下指针时触发。可通过 event.preventDefault() 阻止点击遮罩关闭。\n- `onEscapeKeyDown`: (event: KeyboardEvent) => void — 按下 Esc 键时触发。可通过 event.preventDefault() 阻止按键关闭行为。\n- `onOpenAutoFocus`: (event: Event) => void — 对话框打开并完成入场时焦点移入前触发，可自定义首个聚焦元素。\n- `onCloseAutoFocus`: (event: Event) => void — 对话框关闭且退场动效完成时触发，默认将焦点归还给触发元素。",
+  "accessibility": "- **WAI-ARIA 规范**：\n  - 浮层容器自动赋予 `role=\"dialog\"` 或 `role=\"alertdialog\"`。\n  - 自动绑定 `aria-labelledby`（指向 `DialogTitle`）与 `aria-describedby`（指向 `DialogDescription`）。\n- **焦点捕获与恢复（Focus Trap & Return）**：\n  - 打开弹窗时，焦点自动锁定在弹窗内部，防止用户通过 <kbd>Tab</kbd> 意外聚焦到遮罩层下方的背景元素。\n  - 关闭弹窗后，焦点会自动无缝归还至触发此弹窗的原始按钮，确保键盘流体验不中断。\n- **键盘导航**：\n  - <kbd>Esc</kbd>：快速退出并关闭对话框。\n  - <kbd>Tab</kbd> / <kbd>Shift</kbd> + <kbd>Tab</kbd>：在弹窗内部的所有可聚焦元素（输入框、操作按钮、右上角关闭按钮）之间顺次循环。\n- **动效降级**：\n  - 监听系统的 `prefers-reduced-motion` 设置。开启减弱动态效果后，弹性缩放生长动效将优雅降级为即时的不透明度淡入淡出。",
   "examples": [
     {
       "name": "dialog-demo",

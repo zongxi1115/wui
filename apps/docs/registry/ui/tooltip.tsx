@@ -21,8 +21,9 @@ const tooltipContentVariants = cva(
   }
 )
 
-export interface TooltipProviderProps
-  extends React.ComponentProps<typeof TooltipPrimitive.Provider> {}
+export interface TooltipProviderProps extends React.ComponentProps<
+  typeof TooltipPrimitive.Provider
+> {}
 
 /** Coordinates open delays between multiple tooltips. */
 function TooltipProvider({
@@ -39,15 +40,14 @@ function TooltipProvider({
   )
 }
 
-export interface TooltipProps
-  extends Omit<
-    React.ComponentProps<typeof TooltipPrimitive.Root>,
-    | "open"
-    | "defaultOpen"
-    | "onOpenChange"
-    | "delayDuration"
-    | "disableHoverableContent"
-  > {
+export interface TooltipProps extends Omit<
+  React.ComponentProps<typeof TooltipPrimitive.Root>,
+  | "open"
+  | "defaultOpen"
+  | "onOpenChange"
+  | "delayDuration"
+  | "disableHoverableContent"
+> {
   /** Controlled open state. */
   open?: boolean
   /** Initial open state when uncontrolled. @default false */
@@ -71,11 +71,10 @@ function TooltipTrigger(
   return <TooltipPrimitive.Trigger data-slot="tooltip-trigger" {...props} />
 }
 
-export interface TooltipContentProps
-  extends Omit<
-    React.ComponentProps<typeof TooltipPrimitive.Content>,
-    "sideOffset"
-  > {
+export interface TooltipContentProps extends Omit<
+  React.ComponentProps<typeof TooltipPrimitive.Content>,
+  "sideOffset"
+> {
   /** Physical size of the tooltip panel. @default "default" */
   size?: "sm" | "default"
   /** Gap in pixels between the trigger and panel. @default 6 */
@@ -90,6 +89,7 @@ function TooltipContent({
   sideOffset = 6,
   size = "default",
   showArrow = true,
+  arrowPadding = 4,
   children,
   ...props
 }: TooltipContentProps) {
@@ -99,7 +99,12 @@ function TooltipContent({
         data-slot="tooltip-content"
         data-size={size}
         sideOffset={sideOffset}
-        className={cn(tooltipContentVariants({ size }), className)}
+        arrowPadding={arrowPadding}
+        className={cn(
+          tooltipContentVariants({ size }),
+          "[&>span:has(>[data-slot=tooltip-arrow])]:m-0 [&>span:has(>[data-slot=tooltip-arrow])]:leading-none",
+          className
+        )}
         {...props}
       >
         {children}

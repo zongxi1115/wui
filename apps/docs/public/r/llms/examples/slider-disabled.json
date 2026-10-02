@@ -1,0 +1,6 @@
+{
+  "name": "slider-disabled",
+  "component": "slider",
+  "title": "禁用状态",
+  "code": "\"use client\"\n\nimport * as React from \"react\"\nimport { Slider } from \"@/components/ui/slider\"\n\nexport default function SliderDisabled() {\n  return (\n    <div className=\"w-full max-w-sm space-y-6\">\n      <div className=\"space-y-2\">\n        <span className=\"text-xs font-semibold text-muted-foreground uppercase tracking-wider\">\n          单滑块禁用（只读模式）\n        </span>\n        <Slider defaultValue={[60]} disabled aria-label=\"禁用单滑块\" />\n      </div>\n\n      <div className=\"space-y-2\">\n        <span className=\"text-xs font-semibold text-muted-foreground uppercase tracking-wider\">\n          双端范围滑块禁用\n        </span>\n        <Slider defaultValue={[20, 80]} disabled aria-label=\"禁用双滑块\" />\n      </div>\n    </div>\n  )\n}\n"
+}

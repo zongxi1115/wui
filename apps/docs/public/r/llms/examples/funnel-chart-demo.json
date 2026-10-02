@@ -1,0 +1,6 @@
+{
+  "name": "funnel-chart-demo",
+  "component": "funnel-chart",
+  "title": "基础示例 · Basic example",
+  "code": "\"use client\"\n\nimport * as React from \"react\"\nimport { Badge } from \"@/components/ui/badge\"\nimport { FunnelChart } from \"@/components/charts/funnel-chart\"\n\nconst CONVERSION_DATA = [\n  { stage: \"首页访问 (Visitors)\", count: 120000 },\n  { stage: \"查看定价与文档 (Engaged)\", count: 64000 },\n  { stage: \"注册试用 (Signups)\", count: 28000 },\n  { stage: \"创建首个项目 (Active)\", count: 14500 },\n  { stage: \"升级付费版 (Paid)\", count: 4800 },\n]\n\nexport default function FunnelChartDemo() {\n  return (\n    <div className=\"w-full max-w-xl\">\n      <FunnelChart\n        title=\"用户获取与付费漏斗\"\n        description=\"从首页访问到最终订阅的各阶段流转率与流失分析\"\n        actions={\n          <Badge variant=\"secondary\" className=\"text-[10px] py-0\">\n            总转化率 4.0%\n          </Badge>\n        }\n        data={CONVERSION_DATA}\n        nameKey=\"stage\"\n        valueKey=\"count\"\n        valueFormatter={(val) => `${val.toLocaleString()} 人`}\n        height={320}\n      />\n    </div>\n  )\n}\n"
+}

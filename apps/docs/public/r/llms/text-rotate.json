@@ -32,28 +32,24 @@
       "name": "texts",
       "type": "string[]",
       "required": true,
-      "control": "text",
       "description": "依次轮换显示的文本列表。"
     },
     {
       "name": "ref",
       "type": "Ref<TextRotateHandle>",
       "required": false,
-      "control": "text",
       "description": "命令式句柄，提供 next、previous、jumpTo 与 reset 方法。"
     },
     {
       "name": "index",
       "type": "number",
       "required": false,
-      "control": "number",
       "description": "受控模式下当前显示的文本索引，需配合 onIndexChange 使用。"
     },
     {
       "name": "defaultIndex",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "0",
       "description": "非受控模式下初始显示的文本索引。"
     },
@@ -61,14 +57,12 @@
       "name": "onIndexChange",
       "type": "((index: number) => void)",
       "required": false,
-      "control": "text",
       "description": "即将切换到另一段文本时触发，回调参数为目标索引。"
     },
     {
       "name": "auto",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "true",
       "description": "是否按 interval 自动轮换。"
     },
@@ -76,7 +70,6 @@
       "name": "interval",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "2.5",
       "description": "每段文本停留的时长，单位为秒。"
     },
@@ -84,7 +77,6 @@
       "name": "loop",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "true",
       "description": "显示到最后一段后是否回到第一段。"
     },
@@ -92,7 +84,6 @@
       "name": "paused",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "false",
       "description": "是否暂停自动轮换，例如在悬停时暂停。"
     },
@@ -100,7 +91,6 @@
       "name": "split",
       "type": "\"words\" | \"characters\" | \"lines\"",
       "required": false,
-      "control": "select",
       "options": [
         "words",
         "characters",
@@ -113,7 +103,6 @@
       "name": "direction",
       "type": "\"up\" | \"down\"",
       "required": false,
-      "control": "select",
       "options": [
         "up",
         "down"
@@ -125,7 +114,6 @@
       "name": "staggerFrom",
       "type": "TextRotateStaggerFrom",
       "required": false,
-      "control": "text",
       "defaultValue": "first",
       "description": "错峰从哪个位置开始，也可以传入具体的元素索引。"
     },
@@ -133,7 +121,6 @@
       "name": "staggerDuration",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "0.025",
       "description": "相邻两个元素之间的动画延迟，单位为秒。"
     },
@@ -141,7 +128,6 @@
       "name": "blur",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "false",
       "description": "进入和离开时是否附带模糊效果。"
     },
@@ -149,7 +135,6 @@
       "name": "transition",
       "type": "Transition",
       "required": false,
-      "control": "text",
       "defaultValue": "{\r\n  type: \"spring\",\r\n  stiffness: 380,\r\n  damping: 32,\r\n  mass: 0.8,\r\n}",
       "description": "每个动画元素使用的过渡配置。"
     },
@@ -157,7 +142,6 @@
       "name": "sizeTransition",
       "type": "Transition",
       "required": false,
-      "control": "text",
       "defaultValue": "{\r\n  type: \"spring\",\r\n  stiffness: 520,\r\n  damping: 38,\r\n  mass: 0.7,\r\n}",
       "description": "容器宽度（或按行拆分时的高度）变化使用的过渡配置。"
     },
@@ -165,17 +149,165 @@
       "name": "groupClassName",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "应用于每个词组或行组的类名。"
     },
     {
       "name": "elementClassName",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "应用于每个动画元素（字符、词或行）的类名。"
     }
   ],
+  "api": [
+    {
+      "name": "TextRotate",
+      "props": [
+        {
+          "name": "texts",
+          "type": "string[]",
+          "required": true,
+          "description": "依次轮换显示的文本列表。"
+        },
+        {
+          "name": "ref",
+          "type": "Ref<TextRotateHandle>",
+          "required": false,
+          "description": "命令式句柄，提供 next、previous、jumpTo 与 reset 方法。"
+        },
+        {
+          "name": "index",
+          "type": "number",
+          "required": false,
+          "description": "受控模式下当前显示的文本索引，需配合 onIndexChange 使用。"
+        },
+        {
+          "name": "defaultIndex",
+          "type": "number",
+          "required": false,
+          "defaultValue": "0",
+          "description": "非受控模式下初始显示的文本索引。"
+        },
+        {
+          "name": "onIndexChange",
+          "type": "((index: number) => void)",
+          "required": false,
+          "description": "即将切换到另一段文本时触发，回调参数为目标索引。"
+        },
+        {
+          "name": "auto",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "是否按 interval 自动轮换。"
+        },
+        {
+          "name": "interval",
+          "type": "number",
+          "required": false,
+          "defaultValue": "2.5",
+          "description": "每段文本停留的时长，单位为秒。"
+        },
+        {
+          "name": "loop",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "显示到最后一段后是否回到第一段。"
+        },
+        {
+          "name": "paused",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "是否暂停自动轮换，例如在悬停时暂停。"
+        },
+        {
+          "name": "split",
+          "type": "\"words\" | \"characters\" | \"lines\"",
+          "required": false,
+          "options": [
+            "words",
+            "characters",
+            "lines"
+          ],
+          "defaultValue": "characters",
+          "description": "错峰动画的拆分粒度：按字符、按词或按行。"
+        },
+        {
+          "name": "direction",
+          "type": "\"up\" | \"down\"",
+          "required": false,
+          "options": [
+            "up",
+            "down"
+          ],
+          "defaultValue": "up",
+          "description": "运动方向。up 表示旧文本向上离开、新文本从下方进入。"
+        },
+        {
+          "name": "staggerFrom",
+          "type": "TextRotateStaggerFrom",
+          "required": false,
+          "defaultValue": "first",
+          "description": "错峰从哪个位置开始，也可以传入具体的元素索引。"
+        },
+        {
+          "name": "staggerDuration",
+          "type": "number",
+          "required": false,
+          "defaultValue": "0.025",
+          "description": "相邻两个元素之间的动画延迟，单位为秒。"
+        },
+        {
+          "name": "blur",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "进入和离开时是否附带模糊效果。"
+        },
+        {
+          "name": "transition",
+          "type": "Transition",
+          "required": false,
+          "defaultValue": "{\r\n  type: \"spring\",\r\n  stiffness: 380,\r\n  damping: 32,\r\n  mass: 0.8,\r\n}",
+          "description": "每个动画元素使用的过渡配置。"
+        },
+        {
+          "name": "sizeTransition",
+          "type": "Transition",
+          "required": false,
+          "defaultValue": "{\r\n  type: \"spring\",\r\n  stiffness: 520,\r\n  damping: 38,\r\n  mass: 0.7,\r\n}",
+          "description": "容器宽度（或按行拆分时的高度）变化使用的过渡配置。"
+        },
+        {
+          "name": "groupClassName",
+          "type": "string",
+          "required": false,
+          "description": "应用于每个词组或行组的类名。"
+        },
+        {
+          "name": "elementClassName",
+          "type": "string",
+          "required": false,
+          "description": "应用于每个动画元素（字符、词或行）的类名。"
+        }
+      ]
+    }
+  ],
+  "types": [
+    {
+      "name": "TextRotateStaggerFrom",
+      "definition": "export type TextRotateStaggerFrom =\r\n  | \"first\"\r\n  | \"last\"\r\n  | \"center\"\r\n  | \"random\"\r\n  | number"
+    },
+    {
+      "name": "TextRotateHandle",
+      "definition": "export interface TextRotateHandle {\r\n  /** Rotate to the next text. Wraps to the first one when `loop` is on. */\r\n  next: () => void\r\n  /** Rotate to the previous text. Wraps to the last one when `loop` is on. */\r\n  previous: () => void\r\n  /** Rotate to a specific index. Out-of-range values are clamped. */\r\n  jumpTo: (index: number) => void\r\n  /** Rotate back to the first text. */\r\n  reset: () => void\r\n}"
+    }
+  ],
+  "usage": "`TextRotate` 适合营销页主标题中的关键词轮换、产品能力或受众的并列展示，以及紧凑的状态文案。与 [文本循环 Text Loop](/docs/components/text-loop) 整块替换不同，它把文本拆成字符、单词或行逐个运动，并自动适配宽度。\n\n- **同一语法位置**：轮换的文本应能填入同一句话的同一位置，保证任意时刻整句通顺，例如「为 设计师 / 开发者 打造」。\n- **拆分粒度与文本长度匹配**：短词用 `characters`；较长的英文短句用 `words`，避免错峰总时长过长；整句提示或中文长句用 `lines`，此时文本可随容器宽度换行，组件改为过渡高度。\n- **克制的错峰**：字符级 `staggerDuration` 建议在 0.02–0.04 秒之间，总时长超过 0.6 秒会让人觉得拖沓。\n- **给阅读留时间**：信息量较大的文案建议把 `interval` 调到 4 秒以上，并在悬停时通过 `paused` 暂停。",
+  "extended": "### 字符级错峰与方向\n\n切换错峰起点、运动方向与模糊，观察同一组英文单词的不同节奏：\n\n### 按单词轮换状态文案\n\n`split=\"words\"` 按空格拆分，适合长度差异较大的日志或状态短句：\n\n### 命令式控制与悬停暂停\n\n通过 `ref` 调用 `previous()` / `next()`，结合 `direction` 让“上一条”向下滚动、“下一条”向上滚动；悬停时 `paused` 暂停自动轮换，`onIndexChange` 同步计数：\n\n```tsx\nconst rotateRef = React.useRef<TextRotateHandle>(null)\n\n<TextRotate ref={rotateRef} texts={tips} split=\"lines\" paused={hovered} />\n<Button onClick={() => rotateRef.current?.next()}>下一条</Button>\n```",
+  "events": "- `onIndexChange`: (index: number) => void — 自动轮换或调用命令式方法切换下标时触发，参数为新的下标。",
+  "accessibility": "- **完整文本朗读**：组件内置一个 `sr-only` 节点输出当前完整文本，视觉上被拆分的字符节点均设置了 `aria-hidden`，读屏软件不会逐字朗读。\n- **不打断用户**：当前文本没有使用 `aria-live`，自动轮换不会持续打断读屏播报。若轮换内容本身是需要播报的状态，请在外层自行添加 `aria-live=\"polite\"`。\n- **减少动态效果**：开启 `prefers-reduced-motion` 时，字符位移、错峰与宽度动画全部即时完成，仅保留内容切换。\n- **SSR 友好**：首屏直接渲染第一段文本，宽度测量与随机错峰都在客户端挂载后进行，不会产生水合差异。",
   "examples": [
     {
       "name": "text-rotate-demo",

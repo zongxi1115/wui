@@ -1,0 +1,6 @@
+{
+  "name": "text-roll-mount-stagger",
+  "component": "text-roll",
+  "title": "挂载即时翻滚",
+  "code": "\"use client\"\n\nimport * as React from \"react\"\nimport { RotateCcwIcon } from \"lucide-react\"\n\nimport { Button } from \"@/components/ui/button\"\nimport { TextRoll } from \"@/components/ui/text-roll\"\n\nexport default function TextRollMountStagger() {\n  const [key, setKey] = React.useState(0)\n\n  return (\n    <div className=\"flex flex-col items-center gap-5 text-center\">\n      <div key={key}>\n        <p className=\"text-muted-foreground text-xs\">过去 90 天服务可用性</p>\n        <TextRoll\n          trigger=\"mount\"\n          duration={0.7}\n          getEnterDelay={(index) => 0.15 + index * 0.05}\n          className=\"mt-2 font-mono text-5xl font-semibold tracking-tight tabular-nums\"\n        >\n          99.992%\n        </TextRoll>\n      </div>\n      <Button variant=\"ghost\" size=\"sm\" onClick={() => setKey((k) => k + 1)}>\n        <RotateCcwIcon />\n        重播\n      </Button>\n    </div>\n  )\n}\n"
+}

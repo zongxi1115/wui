@@ -1,0 +1,6 @@
+{
+  "name": "switch-controlled",
+  "component": "switch",
+  "title": "受控模式",
+  "code": "\"use client\"\n\nimport * as React from \"react\"\nimport { Switch } from \"@/components/ui/switch\"\nimport { Button } from \"@/components/ui/button\"\n\nexport default function SwitchControlled() {\n  const [checked, setChecked] = React.useState(true)\n\n  return (\n    <div className=\"flex flex-col items-start gap-4\">\n      <div className=\"flex items-center gap-3\">\n        <Switch\n          id=\"controlled-switch\"\n          checked={checked}\n          onCheckedChange={setChecked}\n        />\n        <label\n          htmlFor=\"controlled-switch\"\n          className=\"text-sm font-medium leading-none cursor-pointer\"\n        >\n          推送通知：<span className=\"text-muted-foreground\">{checked ? \"已开启\" : \"已关闭\"}</span>\n        </label>\n      </div>\n\n      <div className=\"flex items-center gap-2\">\n        <Button\n          size=\"sm\"\n          variant=\"outline\"\n          onClick={() => setChecked((prev) => !prev)}\n        >\n          外部切换状态\n        </Button>\n        <Button\n          size=\"sm\"\n          variant=\"ghost\"\n          onClick={() => setChecked(false)}\n        >\n          重置为关闭\n        </Button>\n      </div>\n    </div>\n  )\n}\n"
+}

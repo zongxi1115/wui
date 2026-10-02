@@ -35,28 +35,25 @@
       "name": "query",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "受控模式下的搜索词。"
     },
     {
       "name": "defaultQuery",
       "type": "string",
       "required": false,
-      "control": "text",
+      "defaultValue": "",
       "description": "非受控模式下的初始搜索词。"
     },
     {
       "name": "onQueryChange",
       "type": "((query: string) => void)",
       "required": false,
-      "control": "text",
       "description": "搜索词变化时触发。"
     },
     {
       "name": "shouldFilter",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "true",
       "description": "是否由组件过滤选项。关闭后可接入服务端搜索。@default true"
     },
@@ -64,17 +61,132 @@
       "name": "filter",
       "type": "((value: string, query: string, keywords: string[]) => boolean)",
       "required": false,
-      "control": "text",
       "description": "自定义选项匹配规则。"
     },
     {
       "name": "defaultActiveValue",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "首次渲染时优先高亮的选项值，常用于让已选项在打开时可见。"
     }
   ],
+  "api": [
+    {
+      "name": "Command",
+      "props": [
+        {
+          "name": "query",
+          "type": "string",
+          "required": false,
+          "description": "受控模式下的搜索词。"
+        },
+        {
+          "name": "defaultQuery",
+          "type": "string",
+          "required": false,
+          "defaultValue": "",
+          "description": "非受控模式下的初始搜索词。"
+        },
+        {
+          "name": "onQueryChange",
+          "type": "((query: string) => void)",
+          "required": false,
+          "description": "搜索词变化时触发。"
+        },
+        {
+          "name": "shouldFilter",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "是否由组件过滤选项。关闭后可接入服务端搜索。@default true"
+        },
+        {
+          "name": "filter",
+          "type": "((value: string, query: string, keywords: string[]) => boolean)",
+          "required": false,
+          "description": "自定义选项匹配规则。"
+        },
+        {
+          "name": "defaultActiveValue",
+          "type": "string",
+          "required": false,
+          "description": "首次渲染时优先高亮的选项值，常用于让已选项在打开时可见。"
+        }
+      ]
+    },
+    {
+      "name": "CommandEmpty",
+      "props": []
+    },
+    {
+      "name": "CommandGroup",
+      "props": [
+        {
+          "name": "heading",
+          "type": "ReactNode",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "CommandInput",
+      "props": [
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "CommandItem",
+      "props": [
+        {
+          "name": "value",
+          "type": "string",
+          "required": true,
+          "description": "用于搜索和选择回调的稳定值。"
+        },
+        {
+          "name": "keywords",
+          "type": "string[]",
+          "required": false,
+          "defaultValue": "[]",
+          "description": "参与搜索的别名，例如拼音或缩写。"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "禁止聚焦和选择此项。"
+        },
+        {
+          "name": "onSelect",
+          "type": "((value: string) => void)",
+          "required": false,
+          "description": "通过点击或 Enter 选中时触发。"
+        }
+      ]
+    },
+    {
+      "name": "CommandList",
+      "props": []
+    },
+    {
+      "name": "CommandSeparator",
+      "props": []
+    },
+    {
+      "name": "CommandShortcut",
+      "props": []
+    }
+  ],
+  "types": [],
+  "usage": "`Command` 适用于高密度、高操作频率的现代效率工具：\n\n- **Spotlight 全局命令调色板**：配合 `Dialog` 与全局快捷键（如 <kbd>⌘</kbd> + <kbd>K</kbd>），让用户无需鼠标即可完成跨模块跳转、新建文档或主题切换。\n- **拼音与别名搜索优化**：中文场景下，建议为每个 `CommandItem` 补充 `keywords={[\"xinjian\", \"doc\", \"new\"]}`，使用户在未切换输入法时仍能搜出目标操作。\n- **服务端搜索接入**：对于数千条记录的海量检索，设置 `shouldFilter={false}`，通过 `onQueryChange` 发起异步 API 检索，将返回的结果动态映射为 `CommandItem`。",
+  "extended": "### ⌘K 全局调色板弹窗 (Command Palette)\n\n结合全局键盘监听、快捷键提示与分类分组：\n\n### 分组、别名与禁用项\n\n使用 `CommandGroup` 建立操作分组，使用 `CommandSeparator` 划分视觉区域：",
+  "events": "- `onSelect`: (value: string) => void — 用户点击命令项或通过键盘 Enter 确认选中时触发，参数为该选项的 value。\n- `onQueryChange`: (query: string) => void — 搜索输入框内容改变时触发，可用于触发防抖异步搜索请求。",
+  "accessibility": "- **Combobox & Listbox 角色模型**：输入框自动挂载 `role=\"combobox\"` 与 `aria-autocomplete=\"list\"`；列表容器挂载 `role=\"listbox\"`；选项挂载 `role=\"option\"`。\n- **活动后代指示（aria-activedescendant）**：当前通过上下方向键高亮的项目 ID 会实时同步至输入框的 `aria-activedescendant` 属性，读屏器无需移动焦点即可清晰播报当前选中的项目。\n- **全键盘流畅控制**：\n  - <kbd>↓</kbd> / <kbd>↑</kbd>：按 DOM 顺序在可用命令项间循环切换高亮，并自动滚动到可见区域。\n  - <kbd>PageUp</kbd> / <kbd>PageDown</kbd>：跳到第一个或最后一个可用项。\n  - <kbd>Enter</kbd>：直接执行当前高亮项的 `onSelect` 回调；中文输入法组词期间不会误触发。\n  - <kbd>Esc</kbd>：清空输入或在弹窗模式下关闭菜单。\n- **搜索行为**：输入关键词后高亮自动回到第一个匹配项；没有可见选项的 `CommandGroup` 会连同标题一起隐藏，`CommandSeparator` 在搜索时隐藏。\n- **动效**：高亮背景使用共享布局动画在选项之间平滑滑动（每个 `Command` 实例独立），空状态淡入；开启 `prefers-reduced-motion` 时瞬间切换。",
   "examples": [
     {
       "name": "command-demo",

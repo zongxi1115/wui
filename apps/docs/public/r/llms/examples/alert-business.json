@@ -1,0 +1,6 @@
+{
+  "name": "alert-business",
+  "component": "alert",
+  "title": "业务场景：安全风险警报与证书预警",
+  "code": "import { KeyRoundIcon, ShieldAlertIcon } from \"lucide-react\"\n\nimport { Alert } from \"@/components/ui/alert\"\nimport { Button } from \"@/components/ui/button\"\n\nexport default function AlertBusiness() {\n  return (\n    <div className=\"w-full max-w-xl space-y-4\">\n      <Alert\n        variant=\"destructive\"\n        icon={<ShieldAlertIcon />}\n        title=\"检测到未经授权的 API 访问尝试\"\n        action={\n          <div className=\"flex items-center gap-2\">\n            <Button variant=\"outline\" size=\"sm\">\n              查看审计日志\n            </Button>\n            <Button size=\"sm\" variant=\"destructive\">\n              立刻吊销密钥\n            </Button>\n          </div>\n        }\n      >\n        来自 IP 地址 <code>198.51.100.42</code> 的请求多次尝试使用已弃用的 Admin Token 进行提权操作。\n      </Alert>\n\n      <Alert\n        variant=\"warning\"\n        icon={<KeyRoundIcon />}\n        title=\"根证书将在 48 小时后失效\"\n        action={\n          <Button variant=\"outline\" size=\"sm\">\n            轮换证书\n          </Button>\n        }\n        closable\n      >\n        服务网格内部互联 mTLS 证书即将到期。请在业务低峰期前完成证书轮换以避免握手失败。\n      </Alert>\n    </div>\n  )\n}\n"
+}

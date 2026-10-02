@@ -29,14 +29,12 @@
       "name": "children",
       "type": "ReactNode",
       "required": true,
-      "control": "text",
       "description": "固定视口中按顺序逐个显示的步骤内容。"
     },
     {
       "name": "stepLength",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "0.65",
       "description": "每次切换占用的滚动距离，以视口高度为单位。"
     },
@@ -44,7 +42,6 @@
       "name": "effect",
       "type": "\"fade\" | \"blur\" | \"slide\"",
       "required": false,
-      "control": "select",
       "options": [
         "fade",
         "blur",
@@ -57,14 +54,12 @@
       "name": "container",
       "type": "RefObject<HTMLElement | null>",
       "required": false,
-      "control": "text",
       "description": "要监听的滚动容器；未设置时监听页面。"
     },
     {
       "name": "showProgress",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "true",
       "description": "是否显示紧凑的步骤指示器。"
     },
@@ -72,24 +67,88 @@
       "name": "onStepChange",
       "type": "((index: number) => void)",
       "required": false,
-      "control": "text",
       "description": "当前步骤变化时触发。"
     },
     {
       "name": "viewportClassName",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "应用于固定视口的 CSS 类名。"
     },
     {
       "name": "stepClassName",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "应用于当前步骤包装元素的 CSS 类名。"
     }
   ],
+  "api": [
+    {
+      "name": "ScrollSequence",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": true,
+          "description": "固定视口中按顺序逐个显示的步骤内容。"
+        },
+        {
+          "name": "stepLength",
+          "type": "number",
+          "required": false,
+          "defaultValue": "0.65",
+          "description": "每次切换占用的滚动距离，以视口高度为单位。"
+        },
+        {
+          "name": "effect",
+          "type": "\"fade\" | \"blur\" | \"slide\"",
+          "required": false,
+          "options": [
+            "fade",
+            "blur",
+            "slide"
+          ],
+          "defaultValue": "slide",
+          "description": "步骤之间的切换效果，方向跟随滚动方向。"
+        },
+        {
+          "name": "container",
+          "type": "RefObject<HTMLElement | null>",
+          "required": false,
+          "description": "要监听的滚动容器；未设置时监听页面。"
+        },
+        {
+          "name": "showProgress",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "是否显示紧凑的步骤指示器。"
+        },
+        {
+          "name": "onStepChange",
+          "type": "((index: number) => void)",
+          "required": false,
+          "description": "当前步骤变化时触发。"
+        },
+        {
+          "name": "viewportClassName",
+          "type": "string",
+          "required": false,
+          "description": "应用于固定视口的 CSS 类名。"
+        },
+        {
+          "name": "stepClassName",
+          "type": "string",
+          "required": false,
+          "description": "应用于当前步骤包装元素的 CSS 类名。"
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`ScrollSequence` 适用于**产品分步指南、复杂技术架构拆解、时间线故事叙事**：\n\n- **聚焦单点认知**：让用户在不迷失页面纵向位置的同时，逐步浏览有序的阶段信息。\n- **指示条联动反馈**：底部分段进度条连续填充，用户能感知“离下一步还有多远”。\n- **交叉过渡**：新旧步骤在同一网格单元内同时过渡，不会出现等待上一步完全退场的空白。",
+  "extended": "### 数字叙事\n\n使用 `effect=\"blur\"` 逐段讲述增长故事：",
+  "accessibility": "- **静态栅格回退**：当检测到 `prefers-reduced-motion: reduce` 时，组件将放弃滚动吸顶逻辑，直接将所有步骤平铺为标准的 CSS Grid 垂直列表，确保所有内容无障碍直达。\n- **步骤 ARIA 语义**：底部指示条为 `role=\"status\"` 并标注 `aria-label=\"Step X of Y\"`，步骤切换时辅助工具可播报当前位置。",
   "examples": [
     {
       "name": "scroll-sequence-demo",

@@ -30,56 +30,48 @@
       "name": "title",
       "type": "ReactNode",
       "required": true,
-      "control": "text",
       "description": "图表标题。"
     },
     {
       "name": "description",
       "type": "ReactNode",
       "required": false,
-      "control": "text",
       "description": "补充说明或副标题。"
     },
     {
       "name": "actions",
       "type": "ReactNode",
       "required": false,
-      "control": "text",
       "description": "标题右侧操作区。"
     },
     {
       "name": "data",
       "type": "ChartDatum[]",
       "required": true,
-      "control": "text",
       "description": "图表数据列表，每项代表一个雷达维度。"
     },
     {
       "name": "nameKey",
       "type": "string",
       "required": true,
-      "control": "text",
       "description": "维度名称字段。"
     },
     {
       "name": "series",
       "type": "ChartSeries[]",
       "required": true,
-      "control": "text",
       "description": "需要绘制的数据系列列表。"
     },
     {
       "name": "maxValue",
       "type": "number",
       "required": false,
-      "control": "number",
       "description": "雷达轴的最大刻度值；未传时根据数据自动推导。"
     },
     {
       "name": "gridShape",
       "type": "\"circle\" | \"polygon\"",
       "required": false,
-      "control": "select",
       "options": [
         "circle",
         "polygon"
@@ -91,7 +83,6 @@
       "name": "gridLevels",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "4",
       "description": "同心网格层数。"
     },
@@ -99,7 +90,6 @@
       "name": "height",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "340",
       "description": "绘图区高度（像素）。"
     },
@@ -107,7 +97,6 @@
       "name": "showLegend",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "true",
       "description": "是否展示图例。"
     },
@@ -115,7 +104,6 @@
       "name": "showLabels",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "true",
       "description": "是否展示各维度标签。"
     },
@@ -123,10 +111,116 @@
       "name": "valueFormatter",
       "type": "((value: number, series: ChartSeries, datum: ChartDatum) => ReactNode)",
       "required": false,
-      "control": "text",
       "description": "数值格式化函数。"
     }
   ],
+  "api": [
+    {
+      "name": "RadarChart",
+      "props": [
+        {
+          "name": "title",
+          "type": "ReactNode",
+          "required": true,
+          "description": "图表标题。"
+        },
+        {
+          "name": "description",
+          "type": "ReactNode",
+          "required": false,
+          "description": "补充说明或副标题。"
+        },
+        {
+          "name": "actions",
+          "type": "ReactNode",
+          "required": false,
+          "description": "标题右侧操作区。"
+        },
+        {
+          "name": "data",
+          "type": "ChartDatum[]",
+          "required": true,
+          "description": "图表数据列表，每项代表一个雷达维度。"
+        },
+        {
+          "name": "nameKey",
+          "type": "string",
+          "required": true,
+          "description": "维度名称字段。"
+        },
+        {
+          "name": "series",
+          "type": "ChartSeries[]",
+          "required": true,
+          "description": "需要绘制的数据系列列表。"
+        },
+        {
+          "name": "maxValue",
+          "type": "number",
+          "required": false,
+          "description": "雷达轴的最大刻度值；未传时根据数据自动推导。"
+        },
+        {
+          "name": "gridShape",
+          "type": "\"circle\" | \"polygon\"",
+          "required": false,
+          "options": [
+            "circle",
+            "polygon"
+          ],
+          "defaultValue": "polygon",
+          "description": "雷达网格形状（多边形或同心圆）。"
+        },
+        {
+          "name": "gridLevels",
+          "type": "number",
+          "required": false,
+          "defaultValue": "4",
+          "description": "同心网格层数。"
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "required": false,
+          "defaultValue": "340",
+          "description": "绘图区高度（像素）。"
+        },
+        {
+          "name": "showLegend",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "是否展示图例。"
+        },
+        {
+          "name": "showLabels",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "是否展示各维度标签。"
+        },
+        {
+          "name": "valueFormatter",
+          "type": "((value: number, series: ChartSeries, datum: ChartDatum) => ReactNode)",
+          "required": false,
+          "description": "数值格式化函数。"
+        }
+      ]
+    }
+  ],
+  "types": [
+    {
+      "name": "ChartDatum",
+      "definition": "export type ChartDatum = Record<string, string | number | null | undefined>"
+    },
+    {
+      "name": "ChartSeries",
+      "definition": "export interface ChartSeries {\r\n  /** 数据字段名。 */\r\n  key: string\r\n  /** 图例和提示框中显示的名称。 */\r\n  label?: string\r\n  /** 覆盖当前序列的颜色。 */\r\n  color?: string\r\n  /** 折线序列的 SVG 虚线模式。 */\r\n  strokeDasharray?: string\r\n}"
+    }
+  ],
+  "usage": "`RadarChart` 将多个维度的定量数据投射在从中心向外辐射的轴线上，形成多边形区域，便于一眼洞察多项指标的强弱与重叠分布。\n\n### 适用场景\n- **模型基准测试 (Benchmark)**：对比不同大模型在代码、逻辑、数学、长文等维度的得分。\n- **员工或候选人技能画像**：多维能力分布与岗位要求匹配度。\n- **产品综合指标对比**：性能、安全性、稳定性、易用性等多维度量。\n\n### 何时不建议使用\n- 如果只有一个维度或连续的时间序列变化，应使用柱状图或折线图。",
+  "extended": "可通过 `gridShape=\"circle\"` 切换为圆形同心网格，或通过 `gridLevels` 控制刻度圈数。",
+  "events": "- 鼠标悬停在各顶点时自动触发 `ChartTooltip` 显示各系列的准确数值。",
   "examples": [
     {
       "name": "radar-chart-demo",

@@ -1,0 +1,6 @@
+{
+  "name": "alert-compact",
+  "component": "alert",
+  "title": "紧凑单行模式 (Compact)",
+  "code": "import { Alert } from \"@/components/ui/alert\"\n\nexport default function AlertCompact() {\n  return (\n    <div className=\"grid w-full max-w-lg gap-2.5\">\n      <Alert size=\"compact\" variant=\"success\">\n        生产环境部署成功，版本号 v1.4.2。\n      </Alert>\n      <Alert size=\"compact\" variant=\"warning\">\n        API 调用速率已接近配额上限（92%）。\n      </Alert>\n      <Alert size=\"compact\" variant=\"destructive\">\n        SSL 证书将于 3 天后过期。\n      </Alert>\n      <Alert size=\"compact\" variant=\"info\">\n        已自动保存草稿于 14:32。\n      </Alert>\n    </div>\n  )\n}\n"
+}

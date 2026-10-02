@@ -1,0 +1,41 @@
+{
+  "name": "tree-file-icons",
+  "type": "registry:example",
+  "title": "文件类型图标树",
+  "description": "根据文件后缀匹配 Material Icon Theme 图标的文件目录示例。",
+  "exports": [
+    "TreeFileIcons"
+  ],
+  "install": {
+    "wui": "pnpm dlx @wui-design/cli@latest add @wui/tree-file-icons",
+    "shadcn": "pnpm dlx shadcn@latest add https://ui.wzx.wang/r/tree-file-icons.json",
+    "npmDependencies": [
+      "lucide-react"
+    ],
+    "registryDependencies": [
+      "tree"
+    ]
+  },
+  "props": [],
+  "api": [],
+  "types": [],
+  "examples": [
+    {
+      "name": "tree-file-icons"
+    }
+  ],
+  "files": [
+    "registry/examples/tree-file-icons.tsx",
+    "registry/assets/tree/react.svg",
+    "registry/assets/tree/typescript.svg",
+    "registry/assets/tree/javascript.svg",
+    "registry/assets/tree/css.svg",
+    "registry/assets/tree/json.svg",
+    "registry/assets/tree/markdown.svg",
+    "registry/assets/tree/image.svg",
+    "registry/assets/tree/yaml.svg",
+    "registry/assets/tree/LICENSE"
+  ],
+  "docsUrl": "https://ui.wzx.wang/docs/components/tree-file-icons",
+  "sourceUrl": "https://ui.wzx.wang/r/tree-file-icons.json"
+}

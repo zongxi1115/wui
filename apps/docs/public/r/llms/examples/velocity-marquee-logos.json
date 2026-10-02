@@ -1,0 +1,6 @@
+{
+  "name": "velocity-marquee-logos",
+  "component": "velocity-marquee",
+  "title": "客户墙",
+  "code": "\"use client\"\n\nimport { VelocityMarquee } from \"@/components/ui/velocity-marquee\"\n\nconst customers = [\n  \"青柠科技\",\n  \"北岸设计\",\n  \"远山资本\",\n  \"Lumen Labs\",\n  \"木白咖啡\",\n  \"Northwind\",\n  \"拾光影像\",\n  \"极光出行\",\n]\n\nexport default function VelocityMarqueeLogos() {\n  return (\n    <div className=\"w-full max-w-3xl\">\n      <p className=\"text-muted-foreground mb-5 text-center text-sm\">\n        超过 2,000 支团队在用\n      </p>\n      <VelocityMarquee\n        baseSpeed={28}\n        sensitivity={0.06}\n        maxBoost={120}\n        gap={48}\n        pauseOnHover\n        className=\"[mask-image:linear-gradient(to_right,transparent,black_12%,black_88%,transparent)]\"\n      >\n        {customers.map((name) => (\n          <span\n            key={name}\n            className=\"text-muted-foreground hover:text-foreground text-lg font-semibold tracking-tight whitespace-nowrap transition-colors\"\n          >\n            {name}\n          </span>\n        ))}\n      </VelocityMarquee>\n    </div>\n  )\n}\n"
+}

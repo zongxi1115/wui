@@ -1,0 +1,6 @@
+{
+  "name": "scroll-text-reveal",
+  "component": "scroll-text",
+  "title": "逐行揭示（Reveal）",
+  "code": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { ScrollText } from \"@/components/ui/scroll-text\"\n\nexport default function ScrollTextReveal() {\n  const container = React.useRef<HTMLDivElement>(null)\n\n  return (\n    <div\n      ref={container}\n      className=\"h-[24rem] w-full overflow-y-auto rounded-b-lg\"\n    >\n      <div className=\"mx-auto max-w-2xl px-6 pt-48 pb-56\">\n        <p className=\"text-muted-foreground mb-4 text-sm\">年度回顾</p>\n        <ScrollText\n          container={container}\n          mode=\"reveal\"\n          per=\"line\"\n          overlap={0.6}\n          offset={[\"start 0.95\", \"end 0.6\"]}\n          className=\"text-3xl leading-tight font-semibold tracking-tight sm:text-4xl\"\n        >\n          {\"一年，\\n我们发布了 48 个版本，\\n回复了 3,200 条反馈，\\n也删掉了 11 个功能。\"}\n        </ScrollText>\n      </div>\n    </div>\n  )\n}\n"
+}

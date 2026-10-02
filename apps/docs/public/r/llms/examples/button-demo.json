@@ -1,0 +1,6 @@
+{
+  "name": "button-demo",
+  "component": "button",
+  "title": "基础用法",
+  "code": "import { Button } from \"@/components/ui/button\"\n\nexport default function ButtonDemo() {\n  return (\n    <div className=\"flex flex-wrap items-center gap-2\">\n      <Button>保存更改</Button>\n      <Button variant=\"outline\">取消</Button>\n    </div>\n  )\n}\n"
+}

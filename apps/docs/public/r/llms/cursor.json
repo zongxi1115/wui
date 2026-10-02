@@ -28,14 +28,12 @@
       "name": "children",
       "type": "ReactNode",
       "required": true,
-      "control": "text",
       "description": "显示在指针位置的视觉内容。"
     },
     {
       "name": "springConfig",
       "type": "SpringOptions",
       "required": false,
-      "control": "text",
       "defaultValue": "{ stiffness: 500, damping: 35, mass: 0.2 }",
       "description": "跟随指针移动时使用的弹簧参数。"
     },
@@ -43,7 +41,6 @@
       "name": "attachToParent",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "false",
       "description": "是否将指针视觉限制在组件父元素范围内。"
     },
@@ -51,7 +48,6 @@
       "name": "transition",
       "type": "Transition",
       "required": false,
-      "control": "text",
       "defaultValue": "{ duration: 0.15 }",
       "description": "指针视觉进入和离开时使用的过渡动画。"
     },
@@ -59,7 +55,6 @@
       "name": "variants",
       "type": "Variants",
       "required": false,
-      "control": "text",
       "defaultValue": "{\r\n  initial: { opacity: 0, scale: 0.75 },\r\n  animated: { opacity: 1, scale: 1 },\r\n  exit: { opacity: 0, scale: 0.75 },\r\n}",
       "description": "指针视觉的初始、播放中和离开状态。"
     },
@@ -67,7 +62,6 @@
       "name": "hideNativeCursor",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "true",
       "description": "激活区域内是否隐藏系统原生指针。"
     },
@@ -75,10 +69,73 @@
       "name": "onPositionChange",
       "type": "((position: CursorPosition) => void)",
       "required": false,
-      "control": "text",
       "description": "指针坐标变化时触发。"
     }
   ],
+  "api": [
+    {
+      "name": "Cursor",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": true,
+          "description": "显示在指针位置的视觉内容。"
+        },
+        {
+          "name": "springConfig",
+          "type": "SpringOptions",
+          "required": false,
+          "defaultValue": "{ stiffness: 500, damping: 35, mass: 0.2 }",
+          "description": "跟随指针移动时使用的弹簧参数。"
+        },
+        {
+          "name": "attachToParent",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "是否将指针视觉限制在组件父元素范围内。"
+        },
+        {
+          "name": "transition",
+          "type": "Transition",
+          "required": false,
+          "defaultValue": "{ duration: 0.15 }",
+          "description": "指针视觉进入和离开时使用的过渡动画。"
+        },
+        {
+          "name": "variants",
+          "type": "Variants",
+          "required": false,
+          "defaultValue": "{\r\n  initial: { opacity: 0, scale: 0.75 },\r\n  animated: { opacity: 1, scale: 1 },\r\n  exit: { opacity: 0, scale: 0.75 },\r\n}",
+          "description": "指针视觉的初始、播放中和离开状态。"
+        },
+        {
+          "name": "hideNativeCursor",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "激活区域内是否隐藏系统原生指针。"
+        },
+        {
+          "name": "onPositionChange",
+          "type": "((position: CursorPosition) => void)",
+          "required": false,
+          "description": "指针坐标变化时触发。"
+        }
+      ]
+    }
+  ],
+  "types": [
+    {
+      "name": "CursorPosition",
+      "definition": "type CursorPosition = { x: number; y: number }"
+    }
+  ],
+  "usage": "`Cursor` 适用于**画廊、视频播放器封面、三维/空间画布等需要强沉浸视觉引导**的场景：\n\n- **局部限定使用（attachToParent）**：通常推荐将 `attachToParent={true}` 约束在特定创意模块或卡片内，避免接管整个应用全局光标造成常规操作困惑。\n- **触控设备自动抑制**：组件内置检测 `(pointer: fine)` 媒体查询。在手机与平板等触控设备上，组件会自动静默关闭并禁用弹簧更新，保证触控性能与正常滚动。\n- **就地出现**：指针进入区域时光标会直接出现在指针所在位置再开始弹簧跟随，不会从上一次离开的位置或左上角“飞入”。\n- **轻量与响应性**：避免在自定义光标内部渲染过于沉重的复杂 DOM 结构，弹簧的 `mass` 建议保持在 0.15 ~ 0.3 以确保跟手性。",
+  "extended": "### 容器边界与坐标监听\n\n将光标限定在父级工作区，并实时读取指针相对坐标：\n\n### 创意卡片交互\n\n为媒体卡片与案例研究提供带有操作暗示（如“播放”、“探索”）的悬浮光标指示：",
+  "events": "- `onPositionChange`: ({ x, y }: { x: number; y: number }) => void — 鼠标在目标区域移动时触发，输出高精度的相对 X/Y 像素坐标。\n- `onPointerEnter`: (event: PointerEvent) => void — 光标进入有效监测区域时触发。\n- `onPointerLeave`: (event: PointerEvent) => void — 光标离开有效监测区域时触发。",
+  "accessibility": "- **指针精准度适配**：通过 `window.matchMedia(\"(pointer: fine)\")` 自动识别设备类型，仅对高精度鼠标/触控板设备启用自定义渲染。\n- **动态效果减弱**：当检测到 `prefers-reduced-motion: reduce` 时，弹簧物理平滑计算将自动降级为即时坐标对齐，避免视力或前庭系统敏感用户的晕眩。\n- **不可阻挡原生事件**：光标容器默认标记 `pointer-events: none` 与 `aria-hidden=\"true\"`，不会阻挡底层按钮、链接的点击与屏幕阅读器无障碍树解析。",
   "examples": [
     {
       "name": "cursor-demo",

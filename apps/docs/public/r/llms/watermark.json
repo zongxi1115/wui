@@ -24,7 +24,6 @@
       "name": "content",
       "type": "string | string[]",
       "required": false,
-      "control": "text",
       "defaultValue": "\"WUI\"",
       "description": "要重复显示的一行或多行水印文字。"
     },
@@ -32,14 +31,12 @@
       "name": "image",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "重复显示的水印图片地址。设置后优先使用图片，不再使用 content。"
     },
     {
       "name": "rotate",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "-22",
       "description": "水印的顺时针旋转角度，单位为度。"
     },
@@ -47,7 +44,6 @@
       "name": "gap",
       "type": "[number, number]",
       "required": false,
-      "control": "text",
       "defaultValue": "[80, 80]",
       "description": "水印单元之间的水平和垂直间距。"
     },
@@ -55,7 +51,6 @@
       "name": "offset",
       "type": "[number, number]",
       "required": false,
-      "control": "text",
       "defaultValue": "[0, 0]",
       "description": "重复图案的水平和垂直偏移量。"
     },
@@ -63,7 +58,6 @@
       "name": "width",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "160",
       "description": "单个水印标记的宽度，单位为像素。"
     },
@@ -71,7 +65,6 @@
       "name": "height",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "64",
       "description": "单个水印标记的高度，单位为像素。"
     },
@@ -79,14 +72,12 @@
       "name": "font",
       "type": "WatermarkFont",
       "required": false,
-      "control": "text",
       "description": "水印文字的排版设置。"
     },
     {
       "name": "opacity",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "0.15",
       "description": "水印图层的不透明度。"
     },
@@ -94,11 +85,95 @@
       "name": "zIndex",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "10",
       "description": "水印图层的堆叠层级。"
     }
   ],
+  "api": [
+    {
+      "name": "Watermark",
+      "props": [
+        {
+          "name": "content",
+          "type": "string | string[]",
+          "required": false,
+          "defaultValue": "\"WUI\"",
+          "description": "要重复显示的一行或多行水印文字。"
+        },
+        {
+          "name": "image",
+          "type": "string",
+          "required": false,
+          "description": "重复显示的水印图片地址。设置后优先使用图片，不再使用 content。"
+        },
+        {
+          "name": "rotate",
+          "type": "number",
+          "required": false,
+          "defaultValue": "-22",
+          "description": "水印的顺时针旋转角度，单位为度。"
+        },
+        {
+          "name": "gap",
+          "type": "[number, number]",
+          "required": false,
+          "defaultValue": "[80, 80]",
+          "description": "水印单元之间的水平和垂直间距。"
+        },
+        {
+          "name": "offset",
+          "type": "[number, number]",
+          "required": false,
+          "defaultValue": "[0, 0]",
+          "description": "重复图案的水平和垂直偏移量。"
+        },
+        {
+          "name": "width",
+          "type": "number",
+          "required": false,
+          "defaultValue": "160",
+          "description": "单个水印标记的宽度，单位为像素。"
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "required": false,
+          "defaultValue": "64",
+          "description": "单个水印标记的高度，单位为像素。"
+        },
+        {
+          "name": "font",
+          "type": "WatermarkFont",
+          "required": false,
+          "description": "水印文字的排版设置。"
+        },
+        {
+          "name": "opacity",
+          "type": "number",
+          "required": false,
+          "defaultValue": "0.15",
+          "description": "水印图层的不透明度。"
+        },
+        {
+          "name": "zIndex",
+          "type": "number",
+          "required": false,
+          "defaultValue": "10",
+          "description": "水印图层的堆叠层级。"
+        }
+      ]
+    }
+  ],
+  "types": [
+    {
+      "name": "WatermarkFont",
+      "definition": "interface WatermarkFont {\r\n  /** Watermark text color. Inherits the current foreground color by default. */\r\n  color?: string\r\n  /** CSS font family used by the watermark text. */\r\n  fontFamily?: string\r\n  /** Font size in pixels. @default 16 */\r\n  fontSize?: number\r\n  /** CSS font style. @default \"normal\" */\r\n  fontStyle?: React.CSSProperties[\"fontStyle\"]\r\n  /** CSS font weight. @default 500 */\r\n  fontWeight?: React.CSSProperties[\"fontWeight\"]\r\n}"
+    }
+  ],
+  "usage": "`Watermark` 适用于**敏感后台报表、企业内部保密文档、证件与发票预览、图片防盗**：\n\n- **轻量且随尺寸自适应**：基于 SVG `<pattern>` 原生能力构建，无需 Canvas 手动计算重绘，容器尺寸变化时图案自动铺满，缩放无失真。\n- **不是安全边界**：水印仅用于标识与追溯，用户仍可通过开发者工具移除；敏感数据的访问控制应在服务端完成。\n- **单元尺寸**：文字不会自动换行，较长的文案请同步增大 `width` 与 `gap`，避免旋转后被图案单元裁切。\n- **不影响日常操作**：始终配置 `pointer-events-none` 与 `user-select: none`，用户可正常选中底层数据文本或点击表格行。",
+  "extended": "### 参数调试\n\n实时调整文字、旋转角度与不透明度，观察水印的平铺效果：\n\n### 多行自定义内容\n\n展示查看人姓名、工号与时间戳的多行水印，便于截图外传时追溯来源：\n\n### 自定义图章图片\n\n使用企业品牌 Logo 作为平铺水印，覆盖在开票记录等业务表格上：",
+  "events": "该组件为纯展示型安全与版权图层，不阻挡交互且不派发专用事件。",
+  "accessibility": "- **交互零阻挡**：鼠标点击、滚动、文本拖拽选择均直接穿透到子内容。\n- **无障碍树忽略**：水印 SVG 默认标记 `aria-hidden=\"true\"`，屏幕阅读器不受多余重复文本的干扰。",
   "examples": [
     {
       "name": "watermark-demo",

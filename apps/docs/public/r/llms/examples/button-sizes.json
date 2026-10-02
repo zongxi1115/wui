@@ -1,0 +1,6 @@
+{
+  "name": "button-sizes",
+  "component": "button",
+  "title": "尺寸密度",
+  "code": "import { PlusIcon } from \"lucide-react\"\n\nimport { Button } from \"@/components/ui/button\"\n\nexport default function ButtonSizes() {\n  return (\n    <div className=\"flex flex-wrap items-center gap-2\">\n      <Button size=\"sm\" variant=\"outline\">\n        紧凑\n      </Button>\n      <Button size=\"default\" variant=\"outline\">\n        标准\n      </Button>\n      <Button size=\"lg\" variant=\"outline\">\n        突出\n      </Button>\n      <Button size=\"icon\" variant=\"outline\" aria-label=\"新建\">\n        <PlusIcon />\n      </Button>\n    </div>\n  )\n}\n"
+}

@@ -1,0 +1,6 @@
+{
+  "name": "spin-fullscreen",
+  "component": "spin",
+  "title": "全屏遮罩模式",
+  "code": "\"use client\"\n\nimport * as React from \"react\"\nimport { Spin } from \"@/components/ui/spin\"\nimport { Button } from \"@/components/ui/button\"\n\nexport default function SpinFullscreen() {\n  const [fullscreenLoading, setFullscreenLoading] = React.useState(false)\n\n  const handleStartFullscreen = () => {\n    setFullscreenLoading(true)\n    setTimeout(() => {\n      setFullscreenLoading(false)\n    }, 2500)\n  }\n\n  return (\n    <div className=\"flex flex-col items-start gap-3\">\n      <p className=\"text-xs text-muted-foreground\">\n        全屏遮罩适用于阻塞性的全局关键流转操作（如数据导出、批量发布、环境初始化）。\n      </p>\n      <Button\n        size=\"sm\"\n        onClick={handleStartFullscreen}\n      >\n        开启全屏加载 (2.5s 后自动关闭)\n      </Button>\n      <Spin\n        fullscreen\n        spinning={fullscreenLoading}\n        label=\"正在准备全局导出包，请稍候…\"\n      />\n    </div>\n  )\n}\n"
+}

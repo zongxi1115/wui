@@ -28,14 +28,12 @@
       "name": "children",
       "type": "ReactNode",
       "required": false,
-      "control": "text",
       "description": "显示在网格图案上方的内容。"
     },
     {
       "name": "pattern",
       "type": "\"grid\" | \"dots\"",
       "required": false,
-      "control": "select",
       "options": [
         "grid",
         "dots"
@@ -47,7 +45,6 @@
       "name": "size",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "28",
       "description": "图案单元格的尺寸，单位为像素。"
     },
@@ -55,7 +52,6 @@
       "name": "radius",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "240",
       "description": "指针聚光区域的半径，单位为像素。"
     },
@@ -63,7 +59,6 @@
       "name": "patternColor",
       "type": "string",
       "required": false,
-      "control": "text",
       "defaultValue": "currentColor",
       "description": "图案使用的 CSS 颜色。"
     },
@@ -71,7 +66,6 @@
       "name": "baseOpacity",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "0.1",
       "description": "始终显示的基础图案不透明度。"
     },
@@ -79,7 +73,6 @@
       "name": "fadeEdges",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "false",
       "description": "是否让常驻的网格图案向边缘渐隐。"
     },
@@ -87,7 +80,6 @@
       "name": "smooth",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "true",
       "description": "光斑是否以缓动方式跟随指针，而不是直接跳到指针位置。"
     },
@@ -95,10 +87,86 @@
       "name": "patternClassName",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "应用于两层图案的 CSS 类名。"
     }
   ],
+  "api": [
+    {
+      "name": "SpotlightGrid",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false,
+          "description": "显示在网格图案上方的内容。"
+        },
+        {
+          "name": "pattern",
+          "type": "\"grid\" | \"dots\"",
+          "required": false,
+          "options": [
+            "grid",
+            "dots"
+          ],
+          "defaultValue": "grid",
+          "description": "要显示的背景图案。"
+        },
+        {
+          "name": "size",
+          "type": "number",
+          "required": false,
+          "defaultValue": "28",
+          "description": "图案单元格的尺寸，单位为像素。"
+        },
+        {
+          "name": "radius",
+          "type": "number",
+          "required": false,
+          "defaultValue": "240",
+          "description": "指针聚光区域的半径，单位为像素。"
+        },
+        {
+          "name": "patternColor",
+          "type": "string",
+          "required": false,
+          "defaultValue": "currentColor",
+          "description": "图案使用的 CSS 颜色。"
+        },
+        {
+          "name": "baseOpacity",
+          "type": "number",
+          "required": false,
+          "defaultValue": "0.1",
+          "description": "始终显示的基础图案不透明度。"
+        },
+        {
+          "name": "fadeEdges",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "是否让常驻的网格图案向边缘渐隐。"
+        },
+        {
+          "name": "smooth",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "光斑是否以缓动方式跟随指针，而不是直接跳到指针位置。"
+        },
+        {
+          "name": "patternClassName",
+          "type": "string",
+          "required": false,
+          "description": "应用于两层图案的 CSS 类名。"
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`SpotlightGrid` 适用于**科技感控制台卡片、开发者工具看板、产品特性介绍区**：\n\n- **CSS 变量动态驱动**：坐标通过根节点上的 `--grid-x` 与 `--grid-y` 注入至 `mask-image`，不产生 React 重渲染；缓动循环在光斑到位后自动停止。\n- **触控屏自动静默**：检测到 `touch` 触控类型时不会显示不自然的固定光斑，保持移动端清爽。",
+  "extended": "### 点阵模式（Dots）\n\n切换为圆点阵列，并使用主题图表色，适合上传区域等需要轻微引导的空状态：",
+  "events": "- `onPointerEnter`: (event: React.PointerEvent) => void — 光标移入容器并激活聚光灯时触发。\n- `onPointerMove`: (event: React.PointerEvent) => void — 光标在容器内移动、实时更新聚光灯 CSS 变量坐标时触发。\n- `onPointerLeave`: (event: React.PointerEvent) => void — 光标离开容器、聚光灯淡出时触发。",
+  "accessibility": "- **层级穿透**：聚光图层全部为 `pointer-events-none`，底层与内部的表单项、按钮可以正常操作。\n- **无障碍树忽略**：网格背景图层默认标记 `aria-hidden=\"true\"`，不产生任何无障碍干扰。",
   "examples": [
     {
       "name": "spotlight-grid-demo",

@@ -1,0 +1,6 @@
+{
+  "name": "download-states",
+  "component": "download",
+  "title": "各生命周期状态与自定义图标",
+  "code": "import { LockKeyholeIcon } from \"lucide-react\"\n\nimport { Download } from \"@/components/ui/download\"\n\nexport default function DownloadStates() {\n  return (\n    <div className=\"grid w-full max-w-md gap-3\">\n      <Download size=\"compact\" filename=\"发布会现场照片.zip\" meta=\"ZIP · 18 MB\" />\n      <Download\n        size=\"compact\"\n        filename=\"产品演示录屏.mp4\"\n        meta=\"MP4 · 126 MB\"\n        status=\"downloading\"\n        progress={64}\n      />\n      <Download size=\"compact\" filename=\"第三季度经营分析.pdf\" meta=\"PDF · 3.2 MB\" status=\"complete\" />\n      <Download size=\"compact\" filename=\"客户名单导出.xlsx\" meta=\"XLSX · 820 KB\" status=\"error\" />\n      <Download\n        size=\"compact\"\n        filename=\"生产环境证书.key\"\n        meta=\"仅管理员可下载\"\n        fileIcon={<LockKeyholeIcon className=\"size-4\" />}\n      />\n    </div>\n  )\n}\n"
+}

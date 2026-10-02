@@ -25,20 +25,192 @@
   },
   "props": [
     {
+      "name": "name",
+      "type": "string",
+      "required": false
+    },
+    {
+      "name": "form",
+      "type": "string",
+      "required": false
+    },
+    {
+      "name": "required",
+      "type": "boolean",
+      "required": false
+    },
+    {
       "name": "disabled",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "description": "是否禁用组件。"
+    },
+    {
+      "name": "dir",
+      "type": "\"ltr\" | \"rtl\"",
+      "required": false,
+      "options": [
+        "ltr",
+        "rtl"
+      ]
+    },
+    {
+      "name": "orientation",
+      "type": "\"horizontal\" | \"vertical\"",
+      "required": false,
+      "options": [
+        "horizontal",
+        "vertical"
+      ]
+    },
+    {
+      "name": "loop",
+      "type": "boolean",
+      "required": false
+    },
+    {
+      "name": "defaultValue",
+      "type": "string",
+      "required": false
+    },
+    {
+      "name": "value",
+      "type": "string | null",
+      "required": false
+    },
+    {
+      "name": "onValueChange",
+      "type": "((value: string) => void)",
+      "required": false
     },
     {
       "name": "asChild",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
     }
   ],
+  "api": [
+    {
+      "name": "RadioGroup",
+      "props": [
+        {
+          "name": "name",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "form",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "是否禁用组件。"
+        },
+        {
+          "name": "dir",
+          "type": "\"ltr\" | \"rtl\"",
+          "required": false,
+          "options": [
+            "ltr",
+            "rtl"
+          ]
+        },
+        {
+          "name": "orientation",
+          "type": "\"horizontal\" | \"vertical\"",
+          "required": false,
+          "options": [
+            "horizontal",
+            "vertical"
+          ]
+        },
+        {
+          "name": "loop",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "value",
+          "type": "string | null",
+          "required": false
+        },
+        {
+          "name": "onValueChange",
+          "type": "((value: string) => void)",
+          "required": false
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false,
+          "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
+        }
+      ]
+    },
+    {
+      "name": "RadioGroupItem",
+      "props": [
+        {
+          "name": "size",
+          "type": "\"default\" | \"sm\" | \"lg\"",
+          "required": false,
+          "options": [
+            "default",
+            "sm",
+            "lg"
+          ],
+          "defaultValue": "default",
+          "description": "Physical size of the radio control."
+        },
+        {
+          "name": "value",
+          "type": "string | null",
+          "required": false
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "是否禁用组件。"
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false,
+          "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
+        },
+        {
+          "name": "checked",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`RadioGroup` 用于在 **2 至 5 个互斥选项** 中清晰呈现所有候选并强制用户仅能选择一项。\n\n### 选项类组件对比选型\n\n| 组件类型 | 选项数量 | 互斥性 | 视觉展开度 | 典型适用场景 |\n| :--- | :--- | :--- | :--- | :--- |\n| **RadioGroup** | 2 ~ 5 项 | **互斥单选** | 完全平铺展开 | 支付方式选择、发票类型、计费周期 |\n| **Select** | 5 项以上 | **单选 / 多选** | 收起为下拉框 | 国家地区选择、省市区级联、超长分类列表 |\n| **Checkbox** | 任意项 | **多选 / 不互斥** | 平铺或树状 | 兴趣标签多选、增值服务订购、同意协议 |\n| **Segmented / Tabs** | 2 ~ 4 项 | **互斥单选** | 分段控制条 | 视图模式切换（网格/列表）、图表时间范围（天/周/月） |\n\n### 设计最佳实践\n\n- **默认选中项 (Default Value)**：在绝大多数单选场景中，推荐始终提供一个合理的默认选中项（如推荐方案），避免出现不确定的“未选”状态造成用户认知负担。\n- **避免过多选项导致页面拥挤**：当选项超过 5 个或选项文本较长时，应改用 `Select` 下拉选择器以节省垂直空间。\n- **垂直对齐优先**：对于带有描述文本的选项，优先采用垂直排列；水平排列仅适合文案极短（2~4 个字）且选项数量在 3 个以内的轻量场景（如性别、优先级）。\n- **可点击区域最大化**：始终使用 `<label htmlFor=\"...\">` 将单选框与文字标题、描述文本包裹起来，确保用户点击整行任意位置均可选中。",
+  "extended": "### 受控模式\n\n在需要精确监听状态变化或与外部状态进行双向数据流绑定时，使用 `value` 和 `onValueChange`：\n\n```tsx\nconst [value, setValue] = React.useState(\"monthly\")\n\nreturn (\n  <RadioGroup value={value} onValueChange={setValue}>\n    <label htmlFor=\"r1\" className=\"flex items-center gap-2\">\n      <RadioGroupItem value=\"monthly\" id=\"r1\" />\n      <span>按月结算</span>\n    </label>\n    <label htmlFor=\"r2\" className=\"flex items-center gap-2\">\n      <RadioGroupItem value=\"yearly\" id=\"r2\" />\n      <span>按年结算</span>\n    </label>\n  </RadioGroup>\n)\n```\n\n### 尺寸\n\n组件提供 `sm` (16px)、`default` (20px) 和 `lg` (24px) 三种尺寸：\n\n- `sm`：适合紧凑行内过滤条、密集表格内嵌操作。\n- `default`：通用表单项、设置面板及标准卡片。\n- `lg`：移动端触控场景、主要配置向导页。\n\n### 带辅助描述文本\n\n为每个选项提供清晰的主标题与次级辅助说明，帮助用户在复杂的业务选择中迅速做出判断：\n\n### 水平排列布局\n\n对于简短的属性选择（如任务优先级、性别、状态过滤），设置 `orientation=\"horizontal\"` 并配合 flex 布局水平平铺：\n\n### 禁用状态\n\n支持整组禁用或单独禁用特定不可选的项目（如售罄、权限不足或未解锁的功能）：\n\n### 交互式单选卡片组\n\n在 SaaS 订阅计划、部署规格选择等核心业务中，将单选框与卡片容器深度结合，呈现价格、推荐标签与功能特性：\n\n选中描边使用 `motion` 的共享布局动画（`layoutId`）在卡片之间滑动；单选点本身会以带回弹的缩放出现，取消选中时收缩消失。\n\n### 表单校验与提交\n\n在团队邀请或角色分配表单中，配合 `aria-invalid` 与动态错误提示，实现严谨的表单提交流程：",
+  "events": "- `onValueChange`: (value: string) => void — 用户点击不同单选项或使用键盘方向键切换选项时触发，返回选中的 value 字符串。\n- `onFocus`: (event: React.FocusEvent<HTMLButtonElement>) => void — 单选项获得焦点时触发。\n- `onBlur`: (event: React.FocusEvent<HTMLButtonElement>) => void — 单选项失去焦点时触发。\n- `onKeyDown`: (event: React.KeyboardEvent<HTMLButtonElement>) => void — 在单选项获得焦点时按下键盘按键触发。",
+  "accessibility": "- **WAI-ARIA 标准规范**：\n  - 容器自动声明 `role=\"radiogroup\"`。\n  - 每个选项声明 `role=\"radio\"`，并自动同步 `aria-checked=\"true\" | \"false\"`。\n  - 选项整体作为单个 Tab 停靠点（Tab Stop），符合标准 Radio Group 无障碍规范。\n- **键盘导航规则**：\n  - <kbd>Tab</kbd>：将焦点移动到当前选中的单选项上（若未选择则聚焦到第一项）。再次按 <kbd>Tab</kbd> 离开单选框组。\n  - 方向键 <kbd>↑</kbd> / <kbd>←</kbd>：将焦点与选中状态切换至上一个单选项。\n  - 方向键 <kbd>↓</kbd> / <kbd>→</kbd>：将焦点与选中状态切换至下一个单选项。\n  - <kbd>Space</kbd>：激活并选中当前处于焦点的单选项。\n- **排版方向映射**：\n  - 当 `orientation=\"horizontal\"` 时，左右方向键映射顺畅，屏幕阅读器会准确读出水平单选组的定位信息。\n- **标签关联与描述**：\n  - 务必为每个 `RadioGroupItem` 指定唯一 `id`，并通过 `<label htmlFor=\"...\">` 进行绑定，以确保屏幕阅读器在聚焦时朗读对应标签文本。",
   "examples": [
     {
       "name": "radio-group-demo",

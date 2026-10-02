@@ -24,24 +24,39 @@
   },
   "props": [
     {
+      "name": "pressed",
+      "type": "boolean",
+      "required": false,
+      "description": "The controlled state of the toggle."
+    },
+    {
+      "name": "defaultPressed",
+      "type": "boolean",
+      "required": false,
+      "description": "The state of the toggle when initially rendered. Use `defaultPressed`\nif you do not need to control the state of the toggle.\n@defaultValue false"
+    },
+    {
+      "name": "onPressedChange",
+      "type": "((pressed: boolean) => void)",
+      "required": false,
+      "description": "The callback that fires when the state of the toggle changes."
+    },
+    {
       "name": "disabled",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "description": "是否禁用组件。"
     },
     {
       "name": "asChild",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
     },
     {
       "name": "size",
       "type": "\"default\" | \"sm\" | \"lg\" | null",
       "required": false,
-      "control": "text",
       "defaultValue": "default",
       "description": "切换按钮的高度与内边距尺寸。"
     },
@@ -49,11 +64,66 @@
       "name": "variant",
       "type": "\"default\" | \"outline\" | null",
       "required": false,
-      "control": "text",
       "defaultValue": "default",
       "description": "切换按钮的视觉样式。"
     }
   ],
+  "api": [
+    {
+      "name": "Toggle",
+      "props": [
+        {
+          "name": "pressed",
+          "type": "boolean",
+          "required": false,
+          "description": "The controlled state of the toggle."
+        },
+        {
+          "name": "defaultPressed",
+          "type": "boolean",
+          "required": false,
+          "description": "The state of the toggle when initially rendered. Use `defaultPressed`\nif you do not need to control the state of the toggle.\n@defaultValue false"
+        },
+        {
+          "name": "onPressedChange",
+          "type": "((pressed: boolean) => void)",
+          "required": false,
+          "description": "The callback that fires when the state of the toggle changes."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "是否禁用组件。"
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false,
+          "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
+        },
+        {
+          "name": "size",
+          "type": "\"default\" | \"sm\" | \"lg\" | null",
+          "required": false,
+          "defaultValue": "default",
+          "description": "切换按钮的高度与内边距尺寸。"
+        },
+        {
+          "name": "variant",
+          "type": "\"default\" | \"outline\" | null",
+          "required": false,
+          "defaultValue": "default",
+          "description": "切换按钮的视觉样式。"
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`Toggle` 适用于**状态持续保持的双态独立开关**（如富文本加粗/斜体、收藏加星、窗口置顶、麦克风静音）。\n\n- **Toggle vs Button vs Switch**：\n  - **Toggle（切换按钮）**：以紧凑按钮形式呈现，激活后保持高亮按下状态，适合工具栏或快捷栏。\n  - **Button（普通按钮）**：即点即走，触发一次性动作（如“提交”、“下载”），不保留选中状态。\n  - **Switch（开关）**：具备滑动轨道的物理开关视觉，适合具有强二元开启/关闭含义的设置项。\n- **纯图标无障碍要求**：若 `Toggle` 内部仅包含图标而无文字，**必须**显式提供 `aria-label`（如 `aria-label=\"切换粗体\"`），确保屏幕阅读器用户能明确理解操作意图。",
+  "extended": "### 收藏加星与业务状态\n\n在内容流中用作收藏（Bookmark）和标星（Star）切换，支持自定义激活状态下的高亮色系，激活时图标轻微弹跳反馈：\n\n### 音视频会议控制\n\n在会议控制栏中切换麦克风与摄像头，图标以旋转缩放的方式交叉切换。纯图标 Toggle 的 `aria-label` 应保持稳定，由 `aria-pressed` 表达当前状态：\n\n### 尺寸与外观风格\n\n提供 `sm`、`default`、`lg` 三种尺寸，支持无边框默认风格与 `outline` 带边框风格：",
+  "events": "- `onPressedChange`: (pressed: boolean) => void — 当用户通过点击、触摸或按键（Space / Enter）改变切换按钮状态时触发。\n- `onFocus`: (event: React.FocusEvent<HTMLButtonElement>) => void — 按钮获得焦点时触发。\n- `onBlur`: (event: React.FocusEvent<HTMLButtonElement>) => void — 按钮失去焦点时触发。",
+  "accessibility": "- **ARIA 规范**：底层基于 Radix UI Toggle，自动挂载 `role=\"button\"` 与 `aria-pressed=\"true|false\"` 属性，清晰表达按压状态。\n- **键盘导航**：\n  - <kbd>Tab</kbd>：按 DOM 顺序将焦点移动至切换按钮。\n  - <kbd>Space</kbd> / <kbd>Enter</kbd>：触发状态切换。\n- **焦点环高亮**：提供统一的高对比度 `focus-visible:ring`，确保键盘导航清晰可见。\n- **按压反馈**：按下时有轻微缩放（0.96），系统开启“减少动态效果”时自动关闭。",
   "examples": [
     {
       "name": "toggle-demo",

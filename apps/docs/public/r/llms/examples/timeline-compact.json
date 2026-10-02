@@ -1,0 +1,6 @@
+{
+  "name": "timeline-compact",
+  "component": "timeline",
+  "title": "紧凑型系统审计日志 (Compact)",
+  "code": "import {\n  Timeline,\n  TimelineContent,\n  TimelineDot,\n  TimelineHeader,\n  TimelineItem,\n  TimelineTime,\n  TimelineTitle,\n} from \"@/components/ui/timeline\"\n\nconst records = [\n  [\"你更新了项目名称\", \"15:42\"],\n  [\"林宁将王琪添加为管理员\", \"14:08\"],\n  [\"系统完成每日数据备份\", \"09:00\"],\n  [\"陈默导出了成员列表\", \"昨天\"],\n]\n\nexport default function TimelineCompact() {\n  return (\n    <Timeline density=\"compact\" className=\"w-full max-w-lg\">\n      {records.map(([title, time]) => (\n        <TimelineItem key={title}>\n          <TimelineDot />\n          <TimelineContent>\n            <TimelineHeader>\n              <TimelineTitle className=\"font-normal\">{title}</TimelineTitle>\n              <TimelineTime>{time}</TimelineTime>\n            </TimelineHeader>\n          </TimelineContent>\n        </TimelineItem>\n      ))}\n    </Timeline>\n  )\n}\n"
+}

@@ -29,21 +29,18 @@
       "name": "options",
       "type": "CascaderOption[]",
       "required": true,
-      "control": "text",
       "description": "级联选项树。"
     },
     {
       "name": "value",
       "type": "string[]",
       "required": false,
-      "control": "text",
       "description": "受控模式下当前选中的完整路径。"
     },
     {
       "name": "defaultValue",
       "type": "string[]",
       "required": false,
-      "control": "text",
       "defaultValue": "[]",
       "description": "非受控模式下初始选中的完整路径。"
     },
@@ -51,14 +48,12 @@
       "name": "onValueChange",
       "type": "((value: string[], options: CascaderOption[]) => void)",
       "required": false,
-      "control": "text",
       "description": "选中路径变化时触发，并返回当前路径及对应选项。"
     },
     {
       "name": "placeholder",
       "type": "string",
       "required": false,
-      "control": "text",
       "defaultValue": "请选择地区",
       "description": "未选择完整路径时显示的占位文本。"
     },
@@ -66,7 +61,6 @@
       "name": "separator",
       "type": "ReactNode",
       "required": false,
-      "control": "text",
       "defaultValue": "/",
       "description": "已选路径各层级之间显示的分隔符。"
     },
@@ -74,7 +68,6 @@
       "name": "closeOnSelect",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "true",
       "description": "选择叶子节点后是否自动关闭选项面板。"
     },
@@ -82,7 +75,6 @@
       "name": "panelLabel",
       "type": "string",
       "required": false,
-      "control": "text",
       "defaultValue": "级联选项",
       "description": "选项面板的无障碍名称。"
     },
@@ -90,21 +82,18 @@
       "name": "contentClassName",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "应用于浮层面板的额外 CSS 类名。"
     },
     {
       "name": "renderValue",
       "type": "((options: CascaderOption[]) => ReactNode)",
       "required": false,
-      "control": "text",
       "description": "自定义触发器中已选路径的渲染方式。"
     },
     {
       "name": "searchable",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "false",
       "description": "在面板顶部显示路径搜索框。@default false"
     },
@@ -112,7 +101,6 @@
       "name": "searchPlaceholder",
       "type": "string",
       "required": false,
-      "control": "text",
       "defaultValue": "搜索选项",
       "description": "搜索框占位文本。@default \"搜索选项\""
     },
@@ -120,17 +108,127 @@
       "name": "filterOption",
       "type": "((query: string, path: CascaderOption[]) => boolean)",
       "required": false,
-      "control": "text",
       "description": "自定义路径匹配逻辑。"
     },
     {
       "name": "disabled",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "description": "是否禁用组件。"
     }
   ],
+  "api": [
+    {
+      "name": "Cascader",
+      "props": [
+        {
+          "name": "options",
+          "type": "CascaderOption[]",
+          "required": true,
+          "description": "级联选项树。"
+        },
+        {
+          "name": "value",
+          "type": "string[]",
+          "required": false,
+          "description": "受控模式下当前选中的完整路径。"
+        },
+        {
+          "name": "defaultValue",
+          "type": "string[]",
+          "required": false,
+          "defaultValue": "[]",
+          "description": "非受控模式下初始选中的完整路径。"
+        },
+        {
+          "name": "onValueChange",
+          "type": "((value: string[], options: CascaderOption[]) => void)",
+          "required": false,
+          "description": "选中路径变化时触发，并返回当前路径及对应选项。"
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "required": false,
+          "defaultValue": "请选择地区",
+          "description": "未选择完整路径时显示的占位文本。"
+        },
+        {
+          "name": "separator",
+          "type": "ReactNode",
+          "required": false,
+          "defaultValue": "/",
+          "description": "已选路径各层级之间显示的分隔符。"
+        },
+        {
+          "name": "closeOnSelect",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "选择叶子节点后是否自动关闭选项面板。"
+        },
+        {
+          "name": "panelLabel",
+          "type": "string",
+          "required": false,
+          "defaultValue": "级联选项",
+          "description": "选项面板的无障碍名称。"
+        },
+        {
+          "name": "contentClassName",
+          "type": "string",
+          "required": false,
+          "description": "应用于浮层面板的额外 CSS 类名。"
+        },
+        {
+          "name": "renderValue",
+          "type": "((options: CascaderOption[]) => ReactNode)",
+          "required": false,
+          "description": "自定义触发器中已选路径的渲染方式。"
+        },
+        {
+          "name": "searchable",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "在面板顶部显示路径搜索框。@default false"
+        },
+        {
+          "name": "searchPlaceholder",
+          "type": "string",
+          "required": false,
+          "defaultValue": "搜索选项",
+          "description": "搜索框占位文本。@default \"搜索选项\""
+        },
+        {
+          "name": "filterOption",
+          "type": "((query: string, path: CascaderOption[]) => boolean)",
+          "required": false,
+          "description": "自定义路径匹配逻辑。"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "是否禁用组件。"
+        }
+      ]
+    }
+  ],
+  "types": [
+    {
+      "name": "CascaderOption",
+      "definition": "export interface CascaderOption {\n  /** 选中路径中保存的稳定值。 */\n  value: string\n  /** 展示给用户的文本。 */\n  label: React.ReactNode\n  /** 在下一列展示的子选项。 */\n  children?: CascaderOption[]\n  /** 禁止选择此选项。 */\n  disabled?: boolean\n  /** 参与本地搜索的额外关键词，例如拼音或首字母。 */\n  keywords?: string[]\n}"
+    },
+    {
+      "name": "CascaderOption",
+      "definition": "export interface CascaderOption {\n  /** 选中路径中保存的稳定值。 */\n  value: string\n  /** 展示给用户的文本。 */\n  label: React.ReactNode\n  /** 在下一列展示的子选项。 */\n  children?: CascaderOption[]\n  /** 禁止选择此选项。 */\n  disabled?: boolean\n  /** 参与本地搜索的额外关键词，例如拼音或首字母。 */\n  keywords?: string[]\n}"
+    }
+  ],
+  "usage": "`Cascader` 适用于数据具有**清晰明确的父子层级链路**、且需要用户按层级顺序逐级深入浏览选择的业务场景。\n\n- **Cascader vs TreeSelect vs Select**：\n  - **Cascader（级联选择）**：横向多列分栏展开，用户能直观看到从顶层到底层的整条链路（如：国家 → 省份 → 城市 → 区县），选中结果通常是一条完整链路路径。\n  - **TreeSelect（树选择）**：垂直折叠树状结构，适合从具有包含关系但层级深度不定、重点在于最终选择单个节点的场景（如：组织部门架构树、文件目录）。\n  - **Select / Combobox（下拉选择 / 组合框）**：单层扁平列表，适合选项之间无从属依赖关系的枚举值选择。\n- **搜索增强设计**：对于层级深或选项量大的数据，建议开启 `searchable`，并在数据项中配置 `keywords`（如拼音缩写 `hz`、`bj`），用户无需一层层展开即可一步直达叶子选项。\n- **自定义路径呈现**：对于商品多级类目或复杂业务标签，可使用 `renderValue` 呈现为徽章（Badge）或带状态标记的精简标签，提升信息密度。",
+  "extended": "### 拼音与关键词模糊搜索\n\n开启 `searchable` 后，面板顶部会出现搜索框。组件内置了拼音和多关键词的分词模糊匹配算法，选择搜索结果会直接定位并高亮整条路径：\n\n### 组织架构与多级部门\n\n在企业管理系统中，通过自定义连接分隔符 `separator=\" → \"`，清晰呈现部门从中心到小组的层级关系：\n\n### 自定义选中值渲染\n\n通过 `renderValue` 可以接管触发框内部的内容排版，例如使用不同层级的徽章（Badge）组合高亮末级类目：\n\n### 节点禁用与整控件禁用\n\n无论是整颗树中的某些分支（如维护中的可用区），还是整个控件自身处于只读状态，都可以优雅支持：",
+  "events": "- `onValueChange`: (value: string[], options: CascaderOption[]) => void — 当用户在任一级点击切换节点或从搜索结果中选定路径时触发。\n- `onFocus`: (event: React.FocusEvent<HTMLButtonElement>) => void — 触发器按钮获取焦点时触发。\n- `onBlur`: (event: React.FocusEvent<HTMLButtonElement>) => void — 触发器按钮失去焦点时触发。\n- `onKeyDown`: (event: React.KeyboardEvent<HTMLButtonElement>) => void — 在触发器或子项获得焦点时按下键盘按键触发。",
+  "accessibility": "- **ARIA 规范**：触发按钮挂载 `aria-haspopup=\"dialog\"` 及 `aria-expanded`；每一列是带“第 N 级”标签的 `role=\"listbox\"`，选项使用 `role=\"option\"` 与 `aria-selected` 反映当前路径。\n- **键盘导航**：\n  - <kbd>Space</kbd> / <kbd>Enter</kbd>：展开弹层，焦点自动落在最深一级的已选项上（开启搜索时聚焦搜索框）。\n  - <kbd>↑</kbd> / <kbd>↓</kbd>、<kbd>Home</kbd> / <kbd>End</kbd>：在当前列内移动焦点。\n  - <kbd>→</kbd>：展开当前项的下一级并聚焦其第一项；<kbd>←</kbd>：返回上一级。\n  - 搜索框中按 <kbd>↓</kbd> 进入结果列表，在第一项按 <kbd>↑</kbd> 回到搜索框。\n  - <kbd>Esc</kbd>：关闭弹出层并将焦点恢复至触发按钮。\n- **动效**：弹层从触发器方向缩放展开；切换父级时下一列从右侧滑入替换旧列；每列的选中背景在选项间滑动；触发器中的路径分段依次淡入。全部兼容 `prefers-reduced-motion`。",
   "examples": [
     {
       "name": "cascader-demo",

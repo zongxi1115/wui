@@ -28,7 +28,6 @@
       "name": "variant",
       "type": "\"linear\" | \"circular\"",
       "required": false,
-      "control": "select",
       "options": [
         "linear",
         "circular"
@@ -40,7 +39,6 @@
       "name": "size",
       "type": "\"default\" | \"sm\" | \"lg\"",
       "required": false,
-      "control": "select",
       "options": [
         "default",
         "sm",
@@ -53,7 +51,6 @@
       "name": "color",
       "type": "\"destructive\" | \"success\" | \"warning\" | \"primary\" | \"blue\"",
       "required": false,
-      "control": "select",
       "options": [
         "destructive",
         "success",
@@ -68,7 +65,6 @@
       "name": "showValue",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "false",
       "description": "是否在环形进度中显示当前百分比。"
     },
@@ -76,17 +72,115 @@
       "name": "indicatorClassName",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "应用于已完成部分的额外 CSS 类名。"
+    },
+    {
+      "name": "value",
+      "type": "number | null",
+      "required": false
     },
     {
       "name": "asChild",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
+    },
+    {
+      "name": "max",
+      "type": "number",
+      "required": false,
+      "defaultValue": "100"
+    },
+    {
+      "name": "getValueLabel",
+      "type": "((value: number, max: number) => string)",
+      "required": false
     }
   ],
+  "api": [
+    {
+      "name": "Progress",
+      "props": [
+        {
+          "name": "variant",
+          "type": "\"linear\" | \"circular\"",
+          "required": false,
+          "options": [
+            "linear",
+            "circular"
+          ],
+          "defaultValue": "linear",
+          "description": "进度指示器的布局形式。"
+        },
+        {
+          "name": "size",
+          "type": "\"default\" | \"sm\" | \"lg\"",
+          "required": false,
+          "options": [
+            "default",
+            "sm",
+            "lg"
+          ],
+          "defaultValue": "default",
+          "description": "线性进度条的厚度，或环形进度的直径。"
+        },
+        {
+          "name": "color",
+          "type": "\"destructive\" | \"success\" | \"warning\" | \"primary\" | \"blue\"",
+          "required": false,
+          "options": [
+            "destructive",
+            "success",
+            "warning",
+            "primary",
+            "blue"
+          ],
+          "defaultValue": "primary",
+          "description": "已完成部分使用的语义强调色。"
+        },
+        {
+          "name": "showValue",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "是否在环形进度中显示当前百分比。"
+        },
+        {
+          "name": "indicatorClassName",
+          "type": "string",
+          "required": false,
+          "description": "应用于已完成部分的额外 CSS 类名。"
+        },
+        {
+          "name": "value",
+          "type": "number | null",
+          "required": false
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false,
+          "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "required": false,
+          "defaultValue": "100"
+        },
+        {
+          "name": "getValueLabel",
+          "type": "((value: number, max: number) => string)",
+          "required": false
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`Progress` 用于明确告知用户某一异步任务的实际进展或资源占用情况。\n\n- **确定性（Determinate）vs 不确定性（Indeterminate）**：\n  - **确定性进度（`value={number}`）**：适用于任务总耗时或总数据量已知（如已下载 35MB / 共 100MB）。\n  - **不确定性进度（`value={null}`）**：适用于任务正在后台进行但无法预估具体剩余量（如正在建立安全加密握手），此时线性进度条以往返扫过的光带、环形进度以旋转并伸缩的弧线表达等待。\n- **色彩与语义阈值规范**：\n  - `primary` / `blue`：常规进行中的业务流程（如下载、更新）。\n  - `success`：任务成功完成或系统健康度处于良好区间。\n  - `warning`：资源使用量接近警戒水位（如存储占用超过 80%）。\n  - `destructive`：流程发生错误截断或资源配额严重超限。\n- **形态选型建议**：\n  - **水平线性（Linear）**：适合页面顶部加载条、卡片列表项或文件上传列表。\n  - **环形（Circular）**：适合仪表盘小部件、紧凑指标卡片或头像周围的状态环。",
+  "extended": "### 语义色彩与环形形态\n\n支持多种业务语义颜色配置，环形模式下可开启 `showValue` 展示中心百分比：\n\n### 尺寸规格对比\n\n线性轨道与环形圆环均提供 `sm`、`default` 与 `lg` 三种尺寸：\n\n### 动态任务流（文件上传）\n\n在实际业务流程中，通过状态驱动进度条增长，并在各阶段切换颜色与图标：\n\n### 不确定状态与阶段切换\n\n任务无法预估耗时时传入 `value={null}`，拿到总量后再切换为具体数值，完成时切换为 `success` 颜色：\n\n### 仪表盘资源监控看板\n\n组合多个小型进度条监控服务器 CPU、存储与系统 SLA 健康度：",
+  "events": "`Progress` 属于只读展示类状态组件，不直接派发自定义用户交互事件。数值由业务状态驱动更新，进度条会自动同步计算无障碍属性与动画补间：\n\n- `onClick`: (event: React.MouseEvent<HTMLDivElement>) => void — 在进度条容器上点击时触发的原生 DOM 事件。",
+  "accessibility": "- **ARIA 标准规范**：底层基于 Radix UI 原语，根元素挂载 `role=\"progressbar\"`，并自动同步计算 `aria-valuenow`、`aria-valuemin` 与 `aria-valuemax`。\n- **平滑动画与动效降级**：进度值由 `motion` 弹簧驱动，线性轨道与环形描边、中心数字保持同步；检测到 `prefers-reduced-motion` 时直接跳转到最新百分比，不确定状态也会停止循环动画。\n- **读屏器文案提示**：建议在未展示明确可见标题时，为组件添加 `aria-label`（如 `aria-label=\"数据同步进度\"`）。",
   "examples": [
     {
       "name": "progress-demo",

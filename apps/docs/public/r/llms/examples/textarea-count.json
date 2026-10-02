@@ -1,0 +1,6 @@
+{
+  "name": "textarea-count",
+  "component": "textarea",
+  "title": "字符计数与最大字数限制",
+  "code": "\"use client\"\n\nimport * as React from \"react\"\nimport { Textarea } from \"@/components/ui/textarea\"\n\nexport default function TextareaCount() {\n  const [value, setValue] = React.useState(\"\")\n\n  return (\n    <div className=\"w-full max-w-md space-y-2\">\n      <div className=\"flex items-center justify-between\">\n        <label htmlFor=\"release-summary\" className=\"text-xs font-medium text-muted-foreground\">\n          版本发布摘要 (Release Notes)\n        </label>\n        <span className=\"text-[11px] text-muted-foreground\">最多 140 字符</span>\n      </div>\n      <Textarea\n        id=\"release-summary\"\n        value={value}\n        onChange={(event) => setValue(event.target.value)}\n        maxLength={140}\n        showCount\n        resize=\"none\"\n        rows={4}\n        placeholder=\"简要概括本次版本包含的核心特性、优化项与修复的已知问题...\"\n      />\n    </div>\n  )\n}\n"
+}

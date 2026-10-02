@@ -36,14 +36,12 @@
       "name": "open",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "description": "受控模式下弹出层是否打开。"
     },
     {
       "name": "defaultOpen",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "false",
       "description": "非受控模式下弹出层的初始打开状态。"
     },
@@ -51,14 +49,12 @@
       "name": "onOpenChange",
       "type": "((open: boolean) => void)",
       "required": false,
-      "control": "text",
       "description": "弹出层打开状态变化时触发。"
     },
     {
       "name": "transition",
       "type": "Transition",
       "required": false,
-      "control": "text",
       "defaultValue": "{\r\n  type: \"spring\",\r\n  bounce: 0.14,\r\n  visualDuration: 0.36,\r\n} as const",
       "description": "控制触发元素与弹出层之间形变过程的弹簧或补间动画。"
     },
@@ -66,10 +62,91 @@
       "name": "variants",
       "type": "Variants",
       "required": false,
-      "control": "text",
       "description": "配置内容展开和收起时使用的 Motion 动画变体。"
     }
   ],
+  "api": [
+    {
+      "name": "MorphingPopover",
+      "props": [
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false,
+          "description": "受控模式下弹出层是否打开。"
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "非受控模式下弹出层的初始打开状态。"
+        },
+        {
+          "name": "onOpenChange",
+          "type": "((open: boolean) => void)",
+          "required": false,
+          "description": "弹出层打开状态变化时触发。"
+        },
+        {
+          "name": "transition",
+          "type": "Transition",
+          "required": false,
+          "defaultValue": "{\r\n  type: \"spring\",\r\n  bounce: 0.14,\r\n  visualDuration: 0.36,\r\n} as const",
+          "description": "控制触发元素与弹出层之间形变过程的弹簧或补间动画。"
+        },
+        {
+          "name": "variants",
+          "type": "Variants",
+          "required": false,
+          "description": "配置内容展开和收起时使用的 Motion 动画变体。"
+        }
+      ]
+    },
+    {
+      "name": "MorphingPopoverClose",
+      "props": [
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Merge close behavior onto the single child element."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "MorphingPopoverContent",
+      "props": []
+    },
+    {
+      "name": "MorphingPopoverTrigger",
+      "props": [
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Merge trigger behavior onto the single child element."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`MorphingPopover` 适用于**低摩擦的行内快速操作（In-situ Action）**：\n\n- **快速反馈与便签**：如点击“快速反馈”直接原地展开文本域与发送按钮，无需打断用户视线跳转全屏弹窗。\n- **微型过滤与快捷搜索**：在紧凑工具栏中，将小图标按钮展开为带有输入框的筛选框。\n- **比标准 Popover 更具实体感**：标准 Popover 通常是从上方或下方弹出的新图层，而 `MorphingPopover` 则是原有按钮物理延展的物理直觉。",
+  "extended": "### 快捷反馈卡片\n\n将轻量反馈入口按钮原地变形为带提交验证的表单卡片：",
+  "events": "- `onOpenChange`: (open: boolean) => void — 当气泡展开、点击外部空白区域或按下 Escape 键时触发，返回最新的打开状态。\n- `onClick`: (event: React.MouseEvent) => void — 点击触发按钮或关闭按钮时触发的常规鼠标事件。",
+  "accessibility": "- **自动聚焦**：当气泡展开时，组件会自动寻找内部首个 `autofocus`、`textarea`、`input` 或 `button` 并将焦点转移至该元素。\n- **快捷键**：\n  - <kbd>Esc</kbd>：快速收起当前气泡卡片，并将焦点安全归还到原触发按钮。\n- **指针外侧点击检测**：点击页面其他区域（Outside Click）会自动触发平滑收起。\n- **动效降级**：在 `prefers-reduced-motion: reduce` 环境下，跳过物理形变过程直接呈现。",
   "examples": [
     {
       "name": "morphing-popover-demo",

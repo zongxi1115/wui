@@ -30,21 +30,18 @@
       "name": "items",
       "type": "ReactNode[]",
       "required": true,
-      "control": "text",
       "description": "指针移动时依次循环显示的视觉内容。"
     },
     {
       "name": "children",
       "type": "ReactNode",
       "required": false,
-      "control": "text",
       "description": "交互区域内始终显示的静态内容。"
     },
     {
       "name": "distance",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "72",
       "description": "新增一项轨迹内容前指针需要移动的距离，单位为像素。"
     },
@@ -52,7 +49,6 @@
       "name": "lifetime",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "720",
       "description": "每项轨迹内容的显示时长，单位为毫秒。"
     },
@@ -60,7 +56,6 @@
       "name": "maxItems",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "8",
       "description": "同时渲染的轨迹内容数量上限。"
     },
@@ -68,7 +63,6 @@
       "name": "rotation",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "8",
       "description": "每张图片随机旋转的最大角度，单位为度。"
     },
@@ -76,10 +70,67 @@
       "name": "itemClassName",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "应用于每个定位轨迹项的 CSS 类名。"
     }
   ],
+  "api": [
+    {
+      "name": "ImageTrail",
+      "props": [
+        {
+          "name": "items",
+          "type": "ReactNode[]",
+          "required": true,
+          "description": "指针移动时依次循环显示的视觉内容。"
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false,
+          "description": "交互区域内始终显示的静态内容。"
+        },
+        {
+          "name": "distance",
+          "type": "number",
+          "required": false,
+          "defaultValue": "72",
+          "description": "新增一项轨迹内容前指针需要移动的距离，单位为像素。"
+        },
+        {
+          "name": "lifetime",
+          "type": "number",
+          "required": false,
+          "defaultValue": "720",
+          "description": "每项轨迹内容的显示时长，单位为毫秒。"
+        },
+        {
+          "name": "maxItems",
+          "type": "number",
+          "required": false,
+          "defaultValue": "8",
+          "description": "同时渲染的轨迹内容数量上限。"
+        },
+        {
+          "name": "rotation",
+          "type": "number",
+          "required": false,
+          "defaultValue": "8",
+          "description": "每张图片随机旋转的最大角度，单位为度。"
+        },
+        {
+          "name": "itemClassName",
+          "type": "string",
+          "required": false,
+          "description": "应用于每个定位轨迹项的 CSS 类名。"
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`ImageTrail` 适用于**创意设计工作室主页、作品集画廊、品牌互动 Hero 展区**：\n\n- **智能节流与垃圾回收**：内置欧氏距离计算与 `setTimeout` 定时器清理机制，未达到移动阈值时不会产生多余渲染。\n- **轻量旋转与物理弹跳**：新生成的拖尾项以弹簧入场并带随机旋转（由 `rotation` 控制），离场时沿指针移动方向轻微漂移。\n- **生命周期**：`lifetime` 是拖尾项完整停留的时长，之后再播放约 0.45 秒的淡出。",
+  "extended": "### 标签拖尾\n\n拖尾项不限于图片，任意节点都可以。这里用带主题色圆点的标签，并加大 `rotation`：",
+  "events": "- `onPointerMove`: (event: React.PointerEvent) => void — 光标在容器内移动并计算拖尾距离时触发。\n- `onPointerLeave`: (event: React.PointerEvent) => void — 光标离开交互区域时触发，重置上一帧记录位置。",
+  "accessibility": "- **移动端自动静音**：在触控屏幕（`touch`）上自动禁用拖尾生成，保证页面正常的上下滑动流畅度。\n- **动效减弱适配**：当用户开启 `prefers-reduced-motion: reduce` 时，拖尾生成逻辑被完全旁路，仅展示静态内容。\n- **无障碍树纯净**：拖尾项全部标记 `aria-hidden=\"true\"` 和 `pointer-events-none`，不会干扰读屏与点击。",
   "examples": [
     {
       "name": "image-trail-demo",

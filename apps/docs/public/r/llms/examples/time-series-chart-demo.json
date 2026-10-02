@@ -1,0 +1,5 @@
+{
+  "name": "time-series-chart-demo",
+  "component": "time-series-chart",
+  "code": "import { TimeSeriesChart } from \"@/components/charts/time-series-chart\"\n\nconst data = [\n  { date: \"2026-01-02\", requests: 1280 },\n  { date: \"2026-01-05\", requests: 1460 },\n  { date: \"2026-01-11\", requests: 1390 },\n  { date: \"2026-01-18\", requests: 1720 },\n  { date: \"2026-01-22\", requests: 1840 },\n  { date: \"2026-02-03\", requests: 2180 },\n  { date: \"2026-02-06\", requests: 2040 },\n  { date: \"2026-02-17\", requests: 2460 },\n  { date: \"2026-02-25\", requests: 2710 },\n  { date: \"2026-03-09\", requests: 2940 },\n  { date: \"2026-03-16\", requests: 2870 },\n  { date: \"2026-03-31\", requests: 3380 },\n]\n\nexport default function TimeSeriesChartDemo() {\n  return (\n    <div className=\"w-full max-w-3xl\">\n      <TimeSeriesChart\n        title=\"API 请求趋势\"\n        description=\"不等间隔观测点 · 单位：万次\"\n        data={data}\n        timeKey=\"date\"\n        series={[{ key: \"requests\", label: \"请求量\" }]}\n        showDots\n        valueFormatter={(value) => `${value.toLocaleString(\"zh-CN\")} 万次`}\n      />\n    </div>\n  )\n}\n"
+}

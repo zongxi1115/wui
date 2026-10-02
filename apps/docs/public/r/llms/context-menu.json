@@ -35,7 +35,533 @@
       "utils"
     ]
   },
-  "props": [],
+  "props": [
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": false
+    },
+    {
+      "name": "open",
+      "type": "boolean",
+      "required": false
+    },
+    {
+      "name": "onOpenChange",
+      "type": "((open: boolean) => void)",
+      "required": false
+    },
+    {
+      "name": "dir",
+      "type": "\"ltr\" | \"rtl\"",
+      "required": false,
+      "options": [
+        "ltr",
+        "rtl"
+      ]
+    },
+    {
+      "name": "modal",
+      "type": "boolean",
+      "required": false
+    }
+  ],
+  "api": [
+    {
+      "name": "ContextMenu",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "onOpenChange",
+          "type": "((open: boolean) => void)",
+          "required": false
+        },
+        {
+          "name": "dir",
+          "type": "\"ltr\" | \"rtl\"",
+          "required": false,
+          "options": [
+            "ltr",
+            "rtl"
+          ]
+        },
+        {
+          "name": "modal",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "ContextMenuCheckboxItem",
+      "props": [
+        {
+          "name": "onSelect",
+          "type": "((event: Event) => void)",
+          "required": false
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "checked",
+          "type": "CheckedState",
+          "required": false
+        },
+        {
+          "name": "onCheckedChange",
+          "type": "((checked: boolean) => void)",
+          "required": false
+        },
+        {
+          "name": "textValue",
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "ContextMenuContent",
+      "props": [
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "alignOffset",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "arrowPadding",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "avoidCollisions",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "collisionBoundary",
+          "type": "Boundary | Boundary[]",
+          "required": false
+        },
+        {
+          "name": "collisionPadding",
+          "type": "number | Partial<Record<\"top\" | \"right\" | \"bottom\" | \"left\", number>>",
+          "required": false
+        },
+        {
+          "name": "sticky",
+          "type": "\"partial\" | \"always\"",
+          "required": false,
+          "options": [
+            "partial",
+            "always"
+          ]
+        },
+        {
+          "name": "hideWhenDetached",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "updatePositionStrategy",
+          "type": "\"always\" | \"optimized\"",
+          "required": false,
+          "options": [
+            "always",
+            "optimized"
+          ]
+        },
+        {
+          "name": "forceMount",
+          "type": "true",
+          "required": false,
+          "description": "Used to force mounting when more control is needed. Useful when\ncontrolling animation with React animation libraries."
+        },
+        {
+          "name": "onCloseAutoFocus",
+          "type": "((event: Event) => void)",
+          "required": false,
+          "description": "Event handler called when auto-focusing on close.\nCan be prevented."
+        },
+        {
+          "name": "loop",
+          "type": "boolean",
+          "required": false,
+          "description": "Whether keyboard navigation should loop around\n@defaultValue false"
+        },
+        {
+          "name": "onEscapeKeyDown",
+          "type": "((event: KeyboardEvent) => void)",
+          "required": false
+        },
+        {
+          "name": "onPointerDownOutside",
+          "type": "((event: PointerDownOutsideEvent) => void)",
+          "required": false
+        },
+        {
+          "name": "onFocusOutside",
+          "type": "((event: FocusOutsideEvent) => void)",
+          "required": false
+        },
+        {
+          "name": "onInteractOutside",
+          "type": "((event: PointerDownOutsideEvent | FocusOutsideEvent) => void)",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "ContextMenuGroup",
+      "props": [
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "ContextMenuItem",
+      "props": [
+        {
+          "name": "destructive",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "为危险操作启用警示色。"
+        },
+        {
+          "name": "inset",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "为前置图标或指示器预留空间。"
+        },
+        {
+          "name": "onSelect",
+          "type": "((event: Event) => void)",
+          "required": false
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "textValue",
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "ContextMenuLabel",
+      "props": [
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "inset",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "与带前置图标的菜单项对齐。"
+        }
+      ]
+    },
+    {
+      "name": "ContextMenuPortal",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false
+        },
+        {
+          "name": "container",
+          "type": "Element | DocumentFragment | null",
+          "required": false,
+          "description": "Specify a container element to portal the content into."
+        },
+        {
+          "name": "forceMount",
+          "type": "true",
+          "required": false,
+          "description": "Used to force mounting when more control is needed. Useful when\ncontrolling animation with React animation libraries."
+        }
+      ]
+    },
+    {
+      "name": "ContextMenuRadioGroup",
+      "props": [
+        {
+          "name": "value",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "onValueChange",
+          "type": "((value: string) => void)",
+          "required": false
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "ContextMenuRadioItem",
+      "props": [
+        {
+          "name": "value",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "onSelect",
+          "type": "((event: Event) => void)",
+          "required": false
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "textValue",
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "ContextMenuSeparator",
+      "props": [
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "ContextMenuShortcut",
+      "props": []
+    },
+    {
+      "name": "ContextMenuSub",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "onOpenChange",
+          "type": "((open: boolean) => void)",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "ContextMenuSubContent",
+      "props": [
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "sideOffset",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "align",
+          "type": "\"start\" | \"end\"",
+          "required": false,
+          "options": [
+            "start",
+            "end"
+          ],
+          "description": "Controls the direction the subcontent appears from its anchor menu item\nDefault: start"
+        },
+        {
+          "name": "alignOffset",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "arrowPadding",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "avoidCollisions",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "collisionBoundary",
+          "type": "Boundary | Boundary[]",
+          "required": false
+        },
+        {
+          "name": "collisionPadding",
+          "type": "number | Partial<Record<\"top\" | \"right\" | \"bottom\" | \"left\", number>>",
+          "required": false
+        },
+        {
+          "name": "sticky",
+          "type": "\"partial\" | \"always\"",
+          "required": false,
+          "options": [
+            "partial",
+            "always"
+          ]
+        },
+        {
+          "name": "hideWhenDetached",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "updatePositionStrategy",
+          "type": "\"always\" | \"optimized\"",
+          "required": false,
+          "options": [
+            "always",
+            "optimized"
+          ]
+        },
+        {
+          "name": "forceMount",
+          "type": "true",
+          "required": false,
+          "description": "Used to force mounting when more control is needed. Useful when\ncontrolling animation with React animation libraries."
+        },
+        {
+          "name": "loop",
+          "type": "boolean",
+          "required": false,
+          "description": "Whether keyboard navigation should loop around\n@defaultValue false"
+        },
+        {
+          "name": "onEscapeKeyDown",
+          "type": "((event: KeyboardEvent) => void)",
+          "required": false
+        },
+        {
+          "name": "onPointerDownOutside",
+          "type": "((event: PointerDownOutsideEvent) => void)",
+          "required": false
+        },
+        {
+          "name": "onFocusOutside",
+          "type": "((event: FocusOutsideEvent) => void)",
+          "required": false
+        },
+        {
+          "name": "onInteractOutside",
+          "type": "((event: PointerDownOutsideEvent | FocusOutsideEvent) => void)",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "ContextMenuSubTrigger",
+      "props": [
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "textValue",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "inset",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "为前置图标预留空间。"
+        }
+      ]
+    },
+    {
+      "name": "ContextMenuTrigger",
+      "props": [
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`ContextMenu` 为熟练用户提供高效率的“就地操作”通道：\n\n- **快捷方式而非唯一入口**：右键菜单绝不能成为某个核心功能的唯一操作入口，必须确保在工具栏、行内操作列或详情面板中也有同等功能按钮。\n- **与上下文强绑定**：菜单中的选项必须完全围绕当前右键点击的对象（如单个文件、某行数据、当前选区），避免放入全局不相关的设置项。\n- **警示操作放底部**：具有破坏性的操作（如“删除”、“移至回收站”）必须配置 `destructive` 警示色，通常放在菜单最底部的独立分割组内。\n- **快捷键提示规范**：使用 `ContextMenuShortcut` 展示键盘快捷键提示（如 `⌘C`、`⌫`），仅起引导作用，具体全局快捷键需通过业务代码自行监听。",
+  "extended": "### 丰富的文件管理右键菜单\n\n包含重命名、复制、下载、多级子菜单共享、锁定只读与危险删除：\n\n### 单选视图切换与偏好开关\n\n结合 `ContextMenuRadioGroup` 切换网格/列表视图，配合 `ContextMenuCheckboxItem` 控制属性面板显示：",
+  "events": "- `onSelect`: (event: Event) => void — 菜单项被选中后触发，可调用 event.preventDefault() 阻止选择后菜单自动关闭。\n- `onOpenChange`: (open: boolean) => void — 菜单展开或收起时触发，返回当前的可见布尔值。",
+  "accessibility": "- **WAI-ARIA 规范**：基于 Radix Context Menu 构建，自动挂载 `role=\"menu\"`、`role=\"menuitem\"`、`role=\"menuitemcheckbox\"` 等语义标准。\n- **键盘导航与快捷键**：\n  - <kbd>↑</kbd> / <kbd>↓</kbd>：在各个可用菜单项之间快速转移焦点（自动跳过禁用项与分割线）。\n  - <kbd>→</kbd> / <kbd>←</kbd>：展开或收起多级子菜单（SubMenu）。\n  - <kbd>Enter</kbd> / <kbd>Space</kbd>：触发当前高亮项的 `onSelect` 操作。\n  - <kbd>Esc</kbd>：关闭右键菜单并精准恢复焦点至触发区域。\n  - **字符搜索 Typeahead**：在菜单打开时键入英文字符，焦点会自动快速跳至对应首字母匹配的菜单项。\n- **方向感知动效**：菜单以指针位置为缩放原点展开（`--radix-context-menu-content-transform-origin`），子菜单同样从触发项一侧展开；勾选与单选指示器以缩放方式出现；系统开启“减少动态效果”时自动关闭。\n- **高度约束**：菜单高度受可用视口空间约束，超出时内部滚动。",
   "examples": [
     {
       "name": "context-menu-demo",

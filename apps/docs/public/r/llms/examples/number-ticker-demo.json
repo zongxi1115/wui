@@ -1,0 +1,6 @@
+{
+  "name": "number-ticker-demo",
+  "component": "number-ticker",
+  "title": "基础用法",
+  "code": "import { NumberTicker } from \"@/components/ui/number-ticker\"\n\nexport default function NumberTickerDemo() {\n  return (\n    <div className=\"flex flex-col items-center gap-2 text-center\">\n      <NumberTicker\n        value={12846}\n        className=\"text-5xl font-semibold tracking-tight text-foreground\"\n      />\n      <p className=\"text-sm text-muted-foreground\">\n        家企业正在使用我们管理研发流程\n      </p>\n    </div>\n  )\n}\n"
+}

@@ -43,7 +43,6 @@
       "name": "variant",
       "type": "\"ghost\" | \"bordered\"",
       "required": false,
-      "control": "select",
       "options": [
         "ghost",
         "bordered"
@@ -52,6 +51,203 @@
       "description": "外观样式变体。"
     }
   ],
+  "api": [
+    {
+      "name": "AiMessageAction",
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible label and browser tooltip."
+        },
+        {
+          "name": "active",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Active / selected visual highlight."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "AiMessageActions",
+      "props": [
+        {
+          "name": "variant",
+          "type": "\"ghost\" | \"bordered\"",
+          "required": false,
+          "options": [
+            "ghost",
+            "bordered"
+          ],
+          "defaultValue": "\"ghost\"",
+          "description": "外观样式变体。"
+        }
+      ]
+    },
+    {
+      "name": "AiMessageBranch",
+      "props": [
+        {
+          "name": "current",
+          "type": "number",
+          "required": false,
+          "defaultValue": "1",
+          "description": "1-based current branch index."
+        },
+        {
+          "name": "total",
+          "type": "number",
+          "required": false,
+          "defaultValue": "1",
+          "description": "Total count of generated branches/versions."
+        },
+        {
+          "name": "onPrev",
+          "type": "(() => void)",
+          "required": false,
+          "description": "Callback fired when navigating to previous branch."
+        },
+        {
+          "name": "onNext",
+          "type": "(() => void)",
+          "required": false,
+          "description": "Callback fired when navigating to next branch."
+        }
+      ]
+    },
+    {
+      "name": "AiMessageCopy",
+      "props": [
+        {
+          "name": "content",
+          "type": "string",
+          "required": true,
+          "description": "Content string to copy into clipboard."
+        },
+        {
+          "name": "onCopy",
+          "type": "(() => void)",
+          "required": false,
+          "description": "Callback fired after successfully copying content."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "defaultValue": "复制回答",
+          "description": "Accessible label and browser tooltip."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "active",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Active / selected visual highlight."
+        }
+      ]
+    },
+    {
+      "name": "AiMessageEdit",
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "defaultValue": "编辑提问",
+          "description": "Accessible label and browser tooltip."
+        },
+        {
+          "name": "active",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Active / selected visual highlight."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "AiMessageFeedback",
+      "props": [
+        {
+          "name": "value",
+          "type": "AiMessageFeedbackValue",
+          "required": false,
+          "description": "当前点赞/点踩反馈状态。"
+        },
+        {
+          "name": "defaultValue",
+          "type": "AiMessageFeedbackValue",
+          "required": false,
+          "defaultValue": "null",
+          "description": "默认点赞/点踩反馈状态。"
+        },
+        {
+          "name": "onChange",
+          "type": "((value: AiMessageFeedbackValue) => void)",
+          "required": false,
+          "description": "反馈状态切换时的回调函数。"
+        }
+      ]
+    },
+    {
+      "name": "AiMessageRetry",
+      "props": [
+        {
+          "name": "isLoading",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Indicates whether regenerate request is loading."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "defaultValue": "重新生成",
+          "description": "Accessible label and browser tooltip."
+        },
+        {
+          "name": "active",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Active / selected visual highlight."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    }
+  ],
+  "types": [
+    {
+      "name": "AiMessageFeedbackValue",
+      "definition": "export type AiMessageFeedbackValue = \"like\" | \"dislike\" | null"
+    }
+  ],
+  "usage": "`AiMessageActions` 是一套高度模块化的 AI 消息工具栏，旨在统一大语言模型（LLM）对话产品中的高频操作交互。\n\n- **反馈闭环**：利用 `AiMessageFeedback` 收集用户的满意度点赞/点踩数据，结合业务埋点用于强化学习（RLHF）或模型提示词迭代优化。\n- **分支历史追溯**：当用户对当前回答不满意点击重新生成时，不要直接覆盖旧回答，建议使用 `AiMessageBranch` 保留历史生成版本（如 `1/3`），允许用户随时来回切换对比。\n- **即时视觉反馈**：`AiMessageCopy` 内置了 2 秒打勾动效，点击后自动提供视觉确认，减少用户重复尝试复制的焦虑。",
+  "extended": "### 带边框的工具条\n\n通过设置 `variant=\"bordered\"`，操作栏呈现为带细边框的独立工具条，可自由组合收藏、分享等自定义动作按钮：\n\n### 多版本分支切换与重新生成联动\n\n当用户触发“重新生成”后，将新生成的回答内容追加为新版本，并通过 `AiMessageBranch` 允许用户自由翻阅历史版本：",
+  "events": "- `AiMessageFeedback.onChange`: (value: \"like\" | \"dislike\" | null) => void — 用户点击点赞或点踩按钮时触发，返回最新的反馈值；重复点击已激活按钮会取消并返回 null。\n- `AiMessageBranch.onPrev`: () => void — 用户点击上一版本箭头按钮时触发。\n- `AiMessageBranch.onNext`: () => void — 用户点击下一版本箭头按钮时触发。\n- `AiMessageCopy.onCopy`: () => void — 剪贴板写入成功后触发。\n- `AiMessageRetry.onClick`: (event: React.MouseEvent<HTMLButtonElement>) => void — 用户点击重新生成按钮时触发。",
+  "accessibility": "- **ARIA 标签与 Tooltip**：每个操作按钮均默认带有语义化的 `aria-label` 与 `title` 属性，读屏软件能准确播报“复制回答”、“重新生成”、“点赞”等动作。\n- **高对比度焦点环**：支持完整的键盘聚焦导航，键盘通过 <kbd>Tab</kbd> 切换时呈现符合 WCAG 2.1 AA 标准的高对比度焦点指示。\n- **动效降级**：内置的图标切换缩放微动效自动适配系统的 `prefers-reduced-motion` 设置，开启减少动态效果后将直接跳变状态。",
   "examples": [
     {
       "name": "ai-message-actions-demo",

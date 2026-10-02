@@ -25,21 +25,18 @@
       "name": "title",
       "type": "ReactNode",
       "required": false,
-      "control": "text",
       "description": "描述列表上方显示的标题。"
     },
     {
       "name": "extra",
       "type": "ReactNode",
       "required": false,
-      "control": "text",
       "description": "显示在标题相对位置的操作内容。"
     },
     {
       "name": "columns",
-      "type": "enum",
+      "type": "1 | 4 | 3 | 2",
       "required": false,
-      "control": "text",
       "defaultValue": "3",
       "description": "每行显示的描述项组数。"
     },
@@ -47,7 +44,6 @@
       "name": "bordered",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "false",
       "description": "是否为标签和值绘制结构化边框。"
     },
@@ -55,7 +51,6 @@
       "name": "layout",
       "type": "\"horizontal\" | \"vertical\"",
       "required": false,
-      "control": "select",
       "options": [
         "horizontal",
         "vertical"
@@ -67,7 +62,6 @@
       "name": "size",
       "type": "\"default\" | \"sm\"",
       "required": false,
-      "control": "select",
       "options": [
         "default",
         "sm"
@@ -79,11 +73,107 @@
       "name": "labelWidth",
       "type": "Width<string | number>",
       "required": false,
-      "control": "text",
       "defaultValue": "7rem",
       "description": "横向布局中每个标签单元格的固定宽度。"
     }
   ],
+  "api": [
+    {
+      "name": "Descriptions",
+      "props": [
+        {
+          "name": "title",
+          "type": "ReactNode",
+          "required": false,
+          "description": "描述列表上方显示的标题。"
+        },
+        {
+          "name": "extra",
+          "type": "ReactNode",
+          "required": false,
+          "description": "显示在标题相对位置的操作内容。"
+        },
+        {
+          "name": "columns",
+          "type": "1 | 4 | 3 | 2",
+          "required": false,
+          "defaultValue": "3",
+          "description": "每行显示的描述项组数。"
+        },
+        {
+          "name": "bordered",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "是否为标签和值绘制结构化边框。"
+        },
+        {
+          "name": "layout",
+          "type": "\"horizontal\" | \"vertical\"",
+          "required": false,
+          "options": [
+            "horizontal",
+            "vertical"
+          ],
+          "defaultValue": "horizontal",
+          "description": "标签显示在值的旁边还是上方。"
+        },
+        {
+          "name": "size",
+          "type": "\"default\" | \"sm\"",
+          "required": false,
+          "options": [
+            "default",
+            "sm"
+          ],
+          "defaultValue": "default",
+          "description": "描述列表的垂直密度。"
+        },
+        {
+          "name": "labelWidth",
+          "type": "Width<string | number>",
+          "required": false,
+          "defaultValue": "7rem",
+          "description": "横向布局中每个标签单元格的固定宽度。"
+        }
+      ]
+    },
+    {
+      "name": "DescriptionsItem",
+      "props": [
+        {
+          "name": "label",
+          "type": "ReactNode",
+          "required": true,
+          "description": "Term associated with the item value."
+        },
+        {
+          "name": "span",
+          "type": "1 | 4 | 3 | 2",
+          "required": false,
+          "defaultValue": "1",
+          "description": "Number of description columns occupied by this item."
+        },
+        {
+          "name": "labelClassName",
+          "type": "string",
+          "required": false,
+          "description": "Classes applied to the label cell."
+        },
+        {
+          "name": "contentClassName",
+          "type": "string",
+          "required": false,
+          "description": "Classes applied to the value cell."
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`Descriptions` 专门用于呈现单个特定对象、记录或档案的属性全貌（如用户详情卡片、服务器实例参数、订单履约概览、合约条款）。\n\n- **何时使用 Descriptions vs Table**：\n  - **Descriptions**：专注于**单个对象的多维度属性**（每个字段含义不同，如“名称”、“创建时间”、“状态”、“配置详情”）。\n  - **Table**：专注于**多个同构对象的列表横向比对**（每行结构相同，如“用户列表”、“日志记录”）。\n- **标签文案简明性**：标签文案应简练明确（如“创建时间”而非“该条记录创建于系统的时间”）；对于补充性业务说明，请放在对应的值内容中或通过 Tooltip 辅助说明。\n- **跨列合理性（Span）**：对于长文本、多标签列表或进度条等较宽内容，设置 `span={2}` 或 `span={3}` 占满整行，避免内容被挤压产生过长折行。\n- **边框风格选择**：\n  - **无边框（默认）**：视觉更轻量透气，适合嵌入卡片内部或个人主页等轻量场景。\n  - **带边框（`bordered`）**：网格线清晰，标签与内容色彩分明，适合企业级管理后台、配置审批与工单详情页。",
+  "extended": "### 带边框多列详情（实例档案）\n\n在服务器或设备档案详情中，使用 `bordered` 模式搭配 `span` 跨列合并，结合 `Badge` 与复制按钮丰富信息呈现。最后一行只有一项时会自动延展占满整行：\n\n### 上下排版布局（订阅概览）\n\n当空间横向较为受限，或者希望像仪表盘看板一样优先阅读指标数值时，使用 `layout=\"vertical\"` 与 `size=\"sm\"`：",
+  "events": "`Descriptions` 本身作为只读结构化展示容器不直接发射业务事件，所有交互事件由嵌套在其中的子控件（如 `extra` 中的操作按钮、数据单元格内的复制按钮或链接）自行处理：\n\n- `onClick`: (event: React.MouseEvent<HTMLDivElement>) => void — 在容器上点击时触发的原生 DOM 事件。",
+  "accessibility": "- **表格语义与读屏支持**：底层基于原生 `<table>` 构建，水平布局时标签自动赋予 `<th scope=\"row\">`，垂直布局时标签赋予 `<th scope=\"col\">`，屏幕阅读器可以清晰地向视障用户读出属性名与属性值之间的关联。\n- **自适应横向滚动**：当在极窄视口（如手机屏幕）下浏览多列描述列表时，组件外层自动包裹 `overflow-x-auto` 容器并设定最小列宽计算，保障内容不重叠、文字不异常断裂。\n- **高对比度设计**：标签单元格采用 `text-muted-foreground`，内容单元格采用 `text-foreground`，在深色与浅色模式下均满足 WCAG AA 级对比度要求。",
   "examples": [
     {
       "name": "descriptions-demo",

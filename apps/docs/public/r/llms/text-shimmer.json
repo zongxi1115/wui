@@ -29,14 +29,12 @@
       "name": "children",
       "type": "string",
       "required": true,
-      "control": "text",
       "description": "承载扫光效果的文字。"
     },
     {
       "name": "as",
       "type": "ElementType<any, keyof IntrinsicElements>",
       "required": false,
-      "control": "text",
       "defaultValue": "span",
       "description": "组件实际渲染的 HTML 元素。"
     },
@@ -44,7 +42,6 @@
       "name": "duration",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "2",
       "description": "高光完整扫过一次所需的时间，单位为秒。"
     },
@@ -52,11 +49,49 @@
       "name": "spread",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "2",
       "description": "高光渐变相对文字宽度的范围。"
     }
   ],
+  "api": [
+    {
+      "name": "TextShimmer",
+      "props": [
+        {
+          "name": "children",
+          "type": "string",
+          "required": true,
+          "description": "承载扫光效果的文字。"
+        },
+        {
+          "name": "as",
+          "type": "ElementType<any, keyof IntrinsicElements>",
+          "required": false,
+          "defaultValue": "span",
+          "description": "组件实际渲染的 HTML 元素。"
+        },
+        {
+          "name": "duration",
+          "type": "number",
+          "required": false,
+          "defaultValue": "2",
+          "description": "高光完整扫过一次所需的时间，单位为秒。"
+        },
+        {
+          "name": "spread",
+          "type": "number",
+          "required": false,
+          "defaultValue": "2",
+          "description": "高光渐变相对文字宽度的范围。"
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`TextShimmer` 适用于**表达进行时、加载等待或尊贵高光特权**，常见于 AI 生成过程提示、高级功能订阅 CTA 按钮、后台任务同步卡片与状态指示器。\n\n- **明暗与对比度保障**：默认情况下，底色变量 `--shimmer-base` 采用次级文字色（`var(--muted-foreground)`），高光变量 `--shimmer-highlight` 采用主前景色（`var(--foreground)`）。如需自定义颜色，请确保底色在当前背景下仍满足 WCAG AA 文本对比度标准（≥ 4.5:1）。\n- **持续时间建议**：扫光周期推荐设置在 `1.5s ~ 2.5s`。过快的扫光容易引起视觉疲劳，过慢则缺乏流动感。\n- **与骨架屏结合**：在异步数据加载或 AI 流式准备阶段，相比传统的灰色色块骨架屏，带有扫光的动态文本能给用户更明确的进度预期。",
+  "extended": "### 高优先级行动按钮\n\n将 `TextShimmer` 与操作按钮结合，提升 AI 操作或升级入口的吸引力。放在主按钮上时，用 `color-mix` 基于 `--primary-foreground` 派生底色与高光：\n\n### 后台处理状态卡片\n\n在多步骤的 AI 任务中，只让“正在进行”的那一步带有微光，已完成与待办步骤保持静态，层级一目了然：\n\n### 自定义主题配色\n\n通过覆盖 `--shimmer-base` 和 `--shimmer-highlight` CSS 变量适配语义状态色。示例直接使用主题的 success / info / warning / destructive 令牌，并用 `color-mix` 与背景色混合出高光，亮暗模式自动适配：\n\n```tsx\n<TextShimmer\n  duration={1.8}\n  spread={3}\n  className=\"[--shimmer-base:theme(colors.emerald.600)] [--shimmer-highlight:theme(colors.emerald.200)]\"\n>\n  All nodes synchronized (0 errors)\n</TextShimmer>\n```",
+  "events": "`TextShimmer` 支持所有原生 HTML 文本元素的鼠标与焦点事件：\n\n- `onClick`: (event: React.MouseEvent) => void — 点击微光文字区域时触发。",
+  "accessibility": "- **文本可被正常选中与复制**：底层通过 `bg-clip-text` 与 `text-transparent` 实现渐变填充，DOM 结构内保留完整纯文本，用户可以正常鼠标双击选词并复制文本。\n- **系统减少动态偏好（Reduced Motion）**：当系统开启 `prefers-reduced-motion` 时，组件将禁用无限循环的 `backgroundPosition` 动画，直接展示静态的单色基底文本，保障前庭觉敏感用户的舒适度。",
   "examples": [
     {
       "name": "text-shimmer-demo",

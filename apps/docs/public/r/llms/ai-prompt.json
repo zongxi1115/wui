@@ -73,7 +73,6 @@
       "name": "size",
       "type": "\"compact\" | \"default\"",
       "required": false,
-      "control": "select",
       "options": [
         "compact",
         "default"
@@ -82,6 +81,816 @@
       "description": "输入框的尺寸密度。compact 适合紧凑布局，default 为标准尺寸。"
     }
   ],
+  "api": [
+    {
+      "name": "AiModelProviderIcon",
+      "props": [
+        {
+          "name": "provider",
+          "type": "\"openai\" | \"anthropic\" | \"xai\"",
+          "required": true,
+          "options": [
+            "openai",
+            "anthropic",
+            "xai"
+          ],
+          "description": "AI model provider represented by the brand mark."
+        }
+      ]
+    },
+    {
+      "name": "AiModelSelector",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "onOpenChange",
+          "type": "((open: boolean) => void)",
+          "required": false
+        },
+        {
+          "name": "dir",
+          "type": "\"ltr\" | \"rtl\"",
+          "required": false,
+          "options": [
+            "ltr",
+            "rtl"
+          ]
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "autoComplete",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "form",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "onValueChange",
+          "type": "((value: string) => void)",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "AiModelSelectorContent",
+      "props": [
+        {
+          "name": "forceMount",
+          "type": "true",
+          "required": false,
+          "description": "Used to force mounting when more control is needed. Useful when\ncontrolling animation with React animation libraries."
+        },
+        {
+          "name": "onCloseAutoFocus",
+          "type": "((event: Event) => void)",
+          "required": false,
+          "description": "Event handler called when auto-focusing on close.\nCan be prevented."
+        },
+        {
+          "name": "onEscapeKeyDown",
+          "type": "((event: KeyboardEvent) => void)",
+          "required": false,
+          "description": "Event handler called when the escape key is down.\nCan be prevented."
+        },
+        {
+          "name": "onPointerDownOutside",
+          "type": "((event: PointerDownOutsideEvent) => void)",
+          "required": false,
+          "description": "Event handler called when the a `pointerdown` event happens outside of the `DismissableLayer`.\nCan be prevented."
+        },
+        {
+          "name": "position",
+          "type": "\"item-aligned\" | \"popper\"",
+          "required": false,
+          "options": [
+            "item-aligned",
+            "popper"
+          ]
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "side",
+          "type": "\"top\" | \"right\" | \"bottom\" | \"left\"",
+          "required": false,
+          "options": [
+            "top",
+            "right",
+            "bottom",
+            "left"
+          ]
+        },
+        {
+          "name": "sideOffset",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "align",
+          "type": "\"center\" | \"start\" | \"end\"",
+          "required": false,
+          "options": [
+            "center",
+            "start",
+            "end"
+          ]
+        },
+        {
+          "name": "alignOffset",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "arrowPadding",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "avoidCollisions",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "collisionBoundary",
+          "type": "Boundary | Boundary[]",
+          "required": false
+        },
+        {
+          "name": "collisionPadding",
+          "type": "number | Partial<Record<\"top\" | \"right\" | \"bottom\" | \"left\", number>>",
+          "required": false
+        },
+        {
+          "name": "sticky",
+          "type": "\"partial\" | \"always\"",
+          "required": false,
+          "options": [
+            "partial",
+            "always"
+          ]
+        },
+        {
+          "name": "hideWhenDetached",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "updatePositionStrategy",
+          "type": "\"always\" | \"optimized\"",
+          "required": false,
+          "options": [
+            "always",
+            "optimized"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "AiModelSelectorGroup",
+      "props": [
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "AiModelSelectorItem",
+      "props": [
+        {
+          "name": "description",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Supporting capability or cost note."
+        },
+        {
+          "name": "provider",
+          "type": "\"openai\" | \"anthropic\" | \"xai\"",
+          "required": false,
+          "options": [
+            "openai",
+            "anthropic",
+            "xai"
+          ],
+          "description": "Provider used to render the model's brand icon."
+        },
+        {
+          "name": "meta",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Right-aligned context, speed, or plan metadata."
+        },
+        {
+          "name": "icon",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Custom icon that replaces the provider mark."
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "textValue",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "AiModelSelectorLabel",
+      "props": [
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "AiModelSelectorSeparator",
+      "props": [
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "AiModelSelectorTrigger",
+      "props": [
+        {
+          "name": "provider",
+          "type": "\"openai\" | \"anthropic\" | \"xai\"",
+          "required": false,
+          "options": [
+            "openai",
+            "anthropic",
+            "xai"
+          ],
+          "description": "Provider used to render the leading brand icon."
+        },
+        {
+          "name": "model",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Primary selected model label."
+        },
+        {
+          "name": "description",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Secondary mode or capability label."
+        },
+        {
+          "name": "icon",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Custom icon that replaces the provider mark."
+        },
+        {
+          "name": "size",
+          "type": "\"default\" | \"sm\" | \"lg\"",
+          "required": false,
+          "options": [
+            "default",
+            "sm",
+            "lg"
+          ],
+          "defaultValue": "sm",
+          "description": "输入框的尺寸密度。compact 适合紧凑布局，default 为标准尺寸。"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "AiModelSelectorValue",
+      "props": [
+        {
+          "name": "placeholder",
+          "type": "ReactNode",
+          "required": false
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "AiPrompt",
+      "props": [
+        {
+          "name": "size",
+          "type": "\"compact\" | \"default\"",
+          "required": false,
+          "options": [
+            "compact",
+            "default"
+          ],
+          "defaultValue": "default",
+          "description": "输入框的尺寸密度。compact 适合紧凑布局，default 为标准尺寸。"
+        }
+      ]
+    },
+    {
+      "name": "AiPromptAction",
+      "props": [
+        {
+          "name": "active",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Persistent toggle state for optional prompt capabilities."
+        },
+        {
+          "name": "icon",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Leading icon, including an animated icon from the collection."
+        },
+        {
+          "name": "label",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Text revealed on hover, focus, or while active."
+        },
+        {
+          "name": "variant",
+          "type": "\"link\" | \"default\" | \"secondary\" | \"destructive\" | \"outline\" | \"ghost\"",
+          "required": false,
+          "options": [
+            "link",
+            "default",
+            "secondary",
+            "destructive",
+            "outline",
+            "ghost"
+          ],
+          "defaultValue": "ghost",
+          "description": "Visual style of the button."
+        },
+        {
+          "name": "size",
+          "type": "\"default\" | \"sm\" | \"lg\" | \"icon\"",
+          "required": false,
+          "options": [
+            "default",
+            "sm",
+            "lg",
+            "icon"
+          ],
+          "defaultValue": "sm",
+          "description": "输入框的尺寸密度。compact 适合紧凑布局，default 为标准尺寸。"
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false,
+          "description": "Render as the single child element via Radix Slot, e.g. to wrap an `<a>`."
+        },
+        {
+          "name": "motion",
+          "type": "boolean",
+          "required": false,
+          "description": "Enable a subtle spring press/hover micro-interaction (powered by motion).\nComposable with `ripple`. Ignored when `asChild` is set, and automatically\ndisabled when the user prefers reduced motion."
+        },
+        {
+          "name": "ripple",
+          "type": "boolean",
+          "required": false,
+          "description": "Enable a Material-style click ripple that radiates from the pointer.\nComposable with `motion`. Ignored when `asChild` is set, and automatically\ndisabled when the user prefers reduced motion."
+        },
+        {
+          "name": "loading",
+          "type": "boolean",
+          "required": false,
+          "description": "Show an inline spinner and block interaction while an async action runs.\nText buttons overlap centered idle/loading rows and reserve the larger row;\nicon buttons replace their glyph. Sets `aria-busy` and disables the button."
+        },
+        {
+          "name": "loadingText",
+          "type": "string",
+          "required": false,
+          "description": "Label while loading; both labels reserve space so adjacent actions stay still."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "AiPromptCapabilitySelector",
+      "props": [
+        {
+          "name": "icon",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Leading icon shown while the text label is collapsed."
+        },
+        {
+          "name": "defaultValue",
+          "type": "string[]",
+          "required": false,
+          "description": "非受控模式下的初始值路径。"
+        },
+        {
+          "name": "value",
+          "type": "string[]",
+          "required": false,
+          "description": "受控模式下的选中值路径。"
+        },
+        {
+          "name": "separator",
+          "type": "ReactNode",
+          "required": false,
+          "defaultValue": "·",
+          "description": "选中标签之间的分隔符。@default \" / \""
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "onValueChange",
+          "type": "((value: string[], options: CascaderOption[]) => void)",
+          "required": false,
+          "description": "当前路径发生变化时调用。"
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "required": false,
+          "description": "未选中完整路径时展示的占位文本。@default \"请选择地区\""
+        },
+        {
+          "name": "options",
+          "type": "CascaderOption[]",
+          "required": true,
+          "description": "层级选项树。"
+        },
+        {
+          "name": "closeOnSelect",
+          "type": "boolean",
+          "required": false,
+          "description": "选中叶子节点后是否关闭面板。@default true"
+        },
+        {
+          "name": "panelLabel",
+          "type": "string",
+          "required": false,
+          "description": "选项面板的无障碍标签。@default \"级联选项\""
+        },
+        {
+          "name": "contentClassName",
+          "type": "string",
+          "required": false,
+          "description": "应用于浮层面板的额外类名。"
+        },
+        {
+          "name": "searchable",
+          "type": "boolean",
+          "required": false,
+          "description": "在面板顶部显示路径搜索框。@default false"
+        },
+        {
+          "name": "searchPlaceholder",
+          "type": "string",
+          "required": false,
+          "description": "搜索框占位文本。@default \"搜索选项\""
+        },
+        {
+          "name": "filterOption",
+          "type": "((query: string, path: CascaderOption[]) => boolean)",
+          "required": false,
+          "description": "自定义路径匹配逻辑。"
+        }
+      ]
+    },
+    {
+      "name": "AiPromptAttachment",
+      "props": [
+        {
+          "name": "name",
+          "type": "string",
+          "required": true,
+          "description": "File name shown in the attachment chip."
+        },
+        {
+          "name": "metadata",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Optional file size, type, or upload state."
+        },
+        {
+          "name": "onRemove",
+          "type": "(() => void)",
+          "required": false,
+          "description": "Called by the remove button. Omit to render a read-only attachment."
+        },
+        {
+          "name": "preview",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Custom leading preview or file icon."
+        }
+      ]
+    },
+    {
+      "name": "AiPromptAttachmentButton",
+      "props": [
+        {
+          "name": "onFilesChange",
+          "type": "((files: File[]) => void)",
+          "required": false,
+          "description": "Called whenever files are selected."
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Visible trigger content."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "AiPromptAttachments",
+      "props": []
+    },
+    {
+      "name": "AiPromptContent",
+      "props": []
+    },
+    {
+      "name": "AiPromptFooter",
+      "props": []
+    },
+    {
+      "name": "AiPromptHeader",
+      "props": []
+    },
+    {
+      "name": "AiPromptMention",
+      "props": [
+        {
+          "name": "value",
+          "type": "string",
+          "required": true,
+          "description": "Full textarea value controlled by the provider."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string) => void",
+          "required": true,
+          "description": "Called for normal typing and mention insertion."
+        },
+        {
+          "name": "items",
+          "type": "AiPromptMentionItem[]",
+          "required": true,
+          "description": "Available mention targets."
+        },
+        {
+          "name": "trigger",
+          "type": "string",
+          "required": false,
+          "defaultValue": "@",
+          "description": "Character that opens the mention menu."
+        },
+        {
+          "name": "onMentionSelect",
+          "type": "((item: AiPromptMentionItem) => void)",
+          "required": false,
+          "description": "Called after a target is inserted."
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "AiPromptMentionMenu",
+      "props": [
+        {
+          "name": "emptyMessage",
+          "type": "ReactNode",
+          "required": false,
+          "defaultValue": "没有匹配的提及对象",
+          "description": "Message shown when the current query has no matches."
+        }
+      ]
+    },
+    {
+      "name": "AiPromptQuote",
+      "props": [
+        {
+          "name": "label",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Optional source label shown before the quoted content."
+        },
+        {
+          "name": "onRemove",
+          "type": "(() => void)",
+          "required": false,
+          "description": "Called by the remove button."
+        }
+      ]
+    },
+    {
+      "name": "AiPromptSubmit",
+      "props": [
+        {
+          "name": "status",
+          "type": "\"idle\" | \"submitted\" | \"streaming\" | \"error\"",
+          "required": false,
+          "options": [
+            "idle",
+            "submitted",
+            "streaming",
+            "error"
+          ],
+          "defaultValue": "idle",
+          "description": "Current request lifecycle."
+        },
+        {
+          "name": "variant",
+          "type": "\"link\" | \"default\" | \"secondary\" | \"destructive\" | \"outline\" | \"ghost\"",
+          "required": false,
+          "options": [
+            "link",
+            "default",
+            "secondary",
+            "destructive",
+            "outline",
+            "ghost"
+          ],
+          "description": "Visual style of the button."
+        },
+        {
+          "name": "size",
+          "type": "\"default\" | \"sm\" | \"lg\" | \"icon\"",
+          "required": false,
+          "options": [
+            "default",
+            "sm",
+            "lg",
+            "icon"
+          ],
+          "description": "输入框的尺寸密度。compact 适合紧凑布局，default 为标准尺寸。"
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false,
+          "description": "Render as the single child element via Radix Slot, e.g. to wrap an `<a>`."
+        },
+        {
+          "name": "motion",
+          "type": "boolean",
+          "required": false,
+          "description": "Enable a subtle spring press/hover micro-interaction (powered by motion).\nComposable with `ripple`. Ignored when `asChild` is set, and automatically\ndisabled when the user prefers reduced motion."
+        },
+        {
+          "name": "ripple",
+          "type": "boolean",
+          "required": false,
+          "description": "Enable a Material-style click ripple that radiates from the pointer.\nComposable with `motion`. Ignored when `asChild` is set, and automatically\ndisabled when the user prefers reduced motion."
+        },
+        {
+          "name": "loading",
+          "type": "boolean",
+          "required": false,
+          "description": "Show an inline spinner and block interaction while an async action runs.\nText buttons overlap centered idle/loading rows and reserve the larger row;\nicon buttons replace their glyph. Sets `aria-busy` and disables the button."
+        },
+        {
+          "name": "loadingText",
+          "type": "string",
+          "required": false,
+          "description": "Label while loading; both labels reserve space so adjacent actions stay still."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "AiPromptTextarea",
+      "props": [
+        {
+          "name": "autoResize",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "Grow with the content until maxHeight is reached."
+        },
+        {
+          "name": "maxHeight",
+          "type": "number",
+          "required": false,
+          "defaultValue": "160",
+          "description": "Maximum auto-resized height in pixels."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "AiPromptTools",
+      "props": []
+    }
+  ],
+  "types": [
+    {
+      "name": "AiPromptMentionItem",
+      "definition": "export interface AiPromptMentionItem {\n  /** Stable option identifier. */\n  id: string\n  /** Visible name inserted after the trigger. */\n  label: string\n  /** Optional secondary line in the mention menu. */\n  description?: string\n  /** Custom value inserted into the textarea. Defaults to label. */\n  value?: string\n  /** Additional terms included in local filtering. */\n  keywords?: string[]\n  /** Avatar or icon displayed before the label. */\n  avatar?: React.ReactNode\n}"
+    }
+  ],
+  "usage": "`AiPrompt` 专用于 AI 对话、Copilot 侧边栏和智能体交互场景，它负责组织输入区层级、上下文载入与操作入口：\n\n- **何时使用**：\n  - 聊天机器人与 Copilot 对话交互输入区；\n  - 包含多模态文件上传、联网搜索、深度推理强度调节等复杂上下文配置的输入场景；\n  - 需要 `@` 提及项目文件、数据库表或团队成员的协作工作流。\n- **何时不应使用**：\n  - 常规单行全局搜索框（请使用 `Command` 或 `Input`）；\n  - 表单中的纯文本备注（请使用 `Textarea`）；\n  - 社区评论发布框（不需要模型与推理选项配置）。\n- **设计最佳实践**：\n  - **回车键快捷交互**：遵循“<kbd>Enter</kbd> 发送、<kbd>Shift</kbd> + <kbd>Enter</kbd> 换行”的行业统一交互约定；\n  - **加载与打断保护**：在模型流式生成期间，发送按钮应自动切换为“停止生成”按钮，允许用户随时打断冗长回答；\n  - **上下文明确可视**：被引用的代码片段或上传的文件应放置在 `AiPromptHeader` 独立卡片中，避免直接堆砌在 placeholder 中。",
+  "extended": "### 提及成员与引用上下文\n\n通过将输入区域嵌套在 `AiPromptMention` 中，支持输入 `@` 触发候选项实时联想与键盘导航：\n\n### 高级参数与多模态附件\n\n组合引用预览 (`AiPromptQuote`)、文件附件列表 (`AiPromptAttachments`)、级联思考强度选择器 (`AiPromptCapabilitySelector`) 以及厂商模型切换器。`AiPromptAttachments` 会为带有稳定 `key` 的附件播放进出场动画，其余附件平滑补位：\n\n### 紧凑输入条\n\n在侧边栏或轻量 Copilot 窗口中使用 `compact` 尺寸节省垂直空间。发送后按钮依次过渡为加载、停止，再回到发送：",
+  "events": "- `onSubmit`: (event: React.FormEvent<HTMLFormElement>) => void — 用户点击发送按钮或在输入框中按下 Enter 键时触发。\n- `onValueChange`: (value: string) => void — 由 `AiPromptMention` 统一派发的文本变化事件。\n- `onMentionSelect`: (item: AiPromptMentionItem) => void — 在提及菜单中选择特定候选项后触发，参数为被选中的目标对象。\n- `onFilesChange`: (files: File[]) => void — 通过 `AiPromptAttachmentButton` 选择本地文件后触发。",
+  "accessibility": "- **ARIA 角色与语义**：\n  - `AiPrompt` 根元素渲染为标准 `<form>`，便于辅助设备识别提交语义；\n  - 当提及菜单展开时，输入框自动挂载 `role=\"combobox\"`、`aria-autocomplete=\"list\"` 以及 `aria-expanded=\"true\"`；\n  - 提交按钮会依据 `status` 动态更新 `aria-label`（如“发送消息”或“停止生成”）。\n- **键盘导航交互**：\n  - <kbd>Enter</kbd>：直接触发表单提交；在提及菜单展开时则选中当前高亮项。\n  - <kbd>Shift</kbd> + <kbd>Enter</kbd>：在文本域中插入换行符，不会触发误提交。\n  - <kbd>↑</kbd> / <kbd>↓</kbd>：在提及弹层中循环切换高亮项。\n  - <kbd>Escape</kbd>：关闭当前打开的提及菜单或模型选择弹层。\n- **动效降级**：\n  - 按钮文字展开与图标过渡遵循 `prefers-reduced-motion` 系统偏好，开启“减少动态效果”时将立即切换状态。",
   "examples": [
     {
       "name": "ai-prompt-demo",

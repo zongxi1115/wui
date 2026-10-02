@@ -38,7 +38,569 @@
       "utils"
     ]
   },
-  "props": [],
+  "props": [
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": false
+    },
+    {
+      "name": "dir",
+      "type": "\"ltr\" | \"rtl\"",
+      "required": false,
+      "options": [
+        "ltr",
+        "rtl"
+      ]
+    },
+    {
+      "name": "open",
+      "type": "boolean",
+      "required": false
+    },
+    {
+      "name": "defaultOpen",
+      "type": "boolean",
+      "required": false
+    },
+    {
+      "name": "onOpenChange",
+      "type": "((open: boolean) => void)",
+      "required": false
+    },
+    {
+      "name": "modal",
+      "type": "boolean",
+      "required": false
+    }
+  ],
+  "api": [
+    {
+      "name": "DropdownMenu",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false
+        },
+        {
+          "name": "dir",
+          "type": "\"ltr\" | \"rtl\"",
+          "required": false,
+          "options": [
+            "ltr",
+            "rtl"
+          ]
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "onOpenChange",
+          "type": "((open: boolean) => void)",
+          "required": false
+        },
+        {
+          "name": "modal",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "DropdownMenuCheckboxItem",
+      "props": [
+        {
+          "name": "onSelect",
+          "type": "((event: Event) => void)",
+          "required": false
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "checked",
+          "type": "CheckedState",
+          "required": false
+        },
+        {
+          "name": "onCheckedChange",
+          "type": "((checked: boolean) => void)",
+          "required": false
+        },
+        {
+          "name": "textValue",
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "DropdownMenuContent",
+      "props": [
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "side",
+          "type": "\"top\" | \"right\" | \"bottom\" | \"left\"",
+          "required": false,
+          "options": [
+            "top",
+            "right",
+            "bottom",
+            "left"
+          ]
+        },
+        {
+          "name": "sideOffset",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "align",
+          "type": "\"center\" | \"start\" | \"end\"",
+          "required": false,
+          "options": [
+            "center",
+            "start",
+            "end"
+          ]
+        },
+        {
+          "name": "alignOffset",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "arrowPadding",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "avoidCollisions",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "collisionBoundary",
+          "type": "Boundary | Boundary[]",
+          "required": false
+        },
+        {
+          "name": "collisionPadding",
+          "type": "number | Partial<Record<\"top\" | \"right\" | \"bottom\" | \"left\", number>>",
+          "required": false
+        },
+        {
+          "name": "sticky",
+          "type": "\"partial\" | \"always\"",
+          "required": false,
+          "options": [
+            "partial",
+            "always"
+          ]
+        },
+        {
+          "name": "hideWhenDetached",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "updatePositionStrategy",
+          "type": "\"always\" | \"optimized\"",
+          "required": false,
+          "options": [
+            "always",
+            "optimized"
+          ]
+        },
+        {
+          "name": "forceMount",
+          "type": "true",
+          "required": false,
+          "description": "Used to force mounting when more control is needed. Useful when\ncontrolling animation with React animation libraries."
+        },
+        {
+          "name": "onCloseAutoFocus",
+          "type": "((event: Event) => void)",
+          "required": false,
+          "description": "Event handler called when auto-focusing on close.\nCan be prevented."
+        },
+        {
+          "name": "loop",
+          "type": "boolean",
+          "required": false,
+          "description": "Whether keyboard navigation should loop around\n@defaultValue false"
+        },
+        {
+          "name": "onEscapeKeyDown",
+          "type": "((event: KeyboardEvent) => void)",
+          "required": false
+        },
+        {
+          "name": "onPointerDownOutside",
+          "type": "((event: PointerDownOutsideEvent) => void)",
+          "required": false
+        },
+        {
+          "name": "onFocusOutside",
+          "type": "((event: FocusOutsideEvent) => void)",
+          "required": false
+        },
+        {
+          "name": "onInteractOutside",
+          "type": "((event: PointerDownOutsideEvent | FocusOutsideEvent) => void)",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "DropdownMenuGroup",
+      "props": [
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "DropdownMenuItem",
+      "props": [
+        {
+          "name": "destructive",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "为危险操作启用警示色。"
+        },
+        {
+          "name": "inset",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "为前置图标或指示器预留空间。"
+        },
+        {
+          "name": "onSelect",
+          "type": "((event: Event) => void)",
+          "required": false
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "textValue",
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "DropdownMenuLabel",
+      "props": [
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "inset",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "与带前置图标的菜单项对齐。"
+        }
+      ]
+    },
+    {
+      "name": "DropdownMenuPortal",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false
+        },
+        {
+          "name": "container",
+          "type": "Element | DocumentFragment | null",
+          "required": false,
+          "description": "Specify a container element to portal the content into."
+        },
+        {
+          "name": "forceMount",
+          "type": "true",
+          "required": false,
+          "description": "Used to force mounting when more control is needed. Useful when\ncontrolling animation with React animation libraries."
+        }
+      ]
+    },
+    {
+      "name": "DropdownMenuRadioGroup",
+      "props": [
+        {
+          "name": "value",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "onValueChange",
+          "type": "((value: string) => void)",
+          "required": false
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "DropdownMenuRadioItem",
+      "props": [
+        {
+          "name": "value",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "onSelect",
+          "type": "((event: Event) => void)",
+          "required": false
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "textValue",
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "DropdownMenuSeparator",
+      "props": [
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "DropdownMenuShortcut",
+      "props": []
+    },
+    {
+      "name": "DropdownMenuSub",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "onOpenChange",
+          "type": "((open: boolean) => void)",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "DropdownMenuSubContent",
+      "props": [
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "sideOffset",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "align",
+          "type": "\"start\" | \"end\"",
+          "required": false,
+          "options": [
+            "start",
+            "end"
+          ],
+          "description": "Controls the direction the subcontent appears from its anchor menu item\nDefault: start"
+        },
+        {
+          "name": "alignOffset",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "arrowPadding",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "avoidCollisions",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "collisionBoundary",
+          "type": "Boundary | Boundary[]",
+          "required": false
+        },
+        {
+          "name": "collisionPadding",
+          "type": "number | Partial<Record<\"top\" | \"right\" | \"bottom\" | \"left\", number>>",
+          "required": false
+        },
+        {
+          "name": "sticky",
+          "type": "\"partial\" | \"always\"",
+          "required": false,
+          "options": [
+            "partial",
+            "always"
+          ]
+        },
+        {
+          "name": "hideWhenDetached",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "updatePositionStrategy",
+          "type": "\"always\" | \"optimized\"",
+          "required": false,
+          "options": [
+            "always",
+            "optimized"
+          ]
+        },
+        {
+          "name": "forceMount",
+          "type": "true",
+          "required": false,
+          "description": "Used to force mounting when more control is needed. Useful when\ncontrolling animation with React animation libraries."
+        },
+        {
+          "name": "loop",
+          "type": "boolean",
+          "required": false,
+          "description": "Whether keyboard navigation should loop around\n@defaultValue false"
+        },
+        {
+          "name": "onEscapeKeyDown",
+          "type": "((event: KeyboardEvent) => void)",
+          "required": false
+        },
+        {
+          "name": "onPointerDownOutside",
+          "type": "((event: PointerDownOutsideEvent) => void)",
+          "required": false
+        },
+        {
+          "name": "onFocusOutside",
+          "type": "((event: FocusOutsideEvent) => void)",
+          "required": false
+        },
+        {
+          "name": "onInteractOutside",
+          "type": "((event: PointerDownOutsideEvent | FocusOutsideEvent) => void)",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "DropdownMenuSubTrigger",
+      "props": [
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "textValue",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "inset",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "为前置图标预留空间。"
+        }
+      ]
+    },
+    {
+      "name": "DropdownMenuTrigger",
+      "props": [
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`DropdownMenu` 适合收敛高密度界面中的辅助操作项（如表格行操作、账户设置、批处理动作）：\n\n- **组件选型对比**：\n  - **DropdownMenu vs Select**：`Select` 是表单输入控件，用于从预设集合中选择一个表单值提交；`DropdownMenu` 是**操作触发器**，用于触发动作（如“导出”、“复制”、“删除”）。\n  - **DropdownMenu vs ContextMenu**：`DropdownMenu` 由用户明确点击触发按钮（如“...”）唤起；`ContextMenu` 由用户在目标元素上右键或长按唤起。\n  - **DropdownMenu vs Popover**：`Popover` 用于呈现富交互面板（如包含输入框、日期选择器的复杂卡片）；`DropdownMenu` 专为规范的条目列表和快捷命令设计。\n- **信息层级与分组原则**：\n  - **常用前置**：将高频使用的操作置于顶部，同类操作通过 `DropdownMenuGroup` 和 `DropdownMenuLabel` 分组。\n  - **破坏性操作隔离**：删除、清空、注销等危险操作应放在菜单最底部，使用 `DropdownMenuSeparator` 显式分割，并添加 `destructive` 属性标红。\n  - **合理控制子菜单层级**：嵌套子菜单（`DropdownMenuSub`）建议最多不超过 2 层，避免过深造成指针移动困难。",
+  "extended": "### 操作菜单与快捷键提示\n\n最常见的列表行内操作菜单，集成图标、分隔符与语义化快捷键标签：\n\n### 状态项与单选设置\n\n组合使用 `DropdownMenuCheckboxItem` 与 `DropdownMenuRadioGroup`，在菜单内直接切换视图紧凑度、深浅主题等系统偏好：\n\n### 用户资料与团队切换面板\n\n在顶部导航栏中展示用户头像下拉菜单，整合个人资料、配额信息、偏好设置与注销登录入口：\n\n### 多级嵌套子菜单\n\n使用 `DropdownMenuSub`、`DropdownMenuSubTrigger` 与 `DropdownMenuSubContent` 优雅收纳二级导出格式、分享权限等深层级操作：",
+  "events": "- `onOpenChange`: (open: boolean) => void — 菜单打开或关闭状态变化时触发。\n- `onSelect`: (event: Event) => void — 在 DropdownMenuItem / CheckboxItem / RadioItem 上被点击或通过键盘 Enter/Space 激活时触发。\n- `onCheckedChange`: (checked: boolean) => void — 在 DropdownMenuCheckboxItem 上切换勾选时触发。\n- `onValueChange`: (value: string) => void — 在 DropdownMenuRadioGroup 上切换单选项时触发。",
+  "accessibility": "- **WAI-ARIA Menu 规范**：\n  - 自动渲染 `role=\"menu\"`、`role=\"menuitem\"`、`role=\"menuitemcheckbox\"` 和 `role=\"menuitemradio\"`。\n  - 支持 `aria-haspopup=\"menu\"` 与 `aria-expanded` 状态。\n- **键盘导航**：\n  - <kbd>↓</kbd> / <kbd>↑</kbd>：在菜单项之间循环聚焦（自动跳过已禁用的项）。\n  - <kbd>→</kbd>：在子菜单触发项上打开并聚焦进入子菜单。\n  - <kbd>←</kbd>：在子菜单内部按下返回并关闭当前子菜单。\n  - <kbd>Enter</kbd> / <kbd>Space</kbd>：激活选中的菜单项并触发其回调。\n  - <kbd>Esc</kbd>：关闭当前打开的菜单层级。\n  - **首字母按键查找（Typeahead）**：在菜单打开状态下直接键入字符，焦点会自动快速跳转到首字母匹配的菜单项。\n- **焦点恢复**：菜单关闭后，焦点自动无缝归还到触发按钮。\n- **方向感知动效**：菜单与子菜单均以触发器方向为缩放原点展开（`--radix-dropdown-menu-content-transform-origin`），勾选与单选指示器以缩放方式出现，子菜单打开时箭头轻微右移；系统开启“减少动态效果”时自动关闭。\n- **高度约束**：菜单高度受可用视口空间（`--radix-dropdown-menu-content-available-height`）约束，超出时内部滚动。",
   "examples": [
     {
       "name": "dropdown-menu-demo",

@@ -1,0 +1,6 @@
+{
+  "name": "typewriter-cursor",
+  "component": "typewriter",
+  "title": "光标样式",
+  "code": "import { Typewriter, type TypewriterCursor } from \"@/components/ui/typewriter\"\n\nconst rows: { cursor: TypewriterCursor; label: string; text: string }[] = [\n  { cursor: \"bar\", label: \"bar\", text: \"pnpm add motion\" },\n  { cursor: \"block\", label: \"block\", text: \"git push origin main\" },\n  { cursor: \"underscore\", label: \"underscore\", text: \"wui add text-rotate\" },\n]\n\nexport default function TypewriterCursorDemo() {\n  return (\n    <div className=\"w-full max-w-md divide-y rounded-lg border font-mono text-sm\">\n      {rows.map((row, index) => (\n        <div key={row.cursor} className=\"flex items-center gap-3 px-4 py-3\">\n          <span className=\"w-24 shrink-0 text-xs text-muted-foreground\">\n            {row.label}\n          </span>\n          <span className=\"text-muted-foreground\">$</span>\n          <Typewriter\n            texts={[row.text]}\n            cursor={row.cursor}\n            startDelay={index * 400}\n            typeSpeed={60}\n            pauseDuration={2400}\n            className=\"text-foreground\"\n          />\n        </div>\n      ))}\n    </div>\n  )\n}\n"
+}

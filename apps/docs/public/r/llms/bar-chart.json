@@ -33,49 +33,42 @@
       "name": "title",
       "type": "ReactNode",
       "required": true,
-      "control": "text",
       "description": "图表标题，用于说明正在比较的指标。"
     },
     {
       "name": "description",
       "type": "ReactNode",
       "required": false,
-      "control": "text",
       "description": "补充单位、时间范围或筛选条件的副标题。"
     },
     {
       "name": "actions",
       "type": "ReactNode",
       "required": false,
-      "control": "text",
       "description": "标题右侧的操作区，适合组合 Button、Select 或业务工具栏。"
     },
     {
       "name": "data",
       "type": "ChartDatum[]",
       "required": true,
-      "control": "text",
       "description": "每行代表一个横轴分类的数据。"
     },
     {
       "name": "xKey",
       "type": "string",
       "required": true,
-      "control": "text",
       "description": "用作横轴分类标签的数据字段。"
     },
     {
       "name": "series",
       "type": "ChartSeries[]",
       "required": true,
-      "control": "text",
       "description": "要比较的数值序列。"
     },
     {
       "name": "height",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "280",
       "description": "图表绘图区高度，单位为像素。"
     },
@@ -83,14 +76,12 @@
       "name": "domain",
       "type": "[number, number]",
       "required": false,
-      "control": "text",
       "description": "手动指定纵轴最小值和最大值，范围应包含零。"
     },
     {
       "name": "showGrid",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "true",
       "description": "是否显示水平参考网格。"
     },
@@ -98,7 +89,6 @@
       "name": "showValues",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "false",
       "description": "是否在柱形末端显示精确数值。"
     },
@@ -106,7 +96,6 @@
       "name": "showLegend",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "true",
       "description": "是否在多序列时显示图例。"
     },
@@ -114,7 +103,6 @@
       "name": "gap",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "0.2",
       "description": "柱形之间的间距比例。"
     },
@@ -122,7 +110,6 @@
       "name": "radius",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "1.5",
       "description": "柱形圆角，单位为像素。"
     },
@@ -130,7 +117,6 @@
       "name": "referenceLines",
       "type": "ChartReferenceLine[]",
       "required": false,
-      "control": "text",
       "defaultValue": "[]",
       "description": "目标值、均值或阈值等纵轴参考线。"
     },
@@ -138,14 +124,12 @@
       "name": "yAxisFormatter",
       "type": "((value: number) => ReactNode)",
       "required": false,
-      "control": "text",
       "description": "自定义纵轴刻度的显示格式。"
     },
     {
       "name": "valueFormatter",
       "type": "ChartValueFormatter",
       "required": false,
-      "control": "text",
       "defaultValue": "(value) => defaultValueFormatter(value)",
       "description": "自定义数值的显示格式。"
     },
@@ -153,12 +137,151 @@
       "name": "labelFormatter",
       "type": "ChartLabelFormatter",
       "required": false,
-      "control": "text",
       "defaultValue": "(value) => String(value)",
       "description": "自定义横轴标签和提示框标题的显示格式。"
     }
   ],
-  "usage": "- 分类名称较短时使用默认纵向布局；分类很多时应减少数据或拆分视图，避免把横轴文字压缩到不可读。\n- `showValues` 适合少量柱形的精确比较，密集数据应保留提示框，避免标签互相碰撞。\n- `domain` 应包含零；只有比例变化、差值等明确语义的图表才应考虑其他尺度。",
+  "api": [
+    {
+      "name": "BarChart",
+      "props": [
+        {
+          "name": "title",
+          "type": "ReactNode",
+          "required": true,
+          "description": "图表标题，用于说明正在比较的指标。"
+        },
+        {
+          "name": "description",
+          "type": "ReactNode",
+          "required": false,
+          "description": "补充单位、时间范围或筛选条件的副标题。"
+        },
+        {
+          "name": "actions",
+          "type": "ReactNode",
+          "required": false,
+          "description": "标题右侧的操作区，适合组合 Button、Select 或业务工具栏。"
+        },
+        {
+          "name": "data",
+          "type": "ChartDatum[]",
+          "required": true,
+          "description": "每行代表一个横轴分类的数据。"
+        },
+        {
+          "name": "xKey",
+          "type": "string",
+          "required": true,
+          "description": "用作横轴分类标签的数据字段。"
+        },
+        {
+          "name": "series",
+          "type": "ChartSeries[]",
+          "required": true,
+          "description": "要比较的数值序列。"
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "required": false,
+          "defaultValue": "280",
+          "description": "图表绘图区高度，单位为像素。"
+        },
+        {
+          "name": "domain",
+          "type": "[number, number]",
+          "required": false,
+          "description": "手动指定纵轴最小值和最大值，范围应包含零。"
+        },
+        {
+          "name": "showGrid",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "是否显示水平参考网格。"
+        },
+        {
+          "name": "showValues",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "是否在柱形末端显示精确数值。"
+        },
+        {
+          "name": "showLegend",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "是否在多序列时显示图例。"
+        },
+        {
+          "name": "gap",
+          "type": "number",
+          "required": false,
+          "defaultValue": "0.2",
+          "description": "柱形之间的间距比例。"
+        },
+        {
+          "name": "radius",
+          "type": "number",
+          "required": false,
+          "defaultValue": "1.5",
+          "description": "柱形圆角，单位为像素。"
+        },
+        {
+          "name": "referenceLines",
+          "type": "ChartReferenceLine[]",
+          "required": false,
+          "defaultValue": "[]",
+          "description": "目标值、均值或阈值等纵轴参考线。"
+        },
+        {
+          "name": "yAxisFormatter",
+          "type": "((value: number) => ReactNode)",
+          "required": false,
+          "description": "自定义纵轴刻度的显示格式。"
+        },
+        {
+          "name": "valueFormatter",
+          "type": "ChartValueFormatter",
+          "required": false,
+          "defaultValue": "(value) => defaultValueFormatter(value)",
+          "description": "自定义数值的显示格式。"
+        },
+        {
+          "name": "labelFormatter",
+          "type": "ChartLabelFormatter",
+          "required": false,
+          "defaultValue": "(value) => String(value)",
+          "description": "自定义横轴标签和提示框标题的显示格式。"
+        }
+      ]
+    }
+  ],
+  "types": [
+    {
+      "name": "ChartDatum",
+      "definition": "export type ChartDatum = Record<string, string | number | null | undefined>"
+    },
+    {
+      "name": "ChartLabelFormatter",
+      "definition": "export type ChartLabelFormatter = (\r\n  value: string | number,\r\n  datum: ChartDatum\r\n) => React.ReactNode"
+    },
+    {
+      "name": "ChartReferenceLine",
+      "definition": "export interface ChartReferenceLine {\r\n  /** 参考线对应的数值。 */\r\n  value: number\r\n  /** 显示在参考线末端的文字。 */\r\n  label?: React.ReactNode\r\n  /** 覆盖参考线颜色。 */\r\n  color?: string\r\n  /** SVG 虚线模式。 @default \"4 4\" */\r\n  strokeDasharray?: string\r\n}"
+    },
+    {
+      "name": "ChartSeries",
+      "definition": "export interface ChartSeries {\r\n  /** 数据字段名。 */\r\n  key: string\r\n  /** 图例和提示框中显示的名称。 */\r\n  label?: string\r\n  /** 覆盖当前序列的颜色。 */\r\n  color?: string\r\n  /** 折线序列的 SVG 虚线模式。 */\r\n  strokeDasharray?: string\r\n}"
+    },
+    {
+      "name": "ChartValueFormatter",
+      "definition": "export type ChartValueFormatter = (\r\n  value: number,\r\n  series: ChartSeries,\r\n  datum: ChartDatum\r\n) => React.ReactNode"
+    }
+  ],
+  "usage": "### 使用场景\n\n`BarChart` 用于比较同一指标在不同分类之间的差异。单序列时使用一种颜色即可；只有确实存在第二个分组维度时，才添加多个 `series`。\n默认纵轴包含零，避免夸大分类之间的绝对差异。\n\n多序列会在同一分类内并排展示。悬停可以读取整组数值；聚焦图表后，也可以通过左右方向键切换分类。\n通过 `actions` 可直接组合现有 Button、Select 或业务工具栏；`referenceLines` 用于目标值、均值和阈值。\n\n### 使用说明\n\n- 分类名称较短时使用默认纵向布局；分类很多时应减少数据或拆分视图，避免把横轴文字压缩到不可读。\n- `showValues` 适合少量柱形的精确比较，密集数据应保留提示框，避免标签互相碰撞。\n- `domain` 应包含零；只有比例变化、差值等明确语义的图表才应考虑其他尺度。",
   "events": "图表不产生业务事件，指针与键盘交互只用于读取数据。根元素会透传原生 `div` 属性，数据本身同时输出为仅辅助技术可见的表格。",
   "examples": [
     {

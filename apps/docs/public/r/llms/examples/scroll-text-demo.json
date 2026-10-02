@@ -1,0 +1,6 @@
+{
+  "name": "scroll-text-demo",
+  "component": "scroll-text",
+  "title": "基础用法",
+  "code": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { ScrollText } from \"@/components/ui/scroll-text\"\n\nexport default function ScrollTextDemo() {\n  const container = React.useRef<HTMLDivElement>(null)\n\n  return (\n    <div\n      ref={container}\n      className=\"h-[26rem] w-full overflow-y-auto rounded-b-lg\"\n    >\n      <div className=\"mx-auto flex max-w-2xl flex-col px-6\">\n        <p className=\"text-muted-foreground flex h-[13rem] items-end pb-6 text-sm\">\n          我们的信条 — 向下滚动\n        </p>\n        <ScrollText\n          container={container}\n          offset={[\"start 0.9\", \"end 0.5\"]}\n          className=\"text-2xl leading-snug font-semibold tracking-tight sm:text-3xl\"\n        >\n          好的工具应该安静。它不打断你的思路，不要求你记住复杂的规则，只在你需要的时候出现，然后退到一旁，让作品本身被看见。\n        </ScrollText>\n        <p className=\"text-muted-foreground h-[18rem] pt-8 text-sm\">\n          — 写在第一个版本发布之前\n        </p>\n      </div>\n    </div>\n  )\n}\n"
+}

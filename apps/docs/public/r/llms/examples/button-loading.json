@@ -1,0 +1,6 @@
+{
+  "name": "button-loading",
+  "component": "button",
+  "title": "加载状态（loading）",
+  "code": "\"use client\"\n\nimport * as React from \"react\"\nimport { RefreshCwIcon } from \"lucide-react\"\n\nimport { Button } from \"@/components/ui/button\"\n\nfunction useFakeRequest(duration = 1600) {\n  const [pending, setPending] = React.useState(false)\n  const timer = React.useRef<ReturnType<typeof setTimeout>>(undefined)\n\n  React.useEffect(() => () => clearTimeout(timer.current), [])\n\n  const run = () => {\n    setPending(true)\n    timer.current = setTimeout(() => setPending(false), duration)\n  }\n\n  return [pending, run] as const\n}\n\nexport default function ButtonLoading() {\n  const [saving, save] = useFakeRequest()\n  const [syncing, sync] = useFakeRequest(1200)\n\n  return (\n    <div className=\"flex flex-wrap items-center gap-2\">\n      <Button loading={saving} onClick={save}>\n        {saving ? \"保存中\" : \"保存草稿\"}\n      </Button>\n      <Button\n        variant=\"outline\"\n        size=\"icon\"\n        loading={syncing}\n        onClick={sync}\n        aria-label=\"同步数据\"\n      >\n        <RefreshCwIcon />\n      </Button>\n    </div>\n  )\n}\n"
+}

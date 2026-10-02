@@ -28,7 +28,6 @@
       "name": "speed",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "3",
       "description": "光带完整扫过按钮一次所需的时间，单位为秒。"
     },
@@ -36,7 +35,6 @@
       "name": "gap",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "1.2",
       "description": "两次光带扫过之间的停顿时间，单位为秒。"
     },
@@ -44,10 +42,41 @@
       "name": "disabled",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "description": "是否禁用组件。"
     }
   ],
+  "api": [
+    {
+      "name": "ShinyButton",
+      "props": [
+        {
+          "name": "speed",
+          "type": "number",
+          "required": false,
+          "defaultValue": "3",
+          "description": "光带完整扫过按钮一次所需的时间，单位为秒。"
+        },
+        {
+          "name": "gap",
+          "type": "number",
+          "required": false,
+          "defaultValue": "1.2",
+          "description": "两次光带扫过之间的停顿时间，单位为秒。"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "是否禁用组件。"
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`ShinyButton` 属于展示型组件（Fancy 系列），具有极强的视觉吸引力。\n\n- **使用场景**：\n  - **核心转化 CTA**：官网首页首屏的“免费试用”、“即刻体验”、“快速部署”等主行动点。\n  - **付费与升级通道**：价格方案对比卡片中的“升级专业版”或限时折扣引导。\n  - **新功能与早鸟公告**：引导用户体验实验性功能的醒目标签按钮。\n- **克制使用原则**：\n  - 同一视口中切忌大面积平铺多个闪光按钮，否则会分散用户注意力造成严重视觉疲劳。\n  - 普通表单、密集表格操作列以及次要取消操作请使用基础的 `Button`。\n- **动效与色彩适配**：\n  - 光效层使用半透明渐变叠加在背景之上，在深色（Dark Mode）与浅色（Light Mode）模式下均能保持优雅的对比度。",
+  "extended": "### 定价与方案升级对比\n\n在定价卡片中将核心推荐方案的操作按钮升级为 `ShinyButton`，快速建立视觉层级差异：\n\n### 内测招募模块\n\n与标题、说明和次要操作组合，构建克制但醒目的转化模块：\n\n### 尺寸与形状变体\n\n通过 Tailwind 类名轻松调整尺寸与圆角（如胶囊型 Pill）：",
+  "events": "`ShinyButton` 继承原生按钮及 Motion 包装层的所有事件回调：\n\n- `onClick`: (event: React.MouseEvent<HTMLButtonElement>) => void — 用户点击或通过键盘激活按钮时触发。\n- `onFocus`: (event: React.FocusEvent<HTMLButtonElement>) => void — 按钮获得焦点时触发。\n- `onBlur`: (event: React.FocusEvent<HTMLButtonElement>) => void — 按钮失去焦点时触发。\n- `onHoverStart`: (event: MouseEvent, info: EventInfo) => void — 鼠标指针移入按钮区域时触发（Motion 回调）。\n- `onHoverEnd`: (event: MouseEvent, info: EventInfo) => void — 鼠标指针离开按钮区域时触发（Motion 回调）。",
+  "accessibility": "- **动效降级保障**：组件内部使用 `useReducedMotion` 监听操作系统偏好。当用户开启了“减少动态效果”时，扫光动画自动关闭，按压缩放动效自动移除，组件退化为静态高对比度按钮。\n- **键盘焦点**：支持标准的 <kbd>Tab</kbd> 聚焦以及 <kbd>Enter</kbd> / <kbd>Space</kbd> 激活，焦点轮廓清晰可见且不会被扫光层遮盖。\n- **非侵入式光斑**：扫光层标记为 `aria-hidden=\"true\"` 并配置 `pointer-events-none`，绝不干扰文字选区与屏幕阅读器朗读。",
   "examples": [
     {
       "name": "shiny-button-demo",

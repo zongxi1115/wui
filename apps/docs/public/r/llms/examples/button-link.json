@@ -1,0 +1,6 @@
+{
+  "name": "button-link",
+  "component": "button",
+  "title": "动态下划线链接",
+  "code": "import { ArrowRightIcon } from \"lucide-react\"\n\nimport { Button } from \"@/components/ui/button\"\n\nexport default function ButtonLink() {\n  return (\n    <div className=\"flex flex-wrap items-center gap-4\">\n      <Button variant=\"link\">查看更新日志</Button>\n      <Button variant=\"link\">\n        了解计费规则\n        <ArrowRightIcon />\n      </Button>\n    </div>\n  )\n}\n"
+}

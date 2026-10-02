@@ -1,0 +1,6 @@
+{
+  "name": "code-block-demo",
+  "component": "code-block",
+  "title": "基础用法",
+  "code": "import {\n  CodeBlock,\n  CodeBlockActions,\n  CodeBlockBody,\n  CodeBlockCopy,\n  CodeBlockHeader,\n  CodeBlockTitle,\n} from \"@/components/ui/code-block\"\n\nconst code = `import { useEffect, useState } from \"react\"\n\nexport function useDebounce<T>(value: T, delay = 300): T {\n  const [debounced, setDebounced] = useState(value)\n\n  useEffect(() => {\n    const timer = setTimeout(() => setDebounced(value), delay)\n    return () => clearTimeout(timer)\n  }, [value, delay])\n\n  return debounced\n}`\n\nexport default function CodeBlockDemo() {\n  return (\n    <CodeBlock variant=\"bordered\" highlightLines={[\"6-9\"]} className=\"w-full max-w-xl\">\n      <CodeBlockHeader>\n        <CodeBlockTitle>hooks/use-debounce.ts</CodeBlockTitle>\n        <CodeBlockActions>\n          <CodeBlockCopy />\n        </CodeBlockActions>\n      </CodeBlockHeader>\n      <CodeBlockBody code={code} language=\"ts\" />\n    </CodeBlock>\n  )\n}\n"
+}

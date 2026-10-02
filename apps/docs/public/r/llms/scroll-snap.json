@@ -28,7 +28,6 @@
       "name": "axis",
       "type": "\"x\" | \"y\"",
       "required": false,
-      "control": "select",
       "options": [
         "x",
         "y"
@@ -40,7 +39,6 @@
       "name": "strictness",
       "type": "\"mandatory\" | \"proximity\"",
       "required": false,
-      "control": "select",
       "options": [
         "mandatory",
         "proximity"
@@ -52,7 +50,6 @@
       "name": "hideScrollbar",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "false",
       "description": "是否隐藏原生滚动条，同时保留滚动能力。"
     },
@@ -60,10 +57,80 @@
       "name": "onActiveChange",
       "type": "((index: number) => void)",
       "required": false,
-      "control": "text",
       "description": "对齐到吸附边缘的项目变化时触发，回调参数为该项索引。"
     }
   ],
+  "api": [
+    {
+      "name": "ScrollSnap",
+      "props": [
+        {
+          "name": "axis",
+          "type": "\"x\" | \"y\"",
+          "required": false,
+          "options": [
+            "x",
+            "y"
+          ],
+          "defaultValue": "y",
+          "description": "滚动吸附的方向。"
+        },
+        {
+          "name": "strictness",
+          "type": "\"mandatory\" | \"proximity\"",
+          "required": false,
+          "options": [
+            "mandatory",
+            "proximity"
+          ],
+          "defaultValue": "mandatory",
+          "description": "浏览器是否必须最终停在某个吸附点上。"
+        },
+        {
+          "name": "hideScrollbar",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "是否隐藏原生滚动条，同时保留滚动能力。"
+        },
+        {
+          "name": "onActiveChange",
+          "type": "((index: number) => void)",
+          "required": false,
+          "description": "对齐到吸附边缘的项目变化时触发，回调参数为该项索引。"
+        }
+      ]
+    },
+    {
+      "name": "ScrollSnapItem",
+      "props": [
+        {
+          "name": "align",
+          "type": "\"center\" | \"start\" | \"end\"",
+          "required": false,
+          "options": [
+            "center",
+            "start",
+            "end"
+          ],
+          "defaultValue": "start",
+          "description": "Position used when the item becomes the active snap point."
+        },
+        {
+          "name": "stop",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Prevent fast scrolling from skipping this item."
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`ScrollSnap` 适用于**全屏幻灯片、移动端横向滑块、财务仪表盘指标卡轮播**：\n\n- **原生性能**：吸附完全由浏览器原生 CSS `scroll-snap-type` 与 `overscroll-behavior` 处理，触控与惯性保持系统手感；`onActiveChange` 使用 requestAnimationFrame 节流，只在索引变化时回调。\n- **防止过冲（scroll-snap-stop: always）**：对关键章节配置 `stop={true}`，确保用户即使用力猛滑也不会漏掉核心信息。",
+  "extended": "### 横向商品列表\n\n水平滑动浏览商品，结合 `onActiveChange` 显示当前位置并控制前后切换按钮：",
+  "events": "- `onScroll`: (event: React.UIEvent<HTMLDivElement>) => void — 原生滚动事件监听函数。",
+  "accessibility": "- **键盘导航友好**：用户可以使用键盘方向键 <kbd>↑</kbd> / <kbd>↓</kbd> / <kbd>←</kbd> / <kbd>→</kbd> 以及 <kbd>PageUp</kbd> / <kbd>PageDown</kbd> 逐页对齐切换。\n- **触控手势原生支持**：在 iOS 与 Android 触控屏上完美保留弹性回弹（Rubber-banding）物理直觉。",
   "examples": [
     {
       "name": "scroll-snap-demo",

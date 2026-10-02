@@ -37,7 +37,7 @@ claude mcp add wui -- pnpm dlx @wui-design/mcp@latest
 | -------------------------- | ----------------------------------------------------------------------- |
 | `wui_overview`             | The rules an agent must follow when writing wui code                    |
 | `wui_search_components`    | Search components by name, purpose, or category (12 results by default) |
-| `wui_get_component`        | One component's props, variants, and usage notes                        |
+| `wui_get_component`        | Props grouped by export, related data types, and usage notes            |
 | `wui_get_component_source` | The full source files, as the CLI would write them                      |
 | `wui_get_example`          | A named, runnable example                                               |
 | `wui_get_theme_tokens`     | The design-token contract (CSS variables)                               |
@@ -58,11 +58,21 @@ pnpm dlx @wui-design/mcp@latest --dir ./apps/docs/public/r         # a local che
 
 ## Note on `@wui-design/mcp/core`
 
-The `./core` subpath ships as **TypeScript source** so that the docs site and
+The `./core` and `./http` subpaths ship as **TypeScript source** so that the docs site and
 this stdio server share one implementation without a build step between them.
 If you import it directly, your bundler must transpile it (in Next.js, add
 `transpilePackages: ["@wui-design/mcp"]`). The default entry (`@wui-design/mcp`) is compiled
 JavaScript and has no such requirement.
+
+Both transports share the SDK server setup, read-only annotations and JSON Schema
+argument validation. HTTP uses the SDK's stateless Web Standard transport with JSON
+responses. Search ranks exact component names first. Component metadata includes
+Radix behavior props and subcomponents; ordinary DOM props are omitted.
+
+The stdio registry cache expires after 60 seconds. Examples are fetched individually
+after a small metadata index. Remote reads time out after 10 seconds. For offline
+use or fixed component data, use `--dir` with a local registry snapshot; pinning the
+MCP package alone does not pin the remote registry.
 
 ## License
 

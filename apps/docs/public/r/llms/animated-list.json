@@ -28,14 +28,12 @@
       "name": "children",
       "type": "ReactNode",
       "required": true,
-      "control": "text",
       "description": "按时间顺序排列且带 key 的子项，最新的一项显示在最上方。"
     },
     {
       "name": "delay",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "1000",
       "description": "相邻两项依次出现的间隔，单位为毫秒，设为 0 时立即全部显示。"
     },
@@ -43,14 +41,12 @@
       "name": "max",
       "type": "number",
       "required": false,
-      "control": "number",
       "description": "屏幕上最多保留的条目数，更早的条目从底部移出。"
     },
     {
       "name": "transition",
       "type": "Transition",
       "required": false,
-      "control": "text",
       "defaultValue": "{\r\n  type: \"spring\",\r\n  stiffness: 380,\r\n  damping: 32,\r\n  mass: 0.8,\r\n}",
       "description": "新条目进入以及其余条目下移时使用的过渡配置。"
     },
@@ -58,10 +54,52 @@
       "name": "itemClassName",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "应用于每个条目包装元素的类名。"
     }
   ],
+  "api": [
+    {
+      "name": "AnimatedList",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": true,
+          "description": "按时间顺序排列且带 key 的子项，最新的一项显示在最上方。"
+        },
+        {
+          "name": "delay",
+          "type": "number",
+          "required": false,
+          "defaultValue": "1000",
+          "description": "相邻两项依次出现的间隔，单位为毫秒，设为 0 时立即全部显示。"
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "required": false,
+          "description": "屏幕上最多保留的条目数，更早的条目从底部移出。"
+        },
+        {
+          "name": "transition",
+          "type": "Transition",
+          "required": false,
+          "defaultValue": "{\r\n  type: \"spring\",\r\n  stiffness: 380,\r\n  damping: 32,\r\n  mass: 0.8,\r\n}",
+          "description": "新条目进入以及其余条目下移时使用的过渡配置。"
+        },
+        {
+          "name": "itemClassName",
+          "type": "string",
+          "required": false,
+          "description": "应用于每个条目包装元素的类名。"
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`AnimatedList` 适合通知中心、实时活动流、构建日志等“新内容持续到达”的列表。\n\n- **保持稳定 key**：条目必须使用稳定且唯一的 `key`（如消息 id），组件依赖它判断哪些条目是新增的。\n- **限制数量**：实时流请配合 `max`，并在父组件中裁剪数据数组，避免无限增长。\n- **节奏适中**：新增频率高于每秒一条时，逐条动画会让人眼花，建议合并为“有 N 条新消息”的提示。",
+  "extended": "### 逐条揭示的构建记录\n\n传入完整数组并设置 `delay`，条目会按间隔依次出现；通过改变 `key` 可以重新播放：",
+  "accessibility": "- **礼貌播报新增内容**：列表默认带有 `aria-live=\"polite\"`，新增条目会在读屏空闲时播报。若列表更新非常频繁，可以传入 `aria-live=\"off\"` 并提供其他提示方式。\n- **列表语义**：使用 `<ul>` / `<li>` 结构，读屏软件可以读出条目数量。建议通过 `aria-label` 为列表命名。\n- **减少动态效果**：开启 `prefers-reduced-motion` 时，条目的入场与位移动画即时完成。",
   "examples": [
     {
       "name": "animated-list-demo",

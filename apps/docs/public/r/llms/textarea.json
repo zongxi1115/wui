@@ -24,7 +24,6 @@
       "name": "showCount",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "false",
       "description": "是否在文本域右下角显示当前字符数。"
     },
@@ -32,7 +31,6 @@
       "name": "resize",
       "type": "\"none\" | \"both\" | \"horizontal\" | \"vertical\"",
       "required": false,
-      "control": "select",
       "options": [
         "none",
         "both",
@@ -46,7 +44,6 @@
       "name": "autoSize",
       "type": "boolean | TextareaAutoSize",
       "required": false,
-      "control": "text",
       "defaultValue": "false",
       "description": "根据内容平滑地自适应高度；传入对象可限制最少与最多行数。@default false"
     },
@@ -54,17 +51,71 @@
       "name": "wrapperClassName",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "应用于最外层容器的额外 CSS 类名。"
     },
     {
       "name": "disabled",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "description": "是否禁用组件。"
     }
   ],
+  "api": [
+    {
+      "name": "Textarea",
+      "props": [
+        {
+          "name": "showCount",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "是否在文本域右下角显示当前字符数。"
+        },
+        {
+          "name": "resize",
+          "type": "\"none\" | \"both\" | \"horizontal\" | \"vertical\"",
+          "required": false,
+          "options": [
+            "none",
+            "both",
+            "horizontal",
+            "vertical"
+          ],
+          "defaultValue": "vertical",
+          "description": "用户可以拖动调整文本域尺寸的方向。"
+        },
+        {
+          "name": "autoSize",
+          "type": "boolean | TextareaAutoSize",
+          "required": false,
+          "defaultValue": "false",
+          "description": "根据内容平滑地自适应高度；传入对象可限制最少与最多行数。@default false"
+        },
+        {
+          "name": "wrapperClassName",
+          "type": "string",
+          "required": false,
+          "description": "应用于最外层容器的额外 CSS 类名。"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "是否禁用组件。"
+        }
+      ]
+    }
+  ],
+  "types": [
+    {
+      "name": "TextareaAutoSize",
+      "definition": "export interface TextareaAutoSize {\n  /** 自适应高度时的最少行数。@default 2 */\n  minRows?: number\n  /** 自适应高度时的最多行数，超出后出现滚动条。 */\n  maxRows?: number\n}"
+    }
+  ],
+  "usage": "`Textarea` 用于捕获用户录入的**多行纯文本内容**（例如问题反馈、工单详情、用户简介、评论发布、更新日志等）。\n\n### 文本录入组件选型对比\n\n| 控件类型 | 典型行数 | 格式支持 | 适用场景 |\n| :--- | :--- | :--- | :--- |\n| **Input** | 单行 | 纯文本 | 姓名、邮箱、密码、手机号、搜索框 |\n| **Textarea** | 多行（可自然换行） | 纯文本 | 备注、描述、工单正文、多行地址 |\n| **Rich Text Editor** | 多行（结构化文档） | 富文本（加粗、列表、图片、表格） | 文章创作、知识库编辑、邮件正文撰写 |\n\n### 设计最佳实践\n\n- **约束缩放方向 (Resize)**：默认推荐使用 `resize=\"vertical\"`，防止用户横向拉伸破坏页面的栅格布局与容器宽度；在紧凑弹窗或固定卡片中，推荐使用 `resize=\"none\"`。\n- **配置合理的初始高度与极值**：通过 `rows` 或 Tailwind 的 `min-h-*` / `max-h-*` 为文本域设定舒适的初始高度与拉伸上下限，避免拉得过小导致无法阅读或拉得过大超出视口。\n- **字数统计与防遮挡**：当开启 `showCount` 时，组件内部会自动在右下角增加安全内边距（Padding），确保长文本滚动到底部时不会被计数字符遮挡。\n- **明确关联 Label**：使用 `<label htmlFor=\"...\">` 关联文本域 ID，确保辅助技术与屏幕阅读器能够正确朗读字段名称。",
+  "extended": "### 受控模式\n\n通过 `value` 与 `onChange` 实现受控管理，方便随时重置或与上层业务状态进行同步：\n\n```tsx\nconst [value, setValue] = React.useState(\"\")\n\nreturn (\n  <Textarea\n    value={value}\n    onChange={(e) => setValue(e.target.value)}\n    showCount\n    maxLength={200}\n  />\n)\n```\n\n### 字符计数与最大字数限制\n\n同时开启 `showCount` 与 `maxLength`，右下角将实时呈现当前已输入字符数与最大允许字数；接近上限（90%）时计数变为警告色，达到上限时变为危险色：\n\n### 自适应高度 (AutoSize)\n\n设置 `autoSize` 后，文本域会随内容增减平滑地调整高度，适合评论框、聊天输入等场景。通过 `minRows` 与 `maxRows` 约束高度范围：\n\n```tsx\n<Textarea autoSize={{ minRows: 1, maxRows: 6 }} />\n```\n\n### 缩放方向控制 (Resize)\n\n根据界面布局需求灵活配置缩放策略（固定不可调 vs 仅垂直可调）：\n\n- `resize=\"none\"`：完全禁止用户手动调整尺寸，保持界面排版高度确定性。\n- `resize=\"vertical\"`：仅允许上下拖拽调整高度，同时建议配合 `min-h-*` 与 `max-h-*` 约束极值范围。\n\n### 状态展示与校验错误\n\n支持标准状态、校验错误状态 (`aria-invalid=\"true\"`)、只读模式 (`readOnly`) 及禁用状态 (`disabled`)：\n\n### 完整反馈提交表单\n\n在真实业务工单与建议反馈流程中，结合必填校验、字数限制、动态错误提示与快捷键提交体验：",
+  "events": "- `onChange`: (event: React.ChangeEvent<HTMLTextAreaElement>) => void — 文本域内容发生改变时触发的回调函数，同时驱动字符计数的实时更新。\n- `onFocus`: (event: React.FocusEvent<HTMLTextAreaElement>) => void — 文本域获得焦点时触发。\n- `onBlur`: (event: React.FocusEvent<HTMLTextAreaElement>) => void — 文本域失去焦点时触发。\n- `onKeyDown`: (event: React.KeyboardEvent<HTMLTextAreaElement>) => void — 在文本域获得焦点时按下键盘按键触发（如监听 Ctrl/Cmd + Enter 快捷提交）。\n- `onScroll`: (event: React.UIEvent<HTMLTextAreaElement>) => void — 在文本域内部滚动时触发。",
+  "accessibility": "- **ARIA 规范与无障碍属性**：\n  - 原生 `<textarea>` 具备 WAI-ARIA `role=\"textbox\"` 与 `aria-multiline=\"true\"` 语义。\n  - 支持 `aria-invalid=\"true\"`，校验未通过时外层容器自动呈现警示破坏色高亮焦点环。\n  - 字符计数不会逐字播报，避免每次按键都打断屏幕阅读器；它通过 `aria-describedby` 关联，在聚焦时随说明一起朗读。\n  - 自动通过 `aria-describedby` 将文本域与右下角的计数器及下方辅助说明关联。\n- **键盘导航与操作习惯**：\n  - <kbd>Tab</kbd>：将焦点移入或移出文本域。\n  - <kbd>Enter</kbd>：在光标所在位置插入自然换行符。\n  - <kbd>Ctrl</kbd> + <kbd>Enter</kbd>（Mac 下为 <kbd>Cmd</kbd> + <kbd>Enter</kbd>）：在表单中常用于触发表单快捷提交，无需用户离开键盘点击鼠标。\n- **屏幕阅读器支持**：\n  - 推荐始终使用 `<label htmlFor=\"textareaId\">` 显式关联文本域标题。",
   "examples": [
     {
       "name": "textarea-demo",

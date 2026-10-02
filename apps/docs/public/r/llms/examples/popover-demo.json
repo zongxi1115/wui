@@ -1,0 +1,6 @@
+{
+  "name": "popover-demo",
+  "component": "popover",
+  "title": "基础用法",
+  "code": "import { InfoIcon } from \"lucide-react\"\n\nimport { Button } from \"@/components/ui/button\"\nimport {\n  Popover,\n  PopoverContent,\n  PopoverDescription,\n  PopoverTitle,\n  PopoverTrigger,\n} from \"@/components/ui/popover\"\n\nexport default function PopoverDemo() {\n  return (\n    <Popover>\n      <PopoverTrigger asChild>\n        <Button variant=\"outline\">\n          <InfoIcon />\n          查看说明\n        </Button>\n      </PopoverTrigger>\n      <PopoverContent align=\"start\">\n        <div className=\"space-y-2\">\n          <PopoverTitle>自动保存</PopoverTitle>\n          <PopoverDescription>\n            编辑内容会实时保存到云端，你可以随时离开当前页面。\n          </PopoverDescription>\n        </div>\n      </PopoverContent>\n    </Popover>\n  )\n}\n"
+}

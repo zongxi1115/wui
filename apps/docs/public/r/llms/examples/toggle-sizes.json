@@ -1,0 +1,6 @@
+{
+  "name": "toggle-sizes",
+  "component": "toggle",
+  "title": "尺寸与外观风格",
+  "code": "import { ItalicIcon } from \"lucide-react\"\n\nimport { Toggle } from \"@/components/ui/toggle\"\n\nexport default function ToggleSizes() {\n  return (\n    <div className=\"flex flex-wrap items-center gap-6\">\n      <div className=\"flex items-center gap-2\">\n        <Toggle size=\"sm\" aria-label=\"斜体\">\n          <ItalicIcon />\n        </Toggle>\n        <Toggle aria-label=\"斜体\">\n          <ItalicIcon />\n        </Toggle>\n        <Toggle size=\"lg\" aria-label=\"斜体\">\n          <ItalicIcon />\n        </Toggle>\n      </div>\n      <div className=\"flex items-center gap-2\">\n        <Toggle size=\"sm\" variant=\"outline\" aria-label=\"斜体\">\n          <ItalicIcon />\n        </Toggle>\n        <Toggle variant=\"outline\" aria-label=\"斜体\">\n          <ItalicIcon />\n        </Toggle>\n        <Toggle size=\"lg\" variant=\"outline\" aria-label=\"斜体\">\n          <ItalicIcon />\n        </Toggle>\n      </div>\n    </div>\n  )\n}\n"
+}

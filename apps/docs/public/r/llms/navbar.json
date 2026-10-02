@@ -53,7 +53,6 @@
       "name": "orientation",
       "type": "\"horizontal\" | \"vertical\"",
       "required": false,
-      "control": "select",
       "options": [
         "horizontal",
         "vertical"
@@ -65,14 +64,12 @@
       "name": "collapsed",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "description": "受控模式下垂直导航栏是否处于紧凑状态。"
     },
     {
       "name": "defaultCollapsed",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "false",
       "description": "非受控模式下导航栏的初始紧凑状态。"
     },
@@ -80,10 +77,321 @@
       "name": "onCollapsedChange",
       "type": "((collapsed: boolean) => void)",
       "required": false,
-      "control": "text",
       "description": "垂直导航栏在展开和紧凑状态之间切换时触发。"
     }
   ],
+  "api": [
+    {
+      "name": "Navbar",
+      "props": [
+        {
+          "name": "orientation",
+          "type": "\"horizontal\" | \"vertical\"",
+          "required": false,
+          "options": [
+            "horizontal",
+            "vertical"
+          ],
+          "defaultValue": "horizontal",
+          "description": "导航栏方向。vertical 适合应用级左侧导航。"
+        },
+        {
+          "name": "collapsed",
+          "type": "boolean",
+          "required": false,
+          "description": "受控模式下垂直导航栏是否处于紧凑状态。"
+        },
+        {
+          "name": "defaultCollapsed",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "非受控模式下导航栏的初始紧凑状态。"
+        },
+        {
+          "name": "onCollapsedChange",
+          "type": "((collapsed: boolean) => void)",
+          "required": false,
+          "description": "垂直导航栏在展开和紧凑状态之间切换时触发。"
+        }
+      ]
+    },
+    {
+      "name": "NavbarBadge",
+      "props": []
+    },
+    {
+      "name": "NavbarBrand",
+      "props": [
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false"
+        }
+      ]
+    },
+    {
+      "name": "NavbarBrandLabel",
+      "props": []
+    },
+    {
+      "name": "NavbarCollapseTrigger",
+      "props": [
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "NavbarContent",
+      "props": []
+    },
+    {
+      "name": "NavbarFooter",
+      "props": []
+    },
+    {
+      "name": "NavbarGroup",
+      "props": []
+    },
+    {
+      "name": "NavbarHeader",
+      "props": []
+    },
+    {
+      "name": "NavbarItem",
+      "props": []
+    },
+    {
+      "name": "NavbarLabel",
+      "props": []
+    },
+    {
+      "name": "NavbarLink",
+      "props": [
+        {
+          "name": "active",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Mark the destination as the current page."
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Render as the single child element, such as a router Link or button."
+        }
+      ]
+    },
+    {
+      "name": "NavbarLinkAccessory",
+      "props": []
+    },
+    {
+      "name": "NavbarLinkLabel",
+      "props": []
+    },
+    {
+      "name": "NavbarList",
+      "props": []
+    },
+    {
+      "name": "NavbarSeparator",
+      "props": []
+    },
+    {
+      "name": "NavbarSubLink",
+      "props": [
+        {
+          "name": "active",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Mark the destination as the current page."
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Render as the single child element, such as a router Link or button."
+        }
+      ]
+    },
+    {
+      "name": "NavbarSubList",
+      "props": []
+    },
+    {
+      "name": "NavbarSubmenu",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "onOpenChange",
+          "type": "((open: boolean) => void)",
+          "required": false
+        },
+        {
+          "name": "openDelay",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "closeDelay",
+          "type": "number",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "NavbarSubmenuContent",
+      "props": [
+        {
+          "name": "forceMount",
+          "type": "true",
+          "required": false,
+          "description": "Used to force mounting when more control is needed. Useful when\ncontrolling animation with React animation libraries."
+        },
+        {
+          "name": "onEscapeKeyDown",
+          "type": "((event: KeyboardEvent) => void)",
+          "required": false,
+          "description": "Event handler called when the escape key is down.\nCan be prevented."
+        },
+        {
+          "name": "onPointerDownOutside",
+          "type": "((event: PointerDownOutsideEvent) => void)",
+          "required": false,
+          "description": "Event handler called when the a `pointerdown` event happens outside of the `HoverCard`.\nCan be prevented."
+        },
+        {
+          "name": "onFocusOutside",
+          "type": "((event: FocusOutsideEvent) => void)",
+          "required": false,
+          "description": "Event handler called when the focus moves outside of the `HoverCard`.\nCan be prevented."
+        },
+        {
+          "name": "onInteractOutside",
+          "type": "((event: PointerDownOutsideEvent | FocusOutsideEvent) => void)",
+          "required": false,
+          "description": "Event handler called when an interaction happens outside the `HoverCard`.\nSpecifically, when a `pointerdown` event happens outside or focus moves outside of it.\nCan be prevented."
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "side",
+          "type": "\"top\" | \"right\" | \"bottom\" | \"left\"",
+          "required": false,
+          "options": [
+            "top",
+            "right",
+            "bottom",
+            "left"
+          ]
+        },
+        {
+          "name": "sideOffset",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "align",
+          "type": "\"center\" | \"start\" | \"end\"",
+          "required": false,
+          "options": [
+            "center",
+            "start",
+            "end"
+          ]
+        },
+        {
+          "name": "alignOffset",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "arrowPadding",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "avoidCollisions",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "collisionBoundary",
+          "type": "Boundary | Boundary[]",
+          "required": false
+        },
+        {
+          "name": "collisionPadding",
+          "type": "number | Partial<Record<\"top\" | \"right\" | \"bottom\" | \"left\", number>>",
+          "required": false
+        },
+        {
+          "name": "sticky",
+          "type": "\"partial\" | \"always\"",
+          "required": false,
+          "options": [
+            "partial",
+            "always"
+          ]
+        },
+        {
+          "name": "hideWhenDetached",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "updatePositionStrategy",
+          "type": "\"always\" | \"optimized\"",
+          "required": false,
+          "options": [
+            "always",
+            "optimized"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "NavbarSubmenuTrigger",
+      "props": [
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`Navbar` 用于承载应用的核心骨架导航体系：\n\n- **顶部横向导航（Horizontal Navbar）**：适合信息层级相对扁平、功能模块在 4~7 个以内的 SaaS 门户、营销官网、移动端 H5 顶部栏。\n- **左侧纵向侧栏（Vertical Sidebar）**：适合后台管理系统、云控制台、工作台等具备较多子模块、需要长期固定在屏幕左侧的复杂系统。\n- **收起状态下的可用性**：纵向导航收起时（Icon-only 模式），所有链接文本应通过 `NavbarLinkLabel` 自动隐藏，但必须通过 `title` 或 Tooltip 浮层提示当前图标的含义，不可造成认知盲区。\n- **单一激活原则**：在同一组导航列表中，在同一时刻应仅有一个 `NavbarLink` 设置为 `active={true}`。",
+  "extended": "### 应用级顶部全局头栏\n\n集成工作区品牌切换、核心功能入口、搜索快捷键（⌘K）、消息通知红点与用户头像：\n\n### 后台纵向侧栏与二级子菜单\n\n支持在纵向侧边栏中悬停弹出二级浮层子菜单，搭配折叠按钮与分组标签：\n\n### 受控模式与折叠收起\n\n通过 `collapsed` 和 `onCollapsedChange` 精确控制侧栏状态。点击不同分组中的链接，选中底块会跨分组滑动：",
+  "events": "- `onCollapsedChange`: (collapsed: boolean) => void — 用户点击折叠切换按钮或通过外部控制触发宽度收起/展开时调用。\n- `onClick`: (event: React.MouseEvent<HTMLAnchorElement>) => void — 点击导航链接项时触发，常用于 SPA 路由拦截或数据埋点统计。",
+  "accessibility": "- **地标 Landmark**：根组件自动渲染为 `<nav>` 元素，建议通过 `aria-label` 为其提供具有区分度的描述（如“主导航”、“侧边栏导航”）。\n- **当前页状态**：当 `NavbarLink` 设置 `active={true}` 时，组件自动挂载 `aria-current=\"page\"`，以便读屏器在聚焦时向盲人用户播报“当前选中的页面”。\n- **折叠按钮无障碍文案**：`NavbarCollapseTrigger` 内置动态计算的 `aria-label`（“展开导航栏” / “收起导航栏”），支持键盘回车触发。\n- **动效降级**：宽度折叠过渡、悬停底块与选中底块的滑动均遵循系统的 `prefers-reduced-motion` 设置，开启后将立即跳变，防止晕动症。",
   "examples": [
     {
       "name": "navbar-demo",

@@ -1,0 +1,6 @@
+{
+  "name": "confirm-dialog-async",
+  "component": "confirm-dialog",
+  "title": "异步请求与加载保护",
+  "code": "\"use client\"\n\nimport * as React from \"react\"\nimport { RefreshCwIcon } from \"lucide-react\"\n\nimport { Button } from \"@/components/ui/button\"\nimport { ConfirmDialog } from \"@/components/confirm-dialog\"\n\nexport default function ConfirmDialogAsync() {\n  return (\n    <ConfirmDialog\n      trigger={\n        <Button variant=\"outline\">\n          <RefreshCwIcon />\n          回滚服务版本\n        </Button>\n      }\n      title=\"确认回滚至上一稳定版本？\"\n      description=\"回滚操作将重启集群中运行的 12 个微服务容器，预计需要 30 秒服务预热。\"\n      confirmLabel=\"开始回滚\"\n      cancelLabel=\"放弃\"\n      variant=\"default\"\n      onConfirm={async () => {\n        // 模拟调用远端回滚 API，ConfirmDialog 将自动切换为 loading 状态\n        await new Promise((resolve) => setTimeout(resolve, 1500))\n      }}\n    />\n  )\n}\n"
+}

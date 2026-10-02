@@ -1,0 +1,6 @@
+{
+  "name": "date-picker-demo",
+  "component": "date-picker",
+  "title": "基础用法",
+  "code": "\"use client\"\n\nimport * as React from \"react\"\nimport { CalendarDays } from \"lucide-react\"\n\nimport { DatePicker } from \"@/components/ui/date-picker\"\n\nexport default function DatePickerDemo() {\n  const [date, setDate] = React.useState<Date | undefined>(new Date())\n\n  return (\n    <div className=\"grid w-full max-w-sm gap-2\">\n      <label className=\"text-sm font-medium text-foreground flex items-center gap-1.5\">\n        <CalendarDays className=\"size-4 text-muted-foreground\" />\n        <span>里程碑交付日期</span>\n      </label>\n      <DatePicker\n        value={date}\n        onValueChange={setDate}\n        placeholder=\"请选择项目交付截止日期\"\n      />\n      <p className=\"text-xs text-muted-foreground\">\n        {date\n          ? `预计交付日期: ${date.toLocaleDateString(\"zh-CN\", { year: \"numeric\", month: \"long\", day: \"numeric\" })}`\n          : \"尚未指定交付日期\"}\n      </p>\n    </div>\n  )\n}\n"
+}

@@ -1,0 +1,6 @@
+{
+  "name": "date-picker-disabled-dates",
+  "component": "date-picker",
+  "title": "禁用特定日期与日期范围",
+  "code": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { DatePicker } from \"@/components/ui/date-picker\"\n\nexport default function DatePickerDisabledDates() {\n  const [date, setDate] = React.useState<Date>()\n\n  // 仅允许选择工作日（周一至周五），并限制在未来 30 天之内\n  const today = new Date()\n  const maxDate = new Date()\n  maxDate.setDate(today.getDate() + 30)\n\n  const isWeekend = (d: Date) => {\n    const day = d.getDay()\n    return day === 0 || day === 6\n  }\n\n  return (\n    <div className=\"flex w-full max-w-sm flex-col gap-2\">\n      <label className=\"text-sm font-medium text-foreground\">\n        工作日服务预约 (禁用周末与历史日期)\n      </label>\n      <DatePicker\n        value={date}\n        onValueChange={setDate}\n        min={today}\n        max={maxDate}\n        disabledDate={isWeekend}\n        placeholder=\"请选择 30 天内的工作日\"\n      />\n      <p className=\"text-xs text-muted-foreground\">\n        周六、周日及今天之前的日期不可选择。\n      </p>\n    </div>\n  )\n}\n"
+}

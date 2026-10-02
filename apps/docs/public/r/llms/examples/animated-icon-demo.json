@@ -1,0 +1,6 @@
+{
+  "name": "animated-icon-demo",
+  "component": "animated-icon",
+  "title": "基础用法",
+  "code": "import {\n  BellRingIcon,\n  CopyIcon,\n  HeartIcon,\n  MenuIcon,\n  SettingsIcon,\n} from \"@animateicons/react/lucide\"\n\nimport {\n  AnimatedIcon,\n  type AnimatedIconGlyph,\n} from \"@/components/ui/animated-icon\"\n\nconst examples: Array<{ icon: AnimatedIconGlyph; label: string }> = [\n  { icon: BellRingIcon, label: \"通知\" },\n  { icon: CopyIcon, label: \"复制\" },\n  { icon: HeartIcon, label: \"收藏\" },\n  { icon: MenuIcon, label: \"菜单\" },\n  { icon: SettingsIcon, label: \"设置\" },\n]\n\nexport default function AnimatedIconDemo() {\n  return (\n    <div className=\"flex flex-wrap items-start gap-3\">\n      {examples.map(({ icon, label }) => (\n        <div key={label} className=\"flex flex-col items-center gap-2\">\n          <AnimatedIcon\n            icon={icon}\n            label={label}\n            size={24}\n            className=\"bg-background hover:bg-muted focus-visible:ring-ring/40 flex size-12 items-center justify-center rounded-md border outline-none transition-colors focus-visible:ring-[3px]\"\n            tabIndex={0}\n          />\n          <span className=\"text-muted-foreground text-xs\">{label}</span>\n        </div>\n      ))}\n    </div>\n  )\n}\n"
+}

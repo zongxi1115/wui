@@ -50,6 +50,292 @@
     ]
   },
   "props": [],
+  "api": [
+    {
+      "name": "AiChat",
+      "props": []
+    },
+    {
+      "name": "AiChatAvatar",
+      "props": [
+        {
+          "name": "role",
+          "type": "\"user\" | \"assistant\"",
+          "required": false,
+          "options": [
+            "user",
+            "assistant"
+          ],
+          "defaultValue": "assistant",
+          "description": "Avatar role."
+        }
+      ]
+    },
+    {
+      "name": "AiChatEmptyState",
+      "props": []
+    },
+    {
+      "name": "AiChatLoading",
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "defaultValue": "正在生成回复",
+          "description": "Accessible status text."
+        }
+      ]
+    },
+    {
+      "name": "AiChatMessage",
+      "props": [
+        {
+          "name": "role",
+          "type": "\"user\" | \"assistant\" | \"system\"",
+          "required": false,
+          "options": [
+            "user",
+            "assistant",
+            "system"
+          ],
+          "defaultValue": "assistant",
+          "description": "Sender role, used for alignment, tone, and entrance direction."
+        }
+      ]
+    },
+    {
+      "name": "AiChatMessageActions",
+      "props": []
+    },
+    {
+      "name": "AiChatMessageContent",
+      "props": [
+        {
+          "name": "role",
+          "type": "\"user\" | \"assistant\" | \"system\"",
+          "required": false,
+          "options": [
+            "user",
+            "assistant",
+            "system"
+          ],
+          "defaultValue": "assistant",
+          "description": "Sender role, used for bubble styling."
+        }
+      ]
+    },
+    {
+      "name": "AiChatMessages",
+      "props": [
+        {
+          "name": "followOutput",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "Keep the newest content in view while the user is already at the bottom."
+        }
+      ]
+    },
+    {
+      "name": "AiChatPrompt",
+      "props": [
+        {
+          "name": "size",
+          "type": "\"compact\" | \"default\"",
+          "required": false,
+          "options": [
+            "compact",
+            "default"
+          ],
+          "defaultValue": "\"default\"",
+          "description": "Composer density."
+        }
+      ]
+    },
+    {
+      "name": "AiChatPromptFooter",
+      "props": []
+    },
+    {
+      "name": "AiChatPromptTools",
+      "props": []
+    },
+    {
+      "name": "AiChatScrollButton",
+      "props": [
+        {
+          "name": "variant",
+          "type": "\"link\" | \"default\" | \"secondary\" | \"destructive\" | \"outline\" | \"ghost\"",
+          "required": false,
+          "options": [
+            "link",
+            "default",
+            "secondary",
+            "destructive",
+            "outline",
+            "ghost"
+          ],
+          "description": "Visual style of the button."
+        },
+        {
+          "name": "size",
+          "type": "\"default\" | \"sm\" | \"lg\" | \"icon\"",
+          "required": false,
+          "options": [
+            "default",
+            "sm",
+            "lg",
+            "icon"
+          ],
+          "description": "Height and padding preset. Use `icon` for square icon-only buttons."
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false,
+          "description": "Render as the single child element via Radix Slot, e.g. to wrap an `<a>`."
+        },
+        {
+          "name": "motion",
+          "type": "boolean",
+          "required": false,
+          "description": "Enable a subtle spring press/hover micro-interaction (powered by motion).\nComposable with `ripple`. Ignored when `asChild` is set, and automatically\ndisabled when the user prefers reduced motion."
+        },
+        {
+          "name": "ripple",
+          "type": "boolean",
+          "required": false,
+          "description": "Enable a Material-style click ripple that radiates from the pointer.\nComposable with `motion`. Ignored when `asChild` is set, and automatically\ndisabled when the user prefers reduced motion."
+        },
+        {
+          "name": "loading",
+          "type": "boolean",
+          "required": false,
+          "description": "Show an inline spinner and block interaction while an async action runs.\nText buttons overlap centered idle/loading rows and reserve the larger row;\nicon buttons replace their glyph. Sets `aria-busy` and disables the button."
+        },
+        {
+          "name": "loadingText",
+          "type": "string",
+          "required": false,
+          "description": "Label while loading; both labels reserve space so adjacent actions stay still."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "AiChatSubmit",
+      "props": [
+        {
+          "name": "status",
+          "type": "\"idle\" | \"submitted\" | \"streaming\" | \"error\"",
+          "required": false,
+          "options": [
+            "idle",
+            "submitted",
+            "streaming",
+            "error"
+          ],
+          "defaultValue": "idle",
+          "description": "Current generation state."
+        },
+        {
+          "name": "variant",
+          "type": "\"link\" | \"default\" | \"secondary\" | \"destructive\" | \"outline\" | \"ghost\"",
+          "required": false,
+          "options": [
+            "link",
+            "default",
+            "secondary",
+            "destructive",
+            "outline",
+            "ghost"
+          ],
+          "description": "Visual style of the button."
+        },
+        {
+          "name": "size",
+          "type": "\"default\" | \"sm\" | \"lg\" | \"icon\"",
+          "required": false,
+          "options": [
+            "default",
+            "sm",
+            "lg",
+            "icon"
+          ],
+          "description": "Height and padding preset. Use `icon` for square icon-only buttons."
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false,
+          "description": "Render as the single child element via Radix Slot, e.g. to wrap an `<a>`."
+        },
+        {
+          "name": "motion",
+          "type": "boolean",
+          "required": false,
+          "description": "Enable a subtle spring press/hover micro-interaction (powered by motion).\nComposable with `ripple`. Ignored when `asChild` is set, and automatically\ndisabled when the user prefers reduced motion."
+        },
+        {
+          "name": "ripple",
+          "type": "boolean",
+          "required": false,
+          "description": "Enable a Material-style click ripple that radiates from the pointer.\nComposable with `motion`. Ignored when `asChild` is set, and automatically\ndisabled when the user prefers reduced motion."
+        },
+        {
+          "name": "loading",
+          "type": "boolean",
+          "required": false,
+          "description": "Show an inline spinner and block interaction while an async action runs.\nText buttons overlap centered idle/loading rows and reserve the larger row;\nicon buttons replace their glyph. Sets `aria-busy` and disables the button."
+        },
+        {
+          "name": "loadingText",
+          "type": "string",
+          "required": false,
+          "description": "Label while loading; both labels reserve space so adjacent actions stay still."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "AiChatTextarea",
+      "props": [
+        {
+          "name": "autoResize",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "Grow with the content until maxHeight is reached."
+        },
+        {
+          "name": "maxHeight",
+          "type": "number",
+          "required": false,
+          "defaultValue": "160",
+          "description": "Maximum auto-resized height in pixels."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`AiChat` 是构建 AI 对话系统、智能 Copilot 侧边栏和自动化 Agent 控制台的核心框架：\n\n- **何时使用**：\n  - 智能问答客服、代码审查助手与知识库对话面板；\n  - 需要在助手中内嵌“思考链”、“工具调用”、“待办计划”和“流式回答”的复杂智能体流程；\n  - 多轮长对话且要求精准的“流式跟随滚动”与“向上翻阅不强制打断”体验。\n- **何时不应使用**：\n  - 团队即时通讯（IM）或传统客服工单聊天（没有模型推理与工具调用特性，应采用标准 IM 规范）；\n  - 简单的一问一答搜索框（无需庞大的全屏聊天壳）。\n- **设计最佳实践**：\n  - **非侵入式滚动跟随**：当用户向上翻阅历史消息时，严禁强制自动滚回底部；只有当用户处于底部时才跟随新字符滚动，并提供悬浮的“回到底部”快捷按钮 (`AiChatScrollButton`)；\n  - **模块化状态呈现**：将复杂推理过程拆分为 `AiReasoning`，将参数与文件读写交给 `AiTool`，保证正文排版清晰整洁；\n  - **丰富的操作反馈**：在助手回复下方提供 `AiChatMessageActions`，方便用户一键复制、重新生成或进行质量反馈（点赞/点踩）。",
+  "extended": "### 智能体完整工作流 (Agent Workflow)\n\n一次完整的 Agent 回合按时间推进：思考步骤逐条展开、工具从执行中切换为已完成、计划进度推进，最后流式输出结论：\n\n### 欢迎页与空白引导态 (Empty State)\n\n在会话初次创建或尚无消息时，使用 `AiChatEmptyState` 配合 `AiPromptSuggestions` 引导用户快速发起提问：",
+  "events": "- `onSubmit`: (event: React.FormEvent<HTMLFormElement>) => void — 由 `AiChatPrompt` 派发的表单提交事件，通常在此调用大模型 API 或 SSE 流。\n- `onScroll`: (event: React.UIEvent<HTMLDivElement>) => void — 消息视口发生滚动时触发，组件内部已自动维护触底状态 `atBottom`。",
+  "accessibility": "- **ARIA 规范与屏幕阅读器**：\n  - 消息列表包裹在 `role=\"log\"`（`aria-live=\"polite\"`）区域中，新消息能被屏幕阅读器平稳播报，不抢占焦点；\n  - 每条消息使用独立的 `<article>` 语义化标签包裹；\n  - 回到底部按钮包含显式 `aria-label=\"滚动到最新消息\"`，隐藏时通过 `inert` 移出焦点顺序。\n- **键盘快捷交互**：\n  - <kbd>Enter</kbd>：快速发送消息。\n  - <kbd>Shift</kbd> + <kbd>Enter</kbd>：在多行输入框中换行。\n  - <kbd>Tab</kbd>：在消息操作按钮（复制、重新生成、评价）之间顺畅切换。\n- **动效降级**：\n  - 触底滚动在系统开启 `prefers-reduced-motion` 时会自动由 `smooth` 降级为瞬时 `auto` 跳转，防止晕动症。",
   "examples": [
     {
       "name": "ai-chat-demo",

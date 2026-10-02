@@ -29,21 +29,18 @@
       "name": "children",
       "type": "ReactNode",
       "required": true,
-      "control": "text",
       "description": "区块固定时沿水平方向移动的宽内容。"
     },
     {
       "name": "container",
       "type": "RefObject<HTMLElement | null>",
       "required": false,
-      "control": "text",
       "description": "要监听的滚动容器；未设置时监听页面。"
     },
     {
       "name": "scrollPadding",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "0",
       "description": "额外增加的垂直滚动距离，单位为像素。"
     },
@@ -51,7 +48,6 @@
       "name": "smooth",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "true",
       "description": "是否通过弹簧驱动轨道，让滚轮滚动平滑过渡而非跳动。"
     },
@@ -59,17 +55,64 @@
       "name": "viewportClassName",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "应用于固定视口的 CSS 类名。"
     },
     {
       "name": "trackClassName",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "应用于水平移动轨道的 CSS 类名。"
     }
   ],
+  "api": [
+    {
+      "name": "HorizontalScroll",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": true,
+          "description": "区块固定时沿水平方向移动的宽内容。"
+        },
+        {
+          "name": "container",
+          "type": "RefObject<HTMLElement | null>",
+          "required": false,
+          "description": "要监听的滚动容器；未设置时监听页面。"
+        },
+        {
+          "name": "scrollPadding",
+          "type": "number",
+          "required": false,
+          "defaultValue": "0",
+          "description": "额外增加的垂直滚动距离，单位为像素。"
+        },
+        {
+          "name": "smooth",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "是否通过弹簧驱动轨道，让滚轮滚动平滑过渡而非跳动。"
+        },
+        {
+          "name": "viewportClassName",
+          "type": "string",
+          "required": false,
+          "description": "应用于固定视口的 CSS 类名。"
+        },
+        {
+          "name": "trackClassName",
+          "type": "string",
+          "required": false,
+          "description": "应用于水平移动轨道的 CSS 类名。"
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`HorizontalScroll` 适用于**时间线路线图（Roadmap）、横向架构拆解图、多卡片案例研读**：\n\n- **自适应距离计算**：组件利用 `ResizeObserver` 动态量测 `track.scrollWidth` 与视口宽度的真实差值，自动计算出最精确的垂直占位总高度，无需硬编码滚动像素。\n- **局部容器**：传入 `container` 时，吸顶视口高度取容器的内容区高度（已扣除上下内边距）。\n- **免除横向滚轮困扰**：大多数桌面端鼠标只有纵向滚轮，通过将纵向滚动无缝映射为横向位移，极大降低了用户探索宽幅内容的交互门槛。",
+  "extended": "### 产品路线图\n\n沿时间线横向浏览各季度计划，`scrollPadding` 在轨道走完后留出一段停留：",
+  "accessibility": "- **自动降级为原生横向滚动**：在开启 `prefers-reduced-motion: reduce` 的系统中，组件将不会劫持垂直滚动高度，而是直接降级为标准的 `overflow-x: auto` 原生滚动条容器，保证完全可访问。\n- **键盘导航兼容**：横向轨道内的卡片依然按 DOM 顺序排布，使用 <kbd>Tab</kbd> 键可以在各个卡片内的按钮、链接之间正常顺畅聚焦。",
   "examples": [
     {
       "name": "horizontal-scroll-demo",

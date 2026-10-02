@@ -31,49 +31,42 @@
       "name": "title",
       "type": "ReactNode",
       "required": true,
-      "control": "text",
       "description": "图表标题，用于说明时间趋势指标。"
     },
     {
       "name": "description",
       "type": "ReactNode",
       "required": false,
-      "control": "text",
       "description": "补充单位、日期范围或筛选口径的副标题。"
     },
     {
       "name": "actions",
       "type": "ReactNode",
       "required": false,
-      "control": "text",
       "description": "标题右侧的操作区。"
     },
     {
       "name": "data",
       "type": "ChartDatum[]",
       "required": true,
-      "control": "text",
       "description": "每行代表一个时间观测点的数据。"
     },
     {
       "name": "timeKey",
       "type": "string",
       "required": true,
-      "control": "text",
       "description": "ISO 日期、时间戳或可解析日期字段。"
     },
     {
       "name": "series",
       "type": "ChartSeries[]",
       "required": true,
-      "control": "text",
       "description": "要绘制的数值序列。"
     },
     {
       "name": "scale",
       "type": "\"log\" | \"linear\"",
       "required": false,
-      "control": "select",
       "options": [
         "log",
         "linear"
@@ -85,7 +78,6 @@
       "name": "height",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "300",
       "description": "图表绘图区高度，单位为像素。"
     },
@@ -93,14 +85,12 @@
       "name": "domain",
       "type": "[number, number]",
       "required": false,
-      "control": "text",
       "description": "手动指定纵轴范围；对数轴必须为正数。"
     },
     {
       "name": "showGrid",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "true",
       "description": "是否显示水平参考网格。"
     },
@@ -108,7 +98,6 @@
       "name": "showDots",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "false",
       "description": "是否显示数据节点。"
     },
@@ -116,7 +105,6 @@
       "name": "showLegend",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "true",
       "description": "是否显示图例。"
     },
@@ -124,7 +112,6 @@
       "name": "dateParser",
       "type": "((value: string | number, datum: ChartDatum) => number)",
       "required": false,
-      "control": "text",
       "defaultValue": "(value) =>\r\n    typeof value === \"number\" ? value : new Date(value).getTime()",
       "description": "自定义日期值到时间戳的转换。"
     },
@@ -132,7 +119,6 @@
       "name": "dateFormatter",
       "type": "((timestamp: number, datum?: ChartDatum) => ReactNode)",
       "required": false,
-      "control": "text",
       "defaultValue": "(timestamp) =>\r\n    new Intl.DateTimeFormat(\"zh-CN\", {\r\n      month: \"short\",\r\n      day: \"numeric\",\r\n    }).format(timestamp)",
       "description": "自定义横轴日期格式。"
     },
@@ -140,7 +126,6 @@
       "name": "valueFormatter",
       "type": "ChartValueFormatter",
       "required": false,
-      "control": "text",
       "defaultValue": "(value) => defaultValueFormatter(value)",
       "description": "自定义数值格式。"
     },
@@ -148,17 +133,151 @@
       "name": "renderLegend",
       "type": "((series: ChartSeries[]) => ReactNode)",
       "required": false,
-      "control": "text",
       "description": "完全替换默认图例内容。"
     },
     {
       "name": "renderTooltip",
       "type": "((datum: ChartDatum, index: number) => ReactNode)",
       "required": false,
-      "control": "text",
       "description": "完全替换当前数据点的默认提示内容。"
     }
   ],
+  "api": [
+    {
+      "name": "TimeSeriesChart",
+      "props": [
+        {
+          "name": "title",
+          "type": "ReactNode",
+          "required": true,
+          "description": "图表标题，用于说明时间趋势指标。"
+        },
+        {
+          "name": "description",
+          "type": "ReactNode",
+          "required": false,
+          "description": "补充单位、日期范围或筛选口径的副标题。"
+        },
+        {
+          "name": "actions",
+          "type": "ReactNode",
+          "required": false,
+          "description": "标题右侧的操作区。"
+        },
+        {
+          "name": "data",
+          "type": "ChartDatum[]",
+          "required": true,
+          "description": "每行代表一个时间观测点的数据。"
+        },
+        {
+          "name": "timeKey",
+          "type": "string",
+          "required": true,
+          "description": "ISO 日期、时间戳或可解析日期字段。"
+        },
+        {
+          "name": "series",
+          "type": "ChartSeries[]",
+          "required": true,
+          "description": "要绘制的数值序列。"
+        },
+        {
+          "name": "scale",
+          "type": "\"log\" | \"linear\"",
+          "required": false,
+          "options": [
+            "log",
+            "linear"
+          ],
+          "defaultValue": "linear",
+          "description": "纵轴尺度。"
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "required": false,
+          "defaultValue": "300",
+          "description": "图表绘图区高度，单位为像素。"
+        },
+        {
+          "name": "domain",
+          "type": "[number, number]",
+          "required": false,
+          "description": "手动指定纵轴范围；对数轴必须为正数。"
+        },
+        {
+          "name": "showGrid",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "是否显示水平参考网格。"
+        },
+        {
+          "name": "showDots",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "是否显示数据节点。"
+        },
+        {
+          "name": "showLegend",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "是否显示图例。"
+        },
+        {
+          "name": "dateParser",
+          "type": "((value: string | number, datum: ChartDatum) => number)",
+          "required": false,
+          "defaultValue": "(value) =>\r\n    typeof value === \"number\" ? value : new Date(value).getTime()",
+          "description": "自定义日期值到时间戳的转换。"
+        },
+        {
+          "name": "dateFormatter",
+          "type": "((timestamp: number, datum?: ChartDatum) => ReactNode)",
+          "required": false,
+          "defaultValue": "(timestamp) =>\r\n    new Intl.DateTimeFormat(\"zh-CN\", {\r\n      month: \"short\",\r\n      day: \"numeric\",\r\n    }).format(timestamp)",
+          "description": "自定义横轴日期格式。"
+        },
+        {
+          "name": "valueFormatter",
+          "type": "ChartValueFormatter",
+          "required": false,
+          "defaultValue": "(value) => defaultValueFormatter(value)",
+          "description": "自定义数值格式。"
+        },
+        {
+          "name": "renderLegend",
+          "type": "((series: ChartSeries[]) => ReactNode)",
+          "required": false,
+          "description": "完全替换默认图例内容。"
+        },
+        {
+          "name": "renderTooltip",
+          "type": "((datum: ChartDatum, index: number) => ReactNode)",
+          "required": false,
+          "description": "完全替换当前数据点的默认提示内容。"
+        }
+      ]
+    }
+  ],
+  "types": [
+    {
+      "name": "ChartDatum",
+      "definition": "export type ChartDatum = Record<string, string | number | null | undefined>"
+    },
+    {
+      "name": "ChartSeries",
+      "definition": "export interface ChartSeries {\r\n  /** 数据字段名。 */\r\n  key: string\r\n  /** 图例和提示框中显示的名称。 */\r\n  label?: string\r\n  /** 覆盖当前序列的颜色。 */\r\n  color?: string\r\n  /** 折线序列的 SVG 虚线模式。 */\r\n  strokeDasharray?: string\r\n}"
+    },
+    {
+      "name": "ChartValueFormatter",
+      "definition": "export type ChartValueFormatter = (\r\n  value: number,\r\n  series: ChartSeries,\r\n  datum: ChartDatum\r\n) => React.ReactNode"
+    }
+  ],
+  "usage": "与等距分类折线图不同，`TimeSeriesChart` 会根据时间戳间隔定位数据点。`scale=\"log\"` 适用于跨多个数量级且全部为正数的指标，不能用于零值或负值。\n`renderTooltip` 与 `renderLegend` 可替换默认内容，但外层间距、颜色和信息密度仍建议沿用现有图表样式。",
   "examples": [
     {
       "name": "time-series-chart-demo"

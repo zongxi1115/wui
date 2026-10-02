@@ -42,7 +42,6 @@
       "name": "status",
       "type": "\"error\" | \"pending\" | \"approval\" | \"running\" | \"success\" | \"denied\"",
       "required": false,
-      "control": "select",
       "options": [
         "error",
         "pending",
@@ -55,20 +54,169 @@
       "description": "工具调用的当前状态，例如执行中、成功或失败。"
     },
     {
+      "name": "defaultOpen",
+      "type": "boolean",
+      "required": false
+    },
+    {
+      "name": "open",
+      "type": "boolean",
+      "required": false
+    },
+    {
       "name": "disabled",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "description": "是否禁用组件。"
+    },
+    {
+      "name": "onOpenChange",
+      "type": "((open: boolean) => void)",
+      "required": false
     },
     {
       "name": "asChild",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
     }
   ],
+  "api": [
+    {
+      "name": "AiToolStatus",
+      "props": [
+        {
+          "name": "status",
+          "type": "\"error\" | \"pending\" | \"approval\" | \"running\" | \"success\" | \"denied\"",
+          "required": false,
+          "options": [
+            "error",
+            "pending",
+            "approval",
+            "running",
+            "success",
+            "denied"
+          ],
+          "description": "工具调用的当前状态，例如执行中、成功或失败。"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "Override the localized status label."
+        }
+      ]
+    },
+    {
+      "name": "AiTool",
+      "props": [
+        {
+          "name": "status",
+          "type": "\"error\" | \"pending\" | \"approval\" | \"running\" | \"success\" | \"denied\"",
+          "required": false,
+          "options": [
+            "error",
+            "pending",
+            "approval",
+            "running",
+            "success",
+            "denied"
+          ],
+          "defaultValue": "pending",
+          "description": "工具调用的当前状态，例如执行中、成功或失败。"
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "是否禁用组件。"
+        },
+        {
+          "name": "onOpenChange",
+          "type": "((open: boolean) => void)",
+          "required": false
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false,
+          "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
+        }
+      ]
+    },
+    {
+      "name": "AiToolCode",
+      "props": []
+    },
+    {
+      "name": "AiToolContent",
+      "props": [
+        {
+          "name": "forceMount",
+          "type": "true",
+          "required": false,
+          "description": "Used to force mounting when more control is needed. Useful when\ncontrolling animation with React animation libraries."
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false,
+          "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
+        }
+      ]
+    },
+    {
+      "name": "AiToolError",
+      "props": []
+    },
+    {
+      "name": "AiToolLabel",
+      "props": []
+    },
+    {
+      "name": "AiToolSection",
+      "props": []
+    },
+    {
+      "name": "AiToolTrigger",
+      "props": [
+        {
+          "name": "name",
+          "type": "string",
+          "required": false,
+          "defaultValue": "工具调用",
+          "description": "Human-readable tool name."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "是否禁用组件。"
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false,
+          "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`AiTool` 用于在智能体（Function Calling / MCP 架构）执行任务时向用户提供透明、可控的执行过程：\n\n- **何时使用**：\n  - 展示大模型调用外部 API、读取本地文件或执行 SQL 查询的过程；\n  - 高危操作（如删除数据库记录、转账、轮换密钥）的人工介入审批（Human-in-the-loop）；\n  - 智能体多步链式排查流水线。\n- **何时不应使用**：\n  - 纯后台静默任务（如内部 Redis 读写），用户无需知晓具体工具名称；\n  - 严禁直接向未授权终端用户暴露包含系统密钥、私有内网 IP 或敏感凭据的原始调用入参。\n- **设计最佳实践**：\n  - **错误自动展开，成功智能折叠**：对于执行成功的工具调用，保持收起以节省屏幕高度；一旦发生失败，默认自动展开错误日志帮助用户定位原因；\n  - **结构清晰**：使用 `AiToolSection` 划分“调用入参”、“执行中”与“结果反馈”，配合 `AiToolCode` 格式化 JSON 数据；\n  - **明确的确认交互**：在 `approval` 状态下提供醒目的“批准”与“拒绝”按钮。",
+  "extended": "### 人工确认与审批授权 (Human-in-the-Loop)\n\n针对涉及修改生产配置或转账的高危工具调用，暂停执行并要求用户明确确认：\n\n### 链式工具调用流水线\n\n展示智能体在排查系统故障时连续调用的多阶段工具流水线（查日志 -> 验连接池 -> EXPLAIN 分析）：",
+  "events": "- `onOpenChange`: (open: boolean) => void — 用户点击工具头部展开或收起参数与结果面板时触发。",
+  "accessibility": "- **状态播报与色彩无障碍**：\n  - 工具状态不仅通过颜色区分，同时辅以独特的语义图标（如勾选、旋转圆环、警示盾牌）与文案；\n  - `AiToolError` 自动挂载 `role=\"alert\"`，确保错误信息即时通知辅助设备。\n- **键盘导航支持**：\n  - <kbd>Tab</kbd>：聚焦至工具触发器；\n  - <kbd>Enter</kbd> / <kbd>Space</kbd>：展开/折叠参数面板；\n  - 审批操作中的“批准”与“拒绝”按钮可通过键盘直接操作。\n- **动效降级**：\n  - 当系统开启 `prefers-reduced-motion` 时，`running` 状态下的旋转加载图标将自动停止旋转。",
   "examples": [
     {
       "name": "ai-tool-demo",

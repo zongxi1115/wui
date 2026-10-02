@@ -1,0 +1,6 @@
+{
+  "name": "breadcrumb-collapsed",
+  "component": "breadcrumb",
+  "title": "简单折叠占位",
+  "code": "import { SlashIcon } from \"lucide-react\"\n\nimport {\n  Breadcrumb,\n  BreadcrumbEllipsis,\n  BreadcrumbItem,\n  BreadcrumbLink,\n  BreadcrumbList,\n  BreadcrumbPage,\n  BreadcrumbSeparator,\n} from \"@/components/ui/breadcrumb\"\n\nexport default function BreadcrumbCollapsed() {\n  return (\n    <Breadcrumb aria-label=\"文件位置\">\n      <BreadcrumbList>\n        <BreadcrumbItem>\n          <BreadcrumbLink href=\"#\">资源</BreadcrumbLink>\n        </BreadcrumbItem>\n        <BreadcrumbSeparator>\n          <SlashIcon />\n        </BreadcrumbSeparator>\n        <BreadcrumbItem>\n          <BreadcrumbEllipsis />\n        </BreadcrumbItem>\n        <BreadcrumbSeparator>\n          <SlashIcon />\n        </BreadcrumbSeparator>\n        <BreadcrumbItem>\n          <BreadcrumbLink href=\"#\">品牌规范</BreadcrumbLink>\n        </BreadcrumbItem>\n        <BreadcrumbSeparator>\n          <SlashIcon />\n        </BreadcrumbSeparator>\n        <BreadcrumbItem>\n          <BreadcrumbPage>应用图标.fig</BreadcrumbPage>\n        </BreadcrumbItem>\n      </BreadcrumbList>\n    </Breadcrumb>\n  )\n}\n"
+}

@@ -42,7 +42,6 @@
       "name": "variant",
       "type": "\"default\" | \"ghost\" | \"bordered\"",
       "required": false,
-      "control": "select",
       "options": [
         "default",
         "ghost",
@@ -55,7 +54,6 @@
       "name": "showLineNumbers",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "true",
       "description": "是否为内部的 CodeBlockBody 展示行号。"
     },
@@ -63,14 +61,12 @@
       "name": "maxHeight",
       "type": "string | number",
       "required": false,
-      "control": "text",
       "description": "代码区最大高度，超出时垂直滚动；开启 expandable 时作为折叠高度。"
     },
     {
       "name": "expandable",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "false",
       "description": "是否支持超长代码折叠与展开，内容超过折叠高度时显示切换按钮。"
     },
@@ -78,7 +74,6 @@
       "name": "highlightLines",
       "type": "HighlightLines",
       "required": false,
-      "control": "text",
       "defaultValue": "[]",
       "description": "高亮行，支持行号与区间（例如 [2, \"5-7\"]），高亮带会在行之间平滑滑动。"
     },
@@ -86,31 +81,247 @@
       "name": "value",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "多文件模式下当前激活的文件（受控）。"
     },
     {
       "name": "defaultValue",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "多文件模式下默认激活的文件（非受控）。"
     },
     {
       "name": "onValueChange",
       "type": "((value: string) => void)",
       "required": false,
-      "control": "text",
       "description": "激活文件变化时的回调。"
+    },
+    {
+      "name": "dir",
+      "type": "\"ltr\" | \"rtl\"",
+      "required": false,
+      "options": [
+        "ltr",
+        "rtl"
+      ],
+      "description": "The direction of navigation between toolbar items."
     },
     {
       "name": "asChild",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
     }
   ],
+  "api": [
+    {
+      "name": "CodeBlock",
+      "props": [
+        {
+          "name": "variant",
+          "type": "\"default\" | \"ghost\" | \"bordered\"",
+          "required": false,
+          "options": [
+            "default",
+            "ghost",
+            "bordered"
+          ],
+          "defaultValue": "default",
+          "description": "代码块外观样式变体。"
+        },
+        {
+          "name": "showLineNumbers",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "是否为内部的 CodeBlockBody 展示行号。"
+        },
+        {
+          "name": "maxHeight",
+          "type": "string | number",
+          "required": false,
+          "description": "代码区最大高度，超出时垂直滚动；开启 expandable 时作为折叠高度。"
+        },
+        {
+          "name": "expandable",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "是否支持超长代码折叠与展开，内容超过折叠高度时显示切换按钮。"
+        },
+        {
+          "name": "highlightLines",
+          "type": "HighlightLines",
+          "required": false,
+          "defaultValue": "[]",
+          "description": "高亮行，支持行号与区间（例如 [2, \"5-7\"]），高亮带会在行之间平滑滑动。"
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": false,
+          "description": "多文件模式下当前激活的文件（受控）。"
+        },
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "required": false,
+          "description": "多文件模式下默认激活的文件（非受控）。"
+        },
+        {
+          "name": "onValueChange",
+          "type": "((value: string) => void)",
+          "required": false,
+          "description": "激活文件变化时的回调。"
+        },
+        {
+          "name": "dir",
+          "type": "\"ltr\" | \"rtl\"",
+          "required": false,
+          "options": [
+            "ltr",
+            "rtl"
+          ],
+          "description": "The direction of navigation between toolbar items."
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false,
+          "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
+        }
+      ]
+    },
+    {
+      "name": "CodeBlockActions",
+      "props": []
+    },
+    {
+      "name": "CodeBlockBody",
+      "props": [
+        {
+          "name": "code",
+          "type": "string",
+          "required": false,
+          "description": "纯文本代码内容。"
+        },
+        {
+          "name": "language",
+          "type": "string",
+          "required": false,
+          "description": "编程语言类型，未使用 CodeBlockHeader 时显示在右上角。"
+        },
+        {
+          "name": "showLineNumbers",
+          "type": "boolean",
+          "required": false,
+          "description": "是否展示行号，默认继承 CodeBlock 的 showLineNumbers。"
+        },
+        {
+          "name": "highlightLines",
+          "type": "HighlightLines",
+          "required": false,
+          "description": "需要高亮的行，默认继承 CodeBlock 的 highlightLines。"
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": false,
+          "description": "多文件模式下对应 CodeBlockTab 的 value，仅在该文件激活时渲染。"
+        }
+      ]
+    },
+    {
+      "name": "CodeBlockCopy",
+      "props": [
+        {
+          "name": "content",
+          "type": "string",
+          "required": false,
+          "description": "需要复制的代码字符串；省略时复制当前显示的 CodeBlockBody 内容。"
+        },
+        {
+          "name": "onCopy",
+          "type": "(() => void)",
+          "required": false,
+          "description": "复制成功后的回调函数。"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "defaultValue": "复制代码",
+          "description": "按钮无障碍提示文案。"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "CodeBlockHeader",
+      "props": []
+    },
+    {
+      "name": "CodeBlockTab",
+      "props": [
+        {
+          "name": "value",
+          "type": "string",
+          "required": false,
+          "description": "The value for the selected tab, if controlled"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false,
+          "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
+        }
+      ]
+    },
+    {
+      "name": "CodeBlockTabs",
+      "props": [
+        {
+          "name": "loop",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false,
+          "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
+        }
+      ]
+    },
+    {
+      "name": "CodeBlockTitle",
+      "props": [
+        {
+          "name": "icon",
+          "type": "ReactNode",
+          "required": false,
+          "description": "文件名或代码段标题左侧图标。"
+        }
+      ]
+    }
+  ],
+  "types": [
+    {
+      "name": "HighlightLines",
+      "definition": "type HighlightLines = ReadonlyArray<number | string>"
+    }
+  ],
+  "usage": "- **适用**：技术文档、AI 生成代码、配置片段与代码评审说明。\n- **不适用**：Markdown 长文中的代码围栏由 `Markdown` 组件自动渲染为代码块，无需手动组合。\n- **高亮克制**：一次只高亮与当前讲解相关的连续行，避免整段着色削弱层级。",
+  "extended": "### 多文件切换\n\n`CodeBlockTabs` 放在标题栏中，激活下划线以弹簧动效在文件之间滑动，代码区随之淡入；复制按钮自动复制当前文件：\n\n### 分步讲解\n\n受控切换 `highlightLines`，高亮带在代码行之间平滑滑动，适合教程与代码评审：\n\n### 折叠长代码\n\n`expandable` 搭配 `maxHeight` 折叠配置文件等长代码，底部渐隐提示还有更多内容：",
+  "accessibility": "- **多文件切换**：基于 Radix Tabs，标签支持方向键切换，面板与标签自动关联 `aria-controls`。\n- **复制反馈**：复制成功后通过 `role=\"status\"` 播报结果，而不仅依赖图标变化。\n- **折叠按钮**：展开按钮带有 `aria-expanded` 并通过 `aria-controls` 指向代码区域。\n- **减弱动态效果**：高亮带滑动、图标变换与高度过渡在 `prefers-reduced-motion` 下即时完成。",
   "examples": [
     {
       "name": "code-block-demo",

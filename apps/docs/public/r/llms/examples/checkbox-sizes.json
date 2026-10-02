@@ -1,0 +1,6 @@
+{
+  "name": "checkbox-sizes",
+  "component": "checkbox",
+  "title": "尺寸",
+  "code": "\"use client\"\n\nimport * as React from \"react\"\nimport { Checkbox } from \"@/components/ui/checkbox\"\n\nexport default function CheckboxSizes() {\n  return (\n    <div className=\"flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-8\">\n      <label className=\"flex cursor-pointer items-center gap-2.5\">\n        <Checkbox size=\"sm\" defaultChecked />\n        <span className=\"text-xs font-medium\">紧凑 (sm - 16px)</span>\n      </label>\n\n      <label className=\"flex cursor-pointer items-center gap-2.5\">\n        <Checkbox size=\"default\" defaultChecked />\n        <span className=\"text-sm font-medium\">默认 (default - 20px)</span>\n      </label>\n\n      <label className=\"flex cursor-pointer items-center gap-2.5\">\n        <Checkbox size=\"lg\" defaultChecked />\n        <span className=\"text-base font-medium\">大尺寸 (lg - 24px)</span>\n      </label>\n    </div>\n  )\n}\n"
+}

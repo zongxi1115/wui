@@ -1,0 +1,6 @@
+{
+  "name": "card-composition",
+  "component": "card",
+  "title": "紧凑型组合",
+  "code": "import { UsersIcon } from \"lucide-react\"\n\nimport { Badge } from \"@/components/ui/badge\"\nimport { Button } from \"@/components/ui/button\"\nimport {\n  Card,\n  CardAction,\n  CardContent,\n  CardDescription,\n  CardFooter,\n  CardHeader,\n  CardTitle,\n} from \"@/components/ui/card\"\n\nexport default function CardComposition() {\n  return (\n    <Card className=\"w-full max-w-sm gap-4\">\n      <CardHeader>\n        <CardTitle className=\"flex items-center gap-2\">\n          <UsersIcon className=\"size-4 text-primary\" />\n          团队空间\n        </CardTitle>\n        <CardDescription>邀请成员共同管理项目、组件库与部署流水线。</CardDescription>\n        <CardAction>\n          <Badge variant=\"secondary\" size=\"sm\">\n            8 / 12 位\n          </Badge>\n        </CardAction>\n      </CardHeader>\n      <CardContent>\n        <div className=\"rounded-lg bg-muted/50 p-3 text-xs text-muted-foreground\">\n          当前空间配额剩余 4 个席位。升级为企业版可解锁无限协作成员与单点登录 (SSO)。\n        </div>\n      </CardContent>\n      <CardFooter className=\"justify-end gap-2 pt-1\">\n        <Button variant=\"ghost\" size=\"sm\">\n          管理权限\n        </Button>\n        <Button size=\"sm\">邀请成员</Button>\n      </CardFooter>\n    </Card>\n  )\n}\n"
+}

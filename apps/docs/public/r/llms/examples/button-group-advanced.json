@@ -1,0 +1,6 @@
+{
+  "name": "button-group-advanced",
+  "component": "button-group",
+  "title": "纵向与时间维度组合",
+  "code": "import { CalendarClockIcon, EyeIcon, SaveIcon } from \"lucide-react\"\n\nimport { Button } from \"@/components/ui/button\"\nimport { ButtonGroup } from \"@/components/ui/button-group\"\n\nexport default function ButtonGroupAdvanced() {\n  return (\n    <div className=\"flex flex-wrap items-start gap-8\">\n      <ButtonGroup aria-label=\"时间范围\">\n        <Button variant=\"outline\" size=\"sm\">\n          今天\n        </Button>\n        <Button variant=\"outline\" size=\"sm\">\n          近 7 天\n        </Button>\n        <Button variant=\"outline\" size=\"sm\">\n          近 30 天\n        </Button>\n        <Button variant=\"outline\" size=\"sm\">\n          自定义\n        </Button>\n      </ButtonGroup>\n\n      <ButtonGroup orientation=\"vertical\" aria-label=\"发布操作\">\n        <Button variant=\"outline\" className=\"justify-start\">\n          <SaveIcon />\n          保存草稿\n        </Button>\n        <Button variant=\"outline\" className=\"justify-start\">\n          <EyeIcon />\n          预览内容\n        </Button>\n        <Button variant=\"outline\" className=\"justify-start\" disabled>\n          <CalendarClockIcon />\n          定时发布\n        </Button>\n      </ButtonGroup>\n    </div>\n  )\n}\n"
+}

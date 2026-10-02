@@ -29,14 +29,12 @@
       "name": "value",
       "type": "number",
       "required": true,
-      "control": "number",
       "description": "数字最终滚动到的目标值。"
     },
     {
       "name": "from",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "0",
       "description": "首次动画的起始值。"
     },
@@ -44,7 +42,6 @@
       "name": "delay",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "0",
       "description": "首次动画开始前的等待时长，单位为秒。"
     },
@@ -52,7 +49,6 @@
       "name": "decimalPlaces",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "0",
       "description": "固定保留的小数位数。"
     },
@@ -60,7 +56,6 @@
       "name": "locale",
       "type": "string",
       "required": false,
-      "control": "text",
       "defaultValue": "zh-CN",
       "description": "Intl.NumberFormat 使用的语言区域。"
     },
@@ -68,28 +63,24 @@
       "name": "formatOptions",
       "type": "NumberFormatOptions",
       "required": false,
-      "control": "text",
       "description": "额外的 Intl.NumberFormat 选项，例如货币、百分比或紧凑记数。"
     },
     {
       "name": "prefix",
       "type": "ReactNode",
       "required": false,
-      "control": "text",
       "description": "显示在数字前的内容。"
     },
     {
       "name": "suffix",
       "type": "ReactNode",
       "required": false,
-      "control": "text",
       "description": "显示在数字后的内容。"
     },
     {
       "name": "startOnView",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "true",
       "description": "是否等数字进入视口后才开始计数。"
     },
@@ -97,14 +88,12 @@
       "name": "viewOptions",
       "type": "UseInViewOptions",
       "required": false,
-      "control": "text",
       "description": "startOnView 开启时使用的视口检测参数。"
     },
     {
       "name": "transition",
       "type": "Transition",
       "required": false,
-      "control": "text",
       "defaultValue": "{\n  type: \"spring\",\n  duration: 1.6,\n  bounce: 0,\n}",
       "description": "每次计数使用的过渡配置，默认为无回弹的弹簧。"
     },
@@ -112,10 +101,99 @@
       "name": "onComplete",
       "type": "((value: number) => void)",
       "required": false,
-      "control": "text",
       "description": "一次计数结束时触发，回调参数为最终值。"
     }
   ],
+  "api": [
+    {
+      "name": "NumberTicker",
+      "props": [
+        {
+          "name": "value",
+          "type": "number",
+          "required": true,
+          "description": "数字最终滚动到的目标值。"
+        },
+        {
+          "name": "from",
+          "type": "number",
+          "required": false,
+          "defaultValue": "0",
+          "description": "首次动画的起始值。"
+        },
+        {
+          "name": "delay",
+          "type": "number",
+          "required": false,
+          "defaultValue": "0",
+          "description": "首次动画开始前的等待时长，单位为秒。"
+        },
+        {
+          "name": "decimalPlaces",
+          "type": "number",
+          "required": false,
+          "defaultValue": "0",
+          "description": "固定保留的小数位数。"
+        },
+        {
+          "name": "locale",
+          "type": "string",
+          "required": false,
+          "defaultValue": "zh-CN",
+          "description": "Intl.NumberFormat 使用的语言区域。"
+        },
+        {
+          "name": "formatOptions",
+          "type": "NumberFormatOptions",
+          "required": false,
+          "description": "额外的 Intl.NumberFormat 选项，例如货币、百分比或紧凑记数。"
+        },
+        {
+          "name": "prefix",
+          "type": "ReactNode",
+          "required": false,
+          "description": "显示在数字前的内容。"
+        },
+        {
+          "name": "suffix",
+          "type": "ReactNode",
+          "required": false,
+          "description": "显示在数字后的内容。"
+        },
+        {
+          "name": "startOnView",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "是否等数字进入视口后才开始计数。"
+        },
+        {
+          "name": "viewOptions",
+          "type": "UseInViewOptions",
+          "required": false,
+          "description": "startOnView 开启时使用的视口检测参数。"
+        },
+        {
+          "name": "transition",
+          "type": "Transition",
+          "required": false,
+          "defaultValue": "{\n  type: \"spring\",\n  duration: 1.6,\n  bounce: 0,\n}",
+          "description": "每次计数使用的过渡配置，默认为无回弹的弹簧。"
+        },
+        {
+          "name": "onComplete",
+          "type": "((value: number) => void)",
+          "required": false,
+          "description": "一次计数结束时触发，回调参数为最终值。"
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`NumberTicker` 适合营销页的规模数据、仪表盘 KPI 与余额等需要强调“变化”的数字。若需要逐位滚轮效果，请使用 [滑动数字 Sliding Number](/docs/components/sliding-number)。\n\n- **只动一次**：营销页的规模数据通常只需在首次进入视口时计数，不要反复播放。\n- **固定小数位与等宽数字**：组件默认启用 `tabular-nums`，配合 `decimalPlaces` 可以保证计数过程中宽度稳定。\n- **不要超调**：默认过渡没有回弹。自定义弹簧时请保持 `bounce: 0`，避免百分比等指标短暂超过 100%。",
+  "extended": "### KPI 指标行\n\n多个指标通过 `delay` 错峰启动，货币使用 `formatOptions`，百分比使用 `decimalPlaces` 与 `suffix`：\n\n### 实时数值更新\n\n点击刷新切换数据快照，数字从当前值过渡到新值，而不是从 0 重新开始：",
+  "events": "- `onComplete`: (value: number) => void — 每次计数结束时触发，参数为最终数值。",
+  "accessibility": "- **只读最终值**：计数过程中的数字设置了 `aria-hidden`，组件另外输出包含前后缀与最终格式化结果的 `sr-only` 文本，读屏软件只会读到目标值。\n- **减少动态效果**：开启 `prefers-reduced-motion` 时直接显示目标值，不再计数。\n- **SSR 友好**：服务端与首屏渲染都输出 `from` 的格式化结果，计数在挂载后通过直接写入文本节点完成，不会触发整棵组件树的重复渲染。",
   "examples": [
     {
       "name": "number-ticker-demo",

@@ -1,0 +1,6 @@
+{
+  "name": "text-scramble-demo",
+  "component": "text-scramble",
+  "title": "基础用法",
+  "code": "\"use client\"\n\nimport * as React from \"react\"\nimport { GiftIcon } from \"lucide-react\"\n\nimport { Button } from \"@/components/ui/button\"\nimport { TextScramble } from \"@/components/ui/text-scramble\"\n\nexport default function TextScrambleDemo() {\n  const [revealed, setRevealed] = React.useState(false)\n  const [round, setRound] = React.useState(0)\n\n  return (\n    <div className=\"flex w-full max-w-xs flex-col items-center gap-4 text-center\">\n      <GiftIcon className=\"text-muted-foreground size-6\" />\n      <div>\n        <p className=\"text-muted-foreground text-xs\">会员兑换码</p>\n        <TextScramble\n          key={round}\n          as=\"p\"\n          trigger={revealed}\n          duration={1.1}\n          characterSet=\"ABCDEFGHJKLMNPQRSTUVWXYZ23456789\"\n          className=\"mt-2 text-2xl font-semibold tracking-widest\"\n        >\n          {revealed ? \"WUI8-F3KQ-7ZPM\" : \"••••-••••-••••\"}\n        </TextScramble>\n      </div>\n      <Button\n        variant=\"outline\"\n        size=\"sm\"\n        onClick={() => {\n          setRevealed(true)\n          setRound((value) => value + 1)\n        }}\n      >\n        {revealed ? \"再解码一次\" : \"刮开兑换码\"}\n      </Button>\n    </div>\n  )\n}\n"
+}

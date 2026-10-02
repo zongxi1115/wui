@@ -29,42 +29,36 @@
       "name": "src",
       "type": "string",
       "required": true,
-      "control": "text",
       "description": "缩略图和大图预览共用的图片地址。"
     },
     {
       "name": "alt",
       "type": "string",
       "required": true,
-      "control": "text",
       "description": "图片的无障碍描述。"
     },
     {
       "name": "previewSrc",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "仅用于大图预览的高清图片地址。"
     },
     {
       "name": "caption",
       "type": "ReactNode",
       "required": false,
-      "control": "text",
       "description": "展开预览后显示在图片下方的说明文字。"
     },
     {
       "name": "open",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "description": "受控模式下预览是否打开。"
     },
     {
       "name": "defaultOpen",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "false",
       "description": "非受控模式下预览的初始打开状态。"
     },
@@ -72,14 +66,12 @@
       "name": "onOpenChange",
       "type": "((open: boolean) => void)",
       "required": false,
-      "control": "text",
       "description": "预览打开或关闭时触发。"
     },
     {
       "name": "minZoom",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "0.5",
       "description": "允许使用的最小缩放比例。"
     },
@@ -87,7 +79,6 @@
       "name": "maxZoom",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "3",
       "description": "允许使用的最大缩放比例。"
     },
@@ -95,7 +86,6 @@
       "name": "zoomStep",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "0.25",
       "description": "每次缩放增加或减少的比例。"
     },
@@ -103,7 +93,6 @@
       "name": "showToolbar",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "true",
       "description": "是否显示缩放、旋转、重置和可选的下载操作。"
     },
@@ -111,31 +100,211 @@
       "name": "downloadName",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "下载时使用的文件名。设置后会显示下载操作。"
     },
     {
       "name": "thumbnailClassName",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "应用于缩略图的额外 CSS 类名。"
     },
     {
       "name": "previewClassName",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "应用于展开图片的额外 CSS 类名。"
     },
     {
       "name": "disabled",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "description": "是否禁用组件。"
     }
   ],
+  "api": [
+    {
+      "name": "ImagePreview",
+      "props": [
+        {
+          "name": "src",
+          "type": "string",
+          "required": true,
+          "description": "缩略图和大图预览共用的图片地址。"
+        },
+        {
+          "name": "alt",
+          "type": "string",
+          "required": true,
+          "description": "图片的无障碍描述。"
+        },
+        {
+          "name": "previewSrc",
+          "type": "string",
+          "required": false,
+          "description": "仅用于大图预览的高清图片地址。"
+        },
+        {
+          "name": "caption",
+          "type": "ReactNode",
+          "required": false,
+          "description": "展开预览后显示在图片下方的说明文字。"
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false,
+          "description": "受控模式下预览是否打开。"
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "非受控模式下预览的初始打开状态。"
+        },
+        {
+          "name": "onOpenChange",
+          "type": "((open: boolean) => void)",
+          "required": false,
+          "description": "预览打开或关闭时触发。"
+        },
+        {
+          "name": "minZoom",
+          "type": "number",
+          "required": false,
+          "defaultValue": "0.5",
+          "description": "允许使用的最小缩放比例。"
+        },
+        {
+          "name": "maxZoom",
+          "type": "number",
+          "required": false,
+          "defaultValue": "3",
+          "description": "允许使用的最大缩放比例。"
+        },
+        {
+          "name": "zoomStep",
+          "type": "number",
+          "required": false,
+          "defaultValue": "0.25",
+          "description": "每次缩放增加或减少的比例。"
+        },
+        {
+          "name": "showToolbar",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "是否显示缩放、旋转、重置和可选的下载操作。"
+        },
+        {
+          "name": "downloadName",
+          "type": "string",
+          "required": false,
+          "description": "下载时使用的文件名。设置后会显示下载操作。"
+        },
+        {
+          "name": "thumbnailClassName",
+          "type": "string",
+          "required": false,
+          "description": "应用于缩略图的额外 CSS 类名。"
+        },
+        {
+          "name": "previewClassName",
+          "type": "string",
+          "required": false,
+          "description": "应用于展开图片的额外 CSS 类名。"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "是否禁用组件。"
+        }
+      ]
+    },
+    {
+      "name": "ImagePreviewGroup",
+      "props": [
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false,
+          "description": "受控模式下预览是否打开。"
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "非受控模式下预览的初始打开状态。"
+        },
+        {
+          "name": "onOpenChange",
+          "type": "((open: boolean) => void)",
+          "required": false,
+          "description": "预览打开或关闭时触发。"
+        },
+        {
+          "name": "index",
+          "type": "number",
+          "required": false,
+          "description": "Controlled index of the image shown in the lightbox."
+        },
+        {
+          "name": "defaultIndex",
+          "type": "number",
+          "required": false,
+          "defaultValue": "0",
+          "description": "Initial index when uncontrolled."
+        },
+        {
+          "name": "onIndexChange",
+          "type": "((index: number) => void)",
+          "required": false,
+          "description": "Called when the lightbox switches to another image."
+        },
+        {
+          "name": "minZoom",
+          "type": "number",
+          "required": false,
+          "defaultValue": "0.5",
+          "description": "允许使用的最小缩放比例。"
+        },
+        {
+          "name": "maxZoom",
+          "type": "number",
+          "required": false,
+          "defaultValue": "3",
+          "description": "允许使用的最大缩放比例。"
+        },
+        {
+          "name": "zoomStep",
+          "type": "number",
+          "required": false,
+          "defaultValue": "0.25",
+          "description": "每次缩放增加或减少的比例。"
+        },
+        {
+          "name": "showToolbar",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "是否显示缩放、旋转、重置和可选的下载操作。"
+        },
+        {
+          "name": "previewClassName",
+          "type": "string",
+          "required": false,
+          "description": "应用于展开图片的额外 CSS 类名。"
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`ImagePreview` 专为**电商详情、作品集画廊、附件凭证与设计稿核对**设计：\n\n- **分级加载优化带宽**：对于动辄数兆的高清原图，缩略图使用小图 `src`，灯箱大图传入 `previewSrc`，实现首屏飞速加载与灯箱高清呈现的双赢。\n- **拖拽平移视口边界约束**：当图片放大超过屏幕视口范围时，自动激活鼠标抓手拖拽（Drag to pan）模式，并内置弹性边界吸附，防止图片被拖出屏幕视野之外；缩小后图片会平滑回到可视范围内。\n- **极简 vs 全功能**：如果不希望用户旋转或下载图片，设置 `showToolbar={false}` 即可获得类似 Medium 或 iOS 相册的极简沉浸式阅读预览体验。",
+  "extended": "### 画廊分组浏览\n\n使用 `ImagePreviewGroup` 包裹网格中的缩略图，打开后可在同一灯箱内左右切换；每张图片保留各自的说明文字与原图下载：\n\n### 极简纯净模式 (隐藏工具栏)\n\n对于文章配图或列表插图，隐藏工具栏，仅保留点击打开大图、滚轮缩放与点击背景 / 按 Esc 关闭的能力：",
+  "events": "- `onOpenChange`: (open: boolean) => void — 灯箱打开或关闭时触发，返回最新的布尔值状态。\n- `onKeyDown`: (event: React.KeyboardEvent) => void — 灯箱内部按键事件。支持使用 +/= 放大、- 缩小、0 重置图片变换、←/→ 在分组中切换图片，或使用 Esc 关闭灯箱。\n- `onClick`: (event: React.MouseEvent<HTMLButtonElement>) => void — 点击缩略图触发器时的原生事件回调。",
+  "accessibility": "- **Radix Dialog 焦点管理**：打开灯箱时焦点自动锁定在弹窗内，关闭后焦点恢复至最后查看图片的缩略图，防止键盘焦点丢失。\n- **快捷键导航**：\n  - <kbd>+</kbd> / <kbd>=</kbd>：放大图片比例。\n  - <kbd>-</kbd>：缩小图片比例。\n  - <kbd>0</kbd>：重置为原始 1:1 比例与 0 度旋转。\n  - <kbd>←</kbd> / <kbd>→</kbd>：在 `ImagePreviewGroup` 中切换上一张 / 下一张。\n  - <kbd>Esc</kbd>：立即退出预览。\n- **减少动态效果**：系统开启“减少动态效果”时，打开、切换与缩放均改为瞬时完成。\n- **屏幕阅读器**：内置 `DialogPrimitive.Title`（带 `sr-only` 隐藏但读屏可达）自动播报图片 `alt` 描述信息。",
   "examples": [
     {
       "name": "image-preview-demo",

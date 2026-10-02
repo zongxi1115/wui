@@ -31,35 +31,31 @@
       "name": "options",
       "type": "ComboboxOption[]",
       "required": true,
-      "control": "text",
       "description": "可搜索的选项集合。"
     },
     {
       "name": "value",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "受控模式下的选中值。"
     },
     {
       "name": "defaultValue",
       "type": "string",
       "required": false,
-      "control": "text",
+      "defaultValue": "",
       "description": "非受控模式下的初始选中值。"
     },
     {
       "name": "onValueChange",
       "type": "((value: string) => void)",
       "required": false,
-      "control": "text",
       "description": "选中值变化或清空时触发。"
     },
     {
       "name": "placeholder",
       "type": "string",
       "required": false,
-      "control": "text",
       "defaultValue": "请选择",
       "description": "未选中时显示的文本。@default \"请选择\""
     },
@@ -67,7 +63,6 @@
       "name": "searchPlaceholder",
       "type": "string",
       "required": false,
-      "control": "text",
       "defaultValue": "搜索选项",
       "description": "搜索框占位文本。@default \"搜索选项\""
     },
@@ -75,7 +70,6 @@
       "name": "emptyText",
       "type": "ReactNode",
       "required": false,
-      "control": "text",
       "defaultValue": "没有匹配的选项",
       "description": "没有匹配项时显示的文本。@default \"没有匹配的选项\""
     },
@@ -83,7 +77,6 @@
       "name": "clearable",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "true",
       "description": "是否显示清空按钮。@default true"
     },
@@ -91,7 +84,6 @@
       "name": "size",
       "type": "\"default\" | \"sm\" | \"lg\"",
       "required": false,
-      "control": "select",
       "options": [
         "default",
         "sm",
@@ -104,17 +96,109 @@
       "name": "contentClassName",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "应用于浮层的额外类名。"
     },
     {
       "name": "disabled",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "description": "是否禁用组件。"
     }
   ],
+  "api": [
+    {
+      "name": "Combobox",
+      "props": [
+        {
+          "name": "options",
+          "type": "ComboboxOption[]",
+          "required": true,
+          "description": "可搜索的选项集合。"
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": false,
+          "description": "受控模式下的选中值。"
+        },
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "required": false,
+          "defaultValue": "",
+          "description": "非受控模式下的初始选中值。"
+        },
+        {
+          "name": "onValueChange",
+          "type": "((value: string) => void)",
+          "required": false,
+          "description": "选中值变化或清空时触发。"
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "required": false,
+          "defaultValue": "请选择",
+          "description": "未选中时显示的文本。@default \"请选择\""
+        },
+        {
+          "name": "searchPlaceholder",
+          "type": "string",
+          "required": false,
+          "defaultValue": "搜索选项",
+          "description": "搜索框占位文本。@default \"搜索选项\""
+        },
+        {
+          "name": "emptyText",
+          "type": "ReactNode",
+          "required": false,
+          "defaultValue": "没有匹配的选项",
+          "description": "没有匹配项时显示的文本。@default \"没有匹配的选项\""
+        },
+        {
+          "name": "clearable",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "是否显示清空按钮。@default true"
+        },
+        {
+          "name": "size",
+          "type": "\"default\" | \"sm\" | \"lg\"",
+          "required": false,
+          "options": [
+            "default",
+            "sm",
+            "lg"
+          ],
+          "defaultValue": "default",
+          "description": "尺寸密度。@default \"default\""
+        },
+        {
+          "name": "contentClassName",
+          "type": "string",
+          "required": false,
+          "description": "应用于浮层的额外类名。"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "是否禁用组件。"
+        }
+      ]
+    }
+  ],
+  "types": [
+    {
+      "name": "ComboboxOption",
+      "definition": "export interface ComboboxOption {\n  /** 表单提交和受控状态中使用的稳定值。 */\n  value: string\n  /** 展示给用户的文本或自定义内容。 */\n  label: React.ReactNode\n  /** 选项辅助描述信息。 */\n  description?: React.ReactNode\n  /** 参与模糊搜索的别名，例如拼音、缩写或关键词。 */\n  keywords?: string[]\n  /** 禁止选择此项。 */\n  disabled?: boolean\n}"
+    }
+  ],
+  "usage": "`Combobox` 专为**数据量较多、需要快速搜索定位**的单选场景设计：\n\n- **Combobox vs Select**：当选项数量不多（如 10 项以内），且用户熟悉所有可能选项时，优先使用 [`Select`](/docs/components/select)；当选项数量超过 10–15 项，或者用户习惯直接敲击拼音/英文缩写快速找人或找资源时，优先使用 `Combobox`。\n- **Combobox vs Command**：`Combobox` 主要作为表单中的“带搜索单选输入框”，选中后浮层关闭并将值回填到触发器；[`Command`](/docs/components/command) 通常作为全屏全局命令面板（如 <kbd>Cmd</kbd> + <kbd>K</kbd>）或悬浮快捷操作菜单。\n- **提供拼音与别名（Keywords）**：中文环境下，强烈建议在 `keywords` 中注入中文姓名或专业术语的全拼与首字母缩写（例如 `keywords: [\"zhangsan\", \"zs\"]`），大幅提升重度键盘用户的录入效率。\n- **非受控 vs 受控**：常规表单中可直接使用 `defaultValue`，组件内部自行管理选中状态与搜索输入；若需要通过外部按钮联动切换或重置，请传入 `value` 与 `onValueChange`。",
+  "extended": "### 受控模式与外部联动\n\n通过受控的 `value` 与 `onValueChange` 实现与外部状态的精确双向绑定，支持通过外部快捷按钮直接切换指派人：\n\n```tsx\nconst [assignee, setAssignee] = React.useState(\"chen\")\n\nreturn (\n  <Combobox\n    options={members}\n    value={assignee}\n    onValueChange={setAssignee}\n    placeholder=\"搜索团队成员…\"\n  />\n)\n```\n\n### 尺寸规格\n\n组件提供 `sm`（32px）、`default`（40px）和 `lg`（48px）三种物理尺寸密度：\n\n- `sm`：紧凑尺寸，适合嵌入数据表格行筛选栏或紧凑工具栏。\n- `default`：标准尺寸，适用于常规业务表单与配置卡片。\n- `lg`：大尺寸，适用于突出型首屏筛选或触控移动端界面。\n\n### 自定义选项渲染与副标题\n\n选项支持配置图标和 `description` 副标题，在下拉面板中呈现层次分明的云资源或资产信息：\n\n### 清空与自定义空状态\n\n通过 `clearable` 属性控制是否允许一键清空；通过 `emptyText` 自定义无匹配项时的提示文案：\n\n### 复杂表单集成\n\n在云服务集群配置与生产环境部署等企业级表单中集成多个组合选择器：",
+  "events": "- `onValueChange`: (value: string) => void — 用户通过点击选项、键盘确认或点击清除图标时触发，传入最新选中的 value 字符串或空字符串。\n- `onFocus`: (event: React.FocusEvent<HTMLButtonElement>) => void — 触发按钮获得焦点时触发。\n- `onBlur`: (event: React.FocusEvent<HTMLButtonElement>) => void — 触发按钮失去焦点时触发。\n- `onKeyDown`: (event: React.KeyboardEvent<HTMLButtonElement>) => void — 焦点位于触发器时按下键盘按键触发。",
+  "accessibility": "- **ARIA 规范**：\n  - 触发器元素声明 `role=\"combobox\"`、`aria-haspopup=\"dialog\"` 并实时同步 `aria-expanded`。\n  - 浮层展开后内部搜索框自动聚焦（`autoFocus`），屏幕阅读器会实时朗读当前候选匹配项数量。\n- **键盘导航**：\n  - <kbd>Space</kbd> / <kbd>Enter</kbd>：在聚焦触发器时打开下拉搜索面板。\n  - <kbd>↓</kbd> / <kbd>↑</kbd>：在搜索过滤出的选项列表间上下移动高亮光标。\n  - <kbd>Enter</kbd>：确认选中当前高亮的选项，自动关闭下拉面板并将焦点归还至触发器。\n  - <kbd>Escape</kbd>：关闭下拉面板并不作选择。\n- **清空操作隔离**：清空按钮内置事件冒泡拦截（`stopPropagation`），点击清空时不会误触打开下拉浮层。\n- **打开即定位**：再次打开时高亮自动落在当前已选项并滚动到可见区域。\n- **动效**：浮层从触发器方向展开；高亮背景在选项之间滑动；选中值在触发器中上移淡入刷新，勾选图标弹出；清空按钮缩放出现。均遵循 `prefers-reduced-motion`。",
   "examples": [
     {
       "name": "combobox-demo",

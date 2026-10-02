@@ -1,0 +1,6 @@
+{
+  "name": "motion-demo",
+  "component": "motion",
+  "title": "基础用法",
+  "code": "\"use client\"\n\nimport * as React from \"react\"\nimport { CheckIcon, RotateCcwIcon } from \"lucide-react\"\n\nimport { Button } from \"@/components/ui/button\"\nimport { Motion } from \"@/components/ui/motion\"\n\nexport default function MotionDemo() {\n  const [key, setKey] = React.useState(0)\n\n  return (\n    <div className=\"flex w-full max-w-sm flex-col items-center gap-6\">\n      <Motion\n        key={key}\n        preset=\"blur-up\"\n        transition=\"gentle\"\n        className=\"flex w-full items-start gap-3 rounded-lg border bg-background p-4 shadow-sm\"\n      >\n        <span className=\"bg-success/10 text-success mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-full\">\n          <CheckIcon className=\"size-3.5\" />\n        </span>\n        <div className=\"min-w-0 flex-1\">\n          <p className=\"text-sm font-medium\">发布成功</p>\n          <p className=\"text-muted-foreground mt-0.5 text-sm\">\n            v2.4.0 已推送到生产环境，预计 3 分钟内全量生效。\n          </p>\n        </div>\n      </Motion>\n      <Button variant=\"ghost\" size=\"sm\" onClick={() => setKey((k) => k + 1)}>\n        <RotateCcwIcon />\n        重播\n      </Button>\n    </div>\n  )\n}\n"
+}

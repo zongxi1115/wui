@@ -1,0 +1,6 @@
+{
+  "name": "bubble-variants",
+  "component": "bubble",
+  "title": "四种表面质感 (Variants)",
+  "code": "import {\n  Bubble,\n  BubbleBody,\n  BubbleContent,\n} from \"@/components/ui/bubble\"\n\nexport default function BubbleVariants() {\n  return (\n    <div className=\"mx-auto flex w-full max-w-lg flex-col gap-3\">\n      <Bubble>\n        <BubbleBody>\n          <BubbleContent>默认气泡适合普通收到的消息。</BubbleContent>\n        </BubbleBody>\n      </Bubble>\n      <Bubble side=\"end\">\n        <BubbleBody>\n          <BubbleContent variant=\"primary\">\n            主色气泡用于强调当前用户发出的消息。\n          </BubbleContent>\n        </BubbleBody>\n      </Bubble>\n      <Bubble>\n        <BubbleBody>\n          <BubbleContent variant=\"outline\">\n            描边气泡适合需要保留背景层级的场景。\n          </BubbleContent>\n        </BubbleBody>\n      </Bubble>\n      <Bubble>\n        <BubbleBody>\n          <BubbleContent variant=\"ghost\">\n            无表面样式可承载更长的 AI 回答或富文本内容。\n          </BubbleContent>\n        </BubbleBody>\n      </Bubble>\n    </div>\n  )\n}\n"
+}

@@ -38,6 +38,8 @@
     ]
   },
   "props": [],
+  "api": [],
+  "types": [],
   "examples": [],
   "files": [
     "registry/charts/chart-core.tsx"

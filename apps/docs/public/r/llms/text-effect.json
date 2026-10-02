@@ -31,14 +31,12 @@
       "name": "children",
       "type": "string",
       "required": true,
-      "control": "text",
       "description": "要拆分并播放动画的文本。"
     },
     {
       "name": "per",
       "type": "\"line\" | \"word\" | \"char\"",
       "required": false,
-      "control": "select",
       "options": [
         "line",
         "word",
@@ -51,7 +49,6 @@
       "name": "as",
       "type": "ElementType<any, keyof IntrinsicElements>",
       "required": false,
-      "control": "text",
       "defaultValue": "p",
       "description": "组件实际渲染的 HTML 元素。"
     },
@@ -59,7 +56,6 @@
       "name": "preset",
       "type": "\"scale\" | \"fade\" | \"blur\" | \"flip\" | \"slide\" | \"blur-sm\" | \"fade-in-blur\" | \"rise\" | \"drop\"",
       "required": false,
-      "control": "select",
       "options": [
         "scale",
         "fade",
@@ -78,14 +74,12 @@
       "name": "variants",
       "type": "{ container?: Variants; item?: Variants; } | undefined",
       "required": false,
-      "control": "text",
       "description": "自定义容器和文本片段的动画变体。"
     },
     {
       "name": "delay",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "0",
       "description": "开始揭示文本前等待的时间，单位为秒。"
     },
@@ -93,7 +87,6 @@
       "name": "trigger",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "true",
       "description": "是否显示文本。切换为 false 可隐藏文本。"
     },
@@ -101,7 +94,6 @@
       "name": "speedReveal",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "1",
       "description": "容器交错动画速度的倍率。"
     },
@@ -109,7 +101,6 @@
       "name": "speedSegment",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "1",
       "description": "每个文本片段动画速度的倍率。"
     },
@@ -117,38 +108,152 @@
       "name": "segmentWrapperClassName",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "应用于每个文本片段包装元素的额外 CSS 类名。"
     },
     {
       "name": "containerTransition",
       "type": "Transition",
       "required": false,
-      "control": "text",
       "description": "容器使用的自定义过渡动画。"
     },
     {
       "name": "segmentTransition",
       "type": "Transition",
       "required": false,
-      "control": "text",
       "description": "每个文本片段使用的自定义过渡动画。"
     },
     {
       "name": "onAnimationStart",
       "type": "(() => void)",
       "required": false,
-      "control": "text",
       "description": "文本揭示动画开始时触发。"
     },
     {
       "name": "onAnimationComplete",
       "type": "(() => void)",
       "required": false,
-      "control": "text",
       "description": "文本揭示动画完成时触发。"
     }
   ],
+  "api": [
+    {
+      "name": "TextEffect",
+      "props": [
+        {
+          "name": "children",
+          "type": "string",
+          "required": true,
+          "description": "要拆分并播放动画的文本。"
+        },
+        {
+          "name": "per",
+          "type": "\"line\" | \"word\" | \"char\"",
+          "required": false,
+          "options": [
+            "line",
+            "word",
+            "char"
+          ],
+          "defaultValue": "word",
+          "description": "文本拆分粒度：行、单词或字符。"
+        },
+        {
+          "name": "as",
+          "type": "ElementType<any, keyof IntrinsicElements>",
+          "required": false,
+          "defaultValue": "p",
+          "description": "组件实际渲染的 HTML 元素。"
+        },
+        {
+          "name": "preset",
+          "type": "\"scale\" | \"fade\" | \"blur\" | \"flip\" | \"slide\" | \"blur-sm\" | \"fade-in-blur\" | \"rise\" | \"drop\"",
+          "required": false,
+          "options": [
+            "scale",
+            "fade",
+            "blur",
+            "flip",
+            "slide",
+            "blur-sm",
+            "fade-in-blur",
+            "rise",
+            "drop"
+          ],
+          "defaultValue": "fade",
+          "description": "内置的片段入场动画。"
+        },
+        {
+          "name": "variants",
+          "type": "{ container?: Variants; item?: Variants; } | undefined",
+          "required": false,
+          "description": "自定义容器和文本片段的动画变体。"
+        },
+        {
+          "name": "delay",
+          "type": "number",
+          "required": false,
+          "defaultValue": "0",
+          "description": "开始揭示文本前等待的时间，单位为秒。"
+        },
+        {
+          "name": "trigger",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "是否显示文本。切换为 false 可隐藏文本。"
+        },
+        {
+          "name": "speedReveal",
+          "type": "number",
+          "required": false,
+          "defaultValue": "1",
+          "description": "容器交错动画速度的倍率。"
+        },
+        {
+          "name": "speedSegment",
+          "type": "number",
+          "required": false,
+          "defaultValue": "1",
+          "description": "每个文本片段动画速度的倍率。"
+        },
+        {
+          "name": "segmentWrapperClassName",
+          "type": "string",
+          "required": false,
+          "description": "应用于每个文本片段包装元素的额外 CSS 类名。"
+        },
+        {
+          "name": "containerTransition",
+          "type": "Transition",
+          "required": false,
+          "description": "容器使用的自定义过渡动画。"
+        },
+        {
+          "name": "segmentTransition",
+          "type": "Transition",
+          "required": false,
+          "description": "每个文本片段使用的自定义过渡动画。"
+        },
+        {
+          "name": "onAnimationStart",
+          "type": "(() => void)",
+          "required": false,
+          "description": "文本揭示动画开始时触发。"
+        },
+        {
+          "name": "onAnimationComplete",
+          "type": "(() => void)",
+          "required": false,
+          "description": "文本揭示动画完成时触发。"
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`TextEffect` 适用于为**关键视觉中心**赋予动感与生命力，多用于 Landing Page Hero 标题、功能上线公告卡片、AI 回答生成标题以及关键指标披露。\n\n- **克制使用原则**：动效应用来引导视线与强化核心信息，切勿在长篇正文或大段说明中使用过慢的逐字动效，以免阻碍用户快速获取信息。\n- **选择合适的拆分颗粒度**：\n  - `per=\"char\"`（字符级）：适合极短的品牌词（3~6 个单词或短中文词汇），节奏明快富有现代感。\n  - `per=\"word\"`（单词级）：最推荐的通用粒度，适合 1~2 行的 Hero 标语或特性小标题。\n  - `per=\"line\"`（行级）：适合 3 行以内的列表、诗歌式排版或分条目要点展示。\n- **与用户操作联动**：结合 `trigger` 与 `onAnimationComplete`，可以在前置动画落定后链式解锁下一阶段的交互控件（如展示操作按钮或下一段文字）。",
+  "extended": "### 动效预设\n\n组件内置了 9 种精调的动效预设，满足不同设计语言的需求，切换后点击文字可重播：\n\n- `fade-in-blur`：结合模糊消退与微量位移，极具高级感与科技质感，推荐作为产品主标题默认效果。\n- `fade`：最稳重的透明度淡入，适合严谨的企业级控制台界面。\n- `blur-sm`：高斯模糊从 4px 快速对焦至清晰，适合短促的标签与状态。\n- `scale`：轻微缩放入场，赋予文字活泼的弹跳感。\n- `slide`：纵向位移滑入，非常契合列表项与通知流。\n- `blur`：由 12px 强模糊对焦到清晰，适合沉浸式首屏标语。\n- `rise` / `drop`：逐字从下方弹起或从上方落下，位移以 em 计算，随字号自动缩放。\n- `flip`：沿 X 轴翻转立起，带透视，适合品牌字与大标题。\n\n### 拆分颗粒度比较\n\n通过 `per` 属性控制文本拆分为字符、单词或换行片段：\n\n### 自定义 Motion 动画变体\n\n如果你需要更具冲击力的 3D 翻转、弹性阻尼或非线性路径，可以通过 `variants` 属性传入自定义的容器与片段配置：\n\n```tsx\nconst customVariants = {\n  container: {\n    hidden: {},\n    visible: { transition: { staggerChildren: 0.06, delayChildren: 0.1 } },\n  },\n  item: {\n    hidden: { opacity: 0, y: 24, rotateX: -60, filter: \"blur(6px)\" },\n    visible: {\n      opacity: 1,\n      y: 0,\n      rotateX: 0,\n      filter: \"blur(0px)\",\n      transition: { type: \"spring\", stiffness: 260, damping: 20 },\n    },\n  },\n}\n\nexport function CustomTypography() {\n  return (\n    <TextEffect per=\"char\" variants={customVariants} className=\"[perspective:800px]\">\n      向光而行\n    </TextEffect>\n  )\n}\n```\n\n### 业务卡片级联入场\n\n模拟 AI 摘要的逐层呈现：标题、正文与待办依次通过 `delay` 编排入场，最后一段在 `onAnimationComplete` 中切换底部状态：",
+  "events": "- `onAnimationStart`: () => void — 整段入场动画开始播放时触发的回调函数。\n- `onAnimationComplete`: () => void — 所有拆分片段的动画全部完成并落定后触发的回调函数。",
+  "accessibility": "- **屏幕阅读器友好**：组件内部渲染一份视觉隐藏（`sr-only`）的完整文本，拆分出的 `motion.span` 片段统一标记为 `aria-hidden=\"true\"`（相比在 `p` 等元素上使用 `aria-label` 兼容性更好）。辅助技术（如 VoiceOver、NVDA）将把整段文字作为连续完整的语义块一次性朗读，避免了屏幕阅读器逐字逐字母中断朗读的问题。\n- **系统减少动态偏好（Reduced Motion）**：组件内置集成 `useReducedMotion()`。当操作系统开启“减少动态效果（prefers-reduced-motion）”时，组件保持与服务端一致的结构，但取消交错与过渡时长，文字直接以最终状态呈现，确保低视力及前庭觉敏感用户的舒适体验。\n- **语义化标签渲染**：通过 `as` 属性指定语义 HTML 标签（如 `h1`, `h2`, `p`, `span`），确保页面大纲结构（Outline Hierarchy）对搜索引擎与读屏工具保持准确。",
   "examples": [
     {
       "name": "text-effect-demo",

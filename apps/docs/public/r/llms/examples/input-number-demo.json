@@ -1,0 +1,6 @@
+{
+  "name": "input-number-demo",
+  "component": "input-number",
+  "title": "基础用法",
+  "code": "\"use client\"\n\nimport * as React from \"react\"\nimport { ShoppingCart } from \"lucide-react\"\n\nimport { InputNumber } from \"@/components/ui/input-number\"\n\nexport default function InputNumberDemo() {\n  const [quantity, setQuantity] = React.useState<number | null>(2)\n\n  return (\n    <div className=\"grid w-full max-w-xs gap-2\">\n      <label htmlFor=\"quantity-input\" className=\"text-sm font-medium text-foreground flex items-center gap-1.5\">\n        <ShoppingCart className=\"size-4 text-muted-foreground\" />\n        <span>选购商品数量</span>\n      </label>\n      <InputNumber\n        id=\"quantity-input\"\n        value={quantity}\n        onValueChange={setQuantity}\n        min={1}\n        max={10}\n        step={1}\n      />\n      <p className=\"text-xs text-muted-foreground\">\n        单次限购 1–10 件，当前选择：<span className=\"font-semibold text-foreground\">{quantity ?? 0}</span> 件\n      </p>\n    </div>\n  )\n}\n"
+}

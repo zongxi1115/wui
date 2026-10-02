@@ -1,0 +1,6 @@
+{
+  "name": "scroll-sequence-story",
+  "component": "scroll-sequence",
+  "title": "数字叙事",
+  "code": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { ScrollSequence } from \"@/components/ui/scroll-sequence\"\n\nconst chapters = [\n  { value: \"3 人\", label: \"2023 年，我们在一间咖啡馆里写下第一行代码。\" },\n  { value: \"1.2 万\", label: \"第二年，第一批团队把工作流搬了进来。\" },\n  { value: \"18 万\", label: \"今天，每周有 18 万人在这里完成他们的工作。\" },\n]\n\nexport default function ScrollSequenceStory() {\n  const container = React.useRef<HTMLDivElement>(null)\n\n  return (\n    <div\n      ref={container}\n      className=\"h-[22rem] w-full overflow-y-auto rounded-b-lg\"\n    >\n      <ScrollSequence\n        container={container}\n        effect=\"blur\"\n        stepLength={0.9}\n        stepClassName=\"flex items-center justify-center px-6 pb-8\"\n      >\n        {chapters.map((chapter) => (\n          <div key={chapter.value} className=\"max-w-sm text-center\">\n            <p className=\"text-6xl font-semibold tracking-tight tabular-nums\">\n              {chapter.value}\n            </p>\n            <p className=\"text-muted-foreground mt-4 text-sm leading-6\">\n              {chapter.label}\n            </p>\n          </div>\n        ))}\n      </ScrollSequence>\n    </div>\n  )\n}\n"
+}

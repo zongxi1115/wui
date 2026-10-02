@@ -28,14 +28,12 @@
       "name": "children",
       "type": "ReactNode",
       "required": true,
-      "control": "text",
       "description": "同时用于离场和入场图层的内容。"
     },
     {
       "name": "direction",
       "type": "\"up\" | \"down\"",
       "required": false,
-      "control": "select",
       "options": [
         "up",
         "down"
@@ -47,7 +45,6 @@
       "name": "trigger",
       "type": "\"hover\" | \"parent\"",
       "required": false,
-      "control": "select",
       "options": [
         "hover",
         "parent"
@@ -59,18 +56,69 @@
       "name": "active",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "description": "是否从组件外部强制切换到交换状态。"
     },
     {
       "name": "transition",
       "type": "Transition",
       "required": false,
-      "control": "text",
       "defaultValue": "{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }",
       "description": "两个内容图层共用的过渡动画。"
     }
   ],
+  "api": [
+    {
+      "name": "SlideSwap",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": true,
+          "description": "同时用于离场和入场图层的内容。"
+        },
+        {
+          "name": "direction",
+          "type": "\"up\" | \"down\"",
+          "required": false,
+          "options": [
+            "up",
+            "down"
+          ],
+          "defaultValue": "up",
+          "description": "当前可见图层离场的方向。"
+        },
+        {
+          "name": "trigger",
+          "type": "\"hover\" | \"parent\"",
+          "required": false,
+          "options": [
+            "hover",
+            "parent"
+          ],
+          "defaultValue": "hover",
+          "description": "触发切换的方式。hover 监听组件自身；parent 监听最近的链接或按钮，悬停整个控件或键盘聚焦时都会播放。"
+        },
+        {
+          "name": "active",
+          "type": "boolean",
+          "required": false,
+          "description": "是否从组件外部强制切换到交换状态。"
+        },
+        {
+          "name": "transition",
+          "type": "Transition",
+          "required": false,
+          "defaultValue": "{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }",
+          "description": "两个内容图层共用的过渡动画。"
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`SlideSwap` 适用于**核心 CTA 操作按钮、发布公告药丸徽章、导航链接悬停态**：\n\n- **精致的高级微动效**：相比于生硬的背景变色，垂直滚动推挤文字能给界面带来极具动感的现代交互质感。\n- **自动克隆第二层**：无需开发者在代码中重复编写两遍相同的文字 JSX，组件内部自动克隆渲染并完成绝对定位。",
+  "extended": "### 多形态按钮组合\n\n在主按钮、描边按钮与幽灵按钮上使用不同方向的滑动替换。`trigger=\"parent\"` 让整个按钮（包括内边距）都能触发，键盘聚焦同样有效：\n\n### 顶部通知药丸徽章\n\n悬停或聚焦公告徽章时，文案整体向上替换一次，提示这是可点击的入口：",
+  "events": "- `onPointerEnter`: (event: React.PointerEvent) => void — 光标移入触发滑动替换时调用。\n- `onPointerLeave`: (event: React.PointerEvent) => void — 光标移出恢复原始位置时调用。",
+  "accessibility": "- **克隆图层惰性（inert）**：自动克隆生成的第二层文本节点默认添加 `aria-hidden=\"true\"` 和 `inert`，屏幕阅读器仅会朗读一次真实内容。\n- **键盘可达**：`trigger=\"parent\"` 时同时监听父级的 `focusin` / `focusout`，仅在 `:focus-visible` 状态下播放，鼠标点击不会误触发。\n- **动效减弱适配**：当用户开启 `prefers-reduced-motion: reduce` 时，滑动位移距离强制重置为 0，不再发生位移晃动。",
   "examples": [
     {
       "name": "slide-swap-demo",

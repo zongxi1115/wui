@@ -29,49 +29,42 @@
       "name": "title",
       "type": "ReactNode",
       "required": true,
-      "control": "text",
       "description": "图表标题。"
     },
     {
       "name": "description",
       "type": "ReactNode",
       "required": false,
-      "control": "text",
       "description": "补充说明或副标题。"
     },
     {
       "name": "actions",
       "type": "ReactNode",
       "required": false,
-      "control": "text",
       "description": "标题右侧操作区。"
     },
     {
       "name": "data",
       "type": "HeatmapDatum[]",
       "required": true,
-      "control": "text",
       "description": "日历热力图数据列表。"
     },
     {
       "name": "startDate",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "开始日期；未传时自动使用数据最早日期或前半年。"
     },
     {
       "name": "endDate",
       "type": "string",
       "required": false,
-      "control": "text",
       "description": "结束日期；未传时自动使用数据最晚日期或当天。"
     },
     {
       "name": "cellSize",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "12",
       "description": "格子尺寸（像素）。"
     },
@@ -79,7 +72,6 @@
       "name": "cellGap",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "3",
       "description": "格子间距（像素）。"
     },
@@ -87,7 +79,6 @@
       "name": "cellRadius",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "2",
       "description": "格子圆角半径（像素）。"
     },
@@ -95,7 +86,6 @@
       "name": "showWeekdayLabels",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "true",
       "description": "是否展示星期标签（如 Mon, Wed, Fri）。"
     },
@@ -103,7 +93,6 @@
       "name": "showMonthLabels",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "true",
       "description": "是否展示顶部月份标签。"
     },
@@ -111,11 +100,104 @@
       "name": "valueFormatter",
       "type": "((value: number, date: string) => ReactNode)",
       "required": false,
-      "control": "text",
       "defaultValue": "(val, date) => `${val} 次活动 · ${date}`",
       "description": "自定义数值展示文案。"
     }
   ],
+  "api": [
+    {
+      "name": "Heatmap",
+      "props": [
+        {
+          "name": "title",
+          "type": "ReactNode",
+          "required": true,
+          "description": "图表标题。"
+        },
+        {
+          "name": "description",
+          "type": "ReactNode",
+          "required": false,
+          "description": "补充说明或副标题。"
+        },
+        {
+          "name": "actions",
+          "type": "ReactNode",
+          "required": false,
+          "description": "标题右侧操作区。"
+        },
+        {
+          "name": "data",
+          "type": "HeatmapDatum[]",
+          "required": true,
+          "description": "日历热力图数据列表。"
+        },
+        {
+          "name": "startDate",
+          "type": "string",
+          "required": false,
+          "description": "开始日期；未传时自动使用数据最早日期或前半年。"
+        },
+        {
+          "name": "endDate",
+          "type": "string",
+          "required": false,
+          "description": "结束日期；未传时自动使用数据最晚日期或当天。"
+        },
+        {
+          "name": "cellSize",
+          "type": "number",
+          "required": false,
+          "defaultValue": "12",
+          "description": "格子尺寸（像素）。"
+        },
+        {
+          "name": "cellGap",
+          "type": "number",
+          "required": false,
+          "defaultValue": "3",
+          "description": "格子间距（像素）。"
+        },
+        {
+          "name": "cellRadius",
+          "type": "number",
+          "required": false,
+          "defaultValue": "2",
+          "description": "格子圆角半径（像素）。"
+        },
+        {
+          "name": "showWeekdayLabels",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "是否展示星期标签（如 Mon, Wed, Fri）。"
+        },
+        {
+          "name": "showMonthLabels",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "是否展示顶部月份标签。"
+        },
+        {
+          "name": "valueFormatter",
+          "type": "((value: number, date: string) => ReactNode)",
+          "required": false,
+          "defaultValue": "(val, date) => `${val} 次活动 · ${date}`",
+          "description": "自定义数值展示文案。"
+        }
+      ]
+    }
+  ],
+  "types": [
+    {
+      "name": "HeatmapDatum",
+      "definition": "export interface HeatmapDatum {\r\n  /** 日期字符串（形如 \"2026-03-01\"）。 */\r\n  date: string\r\n  /** 对应的数值或活跃度计数值。 */\r\n  value: number\r\n}"
+    }
+  ],
+  "usage": "`Heatmap` 将时间轴折叠为星期×周次网格，利用颜色深浅映射活动频次或数值密度。\n\n### 适用场景\n- **用户活跃度与贡献记录**：代码提交记录、学习打卡天数、用户每日登录频率。\n- **监控与异常分布**：接口调用错误频次按日分布、系统告警时间点聚集分析。\n- **支持横向自适应滚动**：在窄屏视口中优雅横向滚动，兼顾整洁与信息密度。\n\n### 何时不建议使用\n- 如果需要观察连续的多指标波动趋势，建议使用折线图（`LineChart`）或时间序列图（`TimeSeriesChart`）。",
+  "extended": "可通过 `cellSize`、`cellGap` 与 `cellRadius` 灵活调整格子大小与圆角风格。",
+  "events": "- 鼠标悬停任意日期格子触发 `ChartTooltip` 详情提示。",
   "examples": [
     {
       "name": "heatmap-demo",

@@ -7,26 +7,31 @@
  *                                  consumed by <PropsTable> and <Playground>.
  *   registry/__props__.json      — the same map as plain data, consumed by
  *                                  scripts/build-llms.mts (no TS parsing needed).
+ *   registry/__api__.json        — every component export's API, including
+ *                                  Radix behavior props and related data types.
  *   registry/__playground__.tsx  — name -> component, for the live playground.
  *
- * Uses react-docgen-typescript, filtering out inherited DOM props so only the
- * component's own (documented) props surface.
+ * Uses one TypeScript program for docgen and referenced-type extraction.
+ * Playground props stay compact; MCP preserves composite component APIs.
  */
 import { promises as fs } from "node:fs"
 import path from "node:path"
 import * as docgen from "react-docgen-typescript"
+import ts from "typescript"
+import type {
+  ComponentApi,
+  PropMeta,
+  TypeDefinition,
+} from "@wui-design/mcp/core"
 import { getPropDescription } from "../lib/prop-descriptions"
+import { standalonePlaygroundConfigs } from "../lib/playground-standalone"
+import { buildDemoPlaygrounds } from "./build-playgrounds.mts"
 
 const ROOT = process.cwd() // apps/docs
 const REGISTRY_JSON = path.join(ROOT, "registry.json")
 const PROPS_FILE = path.join(ROOT, "registry", "__props__.ts")
 const PROPS_JSON_FILE = path.join(ROOT, "registry", "__props__.json")
-const PLAYGROUND_FILE = path.join(ROOT, "registry", "__playground__.tsx")
-
-// Components exposed in the interactive playground (must render standalone).
-const PLAYGROUND: Array<{ name: string; file: string; export: string }> = [
-  { name: "button", file: "registry/ui/button.tsx", export: "Button" },
-]
+const API_JSON_FILE = path.join(ROOT, "registry", "__api__.json")
 
 async function writeFileIfChanged(file: string, content: string) {
   try {
@@ -126,21 +131,39 @@ const DOM_GLOBALS = new Set([
   "value",
 ])
 
+function playgroundProp(prop: docgen.PropItem): boolean {
+  if (prop.name === "disabled") return true
+  if (prop.parent?.fileName.includes("node_modules")) return false
+  const documented = (prop.description ?? "").trim().length > 0
+  return documented || !(DOMISH.test(prop.name) || DOM_GLOBALS.has(prop.name))
+}
+
+function apiProp(prop: docgen.PropItem): boolean {
+  const declarations = prop.declarations ?? (prop.parent ? [prop.parent] : [])
+  // Radix behavior props are API, even when inherited and undocumented.
+  if (
+    declarations.some((d) => /[/\\](@radix-ui|radix-ui)[/\\]/.test(d.fileName))
+  )
+    return true
+  if (prop.required) return true
+  // Locally declared callbacks are not necessarily DOM event handlers.
+  if (
+    /^on[A-Z]/.test(prop.name) &&
+    !/EventHandler</.test(prop.type.name) &&
+    declarations.some((d) => !d.fileName.includes("node_modules"))
+  )
+    return true
+  return playgroundProp(prop)
+}
+
 const parser = docgen.withCustomConfig(path.join(ROOT, "tsconfig.json"), {
   savePropValueAsString: true,
   shouldExtractLiteralValuesFromEnum: true,
   shouldRemoveUndefinedFromOptional: true,
-  propFilter: (prop) => {
-    if (prop.name === "disabled") return true // keep this useful native prop
-    // Hard-drop anything whose declaration lives in a dependency.
-    if (prop.parent?.fileName.includes("node_modules")) return false
-    const documented = (prop.description ?? "").trim().length > 0
-    // Drop undocumented DOM/aria/event noise (mis-attributed inherited props).
-    if (!documented && (DOMISH.test(prop.name) || DOM_GLOBALS.has(prop.name))) {
-      return false
-    }
-    return true
-  },
+  skipChildrenPropWithoutDoc: false,
+  componentNameResolver: (symbol) => symbol.getName(),
+  // Keep raw metadata; the playground and MCP have different API needs.
+  propFilter: () => true,
 })
 
 type Control = "select" | "boolean" | "text" | "number"
@@ -170,7 +193,74 @@ function deriveControl(prop: docgen.PropItem): {
       }
     }
   }
-  return { control: "text", type: t.name }
+  return {
+    control: "text",
+    type: t.name === "enum" ? (t.raw ?? t.name) : t.name,
+  }
+}
+
+function apiMeta(itemName: string, prop: docgen.PropItem): PropMeta {
+  const derived = deriveControl(prop)
+  const description = getPropDescription(itemName, prop.name, prop.description)
+  const defaultValue = prop.defaultValue?.value
+  return {
+    name: prop.name,
+    type: derived.type,
+    required: Boolean(prop.required),
+    ...(derived.options ? { options: derived.options } : {}),
+    ...(defaultValue != null ? { defaultValue: String(defaultValue) } : {}),
+    ...(description ? { description } : {}),
+  }
+}
+
+/** Resolve locally owned data types referenced by props, including imports. */
+function referencedTypes(
+  program: ts.Program,
+  file: ts.SourceFile,
+  api: ComponentApi[]
+): TypeDefinition[] {
+  const checker = program.getTypeChecker()
+  const result = new Map<ts.Symbol, TypeDefinition>()
+  const registryDir = path.join(ROOT, "registry") + path.sep
+  function visitSymbol(symbol: ts.Symbol) {
+    if (symbol.flags & ts.SymbolFlags.Alias)
+      symbol = checker.getAliasedSymbol(symbol)
+    if (result.has(symbol)) return
+    const declarations = (symbol.declarations ?? []).filter(
+      (d) =>
+        (ts.isInterfaceDeclaration(d) || ts.isTypeAliasDeclaration(d)) &&
+        path.resolve(d.getSourceFile().fileName).startsWith(registryDir)
+    )
+    if (!declarations.length) return
+    result.set(symbol, {
+      name: symbol.name,
+      definition: declarations.map((d) => d.getText()).join("\n"),
+    })
+    function visit(node: ts.Node) {
+      if (ts.isTypeReferenceNode(node)) {
+        const target = checker.getSymbolAtLocation(node.typeName)
+        if (target) visitSymbol(target)
+      }
+      if (ts.isExpressionWithTypeArguments(node)) {
+        const target = checker.getSymbolAtLocation(node.expression)
+        if (target) visitSymbol(target)
+      }
+      ts.forEachChild(node, visit)
+    }
+    declarations.forEach((d) => ts.forEachChild(d, visit))
+  }
+  const names = new Set(
+    api.flatMap((part) =>
+      part.props.flatMap((p) => p.type.match(/[A-Za-z_$][\w$]*/g) ?? [])
+    )
+  )
+  for (const symbol of checker.getSymbolsInScope(
+    file,
+    ts.SymbolFlags.Type | ts.SymbolFlags.Alias
+  )) {
+    if (names.has(symbol.name)) visitSymbol(symbol)
+  }
+  return [...result.values()]
 }
 
 async function main() {
@@ -187,9 +277,46 @@ async function main() {
       (item.type === "registry:ui" || item.type === "registry:component")
   )
 
-  const files = items.map((item) => path.join(ROOT, item.files[0].path))
+  const playgroundItems = [...items]
+  for (const folder of ["components", "charts"]) {
+    for (const file of (
+      await fs.readdir(path.join(ROOT, "content/docs", folder))
+    ).filter((file) => file.endsWith(".mdx"))) {
+      const mdx = await fs.readFile(
+        path.join(ROOT, "content/docs", folder, file),
+        "utf8"
+      )
+      const name = /^component:\s*(.+)$/m.exec(mdx)?.[1].trim()
+      if (name && !playgroundItems.some((item) => item.name === name)) {
+        playgroundItems.push({
+          name,
+          type: "registry:ui",
+          files: [
+            {
+              path: `registry/${folder === "charts" ? "charts" : "ui"}/${name}.tsx`,
+            },
+          ],
+        })
+      }
+    }
+  }
+  const files = playgroundItems.map((item) =>
+    path.join(ROOT, item.files[0].path)
+  )
+  const configPath = path.join(ROOT, "tsconfig.json")
+  const config = ts.readConfigFile(configPath, ts.sys.readFile)
+  if (config.error)
+    throw new Error(
+      ts.flattenDiagnosticMessageText(config.error.messageText, "\n")
+    )
+  const parsedConfig = ts.parseJsonConfigFileContent(
+    config.config,
+    ts.sys,
+    ROOT
+  )
+  const program = ts.createProgram(files, parsedConfig.options)
   const docsByFile = new Map<string, docgen.ComponentDoc[]>()
-  for (const doc of parser.parse(files)) {
+  for (const doc of parser.parseWithProgramProvider(files, () => program)) {
     const file = path.resolve(doc.filePath)
     const docs = docsByFile.get(file) ?? []
     docs.push(doc)
@@ -197,6 +324,10 @@ async function main() {
   }
 
   const propsMap: Record<string, unknown[]> = {}
+  const apiMap: Record<
+    string,
+    { api: ComponentApi[]; types: TypeDefinition[] }
+  > = {}
   const descriptionIssues: string[] = []
   for (const [index, item] of items.entries()) {
     const docs = docsByFile.get(path.resolve(files[index])) ?? []
@@ -204,24 +335,44 @@ async function main() {
 
     const exportName = pascalCase(item.name)
     const doc = docs.find((d) => d.displayName === exportName) ?? docs[0]
-    const props = Object.values(doc.props).map((prop) => {
-      const derived = deriveControl(prop)
-      const meta: Record<string, unknown> = {
-        name: prop.name,
-        type: derived.type,
-        required: Boolean(prop.required),
-        control: derived.control,
-      }
-      if (derived.options) meta.options = derived.options
-      const dv = prop.defaultValue?.value
-      if (dv != null && String(dv) !== "") meta.defaultValue = String(dv)
-      const desc = getPropDescription(item.name, prop.name, prop.description)
-      if (desc) meta.description = desc
-      if (!desc || !/\p{Script=Han}/u.test(desc)) {
-        descriptionIssues.push(`${item.name}.${prop.name}`)
-      }
-      return meta
-    })
+    // docgen also treats utility functions as components (e.g. parseColorValue
+    // gets every String method as a prop). JSX component exports are capitalized.
+    const api = docs
+      .filter((part) => /^[A-Z]/.test(part.displayName))
+      .map((part) => ({
+        name: part.displayName,
+        props: Object.values(part.props)
+          .filter(apiProp)
+          .map((prop) => apiMeta(item.name, prop)),
+      }))
+    apiMap[item.name] = {
+      api,
+      types: referencedTypes(
+        program,
+        program.getSourceFile(files[index])!,
+        api
+      ),
+    }
+    const props = Object.values(doc.props)
+      .filter(playgroundProp)
+      .map((prop) => {
+        const derived = deriveControl(prop)
+        const meta: Record<string, unknown> = {
+          name: prop.name,
+          type: derived.type,
+          required: Boolean(prop.required),
+          control: derived.control,
+        }
+        if (derived.options) meta.options = derived.options
+        const dv = prop.defaultValue?.value
+        if (dv != null && String(dv) !== "") meta.defaultValue = String(dv)
+        const desc = getPropDescription(item.name, prop.name, prop.description)
+        if (desc) meta.description = desc
+        if (!desc || !/\p{Script=Han}/u.test(desc)) {
+          descriptionIssues.push(`${item.name}.${prop.name}`)
+        }
+        return meta
+      })
     propsMap[item.name] = props
   }
 
@@ -251,22 +402,19 @@ async function main() {
     PROPS_JSON_FILE,
     JSON.stringify(propsMap, null, 2) + "\n"
   )
-
-  const imports = PLAYGROUND.map(
-    (p) => `import { ${p.export} } from "@/${p.file.replace(/\.tsx?$/, "")}"`
-  ).join("\n")
-  const entries = PLAYGROUND.map((p) => `  "${p.name}": ${p.export},`).join(
-    "\n"
+  await writeFileIfChanged(
+    API_JSON_FILE,
+    JSON.stringify(apiMap, null, 2) + "\n"
   )
-  const playgroundContent =
-    banner +
-    `import type * as React from "react"\n${imports}\n\n` +
-    `// eslint-disable-next-line @typescript-eslint/no-explicit-any\n` +
-    `export const Playgrounds: Record<string, React.ComponentType<any>> = {\n${entries}\n}\n`
-  await writeFileIfChanged(PLAYGROUND_FILE, playgroundContent)
+
+  const playgroundCount = await buildDemoPlaygrounds(
+    docsByFile,
+    playgroundItems,
+    standalonePlaygroundConfigs
+  )
 
   console.log(
-    `✓ docgen: props for ${Object.keys(propsMap).length} component(s), ${PLAYGROUND.length} playground entry(ies)`
+    `✓ docgen: props for ${Object.keys(propsMap).length} component(s), ${playgroundCount} playground entry(ies)`
   )
 }
 

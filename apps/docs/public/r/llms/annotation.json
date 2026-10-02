@@ -87,6 +87,137 @@
       "description": "是否只在内容第一次进入视口时高亮。"
     }
   ],
+  "api": [
+    {
+      "name": "AnnotationHighlight",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": true,
+          "description": "显示在标注线条上方的行内内容。"
+        },
+        {
+          "name": "variant",
+          "type": "\"smooth\" | \"rough\"",
+          "required": false,
+          "options": [
+            "smooth",
+            "rough"
+          ],
+          "defaultValue": "smooth",
+          "description": "标注线条的形状。"
+        },
+        {
+          "name": "color",
+          "type": "string",
+          "required": false,
+          "defaultValue": "oklch(0.88 0.16 92 / 0.58)",
+          "description": "标注线条的颜色。"
+        },
+        {
+          "name": "duration",
+          "type": "number",
+          "required": false,
+          "defaultValue": "0.65",
+          "description": "线条扫过内容一次所需的时间，单位为秒。"
+        },
+        {
+          "name": "delay",
+          "type": "number",
+          "required": false,
+          "defaultValue": "0",
+          "description": "开始高亮前等待的时间，单位为秒。"
+        },
+        {
+          "name": "inView",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "是否在内容进入视口时开始高亮。"
+        },
+        {
+          "name": "once",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "是否只在内容第一次进入视口时高亮。"
+        }
+      ]
+    },
+    {
+      "name": "AnnotationPath",
+      "props": [
+        {
+          "name": "path",
+          "type": "string",
+          "required": false,
+          "defaultValue": "M5 70C35 70 30 17 72 22C108 26 112 61 154 10",
+          "description": "SVG path data to draw."
+        },
+        {
+          "name": "color",
+          "type": "string",
+          "required": false,
+          "defaultValue": "currentColor",
+          "description": "标注线条的颜色。"
+        },
+        {
+          "name": "strokeWidth",
+          "type": "number",
+          "required": false,
+          "defaultValue": "3",
+          "description": "Stroke width in viewBox units."
+        },
+        {
+          "name": "arrow",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "Add an arrowhead after the path finishes drawing."
+        },
+        {
+          "name": "duration",
+          "type": "number",
+          "required": false,
+          "defaultValue": "0.8",
+          "description": "线条扫过内容一次所需的时间，单位为秒。"
+        },
+        {
+          "name": "delay",
+          "type": "number",
+          "required": false,
+          "defaultValue": "0",
+          "description": "开始高亮前等待的时间，单位为秒。"
+        },
+        {
+          "name": "inView",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "是否在内容进入视口时开始高亮。"
+        },
+        {
+          "name": "once",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "是否只在内容第一次进入视口时高亮。"
+        },
+        {
+          "name": "pathProps",
+          "type": "Omit<SVGMotionProps<SVGPathElement>, \"d\">",
+          "required": false,
+          "description": "Additional props forwarded to the animated path element."
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`Annotation` 适用于**营销主标题强调、表单指引引导、核心数据圈注、操作引导提示**：\n\n- **聚焦重点而非通篇标注**：每屏建议只放置 1 ~ 2 处批注或高亮，过多的手绘元素反而会分散用户的视觉焦点。\n- **与上下文语义相符**：荧光笔高亮通常用于正向关键卖点；箭头优先使用 `var(--muted-foreground)` 等中性色，只有需要强烈提醒时才使用 `var(--destructive)` 等语义色。",
+  "extended": "### 荧光笔变体\n\n`smooth` 为平整的荧光笔，`rough` 为双层手绘笔触。颜色可以直接用主题令牌与 `color-mix` 调出半透明底色，亮暗模式自动适配：\n\n### 路径形状\n\n同一个 `AnnotationPath` 通过不同的 `path` 与 `arrow` 组合出引导箭头、圈选与手绘下划线：\n\n### 引导发布操作按钮\n\n手绘箭头从说明文字指向发布按钮：",
+  "events": "- `onAnimationComplete`: () => void — 当路径绘制或高亮扫掠动画结束时触发。",
+  "accessibility": "- **文本选区与朗读无阻碍**：高亮笔触位于文字底层（`z-0`），文字始终保持在最顶层（`z-10`），用户可以正常选中并复制文字。\n- **动态效果减弱**：在 `prefers-reduced-motion: reduce` 下，路径与笔触以零时长直接呈现完整形态，跳过 pathLength 描绘过程；初始结构与服务端保持一致，不会产生水合差异。",
   "examples": [
     {
       "name": "annotation-demo",

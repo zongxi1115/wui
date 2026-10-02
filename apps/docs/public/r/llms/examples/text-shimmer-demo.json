@@ -1,0 +1,6 @@
+{
+  "name": "text-shimmer-demo",
+  "component": "text-shimmer",
+  "title": "基础用法",
+  "code": "import { TextShimmer } from \"@/components/ui/text-shimmer\"\n\nexport default function TextShimmerDemo() {\n  return (\n    <TextShimmer duration={1.8} className=\"text-base font-medium\">\n      正在检索知识库并生成回答…\n    </TextShimmer>\n  )\n}\n"
+}

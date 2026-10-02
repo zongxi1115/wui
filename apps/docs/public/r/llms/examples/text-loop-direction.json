@@ -1,0 +1,6 @@
+{
+  "name": "text-loop-direction",
+  "component": "text-loop",
+  "title": "运动方向",
+  "code": "import { TextLoop } from \"@/components/ui/text-loop\"\n\nconst stages = [\"排队中\", \"构建中\", \"测试中\", \"灰度发布\", \"已上线\"]\n\nexport default function TextLoopDirection() {\n  return (\n    <dl className=\"w-full max-w-sm divide-y border-y text-sm\">\n      <div className=\"flex items-center justify-between py-3\">\n        <dt className=\"text-muted-foreground\">\n          <code className=\"text-xs\">direction=&quot;up&quot;</code>\n        </dt>\n        <dd className=\"font-medium\">\n          <TextLoop direction=\"up\" interval={1.6}>\n            {stages.map((stage) => (\n              <span key={stage}>{stage}</span>\n            ))}\n          </TextLoop>\n        </dd>\n      </div>\n      <div className=\"flex items-center justify-between py-3\">\n        <dt className=\"text-muted-foreground\">\n          <code className=\"text-xs\">direction=&quot;down&quot;</code>\n        </dt>\n        <dd className=\"font-medium\">\n          <TextLoop direction=\"down\" interval={1.6}>\n            {[...stages].reverse().map((stage) => (\n              <span key={stage}>{stage}</span>\n            ))}\n          </TextLoop>\n        </dd>\n      </div>\n    </dl>\n  )\n}\n"
+}

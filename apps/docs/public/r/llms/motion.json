@@ -30,7 +30,6 @@
       "name": "preset",
       "type": "\"pop\" | \"scale\" | \"fade\" | \"slide-up\" | \"slide-down\" | \"slide-left\" | \"slide-right\" | \"blur\" | \"blur-up\" | \"zoom-in\" | \"zoom-out\" | \"flip\"",
       "required": false,
-      "control": "select",
       "options": [
         "pop",
         "scale",
@@ -52,7 +51,6 @@
       "name": "transition",
       "type": "Transition | \"smooth\" | \"spring\" | \"snappy\" | \"gentle\" | \"bouncy\"",
       "required": false,
-      "control": "text",
       "defaultValue": "\"smooth\"",
       "description": "预设过渡动画，或自定义的 Motion Transition 配置。"
     },
@@ -60,14 +58,12 @@
       "name": "delay",
       "type": "number",
       "required": false,
-      "control": "number",
       "description": "开始播放动画前等待的时间，单位为秒。"
     },
     {
       "name": "inView",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "false",
       "description": "是否在内容进入视口时播放动画，而不是挂载后立即播放。"
     },
@@ -75,7 +71,6 @@
       "name": "once",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "true",
       "description": "是否只在内容第一次进入视口时播放动画。"
     },
@@ -83,11 +78,143 @@
       "name": "asChild",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "false",
       "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
     }
   ],
+  "api": [
+    {
+      "name": "Motion",
+      "props": [
+        {
+          "name": "preset",
+          "type": "\"pop\" | \"scale\" | \"fade\" | \"slide-up\" | \"slide-down\" | \"slide-left\" | \"slide-right\" | \"blur\" | \"blur-up\" | \"zoom-in\" | \"zoom-out\" | \"flip\"",
+          "required": false,
+          "options": [
+            "pop",
+            "scale",
+            "fade",
+            "slide-up",
+            "slide-down",
+            "slide-left",
+            "slide-right",
+            "blur",
+            "blur-up",
+            "zoom-in",
+            "zoom-out",
+            "flip"
+          ],
+          "defaultValue": "\"fade\"",
+          "description": "入场动画的预设名称。"
+        },
+        {
+          "name": "transition",
+          "type": "Transition | \"smooth\" | \"spring\" | \"snappy\" | \"gentle\" | \"bouncy\"",
+          "required": false,
+          "defaultValue": "\"smooth\"",
+          "description": "预设过渡动画，或自定义的 Motion Transition 配置。"
+        },
+        {
+          "name": "delay",
+          "type": "number",
+          "required": false,
+          "description": "开始播放动画前等待的时间，单位为秒。"
+        },
+        {
+          "name": "inView",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "是否在内容进入视口时播放动画，而不是挂载后立即播放。"
+        },
+        {
+          "name": "once",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "是否只在内容第一次进入视口时播放动画。"
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
+        }
+      ]
+    },
+    {
+      "name": "MotionGroup",
+      "props": [
+        {
+          "name": "stagger",
+          "type": "number",
+          "required": false,
+          "defaultValue": "0.06",
+          "description": "Seconds between each child `Motion` starting."
+        },
+        {
+          "name": "delay",
+          "type": "number",
+          "required": false,
+          "defaultValue": "0",
+          "description": "开始播放动画前等待的时间，单位为秒。"
+        },
+        {
+          "name": "preset",
+          "type": "\"pop\" | \"scale\" | \"fade\" | \"slide-up\" | \"slide-down\" | \"slide-left\" | \"slide-right\" | \"blur\" | \"blur-up\" | \"zoom-in\" | \"zoom-out\" | \"flip\"",
+          "required": false,
+          "options": [
+            "pop",
+            "scale",
+            "fade",
+            "slide-up",
+            "slide-down",
+            "slide-left",
+            "slide-right",
+            "blur",
+            "blur-up",
+            "zoom-in",
+            "zoom-out",
+            "flip"
+          ],
+          "description": "入场动画的预设名称。"
+        },
+        {
+          "name": "transition",
+          "type": "Transition | \"smooth\" | \"spring\" | \"snappy\" | \"gentle\" | \"bouncy\"",
+          "required": false,
+          "description": "预设过渡动画，或自定义的 Motion Transition 配置。"
+        },
+        {
+          "name": "inView",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "是否在内容进入视口时播放动画，而不是挂载后立即播放。"
+        },
+        {
+          "name": "once",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "是否只在内容第一次进入视口时播放动画。"
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "是否将组件渲染为唯一的子元素，并将组件的属性和事件传递给该子元素。"
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`Motion` 旨在为应用提供**统一且可控**的微动效系统，避免各页面各组件中随意编写杂乱生硬的 CSS Keyframes。\n\n- **按需增强与体验克制**：\n  - 入场动效应该“润物细无声”，推荐位移距离控制在 `12px` 以内、时长控制在 `200ms~400ms` 之间。\n  - 避免在用户高频操作（如快速切换 Tab、表格分页切换）中加入冗长动效，这会增加用户的等待感知。\n- **交错动画（Staggering）**：\n  - 渲染列表、数据卡片网格或时间线时，用 `MotionGroup` 包裹各项 `Motion`，由分组统一设置间隔与预设，营造有秩序感的连贯登场。\n- **DOM 结构精简**：\n  - 当需要给现有组件（如 `Button`、`Card`）增加入场动效时，优先使用 `asChild` 属性，保持语义结构扁平干净。",
+  "extended": "### 动画预设库（Presets）\n\n内置 12 种精调的入场动效方案，覆盖绝大部分界面动画需求，点击任意格子重播：\n\n- `fade`：纯透明度淡入，通用稳妥。\n- `scale`：轻微缩放放大淡入，适合弹窗、下拉菜单。\n- `slide-up` / `slide-down`：垂直方向轻微位移滑入，适合卡片与列表。\n- `slide-left` / `slide-right`：水平方向滑入，适合侧边抽屉或向导流程。\n- `pop`：弹性质感缩放，适合徽标或重点提示。\n- `blur`：高斯模糊消散淡入，呈现现代质感。\n- `blur-up`：模糊对焦的同时轻微上浮，适合通知、结果反馈与首屏标题。\n- `zoom-in` / `zoom-out`：从小放大或从大收拢，适合空状态插图、媒体预览。\n- `flip`：沿 X 轴翻转立起，适合卡片翻面与数据刷新。\n\n### 列表交错排队入场（Stagger）\n\n用 `MotionGroup` 统一编排列表项的交错进场，子项继承分组的 `preset` 与 `transition`：\n\n### 视口滚动监听（inView）\n\n当页面较长时，配置 `inView` 让下方内容在滚动至用户屏幕内时才触发动画：\n\n### 零额外 DOM 包装（asChild）\n\n使用 `asChild` 可以将动效直接注入给子组件，无需产生多余的 `<div>`：",
+  "events": "`Motion` 透传底层 Motion 动画生命周期事件：\n\n- `onAnimationStart`: () => void — 动画开始播放时触发。\n- `onAnimationComplete`: (definition: string | TargetAndTransition) => void — 动画播放结束到达目标状态后触发。\n- `onViewportEnter`: () => void — 配合 inView 使用，当元素进入视口可见范围时触发。\n- `onViewportLeave`: () => void — 配合 inView 使用，当元素滚出视口可见范围时触发。",
+  "accessibility": "- **自动无障碍降级**：`Motion` 与 `MotionGroup` 内部集成了 `useReducedMotion` 钩子。当用户系统开启了“减少动态效果（prefers-reduced-motion）”时，组件保持相同的 DOM 结构（避免服务端与客户端渲染不一致），并以零时长直接跳到最终可见状态，不产生位移或缩放过程。\n- **子元素焦点与事件保留**：使用 `asChild` 时，子组件的原生事件、键盘 Tab 导航与 Focus Ring 均能完美透传，不破坏原有的可访问性树结构。",
   "examples": [
     {
       "name": "motion-demo",

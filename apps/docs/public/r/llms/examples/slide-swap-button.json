@@ -1,0 +1,6 @@
+{
+  "name": "slide-swap-button",
+  "component": "slide-swap",
+  "title": "多形态按钮组合",
+  "code": "import { ArrowRightIcon, DownloadIcon, PlusIcon } from \"lucide-react\"\n\nimport { Button } from \"@/components/ui/button\"\nimport { SlideSwap } from \"@/components/ui/slide-swap\"\n\nexport default function SlideSwapButton() {\n  return (\n    <div className=\"flex flex-wrap items-center justify-center gap-3\">\n      <Button>\n        <SlideSwap trigger=\"parent\">\n          <span className=\"flex items-center gap-2\">\n            立即开始\n            <ArrowRightIcon className=\"size-4\" />\n          </span>\n        </SlideSwap>\n      </Button>\n\n      <Button variant=\"outline\">\n        <SlideSwap trigger=\"parent\" direction=\"down\">\n          <span className=\"flex items-center gap-2\">\n            <DownloadIcon className=\"size-4\" />\n            下载客户端\n          </span>\n        </SlideSwap>\n      </Button>\n\n      <Button variant=\"ghost\">\n        <SlideSwap trigger=\"parent\">\n          <span className=\"flex items-center gap-2\">\n            <PlusIcon className=\"size-4\" />\n            新建项目\n          </span>\n        </SlideSwap>\n      </Button>\n    </div>\n  )\n}\n"
+}

@@ -29,14 +29,12 @@
       "name": "children",
       "type": "string",
       "required": true,
-      "control": "text",
       "description": "按字符播放立体波浪动画的文字。"
     },
     {
       "name": "as",
       "type": "ElementType<any, keyof IntrinsicElements>",
       "required": false,
-      "control": "text",
       "defaultValue": "span",
       "description": "组件实际渲染的 HTML 元素。"
     },
@@ -44,7 +42,6 @@
       "name": "duration",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "1.5",
       "description": "完整波浪动画循环的时长，单位为秒。"
     },
@@ -52,7 +49,6 @@
       "name": "zDistance",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "10",
       "description": "字符沿 Z 轴移动的距离，单位为像素。"
     },
@@ -60,7 +56,6 @@
       "name": "xDistance",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "2",
       "description": "字符沿水平方向移动的距离，单位为像素。"
     },
@@ -68,7 +63,6 @@
       "name": "yDistance",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "-2",
       "description": "字符沿垂直方向移动的距离，单位为像素。"
     },
@@ -76,7 +70,6 @@
       "name": "spread",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "1",
       "description": "相邻字符波浪相位之间的距离。"
     },
@@ -84,7 +77,6 @@
       "name": "scaleDistance",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "1.1",
       "description": "字符达到的最大缩放比例。"
     },
@@ -92,7 +84,6 @@
       "name": "rotateYDistance",
       "type": "number",
       "required": false,
-      "control": "number",
       "defaultValue": "10",
       "description": "字符达到的最大 Y 轴旋转角度，单位为度。"
     },
@@ -100,11 +91,89 @@
       "name": "transition",
       "type": "Transition",
       "required": false,
-      "control": "text",
       "description": "合并到每个字符上的过渡动画。"
     }
   ],
+  "api": [
+    {
+      "name": "TextShimmerWave",
+      "props": [
+        {
+          "name": "children",
+          "type": "string",
+          "required": true,
+          "description": "按字符播放立体波浪动画的文字。"
+        },
+        {
+          "name": "as",
+          "type": "ElementType<any, keyof IntrinsicElements>",
+          "required": false,
+          "defaultValue": "span",
+          "description": "组件实际渲染的 HTML 元素。"
+        },
+        {
+          "name": "duration",
+          "type": "number",
+          "required": false,
+          "defaultValue": "1.5",
+          "description": "完整波浪动画循环的时长，单位为秒。"
+        },
+        {
+          "name": "zDistance",
+          "type": "number",
+          "required": false,
+          "defaultValue": "10",
+          "description": "字符沿 Z 轴移动的距离，单位为像素。"
+        },
+        {
+          "name": "xDistance",
+          "type": "number",
+          "required": false,
+          "defaultValue": "2",
+          "description": "字符沿水平方向移动的距离，单位为像素。"
+        },
+        {
+          "name": "yDistance",
+          "type": "number",
+          "required": false,
+          "defaultValue": "-2",
+          "description": "字符沿垂直方向移动的距离，单位为像素。"
+        },
+        {
+          "name": "spread",
+          "type": "number",
+          "required": false,
+          "defaultValue": "1",
+          "description": "相邻字符波浪相位之间的距离。"
+        },
+        {
+          "name": "scaleDistance",
+          "type": "number",
+          "required": false,
+          "defaultValue": "1.1",
+          "description": "字符达到的最大缩放比例。"
+        },
+        {
+          "name": "rotateYDistance",
+          "type": "number",
+          "required": false,
+          "defaultValue": "10",
+          "description": "字符达到的最大 Y 轴旋转角度，单位为度。"
+        },
+        {
+          "name": "transition",
+          "type": "Transition",
+          "required": false,
+          "description": "合并到每个字符上的过渡动画。"
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`TextShimmerWave` 把颜色、位移、缩放和轻微旋转组合成逐字符波浪。它比普通扫光更醒目，适合短暂生成状态或单一展示焦点；\n不要在同一视口放置多个波浪文本。",
+  "extended": "`xDistance`、`yDistance`、`zDistance` 控制空间位移，`scaleDistance` 和 `rotateYDistance` 控制形变。使用自定义 `transition` 时，\n建议保持较小的位移和旋转，避免文字难以阅读。",
   "events": "组件没有自有事件，底层元素事件继续透传。用户开启“减少动态效果”时只显示静态文字。",
+  "accessibility": "组件内部保留一份视觉隐藏（`sr-only`）的完整文本，逐字符动画的 span 对读屏工具隐藏，整句只会被朗读一次。",
   "examples": [
     {
       "name": "text-shimmer-wave-demo",

@@ -32,14 +32,12 @@
       "name": "open",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "description": "受控模式下提示内容是否打开。"
     },
     {
       "name": "defaultOpen",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "false",
       "description": "非受控模式下提示内容的初始打开状态。"
     },
@@ -47,25 +45,249 @@
       "name": "onOpenChange",
       "type": "((open: boolean) => void)",
       "required": false,
-      "control": "text",
       "description": "提示内容打开状态变化时触发。"
     },
     {
       "name": "delayDuration",
       "type": "number",
       "required": false,
-      "control": "number",
       "description": "鼠标悬停后显示提示的延迟时间，单位为毫秒。"
     },
     {
       "name": "disableHoverableContent",
       "type": "boolean",
       "required": false,
-      "control": "boolean",
       "defaultValue": "false",
       "description": "指针离开触发元素后是否立即关闭提示，而不允许指针移入提示内容。"
+    },
+    {
+      "name": "children",
+      "type": "ReactNode",
+      "required": false
     }
   ],
+  "api": [
+    {
+      "name": "Tooltip",
+      "props": [
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false,
+          "description": "受控模式下提示内容是否打开。"
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "非受控模式下提示内容的初始打开状态。"
+        },
+        {
+          "name": "onOpenChange",
+          "type": "((open: boolean) => void)",
+          "required": false,
+          "description": "提示内容打开状态变化时触发。"
+        },
+        {
+          "name": "delayDuration",
+          "type": "number",
+          "required": false,
+          "description": "鼠标悬停后显示提示的延迟时间，单位为毫秒。"
+        },
+        {
+          "name": "disableHoverableContent",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "指针离开触发元素后是否立即关闭提示，而不允许指针移入提示内容。"
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "TooltipContent",
+      "props": [
+        {
+          "name": "size",
+          "type": "\"default\" | \"sm\"",
+          "required": false,
+          "options": [
+            "default",
+            "sm"
+          ],
+          "defaultValue": "default",
+          "description": "Physical size of the tooltip panel."
+        },
+        {
+          "name": "sideOffset",
+          "type": "number",
+          "required": false,
+          "defaultValue": "6",
+          "description": "Gap in pixels between the trigger and panel."
+        },
+        {
+          "name": "showArrow",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "Whether to render the directional arrow."
+        },
+        {
+          "name": "aria-label",
+          "type": "string",
+          "required": false,
+          "description": "A more descriptive label for accessibility purpose"
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "side",
+          "type": "\"top\" | \"right\" | \"bottom\" | \"left\"",
+          "required": false,
+          "options": [
+            "top",
+            "right",
+            "bottom",
+            "left"
+          ]
+        },
+        {
+          "name": "align",
+          "type": "\"center\" | \"start\" | \"end\"",
+          "required": false,
+          "options": [
+            "center",
+            "start",
+            "end"
+          ]
+        },
+        {
+          "name": "alignOffset",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "arrowPadding",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "avoidCollisions",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "collisionBoundary",
+          "type": "Boundary | Boundary[]",
+          "required": false
+        },
+        {
+          "name": "collisionPadding",
+          "type": "number | Partial<Record<\"top\" | \"right\" | \"bottom\" | \"left\", number>>",
+          "required": false
+        },
+        {
+          "name": "sticky",
+          "type": "\"partial\" | \"always\"",
+          "required": false,
+          "options": [
+            "partial",
+            "always"
+          ]
+        },
+        {
+          "name": "hideWhenDetached",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "updatePositionStrategy",
+          "type": "\"always\" | \"optimized\"",
+          "required": false,
+          "options": [
+            "always",
+            "optimized"
+          ]
+        },
+        {
+          "name": "forceMount",
+          "type": "true",
+          "required": false,
+          "description": "Used to force mounting when more control is needed. Useful when\ncontrolling animation with React animation libraries."
+        },
+        {
+          "name": "onEscapeKeyDown",
+          "type": "((event: KeyboardEvent) => void)",
+          "required": false,
+          "description": "Event handler called when the escape key is down.\nCan be prevented."
+        },
+        {
+          "name": "onPointerDownOutside",
+          "type": "((event: PointerDownOutsideEvent) => void)",
+          "required": false,
+          "description": "Event handler called when the a `pointerdown` event happens outside of the `Tooltip`.\nCan be prevented."
+        }
+      ]
+    },
+    {
+      "name": "TooltipProvider",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false
+        },
+        {
+          "name": "delayDuration",
+          "type": "number",
+          "required": false,
+          "defaultValue": "350",
+          "description": "鼠标悬停后显示提示的延迟时间，单位为毫秒。"
+        },
+        {
+          "name": "skipDelayDuration",
+          "type": "number",
+          "required": false,
+          "defaultValue": "200",
+          "description": "How much time a user has to enter another trigger without incurring a delay again.\n@defaultValue 300"
+        },
+        {
+          "name": "disableHoverableContent",
+          "type": "boolean",
+          "required": false,
+          "description": "指针离开触发元素后是否立即关闭提示，而不允许指针移入提示内容。"
+        }
+      ]
+    },
+    {
+      "name": "TooltipTrigger",
+      "props": [
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        }
+      ]
+    }
+  ],
+  "types": [],
+  "usage": "`Tooltip` 用于为界面中的紧凑元素（如纯图标按钮、截断缩略文本、专业术语指标）提供**非必要、轻量级的辅助说明**。\n\n- **组件选型对比**：\n  - **Tooltip**：只读纯文本或带快捷键的微提示，**不可包含可交互链接或表单按钮**。\n  - **Popover**：需要用户点击内部链接、复制大段文本或在浮层内填写简易表单时使用。\n  - **Dialog / Modal**：重大业务操作、复杂多步骤表单。\n- **共享 TooltipProvider**：建议在工具栏或页面根级使用单个 `TooltipProvider`，这样当用户快速从“复制”图标划到“剪切”图标时，第二个提示会瞬时响应而不会重复经历 350ms 的等待延迟。\n- **文案克制原则**：Tooltip 文案应极度精炼（通常 1~2 句话或若干词汇），避免大段冗长段落。",
+  "extended": "### 弹出方位与指示箭头\n\n支持 `top`、`right`、`bottom`、`left` 四个方向定位，并内置智能防溢出碰撞检测。提示从触发器方向轻微滑入，并以箭头所在位置为缩放原点展开：\n\n### 尺寸规格与快捷键徽标\n\n提供 `default` 与 `sm` 尺寸，并在内容中以弱化文字标注键盘快捷键。在同一个 `TooltipProvider` 内快速划过多个触发器时，后续提示瞬时切换，仅保留淡入而不再缩放：\n\n### 丰富上下文说明（多行/状态说明）\n\n在需要辅助解释复杂系统安全机制或指标含义时使用富文本样式：\n\n### 受控模式\n\n通过 `open` 与 `onOpenChange` 将提示显隐状态委托给外部 React 状态。示例中点击复制后主动展开“已复制”反馈，并在提示期间忽略指针移出导致的关闭：",
+  "events": "- `onOpenChange`: (open: boolean) => void — 提示因鼠标悬停、焦点获入/丢失或按键操作改变显隐状态时触发。\n- `onEscapeKeyDown`: (event: KeyboardEvent) => void — 在 Tooltip 打开状态下按下 Escape 键时触发，可通过 event.preventDefault() 阻止关闭。\n- `onPointerDownOutside`: (event: CustomEvent) => void — 在 Tooltip 范围外部发生指针按下事件时触发。",
+  "accessibility": "- **ARIA 关联规范**：底层自动为触发器赋予 `aria-describedby` 关联 TooltipContent 的唯一 ID，屏幕阅读器在聚焦时能即刻播报提示内容。\n- **键盘焦点感知**：当用户使用 <kbd>Tab</kbd> 键将焦点导航至触发器时，Tooltip 会自动展开；按下 <kbd>Esc</kbd> 键可立即关闭提示。\n- **视口边缘碰撞避让**：内置智能碰撞检测（Collision Detection），当触发器靠近屏幕边缘导致 Tooltip 放不下时，浮层会自动翻转至对立侧或调整轴向偏移。\n- **触控设备优化**：在移动端长按触发器时能呼出提示，松手后轻触外部任意区域即可平滑收起。\n- **动效降级**：进入与退出动画在系统开启“减少动态效果”时自动关闭。",
   "examples": [
     {
       "name": "tooltip-demo",
